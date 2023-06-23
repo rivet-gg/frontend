@@ -1,0 +1,91 @@
+@use '../shared/common';
+@use '../shared/consts';
+
+#base {
+	position: sticky;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	z-index: 6;
+	box-sizing: border-box;
+
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: consts.$mobile-navbar-height;
+	margin-bottom: -(consts.$mobile-navbar-height);
+	background-color: $base-bg;
+	box-shadow: 0 2px 11px rgba(0, 0, 0, 0.25);
+
+	transition: opacity consts.$transition-length, transform consts.$transition-length;
+	transform: translateY(-100%);
+	opacity: 0;
+
+	&.shown {
+		opacity: 1;
+		transform: translateY(0);
+
+		#close {
+			transform: scaleX(-1), translateY(0);
+		}
+
+		#title {
+			transform: translateY(0);
+		}
+	}
+
+	&.stuck {
+		opacity: 1;
+		transform: translateY(0);
+		transition: none;
+
+		#close {
+			transform: scaleX(-1), translateY(0);
+			transition: none;
+		}
+
+		#title {
+			transform: translateY(0);
+			transition: none;
+		}
+	}
+
+	&.small {
+		#title {
+			font-size: 14px;
+		}
+
+		&.ellipsis {
+			#title {
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+			}
+		}
+	}
+
+	#close {
+		width: calc(#{consts.$mobile-navbar-height} - 28px);
+		height: calc(#{consts.$mobile-navbar-height} - 28px);
+		padding: 14px;
+
+		transform: scaleX(-1), translateY(-10px);
+
+		transition: background-color consts.$transition-length, transform consts.$transition-length 75ms;
+
+		&:active {
+			background-color: $raised-bg;
+		}
+	}
+
+	#title {
+		width: calc(100% - #{consts.$mobile-navbar-height} * 2 - 5px);
+		margin: 0 5px;
+		font-size: 16px;
+		font-weight: 700;
+		text-align: center;
+
+		transition: transform consts.$transition-length 125ms;
+		transform: translateY(-10px);
+	}
+}

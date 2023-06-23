@@ -1,0 +1,13 @@
+@use '../../shared/common';
+@use '../../shared/utils';
+@use '../../shared/consts';
+@use './version-common';
+
+@include version-common.service-card($raised-bg);
+
+.muted {
+	&.center {
+		text-align: center;
+		margin: 50px 0;
+	}
+}

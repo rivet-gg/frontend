@@ -1,0 +1,109 @@
+@use '../shared/common';
+@use '../shared/consts';
+
+#base {
+	position: relative;
+	width: 100%;
+	height: 100vh;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	#center {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+
+		position: relative;
+		// max-width: 100%;
+		// max-height: 100%;
+		// // width: 1200px;
+		// // height: 960px;
+		// width: 550px;
+		// height: 400px;
+		box-sizing: border-box;
+		padding: 5px 38px;
+
+		&.hidden {
+			opacity: 0.3;
+			pointer-events: none;
+		}
+
+		group-handle-tile {
+			margin-bottom: 10px;
+		}
+
+		#group-placeholder {
+			margin-bottom: 10px;
+			width: 220px;
+			height: 48px;
+			--border-radius: 6px;
+		}
+
+		h1,
+		h2 {
+			color: #ececec;
+		}
+
+		h1 {
+			font-size: 35px;
+			text-align: center;
+			margin: 0 0 5px 0;
+		}
+
+		h2 {
+			font-size: 16px;
+			text-align: center;
+			margin-bottom: 20px;
+		}
+
+		#input-area {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+
+			text-input {
+				display: block;
+				max-width: 170px;
+				--font-size: 25px;
+				--font-family: #{consts.$fira-code};
+				--text-align: center;
+				--padding-bottom: 3px;
+			}
+
+			stylized-button {
+				margin-left: 20px;
+			}
+
+			&:not(:last-child) {
+				margin-bottom: 10px;
+			}
+		}
+
+		#error {
+			margin: 0;
+			color: #d4393b;
+			font-size: 13px;
+			font-weight: 600;
+			text-align: center;
+
+			&:not(:last-child) {
+				margin-bottom: 10px;
+			}
+		}
+	}
+
+	#wait {
+		position: absolute;
+		left: 0;
+		top: 0;
+		width: 100%;
+		height: 100%;
+
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+}

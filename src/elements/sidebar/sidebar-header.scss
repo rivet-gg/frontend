@@ -1,0 +1,25 @@
+@use '../shared/common';
+@use '../shared/consts';
+
+#base {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: flex-start;
+
+	margin-top: 8px;
+	padding: 4px 8px 4px 4px;
+
+	[name='title']::slotted(*) {
+		flex-grow: 1;
+
+		color: white;
+		font-family: consts.$open-sans;
+		font-size: 18px;
+		font-weight: 800;
+	}
+
+	[name='action']::slotted(*) {
+		margin-left: 12px;
+	}
+}

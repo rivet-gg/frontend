@@ -1,0 +1,14 @@
+# TODO: Add this back once we have a better way of copying libraries, such as
+# using local paths or system-wide linking.
+# gen/
+.env
+
+# JavaScript
+**/.cache/
+**/node_modules/
+*.tsbuildinfo
+ptato.sh
+
+# Use yarn.lock instead of package-lock.json
+package-lock.json
+

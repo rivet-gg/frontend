@@ -1,0 +1,44 @@
+@use '../shared/common';
+@use '../shared/consts';
+
+#base {
+	padding: 0 0 12px 6px;
+	box-sizing: border-box;
+	margin-bottom: consts.$panel-spacing;
+	font-family: consts.$open-sans;
+	width: 100%;
+
+	&.right {
+		text-align: right;
+		padding: 0 6px 12px 0;
+	}
+
+	&.noIndent {
+		padding: 0 0;
+	}
+
+	slot {
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-start;
+		align-items: stretch;
+		overflow-wrap: anywhere;
+	}
+
+	::slotted(stylized-button) {
+		--bg-color: #{$raised-bg};
+		--padding: 7px 13px;
+		--justify-content: flex-start;
+		--text-align: left;
+
+		width: 100%;
+	}
+
+	::slotted(stylized-button:not(:last-child)) {
+		margin-bottom: 8px;
+	}
+
+	::slotted(stylized-button.selected) {
+		--bg-color: #{$main-accent};
+	}
+}

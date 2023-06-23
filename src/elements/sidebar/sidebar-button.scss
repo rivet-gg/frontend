@@ -1,0 +1,56 @@
+@use '../shared/common';
+@use '../shared/consts';
+
+#base {
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	position: relative;
+	width: 100%;
+	height: 60px;
+
+	font-family: consts.$open-sans;
+
+	cursor: pointer;
+
+	@include common.active-state;
+
+	&.active {
+		[name='icon']::slotted(*) {
+			--fill: white;
+		}
+
+		#content [name='title']::slotted(*) {
+			color: white;
+		}
+	}
+
+	[name='icon']::slotted(*) {
+		flex: 0 0 auto;
+		margin: 0 10px 0 10px;
+		width: 28px;
+		height: 28px;
+
+		--fill: #909090;
+	}
+
+	#content {
+		flex: 1 1 auto;
+		min-width: 0;
+		position: relative;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+
+		box-sizing: border-box;
+
+		[name='title']::slotted(*) {
+			margin: 0;
+			color: #909090;
+			font-size: 16px;
+			font-weight: 700;
+			transition: consts.$transition-length color;
+		}
+	}
+}

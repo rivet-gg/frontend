@@ -1,0 +1,166 @@
+@use 'sass:color';
+@use '../shared/common';
+@use '../shared/consts';
+
+$card-color: #2c2c2c;
+$card-color: $raised-bg;
+
+#base {
+	display: flex;
+	flex-direction: column;
+	position: relative;
+	width: calc(100vw - 50px);
+	height: calc(100vh - 25px);
+	max-width: 520px;
+	max-height: 410px;
+	box-sizing: border-box;
+	z-index: 1;
+	overflow: hidden;
+
+	border-radius: 10px;
+	background-color: $dark-gray;
+	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+
+	#nav-back {
+		margin-bottom: 20px;
+
+		--text-transform: uppercase;
+		--font-size: 10px;
+		--active-bg: black;
+		--padding: 0 14px 0 11px;
+
+		// Flip play icon around
+		--icon-transform: scaleX(-1);
+	}
+
+	#bg {
+		position: absolute;
+		left: -5%;
+		top: -5%;
+		width: 110%;
+		height: 110%;
+		z-index: 1;
+
+		filter: blur(10px) brightness(85%);
+	}
+
+	#header {
+		position: relative;
+		display: flex;
+		flex-flow: row wrap;
+		margin: 8px 8px 8px 8px;
+		z-index: 1;
+
+		.stat {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			margin: 7px;
+			color: #ececece0;
+
+			// background-color: $card-color;
+
+			// border-radius: 5px;
+			// padding: 8px 18px;
+			// box-shadow: 0 1px 6px rgba(0, 0, 0, 0.25);
+
+			white-space: nowrap;
+			font-size: 14px;
+
+			b {
+				font-weight: 600;
+			}
+
+			avatar-collage {
+				margin-left: 7px;
+			}
+		}
+	}
+
+	#center {
+		flex: 1 1 auto;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		z-index: 1;
+		margin: -40px 15px 8px 15px;
+
+		&.with-friends {
+			margin-top: -18px;
+		}
+
+		#logo {
+			width: 180px;
+			height: 90px;
+			margin-bottom: 5px;
+		}
+
+		h1 {
+			color: #ececec;
+			font-size: 28px;
+			margin: 0;
+			text-align: center;
+		}
+
+		#actions {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			margin: 10px 0 0 0;
+
+			stylized-button {
+				:not(:last-child) {
+					margin-right: 10px;
+				}
+			}
+		}
+
+		p.delayed {
+			margin: 15px 0 0 0;
+			font-size: 14px;
+			color: #ecececec;
+			text-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+		}
+	}
+
+	#friends {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		z-index: 1;
+
+		background: #2a2a2a;
+		padding: 11px 18px 17px 18px;
+
+		h3 {
+			font-size: 16px;
+			color: #ececec;
+			font-weight: 700;
+			margin: 0 0 8px 2px;
+		}
+
+		avatar-collage {
+			--size: 36px;
+		}
+
+		#friends-list {
+			identity-tile {
+				.actions {
+					padding-right: 2px;
+				}
+			}
+		}
+	}
+}
+
+@media only screen and (max-width: consts.$mobile-width-threshold) {
+	#base {
+		width: 100vw;
+		height: 100vh;
+		border-radius: 0;
+		max-width: unset;
+		max-height: unset;
+		padding: 0;
+	}
+}

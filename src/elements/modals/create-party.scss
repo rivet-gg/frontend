@@ -1,0 +1,58 @@
+@use '../shared/common';
+@use '../shared/consts';
+
+#create-party-modal {
+	[slot='body'] {
+		h1 {
+			margin-bottom: 0;
+			color: black;
+
+			text-align: center;
+			font-size: 18px;
+			font-weight: bold;
+			font-family: consts.$open-sans;
+		}
+
+		.input-party {
+			display: flex;
+			flex-direction: column;
+			width: 100%;
+
+			h2 {
+				margin: 14px 0 2px 0;
+				color: black;
+
+				font-size: 10px;
+				font-weight: bold;
+				font-family: consts.$open-sans;
+				text-transform: uppercase;
+			}
+
+			#create-party-error {
+				max-width: 210px;
+				margin-top: 7px;
+				padding: 0 4px;
+
+				color: red;
+				font-size: 10px;
+				font-family: consts.$open-sans;
+				font-weight: bolder;
+
+				e-svg {
+					--fill: red;
+					width: 1.4em;
+					height: 1.4em;
+					vertical-align: -3px;
+					margin-right: 2px;
+				}
+			}
+		}
+
+		stylized-button {
+			margin-top: 8px;
+			width: 100%;
+			max-width: 200px;
+			--padding: 0 35px;
+		}
+	}
+}

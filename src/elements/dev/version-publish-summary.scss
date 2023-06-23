@@ -1,0 +1,157 @@
+@use '../shared/common';
+@use '../shared/utils';
+
+#base {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+
+	h2 {
+		max-width: 330px;
+		font-size: 15px;
+		font-weight: 600;
+		color: #151515ec;
+		overflow-wrap: anywhere;
+	}
+
+	.muted-text {
+		margin: 0;
+		color: #15151580;
+		font-size: 15px;
+	}
+
+	#services {
+		min-width: 360px;
+		max-height: 300px;
+		padding-right: 7px;
+		overflow-y: auto;
+
+		.service {
+			display: flex;
+			flex-direction: column;
+
+			border: 2px solid #80808080;
+			border-radius: 4px;
+			padding: 10px 15px;
+			box-sizing: border-box;
+			margin-bottom: 8px;
+
+			&:last-child {
+				margin-bottom: 0;
+			}
+
+			.service-header {
+				display: flex;
+				flex-direction: row;
+				align-items: center;
+				justify-content: space-between;
+
+				.service-name {
+					display: flex;
+					flex-direction: row;
+					align-items: center;
+
+					e-svg {
+						width: 16px;
+						height: 16px;
+						margin-right: 6px;
+					}
+
+					h3 {
+						margin: 0;
+						font-size: 15px;
+					}
+				}
+
+				.service-tag {
+					margin: 2px 0 0 7px;
+					font-size: 12px;
+					font-weight: 600;
+					padding: 1px 7px;
+					border-radius: 4px;
+					border: 2px solid #151515a0;
+				}
+			}
+
+			.service-body {
+				margin-top: 10px;
+
+				.game-mode {
+					display: flex;
+					flex-direction: column;
+
+					border: 2px solid #80808080;
+					border-radius: 4px;
+					padding: 10px 15px;
+					box-sizing: border-box;
+					margin-bottom: 8px;
+
+					&:last-child {
+						margin-bottom: 0;
+					}
+
+					.game-mode-header {
+						margin: 0 0 5px 0;
+						font-size: 15px;
+						text-align: left;
+					}
+
+					.region {
+						margin-bottom: 10px;
+						padding-bottom: 10px;
+						border-bottom: 2px solid #80808080;
+
+						&:last-child {
+							margin-bottom: 0;
+							padding-bottom: 0;
+							border-bottom: none;
+						}
+
+						.region-icon {
+							vertical-align: -2px;
+							margin-right: 2px;
+						}
+
+						ul {
+							margin: 0;
+							padding: 0;
+							list-style: none;
+
+							li {
+								text-align: left;
+								margin: 0 0 2px 0;
+
+								&:last-child {
+									margin-bottom: 0;
+								}
+
+								&.expanded-list-item {
+									display: flex;
+									flex-direction: row;
+									align-items: center;
+									justify-content: space-between;
+								}
+
+								p {
+									margin: 0;
+
+									price-display {
+										display: inline-block;
+										--font-weight: 600;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	.footnote {
+		max-width: 330px;
+		text-align: center;
+		margin-top: 10px;
+		font-size: 11px;
+	}
+}

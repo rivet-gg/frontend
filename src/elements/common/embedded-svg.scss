@@ -1,0 +1,40 @@
+@use '../shared/consts';
+
+// Import the --fill variable
+:root {
+	--fill: white;
+}
+
+:host {
+	--fill: white;
+}
+
+// Default embedded SVG styling
+:host {
+	display: inline-block;
+	width: 1em;
+	height: 1em;
+	vertical-align: middle;
+}
+
+// If host is flagged as preserve, retain the styling; otherwise, fill the colors
+:host(:not([preserve])) {
+	svg * {
+		fill: var(--fill, white) !important;
+		transition: consts.$transition-length fill; // NOTE: This has bugs in Chrome
+	}
+}
+
+// Fill the parent
+svg {
+	display: block; // Required to avoid extra space at top
+	width: inherit !important;
+	height: inherit !important;
+}
+
+:host([absolute-position]) {
+	& > svg {
+		width: 100% !important;
+		height: 100% !important;
+	}
+}

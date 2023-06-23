@@ -1,0 +1,59 @@
+@use '../shared/common';
+@use '../shared/consts';
+
+:host {
+	position: relative;
+	display: block;
+}
+
+#group-avatar {
+	$font-size: var(--font-size, 16px);
+	$box-shadow: var(--box-shadow, 0px 1px 7px rgba(0, 0, 0, 0.1));
+
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	box-sizing: border-box;
+
+	background-size: cover;
+	background-position: center;
+
+	&.shadow {
+		box-shadow: $box-shadow;
+	}
+
+	&.rounded {
+		border-radius: 50%;
+		overflow: hidden;
+	}
+
+	&.light {
+		#avatar-placeholder {
+			background-color: consts.$avatar-background-light;
+		}
+	}
+
+	#avatar-image {
+		box-sizing: border-box;
+		width: 100%;
+		height: 100%;
+	}
+
+	#avatar-placeholder {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		position: relative;
+		width: 100%;
+		height: 100%;
+		background-color: var(--background-color, consts.$avatar-background);
+
+		font-size: $font-size;
+		font-weight: 600;
+		overflow: hidden;
+
+		span {
+			margin-top: -0.04em;
+		}
+	}
+}

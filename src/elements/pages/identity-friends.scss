@@ -1,0 +1,73 @@
+@use '../shared/common';
+@use '../shared/consts';
+
+#base {
+	box-sizing: border-box;
+
+	#header {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		box-sizing: border-box;
+		padding: 8px 12px 10px 12px;
+		margin-bottom: 2px;
+		min-height: 54px;
+
+		background: $raised-bg;
+		box-shadow: 0 2px 11px rgba(0, 0, 0, 0.18);
+
+		identity-name {
+			margin: 6px 0;
+		}
+
+		#title {
+			color: #808080;
+			font-weight: 700;
+			font-size: 12px;
+			text-transform: uppercase;
+			margin: 0;
+		}
+
+		#error {
+			margin: 2px 0 0 0;
+			color: #808080;
+			font-weight: 700;
+			font-size: 12px;
+			text-transform: uppercase;
+		}
+
+		#back-button {
+			position: absolute;
+			left: 20px;
+			top: 50%;
+			transform: translateY(-50%);
+			background-color: $raised-bg;
+			border-radius: 20px;
+			padding: 2px;
+			transition: background-color consts.$transition-length;
+			box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
+
+			&:hover {
+				background-color: rgba(0, 0, 0, 0.2);
+			}
+		}
+	}
+
+	#list {
+		display: flex;
+		flex-direction: column;
+		padding: 18px 28px;
+
+		identity-tile {
+			margin-bottom: 4px;
+		}
+
+		loading-placeholder {
+			height: 36px;
+			margin-bottom: 6px;
+			--border-radius: 3px;
+		}
+	}
+}

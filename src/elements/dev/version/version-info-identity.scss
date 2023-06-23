@@ -1,0 +1,63 @@
+@use '../../shared/common';
+@use '../../shared/utils';
+@use '../../shared/consts';
+@use './version-common';
+
+$input-length-short: 60px;
+$input-length-medium: 120px;
+
+@include version-common.service-card($raised-bg);
+
+.list {
+	display: flex;
+	flex-direction: column;
+	overflow-y: auto;
+
+	error-list {
+		margin-top: 6px;
+		margin-bottom: 6px;
+	}
+
+	.item {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		width: 350px;
+
+		margin-bottom: 6px;
+
+		&:last-child {
+			margin-bottom: 0;
+		}
+
+		text-input {
+			width: 100%;
+		}
+	}
+}
+
+#custom-display-names .immut-info {
+	&:not(:last-child) {
+		margin-bottom: 4px;
+	}
+}
+
+dashed-button {
+	display: block;
+	margin-top: 8px;
+	max-width: 350px;
+	--font-size: 13px;
+	--height: 30px;
+
+	&:first-child {
+		margin-top: 3px;
+	}
+
+	&.short {
+		max-width: $input-length-short * 2;
+	}
+
+	&.medium {
+		max-width: $input-length-medium;
+	}
+}

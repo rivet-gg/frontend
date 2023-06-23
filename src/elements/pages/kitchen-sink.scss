@@ -1,0 +1,35 @@
+@use '../shared/common';
+
+page-header {
+	--icon-fill: #ff8903;
+}
+
+#body {
+	max-width: 100%;
+	padding: 0 8px;
+
+	text-input {
+		display: block;
+		max-width: 400px;
+	}
+
+	perf-waterfall {
+		display: block;
+		margin-top: 10px;
+	}
+
+	.muted-text {
+		font-size: 14px;
+		color: #ececec80;
+	}
+
+	.error-header {
+		margin-bottom: 0;
+	}
+
+	.error {
+		font-size: 14px;
+		margin: 0;
+		color: #ecececec;
+	}
+}

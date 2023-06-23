@@ -1,0 +1,27 @@
+@use '../../shared/common';
+@use '../../shared/utils';
+@use '../../shared/consts';
+
+#base {
+	version-info-cdn,
+	version-info-matchmaker,
+	version-info-kv,
+	version-info-identity {
+		display: block;
+
+		&:not(:last-child) {
+			margin-bottom: 12px;
+		}
+	}
+}
+
+#placeholder {
+	loading-placeholder {
+		height: 72px;
+		--border-radius: 26px;
+
+		&:not(:last-child) {
+			margin-bottom: 20px;
+		}
+	}
+}

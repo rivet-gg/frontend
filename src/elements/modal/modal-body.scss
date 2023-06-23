@@ -1,0 +1,16 @@
+@use '../shared/common';
+@use '../shared/utils';
+
+#base {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	max-width: 100vw;
+	padding: 21px 30px;
+	box-sizing: border-box;
+
+	border-radius: 15px;
+	background-color: white;
+	color: #151515;
+	box-shadow: 0 2px 25px rgba(0, 0, 0, 0.3);
+}

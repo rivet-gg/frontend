@@ -1,0 +1,124 @@
+@use '../shared/common';
+@use '../shared/consts';
+
+:root {
+	--font-size: 13px;
+}
+
+:host {
+	--font-size: 13px;
+}
+
+#base {
+	$font-size: var(--font-size);
+	$font-weight: var(--font-weight, 600);
+	$font-family: var(--font-family, #{consts.$open-sans});
+	$text-align: var(--text-align);
+	$padding-bottom: var(--padding-bottom, 6px);
+
+	height: 100%;
+
+	&.light {
+		input[type='text'],
+		input[type='password'],
+		textarea {
+			border: 1px solid rgba(0, 0, 0, 0.25);
+			background-color: transparent;
+			color: #151515;
+			font-size: $font-size;
+
+			// box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
+			box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 1px, rgba(0, 0, 0, 0.1) 0px 1px 3px;
+
+			&:hover,
+			&:focus {
+				border-color: black;
+			}
+
+			&:focus {
+				background-color: transparent;
+			}
+
+			&::placeholder {
+				color: #15151580;
+			}
+		}
+
+		textarea::-webkit-scrollbar-thumb {
+			@include common.scrollbar-track(#808080);
+		}
+		textarea::-webkit-scrollbar-track {
+			@include common.scrollbar-track(rgba(0, 0, 0, 0.1));
+		}
+
+		textarea:focus::-webkit-scrollbar-thumb {
+			@include common.scrollbar-track(#151515);
+		}
+		textarea:focus::-webkit-scrollbar-track {
+			@include common.scrollbar-track(rgba(0, 0, 0, 0.1));
+		}
+	}
+
+	&.seamless {
+		input[type='text'],
+		input[type='password'],
+		textarea {
+			border: none;
+			background: none;
+			box-shadow: none;
+
+			&:hover,
+			&:focus {
+				border-color: transparent;
+			}
+
+			&:focus {
+				background-color: transparent;
+			}
+		}
+	}
+
+	input[type='text'],
+	input[type='password'],
+	textarea {
+		width: 100%;
+		outline: none;
+		border: none;
+		box-sizing: border-box;
+		padding: 6px 11px $padding-bottom 11px;
+		background-color: $raised-bg;
+		border-radius: 3px;
+		border: 2px solid $raised-bg;
+
+		font-size: $font-size;
+		font-weight: $font-weight;
+		font-family: $font-family;
+		text-align: $text-align;
+		color: #ececec;
+
+		box-shadow: rgba(0, 0, 0, 0.08) 0px 1px 1px, rgba(0, 0, 0, 0.06) 0px 1px 3px;
+
+		transition: background-color consts.$transition-length, border consts.$transition-length;
+
+		&:hover,
+		&:focus {
+			border-color: rgba(255, 255, 255, 0.12);
+		}
+
+		&:focus {
+			background-color: rgba(255, 255, 255, 0.12);
+		}
+
+		&::placeholder {
+			color: #ececec80;
+		}
+	}
+
+	textarea {
+		height: 100%;
+		resize: none;
+		padding-right: 7px;
+		padding-top: 8px;
+		padding-bottom: 8px;
+	}
+}

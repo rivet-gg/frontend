@@ -1,0 +1,7 @@
+**/node_modules
+**/dist
+**/gen/**
+
+# Uses paritals
+html/404.hbs
+

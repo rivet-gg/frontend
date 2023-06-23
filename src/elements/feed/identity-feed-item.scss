@@ -1,0 +1,76 @@
+#base {
+	display: flex;
+	flex-direction: column;
+	width: 180px;
+
+	border-radius: 8px;
+	background-color: $raised-bg;
+	overflow: hidden;
+	flex: 0 0 auto;
+
+	.identity {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		padding: 10px;
+
+		background-color: $raised-bg;
+
+		.icon {
+			width: 32px;
+			height: 32px;
+			flex: 0 0 auto;
+		}
+
+		.name {
+			margin-left: 6px;
+			font-size: 12px;
+			line-height: 1.4em;
+
+			// Vertical text overflow
+			display: -webkit-box;
+			overflow: hidden;
+			-webkit-box-orient: vertical;
+			-webkit-line-clamp: 2;
+
+			identity-name {
+				vertical-align: top;
+				--font-weight: 700;
+			}
+
+			span {
+				font-weight: 600;
+			}
+		}
+	}
+
+	.activity {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		padding: 10px;
+
+		.icon {
+			width: 32px;
+			height: 32px;
+			padding: 4px;
+			border-radius: 7px;
+			background-color: $raised-bg;
+		}
+
+		.information {
+			margin-left: 6px;
+			font-size: 12px;
+
+			.title {
+				color: #fefefe95;
+				font-weight: 700;
+			}
+
+			.subtitle {
+				color: #fefefe80;
+				font-weight: 600;
+			}
+		}
+	}
+}

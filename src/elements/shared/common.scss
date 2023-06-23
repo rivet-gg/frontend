@@ -1,0 +1,120 @@
+@use 'consts';
+
+@mixin scrollbar-thumb($color) {
+	background-clip: padding-box;
+	background: $color;
+	border-radius: 5px;
+	border: 3px solid transparent;
+	background-clip: padding-box;
+}
+
+@mixin scrollbar-track($color) {
+	background: $color;
+	background-clip: padding-box;
+	border-radius: 5px;
+	border: 3px solid transparent;
+}
+
+::-webkit-scrollbar {
+	width: consts.$scrollbar-width;
+	height: consts.$scrollbar-width;
+	background: transparent;
+}
+::-webkit-scrollbar-track {
+	background: transparent;
+}
+::-webkit-scrollbar-track-piece {
+	background: transparent;
+}
+::-webkit-scrollbar-thumb {
+	@include scrollbar-thumb(white);
+}
+::-webkit-scrollbar-corner {
+	background: transparent;
+}
+
+// Wildcard to set scrollbar color on all elements (Firefox)
+* {
+	scrollbar-color: #ececec transparent;
+}
+
+// Headers
+@mixin small-header() {
+	font-weight: bolder;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+}
+
+// Mixin for clickable items
+@mixin active-state() {
+	&:active {
+		opacity: 0.75;
+	}
+}
+
+// Makes element overflow to X amount of lines then ellipsize
+@mixin multi-line-wrap($lines) {
+	display: -webkit-box;
+	overflow-wrap: anywhere;
+	line-break: anywhere;
+	-webkit-line-clamp: $lines;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+// Link style
+a {
+	text-decoration: inherit;
+	color: inherit;
+}
+
+h1,
+h2 {
+	margin-top: 0;
+}
+
+a.link {
+	// color: $main-accent;
+	color: #3261c8;
+	text-decoration: inherit;
+	font-weight: bold;
+
+	@include active-state;
+
+	&.decorated:hover {
+		text-decoration: underline;
+	}
+}
+
+code {
+	font-family: consts.$fira-code;
+	font-size: 12px;
+	font-weight: 500;
+
+	&.thick {
+		font-weight: 600;
+	}
+
+	&.no-ligatures {
+		font-variant-ligatures: none;
+	}
+
+	&.inline {
+		font-weight: 400;
+	}
+}
+
+.light-scrollbar::-webkit-scrollbar-thumb {
+	@include scrollbar-track(#151515);
+}
+.light-scrollbar::-webkit-scrollbar-track {
+	@include scrollbar-track(rgba(0, 0, 0, 0.1));
+}
+
+.scrollbar-gutter::-webkit-scrollbar-thumb {
+	@include scrollbar-track(white);
+}
+.scrollbar-gutter::-webkit-scrollbar-track {
+	@include scrollbar-track(rgba(0, 0, 0, 0.1));
+}

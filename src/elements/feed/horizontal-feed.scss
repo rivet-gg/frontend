@@ -1,0 +1,20 @@
+#base {
+	#feed {
+		display: flex;
+		flex-direction: row;
+		overflow-x: auto;
+		flex-wrap: nowrap;
+
+		&::-webkit-scrollbar {
+			display: none;
+		}
+
+		identity-feed-item {
+			margin-right: 18px;
+
+			&:last-child {
+				margin-right: 0;
+			}
+		}
+	}
+}

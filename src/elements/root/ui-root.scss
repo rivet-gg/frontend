@@ -1,0 +1,253 @@
+@use '../shared/common';
+@use '../shared/consts';
+
+// === DEBUG ===
+#debug {
+	position: absolute;
+	left: 5px;
+	top: 5px;
+	font-size: 12px;
+	font-weight: bold;
+	color: #ececec80;
+	text-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
+	pointer-events: none;
+	z-index: 999999;
+
+	.error {
+		color: red;
+	}
+}
+
+// === CONTENT HOLDER ===
+#content-holder {
+	// Offset the sidebar and header; we do this instead of using absolute positioning to optimize rendering
+	// performance, handle scrolling better natively, and use the correct scroll bar
+	position: relative;
+	box-sizing: border-box;
+
+	position: relative;
+	width: calc(100% - #{consts.$sidebar-width});
+	min-height: 100vh;
+	left: consts.$sidebar-width;
+	top: 0px;
+
+	ui-router {
+		box-sizing: border-box;
+		position: relative;
+		min-height: 100%;
+	}
+
+	&.mobile {
+		left: 0;
+		width: 100%;
+	}
+}
+
+// === MEDIA HOLDER ===
+#media-holder {
+	// About PiP transitions:
+	// * We don't animate the width, since that requires an expensive re-layout
+	// * We only transition the bottom, right, and iframe scale since these don't require any re-layouts
+	// * In order to allow the scaling effect to be preserved, we don't enable overflow on the base
+
+	position: fixed;
+	z-index: 1000;
+
+	// If there is no pip content, don't intercept pointer events
+	pointer-events: none;
+
+	// Don't transition width or height for performance
+	transition: consts.$transition-length bottom, consts.$transition-length right;
+
+	&.minimize {
+		box-shadow: 0 0 16px rgba(0, 0, 0, 0.25);
+	}
+
+	// === OVERLAY ==
+	#minimized-overlay {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		background: rgba(0, 0, 0, 0.25);
+
+		display: flex;
+		justify-content: center;
+		align-items: center;
+
+		font-weight: bolder;
+		font-size: 12px;
+		text-transform: uppercase;
+
+		opacity: 0;
+		pointer-events: all;
+		cursor: pointer;
+
+		transition: consts.$transition-length opacity;
+
+		// Scale for effect when hovering
+		& > div {
+			transform: scale(0.75);
+			transition: consts.$transition-length transform;
+		}
+
+		&:hover {
+			opacity: 1;
+
+			// Expand to full size
+			& > div {
+				transform: scale(1);
+			}
+		}
+
+		.close-button {
+			position: absolute;
+			top: 8px;
+			right: 8px;
+		}
+	}
+
+	// Hide if not minimized
+	&:not(.minimize) #minimized-overlay {
+		display: none;
+	}
+
+	// === CONTENT ===
+	#media-content {
+		// Pin to bottom right of PiP since we apply a transform on this
+		position: absolute;
+		right: 0;
+		bottom: 0;
+		transform-origin: bottom right;
+
+		// Don't transition the width or height to preserve the effect of the animation
+		transition: consts.$transition-length transform;
+
+		& > * {
+			position: absolute;
+			width: 100%;
+			height: 100%;
+
+			// All children should intercept pointer events
+			pointer-events: all;
+		}
+	}
+}
+
+// === SIDEBAR ===
+main-sidebar {
+	position: fixed;
+	left: 0;
+	top: 0;
+	bottom: 0;
+	z-index: 4;
+}
+
+#sidebar-holder {
+	position: fixed;
+	left: 0;
+	top: 0;
+	bottom: 0;
+	width: consts.$sidebar-width;
+	height: 100%;
+
+	background-color: $base-bg;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+	transform: translateX(-(consts.$sidebar-width));
+	z-index: 2;
+
+	&.open {
+		transform: translateX(0);
+	}
+
+	&.notouch {
+		transition: transform consts.$transition-length;
+	}
+
+	main-sidebar {
+		position: fixed;
+		left: 0;
+		top: 0;
+		bottom: 0;
+	}
+}
+
+// Loading screen
+h1.loading {
+	position: fixed;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	line-height: 100vh;
+
+	font-size: 30px;
+	text-align: center;
+	color: white;
+	background: $lowered-bg;
+}
+
+// === NOTIFICATION LAYER ===
+notification-overlay {
+	position: fixed;
+	top: consts.$panel-spacing;
+	right: consts.$panel-spacing;
+	z-index: 4;
+
+	// Allow clicking through the element
+	pointer-events: none;
+
+	// Make all child elements receive pointer events
+	& > * {
+		pointer-events: auto;
+	}
+}
+
+search-panel {
+	display: flex;
+	width: 100%;
+}
+
+// === TOOLTIP ===
+#tooltip {
+	padding: 4px 9px;
+
+	text-align: center;
+	font-size: 12px;
+	font-family: consts.$open-sans;
+	color: #ebebeb;
+	background: $context-menu;
+	opacity: 1;
+	border-radius: 4px;
+	box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
+
+	transition: consts.$transition-length opacity, consts.$transition-length transform;
+}
+
+#dim {
+	position: fixed;
+	left: 0;
+	top: 0;
+	width: 100vw;
+	height: 100vh;
+	background-color: rgba(0, 0, 0, 0.4);
+	opacity: 0;
+	z-index: 5;
+
+	transition: opacity consts.$transition-length;
+
+	&.active {
+		opacity: 1;
+	}
+}
+
+@media only screen and (max-width: consts.$mobile-width-threshold) {
+	#content-holder {
+		overflow: hidden;
+		z-index: unset;
+	}
+
+	notification-overlay {
+		// top: calc(#{$mobile-navbar-height} + 7px);
+		right: 0;
+	}
+}

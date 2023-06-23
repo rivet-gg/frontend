@@ -1,0 +1,139 @@
+@use '../shared/common';
+@use '../shared/consts';
+
+#base {
+	position: relative;
+	width: 460px;
+
+	padding: 8px 0;
+
+	display: flex;
+	flex-direction: column;
+
+	#input-area {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		padding-bottom: 11px;
+		border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+
+		#main-input {
+			flex: 1 1 auto;
+			--font-size: 20px;
+		}
+
+		loading-wheel {
+			margin-left: 20px;
+		}
+	}
+
+	#search-graphic {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+
+		margin-top: 10px;
+
+		lazy-img {
+			width: 250px;
+			height: 170px;
+		}
+	}
+
+	#output {
+		margin-top: 18px;
+		overflow-y: auto;
+		max-height: 350px;
+
+		#no-results {
+			font-size: 14px;
+			color: #151515cc;
+			text-align: center;
+			margin: 10px 0 0 0;
+		}
+
+		#output-section {
+			display: flex;
+			flex-direction: column;
+
+			&:not(:last-child) {
+				margin-bottom: 12px;
+			}
+
+			.identity {
+				display: flex;
+				flex-direction: row;
+				align-items: center;
+				justify-content: space-between;
+
+				padding: 5px;
+				box-sizing: border-box;
+
+				border-radius: 5px;
+				cursor: pointer;
+				transition: background-color consts.$transition-length;
+
+				&.selected {
+					background-color: $lowered-bg;
+
+					.item-label {
+						color: #151515;
+
+						// Colors for identity-name element
+						--color: #151515;
+						--number-color: #151515ee;
+					}
+				}
+
+				&:not(.invited) {
+					@include common.active-state();
+				}
+
+				&.invited {
+					opacity: 0.8;
+
+					.identity-right {
+						e-svg {
+							--fill: #69ca00;
+						}
+					}
+				}
+
+				.identity-content {
+					display: flex;
+					flex-direction: row;
+					align-items: center;
+
+					.identity-thumbnail {
+						width: 40px;
+						height: 40px;
+					}
+
+					.identity-label {
+						margin: 0 0 0 10px;
+						font-size: 15px;
+						font-weight: 600;
+						color: #151515cc;
+
+						transition: color consts.$transition-length;
+
+						// Colors for identity-name element
+						--color: #151515cc;
+						--number-color: #151515d0;
+					}
+				}
+
+				.identity-right {
+					display: flex;
+					flex-direction: row;
+					align-items: center;
+					margin: 0 10px;
+
+					e-svg {
+						--fill: #151515;
+					}
+				}
+			}
+		}
+	}
+}

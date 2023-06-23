@@ -1,0 +1,70 @@
+@use '../shared/common';
+@use '../shared/consts';
+
+#base {
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: row;
+	align-items: flex-start;
+	position: relative;
+	width: 100%;
+	padding: 8px 0;
+	min-height: 58px;
+	border-radius: 13px;
+
+	font-family: consts.$open-sans;
+	transition: background-color consts.$transition-length;
+	cursor: pointer;
+
+	@include common.active-state;
+
+	&.active {
+		background-color: $raised-bg;
+		padding-right: 8px;
+	}
+
+	[name='icon']::slotted(*) {
+		flex: 0 0 auto;
+		margin: 2px 10px 0 8px;
+		width: 38px;
+		height: 38px;
+
+		--fill: #909090;
+	}
+
+	#content {
+		flex: 1 1 auto;
+		min-width: 0;
+		position: relative;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: space-between;
+
+		box-sizing: border-box;
+
+		[name='content']::slotted(*) {
+			flex: 1 1 auto;
+			display: flex;
+			flex-direction: column;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			min-width: 0;
+		}
+
+		[name='badge']::slotted(*) {
+			flex: 0 0 auto;
+			position: relative;
+			padding: 0 8px;
+			margin-left: 4px;
+
+			font-size: 12px;
+			line-height: 20px;
+			font-weight: 700;
+
+			background-color: $red;
+			border-radius: 10px;
+		}
+	}
+}

@@ -1,0 +1,132 @@
+@use '../../shared/common';
+@use '../../shared/consts';
+
+#base {
+	#draft-buttons {
+		display: flex;
+		flex-direction: row;
+		margin: -40px 0 40px 0;
+
+		stylized-button {
+			margin-right: 10px;
+			--padding: 0 15px 0 12px;
+			--text-transform: none;
+
+			&:last-child {
+				margin-right: 0;
+			}
+		}
+
+		#clear-button {
+			--bg-color: #808080;
+
+			&:hover {
+				--bg-color: #d4393b;
+			}
+		}
+	}
+
+	h1 {
+		max-width: 600px;
+		font-size: 28px;
+		font-weight: 700;
+		margin-bottom: 18px;
+	}
+
+	error-list {
+		max-width: 435px;
+		display: block;
+		margin-bottom: 12px;
+	}
+
+	#input-area {
+		max-width: 435px;
+		margin-bottom: 20px;
+
+		h3 {
+			font-size: 10px;
+			color: #ecececcc;
+			text-transform: uppercase;
+			margin-bottom: 6px;
+		}
+
+		text-input {
+			width: 100%;
+		}
+	}
+
+	#namespace-title {
+		margin-bottom: 0;
+	}
+
+	#namespace-subtitle {
+		display: block;
+		margin-bottom: 18px;
+	}
+
+	#namespaces {
+		max-width: 350px;
+		margin-bottom: 20px;
+
+		.namespace {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			justify-content: space-between;
+			padding: 11px 17px;
+			margin-bottom: 12px;
+			background: rgba(255, 255, 255, 0.09);
+			border-radius: 4px;
+			box-shadow: 0 3px 12px rgba(0, 0, 0, 0.2);
+			cursor: pointer;
+
+			transition: transform consts.$transition-length, background-color consts.$transition-length;
+
+			&:hover {
+				transform: translateY(-1px);
+				background-color: rgba(255, 255, 255, 0.15);
+			}
+
+			&.selected {
+				background: rgba(255, 255, 255, 0.15);
+
+				h3 {
+					color: #ececec;
+				}
+			}
+
+			&:last-child {
+				margin-bottom: 0;
+			}
+
+			@include common.active-state();
+
+			h3 {
+				display: -webkit-box;
+				flex: 1 1 auto;
+				color: #ecececcc;
+				font-size: 16px;
+				margin: 0 10px 0 0;
+
+				line-break: anywhere;
+				-webkit-line-clamp: 2;
+				-webkit-box-orient: vertical;
+				overflow: hidden;
+				text-overflow: ellipsis;
+			}
+
+			e-svg {
+				margin-left: 12px;
+				--fill: #ececec;
+			}
+		}
+	}
+}
+
+@media only screen and (max-width: consts.$mobile-width-threshold) {
+	#base {
+		#draft-buttons {
+			margin-top: 0;
+		}
+	}
+}

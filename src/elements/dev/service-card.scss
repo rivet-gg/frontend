@@ -1,0 +1,144 @@
+@use '../shared/common';
+@use '../shared/consts';
+
+#base {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	min-width: 525px;
+	max-height: unset;
+	z-index: 3;
+	box-sizing: border-box;
+
+	background-color: #242424;
+	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+	border-radius: 26px;
+	overflow: hidden;
+
+	#header {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		padding: 13px;
+		cursor: pointer;
+
+		[name='icon']::slotted(*) {
+			flex: 0 0 auto;
+			width: 46px;
+			height: 46px;
+
+			/* Prevent selection */
+			-webkit-user-select: none;
+			user-select: none;
+			cursor: default;
+
+			image-rendering: -webkit-optimize-contrast;
+		}
+
+		#title-area {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			flex: 1 1 auto;
+			margin: 0 40px 0 20px;
+
+			[name='title']::slotted(*) {
+				font-size: 28px;
+				font-weight: 700;
+				margin: 0;
+			}
+
+			#beta-tag {
+				margin: 0 0 0 12px;
+				font-size: 12px;
+				color: #ececec;
+				background: #151515;
+				border-radius: 3px;
+				padding: 3px 6px;
+				font-weight: 600;
+				text-transform: uppercase;
+			}
+
+			#error {
+				margin: 2px 0 0 10px;
+				width: 18px;
+				height: 18px;
+				--fill: #f5cc28;
+			}
+		}
+
+		#toggle-switch {
+			margin: 0 16px 0 0;
+		}
+
+		#collapse-state {
+			width: 17px;
+			height: 17px;
+			margin: 8px 14px 8px 8px;
+			border-radius: 20px;
+
+			color: #ececec;
+			transition: margin-right consts.$transition-length, margin-left consts.$transition-length;
+
+			&.hidden {
+				margin-right: -40px;
+				margin-left: 14px;
+			}
+		}
+	}
+
+	#content-padding {
+		padding: 13px;
+
+		[name='content']::slotted(*) {
+			display: flex;
+			flex-direction: column;
+			padding: 0 12px;
+			margin-bottom: 12px;
+		}
+	}
+
+	#footer {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: flex-end;
+	}
+
+	&.collapsed {
+		max-height: 72px;
+	}
+
+	// Color descendant items
+	&.social {
+		#toggle-switch {
+			--color: #{consts.$social-color};
+		}
+	}
+
+	&.services {
+		#toggle-switch {
+			--color: #{consts.$services-color};
+		}
+	}
+
+	&.deliver {
+		#toggle-switch {
+			--color: #{consts.$deliver-color};
+		}
+	}
+}
+
+@media only screen and (max-width: consts.$mobile-width-threshold) {
+	#base {
+		width: 100%;
+		max-width: 525px;
+		min-width: unset;
+
+		#header {
+			#title-area {
+				margin-right: 20px;
+			}
+		}
+	}
+}

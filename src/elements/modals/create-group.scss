@@ -1,0 +1,98 @@
+@use '../shared/common';
+@use '../shared/consts';
+
+#create-group-modal {
+	[slot='body'] {
+		h1 {
+			margin-bottom: 0;
+			color: black;
+
+			text-align: center;
+			font-size: 18px;
+			font-weight: bold;
+			font-family: consts.$open-sans;
+		}
+
+		.input-group {
+			display: flex;
+			flex-direction: column;
+			width: 100%;
+
+			h2 {
+				margin: 14px 0 2px 0;
+				color: black;
+
+				font-size: 10px;
+				font-weight: bold;
+				font-family: consts.$open-sans;
+				text-transform: uppercase;
+			}
+
+			#create-group-error {
+				max-width: 210px;
+				margin-top: 7px;
+				padding: 0 4px;
+
+				color: red;
+				font-size: 10px;
+				font-family: consts.$open-sans;
+				font-weight: bolder;
+
+				e-svg {
+					--fill: red;
+					width: 1.4em;
+					height: 1.4em;
+					vertical-align: -3px;
+					margin-right: 2px;
+				}
+			}
+		}
+
+		stylized-button {
+			margin-top: 8px;
+			width: 100%;
+			max-width: 200px;
+			--padding: 0 35px;
+		}
+
+		#preview {
+			position: relative;
+			width: 100%;
+			max-width: 200px;
+			box-sizing: border-box;
+			padding: 16px 16px 8px 16px;
+
+			&.active {
+				margin-right: 0;
+			}
+
+			#profile-icon {
+				position: relative;
+				left: 50%;
+				width: 70px;
+				height: 70px;
+				margin-left: -35px;
+				border-radius: 100%;
+				background-color: black;
+
+				color: white;
+				font-size: 24px;
+				font-weight: bold;
+				line-height: 70px;
+				text-align: center;
+			}
+
+			h3 {
+				margin: 8px 0 0 0;
+				color: black;
+				font-size: 12px;
+				text-align: center;
+				font-family: consts.$open-sans;
+				font-weight: bold;
+
+				text-overflow: ellipsis;
+				overflow: hidden;
+			}
+		}
+	}
+}

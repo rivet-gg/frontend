@@ -1,0 +1,159 @@
+@use '../shared/common';
+@use '../shared/consts';
+
+$thumbnail-height: 200px;
+
+#base {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	background: $dark-gray;
+	overflow: hidden;
+	border-radius: consts.$tile-border-radius;
+
+	#base-link {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+
+		#bg {
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			opacity: 0.5;
+
+			transition: consts.$transition-length opacity;
+		}
+
+		#clip-holder {
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			opacity: 0;
+
+			transition: consts.$transition-length opacity;
+		}
+
+		#clip {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			min-width: 100%;
+			min-height: 100%;
+			width: auto;
+			height: auto;
+			transform: translate(-50%, -50%);
+		}
+
+		#thumbnail {
+			position: absolute;
+			width: 250px;
+			height: $thumbnail-height;
+			max-width: 80%;
+			max-height: 50%;
+			left: 50%;
+			top: 50%;
+			transform: translate(-50%, -50%);
+
+			transition: consts.$transition-length transform;
+		}
+	}
+
+	&:hover #base-link {
+		#thumbnail,
+		#clip-holder {
+			opacity: 1;
+		}
+
+		#thumbnail {
+			transform: translate(-50%, -50%) translateY(-700px * 0.5 + 20px + $thumbnail-height * 0.5 * 0.75)
+				scale(0.75);
+		}
+	}
+
+	&.small:hover #base-link {
+		#thumbnail {
+			transform: translate(-50%, -50%)
+				translateY(-(700px - consts.$tile-spacing) * 0.25 + 10px + $thumbnail-height * 0.5 * 0.75)
+				scale(0.75);
+		}
+	}
+
+	#name-popup {
+		$height: 66px;
+
+		position: absolute;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+
+		width: 100%;
+		height: $height;
+		left: 0;
+		bottom: 0;
+		box-sizing: border-box;
+		padding: 0 20px;
+
+		transform: translateY(calc(100% + 4px)); // Move an extra 4px to hide the shadow
+
+		background: $dark-gray;
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+		font-family: consts.$open-sans;
+		font-size: 20px;
+
+		transition: transform consts.$transition-length;
+
+		#developers {
+			text-align: center;
+			font-size: 0.75em;
+			opacity: 0.5;
+		}
+	}
+
+	&:hover #name-popup {
+		transform: translateY(0);
+	}
+}
+
+@media only screen and (max-width: consts.$mobile-width-threshold) {
+	#base {
+		pointer-events: auto;
+
+		#base-link {
+			#thumbnail {
+				width: 100px;
+				height: 60px;
+			}
+		}
+
+		#name-popup {
+			transform: none;
+			font-size: 18px;
+		}
+
+		&:hover #name-popup {
+			transform: none;
+		}
+
+		&.mobile-hover #base-link {
+			#thumbnail,
+			#clip-holder {
+				opacity: 1;
+			}
+
+			#thumbnail {
+				transform: translate(-50%, -50%)
+					translateY(-450px * 0.5 + 20px + $thumbnail-height * 0.5 * 0.75) scale(0.75);
+			}
+		}
+
+		&.small.mobile-hover #base-link {
+			#thumbnail {
+				transform: translate(-50%, -50%)
+					translateY(-(450px - consts.$tile-spacing) * 0.25 + 10px + $thumbnail-height * 0.5 * 0.75)
+					scale(0.75);
+			}
+		}
+	}
+}

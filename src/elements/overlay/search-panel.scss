@@ -1,0 +1,193 @@
+@use '../shared/common';
+@use '../shared/consts';
+
+#base {
+	position: relative;
+	width: 460px;
+
+	padding: 8px 0;
+
+	display: flex;
+	flex-direction: column;
+
+	#controls {
+		display: flex;
+		flex-direction: column;
+		padding-bottom: 12px;
+		border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+
+		#input-area {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+
+			#main-input {
+				flex: 1 1 auto;
+				--font-size: 20px;
+			}
+
+			loading-wheel {
+				margin-left: 20px;
+			}
+		}
+
+		#commands {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			margin-top: 10px;
+
+			.command {
+				display: flex;
+				flex-direction: row;
+				align-items: center;
+				border-radius: 5px;
+				border: 1px solid #15151580;
+				box-sizing: border-box;
+				margin-right: 10px;
+				padding: 4px 10px;
+				cursor: pointer;
+
+				transition: border-color consts.$transition-length, background-color consts.$transition-length;
+
+				&:last-child {
+					margin-right: 0;
+				}
+
+				&.selected {
+					border-color: transparent;
+					background-color: #73a5ff;
+
+					.command-label {
+						color: #151515;
+					}
+				}
+
+				@include common.active-state();
+
+				.command-icon {
+					font-size: 15px;
+					font-weight: 700;
+					color: #151515;
+				}
+
+				.command-label {
+					margin: 0 0 0 10px;
+					font-size: 14px;
+					font-weight: 600;
+					color: #151515cc;
+
+					transition: color consts.$transition-length;
+
+					// Colors for identity-name element
+					--color: #151515cc;
+					--number-color: #151515d0;
+				}
+			}
+		}
+	}
+
+	#help {
+		text-align: center;
+		font-size: 14px;
+		margin: 12px 0 2px 0;
+		color: #151515e0;
+
+		b {
+			padding: 2px 10px;
+			border-radius: 3px;
+			background-color: $lowered-bg;
+		}
+	}
+
+	#search-graphic {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+
+		margin-top: 10px;
+
+		lazy-img {
+			width: 250px;
+			height: 170px;
+		}
+	}
+
+	#output {
+		margin-top: 9px;
+		overflow-y: auto;
+		max-height: 350px;
+
+		#no-results {
+			font-size: 14px;
+			color: #151515cc;
+			text-align: center;
+			margin: 10px 0 0 0;
+		}
+
+		#output-sections {
+			display: flex;
+			flex-direction: column;
+
+			.section {
+				display: flex;
+				flex-direction: column;
+
+				&:not(:last-child) {
+					margin-bottom: 12px;
+				}
+
+				.item {
+					&:not(.custom) {
+						display: flex;
+						flex-direction: row;
+						align-items: center;
+
+						padding: 5px;
+						box-sizing: border-box;
+
+						border-radius: 5px;
+						cursor: pointer;
+						transition: background-color consts.$transition-length;
+
+						&.selected {
+							background-color: $lowered-bg;
+
+							.item-label {
+								color: #151515;
+
+								// Colors for identity-name element
+								--color: #151515;
+								--number-color: #151515ee;
+							}
+						}
+
+						@include common.active-state();
+
+						.item-thumbnail {
+							width: 40px;
+							height: 40px;
+						}
+
+						group-avatar.item-thumbnail {
+							--font-size: 14px;
+						}
+
+						.item-label {
+							margin: 0 0 0 10px;
+							font-size: 15px;
+							font-weight: 600;
+							color: #151515cc;
+
+							transition: color consts.$transition-length;
+
+							// Colors for identity-name element
+							--color: #151515cc;
+							--number-color: #151515d0;
+						}
+					}
+				}
+			}
+		}
+	}
+}

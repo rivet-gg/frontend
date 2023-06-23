@@ -1,0 +1,8 @@
+{
+	"[rust]": {
+		"editor.formatOnSave": true
+	},
+	"[typescript]": {
+		"editor.formatOnSave": true
+	}
+}

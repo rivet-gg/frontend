@@ -1,0 +1,111 @@
+@use '../shared/common';
+@use '../shared/utils';
+@use '../shared/consts';
+
+@keyframes fade-out {
+	0% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+	}
+}
+
+#base {
+	position: relative;
+	display: inline-flex;
+	flex-direction: row;
+	align-items: flex-start;
+
+	padding: 6px 6px 6px 12px;
+	border-radius: 3px;
+	box-sizing: border-box;
+	background: $raised-bg;
+
+	&.light {
+		background: none;
+		border: 1px solid #4e4e4e;
+
+		#content {
+			color: #151515ee;
+
+			#hidden {
+				background: rgba(0, 0, 0, 0.1);
+			}
+		}
+
+		#copy-button {
+			border: 1px solid rgba(0, 0, 0, 0.3);
+			transition: border-color consts.$transition-length;
+
+			&:hover {
+				border-color: rgba(0, 0, 0, 0.5);
+			}
+		}
+
+		#result {
+			background-color: #151515;
+		}
+	}
+
+	#content {
+		position: relative;
+		color: #ecececee;
+		text-align: left;
+
+		&.hidden {
+			::slotted(*) {
+				opacity: 0;
+			}
+
+			#hidden {
+				display: flex;
+			}
+		}
+
+		#hidden {
+			position: absolute;
+			display: none;
+			justify-content: center;
+			align-items: center;
+			width: 100%;
+			height: 100%;
+			left: 0;
+			top: 0;
+
+			border-radius: 3px;
+			background: $lowered-bg;
+			text-align: center;
+			font-size: 16px;
+			font-weight: 700;
+
+			-webkit-user-select: none;
+			user-select: none;
+			cursor: pointer;
+		}
+
+		@include utils.enable-user-select();
+	}
+
+	#copy-button {
+		margin-left: 15px;
+		transition: opacity consts.$transition-length;
+		border-radius: 3px;
+		--padding: 6px;
+		background: $raised-bg;
+	}
+
+	#result {
+		position: absolute;
+		top: 8px;
+		right: 42px;
+		padding: 5px 10px;
+		border-radius: 3px;
+		background: #808080;
+		color: #ececec;
+		text-align: right;
+		box-shadow: 0 1px 9px rgba(0, 0, 0, 0.25);
+
+		animation: fade-out consts.$transition-length 1s forwards;
+	}
+}

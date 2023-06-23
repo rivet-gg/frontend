@@ -1,0 +1,14 @@
+// This doesn't feel like the best way to be doing this but it works
+// for the case involved: emojis must display inline in chat, but
+// centered in the emoji picker BUT when an emoji is rendered as
+// simple text it has to display as inline text at the right position
+e-svg.centered {
+	transform: translate(-50%, -50%);
+	left: 50%;
+	top: 50%;
+	position: relative;
+}
+
+e-svg:not(.centered) {
+	vertical-align: -22%;
+}

@@ -1,0 +1,83 @@
+@use '../shared/common';
+@use '../shared/consts';
+
+$padding: 10px;
+
+@keyframes scale-in {
+	0% {
+		transform: scale(0.85);
+	}
+	100% {
+		transform: scale(1);
+	}
+}
+
+@keyframes modal-fade {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+
+#close {
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	z-index: 5;
+
+	&.fade {
+		animation: modal-fade consts.$transition-length * 0.5 both;
+	}
+
+	&.no-pointer {
+		pointer-events: none;
+	}
+
+	&.dim {
+		background-color: rgba(0, 0, 0, 0.5);
+	}
+
+	&.open {
+		display: block;
+	}
+
+	&.closing {
+		animation-direction: reverse;
+
+		#holder {
+			#animation {
+				// Disable animation during reflow
+				animation: none;
+			}
+		}
+	}
+
+	#holder {
+		position: fixed;
+		display: flex;
+		flex-direction: row;
+		align-items: flex-start;
+
+		// Must use `width` instead of `max-width` so that slotted element can overflow correctly
+		width: calc(100vw - #{$padding * 2});
+		height: calc(100vh - #{$padding * 2});
+
+		// Only animates scale, the #close element animates opacity
+		#animation {
+			display: flex;
+			flex-direction: row;
+			align-items: flex-start;
+
+			animation: scale-in consts.$transition-length * 0.75 ease-in-out forwards;
+
+			::slotted(*) {
+				max-height: 100%;
+			}
+		}
+	}
+}

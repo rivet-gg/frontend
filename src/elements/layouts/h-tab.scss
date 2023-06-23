@@ -1,0 +1,20 @@
+@use '../shared/common';
+
+:host {
+	width: 100%;
+	margin-bottom: 8px;
+}
+
+stylized-button {
+	--bg-color: #2a2a2a;
+	--padding: 0 13px;
+	--justify-content: flex-start;
+	--text-align: left;
+
+	width: 100%;
+	margin-bottom: 8px;
+
+	&.active {
+		--bg-color: #{$main-accent};
+	}
+}

@@ -1,0 +1,32 @@
+@use '../shared/common';
+@use '../shared/consts';
+
+#base {
+	flex: 0 0;
+
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: center;
+	overflow-wrap: anywhere;
+
+	margin-bottom: 12px;
+
+	[name='icon']::slotted(*) {
+		width: 14px;
+		height: 14px;
+		margin-right: 4px;
+	}
+
+	[name='title']::slotted(*) {
+		font-family: consts.$open-sans;
+		font-size: 12px;
+		font-weight: 600;
+		color: rgba(255, 255, 255, 0.6);
+		text-transform: uppercase;
+	}
+
+	&.right {
+		justify-content: flex-end;
+	}
+}

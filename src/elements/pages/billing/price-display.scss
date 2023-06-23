@@ -1,0 +1,16 @@
+@use '../../shared/common';
+
+#base {
+	display: inline-block;
+	font-weight: var(--font-weight, 700);
+
+	span {
+		font-size: 0.6em;
+	}
+
+	&.no-small-text {
+		span {
+			font-size: unset;
+		}
+	}
+}
