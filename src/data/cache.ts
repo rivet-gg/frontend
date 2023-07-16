@@ -25,11 +25,11 @@ export namespace ThreadHistoryCache {
 	}
 
 	export async function get(threadId: string): Promise<Payload> {
-		return await readCache(['threads2', threadId, 'history']);
+		return await readCache(['threads', threadId, 'history']);
 	}
 
 	export function set(threadId: string, payload: Payload) {
-		writeCache(['threads2', threadId, 'history'], payload);
+		writeCache(['threads', threadId, 'history'], payload);
 	}
 }
 
@@ -40,11 +40,11 @@ export namespace ThreadLiveCache {
 	}
 
 	export async function get(threadId: string): Promise<Payload> {
-		return await readCache(['threads2', threadId]);
+		return await readCache(['threads', threadId]);
 	}
 
 	export function set(threadId: string, payload: Payload) {
-		writeCache(['threads2', threadId], payload);
+		writeCache(['threads', threadId], payload);
 	}
 }
 
@@ -55,11 +55,11 @@ export namespace RecentThreadsCache {
 	}
 
 	export async function get(): Promise<Payload> {
-		return await readCache(['threads2', 'recent']);
+		return await readCache(['threads', 'recent']);
 	}
 
 	export function set(payload: Payload) {
-		writeCache(['threads2', 'recent'], payload);
+		writeCache(['threads', 'recent'], payload);
 	}
 }
 
