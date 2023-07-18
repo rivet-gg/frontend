@@ -68,7 +68,12 @@ namespace routes {
 			return {
 				menuItem: { kind: 'MainMenu', content: { item: MainMenuItem.HOME } },
 				title: 'Home',
-				template: html`<page-home></page-home>`
+				template: html`
+					<div class="w-full h-full">
+						<user-banner></user-banner>
+						<h3 class="w-full text-center text-xl text-purple-700">Test</h3>
+					</div>
+				`
 			};
 		}
 	});

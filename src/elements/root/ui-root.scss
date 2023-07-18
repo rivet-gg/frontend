@@ -22,14 +22,14 @@
 #content-holder {
 	// Offset the sidebar and header; we do this instead of using absolute positioning to optimize rendering
 	// performance, handle scrolling better natively, and use the correct scroll bar
-	position: relative;
-	box-sizing: border-box;
+	// position: relative;
+	// box-sizing: border-box;
 
-	position: relative;
-	width: calc(100% - #{consts.$sidebar-width});
-	min-height: 100vh;
-	left: consts.$sidebar-width;
-	top: 0px;
+	// position: relative;
+	// width: calc(100% - #{consts.$sidebar-width});
+	// min-height: 100vh;
+	// left: consts.$sidebar-width;
+	// top: 0px;
 
 	ui-router {
 		box-sizing: border-box;

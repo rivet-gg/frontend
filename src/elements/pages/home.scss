@@ -54,7 +54,6 @@ $tile-border-radius: 20px;
 		#banner-bg {
 			$crop: 2%;
 			position: absolute;
-			left: -$crop;
 			top: -$crop;
 			width: 100% + $crop * 2;
 			height: 100% + $crop * 2;

@@ -124,6 +124,11 @@ module.exports = async function () {
 		},
 		module: {
 			rules: [
+				{
+					test: /common\.css$/,
+					issuer: /src\/utils\/css.ts$/, // Issued from TS file
+					use: ['css-loader', 'postcss-loader']
+				},
 				// Load SASS files from TypeScript files
 				{
 					test: /\.s[ca]ss$/,

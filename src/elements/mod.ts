@@ -84,6 +84,7 @@ import './profile/expanded-game-stats';
 import './profile/game-stats';
 import './profile/graph-view';
 import './profile/profile-layout';
+import './profile/user-banner';
 import './context-menu/context-action';
 import './context-menu/context-menu';
 import './root/ui-root';

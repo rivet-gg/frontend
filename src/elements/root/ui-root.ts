@@ -782,15 +782,6 @@ export default class UIRoot extends LitElement {
 				</div> -->
 			</div>
 
-			<!-- Sidebar -->
-			${when(
-				!global.isMobile,
-				() => html`<main-sidebar
-					.activeMenu=${this.activeMenu}
-					.onHomePage=${this.onHomePage}
-				></main-sidebar>`
-			)}
-
 			<!-- Interactable Overlays -->
 			<overlay-positioning
 				.active=${this.emojiPickerData.active}
