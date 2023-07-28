@@ -240,12 +240,6 @@ export default class DevGames extends LitElement {
 
 		return html`
 			<div id="base">
-				<!-- Header -->
-				<page-header>
-					<e-svg src="regular/square-code"></e-svg>
-					<h1>Developer Dashboard</h1>
-				</page-header>
-
 				<div id="body">
 					${when(this.data !== null, this.renderBody.bind(this), this.renderPlaceholder)}
 				</div>
@@ -274,26 +268,37 @@ export default class DevGames extends LitElement {
 				: null}
 			${when(
 				!config.IS_PROD,
-				() => html`<div
-					id="create-group"
-					class="placeholder-group"
-					@click=${this.openGroupModal.bind(this)}
-					@mouseenter=${() => (this.createGroupHovered = true)}
-					@mouseleave=${() => (this.createGroupHovered = false)}
-				>
-					<div class="placeholder-group-header">
-						<loading-placeholder .isDisabled=${!this.createGroupHovered}></loading-placeholder>
-						<loading-placeholder .isDisabled=${!this.createGroupHovered}></loading-placeholder>
-						<loading-placeholder .isDisabled=${!this.createGroupHovered}></loading-placeholder>
-						<loading-placeholder .isDisabled=${!this.createGroupHovered}></loading-placeholder>
-					</div>
-					<div class="placeholder-group-body">
-						<loading-placeholder .isDisabled=${!this.createGroupHovered}></loading-placeholder>
-						<loading-placeholder .isDisabled=${!this.createGroupHovered}></loading-placeholder>
-					</div>
-					<div id="create-group-overlay">
-						<e-svg src="solid/plus"></e-svg>
-						Create a New Developer Group
+				() => html` <div class="w-full mx-auto flex place-content-center">
+					<div
+						id="create-group"
+						class="placeholder-group"
+						@click=${this.openGroupModal.bind(this)}
+						@mouseenter=${() => (this.createGroupHovered = true)}
+						@mouseleave=${() => (this.createGroupHovered = false)}
+					>
+						<div class="placeholder-group-header">
+							<loading-placeholder
+								.isDisabled=${!this.createGroupHovered}
+							></loading-placeholder>
+							<loading-placeholder
+								.isDisabled=${!this.createGroupHovered}
+							></loading-placeholder>
+							<loading-placeholder
+								.isDisabled=${!this.createGroupHovered}
+							></loading-placeholder>
+							<loading-placeholder
+								.isDisabled=${!this.createGroupHovered}
+							></loading-placeholder>
+						</div>
+						<div class="placeholder-group-body">
+							<loading-placeholder
+								.isDisabled=${!this.createGroupHovered}
+							></loading-placeholder>
+						</div>
+						<div id="create-group-overlay">
+							<e-svg src="solid/plus"></e-svg>
+							Create a New Developer Group
+						</div>
 					</div>
 				</div>`
 			)}
@@ -331,60 +336,67 @@ export default class DevGames extends LitElement {
 	renderGroup(group: cloud.GroupSummary) {
 		let isOwner = global.currentIdentity.identityId == group.ownerIdentityId;
 
-		return html`<div class="group">
-			<div class="group-header">
-				<a href=${routes.group.build({ id: group.groupId })}>
-					<group-avatar .group=${group}></group-avatar>
-					<h2>${group.displayName}</h2>
-				</a>
+		return when(
+			group.isDeveloper,
+			() => html`<div class="group">
+				<div class="group-header">
+					<a href=${routes.group.build({ id: group.groupId })} class="max-sm:w-1/3 md:w-2/3">
+						<div class="max-sm:invisible max-sm:w-0">
+							<group-avatar .group=${group}></group-avatar>
+						</div>
+						<h2 class="text-ellipsis overflow-hidden max-w-3/4">${group.displayName}</h2>
+					</a>
+					${when(
+						group.isDeveloper,
+						() => html` <div class="flex flex-row space-x-1">
+							<stylized-button
+								class="billing-button"
+								right-icon="solid/arrow-right"
+								href=${routes.groupBilling.build({ groupId: group.groupId })}
+								>Billing</stylized-button
+							><stylized-button
+								class="billing-button"
+								right-icon="solid/arrow-right"
+								href=${routes.analyticsOverview.build({
+									groupId: group.groupId
+								})}
+								>Analytics</stylized-button
+							>
+						</div>`
+						// Reenable when open beta
+						// () =>
+						// 	when(
+						// 		isOwner,
+						// 		() => html`<stylized-button
+						// 			.trigger=${this.convertGroup.bind(this, group.groupId)}
+						// 			>Convert Group</stylized-button
+						// 		>`
+						// 	)
+					)}
+				</div>
 				${when(
 					group.isDeveloper,
-					() => html`<stylized-button
-							class="billing-button"
-							right-icon="solid/arrow-right"
-							href=${routes.groupBilling.build({ groupId: group.groupId })}
-							>Billing</stylized-button
-						><stylized-button
-							class="billing-button"
-							right-icon="solid/arrow-right"
-							href=${routes.analyticsOverview.build({
-								groupId: group.groupId
-							})}
-							>Analytics</stylized-button
-						>`
-					// Reenable when open beta
-					// () =>
-					// 	when(
-					// 		isOwner,
-					// 		() => html`<stylized-button
-					// 			.trigger=${this.convertGroup.bind(this, group.groupId)}
-					// 			>Convert Group</stylized-button
-					// 		>`
-					// 	)
-				)}
-			</div>
-			${when(
-				group.isDeveloper,
-				() => html`<div class="games-list">
-					<div id="create-game" @click=${this.openGameModal.bind(this, group.groupId)}>
-						<div id="create-game-content">
-							<lazy-img src=${assets.asset('/games/blank/logo.png')}></lazy-img>
-							Create a new game
+					() => html`<div class="games-list">
+						<div id="create-game" @click=${this.openGameModal.bind(this, group.groupId)}>
+							<div id="create-game-content">
+								<lazy-img src=${assets.asset('/games/blank/logo.png')}></lazy-img>
+								Create a new game
+							</div>
 						</div>
-					</div>
-					${repeat(
-						this.data.games.filter(g => g.developerGroupId == group.groupId),
-						g => g.gameId,
-						g =>
-							html`<dev-game-tile
-								.game=${g}
-								.group=${this.data.groups.find(gr => gr.groupId == g.developerGroupId)}
-							></dev-game-tile>`
-					)}
-				</div>`,
-				() => html`<p class="muted-text">This group is not a developer group.</p>`
-			)}
-		</div>`;
+						${repeat(
+							this.data.games.filter(g => g.developerGroupId == group.groupId),
+							g => g.gameId,
+							g =>
+								html`<dev-game-tile
+									.game=${g}
+									.group=${this.data.groups.find(gr => gr.groupId == g.developerGroupId)}
+								></dev-game-tile>`
+						)}
+					</div>`,
+					() => html`<p class="muted-text">This group is not a developer group.</p>`
+				)}
+			</div>`
+		);
 	}
 
 	renderCreateGameModal() {

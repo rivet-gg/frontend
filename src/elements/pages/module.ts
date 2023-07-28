@@ -26,3 +26,4 @@ import './recent-followers';
 import './settings';
 import './sidebar';
 import './thread-resolve';
+import './dev-dash';

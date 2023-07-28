@@ -2,7 +2,11 @@
 module.exports = {
 	content: ['./src/**/*.{js,ts}'],
 	theme: {
-		extend: {}
+		extend: {
+			translate: {
+				'.05': '.05rem'
+			}
+		}
 	},
 	plugins: []
 };

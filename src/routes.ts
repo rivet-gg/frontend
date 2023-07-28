@@ -68,12 +68,7 @@ namespace routes {
 			return {
 				menuItem: { kind: 'MainMenu', content: { item: MainMenuItem.HOME } },
 				title: 'Home',
-				template: html`
-					<div class="w-full h-full">
-						<user-banner></user-banner>
-						<h3 class="w-full text-center text-xl text-purple-700">Test</h3>
-					</div>
-				`
+				template: html` <dev-dash .identity=${global.currentIdentity}></dev-dash> `
 			};
 		}
 	});
@@ -525,7 +520,7 @@ namespace routes {
 		path: '/groups/:groupId/billing',
 		render({ groupId }) {
 			// TODO:
-			return responses.notFound();
+			// return responses.notFound();
 
 			if (!global.currentIdentity.isRegistered) return responses.registerRequired();
 			if (!utils.validateUuid(groupId)) return responses.notFound();
