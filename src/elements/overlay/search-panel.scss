@@ -42,7 +42,7 @@
 				flex-direction: row;
 				align-items: center;
 				border-radius: 5px;
-				border: 1px solid #15151580;
+				border: 1px solid #18181b80;
 				box-sizing: border-box;
 				margin-right: 10px;
 				padding: 4px 10px;
@@ -59,7 +59,7 @@
 					background-color: #73a5ff;
 
 					.command-label {
-						color: #151515;
+						color: #18181b;
 					}
 				}
 
@@ -68,20 +68,20 @@
 				.command-icon {
 					font-size: 15px;
 					font-weight: 700;
-					color: #151515;
+					color: #18181b;
 				}
 
 				.command-label {
 					margin: 0 0 0 10px;
 					font-size: 14px;
 					font-weight: 600;
-					color: #151515cc;
+					color: #18181bcc;
 
 					transition: color consts.$transition-length;
 
 					// Colors for identity-name element
-					--color: #151515cc;
-					--number-color: #151515d0;
+					--color: #18181bcc;
+					--number-color: #18181bd0;
 				}
 			}
 		}
@@ -91,7 +91,7 @@
 		text-align: center;
 		font-size: 14px;
 		margin: 12px 0 2px 0;
-		color: #151515e0;
+		color: #18181be0;
 
 		b {
 			padding: 2px 10px;
@@ -120,7 +120,7 @@
 
 		#no-results {
 			font-size: 14px;
-			color: #151515cc;
+			color: #18181bcc;
 			text-align: center;
 			margin: 10px 0 0 0;
 		}
@@ -154,11 +154,11 @@
 							background-color: $lowered-bg;
 
 							.item-label {
-								color: #151515;
+								color: #18181b;
 
 								// Colors for identity-name element
-								--color: #151515;
-								--number-color: #151515ee;
+								--color: #18181b;
+								--number-color: #18181bee;
 							}
 						}
 
@@ -177,13 +177,13 @@
 							margin: 0 0 0 10px;
 							font-size: 15px;
 							font-weight: 600;
-							color: #151515cc;
+							color: #18181bcc;
 
 							transition: color consts.$transition-length;
 
 							// Colors for identity-name element
-							--color: #151515cc;
-							--number-color: #151515d0;
+							--color: #18181bcc;
+							--number-color: #18181bd0;
 						}
 					}
 				}

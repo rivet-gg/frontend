@@ -24,7 +24,7 @@
 		textarea {
 			border: 1px solid rgba(0, 0, 0, 0.25);
 			background-color: transparent;
-			color: #151515;
+			color: #18181b;
 			font-size: $font-size;
 
 			// box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
@@ -40,7 +40,7 @@
 			}
 
 			&::placeholder {
-				color: #15151580;
+				color: #18181b80;
 			}
 		}
 
@@ -52,7 +52,7 @@
 		}
 
 		textarea:focus::-webkit-scrollbar-thumb {
-			@include common.scrollbar-track(#151515);
+			@include common.scrollbar-track(#18181b);
 		}
 		textarea:focus::-webkit-scrollbar-track {
 			@include common.scrollbar-track(rgba(0, 0, 0, 0.1));

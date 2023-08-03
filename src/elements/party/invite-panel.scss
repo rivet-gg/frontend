@@ -47,7 +47,7 @@
 
 		#no-results {
 			font-size: 14px;
-			color: #151515cc;
+			color: #18181bcc;
 			text-align: center;
 			margin: 10px 0 0 0;
 		}
@@ -77,11 +77,11 @@
 					background-color: $lowered-bg;
 
 					.item-label {
-						color: #151515;
+						color: #18181b;
 
 						// Colors for identity-name element
-						--color: #151515;
-						--number-color: #151515ee;
+						--color: #18181b;
+						--number-color: #18181bee;
 					}
 				}
 
@@ -113,13 +113,13 @@
 						margin: 0 0 0 10px;
 						font-size: 15px;
 						font-weight: 600;
-						color: #151515cc;
+						color: #18181bcc;
 
 						transition: color consts.$transition-length;
 
 						// Colors for identity-name element
-						--color: #151515cc;
-						--number-color: #151515d0;
+						--color: #18181bcc;
+						--number-color: #18181bd0;
 					}
 				}
 
@@ -130,7 +130,7 @@
 					margin: 0 10px;
 
 					e-svg {
-						--fill: #151515;
+						--fill: #18181b;
 					}
 				}
 			}

@@ -286,7 +286,7 @@ export default class SearchPanel extends LitElement {
 									small
 									no-fade
 									message=""
-									color="#151515cc"
+									color="#18181bcc"
 							  ></loading-wheel>`
 							: null}
 					</div>

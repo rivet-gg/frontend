@@ -825,7 +825,7 @@ export default class GroupPage extends LitElement {
 									<icon-button
 										id="copy-button"
 										color=${'#252525'}
-										highlight-color=${'#151515'}
+										highlight-color=${'#18181b'}
 										src="solid/copy"
 										.trigger=${this.copyInviteCode.bind(this)}
 									></icon-button>

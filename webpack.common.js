@@ -69,7 +69,7 @@ module.exports = async function () {
 
 	// UI Constants
 	Object.assign(colors, {
-		'base-bg': '#151515', // Also change this in html/index.html and html/static-styles.css
+		'base-bg': '#18181b', // Also change this in html/index.html and html/static-styles.css
 		'raised-bg': '#FFFFFF17',
 		'lowered-bg': '#00000020',
 		'context-menu': '#262626',

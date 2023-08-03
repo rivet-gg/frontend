@@ -14,35 +14,35 @@
 
 	&.light {
 		#email-area {
-			color: #151515;
+			color: #18181b;
 
 			#registered {
 				p {
-					color: #151515;
+					color: #18181b;
 
 					#email {
-						color: #15151580;
+						color: #18181b80;
 					}
 				}
 			}
 
 			.muted {
-				color: #15151580;
+				color: #18181b80;
 			}
 		}
 
 		#code-area {
-			color: #151515;
+			color: #18181b;
 
 			p {
-				color: #151515;
+				color: #18181b;
 			}
 		}
 
 		#email-area,
 		#code-area {
 			h1 {
-				color: #151515;
+				color: #18181b;
 			}
 
 			#error {
@@ -51,7 +51,7 @@
 		}
 
 		#loading-overlay {
-			--color: #151515;
+			--color: #18181b;
 		}
 	}
 

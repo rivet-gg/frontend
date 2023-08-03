@@ -82,7 +82,7 @@ export default class CopyArea extends LitElement {
 				<icon-button
 					id="copy-button"
 					color=${this.light ? '#252525' : '#737373'}
-					highlight-color=${this.light ? '#151515' : '#ffffff'}
+					highlight-color=${this.light ? '#18181b' : '#ffffff'}
 					src="solid/copy"
 					.trigger=${this.copyText.bind(this)}
 				></icon-button>

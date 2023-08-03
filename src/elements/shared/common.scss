@@ -106,7 +106,7 @@ code {
 }
 
 .light-scrollbar::-webkit-scrollbar-thumb {
-	@include scrollbar-track(#151515);
+	@include scrollbar-track(#18181b);
 }
 .light-scrollbar::-webkit-scrollbar-track {
 	@include scrollbar-track(rgba(0, 0, 0, 0.1));
