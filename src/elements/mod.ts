@@ -4,6 +4,7 @@
 // import './overlay/game-container';
 // import './tiles/blog-tile';
 
+import './common/navbar';
 import './common/chat-view';
 import './common/copy-area';
 import './common/date-display';

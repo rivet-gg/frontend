@@ -26,6 +26,7 @@ import SidebarPage from '../pages/sidebar';
 import { MenuItem } from '../sidebar/main-sidebar';
 
 import * as uuid from 'uuid';
+import { BreadCrumb } from '../common/navbar';
 
 const PAGE_ANIMATION_DURATION = timing.milliseconds(250);
 
@@ -62,7 +63,8 @@ export class RouteChangeEvent extends Event {
 	constructor(
 		public title: string,
 		public menuItem: MenuItem = null,
-		public mobileNavStuck: boolean = null
+		public mobileNavStuck: boolean = null,
+		public breadcrumb: BreadCrumb = undefined
 	) {
 		super('change');
 	}
@@ -605,7 +607,12 @@ export default class UIRouter extends LitElement {
 		this.searchParams = parsed.searchParams;
 
 		// Propagate the event up to the UI root
-		let event = new RouteChangeEvent(title, renderResult.menuItem, !!renderResult.mobileNavStuck);
+		let event = new RouteChangeEvent(
+			title,
+			renderResult.menuItem,
+			!!renderResult.mobileNavStuck,
+			renderResult.breadcrumb
+		);
 		this.dispatchEvent(event);
 
 		// TODO: Propagate as event

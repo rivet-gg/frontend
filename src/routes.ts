@@ -8,6 +8,7 @@ import UIRoot from './elements/root/ui-root';
 import { RivetError } from '@rivet-gg/api-internal';
 import { isDeveloper } from './utils/identity';
 import config from './config';
+import { BreadCrumb } from './elements/common/navbar';
 
 export type RenderResult = RenderResultTemplate | RenderResultRedirect;
 
@@ -15,6 +16,7 @@ export interface RenderResultTemplate {
 	menuItem?: MenuItem;
 	title: string;
 	template: TemplateResult;
+	breadcrumb?: BreadCrumb;
 	mobileRedirect?: string; // Where to redirect a page if the client is not on mobile
 	mobileNavStuck?: boolean; // Makes the mobile nav stay open no matter the scroll position
 }
@@ -67,6 +69,7 @@ namespace routes {
 		render({}) {
 			return {
 				menuItem: { kind: 'MainMenu', content: { item: MainMenuItem.HOME } },
+				breadcrumb: { type: 'Home', content: { ident: 'Home', url: `/` } },
 				title: 'Home',
 				template: html` <dev-dash .identity=${global.currentIdentity}></dev-dash> `
 			};
@@ -173,6 +176,7 @@ namespace routes {
 
 			return {
 				menuItem: { kind: 'MainMenu', content: { item: MainMenuItem.GROUPS } },
+				breadcrumb: { type: 'Group', content: { ident: id, url: `/groups/${id}` } },
 				title: 'Group',
 				template: renderPageGroup(id, null)
 			};
@@ -344,6 +348,7 @@ namespace routes {
 
 			return {
 				menuItem: { kind: 'MainMenu', content: { item: MainMenuItem.DEVELOPER } },
+				breadcrumb: { type: 'Game', content: { ident: gameId, url: `/developer/games/${gameId}` } },
 				title: 'Game',
 				template: renderPageDevGame(gameId, { summary: true })
 			};

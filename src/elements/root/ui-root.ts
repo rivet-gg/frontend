@@ -30,6 +30,7 @@ import { DeferredStageEvent, Stage } from '../pages/link-game';
 import StylizedButton from '../common/stylized-button';
 import { Orientation, Alignment } from '../common/overlay-positioning';
 import { DropDownSelectEvent, DropDownSelection } from '../dev/drop-down-list';
+import { BreadCrumb } from '../common/navbar';
 
 export const MIN_SWIPE_THRESHOLD = 10;
 const TRANSITION_LENGTH = timing.milliseconds(200); // Match with consts.scss/$transition-length
@@ -182,6 +183,9 @@ export default class UIRoot extends LitElement {
 
 	@property({ type: Boolean })
 	onHomePage = false;
+
+	@property({ type: Object })
+	breadcrumb: BreadCrumb = undefined;
 
 	// True when the user selects "register" instead of "continue as guest" on the link page
 	@property({ type: Number })
@@ -496,6 +500,8 @@ export default class UIRoot extends LitElement {
 		// Update sidebar
 		this.activeMenu = event.menuItem;
 
+		this.breadcrumb = event.breadcrumb;
+
 		this.onHomePage = event.title == 'Home';
 
 		if (event.mobileNavStuck !== null) {
@@ -728,10 +734,13 @@ export default class UIRoot extends LitElement {
 
 		return html`
 			<!-- Mobile Navigation -->
-			${when(
+			<!-- ${when(
 				global.isMobile,
 				() => html`<mobile-nav .title=${this.routeTitle} .stuck=${this.mobileNavStuck}></mobile-nav>`
-			)}
+			)} -->
+
+			<!-- Offset for navbar -->
+			<div class="pt-16"></div>
 
 			<!-- Page Body -->
 			<div id="content-holder" class=${classMap({ mobile: global.isMobile })}>
@@ -782,6 +791,7 @@ export default class UIRoot extends LitElement {
 				</div> -->
 			</div>
 
+			<nav-bar .breadcrumbs=${this.breadcrumb}></nav-bar>
 			<!-- Interactable Overlays -->
 			<overlay-positioning
 				.active=${this.emojiPickerData.active}

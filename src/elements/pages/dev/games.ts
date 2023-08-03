@@ -267,7 +267,7 @@ export default class DevGames extends LitElement {
 				  </div>`
 				: null}
 			${when(
-				!config.IS_PROD,
+				!config.IS_PROD && global.currentIdentity.isRegistered,
 				() => html` <div class="w-full mx-auto flex place-content-center">
 					<div
 						id="create-group"

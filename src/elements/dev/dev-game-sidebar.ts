@@ -530,7 +530,7 @@ export default class DevGameSidebar extends LitElement {
 	}
 
 	navigateBack() {
-		UIRouter.shared.navigate(routes.devDashboard.build({}), {
+		UIRouter.shared.navigate(routes.home.build({}), {
 			replaceHistory: true
 		});
 	}

@@ -20,8 +20,6 @@ const SPLASHES: Splash[] = [
 	}
 ];
 
-console.log('bbbeee: ' + styles);
-
 @customElement('user-banner')
 export default class UserBanner extends LitElement {
 	static styles = cssify(styles);
