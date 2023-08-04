@@ -277,7 +277,7 @@ export default class DevGames extends LitElement {
 				>
 					<div class="font-bold text-lg ">
 						<e-svg src="solid/plus"></e-svg>
-						Create a New Developer Group
+						New Developer Group
 					</div>
 				</div>`
 			)}

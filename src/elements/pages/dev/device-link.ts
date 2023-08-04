@@ -147,7 +147,7 @@ export default class DevGames extends LitElement {
 				template: html`<dashed-button
 					icon="regular/plus"
 					style=${styleMap({ display: 'block', margin: '2px 0 0 0' })}
-					>Create new game</dashed-button
+					>New Game</dashed-button
 				>`,
 				unstyled: true,
 				value: null
