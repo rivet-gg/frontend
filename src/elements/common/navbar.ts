@@ -48,7 +48,7 @@ export default class NavBar extends LitElement {
 					this.displaycrumbs = [
 						{
 							name: summary.group.displayName,
-							url: crumb.content.url,
+							url: routes.groupSettings.build({ id: summary.group.groupId }),
 							img: { type: 'Group', info_obj: summary.group }
 						}
 					];
@@ -64,12 +64,14 @@ export default class NavBar extends LitElement {
 					this.displaycrumbs = [
 						{
 							name: developer_group_data.displayName,
-							url: `/groups/${developer_group_data.groupId}`,
+							// url: `/groups/${developer_group_data.groupId}`,
+							url: routes.groupSettings.build({ id: developer_group_data.groupId }),
 							img: { type: 'Group', info_obj: developer_group_data }
 						},
 						{
 							name: game_data.displayName,
-							url: crumb.content.url,
+							// url: crumb.content.url, 
+							url: routes.devGame.build({ gameId: game_data.gameId }),
 							img: { type: 'Game', info_obj: game_data }
 						}
 					];
@@ -78,7 +80,7 @@ export default class NavBar extends LitElement {
 
 					break;
 				case 'Home':
-					this.displaycrumbs = [{ name: crumb.type, url: crumb.content.url }];
+					this.displaycrumbs = [{ name: crumb.type, url: routes.home.build({}) }];
 					this.requestUpdate('displaycrumbs');
 
 					break;

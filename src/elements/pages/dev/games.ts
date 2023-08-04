@@ -260,15 +260,15 @@ export default class DevGames extends LitElement {
 			${this.data.groups.length
 				? html`<div id="groups-list">
 						${repeat(
-							this.data.groups,
-							g => g.groupId,
-							g => this.renderGroup(g)
-						)}
+					this.data.groups,
+					g => g.groupId,
+					g => this.renderGroup(g)
+				)}
 				  </div>`
 				: null}
 			${when(
-				!config.IS_PROD && global.currentIdentity.isRegistered,
-				() => html` <div class="w-full mx-auto flex place-content-center py-5">
+					!config.IS_PROD && global.currentIdentity.isRegistered,
+					() => html` <div class="w-full mx-auto flex place-content-center py-5">
 					<div
 						id="create-game"
 						class="hover:cursor-pointer w-[80%] h-32 place-content-center text-[#d1d1d1]  hover:text-white hover:bg-[#ffffff05]"
@@ -283,7 +283,7 @@ export default class DevGames extends LitElement {
 						</div>
 					</div>
 				</div>`
-			)}
+				)}
 		`;
 	}
 
@@ -322,15 +322,22 @@ export default class DevGames extends LitElement {
 			group.isDeveloper,
 			() => html`<div class="group">
 				<div class="group-header">
-					<a href=${routes.group.build({ id: group.groupId })} class="max-sm:w-1/3 md:w-2/3">
-						<div class="max-sm:invisible max-sm:w-0">
-							<group-avatar .group=${group}></group-avatar>
+					<!-- <a href=${routes.groupSettings.build({ id: group.groupId })} class="max-sm:w-1/3 md:w-2/3"> -->
+					<div class="max-sm:w-1/3 md:w-2/3 flex flex-row space-x-3">
+						<div class="max-sm:invisible max-sm:w-0 my-auto">
+							<group-avatar class="w-8 h-8" .group=${group}></group-avatar>
 						</div>
-						<h2 class="text-ellipsis overflow-hidden max-w-3/4">${group.displayName}</h2>
-					</a>
+						<h2 class="text-ellipsis overflow-hidden text-[24px] max-w-3/4">${group.displayName}</h2>
+					</div>
+					<!-- </a> -->
 					${when(
-						group.isDeveloper,
-						() => html` <div class="flex flex-row space-x-1">
+				group.isDeveloper,
+				() => html` <div class="flex flex-row space-x-1">
+							<stylized-button
+								class="billing-button"
+								right-icon="regular/gear"
+								href=${routes.groupSettings.build({ id: group.groupId })}
+								>Settings</stylized-button>
 							<stylized-button
 								class="billing-button"
 								right-icon="solid/arrow-right"
@@ -340,25 +347,25 @@ export default class DevGames extends LitElement {
 								class="billing-button"
 								right-icon="solid/arrow-right"
 								href=${routes.analyticsOverview.build({
-									groupId: group.groupId
-								})}
+					groupId: group.groupId
+				})}
 								>Analytics</stylized-button
 							>
 						</div>`
-						// Reenable when open beta
-						// () =>
-						// 	when(
-						// 		isOwner,
-						// 		() => html`<stylized-button
-						// 			.trigger=${this.convertGroup.bind(this, group.groupId)}
-						// 			>Convert Group</stylized-button
-						// 		>`
-						// 	)
-					)}
+				// Reenable when open beta
+				// () =>
+				// 	when(
+				// 		isOwner,
+				// 		() => html`<stylized-button
+				// 			.trigger=${this.convertGroup.bind(this, group.groupId)}
+				// 			>Convert Group</stylized-button
+				// 		>`
+				// 	)
+			)}
 				</div>
 				${when(
-					group.isDeveloper,
-					() => html`<div class="games-list">
+				group.isDeveloper,
+				() => html`<div class="games-list">
 						<div id="create-game" @click=${this.openGameModal.bind(this, group.groupId)}>
 							<div id="create-game-content">
 								<lazy-img src=${assets.asset('/games/blank/logo.png')}></lazy-img>
@@ -366,17 +373,17 @@ export default class DevGames extends LitElement {
 							</div>
 						</div>
 						${repeat(
-							this.data.games.filter(g => g.developerGroupId == group.groupId),
-							g => g.gameId,
-							g =>
-								html`<dev-game-tile
+					this.data.games.filter(g => g.developerGroupId == group.groupId),
+					g => g.gameId,
+					g =>
+						html`<dev-game-tile
 									.game=${g}
 									.group=${this.data.groups.find(gr => gr.groupId == g.developerGroupId)}
 								></dev-game-tile>`
-						)}
-					</div>`,
-					() => html`<p class="muted-text">This group is not a developer group.</p>`
 				)}
+					</div>`,
+				() => html`<p class="muted-text">This group is not a developer group.</p>`
+			)}
 			</div>`
 		);
 	}
@@ -410,28 +417,28 @@ export default class DevGames extends LitElement {
 						@input=${this.gameDisplayNameInput.bind(this)}
 					></text-input>
 					${when(
-						displayNameErrors.length > 0,
-						() => html`
+			displayNameErrors.length > 0,
+			() => html`
 							<span id="create-game-error">
 								<e-svg src="regular/circle-exclamation"></e-svg> ${displayNameErrors[0]}</li>
 							</span>`
-					)}
+		)}
 					<h2>Game Name ID</h2>
 					<text-input
 						light
 						.filter=${(v: string) => v.replace(/[\s\-]+/g, '-').toLowerCase()}
 						placeholder=${displayName
-							? utils.convertStringToId(displayName)
-							: 'Enter a name id...'}
+				? utils.convertStringToId(displayName)
+				: 'Enter a name id...'}
 						@input=${this.gameNameIdInput.bind(this)}
 					></text-input>
 					${when(
-						nameIdErrors.length > 0,
-						() => html`
+					nameIdErrors.length > 0,
+					() => html`
 							<span id="create-game-error">
 								<e-svg src="regular/circle-exclamation"></e-svg> ${nameIdErrors[0]}</li>
 							</span>`
-					)}
+				)}
 				</div>
 				<p class="content">We’ll walk you though the details of editing your game later.</p>
 				<stylized-button

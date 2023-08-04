@@ -250,8 +250,8 @@ export default class HomePage extends LitElement {
 
 				<!-- Guest Banner -->
 				${when(
-					!global.currentIdentity.isRegistered,
-					() => html`<div id="guest-banner" class="block">
+			!global.currentIdentity.isRegistered,
+			() => html`<div id="guest-banner" class="block">
 						<e-svg id="guest-image" src="graphics/computer" non-icon preserve></e-svg>
 
 						<div id="guest-content">
@@ -267,10 +267,10 @@ export default class HomePage extends LitElement {
 							</div>
 						</div>
 					</div>`
-				)}
+		)}
 				${when(
-					this.isLoading,
-					() => html`<div id="columns">
+			this.isLoading,
+			() => html`<div id="columns">
 						<div id="left">
 							<div class="placeholder-users">
 								<loading-placeholder></loading-placeholder>
@@ -287,7 +287,7 @@ export default class HomePage extends LitElement {
 							<loading-placeholder></loading-placeholder>
 						</div>
 					</div>`,
-					() => html`<div id="columns">
+			() => html`<div id="columns">
 						<div id="left">
 							<!-- Recent Games (on small displays) -->
 							${when(this.windowWidth <= WindowSize.Large, () => this.renderRecentGames())}
@@ -305,13 +305,13 @@ export default class HomePage extends LitElement {
 							${this.renderSuggestedPlayers()}
 						</div>
 						${this.windowWidth > WindowSize.Large
-							? html`<div id="right">
+					? html`<div id="right">
 									<!-- Recent Games (on small displays) -->
 									${this.renderRecentGames()}
 							  </div>`
-							: null}
+					: null}
 					</div>`
-				)}
+		)}
 
 				<!-- Game modal -->
 				<drop-down-modal .active=${this.gameModalActive} @close=${this.gameModalClose.bind(this)}>
@@ -330,15 +330,15 @@ export default class HomePage extends LitElement {
 			? this.windowWidth >= 765
 				? 4
 				: this.windowWidth >= 580
-				? 3
-				: 2
+					? 3
+					: 2
 			: this.windowWidth >= 1450
-			? 4
-			: this.windowWidth > WindowSize.Large
-			? 3
-			: this.windowWidth >= 1050
-			? 3
-			: 2;
+				? 4
+				: this.windowWidth > WindowSize.Large
+					? 3
+					: this.windowWidth >= 1050
+						? 3
+						: 2;
 		let canExpand = this.friends.length > amountOfFriends * 2; // 2 rows
 
 		return html`<div class="info-header">
@@ -347,28 +347,28 @@ export default class HomePage extends LitElement {
 					<h3>Friends</h3>
 				</div>
 				${when(
-					canExpand,
-					() => html`<div class="actions">
+			canExpand,
+			() => html`<div class="actions">
 						<h4 @click=${this.toggleFriendsList.bind(this)}>
 							${this.friendsExpanded ? 'See Less' : 'See More'}
 						</h4>
 					</div>`
-				)}
+		)}
 			</div>
 			<info-panel-body noindent>
 				${when(
-					!this.friends.length,
-					() => html`<p class="no-friends muted">No friends active :(</p>`,
-					() => html`<div id="friends">
+			!this.friends.length,
+			() => html`<p class="no-friends muted">No friends active :(</p>`,
+			() => html`<div id="friends">
 						<div class="row">
 							${repeat(
-								this.friends.slice(0, this.friendsExpanded ? undefined : amountOfFriends * 2),
-								i => i.identityId,
-								identity => this.renderIdentityCard(identity, amountOfFriends)
-							)}
+				this.friends.slice(0, this.friendsExpanded ? undefined : amountOfFriends * 2),
+				i => i.identityId,
+				identity => this.renderIdentityCard(identity, amountOfFriends)
+			)}
 						</div>
 					</div>`
-				)}
+		)}
 			</info-panel-body>`;
 	}
 
@@ -380,14 +380,14 @@ export default class HomePage extends LitElement {
 				? 3
 				: 2
 			: this.windowWidth >= 1480
-			? 3
-			: this.windowWidth > WindowSize.Large
-			? 2
-			: this.windowWidth >= 1142
-			? 3
-			: this.windowWidth >= 900
-			? 2
-			: 1;
+				? 3
+				: this.windowWidth > WindowSize.Large
+					? 2
+					: this.windowWidth >= 1142
+						? 3
+						: this.windowWidth >= 900
+							? 2
+							: 1;
 		let canExpand = this.parties.length > amountOfParties;
 
 		return html`<div class="info-header">
@@ -397,21 +397,21 @@ export default class HomePage extends LitElement {
 				</div>
 
 				${when(
-					canExpand,
-					() => html`<div class="actions">
+			canExpand,
+			() => html`<div class="actions">
 						<h4 @click=${this.togglePartiesList.bind(this)}>
 							${this.partiesExpanded ? 'See Less' : 'See More'}
 						</h4>
 					</div>`
-				)}
+		)}
 			</div>
 			<info-panel-body noindent>
 				<div id="live-parties">
 					${repeat(
-						this.parties.slice(0, this.partiesExpanded ? undefined : amountOfParties),
-						p => p.partyId,
-						party => this.renderParty(party, this.partiesExpanded ? amountOfParties : undefined)
-					)}
+			this.parties.slice(0, this.partiesExpanded ? undefined : amountOfParties),
+			p => p.partyId,
+			party => this.renderParty(party, this.partiesExpanded ? amountOfParties : undefined)
+		)}
 				</div>
 			</info-panel-body>`;
 	}
@@ -514,14 +514,14 @@ export default class HomePage extends LitElement {
 				? 3
 				: 2
 			: this.windowWidth >= 1480
-			? 3
-			: this.windowWidth > WindowSize.Large
-			? 2
-			: this.windowWidth >= 1142
-			? 3
-			: this.windowWidth >= 900
-			? 2
-			: 1;
+				? 3
+				: this.windowWidth > WindowSize.Large
+					? 2
+					: this.windowWidth >= 1142
+						? 3
+						: this.windowWidth >= 900
+							? 2
+							: 1;
 		let canExpand = this.suggestedGroups.length > amountOfGroups;
 
 		return html`<div class="info-header">
@@ -531,28 +531,28 @@ export default class HomePage extends LitElement {
 				</div>
 
 				${when(
-					canExpand,
-					() => html`<div class="actions">
+			canExpand,
+			() => html`<div class="actions">
 						<h4 @click=${this.toggleSuggestedGroupsList.bind(this)}>
 							${this.suggestedGroupsExpanded ? 'See Less' : 'See More'}
 						</h4>
 					</div>`
-				)}
+		)}
 			</div>
 			<info-panel-body noindent>
 				<div id="groups">
 					${repeat(
-						this.suggestedGroups.slice(
-							0,
-							this.suggestedGroupsExpanded ? undefined : amountOfGroups
-						),
-						g => g.groupId,
-						group =>
-							this.renderGroupCard(
-								group,
-								this.suggestedGroupsExpanded ? amountOfGroups : undefined
-							)
-					)}
+			this.suggestedGroups.slice(
+				0,
+				this.suggestedGroupsExpanded ? undefined : amountOfGroups
+			),
+			g => g.groupId,
+			group =>
+				this.renderGroupCard(
+					group,
+					this.suggestedGroupsExpanded ? amountOfGroups : undefined
+				)
+		)}
 				</div>
 			</info-panel-body>`;
 	}
@@ -585,7 +585,7 @@ export default class HomePage extends LitElement {
 			class=${classes}
 			@contextmenu=${showGroupContextMenu({ group, selfIsMember: group.isCurrentIdentityMember })}
 		>
-			<a class="link" href=${routes.group.build({ id: group.groupId })}></a>
+			<a class="link" href=${routes.groupSettings.build({ id: group.groupId })}></a>
 
 			<div class="group-content">
 				<div class="group-header">
@@ -611,15 +611,15 @@ export default class HomePage extends LitElement {
 			? this.windowWidth >= 765
 				? 4
 				: this.windowWidth >= 580
-				? 3
-				: 2
+					? 3
+					: 2
 			: this.windowWidth >= 1450
-			? 4
-			: this.windowWidth > WindowSize.Large
-			? 3
-			: this.windowWidth >= 1050
-			? 3
-			: 2;
+				? 4
+				: this.windowWidth > WindowSize.Large
+					? 3
+					: this.windowWidth >= 1050
+						? 3
+						: 2;
 		let canExpand = this.suggestedPlayers.length > amountOfPlayers;
 
 		return html`<div class="info-header">
@@ -629,30 +629,30 @@ export default class HomePage extends LitElement {
 				</div>
 
 				${when(
-					canExpand,
-					() => html`<div class="actions">
+			canExpand,
+			() => html`<div class="actions">
 						<h4 @click=${this.toggleSuggestedPlayersList.bind(this)}>
 							${this.suggestedPlayersExpanded ? 'See Less' : 'See More'}
 						</h4>
 					</div>`
-				)}
+		)}
 			</div>
 			<info-panel-body noindent>
 				<div id="players">
 					${repeat(
-						this.suggestedPlayers.slice(
-							0,
-							this.suggestedPlayersExpanded ? undefined : amountOfPlayers
-						),
-						i => i.identityId,
-						identity => {
-							return this.renderIdentityCard(
-								identity,
-								this.suggestedPlayersExpanded ? amountOfPlayers : undefined,
-								null
-							);
-						}
-					)}
+			this.suggestedPlayers.slice(
+				0,
+				this.suggestedPlayersExpanded ? undefined : amountOfPlayers
+			),
+			i => i.identityId,
+			identity => {
+				return this.renderIdentityCard(
+					identity,
+					this.suggestedPlayersExpanded ? amountOfPlayers : undefined,
+					null
+				);
+			}
+		)}
 				</div>
 			</info-panel-body>`;
 	}
@@ -690,16 +690,16 @@ export default class HomePage extends LitElement {
 				<div class="identity-info">
 					<identity-name .identity=${identity} style=${nameStyles}></identity-name>
 					${when(
-						relation,
-						() => html`<h2 class="activity" style=${activityStyles}>${relation}</h2>`,
-						() =>
-							when(
-								identity.presence && relation !== null,
-								() => html`<h2 class="activity" style=${activityStyles}>
+			relation,
+			() => html`<h2 class="activity" style=${activityStyles}>${relation}</h2>`,
+			() =>
+				when(
+					identity.presence && relation !== null,
+					() => html`<h2 class="activity" style=${activityStyles}>
 									${utils.formatActivity(identity.presence, identity.party)}
 								</h2>`
-							)
-					)}
+				)
+		)}
 				</div>
 			</div>
 		</div>`;
@@ -714,13 +714,13 @@ export default class HomePage extends LitElement {
 			</div>
 			<info-panel-body noindent>
 				${!this.recentGames.length
-					? html`<p class="no-recent-games muted">No recent games</p>`
-					: html`<div id="recent-games">
+				? html`<p class="no-recent-games muted">No recent games</p>`
+				: html`<div id="recent-games">
 							${repeat(
-								this.recentGames,
-								g => g.nameId,
-								g => this.renderGame(g)
-							)}
+					this.recentGames,
+					g => g.nameId,
+					g => this.renderGame(g)
+				)}
 					  </div>`}
 			</info-panel-body>`;
 	}
@@ -747,19 +747,18 @@ export default class HomePage extends LitElement {
 			<div class="game-details">
 				<!-- Player Count -->
 				${when(
-					friendsPlaying,
-					() =>
-						html`<h2
+			friendsPlaying,
+			() =>
+				html`<h2
 							class="game-player-count"
 							@mouseenter=${tooltip(
-								`${formattedFriendsPlaying} friend${
-									friendsPlaying == 1 ? '' : 's'
-								} playing now`
-							)}
+					`${formattedFriendsPlaying} friend${friendsPlaying == 1 ? '' : 's'
+					} playing now`
+				)}
 						>
 							<e-svg src="solid/user"></e-svg>${formattedFriendsPlaying}
 						</h2>`
-				)}
+		)}
 			</div>
 		</div>`;
 	}

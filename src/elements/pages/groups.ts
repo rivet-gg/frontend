@@ -87,11 +87,11 @@ export default class GroupsPage extends LitElement {
 			<modal-create-group
 				.active=${this.createGroupModalActive}
 				@create=${(event: GroupCreateEvent) =>
-					UIRouter.shared.navigate(
-						routes.group.build({
-							id: event.groupId
-						})
-					)}
+				UIRouter.shared.navigate(
+					routes.groupSettings.build({
+						id: event.groupId
+					})
+				)}
 				@close=${() => (this.createGroupModalActive = false)}
 			></modal-create-group>
 		`;
@@ -106,12 +106,12 @@ export default class GroupsPage extends LitElement {
 		return html`
 			<div id="groups-list">
 				${groups
-					? repeat(
-							groups,
-							g => g.groupId,
-							g => html`<div class="square-tile"><group-tile .group=${g}></group-tile></div>`
-					  )
-					: null}
+				? repeat(
+					groups,
+					g => g.groupId,
+					g => html`<div class="square-tile"><group-tile .group=${g}></group-tile></div>`
+				)
+				: null}
 				${!groups ? this.renderLoadingGroups(loadingCount) : null}
 			</div>
 		`;

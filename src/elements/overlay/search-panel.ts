@@ -281,18 +281,18 @@ export default class SearchPanel extends LitElement {
 							@keydown=${this.commandKeyPress.bind(this)}
 						></text-input>
 						${this.isLoading
-							? html`<loading-wheel
+				? html`<loading-wheel
 									inline
 									small
 									no-fade
 									message=""
 									color="#18181bcc"
 							  ></loading-wheel>`
-							: null}
+				: null}
 					</div>
 					${singleFilter
-						? null
-						: html` <div id="commands">
+				? null
+				: html` <div id="commands">
 								${repeat(COMMANDS, c => c.prefix, this.renderCommand.bind(this))}
 						  </div>`}
 				</div>
@@ -308,8 +308,8 @@ export default class SearchPanel extends LitElement {
 	renderCommand(command: Command, index: number) {
 		let commandAvailable = this.options
 			? this.options.filter.identities == command.identities ||
-			  this.options.filter.chats == command.chats ||
-			  this.options.filter.groups == command.groups
+			this.options.filter.chats == command.chats ||
+			this.options.filter.groups == command.groups
 			: true;
 		if (!commandAvailable) return null;
 
@@ -328,10 +328,10 @@ export default class SearchPanel extends LitElement {
 		let previousSectionLength = this.output[index - 1] ? this.output[index - 1].length : 0;
 		return html`<div class="section">
 			${repeat(
-				section,
-				i => (isIdentity(i) ? i.identityId : i.groupId),
-				(item, i) => this.renderItem(item, i + previousSectionLength)
-			)}
+			section,
+			i => (isIdentity(i) ? i.identityId : i.groupId),
+			(item, i) => this.renderItem(item, i + previousSectionLength)
+		)}
 		</div>`;
 	}
 
@@ -346,8 +346,8 @@ export default class SearchPanel extends LitElement {
 			return html`<a
 				class=${classes}
 				.href=${ifDefined(
-					this.options.selectionCb ? undefined : routes.identity.build(identityRouteData(item))
-				)}
+				this.options.selectionCb ? undefined : routes.identity.build(identityRouteData(item))
+			)}
 				@click=${this.options.selectionCb ? this.options.selectionCb.bind(this, item) : null}
 				@contextmenu=${showIdentityContextMenu(item)}
 				@pointerenter=${this.onPointerEnterItem.bind(this, index)}
@@ -359,8 +359,8 @@ export default class SearchPanel extends LitElement {
 			return html`<a
 				class=${classes}
 				.href=${ifDefined(
-					this.options.selectionCb ? undefined : routes.group.build(groupRouteData(item))
-				)}
+				this.options.selectionCb ? undefined : routes.groupSettings.build(groupRouteData(item))
+			)}
 				@click=${this.options.selectionCb ? this.options.selectionCb.bind(this, item) : null}
 				@pointerenter=${this.onPointerEnterItem.bind(this, index)}
 			>

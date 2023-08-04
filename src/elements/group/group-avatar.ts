@@ -53,8 +53,8 @@ export default class GroupAvatar extends LitElement {
 		let body = imageSrc
 			? html`<lazy-img id="avatar-image" src="${imageSrc}"></lazy-img>`
 			: this.noPlaceholder
-			? null
-			: html`<div id="avatar-placeholder">
+				? null
+				: html`<div id="avatar-placeholder">
 					<span>${utils.getGroupInitials(this.placeholderOverride ?? this.group.displayName)}</span>
 			  </div>`;
 
@@ -63,7 +63,7 @@ export default class GroupAvatar extends LitElement {
 			return html`<a
 				id="group-avatar"
 				class=${classMap(classes)}
-				href=${routes.group.build(groupRouteData(this.group))}
+				href=${routes.groupSettings.build(groupRouteData(this.group))}
 				>${body}</a
 			>`;
 		else return html`<div id="group-avatar" class=${classMap(classes)}>${body}</div>`;

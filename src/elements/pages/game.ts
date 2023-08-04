@@ -173,7 +173,7 @@ export default class GamePage extends LitElement {
 			<div id="banner">
 				<div id="banner-bg">
 					${this.profile
-						? html`<video
+				? html`<video
 								id="video-clip"
 								autoplay
 								muted
@@ -182,26 +182,26 @@ export default class GamePage extends LitElement {
 								loop
 								playsinline
 								poster="${assets.gameSnapshotUrl(
-									this.profile.nameId,
-									this.snapshotSize,
-									this.snapshotId
-								)}"
+					this.profile.nameId,
+					this.snapshotSize,
+					this.snapshotId
+				)}"
 						  >
 								<source
 									src=${assets.gameClipUrl(this.profile.nameId, this.snapshotSize)}
 									type="video/mp4"
 								/>
 						  </video>`
-						: null}
+				: null}
 				</div>
 				<div id="banner-right">
 					${this.profile
-						? html`<lazy-img
+				? html`<lazy-img
 								id="main-logo"
 								src=${assets.gameLogoUrl(this.profile.nameId)}
 								bg-size="contain"
 						  ></lazy-img>`
-						: null}
+				: null}
 				</div>
 				<div id="banner-nav">${this.buildBackButton()}</div>
 				<div id="main-title">${this.profile ? this.profile.displayName : null}</div>
@@ -224,9 +224,9 @@ export default class GamePage extends LitElement {
 				<!-- Tags -->
 				<div id="tags-holder">
 					${repeat(
-						this.profile ? this.profile.tags : [],
-						(t: string) => html`<a class="tag">${t}</a>`
-					)}
+					this.profile ? this.profile.tags : [],
+					(t: string) => html`<a class="tag">${t}</a>`
+				)}
 				</div>
 
 				<column-layout>
@@ -259,25 +259,25 @@ export default class GamePage extends LitElement {
 								<!-- Leaderboard type toggle -->
 								<div id="leaderboard-type-toggle">
 									${this.leaderboardType == 'identities'
-										? html` <stylized-button color="#F0F0F0" small text="#1d1d1d"
+				? html` <stylized-button color="#F0F0F0" small text="#1d1d1d"
 													>Identities</stylized-button
 												>
 												<stylized-button
 													color="transparent"
 													small
 													.trigger=${this.changeLeaderboardType.bind(
-														this,
-														'groups'
-													)}
+					this,
+					'groups'
+				)}
 													>Groups</stylized-button
 												>`
-										: html` <stylized-button
+				: html` <stylized-button
 													color="transparent"
 													small
 													.trigger=${this.changeLeaderboardType.bind(
-														this,
-														'identities'
-													)}
+					this,
+					'identities'
+				)}
 													>Identities</stylized-button
 												>
 												<stylized-button color="#F0F0F0" small text="#1d1d1d"
@@ -286,32 +286,32 @@ export default class GamePage extends LitElement {
 								</div>
 								<!-- Leaderboard category buttons -->
 								${this.profile && this.leaderboardDataCache.size
-									? html`<div id="leaderboard-buttons">
+				? html`<div id="leaderboard-buttons">
 											${repeat(
-												this.leaderboardType == 'identities'
-													? this.profile.identityLeaderboardCategories
-													: this.profile.groupLeaderboardCategories,
-												a => a.displayName,
-												a =>
-													selection == a.displayName
-														? html`<stylized-button
+					this.leaderboardType == 'identities'
+						? this.profile.identityLeaderboardCategories
+						: this.profile.groupLeaderboardCategories,
+					a => a.displayName,
+					a =>
+						selection == a.displayName
+							? html`<stylized-button
 																small
 																color="#F0F0F0"
 																text="#1d1d1d"
 																>${a.displayName}</stylized-button
 														  >`
-														: html`<stylized-button
+							: html`<stylized-button
 																small
 																color="transparent"
 																.trigger=${this.changeLeaderboardCategory.bind(
-																	this,
-																	a.displayName
-																)}
+								this,
+								a.displayName
+							)}
 																>${a.displayName}</stylized-button
 														  >`
-											)}
+				)}
 									  </div>`
-									: null}
+				: null}
 							</div>
 						</info-panel-header>
 
@@ -326,14 +326,14 @@ export default class GamePage extends LitElement {
 
 						<info-panel-body>
 							${this.profile
-								? html` <a
+				? html` <a
 										id="developer"
-										href=${routes.group.build(groupRouteData(this.profile.developer))}
+										href=${routes.groupSettings.build(groupRouteData(this.profile.developer))}
 								  >
 										<div id="main-thumbnail-placeholder"></div>
 										${this.profile.developer.displayName}
 								  </a>`
-								: null}
+				: null}
 						</info-panel-body>
 
 						<!-- Platforms -->
@@ -344,8 +344,8 @@ export default class GamePage extends LitElement {
 						<info-panel-body>
 							<div id="platform-icons">
 								${repeat(this.profile ? this.profile.platforms : [], p =>
-									this.renderPlatformIcon(p)
-								)}
+					this.renderPlatformIcon(p)
+				)}
 							</div>
 						</info-panel-body>
 
@@ -371,29 +371,29 @@ export default class GamePage extends LitElement {
 		// TODO: DELETE ON PROD
 		this.gameFriends = [...Array(3)].map(
 			() =>
-				({
-					identityId: '',
-					displayName: ['Nicholas Kissel', 'Nathan Flurry', 'Zack'][Math.round(Math.random() * 2)],
-					accountNumber: 1234,
-					avatarUrl: `https://assets.rivet.gg/avatars/avatar-${Math.round(Math.random() * 7)}.png`,
-					presence: {
-						updateTs: new Date(0),
-						status: api.identity.IdentityStatus.ONLINE,
-						game: {
-							id: '',
-							nameId: '',
-							displayName: ''
-						},
-						party: null,
-						gameActivity: null
+			({
+				identityId: '',
+				displayName: ['Nicholas Kissel', 'Nathan Flurry', 'Zack'][Math.round(Math.random() * 2)],
+				accountNumber: 1234,
+				avatarUrl: `https://assets.rivet.gg/avatars/avatar-${Math.round(Math.random() * 7)}.png`,
+				presence: {
+					updateTs: new Date(0),
+					status: api.identity.IdentityStatus.ONLINE,
+					game: {
+						id: '',
+						nameId: '',
+						displayName: ''
 					},
-					isRegistered: false,
-					isClaimed: false,
-					isAdmin: false,
-					external: {
-						profile: ''
-					}
-				} as api.identity.IdentityHandle)
+					party: null,
+					gameActivity: null
+				},
+				isRegistered: false,
+				isClaimed: false,
+				isAdmin: false,
+				external: {
+					profile: ''
+				}
+			} as api.identity.IdentityHandle)
 		);
 		this.friendsFetched = true;
 
@@ -402,7 +402,7 @@ export default class GamePage extends LitElement {
 			<div id="banner">
 				<div id="banner-bg">
 					${this.profile
-						? html`<video
+				? html`<video
 								id="video-clip"
 								autoplay
 								muted
@@ -411,26 +411,26 @@ export default class GamePage extends LitElement {
 								loop
 								playsinline
 								poster="${assets.gameSnapshotUrl(
-									this.profile.nameId,
-									this.snapshotSize,
-									this.snapshotId
-								)}"
+					this.profile.nameId,
+					this.snapshotSize,
+					this.snapshotId
+				)}"
 						  >
 								<source
 									src=${assets.gameClipUrl(this.profile.nameId, this.snapshotSize)}
 									type="video/mp4"
 								/>
 						  </video>`
-						: null}
+				: null}
 				</div>
 				<div id="banner-right">
 					${this.profile
-						? html`<lazy-img
+				? html`<lazy-img
 								id="main-logo"
 								src=${assets.gameLogoUrl(this.profile.nameId)}
 								bg-size="contain"
 						  ></lazy-img>`
-						: null}
+				: null}
 				</div>
 			</div>
 
@@ -441,9 +441,9 @@ export default class GamePage extends LitElement {
 						<!-- Tags -->
 						<div id="tags-holder">
 							${repeat(
-								this.profile ? this.profile.tags : [],
-								(t: string) => html`<a class="tag">${t}</a>`
-							)}
+					this.profile ? this.profile.tags : [],
+					(t: string) => html`<a class="tag">${t}</a>`
+				)}
 						</div>
 
 						<!-- Title -->
@@ -451,13 +451,13 @@ export default class GamePage extends LitElement {
 
 						<!-- Developer -->
 						${this.profile
-							? html` <div id="developer">
-									<a href=${routes.group.build(groupRouteData(this.profile.developer))}>
+				? html` <div id="developer">
+									<a href=${routes.groupSettings.build(groupRouteData(this.profile.developer))}>
 										<div id="main-thumbnail-placeholder"></div>
 										${this.profile.developer.displayName}
 									</a>
 							  </div>`
-							: null}
+				: null}
 					</div>
 
 					<!-- Play button -->
@@ -504,7 +504,7 @@ export default class GamePage extends LitElement {
 						<!-- Leaderboard type toggle -->
 						<div id="leaderboard-type-toggle">
 							${this.leaderboardType == 'identities'
-								? html` <stylized-button color="#F0F0F0" small text="#1d1d1d"
+				? html` <stylized-button color="#F0F0F0" small text="#1d1d1d"
 											>Identities</stylized-button
 										>
 										<stylized-button
@@ -513,7 +513,7 @@ export default class GamePage extends LitElement {
 											.trigger=${this.changeLeaderboardType.bind(this, 'groups')}
 											>Groups</stylized-button
 										>`
-								: html` <stylized-button
+				: html` <stylized-button
 											color="transparent"
 											small
 											.trigger=${this.changeLeaderboardType.bind(this, 'identities')}
@@ -525,29 +525,29 @@ export default class GamePage extends LitElement {
 						</div>
 						<!-- Leaderboard category buttons -->
 						${this.profile && this.leaderboardDataCache.size
-							? html`<div id="leaderboard-buttons">
+				? html`<div id="leaderboard-buttons">
 									${repeat(
-										this.leaderboardType == 'identities'
-											? this.profile.identityLeaderboardCategories
-											: this.profile.groupLeaderboardCategories,
-										a => a.displayName,
-										a =>
-											selection == a.displayName
-												? html`<stylized-button small color="#F0F0F0" text="#1d1d1d"
+					this.leaderboardType == 'identities'
+						? this.profile.identityLeaderboardCategories
+						: this.profile.groupLeaderboardCategories,
+					a => a.displayName,
+					a =>
+						selection == a.displayName
+							? html`<stylized-button small color="#F0F0F0" text="#1d1d1d"
 														>${a.displayName}</stylized-button
 												  >`
-												: html`<stylized-button
+							: html`<stylized-button
 														small
 														color="transparent"
 														.trigger=${this.changeLeaderboardCategory.bind(
-															this,
-															a.displayName
-														)}
+								this,
+								a.displayName
+							)}
 														>${a.displayName}</stylized-button
 												  >`
-									)}
+				)}
 							  </div>`
-							: null}
+				: null}
 					</div>
 				</info-panel-header>
 
@@ -561,14 +561,14 @@ export default class GamePage extends LitElement {
 			? friends.length
 				? html` <div id="friends-list">
 						${repeat(
-							friends,
-							f => f.identityId,
-							f =>
-								html`<identity-tile
+					friends,
+					f => f.identityId,
+					f =>
+						html`<identity-tile
 									@contextmenu=${showIdentityContextMenu(f)}
 									.identity=${f}
 								></identity-tile>`
-						)}
+				)}
 				  </div>`
 				: html`<p class="placeholder">No friends playing</p>`
 			: html`<p class="placeholder">Fetching friends...</p>`;
@@ -588,13 +588,13 @@ export default class GamePage extends LitElement {
 		return html`
 			<div id="groups-list">
 				${groups
-					? repeat(
-							groups,
-							g => g.groupId,
-							group =>
-								html`<div class="square-tile"><group-tile .group=${group}></group-tile></div>`
-					  )
-					: null}
+				? repeat(
+					groups,
+					g => g.groupId,
+					group =>
+						html`<div class="square-tile"><group-tile .group=${group}></group-tile></div>`
+				)
+				: null}
 				${!groups ? this.renderLoadingGroups(loadingCount) : null}
 			</div>
 		`;
@@ -643,79 +643,79 @@ export default class GamePage extends LitElement {
 			? html` <!-- Leaderboard category buttons -->
 					<div id="leaderboard-buttons">
 						${repeat(
-							this.leaderboardType == 'identities'
-								? this.profile.identityLeaderboardCategories
-								: this.profile.groupLeaderboardCategories,
-							a => a.displayName,
-							a =>
-								selection == a.displayName
-									? html`<stylized-button color="#F0F0F0" text="#1d1d1d"
+				this.leaderboardType == 'identities'
+					? this.profile.identityLeaderboardCategories
+					: this.profile.groupLeaderboardCategories,
+				a => a.displayName,
+				a =>
+					selection == a.displayName
+						? html`<stylized-button color="#F0F0F0" text="#1d1d1d"
 											>${a.displayName}</stylized-button
 									  >`
-									: html`<stylized-button
+						: html`<stylized-button
 											color="#ffffff05"
 											.trigger=${this.changeLeaderboardCategory.bind(
-												this,
-												a.displayName
-											)}
+							this,
+							a.displayName
+						)}
 											>${a.displayName}</stylized-button
 									  >`
-						)}
+			)}
 					</div>`
 			: null}
 		${leaderboardData
-			? html` <!-- Leaderboard table -->
+				? html` <!-- Leaderboard table -->
 					<table id="leaderboard-table">
 						<tr>
 							<th></th>
 							<th>Identity</th>
 							${repeat(
-								leaderboardData.columns,
-								a => a.recordId,
-								a => html`<th>${a.displayName}</th>`
-							)}
+					leaderboardData.columns,
+					a => a.recordId,
+					a => html`<th>${a.displayName}</th>`
+				)}
 						</tr>
 						<!-- Iterate identities -->
 						${repeat(
-							leaderboardData.data,
-							data => (data.owner.identity ? data.owner.identity.id : data.owner.group.id),
-							(data, i) => {
-								let id = data.owner.identity ? data.owner.identity.id : data.owner.group.id;
-								let classes = classMap({
-									'is-self': id == global.currentIdentity.identityId
-								});
+					leaderboardData.data,
+					data => (data.owner.identity ? data.owner.identity.id : data.owner.group.id),
+					(data, i) => {
+						let id = data.owner.identity ? data.owner.identity.id : data.owner.group.id;
+						let classes = classMap({
+							'is-self': id == global.currentIdentity.identityId
+						});
 
-								return html` <tr class=${classes}>
+						return html` <tr class=${classes}>
 									<td>
 										${i == 0
-											? html`<e-svg id="crown" src="regular/crown"></e-svg>`
-											: i + 1}
+								? html`<e-svg id="crown" src="regular/crown"></e-svg>`
+								: i + 1}
 									</td>
 									<td>
 										${data.owner.identity
-											? html`<identity-tile
+								? html`<identity-tile
 													@contextmenu=${showIdentityContextMenu(
-														data.owner.identity
-													)}
+									data.owner.identity
+								)}
 													.identity=${data.owner.identity}
 											  ></identity-tile>`
-											: html`<group-handle-tile
+								: html`<group-handle-tile
 													.group=${data.owner.group}
 											  ></group-handle-tile>`}
 									</td>
 									${repeat(data.values, (v: number, i) => {
-										// get the stat config from the columns list
-										let config = leaderboardData.columns[i];
-										// Create a fake stat summary to format
-										let fakeSummary = { config: config, overallValue: v };
+									// get the stat config from the columns list
+									let config = leaderboardData.columns[i];
+									// Create a fake stat summary to format
+									let fakeSummary = { config: config, overallValue: v };
 
-										return html`<td>${format.richFormatValue(fakeSummary) || '--'}</td>`;
-									})}
+									return html`<td>${format.richFormatValue(fakeSummary) || '--'}</td>`;
+								})}
 								</tr>`;
-							}
-						)}
+					}
+				)}
 					</table>`
-			: html` <!-- Placeholder table -->
+				: html` <!-- Placeholder table -->
 					<table id="leaderboard-table-placeholder">
 						<tr>
 							<th><loading-placeholder></loading-placeholder></th>

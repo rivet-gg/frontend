@@ -68,11 +68,11 @@ export default class GroupInvitePage extends LitElement {
 			this.isConsuming = true;
 			let res = await global.live.group.consumeGroupInvite({ groupInviteCode: this.code });
 
-			UIRouter.shared.navigate(routes.group.build({ id: res.groupId }));
+			UIRouter.shared.navigate(routes.groupSettings.build({ id: res.groupId }));
 		} catch (err) {
 			if (err.code.startsWith('GROUP')) {
 				if (err.code == 'GROUP_ALREADY_MEMBER') {
-					UIRouter.shared.navigate(routes.group.build({ id: err.metadata.group_id }), {
+					UIRouter.shared.navigate(routes.groupSettings.build({ id: err.metadata.group_id }), {
 						replaceHistory: true
 					});
 				} else this.codeError = err.message;
@@ -127,19 +127,19 @@ export default class GroupInvitePage extends LitElement {
 					</div>
 					${when(this.codeError, () => html`<p id="error">${this.codeError}</p>`)}
 					${when(!this.codeError && this.code, () =>
-						when(
-							this.group,
-							() => html`<group-handle-tile .group=${this.group}></group-handle-tile>`,
-							() => html`<loading-placeholder id="group-placeholder"></loading-placeholder>`
-						)
-					)}
+			when(
+				this.group,
+				() => html`<group-handle-tile .group=${this.group}></group-handle-tile>`,
+				() => html`<loading-placeholder id="group-placeholder"></loading-placeholder>`
+			)
+		)}
 				</div>
 				${when(
-					this.isConsuming,
-					() => html`<div id="wait">
+			this.isConsuming,
+			() => html`<div id="wait">
 						<loading-wheel .message=${'Please wait...'}></loading-wheel>
 					</div>`
-				)}
+		)}
 			</div>
 		`;
 	}

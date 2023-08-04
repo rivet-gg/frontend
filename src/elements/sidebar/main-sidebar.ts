@@ -199,47 +199,47 @@ export default class MainSidebar extends LitElement {
 
 					<!-- Registration Banner -->
 					${when(
-						!isRegistered && !this.onHomePage,
-						() => html`<registration-banner></registration-banner>`
-					)}
+			!isRegistered && !this.onHomePage,
+			() => html`<registration-banner></registration-banner>`
+		)}
 
 					<!-- Search Bar -->
 					<search-bar></search-bar>
 
 					<!-- Menu Items -->
 					${repeat(
-						menuItems,
-						m => m.id,
-						item => html`
+			menuItems,
+			m => m.id,
+			item => html`
 							<sidebar-button
 								href=${item.url}
 								.isActive=${this.activeMenu &&
-								this.activeMenu.kind == 'MainMenu' &&
-								item.id === this.activeMenu.content.item}
+				this.activeMenu.kind == 'MainMenu' &&
+				item.id === this.activeMenu.content.item}
 							>
 								<e-svg slot="icon" src=${item.icon}></e-svg>
 								<h1 slot="title">${item.name}</h1>
 							</sidebar-button>
 						`
-					)}
+		)}
 
 					<!-- Social Header -->
 					<sidebar-header id="social-header">
 						<div id="social-title" slot="title">
 							<h1>Social</h1>
 							${when(
-								global.recentFollowers.length != 0,
-								() =>
-									html`<stylized-button
+			global.recentFollowers.length != 0,
+			() =>
+				html`<stylized-button
 										small
 										icon="solid/envelope"
 										href=${routes.recentFollowers.build({})}
 										@mouseenter=${tooltip('View recent followers')}
 										>${global.recentFollowers.length > 30
-											? '30+'
-											: global.recentFollowers.length}</stylized-button
+						? '30+'
+						: global.recentFollowers.length}</stylized-button
 									>`
-							)}
+		)}
 						</div>
 						<icon-button
 							slot="action"
@@ -254,8 +254,8 @@ export default class MainSidebar extends LitElement {
 					<!-- Chats -->
 					<div id="chat-list">
 						${when(
-							global.recentThreads.length == 0,
-							() => html`<div id="no-chats">
+			global.recentThreads.length == 0,
+			() => html`<div id="no-chats">
 								<lazy-img
 									id="icon"
 									src=${assets.asset('graphics/chat-bubble.png')}
@@ -285,14 +285,14 @@ export default class MainSidebar extends LitElement {
 									>Create Party</stylized-button
 								> -->
 							</div>`,
-							() => html`<div>
+			() => html`<div>
 								${repeat(
-									[...global.recentThreads].reverse(),
-									t => t.threadId,
-									thread => this.renderThread(thread)
-								)}
+				[...global.recentThreads].reverse(),
+				t => t.threadId,
+				thread => this.renderThread(thread)
+			)}
 							</div>`
-						)}
+		)}
 						${when(this.chatsLoadError, () => html`<p id="error">Error loading chats</p>`)}
 					</div>
 				</div>
@@ -301,11 +301,11 @@ export default class MainSidebar extends LitElement {
 			<modal-create-group
 				.active=${this.createGroupModalActive}
 				@create=${(event: GroupCreateEvent) =>
-					UIRouter.shared.navigate(
-						routes.group.build({
-							id: event.groupId
-						})
-					)}
+				UIRouter.shared.navigate(
+					routes.groupSettings.build({
+						id: event.groupId
+					})
+				)}
 				@close=${() => (this.createGroupModalActive = false)}
 			></modal-create-group>
 			<modal-create-party
@@ -338,18 +338,18 @@ export default class MainSidebar extends LitElement {
 
 						<h2 class="sidebar-button-subtitle">
 							${when(
-								thread.tailMessage.body.text,
-								() => html`
+				thread.tailMessage.body.text,
+				() => html`
 									<span class="message-prefix"
 										>${when(
-											thread.tailMessage.body.text.sender.identityId ==
-												global.currentIdentity.identityId,
-											() => 'You',
-											() => html`<identity-name
+					thread.tailMessage.body.text.sender.identityId ==
+					global.currentIdentity.identityId,
+					() => 'You',
+					() => html`<identity-name
 												.identity=${thread.tailMessage.body.text.sender}
 												no-link
 											></identity-name>`
-										)}:&nbsp;</span
+				)}:&nbsp;</span
 									>
 									<br />
 									<rich-text
@@ -358,25 +358,25 @@ export default class MainSidebar extends LitElement {
 										.content=${thread.tailMessage.body.text.body}
 									></rich-text>
 								`,
-								() => html`<span class="message-body"
+				() => html`<span class="message-body"
 									>${getMessageBody(thread.tailMessage)}</span
 								>`
-							)}
+			)}
 						</h2>
 					</div>
 					${when(
-						global.currentThread &&
-							thread.threadId == global.currentThread &&
-							global.currentThreadActive,
-						() => null,
-						() =>
-							when(
-								thread.unreadCount,
-								() => html`<div slot="badge">
+				global.currentThread &&
+				thread.threadId == global.currentThread &&
+				global.currentThreadActive,
+				() => null,
+				() =>
+					when(
+						thread.unreadCount,
+						() => html`<div slot="badge">
 									${thread.unreadCount > 99 ? '99+' : thread.unreadCount}
 								</div>`
-							)
-					)}
+					)
+			)}
 				</social-sidebar-button>
 			`;
 		} else if (thread.topic.direct) {
@@ -406,31 +406,31 @@ export default class MainSidebar extends LitElement {
 						></identity-name>
 						<h2 class="sidebar-button-subtitle">
 							${when(
-								thread.tailMessage.body.text,
-								() => html`<rich-text
+				thread.tailMessage.body.text,
+				() => html`<rich-text
 									class="message-text"
 									inline
 									.content=${thread.tailMessage.body.text.body}
 								></rich-text>`,
-								() => html`<span class="message-body"
+				() => html`<span class="message-body"
 									>${getMessageBody(thread.tailMessage)}</span
 								>`
-							)}
+			)}
 						</h2>
 					</div>
 					${when(
-						global.currentThread &&
-							thread.threadId == global.currentThread &&
-							global.currentThreadActive,
-						() => null,
-						() =>
-							when(
-								thread.unreadCount,
-								() => html`<div slot="badge">
+				global.currentThread &&
+				thread.threadId == global.currentThread &&
+				global.currentThreadActive,
+				() => null,
+				() =>
+					when(
+						thread.unreadCount,
+						() => html`<div slot="badge">
 									${thread.unreadCount > 99 ? '99+' : thread.unreadCount}
 								</div>`
-							)
-					)}
+					)
+			)}
 				</social-sidebar-button>
 			`;
 		} else if (thread.topic.party) {
@@ -469,17 +469,17 @@ export default class MainSidebar extends LitElement {
 						<h1 class="sidebar-button-title thread">Party</h1>
 						<h2 class="sidebar-button-subtitle">
 							${when(
-								thread.tailMessage.body.text,
-								() => html`<span class="message-prefix"
+				thread.tailMessage.body.text,
+				() => html`<span class="message-prefix"
 										>${when(
-											thread.tailMessage.body.text.sender.identityId ==
-												global.currentIdentity.identityId,
-											() => 'You',
-											() => html`<identity-name
+					thread.tailMessage.body.text.sender.identityId ==
+					global.currentIdentity.identityId,
+					() => 'You',
+					() => html`<identity-name
 												.identity=${thread.tailMessage.body.text.sender}
 												no-link
 											></identity-name>`
-										)}:&nbsp;</span
+				)}:&nbsp;</span
 									>
 									<br />
 									<rich-text
@@ -487,25 +487,25 @@ export default class MainSidebar extends LitElement {
 										inline
 										.content=${thread.tailMessage.body.text.body}
 									></rich-text> `,
-								() => html`<span class="message-body"
+				() => html`<span class="message-body"
 									>${getMessageBody(thread.tailMessage)}</span
 								>`
-							)}
+			)}
 						</h2>
 					</div>
 					${when(
-						global.currentThread &&
-							thread.threadId == global.currentThread &&
-							global.currentThreadActive,
-						() => null,
-						() =>
-							when(
-								thread.unreadCount,
-								() => html`<div slot="badge">
+				global.currentThread &&
+				thread.threadId == global.currentThread &&
+				global.currentThreadActive,
+				() => null,
+				() =>
+					when(
+						thread.unreadCount,
+						() => html`<div slot="badge">
 									${thread.unreadCount > 99 ? '99+' : thread.unreadCount}
 								</div>`
-							)
-					)}
+					)
+			)}
 				</social-sidebar-button>
 			`;
 		} else {
