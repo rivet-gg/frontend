@@ -88,7 +88,6 @@ export default class UserBanner extends LitElement {
 					<div id="banner-content">
 						<identity-avatar
 							hide-status
-							shadow
 							.identity=${global.currentIdentity}
 						></identity-avatar>
 						<div id="banner-text">
