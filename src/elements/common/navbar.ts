@@ -161,54 +161,33 @@ export default class NavBar extends LitElement {
 
 	render() {
 		return html`
-                <nav class="gap-10 px-6 lg:z-30 border-b-[.99px] border-b-white/10 pointer-events-auto fixed inset-x-0 top-0 z-50 flex flex-col transition md:divide-white/15 backdrop-blur  bg-zinc-900/[.8]">
+                <nav class="gap-10 px-6 lg:z-30 pointer-events-auto fixed inset-x-0 top-0 z-50 flex flex-col transition md:divide-white/15 backdrop-blur  bg-zinc-900/[.8]">
                     <!-- TODO - standardize logo size with main page -->
-                    <div class="h-[3.5rem] relative flex items-center justify-between ">
-                    <div class="absolute inset-x-0 top-full h-px transition bg-white/7.5"></div>
+                    <div class="h-14 flex items-center justify-between ">
+                    <div class="absolute inset-x-0 top-full h-px transition bg-[#29292c]"></div>
                     
-                    <div class="flex flex-row align-middle my-auto">
+                    <div class="flex flex-row align-middle my-auto max-sm:mx-auto">
     
-                        <div class="sm:hidden absolute left-0">
+                        <div class="sm:hidden absolute left-2">
                             <identity-avatar
-                                class="block w-8 h-8 m-2"
+                                class="my-auto block w-7 h-7"
                                 hide-status
                                 shadow
                                 .identity=${global.currentIdentity}
                             ></identity-avatar>
                         </div>
 
-                        <a aria-label="Home" class="my-auto" href=${routes.home.build({})}>
-                            <!-- <div class="h-6 my-auto"> -->
-                                <e-svg
-                                    src="logo/logo-gradient-white"
-                                    class="ml-[.2rem] h-[1.65rem] w-auto "
-                                    preserve
-                                ></e-svg>
-                                <!-- <img 
-                                    alt="Rivet"
-                                    loading="lazy"
-                                    width="487" height="458"
-                                    decoding="async" data-nimg="1"
-                                    class="h-full w-auto dark:hidden"
-                                    style="color:transparent"
-                                    src="logo/logo-gradient-white"
-                                >
-                                <img 
-                                    alt="Rivet"
-                                    loading="lazy"
-                                    width="487"
-                                    height="458"
-                                    decoding="async"
-                                    data-nimg="1"
-                                    class="light:hidden h-full w-auto"
-                                    style="color:transparent" 
-                                    src="/_next/static/media/white.5eca8392.svg"
-                                > -->
-                            <!-- </div> -->
-                        </a>
+						<a aria-label="Home" class="my-auto" href=${routes.home.build({})}>
+							<div class="h-6">
+								<e-svg
+									src="logo/logo-gradient-white"
+									class="mb-[2px] h-full w-auto"
+									preserve
+								></e-svg>
+							</div>
+						</a>
 
-
-                        <div class="sm:hidden absolute right-0 flex place-content-center my-auto opacity-75 transition hover:opacity-100">
+                        <div class="sm:hidden absolute right-2 flex place-content-center my-auto opacity-75 transition hover:opacity-100">
                             <icon-button
                                 src="regular/gear"
                                 class="my-auto"
@@ -228,13 +207,12 @@ export default class NavBar extends LitElement {
                     </div>
 
                     <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0 space-x-4 max-sm:invisible my-auto">
-                        <identity-name class="my-auto" .identity=${
+                        <identity-name class="my-auto text-sm" .identity=${
 							global.currentIdentity
 						} no-link></identity-name>
                         <identity-avatar
-                                class="block w-8 h-8 m-2"
+                                class="block w-6 h-6 m-2"
                                 hide-status
-                                
                                 .identity=${global.currentIdentity}
                             ></identity-avatar>
                     

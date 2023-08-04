@@ -276,7 +276,7 @@ export default class DevGames extends LitElement {
 						@mouseenter=${() => (this.createGroupHovered = true)}
 						@mouseleave=${() => (this.createGroupHovered = false)}
 					>
-						<div class="m-auto font-bold text-lg ">
+						<div class="m-auto font-bold text-lg text-center">
 							<e-svg src="solid/plus"></e-svg>
 							Create a New Developer Group
 						</div>
@@ -335,7 +335,7 @@ export default class DevGames extends LitElement {
 					<!-- </a> -->
 					${when(
 						group.isDeveloper,
-						() => html` <div class="flex flex-row space-x-1">
+						() => html` <div class="flex flex-row ml-auto space-x-1">
 							<stylized-button
 								class="settings-button"
 								right-icon="regular/gear"

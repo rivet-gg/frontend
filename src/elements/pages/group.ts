@@ -568,20 +568,7 @@ export default class GroupPage extends LitElement {
 								: html`<stylized-button id="apply-button" small disabled
 										>Applications closed</stylized-button
 								  >`
-							: html`<stylized-button
-										small
-										href=${routes.groupChat.build({
-											id: this.groupId
-										})}
-										>Open chat</stylized-button
-									>
-									<stylized-button
-										small
-										class="social"
-										.trigger=${this.inviteToParty.bind(this)}
-										>Create group party</stylized-button
-									>
-									<stylized-button
+							: html` <stylized-button
 										icon="regular/identity"
 										small
 										href="${routes.groupMembers.build(groupRouteData(this.profile))}"
@@ -593,15 +580,6 @@ export default class GroupPage extends LitElement {
 												small
 												.trigger=${this.openCreateInviteModal.bind(this)}
 												>Create invite</stylized-button
-										  >`
-										: null}
-									${this.profile.isDeveloper && this.profile.isCurrentIdentityMember
-										? html`<stylized-button
-												small
-												href=${routes.groupBilling.build({
-													groupId: this.groupId
-												})}
-												>View billing</stylized-button
 										  >`
 										: null}
 									${isOwner
@@ -627,13 +605,6 @@ export default class GroupPage extends LitElement {
 						: null}
 				</info-group-body>
 
-				<!-- About -->
-				<info-panel-header>
-					<div slot="title">Bio</div>
-				</info-panel-header>
-
-				<info-panel-body id="bio">${this.renderAbout()}</info-panel-body>
-
 				<!-- Events -->
 				<!-- <info-panel-header>
 					<div slot="title">Events</div>
@@ -645,13 +616,6 @@ export default class GroupPage extends LitElement {
 
 				<!-- Join Requests -->
 				<!-- TODO: Mobile -->
-
-				<!-- Games -->
-				<info-panel-header>
-					<div slot="title">Games</div>
-				</info-panel-header>
-
-				<info-panel-body noindent> ${this.renderGames()} </info-panel-body>
 			</div>
 
 			<!-- TODO: -->
@@ -674,30 +638,6 @@ export default class GroupPage extends LitElement {
 
 			${this.renderTransferGroupOwnershipModal()}${this.renderCreateInviteModal()}
 		`;
-	}
-
-	renderAbout() {
-		if (!this.profile) return html`<loading-placeholder-text></loading-placeholder-text>`;
-
-		if (this.profile.bio) {
-			return html`<div id="bio-text">${this.profile.bio}</div>`;
-		} else {
-			return html`<div id="bio-text" class="muted">${this.profile.displayName} has no bio.</div>`;
-		}
-	}
-
-	renderGames() {
-		return html`<p class="muted">No games</p>`;
-
-		// return html`
-		// 	<div id="games">
-		// 		${repeat(
-		// 			this.profile.gameStats,
-		// 			game => game.game.id,
-		// 			game => html`<game-stats .group=${this.profile} .data=${game}></game-stats>`
-		// 		)}
-		// 	</div>
-		// `;
 	}
 
 	// TODO: Make this work with the paginated members endpoint
