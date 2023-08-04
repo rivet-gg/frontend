@@ -288,7 +288,7 @@ export default class GroupProfileEdit extends LitElement {
 					</div>
 
 					<h2>
-						Group name<span class="lettercount" 
+						Group name<span class="lettercount"
 							>${utils.countCodePoints(
 								this.displayNameValue ?? ''
 							)}/${MAX_GROUPNAME_LENGTH}</span
