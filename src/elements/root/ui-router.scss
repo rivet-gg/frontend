@@ -12,7 +12,7 @@ $transition-duration: 250ms; // Also update in ui-router
 		left: 0;
 		top: 0;
 		width: 100%;
-		min-height: 100vh;
+		min-height: 93vh;
 	}
 }
 
@@ -23,7 +23,7 @@ $transition-duration: 250ms; // Also update in ui-router
 			box-shadow: 0 0 128px rgba(0, 0, 0, 0.8);
 
 			.y-scroll {
-				min-height: 100vh;
+				min-height: 93vh;
 				background-color: $base-bg;
 			}
 
