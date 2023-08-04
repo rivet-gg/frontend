@@ -392,7 +392,7 @@ export default class ContextMenu extends LitElement {
 		let ctx = this.ctx.group;
 		let group = ctx.group;
 
-		return html`<context-action href=${routes.group.build({ id: group.groupId })}
+		return html`<context-action href=${routes.groupSettings.build({ id: group.groupId })}
 				>View profile</context-action
 			>
 			${when(
@@ -416,7 +416,7 @@ export default class ContextMenu extends LitElement {
 			() =>
 				when(
 					ctx.groupId,
-					() => html`<context-action href=${routes.group.build({ id: ctx.groupId })}
+					() => html`<context-action href=${routes.groupSettings.build({ id: ctx.groupId })}
 						>View profile</context-action
 					>`,
 					() => html`<p class="muted">No actions available</p>`

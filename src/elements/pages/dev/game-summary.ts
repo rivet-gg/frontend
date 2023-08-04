@@ -79,7 +79,7 @@ export default class DevGameSummary extends LitElement {
 		return html`
 			<div id="base">
 				<h1>Basic Info</h1>
-				<div id="input-area">
+				<div id="input-area" class="space-y-5">
 					<div class="not-allowed">
 						<div class="disabled">
 							<h4>Game Title</h4>

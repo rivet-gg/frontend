@@ -268,34 +268,15 @@ export default class DevGames extends LitElement {
 				: null}
 			${when(
 				!config.IS_PROD && global.currentIdentity.isRegistered,
-				() => html` <div class="w-full mx-auto flex place-content-center">
+				() => html` <div class="w-full mx-auto flex place-content-center py-5">
 					<div
-						id="create-group"
-						class="placeholder-group"
+						id="create-game"
+						class="hover:cursor-pointer w-[80%] h-32 place-content-center text-[#d1d1d1]  hover:text-white hover:bg-[#ffffff05]"
 						@click=${this.openGroupModal.bind(this)}
 						@mouseenter=${() => (this.createGroupHovered = true)}
 						@mouseleave=${() => (this.createGroupHovered = false)}
 					>
-						<div class="placeholder-group-header">
-							<loading-placeholder
-								.isDisabled=${!this.createGroupHovered}
-							></loading-placeholder>
-							<loading-placeholder
-								.isDisabled=${!this.createGroupHovered}
-							></loading-placeholder>
-							<loading-placeholder
-								.isDisabled=${!this.createGroupHovered}
-							></loading-placeholder>
-							<loading-placeholder
-								.isDisabled=${!this.createGroupHovered}
-							></loading-placeholder>
-						</div>
-						<div class="placeholder-group-body">
-							<loading-placeholder
-								.isDisabled=${!this.createGroupHovered}
-							></loading-placeholder>
-						</div>
-						<div id="create-group-overlay">
+						<div class="m-auto font-bold text-lg ">
 							<e-svg src="solid/plus"></e-svg>
 							Create a New Developer Group
 						</div>
@@ -340,15 +321,27 @@ export default class DevGames extends LitElement {
 			group.isDeveloper,
 			() => html`<div class="group">
 				<div class="group-header">
-					<a href=${routes.group.build({ id: group.groupId })} class="max-sm:w-1/3 md:w-2/3">
-						<div class="max-sm:invisible max-sm:w-0">
-							<group-avatar .group=${group}></group-avatar>
+					<!-- <a href=${routes.groupSettings.build({
+						id: group.groupId
+					})} class="max-sm:w-1/3 md:w-2/3"> -->
+					<div class="max-sm:w-1/3 md:w-2/3 flex flex-row space-x-3">
+						<div class="max-sm:invisible max-sm:w-0 my-auto">
+							<group-avatar class="w-8 h-8" .group=${group}></group-avatar>
 						</div>
-						<h2 class="text-ellipsis overflow-hidden max-w-3/4">${group.displayName}</h2>
-					</a>
+						<h2 class="text-ellipsis overflow-hidden text-[24px] max-w-3/4">
+							${group.displayName}
+						</h2>
+					</div>
+					<!-- </a> -->
 					${when(
 						group.isDeveloper,
 						() => html` <div class="flex flex-row space-x-1">
+							<stylized-button
+								class="billing-button"
+								right-icon="regular/gear"
+								href=${routes.groupSettings.build({ id: group.groupId })}
+								>Settings</stylized-button
+							>
 							<stylized-button
 								class="billing-button"
 								right-icon="solid/arrow-right"

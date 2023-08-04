@@ -165,20 +165,20 @@ namespace routes {
 	});
 
 	// Reuse the same template in order to preserve the same `page-group` instance.
-	function renderPageGroup(groupId: string, gameNameId: string | null) {
+	function renderPageGroupSettings(groupId: string, gameNameId: string | null) {
 		return html`<page-group .groupId=${groupId} .gameNameId=${gameNameId}></page-group>`;
 	}
 
-	export let group = new Route<{ id: string }>({
-		path: '/groups/:id',
+	export let groupSettings = new Route<{ id: string }>({
+		path: '/groups/:id/settings',
 		render({ id }) {
 			if (!utils.validateUuid(id)) return responses.notFound();
 
 			return {
 				menuItem: { kind: 'MainMenu', content: { item: MainMenuItem.GROUPS } },
-				breadcrumb: { type: 'Group', content: { ident: id, url: `/groups/${id}` } },
+				breadcrumb: { type: 'Group', content: { ident: id, url: `/groups/${id}/settings` } },
 				title: 'Group',
-				template: renderPageGroup(id, null)
+				template: renderPageGroupSettings(id, null)
 			};
 		}
 	});
@@ -204,7 +204,7 @@ namespace routes {
 			return {
 				menuItem: { kind: 'MainMenu', content: { item: MainMenuItem.GROUPS } },
 				title: 'Group',
-				template: renderPageGroup(id, gameNameId)
+				template: renderPageGroupSettings(id, gameNameId)
 			};
 		}
 	});
@@ -217,7 +217,7 @@ namespace routes {
 			return {
 				title: 'Group Members',
 				template: html`<page-group-members .groupId=${id}></page-group-members>`,
-				mobileRedirect: routes.group.build({ id: id })
+				mobileRedirect: routes.groupSettings.build({ id: id })
 			};
 		}
 	});

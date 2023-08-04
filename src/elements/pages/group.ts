@@ -495,21 +495,12 @@ export default class GroupPage extends LitElement {
 						@event=${this.onActionEvent.bind(this)}
 					></group-sidebar>`
 				)}
-
-				<div id="body" slot="body">
-					<!-- Games -->
-					<info-panel-header>
-						<div slot="title">Games</div>
-					</info-panel-header>
-
-					<info-panel-body noindent>${this.renderGames()}</info-panel-body>
-				</div>
 			</profile-layout>
 
 			<!-- TODO: -->
-			${this.profile && this.gameNameId
+			<!-- ${this.profile && this.gameNameId
 				? html`<expanded-game-stats .group=${this.profile} .game=${null}></expanded-game-stats>`
-				: null}
+				: null} -->
 
 			<!-- Editing modal -->
 			<drop-down-modal

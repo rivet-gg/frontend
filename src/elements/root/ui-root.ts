@@ -740,7 +740,7 @@ export default class UIRoot extends LitElement {
 			)} -->
 
 			<!-- Offset for navbar -->
-			<div class="pt-16"></div>
+			<div class="pt-14"></div>
 
 			<!-- Page Body -->
 			<div id="content-holder" class=${classMap({ mobile: global.isMobile })}>

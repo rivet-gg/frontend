@@ -302,7 +302,7 @@ export default class MainSidebar extends LitElement {
 				.active=${this.createGroupModalActive}
 				@create=${(event: GroupCreateEvent) =>
 					UIRouter.shared.navigate(
-						routes.group.build({
+						routes.groupSettings.build({
 							id: event.groupId
 						})
 					)}

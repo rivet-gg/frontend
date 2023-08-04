@@ -383,6 +383,8 @@ export default class NotificationOverlay extends LitElement {
 		}
 
 		return html`
+			<!-- Offset notification overlay for navbar -->
+			<div class="pt-[4rem]"></div>
 			<div id="base">
 				${repeat(
 					this.notifications,

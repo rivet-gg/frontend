@@ -74,7 +74,7 @@ export default class ExpandedGameStats extends LitElement {
 		let ownerRoute = this.identity
 			? routes.identity.build(identityRouteData(this.identity))
 			: this.group
-			? routes.group.build(groupRouteData(this.group))
+			? routes.groupSettings.build(groupRouteData(this.group))
 			: null;
 
 		return html`

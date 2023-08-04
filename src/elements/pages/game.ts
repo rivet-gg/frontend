@@ -328,7 +328,9 @@ export default class GamePage extends LitElement {
 							${this.profile
 								? html` <a
 										id="developer"
-										href=${routes.group.build(groupRouteData(this.profile.developer))}
+										href=${routes.groupSettings.build(
+											groupRouteData(this.profile.developer)
+										)}
 								  >
 										<div id="main-thumbnail-placeholder"></div>
 										${this.profile.developer.displayName}
@@ -452,7 +454,11 @@ export default class GamePage extends LitElement {
 						<!-- Developer -->
 						${this.profile
 							? html` <div id="developer">
-									<a href=${routes.group.build(groupRouteData(this.profile.developer))}>
+									<a
+										href=${routes.groupSettings.build(
+											groupRouteData(this.profile.developer)
+										)}
+									>
 										<div id="main-thumbnail-placeholder"></div>
 										${this.profile.developer.displayName}
 									</a>

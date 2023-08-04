@@ -172,7 +172,7 @@ export default class GameTile extends LitElement {
 						? html`<span id="developers">by ${this.game.developer.displayName}</span>`
 						: html`<a
 								id="developers"
-								href=${routes.group.build(groupRouteData(this.game.developer))}
+								href=${routes.groupSettings.build(groupRouteData(this.game.developer))}
 								>by ${this.game.developer.displayName}</a
 						  >`}
 				</div>

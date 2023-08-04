@@ -585,7 +585,7 @@ export default class HomePage extends LitElement {
 			class=${classes}
 			@contextmenu=${showGroupContextMenu({ group, selfIsMember: group.isCurrentIdentityMember })}
 		>
-			<a class="link" href=${routes.group.build({ id: group.groupId })}></a>
+			<a class="link" href=${routes.groupSettings.build({ id: group.groupId })}></a>
 
 			<div class="group-content">
 				<div class="group-header">

@@ -233,18 +233,7 @@ export default class DevGameSidebar extends LitElement {
 	render() {
 		return html`
 			<div id="base">
-				<stylized-button
-					icon="solid/play"
-					id="nav-back"
-					small
-					color="transparent"
-					text="#ecececcc"
-					.trigger=${this.navigateBack.bind(this)}
-				>
-					Back
-				</stylized-button>
-
-				${this.game ? this.renderContent() : this.renderPlaceholder()}
+				${this.buildBackButton()} ${this.game ? this.renderContent() : this.renderPlaceholder()}
 			</div>
 
 			${this.renderCreateNamespaceModal()}
@@ -529,9 +518,26 @@ export default class DevGameSidebar extends LitElement {
 		</drop-down-modal>`;
 	}
 
+	buildBackButton() {
+		// If back navigation is possible, use function rather than link
+		if (UIRouter.shared.canGoBack) {
+			return html`<stylized-button
+				small
+				icon="solid/play"
+				color="#2d2d30"
+				.trigger=${this.navigateBack.bind(this)}
+			>
+				Back
+			</stylized-button>`;
+		} else {
+			return null;
+		}
+	}
+
 	navigateBack() {
-		UIRouter.shared.navigate(routes.home.build({}), {
-			replaceHistory: true
-		});
+		// UIRouter.shared.navigate(routes.home.build({}), {
+		// 	replaceHistory: true
+		// });
+		UIRouter.shared.navBack();
 	}
 }
