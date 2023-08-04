@@ -177,7 +177,7 @@ export default class NavBar extends LitElement {
                             ></identity-avatar>
                         </div>
 
-                        <a aria-label="Home" href="/">
+                        <a aria-label="Home" class="my-auto" href=${routes.home.build({})}>
                             <!-- <div class="h-6 my-auto"> -->
                                 <e-svg
                                     src="logo/logo-gradient-white"
