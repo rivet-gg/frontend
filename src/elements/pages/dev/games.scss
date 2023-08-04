@@ -2,6 +2,42 @@
 @use '../../shared/utils';
 @use '../../shared/consts';
 
+
+#create-game {
+
+	$border-width: 3px;
+	$border-radius: 30px;
+
+	overflow: hidden;
+	display: flex;
+	position: relative;
+	padding: $border-width;
+	border-radius: $border-radius;
+	margin: -3px 23px 23px -3px;
+
+	background-image: utils.dashed-border(
+		rgba(255, 255, 255, 0.12),
+		$border-radius,
+		$border-width,
+		$dash-array: (5, 11),
+		$dash-offset: 2px
+	);
+
+	&:hover {
+		background-image: utils.dashed-border(
+			rgba(255, 255, 255, 0.15),
+			$border-radius,
+			$border-width,
+			$dash-array: (5, 11),
+			$dash-offset: 2px
+		);
+
+		#create-game-content {
+			background-color: rgba(255, 255, 255, 0.02);
+		}
+	}
+}
+
 #base {
 	padding: 0px 12px 12px;
 

@@ -268,34 +268,16 @@ export default class DevGames extends LitElement {
 				: null}
 			${when(
 				!config.IS_PROD && global.currentIdentity.isRegistered,
-				() => html` <div class="w-full mx-auto flex place-content-center">
+				() => html` <div class="w-full mx-auto flex place-content-center py-5">
 					<div
-						id="create-group"
-						class="placeholder-group"
+						id="create-game"
+						class="hover:cursor-pointer w-[80%] h-32 place-content-center text-[#d1d1d1]  hover:text-white hover:bg-[#ffffff05]"
 						@click=${this.openGroupModal.bind(this)}
 						@mouseenter=${() => (this.createGroupHovered = true)}
 						@mouseleave=${() => (this.createGroupHovered = false)}
 					>
-						<div class="placeholder-group-header">
-							<loading-placeholder
-								.isDisabled=${!this.createGroupHovered}
-							></loading-placeholder>
-							<loading-placeholder
-								.isDisabled=${!this.createGroupHovered}
-							></loading-placeholder>
-							<loading-placeholder
-								.isDisabled=${!this.createGroupHovered}
-							></loading-placeholder>
-							<loading-placeholder
-								.isDisabled=${!this.createGroupHovered}
-							></loading-placeholder>
-						</div>
-						<div class="placeholder-group-body">
-							<loading-placeholder
-								.isDisabled=${!this.createGroupHovered}
-							></loading-placeholder>
-						</div>
-						<div id="create-group-overlay">
+
+						<div class="m-auto font-bold text-lg ">
 							<e-svg src="solid/plus"></e-svg>
 							Create a New Developer Group
 						</div>
