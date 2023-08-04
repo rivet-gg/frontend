@@ -159,10 +159,10 @@ export default class NavBar extends LitElement {
 
 	render() {
 		return html`
-                <nav class="gap-10 px-6 lg:z-30 border-b-[.99px] border-b-white/10 pointer-events-auto fixed inset-x-0 top-0 z-50 flex flex-col transition md:dark:divide-white/15 backdrop-blur-sm dark:backdrop-blur bg-white/[.9] dark:bg-zinc-900/[.8]">
+                <nav class="gap-10 px-6 lg:z-30 border-b-[.99px] border-b-white/10 pointer-events-auto fixed inset-x-0 top-0 z-50 flex flex-col transition md:divide-white/15 backdrop-blur  bg-zinc-900/[.8]">
                     <!-- TODO - standardize logo size with main page -->
                     <div class="h-[3.5rem] relative flex items-center justify-between ">
-                    <div class="absolute inset-x-0 top-full h-px transition bg-zinc-900/7.5 dark:bg-white/7.5"></div>
+                    <div class="absolute inset-x-0 top-full h-px transition bg-white/7.5"></div>
                     
                     <div class="flex flex-row align-middle my-auto">
     
