@@ -91,7 +91,7 @@ export default class HorizontalFeed extends LitElement {
 					identityId: '',
 					displayName: ['Nicholas Kissel', 'Nathan Flurry', 'Zack'][Math.round(Math.random() * 2)],
 					accountNumber: 1234,
-					avatarUrl: `https://assets2.rivet.gg/avatars/avatar-${Math.round(Math.random() * 7)}.png`,
+					avatarUrl: `https://assets.rivet.gg/avatars/avatar-${Math.round(Math.random() * 7)}.png`,
 					presence: {
 						updateTs: new Date(0),
 						status: api.identity.IdentityStatus.ONLINE,
