@@ -339,23 +339,24 @@ export default class DevGames extends LitElement {
 						group.isDeveloper,
 						() => html` <div class="flex flex-row ml-auto space-x-1">
 							<stylized-button
-								class="settings-button"
-								icon="regular/gear"
-								href=${routes.groupSettings.build({ id: group.groupId })}
-								>Settings</stylized-button
-							>
-							<stylized-button
-								class="billing-button"
-								icon="solid/dollar-sign"
-								href=${routes.groupBilling.build({ groupId: group.groupId })}
-								>Billing</stylized-button
-							><stylized-button
 								class="analytics-button"
 								icon="solid/chart-line-up"
 								href=${routes.analyticsOverview.build({
 									groupId: group.groupId
 								})}
 								>Analytics</stylized-button
+							>
+							<stylized-button
+								class="billing-button"
+								icon="solid/dollar-sign"
+								href=${routes.groupBilling.build({ groupId: group.groupId })}
+								>Billing</stylized-button
+							>
+							<stylized-button
+								class="settings-button"
+								icon="regular/gear"
+								href=${routes.groupSettings.build({ id: group.groupId })}
+								>Settings</stylized-button
 							>
 						</div>`
 						// Reenable when open beta

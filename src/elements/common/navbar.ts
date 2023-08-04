@@ -99,6 +99,7 @@ export default class NavBar extends LitElement {
 		return html`<group-avatar
 			shadow
 			class="w-6 h-6"
+			style="--font-size: 10px"
 			.group=${group}
 			.imagePlaceholder=${group.avatarUrl}
 			.placeholderOverride=${group.displayName}
@@ -137,7 +138,7 @@ export default class NavBar extends LitElement {
 
 							<a
 								href="${crumb.url}"
-								class="text-slate-200 hover:bg-slate-200/5 hover:text-white flex font-display text-md items-center rounded-md gap-3 pl-3.5 pr-3.5 py-1.5 transition group-last:text-white group-last:font-bold"
+								class="text-slate-200 hover:bg-slate-200/5 hover:text-white flex font-display text-md items-center rounded-md gap-3 pl-3.5 pr-3.5 py-1.5 transition font-bold"
 							>
 								${when(typeof crumb.img !== 'undefined', () => {
 									switch (crumb.img.type) {
