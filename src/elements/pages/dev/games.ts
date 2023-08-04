@@ -239,7 +239,7 @@ export default class DevGames extends LitElement {
 		if (this.loadError) return responses.renderError(this.loadError);
 
 		return html`
-			<div id="base">
+			<div id="base" class="pb-12">
 				<div id="body">
 					${when(this.data !== null, this.renderBody.bind(this), this.renderPlaceholder)}
 				</div>
@@ -268,18 +268,16 @@ export default class DevGames extends LitElement {
 				: null}
 			${when(
 				!config.IS_PROD && global.currentIdentity.isRegistered,
-				() => html` <div class="w-full mx-auto flex place-content-center py-5">
-					<div
-						id="create-game"
-						class="hover:cursor-pointer w-[80%] h-32 place-content-center text-[#d1d1d1]  hover:text-white hover:bg-[#ffffff05]"
-						@click=${this.openGroupModal.bind(this)}
-						@mouseenter=${() => (this.createGroupHovered = true)}
-						@mouseleave=${() => (this.createGroupHovered = false)}
-					>
-						<div class="m-auto font-bold text-lg text-center">
-							<e-svg src="solid/plus"></e-svg>
-							Create a New Developer Group
-						</div>
+				() => html` <div
+					id="create-game"
+					class="flex justify-center items-center hover:cursor-pointer w-full h-32 place-content-center text-[#d1d1d1]  hover:text-white hover:bg-[#ffffff05]"
+					@click=${this.openGroupModal.bind(this)}
+					@mouseenter=${() => (this.createGroupHovered = true)}
+					@mouseleave=${() => (this.createGroupHovered = false)}
+				>
+					<div class="font-bold text-lg text-center">
+						<e-svg src="solid/plus"></e-svg>
+						Create a New Developer Group
 					</div>
 				</div>`
 			)}
@@ -326,7 +324,11 @@ export default class DevGames extends LitElement {
 					})} class="max-sm:w-1/3 md:w-2/3"> -->
 					<div class="max-sm:w-1/3 md:w-2/3 flex flex-row space-x-3">
 						<div class="max-sm:invisible max-sm:w-0 my-auto">
-							<group-avatar class="w-8 h-8" .group=${group}></group-avatar>
+							<group-avatar
+								class="w-8 h-8"
+								style="--font-size: 12px"
+								.group=${group}
+							></group-avatar>
 						</div>
 						<h2 class="text-ellipsis overflow-hidden text-[24px] max-w-3/4">
 							${group.displayName}
@@ -369,7 +371,7 @@ export default class DevGames extends LitElement {
 				</div>
 				${when(
 					group.isDeveloper,
-					() => html`<div class="games-list">
+					() => html`<div class="games-list grid grid-cols-4 gap-4">
 						<div id="create-game" @click=${this.openGameModal.bind(this, group.groupId)}>
 							<div id="create-game-content">
 								<lazy-img src=${assets.asset('/games/blank/logo.png')}></lazy-img>
