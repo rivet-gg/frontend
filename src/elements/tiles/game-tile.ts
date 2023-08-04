@@ -141,7 +141,7 @@ export default class GameTile extends LitElement {
 					></lazy-img>
 					<div id="clip-holder">
 						${this.showClip || this.mobileHover
-				? html`<video
+							? html`<video
 									id="clip"
 									autoplay
 									muted
@@ -155,7 +155,7 @@ export default class GameTile extends LitElement {
 										type="video/mp4"
 									/>
 							  </video>`
-				: null}
+							: null}
 					</div>
 					<div id="fader"></div>
 					<lazy-img
@@ -169,8 +169,8 @@ export default class GameTile extends LitElement {
 				<div id="name-popup">
 					<span id="name">${this.game.displayName}</span>
 					${global.isMobile
-				? html`<span id="developers">by ${this.game.developer.displayName}</span>`
-				: html`<a
+						? html`<span id="developers">by ${this.game.developer.displayName}</span>`
+						: html`<a
 								id="developers"
 								href=${routes.groupSettings.build(groupRouteData(this.game.developer))}
 								>by ${this.game.developer.displayName}</a

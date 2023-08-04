@@ -86,10 +86,7 @@ export default class UserBanner extends LitElement {
 
 					<!-- Header -->
 					<div id="banner-content">
-						<identity-avatar
-							hide-status
-							.identity=${global.currentIdentity}
-						></identity-avatar>
+						<identity-avatar hide-status .identity=${global.currentIdentity}></identity-avatar>
 						<div id="banner-text">
 							<h1>${this.renderSplashText()}</h1>
 						</div>

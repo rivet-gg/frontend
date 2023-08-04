@@ -127,19 +127,19 @@ export default class GroupInvitePage extends LitElement {
 					</div>
 					${when(this.codeError, () => html`<p id="error">${this.codeError}</p>`)}
 					${when(!this.codeError && this.code, () =>
-			when(
-				this.group,
-				() => html`<group-handle-tile .group=${this.group}></group-handle-tile>`,
-				() => html`<loading-placeholder id="group-placeholder"></loading-placeholder>`
-			)
-		)}
+						when(
+							this.group,
+							() => html`<group-handle-tile .group=${this.group}></group-handle-tile>`,
+							() => html`<loading-placeholder id="group-placeholder"></loading-placeholder>`
+						)
+					)}
 				</div>
 				${when(
-			this.isConsuming,
-			() => html`<div id="wait">
+					this.isConsuming,
+					() => html`<div id="wait">
 						<loading-wheel .message=${'Please wait...'}></loading-wheel>
 					</div>`
-		)}
+				)}
 			</div>
 		`;
 	}

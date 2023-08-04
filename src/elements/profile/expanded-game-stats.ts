@@ -74,8 +74,8 @@ export default class ExpandedGameStats extends LitElement {
 		let ownerRoute = this.identity
 			? routes.identity.build(identityRouteData(this.identity))
 			: this.group
-				? routes.groupSettings.build(groupRouteData(this.group))
-				: null;
+			? routes.groupSettings.build(groupRouteData(this.group))
+			: null;
 
 		return html`
 			${UIRouter.shared.canGoBack
@@ -87,7 +87,7 @@ export default class ExpandedGameStats extends LitElement {
 						${this.buildBackButton(ownerRoute)}
 						<div id="game-name">${this.data.game.displayName} stats</div>
 						${this.identity
-				? html`<div id="identity">
+							? html`<div id="identity">
 									<identity-avatar
 										id="main-avatar"
 										.identity=${this.identity}
@@ -102,12 +102,12 @@ export default class ExpandedGameStats extends LitElement {
 										></identity-name>
 									</div>
 							  </div>`
-				: this.group
-					? html`<div id="identity">
+							: this.group
+							? html`<div id="identity">
 									<div id="main-thumbnail"></div>
 									<div id="main-display-name">${this.group.displayName}</div>
 							  </div>`
-					: null}
+							: null}
 						<div id="actions">
 							<stylized-button
 								icon="regular/link-simple"
@@ -133,10 +133,10 @@ export default class ExpandedGameStats extends LitElement {
 					<!-- Stats -->
 					<div id="stats">
 						${repeat(
-						this.data.stats.slice(0, DISPLAY_STAT_COUNT),
-						s => s.config.recordId,
-						stat => this.renderStat(stat)
-					)}
+							this.data.stats.slice(0, DISPLAY_STAT_COUNT),
+							s => s.config.recordId,
+							stat => this.renderStat(stat)
+						)}
 					</div>
 				</div>
 			</div>

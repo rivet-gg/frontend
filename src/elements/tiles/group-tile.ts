@@ -46,13 +46,13 @@ export default class GroupTile extends LitElement {
 		// TODO: Use dev linked games
 		let linkedGames: api.portal.GameSummary[] = [];
 		return html`${this.group.avatarUrl
-			? html`<group-avatar
+				? html`<group-avatar
 						id="background-img"
 						.rounded=${false}
 						.noPlaceholder=${true}
 						.group=${this.group}
 				  ></group-avatar>`
-			: html`<div id="background"></div>`}
+				: html`<div id="background"></div>`}
 			<!-- Details -->
 			<div id="details">
 				<!-- Title -->
@@ -67,8 +67,8 @@ export default class GroupTile extends LitElement {
 				<!-- Games -->
 				<div id="official-games">
 					${repeat(
-				linkedGames,
-				g => html`
+						linkedGames,
+						g => html`
 							<div class="game-icon">
 								<lazy-img
 									src=${g.logoUrl ?? assets.asset('/games/blank/logo.png')}
@@ -76,7 +76,7 @@ export default class GroupTile extends LitElement {
 								></lazy-img>
 							</div>
 						`
-			)}
+					)}
 					${linkedGames.length == 0 ? 'No Group Games' : null}
 				</div>
 			</div>`;

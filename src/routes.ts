@@ -57,15 +57,16 @@ class Route<P extends RouteParameters, S extends SearchParameters = {}> {
 		let path = this.pathFunction(params);
 
 		// Build URL
-		return `${window.location.origin}${path}${search ? `?${new URLSearchParams(search).toString()}` : ''
-			}`;
+		return `${window.location.origin}${path}${
+			search ? `?${new URLSearchParams(search).toString()}` : ''
+		}`;
 	}
 }
 
 namespace routes {
 	export let home = new Route<{}>({
 		path: '/',
-		render({ }) {
+		render({}) {
 			return {
 				menuItem: { kind: 'MainMenu', content: { item: MainMenuItem.HOME } },
 				breadcrumb: { type: 'Home', content: { ident: 'Home', url: `/` } },

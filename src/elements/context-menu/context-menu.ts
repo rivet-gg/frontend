@@ -266,8 +266,8 @@ export default class ContextMenu extends LitElement {
 				>View profile</context-action
 			>
 			${when(
-			!isSelf,
-			() => html`<context-action
+				!isSelf,
+				() => html`<context-action
 						href=${routes.identityDirectChat.build(identityRouteData(identity))}
 						>Send message</context-action
 					><context-action
@@ -277,7 +277,7 @@ export default class ContextMenu extends LitElement {
 						?loading=${!summary}
 						>${this.isFollowing ? 'Remove' : 'Add'} friend</context-action
 					>`
-		)}`;
+			)}`;
 	}
 
 	renderGroupMemberContextMenu() {
@@ -297,8 +297,8 @@ export default class ContextMenu extends LitElement {
 				>View profile</context-action
 			>
 			${when(
-			!isSelf,
-			() => html`<context-action
+				!isSelf,
+				() => html`<context-action
 						href=${routes.identityDirectChat.build(identityRouteData(identity))}
 						>Send message</context-action
 					><context-action
@@ -308,10 +308,10 @@ export default class ContextMenu extends LitElement {
 						?loading=${!summary}
 						>${this.isFollowing ? 'Remove' : 'Add'} friend</context-action
 					>`
-		)}
+			)}
 			${when(
-			showAdminControls,
-			() => html`<div class="spacer"></div>
+				showAdminControls,
+				() => html`<div class="spacer"></div>
 					<context-action
 						class="destructive"
 						.trigger=${this.kickGroupMember.bind(this)}
@@ -323,7 +323,7 @@ export default class ContextMenu extends LitElement {
 						@triggered=${this.onActionClick.bind(this)}
 						>Ban</context-action
 					>`
-		)}`;
+			)}`;
 	}
 
 	renderJoinRequestContextMenu() {
@@ -370,9 +370,9 @@ export default class ContextMenu extends LitElement {
 				>View profile</context-action
 			>
 			${when(
-			!memberIsSelf && ctx.selfIsLeader,
-			() =>
-				html`<div class="spacer"></div>
+				!memberIsSelf && ctx.selfIsLeader,
+				() =>
+					html`<div class="spacer"></div>
 						<context-action
 							class="destructive"
 							.trigger=${this.transferPartyOwnership.bind(this)}
@@ -385,7 +385,7 @@ export default class ContextMenu extends LitElement {
 							@triggered=${this.onActionClick.bind(this)}
 							>Kick</context-action
 						>`
-		)}`;
+			)}`;
 	}
 
 	renderGroupContextMenu() {
@@ -396,12 +396,12 @@ export default class ContextMenu extends LitElement {
 				>View profile</context-action
 			>
 			${when(
-			ctx.selfIsMember,
-			() =>
-				html`<context-action href=${routes.groupChat.build({ id: group.groupId })}
+				ctx.selfIsMember,
+				() =>
+					html`<context-action href=${routes.groupChat.build({ id: group.groupId })}
 						>Open chat</context-action
 					>`
-		)}`;
+			)}`;
 	}
 
 	renderChatThreadContextMenu() {
@@ -438,14 +438,14 @@ export default class ContextMenu extends LitElement {
 
 		return html`
 			${when(
-			identity,
-			() => html`<context-action
+				identity,
+				() => html`<context-action
 					.trigger=${() => ctx.replyCb(chatMessage.chatMessageId)}
 					@triggered=${this.onActionClick.bind(this)}
 					>Reply to <b>${identity.displayName}</b></context-action
 				>`,
-			() => html`<p class="muted">No actions available</p>`
-		)}
+				() => html`<p class="muted">No actions available</p>`
+			)}
 		`;
 	}
 
@@ -463,9 +463,9 @@ export default class ContextMenu extends LitElement {
 			<div
 				class="data"
 				@click=${() => {
-				utils.copyText(lobby.lobbyId);
-				this.onActionClick();
-			}}
+					utils.copyText(lobby.lobbyId);
+					this.onActionClick();
+				}}
 			>
 				Lobby ID
 				<code>${lobby.lobbyId}</code>
@@ -473,9 +473,9 @@ export default class ContextMenu extends LitElement {
 			<div
 				class="data"
 				@click=${() => {
-				utils.copyText(lobby.lobbyGroupId);
-				this.onActionClick();
-			}}
+					utils.copyText(lobby.lobbyGroupId);
+					this.onActionClick();
+				}}
 			>
 				Game Mode ID
 				<code>${lobby.lobbyGroupId}</code>

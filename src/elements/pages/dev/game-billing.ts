@@ -248,18 +248,18 @@ export default class DevGameBilling extends LitElement {
 			html`<p>
 				Are you sure you want to change this group's billing plan?
 				${when(
-				plan == cloud.GameBillingPlanCode.FREE,
-				() =>
-					html`Although this plan is free, switching back to a paid plan will bill you
+					plan == cloud.GameBillingPlanCode.FREE,
+					() =>
+						html`Although this plan is free, switching back to a paid plan will bill you
 							immediately.
 							<a class="link" href="https://rivet.gg/support" target="_blank"
 								>Contact Support</a
 							>
 							for more info.`,
-				() => html`You will be billed immediately following this change.
+					() => html`You will be billed immediately following this change.
 						<a class="link" href="https://rivet.gg/support" target="_blank">Contact Support</a>
 						for more info.`
-			)}
+				)}
 			</p>`,
 			[
 				{
@@ -420,8 +420,8 @@ export default class DevGameBilling extends LitElement {
 			>
 			<stylized-button
 				href=${routes.groupBilling.build({
-			groupId: this.group.groupId
-		})}
+					groupId: this.group.groupId
+				})}
 				>Group Billing</stylized-button
 			>
 		</div>`;
@@ -503,42 +503,42 @@ export default class DevGameBilling extends LitElement {
 					></drop-down-list>
 				</div>
 				${when(
-			!this.isExporting,
-			() => html`<stylized-button
+					!this.isExporting,
+					() => html`<stylized-button
 						id="export"
 						?small=${global.isMobile}
 						.trigger=${this.exportLobbyHistory.bind(this, this.game.gameId)}
 						>Export Data</stylized-button
 					>`
-		)}
+				)}
 				${when(
-			this.isExporting || this.isUpdating,
-			() => html`<loading-wheel custom></loading-wheel>`
-		)}
+					this.isExporting || this.isUpdating,
+					() => html`<loading-wheel custom></loading-wheel>`
+				)}
 			</div>
 			<div id="namespaces">
 				<!-- Loading/empty state -->
 				${when(!this.billing, () => html`<loading-wheel></loading-wheel>`)}
 				${when(
-			this.billing && this.billing.metrics.length == 0,
-			() => html`<div id="no-data">No data found</div>`
-		)}
+					this.billing && this.billing.metrics.length == 0,
+					() => html`<div id="no-data">No data found</div>`
+				)}
 
 				<!-- Region list -->
 				${repeat(
-			this.assortedBillingData,
-			ns => ns.namespaceId,
-			ns => html`<div class="namespace">
+					this.assortedBillingData,
+					ns => ns.namespaceId,
+					ns => html`<div class="namespace">
 						<h3>${ns.namespace.displayName}</h3>
 						<div class="lobby-groups">
 							${repeat(
-				ns.lobbyGroups,
-				lb => lb.lobbyGroupNameId,
-				this.renderLobbyGroup.bind(this)
-			)}
+								ns.lobbyGroups,
+								lb => lb.lobbyGroupNameId,
+								this.renderLobbyGroup.bind(this)
+							)}
 						</div>
 					</div>`
-		)}
+				)}
 			</div>`;
 	}
 
@@ -552,16 +552,16 @@ export default class DevGameBilling extends LitElement {
 
 			<div class="lobby-grid">
 				${repeat(
-			lobbyGroup.metrics,
-			rt => rt.regionId,
-			regionTier => {
-				// Get lobby region emoji
-				let regionData = this.billing.availableRegions.find(
-					r => r.regionId == regionTier.regionId
-				);
-				let regionIcon = getRegionEmoji(regionData.universalRegion);
+					lobbyGroup.metrics,
+					rt => rt.regionId,
+					regionTier => {
+						// Get lobby region emoji
+						let regionData = this.billing.availableRegions.find(
+							r => r.regionId == regionTier.regionId
+						);
+						let regionIcon = getRegionEmoji(regionData.universalRegion);
 
-				return html`
+						return html`
 							<div class="cell region-name">
 								<e-svg class="region-icon" preserve src=${regionIcon}></e-svg>
 								<h2>${regionData.regionDisplayName}</h2>
@@ -582,8 +582,8 @@ export default class DevGameBilling extends LitElement {
 								<span>${utils.formatDuration(regionTier.uptime * 1000)}</span>
 							</div>
 						`;
-			}
-		)}
+					}
+				)}
 			</div>
 		</div>`;
 	}
@@ -599,15 +599,15 @@ export default class DevGameBilling extends LitElement {
 		return html`<div id="plans">
 				${this.renderPlan(cloud.GameBillingPlanCode.FREE, null, error)}
 				${this.renderPlan(
-			cloud.GameBillingPlanCode.GAME_HOBBY_MONTHLY,
-			cloud.GameBillingPlanCode.GAME_HOBBY_YEARLY,
-			error
-		)}
+					cloud.GameBillingPlanCode.GAME_HOBBY_MONTHLY,
+					cloud.GameBillingPlanCode.GAME_HOBBY_YEARLY,
+					error
+				)}
 				${this.renderPlan(
-			cloud.GameBillingPlanCode.GAME_STUDIO_MONTHLY,
-			cloud.GameBillingPlanCode.GAME_STUDIO_YEARLY,
-			error
-		)}
+					cloud.GameBillingPlanCode.GAME_STUDIO_MONTHLY,
+					cloud.GameBillingPlanCode.GAME_STUDIO_YEARLY,
+					error
+				)}
 				${this.renderPlan(cloud.GameBillingPlanCode.ENTERPRISE, null, error)}
 			</div>
 			<p id="plans-footer">
@@ -682,18 +682,18 @@ export default class DevGameBilling extends LitElement {
 			info = html`<div class="info">
 				<h1>Enterprise</h1>
 				${when(
-				planInfo,
-				() => html`<div class="price">
+					planInfo,
+					() => html`<div class="price">
 						<p>
 							<b
 								>$${numbro(
-					priceMonthly /
-					(planInfo.interval == cloud.BillingInterval.MONTHLY ? 1 : 12)
-				).format('0,0')}</b
+									priceMonthly /
+										(planInfo.interval == cloud.BillingInterval.MONTHLY ? 1 : 12)
+								).format('0,0')}</b
 							>/mo
 						</p>
 					</div>`
-			)}
+				)}
 				<p>Everything <b>Studio</b> plus...</p>
 				<ul>
 					<li>Custom log history</li>
@@ -710,11 +710,11 @@ export default class DevGameBilling extends LitElement {
 				${info}
 				<div class="actions">
 					${when(
-				isOwner,
-				() =>
-					when(
-						variant == null,
-						() => html`
+						isOwner,
+						() =>
+							when(
+								variant == null,
+								() => html`
 									<stylized-button
 										class=${classMap({ active })}
 										?disabled=${currentlyEnterprise || error || active}
@@ -722,46 +722,46 @@ export default class DevGameBilling extends LitElement {
 										>${error ?? (active ? 'Active' : 'Switch')}</stylized-button
 									>
 								`,
-						() => {
-							let priceMonthlyFmt = numbro(priceMonthly).format('0,0');
-							let priceAnnuallyFmt = numbro(priceAnnually).format('0,0');
+								() => {
+									let priceMonthlyFmt = numbro(priceMonthly).format('0,0');
+									let priceAnnuallyFmt = numbro(priceAnnually).format('0,0');
 
-							return html`<stylized-button
+									return html`<stylized-button
 											class=${classMap({ active: variantActive })}
 											?disabled=${currentlyEnterprise ||
-								error ||
-								this.billing.plan == variant}
+											error ||
+											this.billing.plan == variant}
 											.trigger=${this.setPlan.bind(this, variant)}
 											>${error ??
-								(variantActive
-									? `Active ($${priceAnnuallyFmt}/yr)`
-									: `Switch to Annual ($${priceAnnuallyFmt}/yr)`)}
+											(variantActive
+												? `Active ($${priceAnnuallyFmt}/yr)`
+												: `Switch to Annual ($${priceAnnuallyFmt}/yr)`)}
 										</stylized-button>
 										<stylized-button
 											class=${classMap({ active })}
 											?disabled=${currentlyEnterprise || error || active}
 											.trigger=${this.setPlan.bind(this, plan)}
 											>${error ??
-								(active
-									? `Active ($${priceMonthlyFmt}/mo)`
-									: `Switch to Monthly ($${priceMonthlyFmt}/mo)`)}
+											(active
+												? `Active ($${priceMonthlyFmt}/mo)`
+												: `Switch to Monthly ($${priceMonthlyFmt}/mo)`)}
 										</stylized-button>`;
-						}
-					),
-				() => {
-					if (active) {
-						return html`<stylized-button class="active" disabled
+								}
+							),
+						() => {
+							if (active) {
+								return html`<stylized-button class="active" disabled
 									>Active${variant == null ? null : ` (Monthly)`}</stylized-button
 								>`;
-					} else if (variantActive) {
-						return html`<stylized-button class="active" disabled
+							} else if (variantActive) {
+								return html`<stylized-button class="active" disabled
 									>Active (Annual)</stylized-button
 								>`;
-					}
+							}
 
-					return null;
-				}
-			)}
+							return null;
+						}
+					)}
 				</div>
 			</div>`;
 		} else {
@@ -769,13 +769,13 @@ export default class DevGameBilling extends LitElement {
 				<div class="info">${info}</div>
 				<div class="actions">
 					${when(
-				active,
-				() => html`<stylized-button class="active" disabled>Active</stylized-button>`,
-				() =>
-					html`<stylized-button href="https://rivet.gg/support" .target=${'_blank'}
+						active,
+						() => html`<stylized-button class="active" disabled>Active</stylized-button>`,
+						() =>
+							html`<stylized-button href="https://rivet.gg/support" .target=${'_blank'}
 								>Contact Us</stylized-button
 							>`
-			)}
+					)}
 				</div>
 			</div>`;
 		}

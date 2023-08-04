@@ -70,7 +70,7 @@ export default class NavBar extends LitElement {
 						},
 						{
 							name: game_data.displayName,
-							// url: crumb.content.url, 
+							// url: crumb.content.url,
 							url: routes.devGame.build({ gameId: game_data.gameId }),
 							img: { type: 'Game', info_obj: game_data }
 						}

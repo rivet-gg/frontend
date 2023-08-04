@@ -233,9 +233,7 @@ export default class DevGameSidebar extends LitElement {
 	render() {
 		return html`
 			<div id="base">
-				${this.buildBackButton()}
-
-				${this.game ? this.renderContent() : this.renderPlaceholder()}
+				${this.buildBackButton()} ${this.game ? this.renderContent() : this.renderPlaceholder()}
 			</div>
 
 			${this.renderCreateNamespaceModal()}
@@ -527,7 +525,8 @@ export default class DevGameSidebar extends LitElement {
 				small
 				icon="solid/play"
 				color="#2d2d30"
-				.trigger=${this.navigateBack.bind(this)}>
+				.trigger=${this.navigateBack.bind(this)}
+			>
 				Back
 			</stylized-button>`;
 		} else {

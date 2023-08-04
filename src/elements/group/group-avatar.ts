@@ -53,8 +53,8 @@ export default class GroupAvatar extends LitElement {
 		let body = imageSrc
 			? html`<lazy-img id="avatar-image" src="${imageSrc}"></lazy-img>`
 			: this.noPlaceholder
-				? null
-				: html`<div id="avatar-placeholder">
+			? null
+			: html`<div id="avatar-placeholder">
 					<span>${utils.getGroupInitials(this.placeholderOverride ?? this.group.displayName)}</span>
 			  </div>`;
 
