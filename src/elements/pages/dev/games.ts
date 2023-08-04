@@ -324,7 +324,11 @@ export default class DevGames extends LitElement {
 					})} class="max-sm:w-1/3 md:w-2/3"> -->
 					<div class="max-sm:w-1/3 md:w-2/3 flex flex-row space-x-3">
 						<div class="max-sm:invisible max-sm:w-0 my-auto">
-							<group-avatar class="w-8 h-8" .group=${group}></group-avatar>
+							<group-avatar
+								class="w-8 h-8"
+								style="--font-size: 12px"
+								.group=${group}
+							></group-avatar>
 						</div>
 						<h2 class="text-ellipsis overflow-hidden text-[24px] max-w-3/4">
 							${group.displayName}
