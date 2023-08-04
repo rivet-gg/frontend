@@ -376,8 +376,6 @@ export class GlobalState {
 
 			this.startEventsStream();
 			this.startRecentFollowersStream();
-			// Initially fetch party
-			this.fetchParty();
 		});
 	}
 
@@ -440,18 +438,7 @@ export class GlobalState {
 						thread.unreadCount = 0;
 						thread.lastReadTs = update.kind.chatRead.readTs;
 					}
-					// Update party
-					else if (update.kind.partyUpdate) {
-						this.currentParty = update.kind.partyUpdate.party;
-						globalEventGroups.dispatch('party-update', this.currentParty);
-
-						// Delete all party threads when leaving a party
-						if (!update.kind.partyUpdate.party) {
-							dispatchRecentThreads = true;
-
-							this.recentThreads = this.recentThreads.filter(t => !t.topic.party);
-						}
-					} // Remove thread
+					// Remove thread
 					else if (update.kind.chatThreadRemove) {
 						let threadIndex = this.recentThreads.findIndex(
 							t => t.threadId == update.kind.chatThreadRemove.threadId
@@ -464,16 +451,6 @@ export class GlobalState {
 					} else {
 						logging.warn('Unknown update kind', update);
 					}
-				}
-
-				if (this.currentParty) {
-					// Delete any party that isn't the current party (happens when switching)
-					let len = this.recentThreads.length;
-					this.recentThreads = this.recentThreads.filter(t =>
-						t.topic.party ? t.topic.party.party.partyId == this.currentParty.partyId : true
-					);
-
-					dispatchRecentThreads = dispatchRecentThreads || len != this.recentThreads.length;
 				}
 
 				// Dispatch event for main-sidebar to use
@@ -503,18 +480,6 @@ export class GlobalState {
 		this.recentFollowersStream.onError(err => {
 			logging.error('Request error', err);
 		});
-	}
-
-	async fetchParty() {
-		try {
-			let res = await this.live.party.getPartySelfSummary({});
-			if (!this.currentParty) {
-				this.currentParty = res.party;
-				globalEventGroups.dispatch('party-update', this.currentParty);
-			}
-		} catch (err) {
-			logging.error('Request error', err);
-		}
 	}
 
 	private async startServiceWorker() {
