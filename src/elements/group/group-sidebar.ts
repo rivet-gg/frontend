@@ -259,7 +259,6 @@ export default class GroupSidebar extends LitElement {
 			// 	);
 			// }
 
-
 			// if (this.profile.isDeveloper) {
 			// 	actions.push(html`<stylized-button
 			// 		href=${routes.groupBilling.build({
