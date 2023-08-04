@@ -166,13 +166,6 @@ export default class GroupSidebar extends LitElement {
 				? html`<info-panel-body id="actions" noindent>${actions}</info-panel-body>`
 				: null}
 
-			<!-- About -->
-			<info-panel-header>
-				<div slot="title">Bio</div>
-			</info-panel-header>
-
-			<info-panel-body id="bio">${this.renderAbout()}</info-panel-body>
-
 			<!-- Events -->
 			<!-- <info-panel-header>
 				<div slot="title">Events</div>
@@ -214,16 +207,6 @@ export default class GroupSidebar extends LitElement {
 		</div>`;
 	}
 
-	renderAbout() {
-		if (!this.profile) return html`<loading-placeholder-text></loading-placeholder-text>`;
-
-		if (this.profile.bio) {
-			return html`<div id="bio-text">${this.profile.bio}</div>`;
-		} else {
-			return html`<div id="bio-text" class="muted">${this.profile.displayName} has no bio.</div>`;
-		}
-	}
-
 	renderActions(isOwner: boolean) {
 		if (!this.profile) return [];
 
@@ -253,18 +236,9 @@ export default class GroupSidebar extends LitElement {
 				);
 			}
 		} else {
-			if (notInChat) {
-				actions.push(html`<stylized-button
-					href=${routes.groupChat.build({
-						id: groupId
-					})}
-					>Open chat</stylized-button
-				>`);
-
-				actions.push(html`<stylized-button .trigger=${this.openCreateInviteModal.bind(this)}
-					>Create invite</stylized-button
-				>`);
-			}
+			actions.push(html`<stylized-button .trigger=${this.openCreateInviteModal.bind(this)}
+				>Create invite</stylized-button
+			>`);
 
 			// if (global.currentParty) {
 			// 	let isLeader = global.currentParty.members.some(
@@ -285,14 +259,15 @@ export default class GroupSidebar extends LitElement {
 			// 	);
 			// }
 
-			if (notInChat && this.profile.isDeveloper) {
-				actions.push(html`<stylized-button
-					href=${routes.groupBilling.build({
-						groupId: groupId
-					})}
-					>View billing</stylized-button
-				>`);
-			}
+
+			// if (this.profile.isDeveloper) {
+			// 	actions.push(html`<stylized-button
+			// 		href=${routes.groupBilling.build({
+			// 			groupId: groupId
+			// 		})}
+			// 		>View billing</stylized-button
+			// 	>`);
+			// }
 
 			if (notInChat && !isOwner) {
 				actions.push(html`<stylized-button
@@ -304,7 +279,7 @@ export default class GroupSidebar extends LitElement {
 			}
 		}
 
-		if (notInChat && isOwner) {
+		if (isOwner) {
 			actions.push(html`<stylized-button .trigger=${this.openEditModal.bind(this)}
 				>Edit group</stylized-button
 			>`);
