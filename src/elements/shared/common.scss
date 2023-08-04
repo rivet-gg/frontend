@@ -1,43 +1,5 @@
 @use 'consts';
 
-@mixin scrollbar-thumb($color) {
-	background-clip: padding-box;
-	background: $color;
-	border-radius: 5px;
-	border: 3px solid transparent;
-	background-clip: padding-box;
-}
-
-@mixin scrollbar-track($color) {
-	background: $color;
-	background-clip: padding-box;
-	border-radius: 5px;
-	border: 3px solid transparent;
-}
-
-::-webkit-scrollbar {
-	width: consts.$scrollbar-width;
-	height: consts.$scrollbar-width;
-	background: transparent;
-}
-::-webkit-scrollbar-track {
-	background: transparent;
-}
-::-webkit-scrollbar-track-piece {
-	background: transparent;
-}
-::-webkit-scrollbar-thumb {
-	@include scrollbar-thumb(white);
-}
-::-webkit-scrollbar-corner {
-	background: transparent;
-}
-
-// Wildcard to set scrollbar color on all elements (Firefox)
-* {
-	scrollbar-color: #ececec transparent;
-}
-
 // Headers
 @mixin small-header() {
 	font-weight: bolder;
@@ -103,18 +65,4 @@ code {
 	&.inline {
 		font-weight: 400;
 	}
-}
-
-.light-scrollbar::-webkit-scrollbar-thumb {
-	@include scrollbar-track(#18181b);
-}
-.light-scrollbar::-webkit-scrollbar-track {
-	@include scrollbar-track(rgba(0, 0, 0, 0.1));
-}
-
-.scrollbar-gutter::-webkit-scrollbar-thumb {
-	@include scrollbar-track(white);
-}
-.scrollbar-gutter::-webkit-scrollbar-track {
-	@include scrollbar-track(rgba(0, 0, 0, 0.1));
 }

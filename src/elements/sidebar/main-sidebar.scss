@@ -18,22 +18,6 @@
 		box-sizing: border-box;
 
 		overflow-y: scroll;
-		scrollbar-color: transparent transparent; // Firefox
-
-		&::-webkit-scrollbar-thumb {
-			background-color: transparent;
-			scrollbar-color: transparent;
-		}
-
-		// Show scrollbar only on hover
-		&:hover::-webkit-scrollbar-thumb {
-			background-color: white;
-			scrollbar-color: #ececec transparent;
-		}
-
-		&:hover {
-			scrollbar-color: #ececec transparent; // Firefox
-		}
 
 		#main-logo {
 			width: 100%;

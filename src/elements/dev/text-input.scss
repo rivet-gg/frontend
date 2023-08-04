@@ -43,20 +43,6 @@
 				color: #18181b80;
 			}
 		}
-
-		textarea::-webkit-scrollbar-thumb {
-			@include common.scrollbar-track(#808080);
-		}
-		textarea::-webkit-scrollbar-track {
-			@include common.scrollbar-track(rgba(0, 0, 0, 0.1));
-		}
-
-		textarea:focus::-webkit-scrollbar-thumb {
-			@include common.scrollbar-track(#18181b);
-		}
-		textarea:focus::-webkit-scrollbar-track {
-			@include common.scrollbar-track(rgba(0, 0, 0, 0.1));
-		}
 	}
 
 	&.seamless {

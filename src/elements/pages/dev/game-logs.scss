@@ -36,15 +36,6 @@ page-error {
 		margin: -8px;
 		margin-right: $sidebar-padding;
 		overflow: auto;
-
-		&::-webkit-scrollbar-thumb {
-			background-color: transparent;
-		}
-
-		// Show scrollbar only on hover
-		&:hover::-webkit-scrollbar-thumb {
-			background-color: white;
-		}
 	}
 
 	#body {

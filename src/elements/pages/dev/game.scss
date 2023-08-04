@@ -17,15 +17,6 @@ h-tab-layout {
 		z-index: 2;
 		overflow-y: auto;
 		flex: 0 0 235px;
-
-		&::-webkit-scrollbar-thumb {
-			background-color: transparent;
-		}
-
-		// Show scrollbar only on hover
-		&:hover::-webkit-scrollbar-thumb {
-			background-color: white;
-		}
 	}
 
 	#body {
