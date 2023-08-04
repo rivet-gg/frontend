@@ -163,7 +163,7 @@ export default class IdentityNotification extends LitElement {
 
 		// Render message subtitle separately (can return null)
 		return html`
-			<div id="expand" class="pt-[4rem]">
+			<div id="expand">
 				<div
 					id="base"
 					class=${classes}
