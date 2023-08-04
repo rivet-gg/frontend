@@ -8,7 +8,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { execSync } = require('child_process');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
-if (!process.env.ASSETS_URL) process.env.ASSETS_URL = 'https://assets.rivet.gg';
+if (!process.env.ASSETS_URL) process.env.ASSETS_URL = 'https://assets2.rivet.gg';
 
 require('dotenv').config();
 
