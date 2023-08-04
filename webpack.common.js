@@ -8,7 +8,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { execSync } = require('child_process');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
-if (!process.env.ASSETS_URL) process.env.ASSETS_URL = 'https://assets.rivet.gg';
+if (!process.env.ASSETS_URL) process.env.ASSETS_URL = 'https://assets2.rivet.gg';
 
 require('dotenv').config();
 
@@ -17,7 +17,7 @@ module.exports = async function () {
 	console.log('Fetching assets');
 	let rivetLogo = (
 		await axios({
-			url: process.env.ASSETS_URL + '/icons/logo/logo-small.svg',
+			url: process.env.ASSETS_URL + '/icons/logo/logo-gradient-white.svg',
 			responseType: 'text'
 		})
 	).data;
