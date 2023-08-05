@@ -2,7 +2,7 @@
 @use '../../shared/utils';
 @use '../../shared/consts';
 
-#create-game {
+.dashed-border-button {
 	$border-width: 3px;
 	$border-radius: 30px;
 
@@ -10,7 +10,6 @@
 	display: flex;
 	position: relative;
 	padding: $border-width;
-	height: 320px;
 	border-radius: $border-radius;
 
 	background-image: utils.dashed-border(
@@ -107,6 +106,7 @@
 						overflow: hidden;
 						display: flex;
 						position: relative;
+						height: 320px;
 						border-radius: $border-radius;
 
 						background-image: utils.dashed-border(
@@ -178,55 +178,6 @@
 							margin-left: 12px;
 						}
 					}
-				}
-			}
-		}
-
-		#create-group {
-			background-color: $raised-bg;
-			border-radius: 15px;
-			cursor: pointer;
-			transition: background-color consts.$transition-length;
-			padding: 15px 17px;
-			margin: 0 0 0 -15px;
-			width: 75%;
-
-			@include common.active-state();
-
-			&:hover {
-				background-color: rgba(255, 255, 255, 0.14);
-			}
-
-			#create-group-overlay {
-				position: absolute;
-				display: flex;
-				flex-direction: row;
-				align-items: center;
-				justify-content: center;
-				left: 0;
-				top: 0;
-				width: 100%;
-				height: 100%;
-				padding: 0 17px;
-				box-sizing: border-box;
-
-				font-size: 20px;
-				font-weight: 600;
-				color: #ececec;
-				text-align: center;
-				z-index: 1;
-				cursor: pointer;
-
-				e-svg {
-					width: 25px;
-					height: 25px;
-					margin: 0 10px 0 0;
-				}
-			}
-
-			.placeholder-group-body {
-				loading-placeholder {
-					--border-radius: 3px;
 				}
 			}
 		}
