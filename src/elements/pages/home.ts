@@ -25,7 +25,7 @@ import { ColorExtractor } from '../../utils/colors';
 import { ActivitiesCache } from '../../data/cache';
 
 interface Splash {
-	render: (name: TemplateResult) => TemplateResult;
+	render: (name: string) => TemplateResult;
 	weight: number;
 }
 
@@ -765,16 +765,14 @@ export default class HomePage extends LitElement {
 	}
 
 	renderSplashText() {
-		let name = html`<identity-name no-link .identity=${global.currentIdentity}></identity-name>`;
-
 		let totalWeight = SPLASHES.reduce((s, a) => s + a.weight, 0);
 		let movingWeight = 0;
 
 		for (let splash of SPLASHES) {
 			movingWeight += splash.weight / totalWeight;
-			if (this.splashSeed <= movingWeight) return splash.render(name);
+			if (this.splashSeed <= movingWeight) return splash.render(global.currentIdentity.displayName);
 		}
 
-		return SPLASHES[0].render(name);
+		return SPLASHES[0].render(global.currentIdentity.displayName);
 	}
 }

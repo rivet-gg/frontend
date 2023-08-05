@@ -9,13 +9,14 @@ import { when } from 'lit/directives/when.js';
 import UIRoot from '../root/ui-root';
 
 interface Splash {
-	render: (name: TemplateResult) => TemplateResult;
+	render: (name: string) => TemplateResult;
 	weight: number;
 }
 
 const SPLASHES: Splash[] = [
 	{
-		render: name => html`Welcome to Rivet,<br />${name}`,
+		render: name =>
+			html`<span class="text-2xl font-semibold">Welcome to Rivet,</span><br /><span class="text-6xl font-display leading-12">${name}</span></span></span>`,
 		weight: 1
 	}
 ];
@@ -88,7 +89,7 @@ export default class UserBanner extends LitElement {
 					<div id="banner-content">
 						<identity-avatar hide-status .identity=${global.currentIdentity}></identity-avatar>
 						<div id="banner-text">
-							<h1>${this.renderSplashText()}</h1>
+							<div>${this.renderSplashText()}</div>
 						</div>
 					</div>
 				</div>
@@ -118,16 +119,14 @@ export default class UserBanner extends LitElement {
 	}
 
 	renderSplashText() {
-		let name = html`<identity-name no-link .identity=${global.currentIdentity}></identity-name>`;
-
 		let totalWeight = SPLASHES.reduce((s, a) => s + a.weight, 0);
 		let movingWeight = 0;
 
 		for (let splash of SPLASHES) {
 			movingWeight += splash.weight / totalWeight;
-			if (this.splashSeed <= movingWeight) return splash.render(name);
+			if (this.splashSeed <= movingWeight) return splash.render(global.currentIdentity.displayName);
 		}
 
-		return SPLASHES[0].render(name);
+		return SPLASHES[0].render(global.currentIdentity.displayName);
 	}
 }
