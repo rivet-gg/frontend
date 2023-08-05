@@ -35,6 +35,20 @@ export default class KitchenSink extends LitElement {
 			<rvt-button>Button</rvt-button>
 			<rvt-button large>Button</rvt-button>
 			<rvt-button extra-large>Button</rvt-button>
+
+			<h2>Icon</h2>
+			<rvt-button primary extra-small icon="solid/plus">Button</rvt-button>
+			<rvt-button primary small icon="solid/plus">Button</rvt-button>
+			<rvt-button primary icon="solid/plus">Button</rvt-button>
+			<rvt-button primary large icon="solid/plus">Button</rvt-button>
+			<rvt-button primary extra-large icon="solid/plus">Button</rvt-button>
+
+			<h2>Icon right</h2>
+			<rvt-button primary extra-small icon-right="solid/plus">Button</rvt-button>
+			<rvt-button primary small icon-right="solid/plus">Button</rvt-button>
+			<rvt-button primary icon-right="solid/plus">Button</rvt-button>
+			<rvt-button primary large icon-right="solid/plus">Button</rvt-button>
+			<rvt-button primary extra-large icon-right="solid/plus">Button</rvt-button>
 		</div> `;
 	}
 }

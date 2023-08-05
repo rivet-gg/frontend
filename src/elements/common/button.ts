@@ -6,6 +6,7 @@ import { classMap } from 'lit/directives/class-map.js';
 import { cssify } from '../../utils/css';
 import logging from '../../utils/logging';
 import { globalEventGroups } from '../../utils/global-events';
+import { when } from 'lit/directives/when.js';
 
 type TriggerResult = Promise<any> | void;
 
@@ -19,14 +20,8 @@ export default class StylizedButton extends LitElement {
 	@property({ type: String })
 	target?: string;
 
-	@property({ type: String })
-	color: string = null;
-
 	// @property({ type: String })
-	// icon: string = null;
-
-	// @property({ type: String, attribute: 'right-icon' })
-	// rightIcon: string = null;
+	// color: string = null;
 
 	// @property({ type: Boolean, attribute: 'non-icon' })
 	// nonIcon = false;
@@ -88,9 +83,11 @@ export default class StylizedButton extends LitElement {
 	// 	}
 	// }
 
+	// Style
 	@property({ type: Boolean, attribute: 'primary' })
 	primary: boolean = false;
 
+	// Size
 	@property({ type: Boolean, attribute: 'extra-small' })
 	extraSmall: boolean = false;
 
@@ -103,6 +100,13 @@ export default class StylizedButton extends LitElement {
 	@property({ type: Boolean, attribute: 'extra-large' })
 	extraLarge: boolean = false;
 
+	// Icon
+	@property({ type: String, attribute: 'icon' })
+	icon?: string;
+
+	@property({ type: String, attribute: 'icon-right' })
+	iconRight?: string;
+
 	render() {
 		let size = 0;
 		if (this.extraSmall) size = -2;
@@ -110,7 +114,7 @@ export default class StylizedButton extends LitElement {
 		if (this.large) size = 1;
 		if (this.extraLarge) size = 2;
 
-		let classes = 'font-semibold text-white shadow-sm ';
+		let classes = 'flex items-center gap-x-1.5 font-semibold text-white shadow-sm ';
 		if (this.primary) {
 			classes +=
 				'bg-indigo-500 hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 ';
@@ -138,7 +142,14 @@ export default class StylizedButton extends LitElement {
 				throw 'Unreachable';
 		}
 
-		return html`<button type="button" class=${classes}><slot></slot></button>`;
+		return html`<button type="button" class=${classes}>
+			${when(this.icon, () => html`<e-svg class="-ml-0.5 h-5 w-5" .src=${this.icon}></e-svg>`)}
+			<slot></slot>
+			${when(
+				this.iconRight,
+				() => html`<e-svg class="-mr-0.5 h-5 w-5" .src=${this.iconRight}></e-svg>`
+			)}
+		</button>`;
 	}
 
 	// render() {
