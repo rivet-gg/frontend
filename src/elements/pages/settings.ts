@@ -263,37 +263,59 @@ export default class SettingsPage extends LitElement {
 
 		return html`
 			<div id="base">
-				<!-- Header -->
-				<page-header>
-					<e-svg src="regular/gear"></e-svg>
-					<h1>Settings</h1>
-				</page-header>
-				<h-tab-layout>
+				<rvt-sidebar-layout>
+					<div slot="sidebar">
+						<rvt-sidebar-group>
+							${repeat(
+								this.tabs,
+								p => p.id,
+								p =>
+									p.spacer
+										? html`<div class="tab-spacer"></div>`
+										: p.url
+										? html`<rvt-sidebar-button
+												?active=${p.id == this.tabId}
+												.href=${p.url}
+												.target=${p.notHub ? '_blank' : null}
+												>${p.title}</rvt-sidebar-button
+										  >`
+										: html`<rvt-sidebar-button
+												?active=${p.id == this.tabId}
+												.trigger=${this.navigateTab.bind(this, p.id)}
+												>${p.title}</rvt-sidebar-button
+										  >`
+							)}
+						</rvt-sidebar-group>
+					</div>
+					<div slot="body">Body</div>
+				</rvt-sidebar-layout>
+
+				<!-- <h-tab-layout>
 					${(global.isMobile ? !currentTab : true)
-						? html`<div slot="tabs">
-								${repeat(
-									this.tabs,
-									p => p.id,
-									p =>
-										p.spacer
-											? html`<div class="tab-spacer"></div>`
-											: p.url
-											? html`<h-tab
-													?active=${p.id == this.tabId}
-													.href=${p.url}
-													.target=${p.notHub ? '_blank' : null}
-													>${p.title}</h-tab
-											  >`
-											: html`<h-tab
-													?active=${p.id == this.tabId}
-													.trigger=${this.navigateTab.bind(this, p.id)}
-													>${p.title}</h-tab
-											  >`
-								)}
-						  </div>`
-						: null}
+					? html`<div slot="tabs">
+							${repeat(
+								this.tabs,
+								p => p.id,
+								p =>
+									p.spacer
+										? html`<div class="tab-spacer"></div>`
+										: p.url
+										? html`<h-tab
+												?active=${p.id == this.tabId}
+												.href=${p.url}
+												.target=${p.notHub ? '_blank' : null}
+												>${p.title}</h-tab
+										  >`
+										: html`<h-tab
+												?active=${p.id == this.tabId}
+												.trigger=${this.navigateTab.bind(this, p.id)}
+												>${p.title}</h-tab
+										  >`
+							)}
+					  </div>`
+					: null}
 					${currentTab ? html`<div slot="body">${currentTab.render.apply(this)}</div>` : null}
-				</h-tab-layout>
+				</h-tab-layout> -->
 			</div>
 		`;
 	}
@@ -309,12 +331,12 @@ export default class SettingsPage extends LitElement {
 		return html`
 			<div class="padded-cell">
 				<h1 class="item-header">Profile appearance</h1>
-				<stylized-button
+				<rvt-button
 					icon="solid/user-pen"
 					color="#404040"
 					text="#eeeeee"
 					.trigger=${this.openEditModal.bind(this)}
-					>Edit profile</stylized-button
+					>Edit profile</rvt-button
 				>
 			</div>
 			<div class="spacer"></div>
@@ -326,12 +348,12 @@ export default class SettingsPage extends LitElement {
 						: null}
 				</div>
 				<p>Link your email to Rivet for full account access.</p>
-				<stylized-button
+				<rvt-button
 					icon="solid/envelope"
 					color="#404040"
 					text="#eeeeee"
 					.trigger=${() => UIRoot.shared.openRegisterPanel()}
-					>${isRegistered ? 'View registration' : 'Link email'}</stylized-button
+					>${isRegistered ? 'View registration' : 'Link email'}</rvt-button
 				>
 			</div>
 			<div class="spacer"></div>
@@ -346,23 +368,23 @@ export default class SettingsPage extends LitElement {
 			<!-- <div class='spacer'></div>
 			<div class='padded-cell'>
 				<h1 class='item-header'>Email <span class='muted'>******email@gmail.com</span></h1>
-				<stylized-button icon='regular/envelope' color='#404040' text='#eeeeee' .trigger=${unimp}>Change email</stylized-button>
+				<rvt-button icon='regular/envelope' color='#404040' text='#eeeeee' .trigger=${unimp}>Change email</rvt-button>
 			</div>
 			<div class='spacer'></div>
 			<div class='padded-cell'>
 				<h1 class='item-header'>Password</h1>
-				<stylized-button icon='regular/key' color='#404040' text='#eeeeee' .trigger=${unimp}>Change password</stylized-button>
+				<rvt-button icon='regular/key' color='#404040' text='#eeeeee' .trigger=${unimp}>Change password</rvt-button>
 			</div>
 			<div class='spacer'></div>
 			<div class='padded-cell'>
 				<h1 class='item-header'>Two Factor Authentication <span class='twofa-badge'><e-svg src='regular/lock'></e-svg>Enabled</span></h1>
 				<p>Two factor authentication provides an extra layer of security to your Rivet account.</p>
-				<stylized-button icon='regular/lock' color='#404040' text='#eeeeee' .trigger=${unimp}>Remove two factor authentication</stylized-button>
+				<rvt-button icon='regular/lock' color='#404040' text='#eeeeee' .trigger=${unimp}>Remove two factor authentication</rvt-button>
 			</div>
 			<div class='spacer'></div>
 			<div class='padded-cell'>
 				<h1 class='item-header'>Delete account</h1>
-				<stylized-button icon= of'regular/identity-slash' color='#db3939' .trigger=${unimp}>Delete account</stylized-button>
+				<rvt-button icon= of'regular/identity-slash' color='#db3939' .trigger=${unimp}>Delete account</rvt-button>
 			</div> -->
 			${when(
 				global.currentIdentity.isRegistered,
@@ -478,15 +500,15 @@ export default class SettingsPage extends LitElement {
 			<div class="padded-cell">
 				<h1 class="item-header">Log out of Rivet</h1>
 				${global.currentIdentity.isRegistered
-					? html`<stylized-button
+					? html`<rvt-button
 							icon="regular/arrow-right-from-bracket"
 							color="#db3939"
 							.trigger=${this.logout.bind(this)}
-							>Log out</stylized-button
+							>Log out</rvt-button
 					  >`
 					: html`<p>Logged in as guest.</p>
-							<stylized-button .trigger=${() => UIRoot.shared.openRegisterPanel()}
-								>Register Now</stylized-button
+							<rvt-button .trigger=${() => UIRoot.shared.openRegisterPanel()}
+								>Register Now</rvt-button
 							> `}
 			</div>
 		`;
