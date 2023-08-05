@@ -16,9 +16,16 @@ import logging from '../../utils/logging';
 import { ToggleSwitchEvent } from '../common/toggle-switch';
 import UIRoot from '../root/ui-root';
 import { ls } from '../../utils/cache';
+import { map } from 'lit/directives/map.js';
+
+interface TabGroup {
+	title: string;
+	items: SettingsPageData[];
+}
 
 interface SettingsPageData {
 	id?: string;
+	icon?: string;
 	title?: string;
 	render?(): TemplateResult;
 	url?: string;
@@ -39,7 +46,7 @@ export default class SettingsPage extends LitElement {
 	@property({ type: String })
 	tabId?: string;
 
-	tabs: SettingsPageData[];
+	tabs: TabGroup[];
 	settings: SettingsData;
 
 	@property({ type: Object })
@@ -75,68 +82,40 @@ export default class SettingsPage extends LitElement {
 		// Build tabs
 		this.tabs = [
 			{
-				id: 'identity',
-				title: 'My Account',
-				render: this.renderIdentity
-			},
-			{ spacer: true },
-			{
-				id: 'privacy',
-				title: 'Privacy & Terms',
-				render: this.renderPrivacy
-			},
-			{
-				id: 'support',
-				title: 'Support',
-				url: 'https://rivet.gg/support',
-				notHub: true
-			},
-			{ spacer: true },
-			{
-				id: 'hub-changelog',
-				title: 'Hub Changelog',
-				url: 'https://rivet.gg/tag/hub-changelog',
-				notHub: true
+				title: 'Account',
+				items: [
+					{
+						id: 'identity',
+						icon: 'solid/user',
+						title: 'My Account',
+						render: this.renderIdentity
+					},
+					{
+						id: 'logout',
+						icon: 'solid/right-from-bracket',
+						title: 'Log out',
+						render: this.renderLogout
+					}
+				]
 			},
 			{
-				id: 'dev-changelog',
-				title: 'Developer Changelog',
-				url: 'https://rivet.gg/tag/developer-changelog',
-				notHub: true
-			},
-			{ spacer: true },
-			{
-				id: 'developers',
-				title: 'Developer Dashboard',
-				url: routes.devDashboard.build({})
-			},
-			{ spacer: true },
-			{
-				id: 'logout',
-				title: 'Log out',
-				render: this.renderLogout
+				title: 'Informational',
+				items: [
+					{
+						id: 'privacy',
+						icon: 'solid/file',
+						title: 'Privacy & Terms',
+						render: this.renderPrivacy
+					},
+					{
+						id: 'support',
+						icon: 'solid/question',
+						title: 'Support',
+						url: 'https://rivet.gg/support',
+						notHub: true
+					}
+				]
 			}
-
-			// {  // TODO:
-			// 	id: "credits",
-			// 	title: "Credits",
-			// 	url: '/credits',
-			// },
-			// {
-			// 	id: "appearance",
-			// 	title: "Appearance"
-			// },
-			// {
-			// 	id: "link",
-			// 	title: "Link Account",
-			// 	render: this.renderLinkAccount,
-			// },
-			// { spacer: true },
-			// {
-			// 	id: "changelog",
-			// 	title: "Change Log",
-			// 	render: this.renderChangelog
-			// },
 		];
 	}
 
@@ -165,12 +144,14 @@ export default class SettingsPage extends LitElement {
 
 		// Set tab if needed; we don't get an updated event if the tab is null
 		if (this.tabId == null && !global.isMobile) {
-			this.navigateTab(this.tabs[0].id, false);
+			this.navigateTab(this.tabs[0].items[0].id, false);
 		}
 
 		// Update mobile navbar title
 		if (global.isMobile && changedProperties.has('tabId')) {
-			let currentTab = this.tabs.find(p => p.hasOwnProperty('id') && p.id == this.tabId);
+			let currentTab = this.tabs
+				.flatMap(x => x.items)
+				.find(p => p.hasOwnProperty('id') && p.id == this.tabId);
 
 			if (currentTab) UIRouter.shared.updateTitle(currentTab.title);
 		}
@@ -259,64 +240,37 @@ export default class SettingsPage extends LitElement {
 		if (!this.tabId && !global.isMobile) return null;
 		if (this.loadError) return responses.renderError(this.loadError);
 
-		let currentTab = this.tabs.find(p => p.hasOwnProperty('id') && p.id == this.tabId);
+		let currentTab = this.tabs
+			.flatMap(x => x.items)
+			.find(p => p.hasOwnProperty('id') && p.id == this.tabId);
 
 		return html`
-			<div id="base">
-				<rvt-sidebar-layout>
-					<div slot="sidebar">
-						<rvt-sidebar-group>
-							${repeat(
-								this.tabs,
-								p => p.id,
-								p =>
-									p.spacer
-										? html`<div class="tab-spacer"></div>`
-										: p.url
-										? html`<rvt-sidebar-button
-												?active=${p.id == this.tabId}
-												.href=${p.url}
-												.target=${p.notHub ? '_blank' : null}
-												>${p.title}</rvt-sidebar-button
-										  >`
-										: html`<rvt-sidebar-button
-												?active=${p.id == this.tabId}
-												.trigger=${this.navigateTab.bind(this, p.id)}
-												>${p.title}</rvt-sidebar-button
-										  >`
-							)}
-						</rvt-sidebar-group>
-					</div>
-					<div slot="body">Body</div>
-				</rvt-sidebar-layout>
-
-				<!-- <h-tab-layout>
-					${(global.isMobile ? !currentTab : true)
-					? html`<div slot="tabs">
-							${repeat(
-								this.tabs,
-								p => p.id,
-								p =>
-									p.spacer
-										? html`<div class="tab-spacer"></div>`
-										: p.url
-										? html`<h-tab
-												?active=${p.id == this.tabId}
-												.href=${p.url}
-												.target=${p.notHub ? '_blank' : null}
-												>${p.title}</h-tab
-										  >`
-										: html`<h-tab
-												?active=${p.id == this.tabId}
-												.trigger=${this.navigateTab.bind(this, p.id)}
-												>${p.title}</h-tab
-										  >`
-							)}
-					  </div>`
-					: null}
-					${currentTab ? html`<div slot="body">${currentTab.render.apply(this)}</div>` : null}
-				</h-tab-layout> -->
-			</div>
+			<rvt-sidebar-layout>
+				<rvt-sidebar slot="sidebar">
+					${map(
+						this.tabs,
+						group => html`
+							<rvt-sidebar-group .title=${group.title}>
+								${map(
+									group.items,
+									p =>
+										html`<rvt-sidebar-button
+											?current=${p.id == this.tabId}
+											.href=${p.url}
+											.target=${p.notHub ? '_blank' : null}
+											.trigger=${!p.url ? this.navigateTab.bind(this, p.id) : null}
+											.icon=${p.icon}
+											>${p.title}</rvt-sidebar-button
+										>`
+								)}
+							</rvt-sidebar-group>
+						`
+					)}
+				</rvt-sidebar>
+				<rvt-sidebar-body slot="body"
+					>${when(currentTab, () => currentTab.render.apply(this))}</rvt-sidebar-body
+				>
+			</rvt-sidebar-layout>
 		`;
 	}
 
@@ -331,12 +285,12 @@ export default class SettingsPage extends LitElement {
 		return html`
 			<div class="padded-cell">
 				<h1 class="item-header">Profile appearance</h1>
-				<rvt-button
+				<stylized-button
 					icon="solid/user-pen"
 					color="#404040"
 					text="#eeeeee"
 					.trigger=${this.openEditModal.bind(this)}
-					>Edit profile</rvt-button
+					>Edit profile</stylized-button
 				>
 			</div>
 			<div class="spacer"></div>
@@ -348,12 +302,12 @@ export default class SettingsPage extends LitElement {
 						: null}
 				</div>
 				<p>Link your email to Rivet for full account access.</p>
-				<rvt-button
+				<stylized-button
 					icon="solid/envelope"
 					color="#404040"
 					text="#eeeeee"
 					.trigger=${() => UIRoot.shared.openRegisterPanel()}
-					>${isRegistered ? 'View registration' : 'Link email'}</rvt-button
+					>${isRegistered ? 'View registration' : 'Link email'}</stylized-button
 				>
 			</div>
 			<div class="spacer"></div>
@@ -368,23 +322,23 @@ export default class SettingsPage extends LitElement {
 			<!-- <div class='spacer'></div>
 			<div class='padded-cell'>
 				<h1 class='item-header'>Email <span class='muted'>******email@gmail.com</span></h1>
-				<rvt-button icon='regular/envelope' color='#404040' text='#eeeeee' .trigger=${unimp}>Change email</rvt-button>
+				<stylized-button icon='regular/envelope' color='#404040' text='#eeeeee' .trigger=${unimp}>Change email</stylized-button>
 			</div>
 			<div class='spacer'></div>
 			<div class='padded-cell'>
 				<h1 class='item-header'>Password</h1>
-				<rvt-button icon='regular/key' color='#404040' text='#eeeeee' .trigger=${unimp}>Change password</rvt-button>
+				<stylized-button icon='regular/key' color='#404040' text='#eeeeee' .trigger=${unimp}>Change password</stylized-button>
 			</div>
 			<div class='spacer'></div>
 			<div class='padded-cell'>
 				<h1 class='item-header'>Two Factor Authentication <span class='twofa-badge'><e-svg src='regular/lock'></e-svg>Enabled</span></h1>
 				<p>Two factor authentication provides an extra layer of security to your Rivet account.</p>
-				<rvt-button icon='regular/lock' color='#404040' text='#eeeeee' .trigger=${unimp}>Remove two factor authentication</rvt-button>
+				<stylized-button icon='regular/lock' color='#404040' text='#eeeeee' .trigger=${unimp}>Remove two factor authentication</stylized-button>
 			</div>
 			<div class='spacer'></div>
 			<div class='padded-cell'>
 				<h1 class='item-header'>Delete account</h1>
-				<rvt-button icon= of'regular/identity-slash' color='#db3939' .trigger=${unimp}>Delete account</rvt-button>
+				<stylized-button icon= of'regular/identity-slash' color='#db3939' .trigger=${unimp}>Delete account</stylized-button>
 			</div> -->
 			${when(
 				global.currentIdentity.isRegistered,
@@ -500,15 +454,15 @@ export default class SettingsPage extends LitElement {
 			<div class="padded-cell">
 				<h1 class="item-header">Log out of Rivet</h1>
 				${global.currentIdentity.isRegistered
-					? html`<rvt-button
+					? html`<stylized-button
 							icon="regular/arrow-right-from-bracket"
 							color="#db3939"
 							.trigger=${this.logout.bind(this)}
-							>Log out</rvt-button
+							>Log out</stylized-button
 					  >`
 					: html`<p>Logged in as guest.</p>
-							<rvt-button .trigger=${() => UIRoot.shared.openRegisterPanel()}
-								>Register Now</rvt-button
+							<stylized-button .trigger=${() => UIRoot.shared.openRegisterPanel()}
+								>Register Now</stylized-button
 							> `}
 			</div>
 		`;

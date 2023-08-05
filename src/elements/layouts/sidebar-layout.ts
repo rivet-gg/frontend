@@ -2,6 +2,8 @@ import { LitElement, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { when } from 'lit/directives/when.js';
 import { cssify } from '../../utils/css';
+import clsx from 'clsx';
+import { ifDefined } from 'lit/directives/if-defined.js';
 
 @customElement('rvt-sidebar-layout')
 export default class Layout extends LitElement {
@@ -9,37 +11,42 @@ export default class Layout extends LitElement {
 
 	render() {
 		return html`
-			<div>
-				<div class="fixed inset-y-0 flex w-72 flex-col border-white/10 border-r top-14">
-					<!-- Sidebar component, swap this element with another sidebar if you like -->
-					<div class="flex grow flex-col gap-y-5 overflow-y-auto px-6">
-						<nav class="flex flex-1 flex-col">
-							<ul role="list" class="flex flex-1 flex-col gap-y-7">
-								<rvt-sidebar-group>
-									<rvt-sidebar-button current icon="solid/circle"
-										>Item A</rvt-sidebar-button
-									>
-									<rvt-sidebar-button icon="solid/star">Item B</rvt-sidebar-button>
-									<rvt-sidebar-button icon="solid/triangle">Item C</rvt-sidebar-button>
-								</rvt-sidebar-group>
-
-								<rvt-sidebar-group title="Your teams">
-									<rvt-sidebar-button icon="solid/circle">Item A</rvt-sidebar-button>
-									<rvt-sidebar-button icon="solid/star">Item B</rvt-sidebar-button>
-									<rvt-sidebar-button icon="solid/triangle">Item C</rvt-sidebar-button>
-								</rvt-sidebar-group>
-							</ul>
-						</nav>
+			<div style="w-full">
+				<!-- Sidebar -->
+				<div class="fixed flex w-72 flex-col border-white/10 border-r top-14 bottom-0">
+					<div class="overflow-y-auto px-6 py-5 w-full h-full">
+						<slot name="sidebar"></slot>
 					</div>
 				</div>
 
-				<main class="pl-72">
-					<div class="px-4 sm:px-6 lg:px-8">
-						<slot></slot>
-					</div>
+				<!-- Main -->
+				<main class="w-full pl-72">
+					<slot name="body"></slot>
 				</main>
 			</div>
 		`;
+	}
+}
+
+@customElement('rvt-sidebar')
+export class Sidebar extends LitElement {
+	static styles = cssify();
+
+	render() {
+		return html`
+			<ul role="list" class="flex flex-1 flex-col gap-y-7">
+				<slot></slot>
+			</ul>
+		`;
+	}
+}
+
+@customElement('rvt-sidebar-body')
+export class Body extends LitElement {
+	static styles = cssify();
+
+	render() {
+		return html` <div class="px-4 sm:px-6 lg:px-8 py-2 sm:py-3 lg:py-4"><slot></slot></div> `;
 	}
 }
 
@@ -70,9 +77,15 @@ export class Button extends LitElement {
 	static styles = cssify();
 
 	@property({ type: String })
-	href: string;
+	href?: string;
 
-	@property({ type: Boolean })
+	@property({ type: String })
+	target?: string;
+
+	@property({ type: Function })
+	trigger?: () => void;
+
+	@property({ type: Boolean, attribute: 'current' })
 	current: boolean;
 
 	@property({ type: String })
@@ -82,16 +95,15 @@ export class Button extends LitElement {
 		return html`
 			<li>
 				<a
-					.href=${this.href}
-					class=${`${
-						this.current ? 'opacity-100' : 'opacity-60 hover:opacity-100'
-					} group flex gap-x-3 rounded-md p-2 text-white text-sm items-center leading-6 font-semibold transition`}
+					.href=${ifDefined(this.href)}
+					.target=${ifDefined(this.target)}
+					@click=${ifDefined(this.trigger)}
+					class=${clsx(
+						this.current ? 'opacity-100' : 'opacity-60 hover:opacity-100',
+						'group flex gap-x-3 rounded-md p-2 text-white text-sm items-center leading-6 font-semibold transition'
+					)}
 				>
-					<!-- <span
-						class="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-gray-700 bg-gray-800 text-[0.625rem] font-medium text-gray-400 group-hover:text-white"
-						>NF</span
-					> -->
-					<e-svg .src=${this.icon} class="h-5 w-5 shrink-0" aria-hidden="true"></e-svg>
+					<e-svg .src=${this.icon} class="h-4 w-4 shrink-0" aria-hidden="true"></e-svg>
 					<span class="truncate"><slot></slot></span>
 				</a>
 			</li>
