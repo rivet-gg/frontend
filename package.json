@@ -88,6 +88,7 @@
 		"workbox-webpack-plugin": "^6.5.4"
 	},
 	"dependencies": {
+		"@tailwindcss/forms": "^0.5.4",
 		"postcss-loader": "^7.3.3"
 	}
 }

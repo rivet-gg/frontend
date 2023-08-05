@@ -20,7 +20,6 @@ import EmojiPicker, { EmojiItemData, EmojiSelectEvent } from '../overlay/emoji-p
 import { AlertOption } from '../overlay/alert-panel';
 import { ActionSheetItem } from '../overlay/action-sheet';
 import { showAlert } from '../../ui/helpers';
-import { MenuItem } from '../sidebar/main-sidebar';
 import SearchPanel from '../overlay/search-panel';
 import * as api from '../../utils/api';
 import RegisterPanel from '../overlay/register-panel';
@@ -168,9 +167,6 @@ export default class UIRoot extends LitElement {
 
 	@property({ type: Object })
 	windowSize: { width: number; height: number } = { width: window.innerWidth, height: window.innerHeight };
-
-	@property({ type: Object })
-	activeMenu: MenuItem;
 
 	@property({ type: String })
 	routeTitle = '';
@@ -497,9 +493,6 @@ export default class UIRoot extends LitElement {
 	}
 
 	onRouteChange(event: RouteChangeEvent) {
-		// Update sidebar
-		this.activeMenu = event.menuItem;
-
 		this.breadcrumb = event.breadcrumb;
 
 		this.onHomePage = event.title == 'Home';

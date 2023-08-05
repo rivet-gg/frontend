@@ -232,9 +232,7 @@ export default class DevGameSidebar extends LitElement {
 
 	render() {
 		return html`
-			<div id="base">
-				${this.buildBackButton()} ${this.game ? this.renderContent() : this.renderPlaceholder()}
-			</div>
+			<div id="base">${this.game ? this.renderContent() : this.renderPlaceholder()}</div>
 
 			${this.renderCreateNamespaceModal()}
 		`;
@@ -292,12 +290,12 @@ export default class DevGameSidebar extends LitElement {
 					icon="regular/square-info"
 					>Overview</stylized-button
 				>
-				<stylized-button
+				<!-- <stylized-button
 					class=${billingClasses}
 					href=${routes.devBilling.build({ gameId: this.game.gameId })}
 					icon="solid/square-dollar"
 					>Billing</stylized-button
-				>
+				> -->
 				<stylized-button
 					class=${tokensClasses}
 					href=${routes.devTokens.build({ gameId: this.game.gameId })}

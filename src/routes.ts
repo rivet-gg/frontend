@@ -560,6 +560,16 @@ namespace routes {
 	// 		};
 	// 	}
 	// });
+
+	// export let test = new Route<{}>({
+	// 	path: '/test',
+	// 	render() {
+	// 		return {
+	// 			title: `Kitchen Sink`,
+	// 			template: html`<div class="w-full h-full"><rvt-sidebar-layout></rvt-sidebar-layout></div>`
+	// 		};
+	// 	}
+	// });
 }
 
 export namespace responses {

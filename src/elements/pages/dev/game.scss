@@ -8,11 +8,17 @@ loading-wheel {
 
 h-tab-layout {
 	#tabs {
-		$margin-top: 40px;
+		$header-height: 56px;
+
 		position: fixed;
-		width: 235px;
-		margin: $margin-top 0px 0px 12px;
-		max-height: calc(100vh - #{$margin-top});
+		left: 0;
+		top: 0;
+		bottom: 0;
+		width: 300px;
+		padding-left: 12px;
+		padding-right: 12px;
+		padding-top: $header-height;
+		max-height: calc(100vh);
 		padding-right: 7px;
 		z-index: 2;
 		overflow-y: auto;
