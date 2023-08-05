@@ -14,12 +14,12 @@ h-tab-layout {
 		left: 0;
 		top: 0;
 		bottom: 0;
-		width: 300px;
+		width: 247px;
 		padding-left: 12px;
 		padding-right: 12px;
+		box-sizing: border-box;
 		padding-top: $header-height;
 		max-height: calc(100vh);
-		padding-right: 7px;
 		z-index: 2;
 		overflow-y: auto;
 		flex: 0 0 235px;

@@ -515,27 +515,4 @@ export default class DevGameSidebar extends LitElement {
 			</modal-body>
 		</drop-down-modal>`;
 	}
-
-	buildBackButton() {
-		// If back navigation is possible, use function rather than link
-		if (UIRouter.shared.canGoBack) {
-			return html`<stylized-button
-				small
-				icon="solid/play"
-				color="#2d2d30"
-				.trigger=${this.navigateBack.bind(this)}
-			>
-				Back
-			</stylized-button>`;
-		} else {
-			return null;
-		}
-	}
-
-	navigateBack() {
-		// UIRouter.shared.navigate(routes.home.build({}), {
-		// 	replaceHistory: true
-		// });
-		UIRouter.shared.navBack();
-	}
 }

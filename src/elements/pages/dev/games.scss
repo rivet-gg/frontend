@@ -10,6 +10,7 @@
 	display: flex;
 	position: relative;
 	padding: $border-width;
+	height: 320px;
 	border-radius: $border-radius;
 
 	background-image: utils.dashed-border(
