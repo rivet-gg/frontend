@@ -290,11 +290,11 @@ export default class RegisterPanel extends LitElement {
 								>Email: ${identity.email.email}</span
 							>
 						</p>
-						<stylized-button
+						<rvt-button
 							icon="regular/arrow-right-from-bracket"
 							color="#db3939"
 							.trigger=${this.logout.bind(this)}
-							>Log out</stylized-button
+							>Log out</rvt-button
 						>
 				  </div>`
 				: html`<p>
@@ -318,15 +318,13 @@ export default class RegisterPanel extends LitElement {
 						<div class="actions">
 							${this.noBackButton
 								? null
-								: html`<stylized-button
-										color="gray"
-										.trigger=${this.closeRegisterPanel.bind(this)}
-										>Back</stylized-button
+								: html`<rvt-button color="gray" .trigger=${this.closeRegisterPanel.bind(this)}
+										>Back</rvt-button
 								  >`}
-							<stylized-button
+							<rvt-button
 								?disabled=${this.emailError != null}
 								.trigger=${this.requestCaptcha.bind(this)}
-								>Continue</stylized-button
+								>Continue</rvt-button
 							>
 						</div>
 						${this.emailError != null ? html`<p id="error">${this.emailError}</p>` : null}
@@ -356,12 +354,12 @@ export default class RegisterPanel extends LitElement {
 			</text-input>
 			${this.codeError != null ? html`<p id="error">${this.codeError}</p>` : null}
 			<div class="actions">
-				<stylized-button color="gray" .trigger=${this.codeAreaClose.bind(this)}>Back</stylized-button>
-				<stylized-button
+				<rvt-button color="gray" .trigger=${this.codeAreaClose.bind(this)}>Back</rvt-button>
+				<rvt-button
 					.trigger=${this.completeEmailVerification.bind(this)}
 					?disabled=${this.codeError != null}
 					?loading=${this.isCompleting}
-					>Continue</stylized-button
+					>Continue</rvt-button
 				>
 			</div>
 		</div>`;

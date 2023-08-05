@@ -337,34 +337,34 @@ export default class DevGames extends LitElement {
 					${when(
 						group.isDeveloper,
 						() => html` <div class="flex flex-row ml-auto space-x-1">
-							<stylized-button
+							<rvt-button
 								class="analytics-button"
 								icon="solid/chart-line-up"
 								href=${routes.analyticsOverview.build({
 									groupId: group.groupId
 								})}
-								>Analytics</stylized-button
+								>Analytics</rvt-button
 							>
-							<stylized-button
+							<rvt-button
 								class="billing-button"
 								icon="solid/dollar-sign"
 								href=${routes.groupBilling.build({ groupId: group.groupId })}
-								>Billing</stylized-button
+								>Billing</rvt-button
 							>
-							<stylized-button
+							<rvt-button
 								class="settings-button"
 								icon="regular/gear"
 								href=${routes.groupSettings.build({ id: group.groupId })}
-								>Settings</stylized-button
+								>Settings</rvt-button
 							>
 						</div>`
 						// Reenable when open beta
 						// () =>
 						// 	when(
 						// 		isOwner,
-						// 		() => html`<stylized-button
+						// 		() => html`<rvt-button
 						// 			.trigger=${this.convertGroup.bind(this, group.groupId)}
-						// 			>Convert Group</stylized-button
+						// 			>Convert Group</rvt-button
 						// 		>`
 						// 	)
 					)}
@@ -451,11 +451,11 @@ export default class DevGames extends LitElement {
 					)}
 				</div>
 				<p class="content">We’ll walk you though the details of editing your game later.</p>
-				<stylized-button
+				<rvt-button
 					.trigger=${this.createGame.bind(this)}
 					?disabled=${!this.gameIsValid}
 					?loading=${this.isCreatingGame}
-					>Create</stylized-button
+					>Create</rvt-button
 				>
 			</modal-body>
 		</drop-down-modal>`;

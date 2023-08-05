@@ -282,27 +282,27 @@ export default class DevGameSidebar extends LitElement {
 			</div>
 
 			<info-panel-body id="main-actions" noindent>
-				<stylized-button
+				<rvt-button
 					class=${generalClasses}
 					href=${global.isMobile
 						? routes.devGameSummary.build({ gameId: this.game.gameId })
 						: routes.devGame.build({ gameId: this.game.gameId })}
 					icon="regular/square-info"
-					>Overview</stylized-button
+					>Overview</rvt-button
 				>
-				<!-- <stylized-button
+				<!-- <rvt-button
 					class=${billingClasses}
 					href=${routes.devBilling.build({ gameId: this.game.gameId })}
 					icon="solid/square-dollar"
-					>Billing</stylized-button
+					>Billing</rvt-button
 				> -->
-				<stylized-button
+				<rvt-button
 					class=${tokensClasses}
 					href=${routes.devTokens.build({ gameId: this.game.gameId })}
 					icon="solid/key"
-					>API</stylized-button
+					>API</rvt-button
 				>
-				<stylized-button
+				<rvt-button
 					class=${logsClasses}
 					href=${routes.devLogs.build(
 						{
@@ -311,9 +311,9 @@ export default class DevGameSidebar extends LitElement {
 						{ namespaceId: this.configNamespaceId }
 					)}
 					icon="solid/book"
-					>Logs</stylized-button
+					>Logs</rvt-button
 				>
-				<stylized-button
+				<rvt-button
 					class=${lobbiesClasses}
 					href=${routes.devLobbies.build(
 						{
@@ -322,9 +322,9 @@ export default class DevGameSidebar extends LitElement {
 						{ namespaceId: this.configNamespaceId }
 					)}
 					icon="solid/table-rows"
-					>Lobbies</stylized-button
+					>Lobbies</rvt-button
 				>
-				<stylized-button
+				<rvt-button
 					class=${kvClasses}
 					href=${routes.devKv.build(
 						{
@@ -333,7 +333,7 @@ export default class DevGameSidebar extends LitElement {
 						{ namespaceId: this.configNamespaceId }
 					)}
 					icon="solid/table-list"
-					>KV</stylized-button
+					>KV</rvt-button
 				>
 			</info-panel-body>
 
@@ -381,7 +381,7 @@ export default class DevGameSidebar extends LitElement {
 			selected: namespace.namespaceId == this.namespaceId
 		});
 
-		return html`<stylized-button
+		return html`<rvt-button
 			class=${classes}
 			href=${routes.devNamespace.build({
 				gameId: this.game.gameId,
@@ -390,7 +390,7 @@ export default class DevGameSidebar extends LitElement {
 		>
 			<span class="display-name">${namespace.displayName}</span>
 			<span class="version-display-name">${version.displayName}</span>
-		</stylized-button>`;
+		</rvt-button>`;
 	}
 
 	renderVersionFolder(ts: number, versionFolder: VersionFolder) {
@@ -444,7 +444,7 @@ export default class DevGameSidebar extends LitElement {
 			activeNamespaces.push(truncation);
 		}
 
-		return html`<stylized-button
+		return html`<rvt-button
 			class=${classes}
 			href=${routes.devVersion.build({
 				gameId: this.game.gameId,
@@ -458,7 +458,7 @@ export default class DevGameSidebar extends LitElement {
 					? tooltip(`Active in: ${activeNamespaces.join(', ')}`)
 					: tooltip('No active namespaces')}
 			></div>
-		</stylized-button>`;
+		</rvt-button>`;
 	}
 
 	renderCreateNamespaceModal() {
@@ -506,11 +506,11 @@ export default class DevGameSidebar extends LitElement {
 							</span>`
 						: null}
 				</div>
-				<stylized-button
+				<rvt-button
 					.trigger=${this.createNamespace.bind(this)}
 					?disabled=${!this.namespaceIsValid}
 					?loading=${this.isCreatingNamespace}
-					>Create</stylized-button
+					>Create</rvt-button
 				>
 			</modal-body>
 		</drop-down-modal>`;

@@ -79,13 +79,13 @@ export default class GameOverlay extends LitElement {
 				></lazy-img>
 				<h1>${this.game.displayName}</h1>
 				<div id="actions">
-					<stylized-button .trigger=${this.playGame.bind(this)}
+					<rvt-button .trigger=${this.playGame.bind(this)}
 					?disabled=${this.isPlaying}>
 					${when(
 						this.isPlaying,
 						() => 'Playing',
 						() => 'Play'
-					)}</stylized-button>
+					)}</rvt-button>
 				</div>
 					${when(
 						this.delayedMessage,

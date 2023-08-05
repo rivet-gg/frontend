@@ -324,10 +324,8 @@ export default class DevGameNamespace extends LitElement {
 						<code class="no-ligatures thick">${createRes.token}</code>
 					</copy-area>
 					<br />
-					<stylized-button
-						@click=${this.downloadEnvFile.bind(this, createRes.token)}
-						color="#4D4D4D"
-						>Download Environment File</stylized-button
+					<rvt-button @click=${this.downloadEnvFile.bind(this, createRes.token)} color="#4D4D4D"
+						>Download Environment File</rvt-button
 					>
 					<p class="light muted">
 						Rename this file to <code class="inline">.env</code> for use in conjunction with the
@@ -738,11 +736,11 @@ export default class DevGameNamespace extends LitElement {
 				<div id="subheader">
 					${when(
 						this.version.config.cdn,
-						() => html`<stylized-button
+						() => html`<rvt-button
 							id="visit-button"
 							right-icon="solid/arrow-right"
 							.href=${visitUrl}
-							>Visit</stylized-button
+							>Visit</rvt-button
 						>`
 					)}
 					<span>Name ID: <b>${this.namespace.nameId}</b></span>
@@ -777,11 +775,9 @@ export default class DevGameNamespace extends LitElement {
 
 				<h1>Tokens</h1>
 				<div id="tokens">
-					<stylized-button .trigger=${this.createPublicToken.bind(this)}
-						>Create Public Token</stylized-button
-					>
-					<stylized-button .trigger=${this.openDevTokenModal.bind(this)}
-						>Create Development Token</stylized-button
+					<rvt-button .trigger=${this.createPublicToken.bind(this)}>Create Public Token</rvt-button>
+					<rvt-button .trigger=${this.openDevTokenModal.bind(this)}
+						>Create Development Token</rvt-button
 					>
 				</div>
 			</div>
@@ -828,10 +824,10 @@ export default class DevGameNamespace extends LitElement {
 							<td><date-display .timestamp=${v.deployTs}></date-display></td>
 							<td>
 								<div class="right">
-									<stylized-button
+									<rvt-button
 										?disabled=${this.version.versionId == v.versionId}
 										.trigger=${this.updateVersion.bind(this, v.versionId)}
-										>Revert</stylized-button
+										>Revert</rvt-button
 									>
 								</div>
 							</td>
@@ -1182,8 +1178,8 @@ export default class DevGameNamespace extends LitElement {
 							</span>`
 					)}
 				</div>
-				<stylized-button .trigger=${this.addCustomHostname.bind(this)} ?disabled=${!!validationError}
-					>Add</stylized-button
+				<rvt-button .trigger=${this.addCustomHostname.bind(this)} ?disabled=${!!validationError}
+					>Add</rvt-button
 				>
 			</modal-body>
 		</drop-down-modal>`;
@@ -1296,11 +1292,11 @@ export default class DevGameNamespace extends LitElement {
 						)}
 					</div>
 				</div>
-				<stylized-button
+				<rvt-button
 					.trigger=${this.createDevToken.bind(this)}
 					?disabled=${!this.devTokensValid}
 					?loading=${this.isCreatingDevToken}
-					>Create</stylized-button
+					>Create</rvt-button
 				>
 			</div>
 		</drop-down-modal>`;

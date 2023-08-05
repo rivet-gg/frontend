@@ -57,7 +57,7 @@ export default class GameStats extends LitElement {
 											gameNameId: this.data.game.nameId
 										})}
 								  >
-										<stylized-button id="expand-button">EXPAND</stylized-button>
+										<rvt-button id="expand-button">EXPAND</rvt-button>
 								  </a>`
 								: this.group
 								? html`<a
@@ -66,7 +66,7 @@ export default class GameStats extends LitElement {
 											gameNameId: this.data.game.nameId
 										})}
 								  >
-										<stylized-button id="expand-button">EXPAND</stylized-button>
+										<rvt-button id="expand-button">EXPAND</rvt-button>
 								  </a>`
 								: null}
 					  </div>`

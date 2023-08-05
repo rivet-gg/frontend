@@ -264,10 +264,10 @@ export default class DevGames extends LitElement {
 						.selection=${this.gameSelection}
 						@select=${this.changedGameSelection.bind(this)}
 					></drop-down-list>
-					<stylized-button
+					<rvt-button
 						?disabled=${this.linkState != LinkState.SelectingGame || this.gameSelection == null}
 						@click=${this.onLinkGame.bind(this)}
-						>Link</stylized-button
+						>Link</rvt-button
 					>
 					${when(
 						this.linkState == LinkState.Linking,
@@ -350,11 +350,11 @@ export default class DevGames extends LitElement {
 					)}
 				</div>
 				<p class="content">We’ll walk you though the details of editing your game later.</p>
-				<stylized-button
+				<rvt-button
 					.trigger=${this.createGame.bind(this)}
 					?disabled=${!this.gameIsValid}
 					?loading=${this.isCreatingGame}
-					>Create</stylized-button
+					>Create</rvt-button
 				>
 			</modal-body>
 		</drop-down-modal>`;

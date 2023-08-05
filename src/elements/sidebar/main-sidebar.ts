@@ -230,14 +230,14 @@ export default class MainSidebar extends LitElement {
 							${when(
 								global.recentFollowers.length != 0,
 								() =>
-									html`<stylized-button
+									html`<rvt-button
 										small
 										icon="solid/envelope"
 										href=${routes.recentFollowers.build({})}
 										@mouseenter=${tooltip('View recent followers')}
 										>${global.recentFollowers.length > 30
 											? '30+'
-											: global.recentFollowers.length}</stylized-button
+											: global.recentFollowers.length}</rvt-button
 									>`
 							)}
 						</div>
@@ -263,26 +263,26 @@ export default class MainSidebar extends LitElement {
 
 								<p>Invite your friends to start chatting!</p>
 
-								<stylized-button
+								<rvt-button
 									small
 									color="#404040"
 									icon="solid/user"
 									.trigger=${this.onFindFriends.bind(this)}
-									>Find Friends</stylized-button
+									>Find Friends</rvt-button
 								>
-								<stylized-button
+								<rvt-button
 									small
 									color="#404040"
 									icon="solid/user-group"
 									.trigger=${() => (this.createGroupModalActive = true)}
-									>Create Group</stylized-button
+									>Create Group</rvt-button
 								>
-								<!-- <stylized-button
+								<!-- <rvt-button
 									small
 									color="#404040"
 									icon="solid/party-horn"
 									.trigger=${() => (this.createPartyModalActive = true)}
-									>Create Party</stylized-button
+									>Create Party</rvt-button
 								> -->
 							</div>`,
 							() => html`<div>

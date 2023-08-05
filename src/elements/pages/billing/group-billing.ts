@@ -179,8 +179,8 @@
 // 							<p>
 // 								Complete your account setup by adding billing information to start developing.
 // 							</p>
-// 							<stylized-button .trigger=${this.checkout.bind(this)}
-// 								>Complete Setup</stylized-button
+// 							<rvt-button .trigger=${this.checkout.bind(this)}
+// 								>Complete Setup</rvt-button
 // 							>
 // 						</div>
 // 					</div>`
@@ -194,8 +194,8 @@
 // 							An invoice payment has failed. All resources have been disabled until the payment
 // 							is resolved.
 // 						</p>
-// 						<stylized-button target="_blank" href="https://rivet.gg/support"
-// 							>Contact Support</stylized-button
+// 						<rvt-button target="_blank" href="https://rivet.gg/support"
+// 							>Contact Support</rvt-button
 // 						>
 // 					</div>`
 // 			],
@@ -347,15 +347,15 @@
 // 							when(
 // 								variant == null,
 // 								() => html`
-// 									<stylized-button
+// 									<rvt-button
 // 										class=${classMap({ active })}
 // 										?disabled=${currentlyEnterprise || error || active}
 // 										.trigger=${this.setPlan.bind(this, plan)}
-// 										>${error ?? (active ? 'Active' : 'Switch')}</stylized-button
+// 										>${error ?? (active ? 'Active' : 'Switch')}</rvt-button
 // 									>
 // 								`,
 // 								() => html`
-// 									<stylized-button
+// 									<rvt-button
 // 										class=${classMap({ active: variantActive })}
 // 										?disabled=${currentlyEnterprise ||
 // 										error ||
@@ -364,27 +364,27 @@
 // 										>${error ??
 // 										(variantActive
 // 											? `Active ($${priceAnnually}/yr)`
-// 											: `Switch to Annually ($${priceAnnually}/yr)`)}</stylized-button
+// 											: `Switch to Annually ($${priceAnnually}/yr)`)}</rvt-button
 // 									>
-// 									<stylized-button
+// 									<rvt-button
 // 										class=${classMap({ active })}
 // 										?disabled=${currentlyEnterprise || error || active}
 // 										.trigger=${this.setPlan.bind(this, plan)}
 // 										>${error ??
 // 										(active
 // 											? `Active ($${priceMonthly}/mo)`
-// 											: `Switch to Monthly ($${priceMonthly}/mo)`)}</stylized-button
+// 											: `Switch to Monthly ($${priceMonthly}/mo)`)}</rvt-button
 // 									>
 // 								`
 // 							),
 // 						() => {
 // 							if (active) {
-// 								return html`<stylized-button class="active" disabled
-// 									>Active (Monthly)</stylized-button
+// 								return html`<rvt-button class="active" disabled
+// 									>Active (Monthly)</rvt-button
 // 								>`;
 // 							} else if (variantActive) {
-// 								return html`<stylized-button class="active" disabled
-// 									>Active (Annually)</stylized-button
+// 								return html`<rvt-button class="active" disabled
+// 									>Active (Annually)</rvt-button
 // 								>`;
 // 							}
 
@@ -403,10 +403,10 @@
 // 				<div class="actions">
 // 					${when(
 // 						active,
-// 						() => html`<stylized-button class="active" disabled>Active</stylized-button>`,
+// 						() => html`<rvt-button class="active" disabled>Active</rvt-button>`,
 // 						() =>
-// 							html`<stylized-button href="https://rivet.gg/support" .target=${'_blank'}
-// 								>Contact Us</stylized-button
+// 							html`<rvt-button href="https://rivet.gg/support" .target=${'_blank'}
+// 								>Contact Us</rvt-button
 // 							>`
 // 					)}
 // 				</div>
@@ -458,11 +458,11 @@
 // 					: null}
 // 			</div>
 // 			${this.invoiceData && !this.invoicesExhausted
-// 				? html`<stylized-button
+// 				? html`<rvt-button
 // 						id="load-more-invoices"
 // 						color="#989898"
 // 						.trigger=${this.fetchInvoiceData.bind(this)}
-// 						>Load more</stylized-button
+// 						>Load more</rvt-button
 // 				  >`
 // 				: null}
 // 		</div>`;

@@ -604,7 +604,7 @@ export namespace responses {
 				<h1 slot="title">Coming Soon</h1>
 				<h2 slot="subtitle">This page isn't available yet. Come back soon!</h2>
 				<div slot="actions">
-					<stylized-button href=${routes.devRoot.build({})}>Go to Dashboard</stylized-button>
+					<rvt-button href=${routes.devRoot.build({})}>Go to Dashboard</rvt-button>
 				</div>
 			</invalid-page-state>`
 		};
@@ -619,9 +619,7 @@ export namespace responses {
 					This page isn't available for guest accounts. Register to save your account.
 				</h2>
 				<div slot="actions">
-					<stylized-button .trigger=${() => UIRoot.shared.openRegisterPanel()}
-						>Register Now</stylized-button
-					>
+					<rvt-button .trigger=${() => UIRoot.shared.openRegisterPanel()}>Register Now</rvt-button>
 				</div>
 			</invalid-page-state>`
 		};

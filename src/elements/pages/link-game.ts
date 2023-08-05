@@ -172,12 +172,12 @@ export default class LinkGamePage extends LitElement {
 			<div id="header">
 				<br />
 				<div class="actions">
-					<stylized-button
+					<rvt-button
 						class="gray"
 						icon="logo/logo-small"
 						href=${routes.home.build({})}
 						target="_blank"
-						>Open Rivet Hub</stylized-button
+						>Open Rivet Hub</rvt-button
 					>
 					<icon-button
 						class="gray"
@@ -230,11 +230,8 @@ export default class LinkGamePage extends LitElement {
 			</div>
 			<div class="content">
 				<div class="actions">
-					<stylized-button .trigger=${this.startRegistration.bind(this)}
-						>Register or Login</stylized-button
-					><stylized-button .trigger=${this.continueAsGuest.bind(this)}
-						>Continue as Guest</stylized-button
-					>
+					<rvt-button .trigger=${this.startRegistration.bind(this)}>Register or Login</rvt-button
+					><rvt-button .trigger=${this.continueAsGuest.bind(this)}>Continue as Guest</rvt-button>
 				</div>
 			</div>
 		</div>`;
@@ -252,9 +249,7 @@ export default class LinkGamePage extends LitElement {
 			></register-panel>
 			${global.currentIdentity.isRegistered
 				? html`<div class="actions">
-						<stylized-button .trigger=${this.advanceTo.bind(this, Stage.Allow)}
-							>Continue</stylized-button
-						>
+						<rvt-button .trigger=${this.advanceTo.bind(this, Stage.Allow)}>Continue</rvt-button>
 				  </div>`
 				: null}
 		</div>`;
@@ -286,10 +281,8 @@ export default class LinkGamePage extends LitElement {
 			</div>
 			<h3>Link Guest Account to Rivet</h3>
 			<div class="actions">
-				<stylized-button .trigger=${this.completeGameLink.bind(this)}>Allow</stylized-button
-				><stylized-button class="gray" .trigger=${this.logout.bind(this)}
-					>Change Account</stylized-button
-				>
+				<rvt-button .trigger=${this.completeGameLink.bind(this)}>Allow</rvt-button
+				><rvt-button class="gray" .trigger=${this.logout.bind(this)}>Change Account</rvt-button>
 			</div>
 		</div>`;
 	}
@@ -361,7 +354,7 @@ export default class LinkGamePage extends LitElement {
 		} else if (this.stage == Stage.Complete && !global.currentIdentity.isRegistered) {
 			body = html`<div id="register-holder">
 				<p>Add your email to save your account and be able to log in on other devices.</p>
-				<stylized-button .trigger=${this.startRegistration.bind(this)}>Register Now</stylized-button>
+				<rvt-button .trigger=${this.startRegistration.bind(this)}>Register Now</rvt-button>
 			</div>`;
 		}
 

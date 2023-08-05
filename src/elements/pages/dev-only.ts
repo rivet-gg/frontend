@@ -54,9 +54,9 @@ export default class PageDevOnly extends LitElement {
 					Rivet is still in private beta. Join the waitlist to get early access.
 				</h2>
 				<div slot="actions">
-					<stylized-button href="https://b8v8449klvp.typeform.com/rivet" target="_blank">
+					<rvt-button href="https://b8v8449klvp.typeform.com/rivet" target="_blank">
 						Beta Access Form
-					</stylized-button>
+					</rvt-button>
 				</div>
 			</invalid-page-state>
 		`;

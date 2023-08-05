@@ -26,7 +26,7 @@ import RegisterPanel from '../overlay/register-panel';
 import config from '../../config';
 import { HookFetch } from '../../utils/fetch-hook';
 import { DeferredStageEvent, Stage } from '../pages/link-game';
-import StylizedButton from '../common/stylized-button';
+import StylizedButton from '../common/button';
 import { Orientation, Alignment } from '../common/overlay-positioning';
 import { DropDownSelectEvent, DropDownSelection } from '../dev/drop-down-list';
 import { BreadCrumb } from '../common/navbar';

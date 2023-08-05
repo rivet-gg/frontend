@@ -2,6 +2,7 @@ import { LitElement, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { when } from 'lit/directives/when.js';
 import { cssify } from '../../utils/css';
+import clsx from 'clsx';
 
 @customElement('rvt-sidebar-layout')
 export default class Layout extends LitElement {
@@ -72,6 +73,9 @@ export class Button extends LitElement {
 	@property({ type: String })
 	href: string;
 
+	@property({ type: String })
+	target: string;
+
 	@property({ type: Boolean })
 	current: boolean;
 
@@ -83,9 +87,11 @@ export class Button extends LitElement {
 			<li>
 				<a
 					.href=${this.href}
-					class=${`${
-						this.current ? 'opacity-100' : 'opacity-60 hover:opacity-100'
-					} group flex gap-x-3 rounded-md p-2 text-white text-sm items-center leading-6 font-semibold transition`}
+					.target=${this.target}
+					class=${clsx(
+						this.current ? 'opacity-100' : 'opacity-60 hover:opacity-100',
+						'group flex gap-x-3 rounded-md p-2 text-white text-sm items-center leading-6 font-semibold transition'
+					)}
 				>
 					<!-- <span
 						class="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-gray-700 bg-gray-800 text-[0.625rem] font-medium text-gray-400 group-hover:text-white"

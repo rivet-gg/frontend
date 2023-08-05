@@ -69,8 +69,8 @@ export default class GroupsPage extends LitElement {
 
 					<div id="content">
 						<h1>Chat and play games together</h1>
-						<stylized-button color="white" .trigger=${() => (this.createGroupModalActive = true)}
-							>Create a new group</stylized-button
+						<rvt-button color="white" .trigger=${() => (this.createGroupModalActive = true)}
+							>Create a new group</rvt-button
 						>
 					</div>
 				</div>

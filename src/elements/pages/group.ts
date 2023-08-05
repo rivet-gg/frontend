@@ -556,50 +556,48 @@ export default class GroupPage extends LitElement {
 						? !this.profile.isCurrentIdentityMember
 							? this.profile.publicity == api.group.GroupPublicity.OPEN
 								? this.profile.isCurrentIdentityRequestingJoin
-									? html`<stylized-button id="apply-button" small disabled
-											>Application pending</stylized-button
+									? html`<rvt-button id="apply-button" small disabled
+											>Application pending</rvt-button
 									  >`
-									: html`<stylized-button
+									: html`<rvt-button
 											id="apply-button"
 											small
 											.trigger=${this.applyForGroup.bind(this)}
-											>Apply</stylized-button
+											>Apply</rvt-button
 									  >`
-								: html`<stylized-button id="apply-button" small disabled
-										>Applications closed</stylized-button
+								: html`<rvt-button id="apply-button" small disabled
+										>Applications closed</rvt-button
 								  >`
-							: html` <stylized-button
+							: html` <rvt-button
 										icon="regular/identity"
 										small
 										href="${routes.groupMembers.build(groupRouteData(this.profile))}"
 									>
 										View members
-									</stylized-button>
+									</rvt-button>
 									${this.profile.isCurrentIdentityMember
-										? html`<stylized-button
+										? html`<rvt-button
 												small
 												.trigger=${this.openCreateInviteModal.bind(this)}
-												>Create invite</stylized-button
+												>Create invite</rvt-button
 										  >`
 										: null}
 									${isOwner
-										? html`<stylized-button
-													small
-													.trigger=${this.openEditModal.bind(this)}
-													>Edit group</stylized-button
-												><stylized-button
+										? html`<rvt-button small .trigger=${this.openEditModal.bind(this)}
+													>Edit group</rvt-button
+												><rvt-button
 													id="transfer-ownership"
 													small
 													.trigger=${this.openTransferModal.bind(this)}
-													>Transfer ownership</stylized-button
+													>Transfer ownership</rvt-button
 												>`
 										: this.profile.isCurrentIdentityMember
-										? html` <stylized-button
+										? html` <rvt-button
 												id="leave-button"
 												small
 												color="#d93636"
 												.trigger=${this.leaveGroup.bind(this)}
-												>Leave group</stylized-button
+												>Leave group</rvt-button
 										  >`
 										: null}`
 						: null}
@@ -681,11 +679,11 @@ export default class GroupPage extends LitElement {
 					@select=${this.changeTransferIdentitySelection.bind(this)}
 				></drop-down-list>
 
-				<stylized-button
+				<rvt-button
 					color="#d4393b"
 					.trigger=${this.transferGroupOwnership.bind(this)}
 					?disabled=${this.transferIdentityId == null}
-					>Transfer</stylized-button
+					>Transfer</rvt-button
 				>
 			</modal-body>
 		</drop-down-modal>`;
@@ -737,11 +735,11 @@ export default class GroupPage extends LitElement {
 								</div>
 							</div>
 
-							<stylized-button
+							<rvt-button
 								.trigger=${this.createGroupInvite.bind(this)}
 								?disabled=${this.createInviteTTLSelection == null ||
 								this.createInviteUseCountValue == null}
-								>Create</stylized-button
+								>Create</rvt-button
 							>`
 					: html`<h1>Group Invite Code</h1>
 							<div id="result">
@@ -767,8 +765,8 @@ export default class GroupPage extends LitElement {
 								</div>
 							</div>
 							<p class="content">Share this code or link to allow people to join your group.</p>
-							<stylized-button .trigger=${this.createInviteModalClose.bind(this)}
-								>Dismiss</stylized-button
+							<rvt-button .trigger=${this.createInviteModalClose.bind(this)}
+								>Dismiss</rvt-button
 							>`}
 			</modal-body>
 		</drop-down-modal>`;
@@ -811,7 +809,7 @@ export default class GroupPage extends LitElement {
 	buildBackButton() {
 		// If back navigation is possible, use function rather than link
 		if (UIRouter.shared.canGoBack) {
-			return html` <stylized-button
+			return html` <rvt-button
 				icon="solid/play"
 				.trigger=${this.navigateBack.bind(this)}
 				id="nav-back"
@@ -820,7 +818,7 @@ export default class GroupPage extends LitElement {
 				text="white"
 			>
 				Back
-			</stylized-button>`;
+			</rvt-button>`;
 		} else {
 			return null;
 		}

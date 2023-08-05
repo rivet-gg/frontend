@@ -261,8 +261,8 @@ export default class HomePage extends LitElement {
 								<b>editing your profile</b>, <b>adding friends</b>, and much more.
 							</p>
 							<div id="guest-actions">
-								<stylized-button .trigger=${() => UIRoot.shared.openRegisterPanel()}
-									>Register Now</stylized-button
+								<rvt-button .trigger=${() => UIRoot.shared.openRegisterPanel()}
+									>Register Now</rvt-button
 								>
 							</div>
 						</div>

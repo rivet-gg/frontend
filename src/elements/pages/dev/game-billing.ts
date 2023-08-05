@@ -415,14 +415,14 @@ export default class DevGameBilling extends LitElement {
 				></avatar-collage>
 			</div>
 
-			<stylized-button href=${routes.groupSettings.build({ id: this.game.developerGroupId })}
-				>Profile</stylized-button
+			<rvt-button href=${routes.groupSettings.build({ id: this.game.developerGroupId })}
+				>Profile</rvt-button
 			>
-			<stylized-button
+			<rvt-button
 				href=${routes.groupBilling.build({
 					groupId: this.group.groupId
 				})}
-				>Group Billing</stylized-button
+				>Group Billing</rvt-button
 			>
 		</div>`;
 	}
@@ -440,9 +440,9 @@ export default class DevGameBilling extends LitElement {
 							<p>
 								Complete your account setup by adding billing information to start developing.
 							</p>
-							<stylized-button
+							<rvt-button
 								href=${routes.groupBilling.build({ groupId: this.game.developerGroupId })}
-								>Complete Setup</stylized-button
+								>Complete Setup</rvt-button
 							>
 						</div>
 					</div>`
@@ -456,8 +456,8 @@ export default class DevGameBilling extends LitElement {
 							An invoice payment has failed. All resources have been disabled until the payment
 							is resolved.
 						</p>
-						<stylized-button target="_blank" href="https://rivet.gg/support"
-							>Contact Support</stylized-button
+						<rvt-button target="_blank" href="https://rivet.gg/support"
+							>Contact Support</rvt-button
 						>
 					</div>`
 			],
@@ -504,11 +504,11 @@ export default class DevGameBilling extends LitElement {
 				</div>
 				${when(
 					!this.isExporting,
-					() => html`<stylized-button
+					() => html`<rvt-button
 						id="export"
 						?small=${global.isMobile}
 						.trigger=${this.exportLobbyHistory.bind(this, this.game.gameId)}
-						>Export Data</stylized-button
+						>Export Data</rvt-button
 					>`
 				)}
 				${when(
@@ -715,18 +715,18 @@ export default class DevGameBilling extends LitElement {
 							when(
 								variant == null,
 								() => html`
-									<stylized-button
+									<rvt-button
 										class=${classMap({ active })}
 										?disabled=${currentlyEnterprise || error || active}
 										.trigger=${this.setPlan.bind(this, plan)}
-										>${error ?? (active ? 'Active' : 'Switch')}</stylized-button
+										>${error ?? (active ? 'Active' : 'Switch')}</rvt-button
 									>
 								`,
 								() => {
 									let priceMonthlyFmt = numbro(priceMonthly).format('0,0');
 									let priceAnnuallyFmt = numbro(priceAnnually).format('0,0');
 
-									return html`<stylized-button
+									return html`<rvt-button
 											class=${classMap({ active: variantActive })}
 											?disabled=${currentlyEnterprise ||
 											error ||
@@ -736,8 +736,8 @@ export default class DevGameBilling extends LitElement {
 											(variantActive
 												? `Active ($${priceAnnuallyFmt}/yr)`
 												: `Switch to Annual ($${priceAnnuallyFmt}/yr)`)}
-										</stylized-button>
-										<stylized-button
+										</rvt-button>
+										<rvt-button
 											class=${classMap({ active })}
 											?disabled=${currentlyEnterprise || error || active}
 											.trigger=${this.setPlan.bind(this, plan)}
@@ -745,18 +745,16 @@ export default class DevGameBilling extends LitElement {
 											(active
 												? `Active ($${priceMonthlyFmt}/mo)`
 												: `Switch to Monthly ($${priceMonthlyFmt}/mo)`)}
-										</stylized-button>`;
+										</rvt-button>`;
 								}
 							),
 						() => {
 							if (active) {
-								return html`<stylized-button class="active" disabled
-									>Active${variant == null ? null : ` (Monthly)`}</stylized-button
+								return html`<rvt-button class="active" disabled
+									>Active${variant == null ? null : ` (Monthly)`}</rvt-button
 								>`;
 							} else if (variantActive) {
-								return html`<stylized-button class="active" disabled
-									>Active (Annual)</stylized-button
-								>`;
+								return html`<rvt-button class="active" disabled>Active (Annual)</rvt-button>`;
 							}
 
 							return null;
@@ -770,10 +768,10 @@ export default class DevGameBilling extends LitElement {
 				<div class="actions">
 					${when(
 						active,
-						() => html`<stylized-button class="active" disabled>Active</stylized-button>`,
+						() => html`<rvt-button class="active" disabled>Active</rvt-button>`,
 						() =>
-							html`<stylized-button href="https://rivet.gg/support" .target=${'_blank'}
-								>Contact Us</stylized-button
+							html`<rvt-button href="https://rivet.gg/support" .target=${'_blank'}
+								>Contact Us</rvt-button
 							>`
 					)}
 				</div>

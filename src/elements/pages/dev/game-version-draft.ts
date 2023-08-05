@@ -352,18 +352,18 @@ export default class DevGameNamespace extends LitElement {
 		return html`
 			<div id="base">
 				<div id="draft-buttons">
-					<stylized-button
+					<rvt-button
 						id="publish-button"
 						icon="solid/square-up"
 						.trigger=${this.publishVersion.bind(this)}
 						?disabled=${!this.versionIsValid}
-						>Publish</stylized-button
+						>Publish</rvt-button
 					>
-					<stylized-button
+					<rvt-button
 						id="clear-button"
 						icon="solid/circle-minus"
 						.trigger=${this.clearDraftAction.bind(this)}
-						>Clear Draft</stylized-button
+						>Clear Draft</rvt-button
 					>
 				</div>
 				${this.publishError || this.validateError

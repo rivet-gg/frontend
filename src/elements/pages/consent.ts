@@ -39,7 +39,7 @@ export default class ConsentPage extends LitElement {
 							</p>
 						</div>
 
-						<stylized-button .trigger=${this.onConsent.bind(this)}>Continue</stylized-button>
+						<rvt-button .trigger=${this.onConsent.bind(this)}>Continue</rvt-button>
 					</div>
 				</div>
 			</div>

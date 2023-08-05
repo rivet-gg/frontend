@@ -207,14 +207,14 @@ export default class GroupProfileEdit extends LitElement {
 		return html`
 			<div id="base">
 				<div id="scrollbase">
-					<stylized-button
+					<rvt-button
 						icon="solid/play"
 						id="nav-back"
 						small
 						color="transparent"
 						text="white"
 						.trigger=${this.closeModal.bind(this)}
-						>Back</stylized-button
+						>Back</rvt-button
 					>
 
 					<!-- Header and button -->
@@ -223,18 +223,15 @@ export default class GroupProfileEdit extends LitElement {
 
 						<div id="actions">
 							${this.hasChanges || this.hasAvatarChanges
-								? html`<stylized-button
-										id="cancel"
-										.trigger=${this.reset.bind(this)}
-										color="gray"
-										>Cancel</stylized-button
+								? html`<rvt-button id="cancel" .trigger=${this.reset.bind(this)} color="gray"
+										>Cancel</rvt-button
 								  >`
 								: null}
-							<stylized-button
+							<rvt-button
 								id="confirm"
 								?disabled=${this.hasChanges ? !this.profileIsValid : !this.hasAvatarChanges}
 								.trigger=${this.confirmChanges.bind(this)}
-								>Save</stylized-button
+								>Save</rvt-button
 							>
 						</div>
 					</div>
@@ -280,11 +277,11 @@ export default class GroupProfileEdit extends LitElement {
 							></file-uploader>
 						</div>
 
-						<!-- <stylized-button icon='solid/image' id='change-background' small
+						<!-- <rvt-button icon='solid/image' id='change-background' small
 							this
 						)}>
 						Change background
-					</stylized-button> -->
+					</rvt-button> -->
 					</div>
 
 					<h2>

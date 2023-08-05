@@ -76,12 +76,12 @@ export default class RecentFollowers extends LitElement {
 							i =>
 								html`<identity-tile .identity=${i}
 									><div class="actions" slot="right">
-										<stylized-button
+										<rvt-button
 											class="ignore"
 											.trigger=${this.ignore.bind(this, i.identityId)}
-											>Ignore</stylized-button
-										><stylized-button .trigger=${this.follow.bind(this, i.identityId)}
-											>Follow back</stylized-button
+											>Ignore</rvt-button
+										><rvt-button .trigger=${this.follow.bind(this, i.identityId)}
+											>Follow back</rvt-button
 										>
 									</div></identity-tile
 								>`

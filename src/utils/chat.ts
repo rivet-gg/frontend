@@ -82,8 +82,8 @@ export function getMessageBody(message: api.chat.ChatMessage, ctx?: ChatMsgCtx) 
 					? null
 					: 'accepted.'
 				: body.party && ctx
-				? html`<stylized-button .trigger=${() => ctx.actions.joinParty(body.inviteToken)}
-						>Accept</stylized-button
+				? html`<rvt-button .trigger=${() => ctx.actions.joinParty(body.inviteToken)}
+						>Accept</rvt-button
 				  >`
 				: null}
 		</div>`;
@@ -108,10 +108,10 @@ export function getMessageBody(message: api.chat.ChatMessage, ctx?: ChatMsgCtx) 
 				</div>
 				requested to join ${ctx && ctx.isPartyLeader ? 'your' : 'the'} party.
 				${ctx && ctx.isPartyLeader
-					? html`<stylized-button
+					? html`<rvt-button
 							small
 							.trigger=${() => ctx.actions.inviteToParty(body.sender.identityId)}
-							>Invite</stylized-button
+							>Invite</rvt-button
 					  >`
 					: null}
 			</div>`;

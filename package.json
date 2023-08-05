@@ -89,6 +89,7 @@
 	},
 	"dependencies": {
 		"@tailwindcss/forms": "^0.5.4",
+		"clsx": "^2.0.0",
 		"postcss-loader": "^7.3.3"
 	}
 }

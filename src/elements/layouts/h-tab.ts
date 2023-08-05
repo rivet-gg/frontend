@@ -28,13 +28,9 @@ export default class HTab extends LitElement {
 		let classes = classMap({ active: this.active });
 
 		return html`
-			<stylized-button
-				.href=${this.href}
-				.target=${this.target}
-				.trigger=${this.trigger}
-				class=${classes}
+			<rvt-button .href=${this.href} .target=${this.target} .trigger=${this.trigger} class=${classes}
 				><slot></slot
-			></stylized-button>
+			></rvt-button>
 		`;
 	}
 }

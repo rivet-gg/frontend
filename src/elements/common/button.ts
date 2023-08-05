@@ -4,13 +4,13 @@ import { ifDefined } from 'lit/directives/if-defined.js';
 import { styleMap } from 'lit/directives/style-map.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { cssify } from '../../utils/css';
-import styles from './stylized-button.scss';
+import styles from './button.scss';
 import logging from '../../utils/logging';
 import { globalEventGroups } from '../../utils/global-events';
 
 type TriggerResult = Promise<any> | void;
 
-@customElement('stylized-button')
+@customElement('rvt-button')
 export default class StylizedButton extends LitElement {
 	static styles = cssify(styles);
 
@@ -107,7 +107,7 @@ export default class StylizedButton extends LitElement {
 	render() {
 		// Get classes and styles
 		let classes = classMap({
-			'stylized-button': true,
+			'rvt-button': true,
 			[this.sizeClass]: true,
 			disabled: this.isDisabled,
 			'no-action': this.noAction,

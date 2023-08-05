@@ -51,10 +51,10 @@ export default class AlertPanel extends LitElement {
 					<div id="options">
 						${this.data.options.map(
 							(option, idx) =>
-								html`<stylized-button
+								html`<rvt-button
 									color=${option.color || (option.destructive ? '#DD4444' : '#4c4c4c')}
 									.trigger=${this.selectOption.bind(this, idx)}
-									>${option.label}</stylized-button
+									>${option.label}</rvt-button
 								>`
 						)}
 					</div>

@@ -109,17 +109,17 @@ export default class ExpandedGameStats extends LitElement {
 							  </div>`
 							: null}
 						<div id="actions">
-							<stylized-button
+							<rvt-button
 								icon="regular/link-simple"
 								small
 								.trigger=${() => alert('UNIMPLEMENTED')}
-								>Copy link</stylized-button
+								>Copy link</rvt-button
 							>
-							<stylized-button
+							<rvt-button
 								icon="regular/link-simple"
 								small
 								.trigger=${() => alert('UNIMPLEMENTED')}
-								>Export</stylized-button
+								>Export</rvt-button
 							>
 						</div>
 						<a id="game-logo"
@@ -169,27 +169,15 @@ export default class ExpandedGameStats extends LitElement {
 		// If back navigation is possible, use function rather than link
 		if (UIRouter.shared.canGoBack) {
 			return html` <a @click=${this.navigateBack.bind(this)}>
-				<stylized-button
-					icon="regular/chevron-left"
-					id="nav-back"
-					small
-					color="transparent"
-					text="white"
-				>
+				<rvt-button icon="regular/chevron-left" id="nav-back" small color="transparent" text="white">
 					Back
-				</stylized-button>
+				</rvt-button>
 			</a>`;
 		} else {
 			return html` <a href=${ownerRoute}>
-				<stylized-button
-					icon="regular/chevron-left"
-					id="nav-back"
-					small
-					color="transparent"
-					text="white"
-				>
+				<rvt-button icon="regular/chevron-left" id="nav-back" small color="transparent" text="white">
 					Back
-				</stylized-button>
+				</rvt-button>
 			</a>`;
 		}
 	}

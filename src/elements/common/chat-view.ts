@@ -1559,12 +1559,12 @@ export class ChatPreviewButton extends LitElement {
 
 	render() {
 		return html`
-			<stylized-button
+			<rvt-button
 				style="margin: 0 auto;"
 				color="white"
 				icon="regular/screwdriver-wrench"
 				.trigger=${this.onChatPreview.bind(this)}
-				>Chat is in alpha!</stylized-button
+				>Chat is in alpha!</rvt-button
 			>
 		`;
 	}

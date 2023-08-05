@@ -463,22 +463,20 @@ export default class DevGameKv extends LitElement {
 
 			<div id="update-actions">
 				<div id="left">
-					<stylized-button
+					<rvt-button
 						color="#d93636"
 						?disabled=${value == null}
 						.trigger=${this.deleteEntry.bind(this, this.currentKey)}
-						>Delete</stylized-button
+						>Delete</rvt-button
 					>
-					<stylized-button
-						?disabled=${!this.inputJsonChanged}
-						.trigger=${this.discardInput.bind(this)}
-						>Discard</stylized-button
+					<rvt-button ?disabled=${!this.inputJsonChanged} .trigger=${this.discardInput.bind(this)}
+						>Discard</rvt-button
 					>
 				</div>
-				<stylized-button
+				<rvt-button
 					?disabled=${this.updatingValue || this.inputJsonInvalid || !this.inputJsonChanged}
 					.trigger=${this.putEntry.bind(this)}
-					>Update</stylized-button
+					>Update</rvt-button
 				>
 			</div>
 		`;

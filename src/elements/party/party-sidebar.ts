@@ -239,28 +239,25 @@ export default class PartySidebar extends LitElement {
 				</div>
 			</div>`);
 
-			actions.push(html`<stylized-button
+			actions.push(html`<rvt-button
 				?disabled=${!!this.party.activity.idle}
 				.trigger=${this.setIdle.bind(this)}
-				>Set party to idle</stylized-button
+				>Set party to idle</rvt-button
 			>`);
 
-			actions.push(html`<stylized-button .trigger=${this.inviteIdentity.bind(this)}
-				>Invite others</stylized-button
+			actions.push(html`<rvt-button .trigger=${this.inviteIdentity.bind(this)}
+				>Invite others</rvt-button
 			>`);
 
-			actions.push(html`<stylized-button
+			actions.push(html`<rvt-button
 				id="transfer-ownership"
 				.trigger=${this.transferPartyOwnership.bind(this)}
-				>Transfer ownership</stylized-button
+				>Transfer ownership</rvt-button
 			>`);
 		}
 
-		actions.push(html`<stylized-button
-			id="leave-button"
-			color="#d4393b"
-			.trigger=${this.leaveParty.bind(this)}
-			>Leave party</stylized-button
+		actions.push(html`<rvt-button id="leave-button" color="#d4393b" .trigger=${this.leaveParty.bind(this)}
+			>Leave party</rvt-button
 		>`);
 
 		return actions;

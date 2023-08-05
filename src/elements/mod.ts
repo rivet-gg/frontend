@@ -26,7 +26,7 @@ import './common/range-slider';
 import './common/rich-embed';
 import './common/rich-text';
 import './common/search-bar';
-import './common/stylized-button';
+import './common/button';
 import './common/toggle-switch';
 import './context-menu/context-action';
 import './context-menu/context-menu';

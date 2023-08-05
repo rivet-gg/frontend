@@ -114,9 +114,9 @@ export default class PagePartyInvite extends LitElement {
 						? html`<h2>This party invite has expired or was revoked.</h2>`
 						: html`
 								${global.currentParty && global.currentParty.partyId == this.party.partyId
-									? html`<stylized-button disabled>Already In Party</stylized-button>`
-									: html`<stylized-button .trigger=${this.joinParty.bind(this)}
-											>Join Party</stylized-button
+									? html`<rvt-button disabled>Already In Party</rvt-button>`
+									: html`<rvt-button .trigger=${this.joinParty.bind(this)}
+											>Join Party</rvt-button
 									  >`}
 								${this.renderPartyActivity()}
 								${this.party.members.length

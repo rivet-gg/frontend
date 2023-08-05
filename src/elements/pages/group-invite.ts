@@ -119,10 +119,10 @@ export default class GroupInvitePage extends LitElement {
 							@keydown=${this.codeKeyPress.bind(this)}
 							.filter=${(value: string) => value.replace(/[^a-z0-9]/gi, '')}
 						></text-input>
-						<stylized-button
+						<rvt-button
 							.isDisabled=${this.code.length != 8}
 							.trigger=${this.consumeGroupInvite.bind(this)}
-							>Join</stylized-button
+							>Join</rvt-button
 						>
 					</div>
 					${when(this.codeError, () => html`<p id="error">${this.codeError}</p>`)}

@@ -171,11 +171,11 @@ export default class DevGameNamespace extends LitElement {
 					<p id="date">
 						Created: <date-display .timestamp=${this.version.createTs}></date-display>
 					</p>
-					<stylized-button
+					<rvt-button
 						id="duplicate-button"
 						icon="regular/clone"
 						.trigger=${this.duplicateVersion.bind(this)}
-						>Duplicate</stylized-button
+						>Duplicate</rvt-button
 					>
 				</div>
 				<h1>Active namespaces</h1>

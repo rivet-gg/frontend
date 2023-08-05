@@ -74,11 +74,11 @@ export default class CreatePartyModal extends LitElement {
 				<div class="input-party">
 					<!-- TODO -->
 				</div>
-				<stylized-button
+				<rvt-button
 					.trigger=${this.createParty.bind(this)}
 					?disabled=${!this.partyIsValid}
 					?loading=${this.isCreatingParty}
-					>Create</stylized-button
+					>Create</rvt-button
 				>
 			</modal-body>
 		</drop-down-modal>`;

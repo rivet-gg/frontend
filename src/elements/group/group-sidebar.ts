@@ -219,25 +219,19 @@ export default class GroupSidebar extends LitElement {
 			if (this.profile.publicity == api.portal.GroupPublicity.OPEN) {
 				if (this.profile.isCurrentIdentityRequestingJoin) {
 					actions.push(
-						html`<stylized-button id="apply-button" disabled
-							>Application pending</stylized-button
-						>`
+						html`<rvt-button id="apply-button" disabled>Application pending</rvt-button>`
 					);
 				} else {
-					actions.push(html`<stylized-button
-						id="apply-button"
-						.trigger=${this.applyForGroup.bind(this)}
-						>Apply</stylized-button
+					actions.push(html`<rvt-button id="apply-button" .trigger=${this.applyForGroup.bind(this)}
+						>Apply</rvt-button
 					>`);
 				}
 			} else {
-				actions.push(
-					html`<stylized-button id="apply-button" disabled>Applications closed</stylized-button>`
-				);
+				actions.push(html`<rvt-button id="apply-button" disabled>Applications closed</rvt-button>`);
 			}
 		} else {
-			actions.push(html`<stylized-button .trigger=${this.openCreateInviteModal.bind(this)}
-				>Create invite</stylized-button
+			actions.push(html`<rvt-button .trigger=${this.openCreateInviteModal.bind(this)}
+				>Create invite</rvt-button
 			>`);
 
 			// if (global.currentParty) {
@@ -247,45 +241,43 @@ export default class GroupSidebar extends LitElement {
 			// 	);
 
 			// 	if (isLeader) {
-			// 		actions.push(html`<stylized-button .trigger=${this.inviteToParty.bind(this)}
-			// 			>Send party invite</stylized-button
+			// 		actions.push(html`<rvt-button .trigger=${this.inviteToParty.bind(this)}
+			// 			>Send party invite</rvt-button
 			// 		>`);
 			// 	}
 			// } else {
 			// 	actions.push(
-			// 		html`<stylized-button .trigger=${this.inviteToParty.bind(this)}
-			// 			>Create group party</stylized-button
+			// 		html`<rvt-button .trigger=${this.inviteToParty.bind(this)}
+			// 			>Create group party</rvt-button
 			// 		>`
 			// 	);
 			// }
 
 			// if (this.profile.isDeveloper) {
-			// 	actions.push(html`<stylized-button
+			// 	actions.push(html`<rvt-button
 			// 		href=${routes.groupBilling.build({
 			// 			groupId: groupId
 			// 		})}
-			// 		>View billing</stylized-button
+			// 		>View billing</rvt-button
 			// 	>`);
 			// }
 
 			if (notInChat && !isOwner) {
-				actions.push(html`<stylized-button
+				actions.push(html`<rvt-button
 					id="leave-button"
 					color="#d93636"
 					.trigger=${this.leaveGroup.bind(this)}
-					>Leave group</stylized-button
+					>Leave group</rvt-button
 				>`);
 			}
 		}
 
 		if (isOwner) {
-			actions.push(html`<stylized-button .trigger=${this.openEditModal.bind(this)}
-				>Edit group</stylized-button
-			>`);
-			actions.push(html`<stylized-button
+			actions.push(html`<rvt-button .trigger=${this.openEditModal.bind(this)}>Edit group</rvt-button>`);
+			actions.push(html`<rvt-button
 				id="transfer-ownership"
 				.trigger=${this.transferGroupOwnership.bind(this)}
-				>Transfer ownership</stylized-button
+				>Transfer ownership</rvt-button
 			>`);
 		}
 

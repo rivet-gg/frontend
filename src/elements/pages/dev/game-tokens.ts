@@ -158,10 +158,8 @@ export default class DevGameTokens extends LitElement {
 						<code class="no-ligatures thick">${createRes.token}</code>
 					</copy-area>
 					<br />
-					<stylized-button
-						@click=${this.downloadEnvFile.bind(this, createRes.token)}
-						color="#4D4D4D"
-						>Download Environment File</stylized-button
+					<rvt-button @click=${this.downloadEnvFile.bind(this, createRes.token)} color="#4D4D4D"
+						>Download Environment File</rvt-button
 					>
 					<p class="light muted">
 						Rename this file to <code class="inline">.env</code> for use in conjunction with the
@@ -253,11 +251,11 @@ export default class DevGameTokens extends LitElement {
 
 		return html`
 			<div id="base">
-				<stylized-button
+				<rvt-button
 					id="create-token-button"
 					icon="solid/key"
 					.trigger=${this.createCloudToken.bind(this)}
-					>Create Cloud Token</stylized-button
+					>Create Cloud Token</rvt-button
 				>
 
 				<h1>Namespaces</h1>
@@ -274,15 +272,15 @@ export default class DevGameTokens extends LitElement {
 		return html`
 			<div class="namespace-tokens">
 				<h2>${namespace.displayName}</h2>
-				<stylized-button
+				<rvt-button
 					icon="solid/ticket"
 					.trigger=${this.createPublicToken.bind(this, namespace.namespaceId)}
-					>Create Public Token</stylized-button
+					>Create Public Token</rvt-button
 				>
-				<stylized-button
+				<rvt-button
 					icon="solid/lock"
 					.trigger=${this.openDevTokenModal.bind(this, namespace.namespaceId)}
-					>Create Development Token</stylized-button
+					>Create Development Token</rvt-button
 				>
 			</div>
 		`;
@@ -388,11 +386,11 @@ export default class DevGameTokens extends LitElement {
 							: null}
 					</div>
 				</div>
-				<stylized-button
+				<rvt-button
 					.trigger=${this.createDevToken.bind(this)}
 					?disabled=${!this.devTokensValid}
 					?loading=${this.isCreatingDevToken}
-					>Create</stylized-button
+					>Create</rvt-button
 				>
 			</div>
 		</drop-down-modal>`;

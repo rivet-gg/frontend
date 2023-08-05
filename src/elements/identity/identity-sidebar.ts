@@ -216,20 +216,20 @@ export default class IdentitySidebar extends LitElement {
 		let actions = [];
 
 		if (isSelf) {
-			actions.push(html`<stylized-button
+			actions.push(html`<rvt-button
 				id="edit-profile"
 				icon="solid/user-pen"
 				.trigger=${this.openEditModal.bind(this)}
-				>Edit profile</stylized-button
+				>Edit profile</rvt-button
 			>`);
 		} else {
 			if (!this.inChat) {
-				actions.push(html`<stylized-button
+				actions.push(html`<rvt-button
 					icon="solid/message"
 					href=${routes.identityDirectChat.build({
 						id: this.profile.identityId
 					})}
-					>Message</stylized-button
+					>Message</rvt-button
 				>`);
 			}
 
@@ -245,13 +245,13 @@ export default class IdentitySidebar extends LitElement {
 			// 			member => member.identity.identityId == this.profile.identityId
 			// 		)
 			// 	) {
-			// 		actions.push(html`<stylized-button .trigger=${this.inviteToParty.bind(this)}
-			// 			>Invite to party</stylized-button
+			// 		actions.push(html`<rvt-button .trigger=${this.inviteToParty.bind(this)}
+			// 			>Invite to party</rvt-button
 			// 		>`);
 			// 	}
 			// } else {
-			// 	actions.push(html`<stylized-button .trigger=${this.inviteToParty.bind(this)}
-			// 		>Create party</stylized-button
+			// 	actions.push(html`<rvt-button .trigger=${this.inviteToParty.bind(this)}
+			// 		>Create party</rvt-button
 			// 	>`);
 			// }
 
@@ -263,26 +263,24 @@ export default class IdentitySidebar extends LitElement {
 			// 				  api.party.PartyPublicityLevel.JOIN
 			// 				: this.profile.party.publicity.public == api.party.PartyPublicityLevel.JOIN
 			// 		) {
-			// 			actions.push(html`<stylized-button .trigger=${this.joinParty.bind(this)}
-			// 				>Join party</stylized-button
+			// 			actions.push(html`<rvt-button .trigger=${this.joinParty.bind(this)}
+			// 				>Join party</rvt-button
 			// 			>`);
 			// 		} else {
-			// 			actions.push(html`<stylized-button .trigger=${this.requestToJoinParty.bind(this)}
-			// 				>Request to join party</stylized-button
+			// 			actions.push(html`<rvt-button .trigger=${this.requestToJoinParty.bind(this)}
+			// 				>Request to join party</rvt-button
 			// 			>`);
 			// 		}
 			// 	}
 			// }
 
 			if (this.profile.following) {
-				actions.push(html`<stylized-button
-					color="#d93636"
-					.trigger=${this.toggleFriend.bind(this, false)}
-					>Unfollow</stylized-button
+				actions.push(html`<rvt-button color="#d93636" .trigger=${this.toggleFriend.bind(this, false)}
+					>Unfollow</rvt-button
 				>`);
 			} else {
-				actions.push(html`<stylized-button .trigger=${this.toggleFriend.bind(this, true)}
-					>Follow</stylized-button
+				actions.push(html`<rvt-button .trigger=${this.toggleFriend.bind(this, true)}
+					>Follow</rvt-button
 				>`);
 			}
 		}
@@ -318,13 +316,13 @@ export default class IdentitySidebar extends LitElement {
 			</info-panel-header>
 
 			<info-panel-body id="activity" noindent>
-				<stylized-button
+				<rvt-button
 					id="status"
 					class=${statusClasses}
 					icon=${statusIcon}
 					?no-action=${!isSelf}
 					.trigger=${isSelf ? this.promptStatus.bind(this) : null}
-					>${statusText}</stylized-button
+					>${statusText}</rvt-button
 				>
 				${when(
 					this.profile.party,

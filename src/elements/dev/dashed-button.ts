@@ -72,7 +72,7 @@ export default class DashedButton extends LitElement {
 	render() {
 		// Get classes and styles
 		let classes = classMap({
-			'stylized-button': true,
+			'rvt-button': true,
 			large: this.isLarge,
 			disabled: this.isDisabled,
 			loading: this.isLoading,

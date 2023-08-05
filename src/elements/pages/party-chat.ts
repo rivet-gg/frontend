@@ -330,11 +330,11 @@ export default class PartyChatPage extends LitElement {
 					@select=${this.changeTransferIdentitySelection.bind(this)}
 				></drop-down-list>
 
-				<stylized-button
+				<rvt-button
 					color="#d4393b"
 					.trigger=${this.transferPartyOwnership.bind(this)}
 					?disabled=${this.transferIdentityId == null}
-					>Transfer</stylized-button
+					>Transfer</rvt-button
 				>
 			</modal-body>
 		</drop-down-modal>`;

@@ -451,36 +451,36 @@ export default class IdentityPage extends LitElement {
 						() =>
 							when(
 								isSelf,
-								() => html`<stylized-button
+								() => html`<rvt-button
 									icon="regular/user-pen"
 									id="edit-profile"
 									small
 									.trigger=${this.openEditModal.bind(this)}
-									>Edit profile</stylized-button
+									>Edit profile</rvt-button
 								>`,
-								() => html`<stylized-button
+								() => html`<rvt-button
 										icon="regular/message"
 										small
 										href=${routes.identityDirectChat.build({
 											id: this.identityId
 										})}
-										>Message</stylized-button
+										>Message</rvt-button
 									>
-									<stylized-button
+									<rvt-button
 										icon="regular/user-plus"
 										small
 										.trigger=${this.toggleFollow.bind(this)}
-										>${this.profile.following ? 'Unfollow' : 'Follow'}</stylized-button
+										>${this.profile.following ? 'Unfollow' : 'Follow'}</rvt-button
 									>
 									${when(
 										!isSelf,
-										() => html`<stylized-button
+										() => html`<rvt-button
 											icon="regular/chart-network"
 											small
 											href="${routes.identityFriends.build(
 												identityRouteData(identity)
 											)}"
-											>View mutuals</stylized-button
+											>View mutuals</rvt-button
 										>`
 									)}`
 							),
@@ -598,7 +598,7 @@ export default class IdentityPage extends LitElement {
 	buildBackButton() {
 		// If back navigation is possible, use function rather than link
 		if (UIRouter.shared.canGoBack) {
-			return html` <stylized-button
+			return html` <rvt-button
 				icon="solid/play"
 				.trigger=${this.navigateBack.bind(this)}
 				id="nav-back"
@@ -607,7 +607,7 @@ export default class IdentityPage extends LitElement {
 				text="white"
 			>
 				Back
-			</stylized-button>`;
+			</rvt-button>`;
 		} else {
 			return null;
 		}

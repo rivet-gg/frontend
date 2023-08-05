@@ -207,14 +207,14 @@ export default class GamePage extends LitElement {
 				<div id="main-title">${this.profile ? this.profile.displayName : null}</div>
 				<div id="banner-actions">
 					<div id="actions-right">
-						<stylized-button
+						<rvt-button
 							id="play"
 							right-icon="solid/play"
 							large
 							.trigger=${this.playGame.bind(this)}
 						>
 							Play
-						</stylized-button>
+						</rvt-button>
 					</div>
 				</div>
 			</div>
@@ -259,29 +259,29 @@ export default class GamePage extends LitElement {
 								<!-- Leaderboard type toggle -->
 								<div id="leaderboard-type-toggle">
 									${this.leaderboardType == 'identities'
-										? html` <stylized-button color="#F0F0F0" small text="#1d1d1d"
-													>Identities</stylized-button
+										? html` <rvt-button color="#F0F0F0" small text="#1d1d1d"
+													>Identities</rvt-button
 												>
-												<stylized-button
+												<rvt-button
 													color="transparent"
 													small
 													.trigger=${this.changeLeaderboardType.bind(
 														this,
 														'groups'
 													)}
-													>Groups</stylized-button
+													>Groups</rvt-button
 												>`
-										: html` <stylized-button
+										: html` <rvt-button
 													color="transparent"
 													small
 													.trigger=${this.changeLeaderboardType.bind(
 														this,
 														'identities'
 													)}
-													>Identities</stylized-button
+													>Identities</rvt-button
 												>
-												<stylized-button color="#F0F0F0" small text="#1d1d1d"
-													>Groups</stylized-button
+												<rvt-button color="#F0F0F0" small text="#1d1d1d"
+													>Groups</rvt-button
 												>`}
 								</div>
 								<!-- Leaderboard category buttons -->
@@ -294,20 +294,20 @@ export default class GamePage extends LitElement {
 												a => a.displayName,
 												a =>
 													selection == a.displayName
-														? html`<stylized-button
+														? html`<rvt-button
 																small
 																color="#F0F0F0"
 																text="#1d1d1d"
-																>${a.displayName}</stylized-button
+																>${a.displayName}</rvt-button
 														  >`
-														: html`<stylized-button
+														: html`<rvt-button
 																small
 																color="transparent"
 																.trigger=${this.changeLeaderboardCategory.bind(
 																	this,
 																	a.displayName
 																)}
-																>${a.displayName}</stylized-button
+																>${a.displayName}</rvt-button
 														  >`
 											)}
 									  </div>`
@@ -510,24 +510,22 @@ export default class GamePage extends LitElement {
 						<!-- Leaderboard type toggle -->
 						<div id="leaderboard-type-toggle">
 							${this.leaderboardType == 'identities'
-								? html` <stylized-button color="#F0F0F0" small text="#1d1d1d"
-											>Identities</stylized-button
+								? html` <rvt-button color="#F0F0F0" small text="#1d1d1d"
+											>Identities</rvt-button
 										>
-										<stylized-button
+										<rvt-button
 											color="transparent"
 											small
 											.trigger=${this.changeLeaderboardType.bind(this, 'groups')}
-											>Groups</stylized-button
+											>Groups</rvt-button
 										>`
-								: html` <stylized-button
+								: html` <rvt-button
 											color="transparent"
 											small
 											.trigger=${this.changeLeaderboardType.bind(this, 'identities')}
-											>Identities</stylized-button
+											>Identities</rvt-button
 										>
-										<stylized-button color="#F0F0F0" small text="#1d1d1d"
-											>Groups</stylized-button
-										>`}
+										<rvt-button color="#F0F0F0" small text="#1d1d1d">Groups</rvt-button>`}
 						</div>
 						<!-- Leaderboard category buttons -->
 						${this.profile && this.leaderboardDataCache.size
@@ -539,17 +537,17 @@ export default class GamePage extends LitElement {
 										a => a.displayName,
 										a =>
 											selection == a.displayName
-												? html`<stylized-button small color="#F0F0F0" text="#1d1d1d"
-														>${a.displayName}</stylized-button
+												? html`<rvt-button small color="#F0F0F0" text="#1d1d1d"
+														>${a.displayName}</rvt-button
 												  >`
-												: html`<stylized-button
+												: html`<rvt-button
 														small
 														color="transparent"
 														.trigger=${this.changeLeaderboardCategory.bind(
 															this,
 															a.displayName
 														)}
-														>${a.displayName}</stylized-button
+														>${a.displayName}</rvt-button
 												  >`
 									)}
 							  </div>`
@@ -655,16 +653,16 @@ export default class GamePage extends LitElement {
 							a => a.displayName,
 							a =>
 								selection == a.displayName
-									? html`<stylized-button color="#F0F0F0" text="#1d1d1d"
-											>${a.displayName}</stylized-button
+									? html`<rvt-button color="#F0F0F0" text="#1d1d1d"
+											>${a.displayName}</rvt-button
 									  >`
-									: html`<stylized-button
+									: html`<rvt-button
 											color="#ffffff05"
 											.trigger=${this.changeLeaderboardCategory.bind(
 												this,
 												a.displayName
 											)}
-											>${a.displayName}</stylized-button
+											>${a.displayName}</rvt-button
 									  >`
 						)}
 					</div>`
@@ -790,7 +788,7 @@ export default class GamePage extends LitElement {
 	buildBackButton() {
 		// If back navigation is possible, use function rather than link
 		if (UIRouter.shared.canGoBack) {
-			return html` <stylized-button
+			return html` <rvt-button
 				icon="solid/play"
 				.trigger=${this.navigateBack.bind(this)}
 				id="nav-back"
@@ -799,17 +797,11 @@ export default class GamePage extends LitElement {
 				text="white"
 			>
 				Back
-			</stylized-button>`;
+			</rvt-button>`;
 		} else {
-			return html` <stylized-button
-				icon="solid/play"
-				id="nav-back"
-				small
-				color="transparent"
-				text="white"
-			>
+			return html` <rvt-button icon="solid/play" id="nav-back" small color="transparent" text="white">
 				Arcade
-			</stylized-button>`;
+			</rvt-button>`;
 		}
 	}
 

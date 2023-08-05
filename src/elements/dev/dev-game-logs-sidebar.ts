@@ -52,10 +52,8 @@ export default class DevGameLogsSidebar extends LitElement {
 							${this.moreLobbies
 								? html`
 										<div id="footer">
-											<stylized-button
-												color="#595959"
-												.trigger=${this.loadMore.bind(this)}
-												>Load more</stylized-button
+											<rvt-button color="#595959" .trigger=${this.loadMore.bind(this)}
+												>Load more</rvt-button
 											>
 										</div>
 								  `
