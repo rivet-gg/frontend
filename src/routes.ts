@@ -551,15 +551,15 @@ namespace routes {
 		}
 	});
 
-	// export let kitchenSink = new Route<{}>({
-	// 	path: '/kitchen-sink',
-	// 	render() {
-	// 		return {
-	// 			title: `Kitchen Sink`,
-	// 			template: html`<page-kitchen-sink></page-kitchen-sink>`
-	// 		};
-	// 	}
-	// });
+	export let kitchenSink = new Route<{}>({
+		path: '/kitchen-sink',
+		render() {
+			return {
+				title: `Kitchen Sink`,
+				template: html`<page-kitchen-sink></page-kitchen-sink>`
+			};
+		}
+	});
 
 	// export let test = new Route<{}>({
 	// 	path: '/test',

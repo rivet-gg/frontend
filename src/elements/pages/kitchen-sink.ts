@@ -21,6 +21,20 @@ export default class KitchenSink extends LitElement {
 	}
 
 	render() {
-		return html` <div id="base">Hello, world!</div> `;
+		return html`<div id="base">
+			<h2>Primary</h2>
+			<rvt-button primary extra-small>Button</rvt-button>
+			<rvt-button primary small>Button</rvt-button>
+			<rvt-button primary>Button</rvt-button>
+			<rvt-button primary large>Button</rvt-button>
+			<rvt-button primary extra-large>Button</rvt-button>
+
+			<h2>Secondary</h2>
+			<rvt-button extra-small>Button</rvt-button>
+			<rvt-button small>Button</rvt-button>
+			<rvt-button>Button</rvt-button>
+			<rvt-button large>Button</rvt-button>
+			<rvt-button extra-large>Button</rvt-button>
+		</div> `;
 	}
 }
