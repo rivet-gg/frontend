@@ -251,27 +251,25 @@ export default class GroupChatPage extends LitElement {
 
 		return html`
 			<div id="base">
-				${global.isMobile
-					? this.renderChat()
-					: html`<right-sidebar-layout>
-							${this.renderChat()}
-							<group-sidebar
-								slot="sidebar"
-								.profile=${this.profile}
-								.members=${this.members}
-								.joinRequests=${this.joinRequests}
-								in-chat
-								do-offline-members
-								@event=${this.onActionEvent.bind(this)}
-							>
-								<div slot="extras-top">
-									<group-handle-tile .group=${this.profile}></group-handle-tile>
-								</div>
-								<div slot="extras-bottom">
-									<chat-preview-button></chat-preview-button>
-								</div>
-							</group-sidebar>
-					  </right-sidebar-layout>`}
+				<right-sidebar-layout>
+					${this.renderChat()}
+					<group-sidebar
+						slot="sidebar"
+						.profile=${this.profile}
+						.members=${this.members}
+						.joinRequests=${this.joinRequests}
+						in-chat
+						do-offline-members
+						@event=${this.onActionEvent.bind(this)}
+					>
+						<div slot="extras-top">
+							<group-handle-tile .group=${this.profile}></group-handle-tile>
+						</div>
+						<div slot="extras-bottom">
+							<chat-preview-button></chat-preview-button>
+						</div>
+					</group-sidebar>
+				</right-sidebar-layout>
 			</div>
 		`;
 	}

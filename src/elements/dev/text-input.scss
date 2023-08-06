@@ -24,11 +24,13 @@
 		textarea {
 			border: 1px solid rgba(0, 0, 0, 0.25);
 			background-color: transparent;
-			color: #151515;
+			color: #18181b;
 			font-size: $font-size;
 
 			// box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
-			box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 1px, rgba(0, 0, 0, 0.1) 0px 1px 3px;
+			box-shadow:
+				rgba(0, 0, 0, 0.12) 0px 1px 1px,
+				rgba(0, 0, 0, 0.1) 0px 1px 3px;
 
 			&:hover,
 			&:focus {
@@ -40,22 +42,8 @@
 			}
 
 			&::placeholder {
-				color: #15151580;
+				color: #18181b80;
 			}
-		}
-
-		textarea::-webkit-scrollbar-thumb {
-			@include common.scrollbar-track(#808080);
-		}
-		textarea::-webkit-scrollbar-track {
-			@include common.scrollbar-track(rgba(0, 0, 0, 0.1));
-		}
-
-		textarea:focus::-webkit-scrollbar-thumb {
-			@include common.scrollbar-track(#151515);
-		}
-		textarea:focus::-webkit-scrollbar-track {
-			@include common.scrollbar-track(rgba(0, 0, 0, 0.1));
 		}
 	}
 
@@ -96,9 +84,13 @@
 		text-align: $text-align;
 		color: #ececec;
 
-		box-shadow: rgba(0, 0, 0, 0.08) 0px 1px 1px, rgba(0, 0, 0, 0.06) 0px 1px 3px;
+		box-shadow:
+			rgba(0, 0, 0, 0.08) 0px 1px 1px,
+			rgba(0, 0, 0, 0.06) 0px 1px 3px;
 
-		transition: background-color consts.$transition-length, border consts.$transition-length;
+		transition:
+			background-color consts.$transition-length,
+			border consts.$transition-length;
 
 		&:hover,
 		&:focus {

@@ -267,16 +267,16 @@ export default class ContextMenu extends LitElement {
 			>
 			${when(
 				!isSelf,
-				() => html`<context-action
-						href=${routes.identityDirectChat.build(identityRouteData(identity))}
-						>Send message</context-action
-					><context-action
-						class=${classMap({ destructive: this.isFollowing })}
-						.trigger=${this.toggleFollow.bind(this)}
-						@triggered=${this.onActionClick.bind(this)}
-						?loading=${!summary}
-						>${this.isFollowing ? 'Remove' : 'Add'} friend</context-action
-					>`
+				() =>
+					html`<context-action href=${routes.identityDirectChat.build(identityRouteData(identity))}
+							>Send message</context-action
+						><context-action
+							class=${classMap({ destructive: this.isFollowing })}
+							.trigger=${this.toggleFollow.bind(this)}
+							@triggered=${this.onActionClick.bind(this)}
+							?loading=${!summary}
+							>${this.isFollowing ? 'Remove' : 'Add'} friend</context-action
+						>`
 			)}`;
 	}
 
@@ -298,31 +298,32 @@ export default class ContextMenu extends LitElement {
 			>
 			${when(
 				!isSelf,
-				() => html`<context-action
-						href=${routes.identityDirectChat.build(identityRouteData(identity))}
-						>Send message</context-action
-					><context-action
-						class=${classMap({ destructive: this.isFollowing })}
-						.trigger=${this.toggleFollow.bind(this)}
-						@triggered=${this.onActionClick.bind(this)}
-						?loading=${!summary}
-						>${this.isFollowing ? 'Remove' : 'Add'} friend</context-action
-					>`
+				() =>
+					html`<context-action href=${routes.identityDirectChat.build(identityRouteData(identity))}
+							>Send message</context-action
+						><context-action
+							class=${classMap({ destructive: this.isFollowing })}
+							.trigger=${this.toggleFollow.bind(this)}
+							@triggered=${this.onActionClick.bind(this)}
+							?loading=${!summary}
+							>${this.isFollowing ? 'Remove' : 'Add'} friend</context-action
+						>`
 			)}
 			${when(
 				showAdminControls,
-				() => html`<div class="spacer"></div>
-					<context-action
-						class="destructive"
-						.trigger=${this.kickGroupMember.bind(this)}
-						@triggered=${this.onActionClick.bind(this)}
-						>Kick</context-action
-					><context-action
-						class="destructive"
-						.trigger=${this.banIdentity.bind(this)}
-						@triggered=${this.onActionClick.bind(this)}
-						>Ban</context-action
-					>`
+				() =>
+					html`<div class="spacer"></div>
+						<context-action
+							class="destructive"
+							.trigger=${this.kickGroupMember.bind(this)}
+							@triggered=${this.onActionClick.bind(this)}
+							>Kick</context-action
+						><context-action
+							class="destructive"
+							.trigger=${this.banIdentity.bind(this)}
+							@triggered=${this.onActionClick.bind(this)}
+							>Ban</context-action
+						>`
 			)}`;
 	}
 
@@ -392,7 +393,7 @@ export default class ContextMenu extends LitElement {
 		let ctx = this.ctx.group;
 		let group = ctx.group;
 
-		return html`<context-action href=${routes.group.build({ id: group.groupId })}
+		return html`<context-action href=${routes.groupSettings.build({ id: group.groupId })}
 				>View profile</context-action
 			>
 			${when(
@@ -416,9 +417,10 @@ export default class ContextMenu extends LitElement {
 			() =>
 				when(
 					ctx.groupId,
-					() => html`<context-action href=${routes.group.build({ id: ctx.groupId })}
-						>View profile</context-action
-					>`,
+					() =>
+						html`<context-action href=${routes.groupSettings.build({ id: ctx.groupId })}
+							>View profile</context-action
+						>`,
 					() => html`<p class="muted">No actions available</p>`
 				)
 		);
@@ -439,11 +441,12 @@ export default class ContextMenu extends LitElement {
 		return html`
 			${when(
 				identity,
-				() => html`<context-action
-					.trigger=${() => ctx.replyCb(chatMessage.chatMessageId)}
-					@triggered=${this.onActionClick.bind(this)}
-					>Reply to <b>${identity.displayName}</b></context-action
-				>`,
+				() =>
+					html`<context-action
+						.trigger=${() => ctx.replyCb(chatMessage.chatMessageId)}
+						@triggered=${this.onActionClick.bind(this)}
+						>Reply to <b>${identity.displayName}</b></context-action
+					>`,
 				() => html`<p class="muted">No actions available</p>`
 			)}
 		`;

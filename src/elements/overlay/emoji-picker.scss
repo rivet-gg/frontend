@@ -6,7 +6,7 @@
 	$item-padding: 8px;
 	$item-size: $font-size + $item-padding * 2; // Also update in emoji-picker-row
 
-	width: $item-size * 6 + consts.$scrollbar-width; // Don't forget to update showEmojiPicker
+	width: $item-size * 6; // Don't forget to update showEmojiPicker
 	padding: 12px 10px;
 	padding-bottom: 2px; // For scrolling to bottom
 

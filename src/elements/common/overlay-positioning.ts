@@ -386,9 +386,10 @@ export default class OverlayPositioning extends LitElement {
 			<div id="holder" style=${baseStyles} @click=${this.close.bind(this)}>
 				${when(
 					this.scaleAnimation,
-					() => html`<div id="animation" style=${animationStyles}>
-						<slot @slotchange=${this.onSlotChange}></slot>
-					</div>`,
+					() =>
+						html`<div id="animation" style=${animationStyles}>
+							<slot @slotchange=${this.onSlotChange}></slot>
+						</div>`,
 					() => html`<slot @slotchange=${this.onSlotChange}></slot>`
 				)}
 			</div>

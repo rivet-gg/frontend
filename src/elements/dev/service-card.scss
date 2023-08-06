@@ -52,7 +52,7 @@
 				margin: 0 0 0 12px;
 				font-size: 12px;
 				color: #ececec;
-				background: #151515;
+				background: #18181b;
 				border-radius: 3px;
 				padding: 3px 6px;
 				font-weight: 600;
@@ -78,7 +78,9 @@
 			border-radius: 20px;
 
 			color: #ececec;
-			transition: margin-right consts.$transition-length, margin-left consts.$transition-length;
+			transition:
+				margin-right consts.$transition-length,
+				margin-left consts.$transition-length;
 
 			&.hidden {
 				margin-right: -40px;

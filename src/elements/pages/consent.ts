@@ -21,7 +21,7 @@ export default class ConsentPage extends LitElement {
 					</div>
 					<div id="content">
 						<div id="header">
-							<e-svg src="logo/logo-small" preserve></e-svg>
+							<e-svg src="logo/logo-gradient-white" preserve></e-svg>
 							<h1>Welcome to Rivet!</h1>
 						</div>
 						<h2>First things first, lets do some housekeeping.</h2>

@@ -286,7 +286,7 @@ export default class SearchPanel extends LitElement {
 									small
 									no-fade
 									message=""
-									color="#151515cc"
+									color="#18181bcc"
 							  ></loading-wheel>`
 							: null}
 					</div>
@@ -359,7 +359,7 @@ export default class SearchPanel extends LitElement {
 			return html`<a
 				class=${classes}
 				.href=${ifDefined(
-					this.options.selectionCb ? undefined : routes.group.build(groupRouteData(item))
+					this.options.selectionCb ? undefined : routes.groupSettings.build(groupRouteData(item))
 				)}
 				@click=${this.options.selectionCb ? this.options.selectionCb.bind(this, item) : null}
 				@pointerenter=${this.onPointerEnterItem.bind(this, index)}

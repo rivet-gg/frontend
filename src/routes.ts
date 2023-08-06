@@ -1,22 +1,20 @@
 import { TemplateResult, html } from 'lit';
 import * as pathToRegexp from 'path-to-regexp';
 import global from './utils/global';
-import { MenuItem, MainMenuItem } from './elements/sidebar/main-sidebar';
 import utils from './utils/utils';
 import { DevGameRootConfig } from './elements/pages/dev/game';
 import UIRoot from './elements/root/ui-root';
 import { RivetError } from '@rivet-gg/api-internal';
 import { isDeveloper } from './utils/identity';
 import config from './config';
+import { Breadcrumb } from './elements/common/navbar';
 
 export type RenderResult = RenderResultTemplate | RenderResultRedirect;
 
 export interface RenderResultTemplate {
-	menuItem?: MenuItem;
 	title: string;
+	breadcrumb: Breadcrumb;
 	template: TemplateResult;
-	mobileRedirect?: string; // Where to redirect a page if the client is not on mobile
-	mobileNavStuck?: boolean; // Makes the mobile nav stay open no matter the scroll position
 }
 
 export interface RenderResultRedirect {
@@ -66,9 +64,9 @@ namespace routes {
 		path: '/',
 		render({}) {
 			return {
-				menuItem: { kind: 'MainMenu', content: { item: MainMenuItem.HOME } },
 				title: 'Home',
-				template: html`<page-home></page-home>`
+				breadcrumb: { type: 'Home' },
+				template: html` <dev-dash .identity=${global.currentIdentity}></dev-dash> `
 			};
 		}
 	});
@@ -79,17 +77,6 @@ namespace routes {
 		render() {
 			return {
 				redirect: routes.home.build({})
-			};
-		}
-	});
-
-	export let sidebarHome = new Route<{}>({
-		path: '/sidebar',
-		render() {
-			return {
-				title: 'Sidebar',
-				template: html`<page-sidebar></page-sidebar>`,
-				mobileRedirect: routes.home.build({})
 			};
 		}
 	});
@@ -106,6 +93,7 @@ namespace routes {
 
 			return {
 				title: 'Identity',
+				breadcrumb: { type: 'Custom' },
 				template: renderPageIdentity(id, null)
 			};
 		}
@@ -118,6 +106,7 @@ namespace routes {
 
 			return {
 				title: 'Thread',
+				breadcrumb: { type: 'Custom' },
 				template: html`<page-thread-resolve .threadId=${id}></page-thread-resolve>`
 			};
 		}
@@ -129,8 +118,8 @@ namespace routes {
 			if (!utils.validateUuid(id)) return responses.notFound();
 
 			return {
-				menuItem: { kind: 'Direct', content: { otherIdentityId: id } },
 				title: 'Identity Chat',
+				breadcrumb: { type: 'Custom' },
 				template: html`<page-identity-direct-chat .identityId=${id}></page-identity-direct-chat>`
 			};
 		}
@@ -143,6 +132,7 @@ namespace routes {
 
 			return {
 				title: 'Identity',
+				breadcrumb: { type: 'Custom' },
 				template: renderPageIdentity(id, gameNameId)
 			};
 		}
@@ -155,26 +145,26 @@ namespace routes {
 
 			return {
 				title: 'Mutual Friends',
-				template: html`<page-identity-friends .identityId=${id}></page-identity-friends>`,
-				mobileRedirect: routes.identity.build({ id: id })
+				breadcrumb: { type: 'Custom' },
+				template: html`<page-identity-friends .identityId=${id}></page-identity-friends>`
 			};
 		}
 	});
 
 	// Reuse the same template in order to preserve the same `page-group` instance.
-	function renderPageGroup(groupId: string, gameNameId: string | null) {
+	function renderPageGroupSettings(groupId: string, gameNameId: string | null) {
 		return html`<page-group .groupId=${groupId} .gameNameId=${gameNameId}></page-group>`;
 	}
 
-	export let group = new Route<{ id: string }>({
-		path: '/groups/:id',
+	export let groupSettings = new Route<{ id: string }>({
+		path: '/groups/:id/settings',
 		render({ id }) {
 			if (!utils.validateUuid(id)) return responses.notFound();
 
 			return {
-				menuItem: { kind: 'MainMenu', content: { item: MainMenuItem.GROUPS } },
 				title: 'Group',
-				template: renderPageGroup(id, null)
+				breadcrumb: { type: 'Group', groupId: id, title: 'Settings' },
+				template: renderPageGroupSettings(id, null)
 			};
 		}
 	});
@@ -185,8 +175,8 @@ namespace routes {
 			if (!utils.validateUuid(id)) return responses.notFound();
 
 			return {
-				menuItem: { kind: 'Group', content: { groupId: id } },
 				title: 'Group Chat',
+				breadcrumb: { type: 'Group', groupId: id, title: 'Chat' },
 				template: html`<page-group-chat .groupId=${id}></page-group-chat>`
 			};
 		}
@@ -198,9 +188,9 @@ namespace routes {
 			if (!utils.validateUuid(id)) return responses.notFound();
 
 			return {
-				menuItem: { kind: 'MainMenu', content: { item: MainMenuItem.GROUPS } },
 				title: 'Group',
-				template: renderPageGroup(id, gameNameId)
+				breadcrumb: { type: 'Group', groupId: id },
+				template: renderPageGroupSettings(id, gameNameId)
 			};
 		}
 	});
@@ -212,306 +202,8 @@ namespace routes {
 
 			return {
 				title: 'Group Members',
-				template: html`<page-group-members .groupId=${id}></page-group-members>`,
-				mobileRedirect: routes.group.build({ id: id })
-			};
-		}
-	});
-
-	export let groupInvite = new Route<{ code: string }>({
-		path: '/invite/:code?',
-		render({ code }) {
-			return {
-				title: 'Group Invite',
-				template: html`<page-group-invite .code=${code}></page-group-invite>`
-			};
-		}
-	});
-
-	export let party = new Route<{ id: string }>({
-		path: '/parties/:id',
-		render({ id }) {
-			if (!utils.validateUuid(id)) return responses.notFound();
-
-			return {
-				menuItem: { kind: 'Party', content: { partyId: id } },
-				title: `Party`,
-				template: html`<page-party-chat .partyId=${id}></page-party-chat>`
-			};
-		}
-	});
-
-	export let partyInvite = new Route<{ token: string }>({
-		path: '/party/invite/:token',
-		render({ token }) {
-			return {
-				title: `Party Invite`,
-				template: html`<page-party-invite .inviteToken=${token}></page-party-invite>`
-			};
-		}
-	});
-
-	export let settings = new Route<{ tab?: string }>({
-		path: '/settings/:tab?',
-		render({ tab }) {
-			return {
-				title: `Settings`,
-				template: html`<page-settings .tabId=${tab}></page-settings>`,
-				mobileNavStuck: true
-			};
-		}
-	});
-
-	export let admin = new Route<{}>({
-		path: '/admin',
-		render() {
-			if (!global.currentIdentity.isAdmin) return responses.notFound();
-
-			return {
-				title: `Admin`,
-				template: html`<page-admin></page-admin>`
-			};
-		}
-	});
-
-	export let recentFollowers = new Route<{}>({
-		path: '/recent-followers',
-		render() {
-			return {
-				title: `Recent Followers`,
-				template: html`<page-recent-followers></page-recent-followers>`
-			};
-		}
-	});
-
-	export let linkGame = new Route<{ token: string }>({
-		path: '/link/:token',
-		render({ token }) {
-			return {
-				title: `Link account`,
-				template: html`<page-link-game .token=${token}></page-link-game>`
-			};
-		}
-	});
-
-	export let devRoot = new Route<{}>({
-		path: '/developer',
-		render() {
-			return {
-				redirect: devDashboard.build({})
-			};
-		}
-	});
-
-	export let devDashboard = new Route<{}>({
-		path: '/developer/dashboard',
-		render() {
-			if (!global.currentIdentity.isRegistered) return responses.registerRequired();
-			if (!isDeveloper(global.currentIdentity)) return responses.developerOnly();
-
-			return {
-				menuItem: { kind: 'MainMenu', content: { item: MainMenuItem.DEVELOPER } },
-				title: 'Developer Dashboard',
-				template: html`<page-dev-games></page-dev-games>`
-			};
-		}
-	});
-
-	export let devDeviceLink = new Route<{ token: string }>({
-		path: '/developer/devices/link/:token',
-		render({ token }) {
-			if (!global.currentIdentity.isRegistered) return responses.registerRequired();
-			if (!isDeveloper(global.currentIdentity)) return responses.developerOnly();
-
-			return {
-				menuItem: { kind: 'MainMenu', content: { item: MainMenuItem.DEVELOPER } },
-				title: 'Link Device',
-				template: html`<page-dev-device-link .deviceLinkToken=${token}></page-dev-device-link>`
-			};
-		}
-	});
-
-	// Reuse the same template in order to preserve the same `page-dev-game` instance.
-	function renderPageDevGame(gameId: string, config: DevGameRootConfig) {
-		return html`<page-dev-game .gameId=${gameId} .config=${config}></page-dev-game>`;
-	}
-
-	export let devGame = new Route<{ gameId: string }>({
-		path: '/developer/games/:gameId',
-		render({ gameId }) {
-			if (!global.currentIdentity.isRegistered) return responses.registerRequired();
-			if (!utils.validateUuid(gameId)) return responses.notFound();
-
-			return {
-				menuItem: { kind: 'MainMenu', content: { item: MainMenuItem.DEVELOPER } },
-				title: 'Game',
-				template: renderPageDevGame(gameId, { summary: true })
-			};
-		}
-	});
-
-	export let devGameSummary = new Route<{ gameId: string }>({
-		path: '/developer/games/:gameId/summary',
-		render({ gameId }) {
-			if (!global.currentIdentity.isRegistered) return responses.registerRequired();
-			if (!utils.validateUuid(gameId)) return responses.notFound();
-
-			return {
-				menuItem: { kind: 'MainMenu', content: { item: MainMenuItem.DEVELOPER } },
-				title: 'Game',
-				template: renderPageDevGame(gameId, { summary: true, mobileSummary: true }),
-				mobileRedirect: routes.devGame.build({ gameId })
-			};
-		}
-	});
-
-	export let devNamespace = new Route<{ gameId: string; namespaceId: string }>({
-		path: '/developer/games/:gameId/namespaces/:namespaceId',
-		render({ gameId, namespaceId }) {
-			if (!global.currentIdentity.isRegistered) return responses.registerRequired();
-
-			if (!utils.validateUuid(gameId) || !utils.validateUuid(namespaceId)) return responses.notFound();
-
-			return {
-				menuItem: { kind: 'MainMenu', content: { item: MainMenuItem.DEVELOPER } },
-				title: 'Game Namespace',
-				template: renderPageDevGame(gameId, { namespace: { namespaceId } })
-			};
-		}
-	});
-
-	export let devVersion = new Route<{ gameId: string; versionId: string }>({
-		path: '/developer/games/:gameId/versions/:versionId',
-		render({ gameId, versionId }) {
-			if (!global.currentIdentity.isRegistered) return responses.registerRequired();
-			if (global.isMobile) return responses.desktopOnly();
-
-			if (!utils.validateUuid(gameId) || !utils.validateUuid(versionId)) return responses.notFound();
-
-			return {
-				menuItem: { kind: 'MainMenu', content: { item: MainMenuItem.DEVELOPER } },
-				title: 'Game Version',
-				template: renderPageDevGame(gameId, { version: { versionId } })
-			};
-		}
-	});
-
-	export let devVersionDraft = new Route<{ gameId: string }>({
-		path: '/developer/games/:gameId/version-draft',
-		render({ gameId }) {
-			if (!global.currentIdentity.isRegistered) return responses.registerRequired();
-			if (global.isMobile) return responses.desktopOnly();
-			if (!utils.validateUuid(gameId)) return responses.notFound();
-
-			return {
-				menuItem: { kind: 'MainMenu', content: { item: MainMenuItem.DEVELOPER } },
-				title: 'Game Version Draft',
-				template: renderPageDevGame(gameId, { versionDraft: true })
-			};
-		}
-	});
-
-	export let devTokens = new Route<{ gameId: string }>({
-		path: '/developer/games/:gameId/api',
-		render({ gameId }) {
-			if (!global.currentIdentity.isRegistered) return responses.registerRequired();
-			if (!utils.validateUuid(gameId)) return responses.notFound();
-
-			return {
-				menuItem: { kind: 'MainMenu', content: { item: MainMenuItem.DEVELOPER } },
-				title: 'Game API',
-				template: renderPageDevGame(gameId, { tokens: true })
-			};
-		}
-	});
-
-	export let devLogs = new Route<{ gameId: string }, { namespaceId: string }>({
-		path: '/developer/games/:gameId/logs',
-		render({ gameId }, { namespaceId }) {
-			if (!global.currentIdentity.isRegistered) return responses.registerRequired();
-			if (!utils.validateUuid(gameId)) return responses.notFound();
-			if (namespaceId && !utils.validateUuid(namespaceId)) return responses.notFound();
-
-			return {
-				menuItem: { kind: 'MainMenu', content: { item: MainMenuItem.DEVELOPER } },
-				title: 'Game Logs',
-				template: renderPageDevGame(gameId, { logs: true, namespaceId })
-			};
-		}
-	});
-
-	export let devLogLobby = new Route<{ gameId: string; lobbyId: string }, { namespaceId: string }>({
-		path: '/developer/games/:gameId/logs/:lobbyId',
-		render({ gameId, lobbyId }, { namespaceId }) {
-			if (!global.currentIdentity.isRegistered) return responses.registerRequired();
-			if (!utils.validateUuid(gameId)) return responses.notFound();
-			if (!utils.validateUuid(lobbyId)) return responses.notFound();
-
-			return {
-				menuItem: { kind: 'MainMenu', content: { item: MainMenuItem.DEVELOPER } },
-				title: 'Game Logs',
-				template: renderPageDevGame(gameId, { logs: true, namespaceId, logsLobbyId: lobbyId })
-			};
-		}
-	});
-
-	export let devLobbies = new Route<{ gameId: string }, { namespaceId: string }>({
-		path: '/developer/games/:gameId/lobbies',
-		render({ gameId }, { namespaceId }) {
-			if (!global.currentIdentity.isRegistered) return responses.registerRequired();
-			if (!utils.validateUuid(gameId)) return responses.notFound();
-			if (namespaceId && !utils.validateUuid(namespaceId)) return responses.notFound();
-
-			return {
-				menuItem: { kind: 'MainMenu', content: { item: MainMenuItem.DEVELOPER } },
-				title: 'Game Lobbies',
-				template: renderPageDevGame(gameId, { lobbies: true, namespaceId })
-			};
-		}
-	});
-
-	export let devKv = new Route<{ gameId: string }, { namespaceId: string }>({
-		path: '/developer/games/:gameId/kv',
-		render({ gameId }, { namespaceId }) {
-			if (!global.currentIdentity.isRegistered) return responses.registerRequired();
-			if (!utils.validateUuid(gameId)) return responses.notFound();
-			if (namespaceId && !utils.validateUuid(namespaceId)) return responses.notFound();
-
-			return {
-				menuItem: { kind: 'MainMenu', content: { item: MainMenuItem.DEVELOPER } },
-				title: 'Game KV',
-				template: renderPageDevGame(gameId, { kv: true, namespaceId })
-			};
-		}
-	});
-
-	export let devBilling = new Route<{ gameId: string }>({
-		path: '/developer/games/:gameId/billing',
-		render({ gameId }) {
-			if (!global.currentIdentity.isRegistered) return responses.registerRequired();
-			if (!utils.validateUuid(gameId)) return responses.notFound();
-
-			return {
-				menuItem: { kind: 'MainMenu', content: { item: MainMenuItem.DEVELOPER } },
-				title: 'Game CDN',
-				template: renderPageDevGame(gameId, { sites: true })
-			};
-		}
-	});
-
-	export let devBuilds = new Route<{ gameId: string }>({
-		path: '/developer/games/:gameId/builds',
-		render({ gameId }) {
-			// TODO:
-			return responses.notFound();
-
-			if (!global.currentIdentity.isRegistered) return responses.registerRequired();
-			if (!utils.validateUuid(gameId)) return responses.notFound();
-
-			return {
-				menuItem: { kind: 'MainMenu', content: { item: MainMenuItem.DEVELOPER } },
-				title: 'Game Builds',
-				template: renderPageDevGame(gameId, { builds: true })
+				breadcrumb: { type: 'Group', groupId: id, title: 'Members' },
+				template: html`<page-group-members .groupId=${id}></page-group-members>`
 			};
 		}
 	});
@@ -519,14 +211,16 @@ namespace routes {
 	export let groupBilling = new Route<{ groupId: string }>({
 		path: '/groups/:groupId/billing',
 		render({ groupId }) {
-			// TODO:
-			return responses.notFound();
-
 			if (!global.currentIdentity.isRegistered) return responses.registerRequired();
 			if (!utils.validateUuid(groupId)) return responses.notFound();
 
 			return {
 				title: `Billing`,
+				breadcrumb: {
+					type: 'Group',
+					groupId,
+					title: 'Billing'
+				},
 				template: html`<page-group-billing .groupId=${groupId}></page-group-billing>`
 			};
 		}
@@ -541,7 +235,289 @@ namespace routes {
 
 			return {
 				title: `Analytics`,
+				breadcrumb: {
+					type: 'Group',
+					groupId,
+					title: 'Analytics'
+				},
 				template: html`<page-analytics-overview .groupId=${groupId}></page-analytics-overview>`
+			};
+		}
+	});
+
+	export let groupInvite = new Route<{ code: string }>({
+		path: '/invite/:code?',
+		render({ code }) {
+			return {
+				title: 'Group Invite',
+				breadcrumb: { type: 'Custom' },
+				template: html`<page-group-invite .code=${code}></page-group-invite>`
+			};
+		}
+	});
+
+	export let party = new Route<{ id: string }>({
+		path: '/parties/:id',
+		render({ id }) {
+			if (!utils.validateUuid(id)) return responses.notFound();
+
+			return {
+				title: `Party`,
+				breadcrumb: { type: 'Custom' },
+				template: html`<page-party-chat .partyId=${id}></page-party-chat>`
+			};
+		}
+	});
+
+	export let partyInvite = new Route<{ token: string }>({
+		path: '/party/invite/:token',
+		render({ token }) {
+			return {
+				title: `Party Invite`,
+				breadcrumb: { type: 'Custom' },
+				template: html`<page-party-invite .inviteToken=${token}></page-party-invite>`
+			};
+		}
+	});
+
+	export let settings = new Route<{ tab?: string }>({
+		path: '/settings/:tab?',
+		render({ tab }) {
+			return {
+				title: `Settings`,
+				breadcrumb: { type: 'Custom' },
+				template: html`<page-settings .tabId=${tab}></page-settings>`
+			};
+		}
+	});
+
+	export let admin = new Route<{}>({
+		path: '/admin',
+		render() {
+			if (!global.currentIdentity.isAdmin) return responses.notFound();
+
+			return {
+				title: `Admin`,
+				breadcrumb: { type: 'Custom' },
+				template: html`<page-admin></page-admin>`
+			};
+		}
+	});
+
+	export let recentFollowers = new Route<{}>({
+		path: '/recent-followers',
+		render() {
+			return {
+				title: `Recent Followers`,
+				breadcrumb: { type: 'Custom' },
+				template: html`<page-recent-followers></page-recent-followers>`
+			};
+		}
+	});
+
+	export let linkGame = new Route<{ token: string }>({
+		path: '/link/:token',
+		render({ token }) {
+			return {
+				title: `Link account`,
+				breadcrumb: { type: 'Custom' },
+				template: html`<page-link-game .token=${token}></page-link-game>`
+			};
+		}
+	});
+
+	export let devDeviceLink = new Route<{ token: string }>({
+		path: '/devices/link/:token',
+		render({ token }) {
+			if (!global.currentIdentity.isRegistered) return responses.registerRequired();
+			if (!isDeveloper(global.currentIdentity)) return responses.developerOnly();
+
+			return {
+				title: 'Link Device',
+				breadcrumb: { type: 'Custom' },
+				template: html`<page-dev-device-link .deviceLinkToken=${token}></page-dev-device-link>`
+			};
+		}
+	});
+
+	// Reuse the same template in order to preserve the same `page-dev-game` instance.
+	function renderPageDevGame(gameId: string, config: DevGameRootConfig) {
+		return html`<page-dev-game .gameId=${gameId} .config=${config}></page-dev-game>`;
+	}
+
+	export let devGame = new Route<{ gameId: string }>({
+		path: '/games/:gameId',
+		render({ gameId }) {
+			if (!global.currentIdentity.isRegistered) return responses.registerRequired();
+			if (!utils.validateUuid(gameId)) return responses.notFound();
+
+			return {
+				title: 'Game',
+				breadcrumb: { type: 'Game', gameId, title: 'Summary' },
+				template: renderPageDevGame(gameId, { summary: true })
+			};
+		}
+	});
+
+	export let devGameSummary = new Route<{ gameId: string }>({
+		path: '/games/:gameId/summary',
+		render({ gameId }) {
+			if (!global.currentIdentity.isRegistered) return responses.registerRequired();
+			if (!utils.validateUuid(gameId)) return responses.notFound();
+
+			return {
+				title: 'Game',
+				breadcrumb: { type: 'Game', gameId, title: 'Summary' },
+				template: renderPageDevGame(gameId, { summary: true })
+			};
+		}
+	});
+
+	export let devNamespace = new Route<{ gameId: string; namespaceId: string }>({
+		path: '/games/:gameId/namespaces/:namespaceId',
+		render({ gameId, namespaceId }) {
+			if (!global.currentIdentity.isRegistered) return responses.registerRequired();
+
+			if (!utils.validateUuid(gameId) || !utils.validateUuid(namespaceId)) return responses.notFound();
+
+			return {
+				title: 'Game Namespace',
+				breadcrumb: { type: 'Game', gameId, title: 'Namespace' },
+				template: renderPageDevGame(gameId, { namespace: { namespaceId } })
+			};
+		}
+	});
+
+	export let devVersion = new Route<{ gameId: string; versionId: string }>({
+		path: '/games/:gameId/versions/:versionId',
+		render({ gameId, versionId }) {
+			if (!global.currentIdentity.isRegistered) return responses.registerRequired();
+
+			if (!utils.validateUuid(gameId) || !utils.validateUuid(versionId)) return responses.notFound();
+
+			return {
+				title: 'Game Version',
+				breadcrumb: { type: 'Game', gameId, title: 'Version' },
+				template: renderPageDevGame(gameId, { version: { versionId } })
+			};
+		}
+	});
+
+	export let devVersionDraft = new Route<{ gameId: string }>({
+		path: '/games/:gameId/version-draft',
+		render({ gameId }) {
+			if (!global.currentIdentity.isRegistered) return responses.registerRequired();
+			if (!utils.validateUuid(gameId)) return responses.notFound();
+
+			return {
+				title: 'Game Version Draft',
+				breadcrumb: { type: 'Game', gameId, title: 'Version Draft' },
+				template: renderPageDevGame(gameId, { versionDraft: true })
+			};
+		}
+	});
+
+	export let devTokens = new Route<{ gameId: string }>({
+		path: '/games/:gameId/api',
+		render({ gameId }) {
+			if (!global.currentIdentity.isRegistered) return responses.registerRequired();
+			if (!utils.validateUuid(gameId)) return responses.notFound();
+
+			return {
+				title: 'Game API',
+				breadcrumb: { type: 'Game', gameId, title: 'API' },
+				template: renderPageDevGame(gameId, { tokens: true })
+			};
+		}
+	});
+
+	export let devLogs = new Route<{ gameId: string }, { namespaceId: string }>({
+		path: '/games/:gameId/logs',
+		render({ gameId }, { namespaceId }) {
+			if (!global.currentIdentity.isRegistered) return responses.registerRequired();
+			if (!utils.validateUuid(gameId)) return responses.notFound();
+			if (namespaceId && !utils.validateUuid(namespaceId)) return responses.notFound();
+
+			return {
+				title: 'Game Logs',
+				breadcrumb: { type: 'Game', gameId, title: 'Logs' },
+				template: renderPageDevGame(gameId, { logs: true, namespaceId })
+			};
+		}
+	});
+
+	export let devLogLobby = new Route<{ gameId: string; lobbyId: string }, { namespaceId: string }>({
+		path: '/games/:gameId/logs/:lobbyId',
+		render({ gameId, lobbyId }, { namespaceId }) {
+			if (!global.currentIdentity.isRegistered) return responses.registerRequired();
+			if (!utils.validateUuid(gameId)) return responses.notFound();
+			if (!utils.validateUuid(lobbyId)) return responses.notFound();
+
+			return {
+				title: 'Game Logs',
+				breadcrumb: { type: 'Game', gameId, title: 'Logs' },
+				template: renderPageDevGame(gameId, { logs: true, namespaceId, logsLobbyId: lobbyId })
+			};
+		}
+	});
+
+	export let devLobbies = new Route<{ gameId: string }, { namespaceId: string }>({
+		path: '/games/:gameId/lobbies',
+		render({ gameId }, { namespaceId }) {
+			if (!global.currentIdentity.isRegistered) return responses.registerRequired();
+			if (!utils.validateUuid(gameId)) return responses.notFound();
+			if (namespaceId && !utils.validateUuid(namespaceId)) return responses.notFound();
+
+			return {
+				title: 'Game Lobbies',
+				breadcrumb: { type: 'Game', gameId, title: 'Lobbies' },
+				template: renderPageDevGame(gameId, { lobbies: true, namespaceId })
+			};
+		}
+	});
+
+	export let devKv = new Route<{ gameId: string }, { namespaceId: string }>({
+		path: '/games/:gameId/kv',
+		render({ gameId }, { namespaceId }) {
+			if (!global.currentIdentity.isRegistered) return responses.registerRequired();
+			if (!utils.validateUuid(gameId)) return responses.notFound();
+			if (namespaceId && !utils.validateUuid(namespaceId)) return responses.notFound();
+
+			return {
+				title: 'Game KV',
+				breadcrumb: { type: 'Game', gameId, title: 'KV' },
+				template: renderPageDevGame(gameId, { kv: true, namespaceId })
+			};
+		}
+	});
+
+	export let devBilling = new Route<{ gameId: string }>({
+		path: '/games/:gameId/billing',
+		render({ gameId }) {
+			if (!global.currentIdentity.isRegistered) return responses.registerRequired();
+			if (!utils.validateUuid(gameId)) return responses.notFound();
+
+			return {
+				title: 'Game Billing',
+				breadcrumb: { type: 'Game', gameId, title: 'Billing' },
+				template: renderPageDevGame(gameId, { sites: true })
+			};
+		}
+	});
+
+	export let devBuilds = new Route<{ gameId: string }>({
+		path: '/games/:gameId/builds',
+		render({ gameId }) {
+			// TODO:
+			return responses.notFound();
+
+			if (!global.currentIdentity.isRegistered) return responses.registerRequired();
+			if (!utils.validateUuid(gameId)) return responses.notFound();
+
+			return {
+				title: 'Game Builds',
+				breadcrumb: { type: 'Game', gameId, title: 'Builds' },
+				template: renderPageDevGame(gameId, { builds: true })
 			};
 		}
 	});
@@ -555,12 +531,26 @@ namespace routes {
 	// 		};
 	// 	}
 	// });
+
+	// export let test = new Route<{}>({
+	// 	path: '/test',
+	// 	render() {
+	// 		return {
+	// 			title: `Kitchen Sink`,
+	// 			template: html`<div class="w-full h-full"><rvt-sidebar-layout></rvt-sidebar-layout></div>`
+	// 		};
+	// 	}
+	// });
 }
 
 export namespace responses {
 	export function forbidden(): RenderResult {
 		return {
 			title: 'Forbidden',
+			breadcrumb: {
+				type: 'Custom'
+			},
+
 			template: html`<page-error message="Forbidden"></page-error>`
 		};
 	}
@@ -568,6 +558,9 @@ export namespace responses {
 	export function badRequest(): RenderResult {
 		return {
 			title: 'Bad Request',
+			breadcrumb: {
+				type: 'Custom'
+			},
 			template: html`<page-error message="Bad Request"></page-error>`
 		};
 	}
@@ -575,6 +568,9 @@ export namespace responses {
 	export function notFound(): RenderResult {
 		return {
 			title: 'Not Found',
+			breadcrumb: {
+				type: 'Custom'
+			},
 			template: html`<invalid-page-state>
 				<h1 slot="title">404</h1>
 				<h2 slot="subtitle">This page isn't available or it doesn't exist. Sorry!</h2>
@@ -585,11 +581,14 @@ export namespace responses {
 	export function underConstruction(): RenderResult {
 		return {
 			title: 'Coming Soon',
+			breadcrumb: {
+				type: 'Custom'
+			},
 			template: html`<invalid-page-state>
 				<h1 slot="title">Coming Soon</h1>
 				<h2 slot="subtitle">This page isn't available yet. Come back soon!</h2>
 				<div slot="actions">
-					<stylized-button href=${routes.devRoot.build({})}>Go to Dashboard</stylized-button>
+					<stylized-button href=${routes.home.build({})}>Go Home</stylized-button>
 				</div>
 			</invalid-page-state>`
 		};
@@ -598,6 +597,9 @@ export namespace responses {
 	export function registerRequired(): RenderResult {
 		return {
 			title: 'Register Required',
+			breadcrumb: {
+				type: 'Custom'
+			},
 			template: html`<invalid-page-state>
 				<h1 slot="title">Registered Only</h1>
 				<h2 slot="subtitle">
@@ -615,6 +617,9 @@ export namespace responses {
 	export function desktopOnly(): RenderResult {
 		return {
 			title: 'Desktop Only',
+			breadcrumb: {
+				type: 'Custom'
+			},
 			template: html`<invalid-page-state>
 				<h1 slot="title">Desktop Only</h1>
 				<h2 slot="subtitle">This page is only available on a Desktop platform.</h2>
@@ -625,6 +630,9 @@ export namespace responses {
 	export function developerOnly(): RenderResult {
 		return {
 			title: 'Private Beta',
+			breadcrumb: {
+				type: 'Custom'
+			},
 			template: html`<page-dev-only></page-dev-only>`
 		};
 	}

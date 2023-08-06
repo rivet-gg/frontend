@@ -208,26 +208,24 @@ export default class IdentityChatPage extends LitElement {
 		if (this.loadError) return responses.renderError(this.loadError);
 
 		return html`<div id="base">
-			${global.isMobile
-				? this.renderChat()
-				: html`<right-sidebar-layout>
-						${this.renderChat()}
-						${this.profile
-							? html`<identity-sidebar
-									slot="sidebar"
-									in-chat
-									.profile=${this.profile}
-									@event=${this.onActionEvent.bind(this)}
-							  >
-									<div slot="extras-top">
-										<identity-tile .identity=${this.profile}></identity-tile>
-									</div>
-									<div slot="extras-bottom">
-										<chat-preview-button></chat-preview-button>
-									</div>
-							  </identity-sidebar>`
-							: null}
-				  </right-sidebar-layout>`}
+			<right-sidebar-layout>
+				${this.renderChat()}
+				${this.profile
+					? html`<identity-sidebar
+							slot="sidebar"
+							in-chat
+							.profile=${this.profile}
+							@event=${this.onActionEvent.bind(this)}
+					  >
+							<div slot="extras-top">
+								<identity-tile .identity=${this.profile}></identity-tile>
+							</div>
+							<div slot="extras-bottom">
+								<chat-preview-button></chat-preview-button>
+							</div>
+					  </identity-sidebar>`
+					: null}
+			</right-sidebar-layout>
 		</div>`;
 	}
 

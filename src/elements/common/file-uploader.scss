@@ -88,7 +88,9 @@
 			background-color: transparent;
 			filter: blur(0);
 
-			transition: filter consts.$transition-length * 2, opacity consts.$transition-length * 1.5,
+			transition:
+				filter consts.$transition-length * 2,
+				opacity consts.$transition-length * 1.5,
 				background-color consts.$transition-length;
 
 			[name='icon']::slotted(*) {

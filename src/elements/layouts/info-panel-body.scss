@@ -2,7 +2,7 @@
 @use '../shared/consts';
 
 #base {
-	padding: 0 0 12px 6px;
+	padding: 0 0 12px 0;
 	box-sizing: border-box;
 	margin-bottom: consts.$panel-spacing;
 	font-family: consts.$open-sans;

@@ -5,7 +5,7 @@ import { when } from 'lit/directives/when.js';
 import styles from './settings.scss';
 import { cssify } from '../../utils/css';
 import { tooltip, showIdentityContextMenu, showAlert } from '../../ui/helpers';
-import { GlobalMobileChangeEvent, globalEventGroups, SettingChangeEvent } from '../../utils/global-events';
+import { globalEventGroups, SettingChangeEvent } from '../../utils/global-events';
 import UIRouter from '../root/ui-router';
 import global from '../../utils/global';
 import routes, { responses } from '../../routes';
@@ -16,9 +16,16 @@ import logging from '../../utils/logging';
 import { ToggleSwitchEvent } from '../common/toggle-switch';
 import UIRoot from '../root/ui-root';
 import { ls } from '../../utils/cache';
+import { map } from 'lit/directives/map.js';
+
+interface TabGroup {
+	title: string;
+	items: SettingsPageData[];
+}
 
 interface SettingsPageData {
 	id?: string;
+	icon?: string;
 	title?: string;
 	render?(): TemplateResult;
 	url?: string;
@@ -39,7 +46,7 @@ export default class SettingsPage extends LitElement {
 	@property({ type: String })
 	tabId?: string;
 
-	tabs: SettingsPageData[];
+	tabs: TabGroup[];
 	settings: SettingsData;
 
 	@property({ type: Object })
@@ -56,7 +63,6 @@ export default class SettingsPage extends LitElement {
 	changelog: any[] = [];
 
 	// === EVENT HANDLERS ===
-	handleMobile: (e: GlobalMobileChangeEvent) => void;
 	handleSettingChange: (e: SettingChangeEvent) => void;
 
 	constructor() {
@@ -75,77 +81,45 @@ export default class SettingsPage extends LitElement {
 		// Build tabs
 		this.tabs = [
 			{
-				id: 'identity',
-				title: 'My Account',
-				render: this.renderIdentity
-			},
-			{ spacer: true },
-			{
-				id: 'privacy',
-				title: 'Privacy & Terms',
-				render: this.renderPrivacy
-			},
-			{
-				id: 'support',
-				title: 'Support',
-				url: 'https://rivet.gg/support',
-				notHub: true
-			},
-			{ spacer: true },
-			{
-				id: 'hub-changelog',
-				title: 'Hub Changelog',
-				url: 'https://rivet.gg/tag/hub-changelog',
-				notHub: true
+				title: 'Account',
+				items: [
+					{
+						id: 'identity',
+						icon: 'solid/user',
+						title: 'My Account',
+						render: this.renderIdentity
+					},
+					{
+						id: 'logout',
+						icon: 'solid/right-from-bracket',
+						title: 'Log out',
+						render: this.renderLogout
+					}
+				]
 			},
 			{
-				id: 'dev-changelog',
-				title: 'Developer Changelog',
-				url: 'https://rivet.gg/tag/developer-changelog',
-				notHub: true
-			},
-			{ spacer: true },
-			{
-				id: 'developers',
-				title: 'Developer Dashboard',
-				url: routes.devDashboard.build({})
-			},
-			{ spacer: true },
-			{
-				id: 'logout',
-				title: 'Log out',
-				render: this.renderLogout
+				title: 'Informational',
+				items: [
+					{
+						id: 'privacy',
+						icon: 'solid/file',
+						title: 'Privacy & Terms',
+						render: this.renderPrivacy
+					},
+					{
+						id: 'support',
+						icon: 'solid/question',
+						title: 'Support',
+						url: 'https://rivet.gg/support',
+						notHub: true
+					}
+				]
 			}
-
-			// {  // TODO:
-			// 	id: "credits",
-			// 	title: "Credits",
-			// 	url: '/credits',
-			// },
-			// {
-			// 	id: "appearance",
-			// 	title: "Appearance"
-			// },
-			// {
-			// 	id: "link",
-			// 	title: "Link Account",
-			// 	render: this.renderLinkAccount,
-			// },
-			// { spacer: true },
-			// {
-			// 	id: "changelog",
-			// 	title: "Change Log",
-			// 	render: this.renderChangelog
-			// },
 		];
 	}
 
 	connectedCallback() {
 		super.connectedCallback();
-
-		// Handle mobile change
-		this.handleMobile = this.onMobile.bind(this);
-		globalEventGroups.add('mobile', this.handleMobile);
 
 		// Handle settings change
 		this.handleSettingChange = this.onSettingChange.bind(this);
@@ -156,7 +130,6 @@ export default class SettingsPage extends LitElement {
 		super.disconnectedCallback();
 
 		// Remove event listeners
-		globalEventGroups.remove('mobile', this.handleMobile);
 		globalEventGroups.remove('setting-change', this.handleSettingChange);
 	}
 
@@ -164,25 +137,25 @@ export default class SettingsPage extends LitElement {
 		super.updated(changedProperties);
 
 		// Set tab if needed; we don't get an updated event if the tab is null
-		if (this.tabId == null && !global.isMobile) {
-			this.navigateTab(this.tabs[0].id, false);
+		if (this.tabId == null) {
+			this.navigateTab(this.tabs[0].items[0].id);
 		}
 
-		// Update mobile navbar title
-		if (global.isMobile && changedProperties.has('tabId')) {
-			let currentTab = this.tabs.find(p => p.hasOwnProperty('id') && p.id == this.tabId);
+		if (changedProperties.has('tabId')) {
+			let currentTab = this.tabs
+				.flatMap(x => x.items)
+				.find(p => p.hasOwnProperty('id') && p.id == this.tabId);
 
 			if (currentTab) UIRouter.shared.updateTitle(currentTab.title);
 		}
 	}
 
-	navigateTab(tabId: string, disableAnimation = true) {
+	navigateTab(tabId: string) {
 		// Navigate to the correct tab; this will update this view automatically
 		let url = routes.settings.build({ tab: tabId });
 
 		UIRouter.shared.navigate(url, {
-			replaceHistory: !global.isMobile,
-			disableAnimation: global.isMobile ? false : disableAnimation
+			replaceHistory: true
 		});
 	}
 
@@ -212,10 +185,6 @@ export default class SettingsPage extends LitElement {
 		} else {
 			logging.warn('Unknown setting', key, '=', value);
 		}
-	}
-
-	onMobile() {
-		this.requestUpdate();
 	}
 
 	// Called by event handler after a setting is successfully changed
@@ -256,45 +225,40 @@ export default class SettingsPage extends LitElement {
 	}
 
 	render() {
-		if (!this.tabId && !global.isMobile) return null;
+		if (!this.tabId) return null;
 		if (this.loadError) return responses.renderError(this.loadError);
 
-		let currentTab = this.tabs.find(p => p.hasOwnProperty('id') && p.id == this.tabId);
+		let currentTab = this.tabs
+			.flatMap(x => x.items)
+			.find(p => p.hasOwnProperty('id') && p.id == this.tabId);
 
 		return html`
-			<div id="base">
-				<!-- Header -->
-				<page-header>
-					<e-svg src="regular/gear"></e-svg>
-					<h1>Settings</h1>
-				</page-header>
-				<h-tab-layout>
-					${(global.isMobile ? !currentTab : true)
-						? html`<div slot="tabs">
-								${repeat(
-									this.tabs,
-									p => p.id,
+			<rvt-sidebar-layout>
+				<rvt-sidebar slot="sidebar">
+					${map(
+						this.tabs,
+						group => html`
+							<rvt-sidebar-group .title=${group.title}>
+								${map(
+									group.items,
 									p =>
-										p.spacer
-											? html`<div class="tab-spacer"></div>`
-											: p.url
-											? html`<h-tab
-													?active=${p.id == this.tabId}
-													.href=${p.url}
-													.target=${p.notHub ? '_blank' : null}
-													>${p.title}</h-tab
-											  >`
-											: html`<h-tab
-													?active=${p.id == this.tabId}
-													.trigger=${this.navigateTab.bind(this, p.id)}
-													>${p.title}</h-tab
-											  >`
+										html`<rvt-sidebar-button
+											?current=${p.id == this.tabId}
+											.href=${p.url}
+											.target=${p.notHub ? '_blank' : null}
+											.trigger=${!p.url ? this.navigateTab.bind(this, p.id) : null}
+											.icon=${p.icon}
+											>${p.title}</rvt-sidebar-button
+										>`
 								)}
-						  </div>`
-						: null}
-					${currentTab ? html`<div slot="body">${currentTab.render.apply(this)}</div>` : null}
-				</h-tab-layout>
-			</div>
+							</rvt-sidebar-group>
+						`
+					)}
+				</rvt-sidebar>
+				<rvt-sidebar-body slot="body"
+					>${when(currentTab, () => currentTab.render.apply(this))}</rvt-sidebar-body
+				>
+			</rvt-sidebar-layout>
 		`;
 	}
 
@@ -366,19 +330,21 @@ export default class SettingsPage extends LitElement {
 			</div> -->
 			${when(
 				global.currentIdentity.isRegistered,
-				() => html`<div class="spacer"></div>
-					<div class="padded-cell">
-						<h1 class="item-header">Toggle deletion</h1>
-						<p>
-							Marks your account for deletion. After 30 days of this switch being on, your Rivet
-							account and all associated game accounts will be <b>permanently deleted</b>.
-						</p>
-						<toggle-switch
-							?value=${global.currentIdentity.awaitingDeletion}
-							@toggle=${(e: ToggleSwitchEvent) =>
-								this.settingChanged('toggle-deletion', e.value)}
-						></toggle-switch>
-					</div>`
+				() =>
+					html`<div class="spacer"></div>
+						<div class="padded-cell">
+							<h1 class="item-header">Toggle deletion</h1>
+							<p>
+								Marks your account for deletion. After 30 days of this switch being on, your
+								Rivet account and all associated game accounts will be
+								<b>permanently deleted</b>.
+							</p>
+							<toggle-switch
+								?value=${global.currentIdentity.awaitingDeletion}
+								@toggle=${(e: ToggleSwitchEvent) =>
+									this.settingChanged('toggle-deletion', e.value)}
+							></toggle-switch>
+						</div>`
 			)}
 
 			<!-- Editing modal -->
@@ -456,17 +422,18 @@ export default class SettingsPage extends LitElement {
 					${repeat(
 					OAUTH_PROVIDERS,
 					p => p.id,
-					p => html` <div class="oauth-connection" style="background-color: ${p.color};">
-						<div class="header">
-							<h1><e-svg src=${p.iconPath}></e-svg> ${p.name}</h1>
-						</div>
-						<h2 class="account-name">NicholasKissel302</h2>
-						<e-svg
-							class="close-button"
-							src="regular/link-slash"
-							@mouseenter=${tooltip('Unlink')}
-						></e-svg>
-					</div>`
+					p =>
+						html` <div class="oauth-connection" style="background-color: ${p.color};">
+							<div class="header">
+								<h1><e-svg src=${p.iconPath}></e-svg> ${p.name}</h1>
+							</div>
+							<h2 class="account-name">NicholasKissel302</h2>
+							<e-svg
+								class="close-button"
+								src="regular/link-slash"
+								@mouseenter=${tooltip('Unlink')}
+							></e-svg>
+						</div>`
 				)}
 				</div> -->
 			</div>
@@ -497,24 +464,25 @@ export default class SettingsPage extends LitElement {
 			${repeat(
 				this.changelog,
 				item => item.id,
-				(item, i) => html` ${i != 0 ? html`<div class="spacer"></div>` : null}
-					<div class="changelog-item">
-						<h1 class="title">${item.title}</h1>
-						<div class="subtitle">
-							<a
-								class="author"
-								href=${routes.identity.build(identityRouteData(item.author))}
-								@contextmenu=${showIdentityContextMenu(item.author)}
-							>
-								<identity-avatar .identity=${item.author} hide-status></identity-avatar>
-								<identity-name .identity=${item.author}></identity-name>
-							</a>
-							<span class="timestamp"
-								>&nbsp;- <date-display .timestamp=${item.ts}></date-display
-							></span>
-						</div>
-						<p class="body">${item.body}</p>
-					</div>`
+				(item, i) =>
+					html` ${i != 0 ? html`<div class="spacer"></div>` : null}
+						<div class="changelog-item">
+							<h1 class="title">${item.title}</h1>
+							<div class="subtitle">
+								<a
+									class="author"
+									href=${routes.identity.build(identityRouteData(item.author))}
+									@contextmenu=${showIdentityContextMenu(item.author)}
+								>
+									<identity-avatar .identity=${item.author} hide-status></identity-avatar>
+									<identity-name .identity=${item.author}></identity-name>
+								</a>
+								<span class="timestamp"
+									>&nbsp;- <date-display .timestamp=${item.ts}></date-display
+								></span>
+							</div>
+							<p class="body">${item.body}</p>
+						</div>`
 			)}
 		</div>`;
 	}

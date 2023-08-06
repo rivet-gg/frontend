@@ -10,13 +10,6 @@
 	padding: 0 12px 8px 12px;
 	margin-bottom: 4px;
 	overflow-y: auto;
-
-	&::-webkit-scrollbar-track {
-		background: rgba(0, 0, 0, 0.2);
-		background-clip: padding-box;
-		border-radius: 5px;
-		border: 3px solid transparent;
-	}
 }
 
 #custom-header-errors {

@@ -6,7 +6,7 @@ import { cssify } from '../../utils/css';
 import styles from './group.scss';
 import routes, { responses } from '../../routes';
 import global from '../../utils/global';
-import { GlobalMobileChangeEvent, globalEventGroups } from '../../utils/global-events';
+import { globalEventGroups } from '../../utils/global-events';
 import { showAlert } from '../../ui/helpers';
 import UIRouter from '../root/ui-router';
 
@@ -117,25 +117,12 @@ export default class GroupPage extends LitElement {
 	colorExtractor: ColorExtractor = new ColorExtractor();
 
 	// === EVENT HANDLERS ===
-	handleMobile: (e: GlobalMobileChangeEvent) => void;
 	groupStream?: api.RepeatingRequest<api.group.GetGroupProfileCommandOutput>;
 	groupBansStream?: api.RepeatingRequest<api.group.GetGroupBansCommandOutput>;
 	membersStream?: api.RepeatingRequest<api.group.GetGroupMembersCommandOutput>;
 	joinRequestsStream?: api.RepeatingRequest<api.group.GetGroupJoinRequestsCommandOutput>;
-
-	connectedCallback() {
-		super.connectedCallback();
-
-		// Handle mobile change
-		this.handleMobile = this.onMobile.bind(this);
-		globalEventGroups.add('mobile', this.handleMobile);
-	}
-
 	disconnectedCallback(): void {
 		super.disconnectedCallback();
-
-		// Remove event listeners
-		globalEventGroups.remove('mobile', this.handleMobile);
 
 		if (this.groupStream) this.groupStream.cancel();
 		if (this.membersStream) this.membersStream.cancel();
@@ -429,10 +416,6 @@ export default class GroupPage extends LitElement {
 		this.colorExtractor.getPalette().then(() => this.requestUpdate('colorExtractor'));
 	}
 
-	onMobile() {
-		this.requestUpdate();
-	}
-
 	openEditModal() {
 		this.editModalActive = true;
 	}
@@ -449,9 +432,7 @@ export default class GroupPage extends LitElement {
 			? global.currentIdentity.identityId == this.profile.ownerIdentityId
 			: false;
 
-		return global.isMobile
-			? this.renderMobile(profileNotFound, isOwner)
-			: this.renderDesktop(profileNotFound, isOwner);
+		return this.renderDesktop(profileNotFound, isOwner);
 	}
 
 	renderDesktop(profileNotFound: boolean, isOwner: boolean) {
@@ -486,30 +467,22 @@ export default class GroupPage extends LitElement {
 
 				${when(
 					this.profile,
-					() => html`<group-sidebar
-						slot="sidebar"
-						.profile=${this.profile}
-						.bannedIdentities=${this.bannedIdentities}
-						.members=${this.members}
-						.joinRequests=${this.joinRequests}
-						@event=${this.onActionEvent.bind(this)}
-					></group-sidebar>`
+					() =>
+						html`<group-sidebar
+							slot="sidebar"
+							.profile=${this.profile}
+							.bannedIdentities=${this.bannedIdentities}
+							.members=${this.members}
+							.joinRequests=${this.joinRequests}
+							@event=${this.onActionEvent.bind(this)}
+						></group-sidebar>`
 				)}
-
-				<div id="body" slot="body">
-					<!-- Games -->
-					<info-panel-header>
-						<div slot="title">Games</div>
-					</info-panel-header>
-
-					<info-panel-body noindent>${this.renderGames()}</info-panel-body>
-				</div>
 			</profile-layout>
 
 			<!-- TODO: -->
-			${this.profile && this.gameNameId
+			<!-- ${this.profile && this.gameNameId
 				? html`<expanded-game-stats .group=${this.profile} .game=${null}></expanded-game-stats>`
-				: null}
+				: null} -->
 
 			<!-- Editing modal -->
 			<drop-down-modal
@@ -526,187 +499,6 @@ export default class GroupPage extends LitElement {
 
 			${this.renderTransferGroupOwnershipModal()}${this.renderCreateInviteModal()}
 		`;
-	}
-
-	renderMobile(profileNotFound: boolean, isOwner: boolean) {
-		let bgUrl = assets.asset('/profile-bg/02. Egg Sour.png');
-		let bgStyles = styleMap({
-			backgroundImage: this.colorExtractor.createBackgroundGradient()
-		});
-		let nameStyles = styleMap({
-			color: this.colorExtractor.createTextColor()
-		});
-		return html`
-			<!-- Profile info and actions -->
-			<div id="banner">
-				<div id="banner-bg" slot="banner-bg" style=${bgStyles}>
-					${when(
-						this.profile ? !this.profile.avatarUrl : false,
-						() => html`<lazy-img src=${bgUrl}></lazy-img>`
-					)}
-				</div>
-
-				<div id="banner-center">
-					${this.profile ? html`<group-avatar shadow .group=${this.profile}></group-avatar>` : null}
-					<div id="main-display-name" style=${nameStyles}>
-						${this.profile
-							? this.profile.displayName
-							: profileNotFound
-							? 'Group not found'
-							: null}
-					</div>
-				</div>
-			</div>
-
-			<div id="body">
-				<!-- Actions -->
-				<info-group-body id="group-actions">
-					${this.profile
-						? !this.profile.isCurrentIdentityMember
-							? this.profile.publicity == api.group.GroupPublicity.OPEN
-								? this.profile.isCurrentIdentityRequestingJoin
-									? html`<stylized-button id="apply-button" small disabled
-											>Application pending</stylized-button
-									  >`
-									: html`<stylized-button
-											id="apply-button"
-											small
-											.trigger=${this.applyForGroup.bind(this)}
-											>Apply</stylized-button
-									  >`
-								: html`<stylized-button id="apply-button" small disabled
-										>Applications closed</stylized-button
-								  >`
-							: html`<stylized-button
-										small
-										href=${routes.groupChat.build({
-											id: this.groupId
-										})}
-										>Open chat</stylized-button
-									>
-									<stylized-button
-										small
-										class="social"
-										.trigger=${this.inviteToParty.bind(this)}
-										>Create group party</stylized-button
-									>
-									<stylized-button
-										icon="regular/identity"
-										small
-										href="${routes.groupMembers.build(groupRouteData(this.profile))}"
-									>
-										View members
-									</stylized-button>
-									${this.profile.isCurrentIdentityMember
-										? html`<stylized-button
-												small
-												.trigger=${this.openCreateInviteModal.bind(this)}
-												>Create invite</stylized-button
-										  >`
-										: null}
-									${this.profile.isDeveloper && this.profile.isCurrentIdentityMember
-										? html`<stylized-button
-												small
-												href=${routes.groupBilling.build({
-													groupId: this.groupId
-												})}
-												>View billing</stylized-button
-										  >`
-										: null}
-									${isOwner
-										? html`<stylized-button
-													small
-													.trigger=${this.openEditModal.bind(this)}
-													>Edit group</stylized-button
-												><stylized-button
-													id="transfer-ownership"
-													small
-													.trigger=${this.openTransferModal.bind(this)}
-													>Transfer ownership</stylized-button
-												>`
-										: this.profile.isCurrentIdentityMember
-										? html` <stylized-button
-												id="leave-button"
-												small
-												color="#d93636"
-												.trigger=${this.leaveGroup.bind(this)}
-												>Leave group</stylized-button
-										  >`
-										: null}`
-						: null}
-				</info-group-body>
-
-				<!-- About -->
-				<info-panel-header>
-					<div slot="title">Bio</div>
-				</info-panel-header>
-
-				<info-panel-body id="bio">${this.renderAbout()}</info-panel-body>
-
-				<!-- Events -->
-				<!-- <info-panel-header>
-					<div slot="title">Events</div>
-				</info-panel-header>
-
-				<info-panel-body>
-					<p class="muted">No events</p>
-				</info-panel-body> -->
-
-				<!-- Join Requests -->
-				<!-- TODO: Mobile -->
-
-				<!-- Games -->
-				<info-panel-header>
-					<div slot="title">Games</div>
-				</info-panel-header>
-
-				<info-panel-body noindent> ${this.renderGames()} </info-panel-body>
-			</div>
-
-			<!-- TODO: -->
-			${this.profile && this.gameNameId
-				? html`<expanded-game-stats .group=${this.profile} .game=${null}></expanded-game-stats>`
-				: null}
-
-			<!-- Editing modal -->
-			<drop-down-modal
-				large-animation
-				.active=${this.editModalActive}
-				@close=${this.editModalClose.bind(this)}
-			>
-				<group-profile-edit
-					slot="body"
-					.profile=${this.profile}
-					@close=${this.editModalClose.bind(this)}
-				></group-profile-edit>
-			</drop-down-modal>
-
-			${this.renderTransferGroupOwnershipModal()}${this.renderCreateInviteModal()}
-		`;
-	}
-
-	renderAbout() {
-		if (!this.profile) return html`<loading-placeholder-text></loading-placeholder-text>`;
-
-		if (this.profile.bio) {
-			return html`<div id="bio-text">${this.profile.bio}</div>`;
-		} else {
-			return html`<div id="bio-text" class="muted">${this.profile.displayName} has no bio.</div>`;
-		}
-	}
-
-	renderGames() {
-		return html`<p class="muted">No games</p>`;
-
-		// return html`
-		// 	<div id="games">
-		// 		${repeat(
-		// 			this.profile.gameStats,
-		// 			game => game.game.id,
-		// 			game => html`<game-stats .group=${this.profile} .data=${game}></game-stats>`
-		// 		)}
-		// 	</div>
-		// `;
 	}
 
 	// TODO: Make this work with the paginated members endpoint
@@ -825,7 +617,7 @@ export default class GroupPage extends LitElement {
 									<icon-button
 										id="copy-button"
 										color=${'#252525'}
-										highlight-color=${'#151515'}
+										highlight-color=${'#18181b'}
 										src="solid/copy"
 										.trigger=${this.copyInviteCode.bind(this)}
 									></icon-button>

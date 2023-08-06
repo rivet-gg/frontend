@@ -2,9 +2,40 @@
 @use '../../shared/utils';
 @use '../../shared/consts';
 
-#base {
-	padding: 0px 12px 12px;
+.dashed-border-button {
+	$border-width: 3px;
+	$border-radius: 30px;
 
+	overflow: hidden;
+	display: flex;
+	position: relative;
+	padding: $border-width;
+	border-radius: $border-radius;
+
+	background-image: utils.dashed-border(
+		rgba(255, 255, 255, 0.12),
+		$border-radius,
+		$border-width,
+		$dash-array: (5, 11),
+		$dash-offset: 2px
+	);
+
+	&:hover {
+		background-image: utils.dashed-border(
+			rgba(255, 255, 255, 0.15),
+			$border-radius,
+			$border-width,
+			$dash-array: (5, 11),
+			$dash-offset: 2px
+		);
+
+		#create-game-content {
+			background-color: rgba(255, 255, 255, 0.02);
+		}
+	}
+}
+
+#base {
 	page-header {
 		--icon-fill: #ff4a4b;
 	}
@@ -25,7 +56,7 @@
 				.group-header {
 					display: flex;
 					flex-direction: row;
-					align-items: center;
+					place-content: space-between;
 					margin-bottom: 20px;
 
 					a {
@@ -68,10 +99,6 @@
 				}
 
 				.games-list {
-					display: flex;
-					flex-flow: row wrap;
-					margin-bottom: -23px;
-
 					#create-game {
 						$border-width: 3px;
 						$border-radius: 32px;
@@ -79,9 +106,8 @@
 						overflow: hidden;
 						display: flex;
 						position: relative;
-						padding: $border-width;
+						height: 320px;
 						border-radius: $border-radius;
-						margin: -3px 23px 23px -3px;
 
 						background-image: utils.dashed-border(
 							rgba(255, 255, 255, 0.12),
@@ -117,8 +143,8 @@
 
 							padding: 16px;
 							box-sizing: border-box;
-							width: 310px;
-							height: 380px;
+							width: 100%;
+							height: 100%;
 							border-radius: $border-radius - $border-width;
 							text-align: center;
 
@@ -132,14 +158,6 @@
 								height: 140px;
 								margin: -25px 15px 30px 15px;
 							}
-						}
-					}
-
-					dev-game-tile {
-						margin: 0 23px 23px 0;
-
-						&:last-child {
-							margin: 0 10px 23px 0;
 						}
 					}
 
@@ -160,54 +178,6 @@
 							margin-left: 12px;
 						}
 					}
-				}
-			}
-		}
-
-		#create-group {
-			background-color: $raised-bg;
-			border-radius: 15px;
-			cursor: pointer;
-			transition: background-color consts.$transition-length;
-			padding: 15px 17px;
-			margin: 0 0 0 -15px;
-
-			@include common.active-state();
-
-			&:hover {
-				background-color: rgba(255, 255, 255, 0.14);
-			}
-
-			#create-group-overlay {
-				position: absolute;
-				display: flex;
-				flex-direction: row;
-				align-items: center;
-				justify-content: center;
-				left: 0;
-				top: 0;
-				width: 100%;
-				height: 100%;
-				padding: 0 17px;
-				box-sizing: border-box;
-
-				font-size: 20px;
-				font-weight: 600;
-				color: #ececec;
-				text-align: center;
-				z-index: 1;
-				cursor: pointer;
-
-				e-svg {
-					width: 25px;
-					height: 25px;
-					margin: 0 10px 0 0;
-				}
-			}
-
-			.placeholder-group-body {
-				loading-placeholder {
-					--border-radius: 3px;
 				}
 			}
 		}
@@ -251,9 +221,11 @@
 				margin-bottom: -23px;
 
 				loading-placeholder {
-					width: 320px;
+					width: 100%;
 					height: 380px;
-					margin: 0 23px 23px 0;
+					// margin: 0 23px 23px 0;
+					margin: auto;
+					margin-bottom: 23px;
 					--border-radius: 28px;
 
 					&:last-child {

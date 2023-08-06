@@ -11,12 +11,13 @@ import PushNotifications from './push-notifications';
 import { BroadcastEvent, BroadcastEventKind } from '../data/broadcast';
 import { ls } from './cache';
 import { BroadcastSystem } from './broadcast';
-import { CHAT_THREAD_HISTORY } from '../elements/sidebar/main-sidebar';
 import { RivetClient } from '@rivet-gg/api-internal';
 import { Fetcher, fetcher } from '@rivet-gg/api-internal/core';
 import { HttpRequest } from '@aws-sdk/protocol-http';
 import { HttpHandlerOptions } from '@aws-sdk/types';
 import { FailedResponse } from '@rivet-gg/api-internal/core/fetcher/APIResponse';
+
+const CHAT_THREAD_HISTORY = 64;
 
 // Keep in sync with mobile widths in consts.css
 export enum WindowSize {
@@ -83,9 +84,6 @@ export class GlobalState {
 	/// Whether or not the current thread is active (the user is not AFK).
 	currentThreadActive = false;
 
-	/// Data for the game that is currently being played.
-	playingGame?: api.identity.GameHandle;
-
 	status: GlobalStatus = GlobalStatus.Loading;
 
 	broadcast: BroadcastSystem = new BroadcastSystem(true);
@@ -101,7 +99,6 @@ export class GlobalState {
 	recentFollowersStream: api.RepeatingRequest<api.identity.ListRecentFollowersCommandOutput>;
 
 	// Mobile information
-	isMobile = false;
 	windowSize: number = WindowSize.Large;
 
 	async init() {
@@ -376,8 +373,6 @@ export class GlobalState {
 
 			this.startEventsStream();
 			this.startRecentFollowersStream();
-			// Initially fetch party
-			this.fetchParty();
 		});
 	}
 
@@ -440,18 +435,7 @@ export class GlobalState {
 						thread.unreadCount = 0;
 						thread.lastReadTs = update.kind.chatRead.readTs;
 					}
-					// Update party
-					else if (update.kind.partyUpdate) {
-						this.currentParty = update.kind.partyUpdate.party;
-						globalEventGroups.dispatch('party-update', this.currentParty);
-
-						// Delete all party threads when leaving a party
-						if (!update.kind.partyUpdate.party) {
-							dispatchRecentThreads = true;
-
-							this.recentThreads = this.recentThreads.filter(t => !t.topic.party);
-						}
-					} // Remove thread
+					// Remove thread
 					else if (update.kind.chatThreadRemove) {
 						let threadIndex = this.recentThreads.findIndex(
 							t => t.threadId == update.kind.chatThreadRemove.threadId
@@ -464,16 +448,6 @@ export class GlobalState {
 					} else {
 						logging.warn('Unknown update kind', update);
 					}
-				}
-
-				if (this.currentParty) {
-					// Delete any party that isn't the current party (happens when switching)
-					let len = this.recentThreads.length;
-					this.recentThreads = this.recentThreads.filter(t =>
-						t.topic.party ? t.topic.party.party.partyId == this.currentParty.partyId : true
-					);
-
-					dispatchRecentThreads = dispatchRecentThreads || len != this.recentThreads.length;
 				}
 
 				// Dispatch event for main-sidebar to use
@@ -503,18 +477,6 @@ export class GlobalState {
 		this.recentFollowersStream.onError(err => {
 			logging.error('Request error', err);
 		});
-	}
-
-	async fetchParty() {
-		try {
-			let res = await this.live.party.getPartySelfSummary({});
-			if (!this.currentParty) {
-				this.currentParty = res.party;
-				globalEventGroups.dispatch('party-update', this.currentParty);
-			}
-		} catch (err) {
-			logging.error('Request error', err);
-		}
 	}
 
 	private async startServiceWorker() {
@@ -570,27 +532,14 @@ export class GlobalState {
 		}
 	}
 
-	setPlayingGame(game?: api.portal.GameProfile) {
-		// Save the data
-		this.playingGame = game;
-
-		// TODO: Send to live server
-	}
-
 	onSettingChange(change: SettingChange) {
 		globalEventGroups.dispatch('setting-change', change);
 	}
 
 	onResize() {
-		let oldMobile = this.isMobile;
 		let oldSize = this.windowSize;
 
 		let width = window.innerWidth;
-
-		this.isMobile = width <= WindowSize.Mobile;
-
-		// Dispatch mobile change event
-		if (this.isMobile != oldMobile) globalEventGroups.dispatch('mobile', this.isMobile);
 
 		if (width <= WindowSize.Small) this.windowSize = WindowSize.Small;
 		else if (width <= WindowSize.Mobile) this.windowSize = WindowSize.Mobile;

@@ -32,7 +32,7 @@ export default class GroupTile extends LitElement {
 		return html`<div id="base" class=${classes}>
 			${this.noLink
 				? null
-				: html`<a id="link" href=${routes.group.build(groupRouteData(this.group))}></a>`}
+				: html`<a id="link" href=${routes.groupSettings.build(groupRouteData(this.group))}></a>`}
 			${this.renderBody()}
 		</div>`;
 	}

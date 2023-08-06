@@ -178,24 +178,25 @@ export default class DevGameNamespace extends LitElement {
 						>Duplicate</stylized-button
 					>
 				</div>
-				<h1>Active namespaces</h1>
+				<h2>Active namespaces</h2>
 				<div id="namespaces">
 					${repeat(
 						this.game.namespaces.filter(n => n.versionId == this.version.versionId),
 						n => n.namespaceId,
-						n => html` <a
-							class="namespace"
-							href=${routes.devNamespace.build({
-								gameId: this.game.gameId,
-								namespaceId: n.namespaceId
-							})}
-						>
-							<h3>${n.displayName}</h3>
-							<e-svg src="solid/arrow-right"></e-svg>
-						</a>`
+						n =>
+							html` <a
+								class="namespace"
+								href=${routes.devNamespace.build({
+									gameId: this.game.gameId,
+									namespaceId: n.namespaceId
+								})}
+							>
+								<div class="font-semibold">${n.displayName}</div>
+								<e-svg src="solid/arrow-right"></e-svg>
+							</a>`
 					)}
 					<div id="deploy-namespace">
-						<h2>Deploy to namespace:</h2>
+						<div class="font-semibold">Deploy to namespace:</div>
 						<drop-down-list
 							.options=${namespaceOptions}
 							.orientation=${Orientation.TopRight}
@@ -204,7 +205,7 @@ export default class DevGameNamespace extends LitElement {
 					</div>
 				</div>
 
-				<h1>Services</h1>
+				<h2>Services</h2>
 				<dev-version-info
 					.game=${this.game}
 					.tiers=${this.tiers}

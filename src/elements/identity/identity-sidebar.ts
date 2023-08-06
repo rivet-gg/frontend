@@ -150,58 +150,63 @@ export default class IdentitySidebar extends LitElement {
 
 			${when(
 				!this.inChat,
-				() => html`${when(
-						!isSelf,
-						() => html`<!-- Friends -->
-							<info-panel-header>
-								<div slot="title">Mutual friends</div>
-							</info-panel-header>
+				() =>
+					html`${when(
+							!isSelf,
+							() =>
+								html`<!-- Friends -->
+									<info-panel-header>
+										<div slot="title">Mutual friends</div>
+									</info-panel-header>
 
-							<info-panel-body
-								>${this.renderIdentityList(
-									this.mutualFriends,
-									html`<p>No friends in common</p>`
-								)}</info-panel-body
-							>`
-					)}
-					${when(
-						this.profile,
-						() => html`<!-- Followers -->
-							<info-panel-header>
-								<div slot="title">
-									${numbro(followerCount).format('0,0')}
-									Follower${followerCount != 1 ? 's' : null}
-								</div>
-							</info-panel-header>
+									<info-panel-body
+										>${this.renderIdentityList(
+											this.mutualFriends,
+											html`<p>No friends in common</p>`
+										)}</info-panel-body
+									>`
+						)}
+						${when(
+							this.profile,
+							() =>
+								html`<!-- Followers -->
+									<info-panel-header>
+										<div slot="title">
+											${numbro(followerCount).format('0,0')}
+											Follower${followerCount != 1 ? 's' : null}
+										</div>
+									</info-panel-header>
 
-							<info-panel-body
-								>${this.renderIdentityList(
-									this.followers,
-									html`<p>No followers</p>`
-								)}</info-panel-body
-							>
+									<info-panel-body
+										>${this.renderIdentityList(
+											this.followers,
+											html`<p>No followers</p>`
+										)}</info-panel-body
+									>
 
-							<!-- Following -->
-							<info-panel-header>
-								<div slot="title">${numbro(followingCount).format('0,0')} Following</div>
-							</info-panel-header>
+									<!-- Following -->
+									<info-panel-header>
+										<div slot="title">
+											${numbro(followingCount).format('0,0')} Following
+										</div>
+									</info-panel-header>
 
-							<info-panel-body
-								>${this.renderIdentityList(
-									this.following,
-									html`<p>Not following anyone</p>`
-								)}</info-panel-body
-							>`
-					)}
+									<info-panel-body
+										>${this.renderIdentityList(
+											this.following,
+											html`<p>Not following anyone</p>`
+										)}</info-panel-body
+									>`
+						)}
 
-					<!-- Groups -->
-					<info-panel-header>
-						<div slot="title">Groups</div>
-					</info-panel-header>
+						<!-- Groups -->
+						<info-panel-header>
+							<div slot="title">Groups</div>
+						</info-panel-header>
 
-					<info-panel-body id="groups" ?noindent=${this.profile?.groups?.length}
-						>${when(!this.profileNotFound, () => this.renderGroups())}</info-panel-body
-					>`
+						<info-panel-body id="groups" ?noindent=${this.profile?.groups?.length}
+							>${when(!this.profileNotFound, () => this.renderGroups())}</info-panel-body
+						>`
 			)}
 
 			<slot name="extras-bottom"></slot>
@@ -216,21 +221,25 @@ export default class IdentitySidebar extends LitElement {
 		let actions = [];
 
 		if (isSelf) {
-			actions.push(html`<stylized-button
-				id="edit-profile"
-				icon="solid/user-pen"
-				.trigger=${this.openEditModal.bind(this)}
-				>Edit profile</stylized-button
-			>`);
+			actions.push(
+				html`<stylized-button
+					id="edit-profile"
+					icon="solid/user-pen"
+					.trigger=${this.openEditModal.bind(this)}
+					>Edit profile</stylized-button
+				>`
+			);
 		} else {
 			if (!this.inChat) {
-				actions.push(html`<stylized-button
-					icon="solid/message"
-					href=${routes.identityDirectChat.build({
-						id: this.profile.identityId
-					})}
-					>Message</stylized-button
-				>`);
+				actions.push(
+					html`<stylized-button
+						icon="solid/message"
+						href=${routes.identityDirectChat.build({
+							id: this.profile.identityId
+						})}
+						>Message</stylized-button
+					>`
+				);
 			}
 
 			// if (global.currentParty) {
@@ -275,15 +284,17 @@ export default class IdentitySidebar extends LitElement {
 			// }
 
 			if (this.profile.following) {
-				actions.push(html`<stylized-button
-					color="#d93636"
-					.trigger=${this.toggleFriend.bind(this, false)}
-					>Unfollow</stylized-button
-				>`);
+				actions.push(
+					html`<stylized-button color="#d93636" .trigger=${this.toggleFriend.bind(this, false)}
+						>Unfollow</stylized-button
+					>`
+				);
 			} else {
-				actions.push(html`<stylized-button .trigger=${this.toggleFriend.bind(this, true)}
-					>Follow</stylized-button
-				>`);
+				actions.push(
+					html`<stylized-button .trigger=${this.toggleFriend.bind(this, true)}
+						>Follow</stylized-button
+					>`
+				);
 			}
 		}
 

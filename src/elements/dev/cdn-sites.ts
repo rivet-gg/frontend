@@ -37,7 +37,7 @@ export default class CdnSites extends LitElement {
 						displayName: s.displayName,
 						createTs: s.createTs,
 						contentLength: s.contentLength
-					} as UploadEntry)
+					}) as UploadEntry
 			);
 	}
 

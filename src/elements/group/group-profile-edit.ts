@@ -315,26 +315,6 @@ export default class GroupProfileEdit extends LitElement {
 							@select=${this.selectPublicity.bind(this)}
 						></drop-down-list>
 					</div>
-
-					<h2>
-						Bio<span class="lettercount"
-							>${utils.countCodePoints(this.bioValue)}/${MAX_BIO_LENGTH}</span
-						>
-					</h2>
-					<text-input
-						area
-						id="bio-input"
-						.init=${this.bioValue}
-						placeholder="Enter your bio here..."
-						.maxlength=${MAX_BIO_LENGTH}
-						@input=${this.bioInput.bind(this)}
-					></text-input>
-					${bioErrors.length > 0
-						? html`
-					<span id="profile-error">
-						<e-svg src="regular/circle-exclamation"></e-svg> ${bioErrors[0]}</li>
-					</span>`
-						: null}
 				</div>
 			</div>
 		`;

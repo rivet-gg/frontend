@@ -351,26 +351,31 @@ export default class DevGameKv extends LitElement {
 		let keyPath = splitKey(this.currentKey);
 
 		return html`<div id="base">
+			<slot name="namespace-select"></slot>
 			${when(
 				this.version.config.kv,
-				() => html`<div id="navigation-holder">
-						<div id="navigation" class="key-display">
-							${this.renderKeyPath(keyPath, true, true)}
+				() =>
+					html`<div id="navigation-holder">
+							<div id="navigation" class="key-display">
+								${this.renderKeyPath(keyPath, true, true)}
+							</div>
 						</div>
-					</div>
-					<div id="controls">
-						<text-input
-							id="key"
-							placeholder="Key"
-							maxlength="512"
-							.init=${this.currentKey}
-							@input=${this.onKeyChange.bind(this)}
-						></text-input>
-					</div>
-					${when(this.keyError, () => html`<h2 class="error">Invalid key: ${this.keyError}</h2>`)}
-					${when(!this.output, () => this.renderBodyPlaceholder())}
-					${when(this.output?.value !== undefined, () => this.renderEditor())}
-					${when(this.output?.list !== undefined, () => this.renderList())}`,
+						<div id="controls">
+							<text-input
+								id="key"
+								placeholder="Key"
+								maxlength="512"
+								.init=${this.currentKey}
+								@input=${this.onKeyChange.bind(this)}
+							></text-input>
+						</div>
+						${when(
+							this.keyError,
+							() => html`<h2 class="error">Invalid key: ${this.keyError}</h2>`
+						)}
+						${when(!this.output, () => this.renderBodyPlaceholder())}
+						${when(this.output?.value !== undefined, () => this.renderEditor())}
+						${when(this.output?.list !== undefined, () => this.renderList())}`,
 				() =>
 					html`<div id="no-kv" class="muted">
 						This namespace does not have the KV service enabled.

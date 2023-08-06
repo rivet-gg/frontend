@@ -68,11 +68,11 @@ export default class GroupInvitePage extends LitElement {
 			this.isConsuming = true;
 			let res = await global.live.group.consumeGroupInvite({ groupInviteCode: this.code });
 
-			UIRouter.shared.navigate(routes.group.build({ id: res.groupId }));
+			UIRouter.shared.navigate(routes.groupSettings.build({ id: res.groupId }));
 		} catch (err) {
 			if (err.code.startsWith('GROUP')) {
 				if (err.code == 'GROUP_ALREADY_MEMBER') {
-					UIRouter.shared.navigate(routes.group.build({ id: err.metadata.group_id }), {
+					UIRouter.shared.navigate(routes.groupSettings.build({ id: err.metadata.group_id }), {
 						replaceHistory: true
 					});
 				} else this.codeError = err.message;
@@ -136,9 +136,10 @@ export default class GroupInvitePage extends LitElement {
 				</div>
 				${when(
 					this.isConsuming,
-					() => html`<div id="wait">
-						<loading-wheel .message=${'Please wait...'}></loading-wheel>
-					</div>`
+					() =>
+						html`<div id="wait">
+							<loading-wheel .message=${'Please wait...'}></loading-wheel>
+						</div>`
 				)}
 			</div>
 		`;

@@ -7,12 +7,7 @@ import { repeat } from 'lit/directives/repeat.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { cssify } from '../../utils/css';
 import global, { GlobalStatus } from '../../utils/global';
-import {
-	globalEventGroups,
-	GlobalMobileChangeEvent,
-	windowEventGroups,
-	GlobalStatusChangeEvent
-} from '../../utils/global-events';
+import { globalEventGroups, windowEventGroups, GlobalStatusChangeEvent } from '../../utils/global-events';
 import timing from '../../utils/timing';
 import styles from './ui-root.scss';
 import UIRouter, { RouteChangeEvent, RouteTitleChangeEvent } from './ui-router';
@@ -20,7 +15,6 @@ import EmojiPicker, { EmojiItemData, EmojiSelectEvent } from '../overlay/emoji-p
 import { AlertOption } from '../overlay/alert-panel';
 import { ActionSheetItem } from '../overlay/action-sheet';
 import { showAlert } from '../../ui/helpers';
-import { MenuItem } from '../sidebar/main-sidebar';
 import SearchPanel from '../overlay/search-panel';
 import * as api from '../../utils/api';
 import RegisterPanel from '../overlay/register-panel';
@@ -30,6 +24,7 @@ import { DeferredStageEvent, Stage } from '../pages/link-game';
 import StylizedButton from '../common/stylized-button';
 import { Orientation, Alignment } from '../common/overlay-positioning';
 import { DropDownSelectEvent, DropDownSelection } from '../dev/drop-down-list';
+import { Breadcrumb } from '../common/navbar';
 
 export const MIN_SWIPE_THRESHOLD = 10;
 const TRANSITION_LENGTH = timing.milliseconds(200); // Match with consts.scss/$transition-length
@@ -107,9 +102,6 @@ export default class UIRoot extends LitElement {
 	@query('ui-router')
 	router: UIRouter;
 
-	// @query('game-container')
-	// gameContainer: GameContainer; // `global.playingGame` should be used instead if not doing UI-related work
-
 	@query('emoji-picker')
 	emojiPicker: EmojiPicker;
 
@@ -122,9 +114,6 @@ export default class UIRoot extends LitElement {
 	// === DATA ==
 	@property({ type: Number })
 	globalStatus: GlobalStatus = GlobalStatus.Loading;
-
-	@property({ type: Object })
-	playingGameData?: api.identity.GameHandle = null;
 
 	@property({ type: Object })
 	emojiPickerData: EmojiPickerData = { contextElement: null, cb: null, active: false };
@@ -168,20 +157,14 @@ export default class UIRoot extends LitElement {
 	@property({ type: Object })
 	windowSize: { width: number; height: number } = { width: window.innerWidth, height: window.innerHeight };
 
-	@property({ type: Object })
-	activeMenu: MenuItem;
-
 	@property({ type: String })
 	routeTitle = '';
 
 	@property({ type: Boolean })
-	mobileNavStuck = false;
-
-	@property({ type: Boolean })
 	registerPanelActive = false;
 
-	@property({ type: Boolean })
-	onHomePage = false;
+	@property({ type: Object })
+	breadcrumb: Breadcrumb = undefined;
 
 	// True when the user selects "register" instead of "continue as guest" on the link page
 	@property({ type: Number })
@@ -189,29 +172,14 @@ export default class UIRoot extends LitElement {
 
 	turnstileWidgetId: string = null;
 
-	// === MEDIA DATA ===
-	@property({ type: Boolean })
-	isMediaMinimized = false; // If the media is in PiP
-
 	// === EVENT HANDLERS ===
 	handleStatusChange: (e: GlobalStatusChangeEvent) => void;
 	handleResize: () => void;
 	handleKeyDown: (e: KeyboardEvent) => void;
-	handleMobile: (e: GlobalMobileChangeEvent) => void;
 
 	// === DEBUG ===
 	@property({ type: Object })
 	inFlightRequests!: Map<number, URL>;
-
-	/// If there is any media being displayed on the screen.
-	get isViewingMedia(): boolean {
-		return !!this.playingGameData;
-	}
-
-	/// If rendering fullscreen and there's media actually being rendered.
-	get isRenderedFullscreen(): boolean {
-		return this.isViewingMedia && !this.isMediaMinimized;
-	}
 
 	constructor() {
 		super();
@@ -246,11 +214,6 @@ export default class UIRoot extends LitElement {
 		// Handle key down
 		this.handleKeyDown = this.onKeyDown.bind(this);
 		windowEventGroups.add('keydown', this.handleKeyDown);
-
-		// Handle mobile detection
-		this.handleMobile = this.onMobile.bind(this);
-		globalEventGroups.add('mobile', this.handleMobile);
-		this.onMobile();
 	}
 
 	disconnectedCallback() {
@@ -262,78 +225,6 @@ export default class UIRoot extends LitElement {
 		globalEventGroups.remove('status-change', this.handleStatusChange);
 		windowEventGroups.remove('resize', this.handleResize, timing.milliseconds(100));
 		windowEventGroups.remove('keydown', this.handleKeyDown);
-		globalEventGroups.remove('mobile', this.handleMobile);
-
-		if (this.playingGameData !== null) windowEventGroups.remove('beforeunload', this.beforeUnload);
-	}
-
-	updated(changedProperties: PropertyValues) {
-		super.updated(changedProperties);
-
-		// Update media state if any of the properties changed
-		let updateMediaProps = ['playingGameData', 'isMediaMinimized'];
-		if (updateMediaProps.filter(k => changedProperties.has(k)).length > 0) {
-			this.updateMediaState();
-		}
-	}
-
-	// === GAME EVENTS ===
-	/// Create a game container and optionally redirect to the game page.
-	playGame(game: api.portal.GameProfile) {
-		// TODO: Track game sessions on live server
-		// TODO: Set global.playingGame
-		windowEventGroups.add('beforeunload', this.beforeUnload);
-
-		// Check if the game is already being played
-		if (this.playingGameData && this.playingGameData.gameId == game.gameId) {
-			// Expand the game if playing the game that's already being played
-			this.isMediaMinimized = false;
-			this.requestUpdate('playingGame');
-		} else if (this.playingGameData != null) {
-			// Confirm the player wants to leave the game
-			showAlert(
-				`Are you sure you want to leave ${this.playingGameData.displayName}?`,
-				html`All progress will be lost.`,
-				[
-					{ label: 'Cancel' },
-					{
-						label: `Leave`,
-						destructive: true,
-						cb: () => {
-							// Close the old game
-							this.closeGame();
-
-							// Play the game
-							this.playGame(game);
-						}
-					}
-				]
-			);
-		} else {
-			// Set the playing game
-			global.setPlayingGame(game);
-
-			// Update the state
-			this.isMediaMinimized = false;
-			this.playingGameData = game;
-
-			// Open game in new tab
-			window.open(game.url, '_blank');
-		}
-	}
-
-	/// Closes the current game.
-	closeGame() {
-		if (this.playingGameData === null) return;
-
-		// Stop playing game
-		global.setPlayingGame(null);
-
-		// Update the state
-		this.playingGameData = null;
-
-		// Remove "confirm leave" event listener
-		windowEventGroups.remove('beforeunload', this.beforeUnload);
 	}
 
 	// === STATE MANAGEMENT ===
@@ -413,37 +304,6 @@ export default class UIRoot extends LitElement {
 		this.requestUpdate('dropDownListData');
 	}
 
-	// === MEDIA MANAGEMENT ===
-	attemptCloseMedia() {
-		// Skip if not playing game
-		if (!this.playingGameData) return;
-
-		// Build alert data
-		let options: AlertOption[] = [
-			{ label: 'Cancel' },
-			{ label: 'Leave', destructive: true, cb: () => this.closeGame() }
-		];
-
-		// Confirm leaving the game
-		showAlert(
-			`Are you sure you want to leave ${this.playingGameData.displayName}?`,
-			html`All progress will be lost.`,
-			options
-		);
-	}
-
-	toggleMinimize(active: boolean) {
-		// Update state
-		this.isMediaMinimized = active;
-	}
-
-	updateMediaState() {
-		// Reset minimized if needed
-		if (this.isMediaMinimized && !this.isViewingMedia) {
-			this.isMediaMinimized = false;
-		}
-	}
-
 	onStatusChange(e: GlobalStatusChangeEvent) {
 		this.globalStatus = e.value;
 	}
@@ -475,13 +335,6 @@ export default class UIRoot extends LitElement {
 		}
 	}
 
-	// Update on mobile change
-	onMobile() {
-		document.body.classList.toggle('has-scrollbar', !global.isMobile);
-
-		this.requestUpdate();
-	}
-
 	onEmojiSelect(event: EmojiSelectEvent) {
 		if (!this.emojiPickerData) return;
 
@@ -493,23 +346,9 @@ export default class UIRoot extends LitElement {
 	}
 
 	onRouteChange(event: RouteChangeEvent) {
-		// Update sidebar
-		this.activeMenu = event.menuItem;
+		this.breadcrumb = event.breadcrumb;
 
-		this.onHomePage = event.title == 'Home';
-
-		if (event.mobileNavStuck !== null) {
-			this.mobileNavStuck = event.mobileNavStuck;
-			this.routeTitle = event.title;
-		}
-
-		// Update title name after the page animation is complete
-		setTimeout(() => {
-			this.routeTitle = event.title;
-		}, TRANSITION_LENGTH);
-
-		// Hide overlay and set media to minimized
-		this.toggleMinimize(true);
+		this.routeTitle = event.title;
 
 		// Hide context menu
 		this.hideContextMenu();
@@ -703,93 +542,19 @@ export default class UIRoot extends LitElement {
 	}
 
 	renderContent() {
-		// Calculated layout properties
-		let fullWidth = window.innerWidth;
-		let fullHeight = window.innerHeight;
-
-		// Calculate PiP scaling
-		let scalePercent = 1;
-		let offsetRight = 0;
-		let offsetBottom = 0;
-		if (this.isMediaMinimized) {
-			// Scale to mini tile
-			let targetWidth = 400;
-			let targetHeight = 300;
-			scalePercent = Math.min(targetWidth / fullWidth, targetHeight / fullHeight);
-
-			// Offset from the sides
-			offsetRight = 16;
-			offsetBottom = 16;
-		}
-
-		// Scale width and height
-		let scaledWidth = Math.round(fullWidth * scalePercent);
-		let scaledHeight = Math.round(fullHeight * scalePercent);
-
 		return html`
-			<!-- Mobile Navigation -->
-			${when(
-				global.isMobile,
-				() => html`<mobile-nav .title=${this.routeTitle} .stuck=${this.mobileNavStuck}></mobile-nav>`
-			)}
+			<!-- Offset for navbar -->
+			<div class="pt-14"></div>
 
 			<!-- Page Body -->
-			<div id="content-holder" class=${classMap({ mobile: global.isMobile })}>
+			<div id="content-holder">
 				<ui-router
 					@change=${this.onRouteChange.bind(this)}
 					@title-change=${this.onTitleChange.bind(this)}
 				></ui-router>
 			</div>
 
-			<!-- Media -->
-			<div
-				id="media-holder"
-				class=${classMap({ minimize: this.isMediaMinimized })}
-				style=${styleMap({
-					width: `${scaledWidth}px`,
-					height: `${scaledHeight}px`,
-					right: `${offsetRight}px`,
-					bottom: `${offsetBottom}px`
-				})}
-			>
-				<!-- PiP Content -->
-				<!-- <div
-					id="media-content"
-					style=${styleMap({
-					width: `${fullWidth}px`,
-					height: `${fullHeight}px`,
-					transform: scalePercent != 1 ? `scale(${scalePercent.toFixed(3)})` : null
-				})}
-				>
-					${when(
-					this.playingGameData,
-					() => html`<game-container
-						.game=${this.playingGameData}
-						?minimized=${this.isMediaMinimized}
-					></game-container>`
-				)}
-				</div> -->
-
-				<!-- Minimized Overlay -->
-				<!-- <div id="minimized-overlay" @mousedown=${this.toggleMinimize.bind(this, false)}>
-					<div>Expand</div>
-					<icon-button
-						class="close-button"
-						src="regular/circle-xmark"
-						smaller
-						.trigger=${this.attemptCloseMedia.bind(this)}
-					></icon-button>
-				</div> -->
-			</div>
-
-			<!-- Sidebar -->
-			${when(
-				!global.isMobile,
-				() => html`<main-sidebar
-					.activeMenu=${this.activeMenu}
-					.onHomePage=${this.onHomePage}
-				></main-sidebar>`
-			)}
+			<nav-bar .routeTitle=${this.routeTitle} .breadcrumbs=${this.breadcrumb}></nav-bar>
 
 			<!-- Interactable Overlays -->
 			<overlay-positioning
@@ -878,20 +643,17 @@ export default class UIRoot extends LitElement {
 			<notification-overlay></notification-overlay>
 
 			<!-- Tooltip -->
-			${when(
-				!global.isMobile,
-				() => html`<overlay-positioning
-					.active=${this.tooltipData.active}
-					.contextElement=${this.tooltipData.contextElement}
-					.orientation=${Orientation.TopCenter}
-					@close=${this.hideTooltip.bind(this)}
-					no-pointer
-					scale-animation
-					offset-y="5"
-				>
-					<div id="tooltip">${this.tooltipData.text}</div>
-				</overlay-positioning>`
-			)}
+			<overlay-positioning
+				.active=${this.tooltipData.active}
+				.contextElement=${this.tooltipData.contextElement}
+				.orientation=${Orientation.TopCenter}
+				@close=${this.hideTooltip.bind(this)}
+				no-pointer
+				scale-animation
+				offset-y="5"
+			>
+				<div id="tooltip">${this.tooltipData.text}</div>
+			</overlay-positioning>
 
 			<!-- Context menu -->
 			<overlay-positioning

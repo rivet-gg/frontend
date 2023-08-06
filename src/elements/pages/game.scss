@@ -500,10 +500,6 @@
 				flex-wrap: nowrap;
 				overflow-x: auto;
 
-				&::-webkit-scrollbar-thumb {
-					display: none;
-				}
-
 				identity-feed-item {
 					margin-right: 18px;
 

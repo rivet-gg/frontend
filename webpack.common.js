@@ -8,7 +8,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { execSync } = require('child_process');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
-if (!process.env.ASSETS_URL) process.env.ASSETS_URL = 'https://assets.rivet.gg';
+if (!process.env.ASSETS_URL) process.env.ASSETS_URL = 'https://assets2.rivet.gg';
 
 require('dotenv').config();
 
@@ -17,7 +17,7 @@ module.exports = async function () {
 	console.log('Fetching assets');
 	let rivetLogo = (
 		await axios({
-			url: process.env.ASSETS_URL + '/icons/logo/logo-small.svg',
+			url: process.env.ASSETS_URL + '/icons/logo/logo-gradient-white.svg',
 			responseType: 'text'
 		})
 	).data;
@@ -69,7 +69,7 @@ module.exports = async function () {
 
 	// UI Constants
 	Object.assign(colors, {
-		'base-bg': '#151515', // Also change this in html/index.html and html/static-styles.css
+		'base-bg': '#18181b', // Also change this in html/index.html and html/static-styles.css
 		'raised-bg': '#FFFFFF17',
 		'lowered-bg': '#00000020',
 		'context-menu': '#262626',
@@ -124,6 +124,11 @@ module.exports = async function () {
 		},
 		module: {
 			rules: [
+				{
+					test: /common\.css$/,
+					issuer: /src\/utils\/css.ts$/, // Issued from TS file
+					use: ['css-loader', 'postcss-loader']
+				},
 				// Load SASS files from TypeScript files
 				{
 					test: /\.s[ca]ss$/,

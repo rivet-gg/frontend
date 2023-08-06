@@ -37,7 +37,9 @@
 
 			cursor: pointer;
 
-			transition: background-color consts.$transition-length, opacity consts.$transition-length;
+			transition:
+				background-color consts.$transition-length,
+				opacity consts.$transition-length;
 
 			e-svg {
 				$size: 18px;

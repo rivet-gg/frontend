@@ -19,7 +19,9 @@
 
 	font-size: 0px;
 
-	transition: background-color consts.$transition-length, border consts.$transition-length;
+	transition:
+		background-color consts.$transition-length,
+		border consts.$transition-length;
 
 	&:not(.disabled):hover {
 		border: 2px solid rgba(255, 255, 255, 0.12);

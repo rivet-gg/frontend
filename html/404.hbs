@@ -13,6 +13,7 @@
 		{{> partials/meta }}
 
 		<!-- Styling -->
+		<link href="/fonts/fonts.css" rel="stylesheet" />
 		<style>
 			html, body {
 				/* Fill page */
@@ -22,7 +23,7 @@
 				height: 100%;
 
 				/* Background */
-				background-color: #151515;
+				background-color: #18181b;
 
 				/* Prevent selection */
 				-webkit-user-select: none;
@@ -49,37 +50,11 @@
 			/* Prevent overscroll */
 			html {
 				height: 100%;
-				overflow: hidden;
 			}
 
 			body {
 				height: 100%;
 				overflow: auto;
-				
-				/* Scrollbar color (Firefox) */
-				scrollbar-color: #ececec transparent;
-			}
-
-			/* Body scrollbar */
-			body.has-scrollbar::-webkit-scrollbar {
-				width: 10px;
-				height: 10px;
-				background: transparent;
-			}
-			body.has-scrollbar::-webkit-scrollbar-track {
-				background: transparent;
-			}
-			body.has-scrollbar::-webkit-scrollbar-track-piece {
-				background: transparent;
-			}
-			body.has-scrollbar::-webkit-scrollbar-thumb {
-				background-color: white;
-				background-clip: padding-box;
-				border-radius: 5px;
-				border: 3px solid transparent;
-			}
-			body.has-scrollbar::-webkit-scrollbar-corner {
-				background: transparent;
 			}
 
 			/* No scroll */
@@ -94,7 +69,7 @@
 				top: 0;
 				bottom: 0;
 
-				background-color: #151515;
+				background-color: #18181b;
 				text-align: center;
 				color: white;
 
@@ -144,7 +119,6 @@
 				--box-shadow: 0 1px 6px rgba(0, 0, 0, 0.17);
 			}
 		</style>
-		<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
 		<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
 	</head>
 
