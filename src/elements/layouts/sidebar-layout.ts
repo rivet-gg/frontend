@@ -62,7 +62,7 @@ export class Group extends LitElement {
 			<li>
 				${when(
 					this.title,
-					() => html`<div class="text-xs font-semibold leading-6 text-gray-400">${this.title}</div>`
+					() => html`<div class="text-sm leading-6 text-gray-400 font-display">${this.title}</div>`
 				)}
 				<ul role="list" class="-mx-2 mt-2 space-y-1">
 					<slot></slot>
