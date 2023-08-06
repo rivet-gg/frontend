@@ -19,7 +19,7 @@ import routes, {
 } from '../../routes';
 
 import * as uuid from 'uuid';
-import { BreadCrumb } from '../common/navbar';
+import { Breadcrumb } from '../common/navbar';
 
 const PAGE_ANIMATION_DURATION = timing.milliseconds(250);
 
@@ -52,7 +52,7 @@ interface RemovablePage {
 }
 
 export class RouteChangeEvent extends Event {
-	constructor(public title: string, public breadcrumb: BreadCrumb = undefined) {
+	constructor(public title: string, public breadcrumb: Breadcrumb = undefined) {
 		super('change');
 	}
 }

@@ -10,9 +10,13 @@ import logging from '../../utils/logging';
 import { GameFull } from '@rivet-gg/cloud';
 import assets from '../../data/assets';
 
-export type BreadCrumb = { type: string; content: { ident: string; url: string } };
+export type Breadcrumb =
+	| { type: 'Home' }
+	| { type: 'Group'; groupId: string }
+	| { type: 'Game'; gameId: string }
+	| { type: 'Custom' };
 
-export type CrumbDisplay = { name: string; url: string; img?: { type: string; info_obj: any } };
+export type CrumbDisplay = { name: string; url: string; img?: { type: string; infoObj: any } };
 
 @customElement('nav-bar')
 export default class NavBar extends LitElement {
@@ -22,8 +26,11 @@ export default class NavBar extends LitElement {
 	@property({ type: Object })
 	identity: api.identity.IdentityProfile | undefined;
 
+	@property({ type: String })
+	title: string = '';
+
 	@property({ type: Object })
-	breadcrumbs: BreadCrumb = undefined;
+	breadcrumbs: Breadcrumb = undefined;
 
 	@property({ type: Array })
 	displaycrumbs: CrumbDisplay[] = [];
@@ -42,52 +49,57 @@ export default class NavBar extends LitElement {
 
 		try {
 			switch (crumb.type) {
+				case 'Home':
+					this.displaycrumbs = [];
+					this.requestUpdate('displaycrumbs');
+
+					break;
 				case 'Group':
-					let summary = await global.api.group.getProfile(crumb.content.ident);
+					let summary = await global.api.group.getProfile(crumb.groupId);
 
 					this.displaycrumbs = [
 						{
 							name: summary.group.displayName,
 							url: routes.groupSettings.build({ id: summary.group.groupId }),
-							img: { type: 'Group', info_obj: summary.group }
+							img: { type: 'Group', infoObj: summary.group }
 						}
 					];
 					this.requestUpdate('displaycrumbs');
 
 					break;
 				case 'Game':
-					let game_data = (await global.api.cloud.games.games.getGameById(crumb.content.ident))
-						.game;
-					let developer_group_data = (await global.api.group.getProfile(game_data.developerGroupId))
-						.group;
+					let gameData = (await global.api.cloud.games.games.getGameById(crumb.gameId)).game;
+					let devGroupData = (await global.api.group.getProfile(gameData.developerGroupId)).group;
 
 					this.displaycrumbs = [
 						{
-							name: developer_group_data.displayName,
-							url: routes.groupSettings.build({ id: developer_group_data.groupId }),
-							img: { type: 'Group', info_obj: developer_group_data }
+							name: devGroupData.displayName,
+							url: routes.groupSettings.build({ id: devGroupData.groupId }),
+							img: { type: 'Group', infoObj: devGroupData }
 						},
 						{
-							name: game_data.displayName,
-							// url: crumb.content.url,
-							url: routes.devGame.build({ gameId: game_data.gameId }),
-							img: { type: 'Game', info_obj: game_data }
+							name: gameData.displayName,
+							url: routes.devGame.build({ gameId: gameData.gameId }),
+							img: { type: 'Game', infoObj: gameData }
 						}
 					];
 
 					this.requestUpdate('displaycrumbs');
 
 					break;
-				case 'Home':
-					this.displaycrumbs = [{ name: crumb.type, url: routes.home.build({}) }];
+				case 'Custom':
+					this.displaycrumbs = [
+						{
+							name: devGroupData.displayName,
+							url: routes.groupSettings.build({ id: devGroupData.groupId }),
+							img: { type: 'Group', infoObj: devGroupData }
+						}
+					];
 					this.requestUpdate('displaycrumbs');
 
 					break;
 				default:
-					this.displaycrumbs = [];
-					this.requestUpdate('displaycrumbs');
-
-					break;
+					throw 'Invalid breadcrumb type';
 			}
 		} catch (err) {
 			logging.error('failed to fetch breadcrumb data', err);
@@ -142,9 +154,9 @@ export default class NavBar extends LitElement {
 								${when(typeof crumb.img !== 'undefined', () => {
 									switch (crumb.img.type) {
 										case 'Group':
-											return this.renderGroupAvatar(crumb.img.info_obj);
+											return this.renderGroupAvatar(crumb.img.infoObj);
 										case 'Game':
-											return this.renderGameAvatar(crumb.img.info_obj);
+											return this.renderGameAvatar(crumb.img.infoObj);
 										default:
 											return html``;
 									}

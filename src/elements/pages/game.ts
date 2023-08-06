@@ -132,10 +132,6 @@ export default class GamePage extends LitElement {
 		// await GroupEndpoints.setOfficialGame.execute({ gameId: this.profile.game.id, groupId, active });
 	}
 
-	playGame() {
-		if (this.profile) UIRoot.shared.playGame(this.profile);
-	}
-
 	render() {
 		if (this.loadError) return responses.renderError(this.loadError);
 
@@ -187,16 +183,7 @@ export default class GamePage extends LitElement {
 				<div id="banner-nav">${this.buildBackButton()}</div>
 				<div id="main-title">${this.profile ? this.profile.displayName : null}</div>
 				<div id="banner-actions">
-					<div id="actions-right">
-						<stylized-button
-							id="play"
-							right-icon="solid/play"
-							large
-							.trigger=${this.playGame.bind(this)}
-						>
-							Play
-						</stylized-button>
-					</div>
+					<div id="actions-right"></div>
 				</div>
 			</div>
 

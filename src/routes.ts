@@ -7,14 +7,14 @@ import UIRoot from './elements/root/ui-root';
 import { RivetError } from '@rivet-gg/api-internal';
 import { isDeveloper } from './utils/identity';
 import config from './config';
-import { BreadCrumb } from './elements/common/navbar';
+import { Breadcrumb } from './elements/common/navbar';
 
 export type RenderResult = RenderResultTemplate | RenderResultRedirect;
 
 export interface RenderResultTemplate {
 	title: string;
+	breadcrumb: Breadcrumb;
 	template: TemplateResult;
-	breadcrumb?: BreadCrumb;
 }
 
 export interface RenderResultRedirect {
@@ -64,8 +64,8 @@ namespace routes {
 		path: '/',
 		render({}) {
 			return {
-				breadcrumb: { type: 'Home', content: { ident: 'Home', url: `/` } },
 				title: 'Home',
+				breadcrumb: { type: 'Home' },
 				template: html` <dev-dash .identity=${global.currentIdentity}></dev-dash> `
 			};
 		}
@@ -93,6 +93,7 @@ namespace routes {
 
 			return {
 				title: 'Identity',
+				breadcrumb: { type: 'Custom' },
 				template: renderPageIdentity(id, null)
 			};
 		}
@@ -105,6 +106,7 @@ namespace routes {
 
 			return {
 				title: 'Thread',
+				breadcrumb: { type: 'Custom' },
 				template: html`<page-thread-resolve .threadId=${id}></page-thread-resolve>`
 			};
 		}
@@ -117,6 +119,7 @@ namespace routes {
 
 			return {
 				title: 'Identity Chat',
+				breadcrumb: { type: 'Custom' },
 				template: html`<page-identity-direct-chat .identityId=${id}></page-identity-direct-chat>`
 			};
 		}
@@ -129,6 +132,7 @@ namespace routes {
 
 			return {
 				title: 'Identity',
+				breadcrumb: { type: 'Custom' },
 				template: renderPageIdentity(id, gameNameId)
 			};
 		}
@@ -141,6 +145,7 @@ namespace routes {
 
 			return {
 				title: 'Mutual Friends',
+				breadcrumb: { type: 'Custom' },
 				template: html`<page-identity-friends .identityId=${id}></page-identity-friends>`
 			};
 		}
@@ -157,8 +162,8 @@ namespace routes {
 			if (!utils.validateUuid(id)) return responses.notFound();
 
 			return {
-				breadcrumb: { type: 'Group', content: { ident: id, url: `/groups/${id}/settings` } },
 				title: 'Group',
+				breadcrumb: { type: 'Group', groupId: id },
 				template: renderPageGroupSettings(id, null)
 			};
 		}
@@ -171,6 +176,7 @@ namespace routes {
 
 			return {
 				title: 'Group Chat',
+				breadcrumb: { type: 'Group', groupId: id },
 				template: html`<page-group-chat .groupId=${id}></page-group-chat>`
 			};
 		}
@@ -183,6 +189,7 @@ namespace routes {
 
 			return {
 				title: 'Group',
+				breadcrumb: { type: 'Group', groupId: id },
 				template: renderPageGroupSettings(id, gameNameId)
 			};
 		}
@@ -195,7 +202,43 @@ namespace routes {
 
 			return {
 				title: 'Group Members',
+				breadcrumb: { type: 'Group', groupId: id },
 				template: html`<page-group-members .groupId=${id}></page-group-members>`
+			};
+		}
+	});
+
+	export let groupBilling = new Route<{ groupId: string }>({
+		path: '/groups/:groupId/billing',
+		render({ groupId }) {
+			if (!global.currentIdentity.isRegistered) return responses.registerRequired();
+			if (!utils.validateUuid(groupId)) return responses.notFound();
+
+			return {
+				title: `Billing`,
+				breadcrumb: {
+					type: 'Group',
+					groupId
+				},
+				template: html`<page-group-billing .groupId=${groupId}></page-group-billing>`
+			};
+		}
+	});
+
+	export let analyticsOverview = new Route<{ groupId: string }>({
+		path: '/groups/:groupId/analytics',
+		render({ groupId }) {
+			if (!global.currentIdentity.isRegistered) return responses.registerRequired();
+
+			if (!utils.validateUuid(groupId)) return responses.notFound();
+
+			return {
+				title: `Analytics`,
+				breadcrumb: {
+					type: 'Group',
+					groupId
+				},
+				template: html`<page-analytics-overview .groupId=${groupId}></page-analytics-overview>`
 			};
 		}
 	});
@@ -205,6 +248,7 @@ namespace routes {
 		render({ code }) {
 			return {
 				title: 'Group Invite',
+				breadcrumb: { type: 'Custom' },
 				template: html`<page-group-invite .code=${code}></page-group-invite>`
 			};
 		}
@@ -217,6 +261,7 @@ namespace routes {
 
 			return {
 				title: `Party`,
+				breadcrumb: { type: 'Custom' },
 				template: html`<page-party-chat .partyId=${id}></page-party-chat>`
 			};
 		}
@@ -227,6 +272,7 @@ namespace routes {
 		render({ token }) {
 			return {
 				title: `Party Invite`,
+				breadcrumb: { type: 'Custom' },
 				template: html`<page-party-invite .inviteToken=${token}></page-party-invite>`
 			};
 		}
@@ -237,6 +283,7 @@ namespace routes {
 		render({ tab }) {
 			return {
 				title: `Settings`,
+				breadcrumb: { type: 'Custom' },
 				template: html`<page-settings .tabId=${tab}></page-settings>`
 			};
 		}
@@ -249,6 +296,7 @@ namespace routes {
 
 			return {
 				title: `Admin`,
+				breadcrumb: { type: 'Custom' },
 				template: html`<page-admin></page-admin>`
 			};
 		}
@@ -259,6 +307,7 @@ namespace routes {
 		render() {
 			return {
 				title: `Recent Followers`,
+				breadcrumb: { type: 'Custom' },
 				template: html`<page-recent-followers></page-recent-followers>`
 			};
 		}
@@ -269,29 +318,8 @@ namespace routes {
 		render({ token }) {
 			return {
 				title: `Link account`,
+				breadcrumb: { type: 'Custom' },
 				template: html`<page-link-game .token=${token}></page-link-game>`
-			};
-		}
-	});
-
-	export let devRoot = new Route<{}>({
-		path: '/developer',
-		render() {
-			return {
-				redirect: devDashboard.build({})
-			};
-		}
-	});
-
-	export let devDashboard = new Route<{}>({
-		path: '/dashboard',
-		render() {
-			if (!global.currentIdentity.isRegistered) return responses.registerRequired();
-			if (!isDeveloper(global.currentIdentity)) return responses.developerOnly();
-
-			return {
-				title: 'Developer Dashboard',
-				template: html`<page-dev-games></page-dev-games>`
 			};
 		}
 	});
@@ -304,6 +332,7 @@ namespace routes {
 
 			return {
 				title: 'Link Device',
+				breadcrumb: { type: 'Custom' },
 				template: html`<page-dev-device-link .deviceLinkToken=${token}></page-dev-device-link>`
 			};
 		}
@@ -321,8 +350,8 @@ namespace routes {
 			if (!utils.validateUuid(gameId)) return responses.notFound();
 
 			return {
-				breadcrumb: { type: 'Game', content: { ident: gameId, url: `/games/${gameId}` } },
 				title: 'Game',
+				breadcrumb: { type: 'Game', gameId },
 				template: renderPageDevGame(gameId, { summary: true })
 			};
 		}
@@ -336,6 +365,7 @@ namespace routes {
 
 			return {
 				title: 'Game',
+				breadcrumb: { type: 'Game', gameId },
 				template: renderPageDevGame(gameId, { summary: true })
 			};
 		}
@@ -350,6 +380,7 @@ namespace routes {
 
 			return {
 				title: 'Game Namespace',
+				breadcrumb: { type: 'Game', gameId },
 				template: renderPageDevGame(gameId, { namespace: { namespaceId } })
 			};
 		}
@@ -364,6 +395,7 @@ namespace routes {
 
 			return {
 				title: 'Game Version',
+				breadcrumb: { type: 'Game', gameId },
 				template: renderPageDevGame(gameId, { version: { versionId } })
 			};
 		}
@@ -377,6 +409,7 @@ namespace routes {
 
 			return {
 				title: 'Game Version Draft',
+				breadcrumb: { type: 'Game', gameId },
 				template: renderPageDevGame(gameId, { versionDraft: true })
 			};
 		}
@@ -390,6 +423,7 @@ namespace routes {
 
 			return {
 				title: 'Game API',
+				breadcrumb: { type: 'Game', gameId },
 				template: renderPageDevGame(gameId, { tokens: true })
 			};
 		}
@@ -404,6 +438,7 @@ namespace routes {
 
 			return {
 				title: 'Game Logs',
+				breadcrumb: { type: 'Game', gameId },
 				template: renderPageDevGame(gameId, { logs: true, namespaceId })
 			};
 		}
@@ -418,6 +453,7 @@ namespace routes {
 
 			return {
 				title: 'Game Logs',
+				breadcrumb: { type: 'Game', gameId },
 				template: renderPageDevGame(gameId, { logs: true, namespaceId, logsLobbyId: lobbyId })
 			};
 		}
@@ -432,6 +468,7 @@ namespace routes {
 
 			return {
 				title: 'Game Lobbies',
+				breadcrumb: { type: 'Game', gameId },
 				template: renderPageDevGame(gameId, { lobbies: true, namespaceId })
 			};
 		}
@@ -446,6 +483,7 @@ namespace routes {
 
 			return {
 				title: 'Game KV',
+				breadcrumb: { type: 'Game', gameId },
 				template: renderPageDevGame(gameId, { kv: true, namespaceId })
 			};
 		}
@@ -458,7 +496,8 @@ namespace routes {
 			if (!utils.validateUuid(gameId)) return responses.notFound();
 
 			return {
-				title: 'Game CDN',
+				title: 'Game Billing',
+				breadcrumb: { type: 'Game', gameId },
 				template: renderPageDevGame(gameId, { sites: true })
 			};
 		}
@@ -475,37 +514,8 @@ namespace routes {
 
 			return {
 				title: 'Game Builds',
+				breadcrumb: { type: 'Game', gameId },
 				template: renderPageDevGame(gameId, { builds: true })
-			};
-		}
-	});
-
-	export let groupBilling = new Route<{ groupId: string }>({
-		path: '/groups/:groupId/billing',
-		render({ groupId }) {
-			// TODO:
-			// return responses.notFound();
-
-			if (!global.currentIdentity.isRegistered) return responses.registerRequired();
-			if (!utils.validateUuid(groupId)) return responses.notFound();
-
-			return {
-				title: `Billing`,
-				template: html`<page-group-billing .groupId=${groupId}></page-group-billing>`
-			};
-		}
-	});
-
-	export let analyticsOverview = new Route<{ groupId: string }>({
-		path: '/groups/:groupId/analytics',
-		render({ groupId }) {
-			if (!global.currentIdentity.isRegistered) return responses.registerRequired();
-
-			if (!utils.validateUuid(groupId)) return responses.notFound();
-
-			return {
-				title: `Analytics`,
-				template: html`<page-analytics-overview .groupId=${groupId}></page-analytics-overview>`
 			};
 		}
 	});
@@ -535,6 +545,10 @@ export namespace responses {
 	export function forbidden(): RenderResult {
 		return {
 			title: 'Forbidden',
+			breadcrumb: {
+				type: 'Custom'
+			},
+
 			template: html`<page-error message="Forbidden"></page-error>`
 		};
 	}
@@ -542,6 +556,9 @@ export namespace responses {
 	export function badRequest(): RenderResult {
 		return {
 			title: 'Bad Request',
+			breadcrumb: {
+				type: 'Custom'
+			},
 			template: html`<page-error message="Bad Request"></page-error>`
 		};
 	}
@@ -549,6 +566,9 @@ export namespace responses {
 	export function notFound(): RenderResult {
 		return {
 			title: 'Not Found',
+			breadcrumb: {
+				type: 'Custom'
+			},
 			template: html`<invalid-page-state>
 				<h1 slot="title">404</h1>
 				<h2 slot="subtitle">This page isn't available or it doesn't exist. Sorry!</h2>
@@ -559,11 +579,14 @@ export namespace responses {
 	export function underConstruction(): RenderResult {
 		return {
 			title: 'Coming Soon',
+			breadcrumb: {
+				type: 'Custom'
+			},
 			template: html`<invalid-page-state>
 				<h1 slot="title">Coming Soon</h1>
 				<h2 slot="subtitle">This page isn't available yet. Come back soon!</h2>
 				<div slot="actions">
-					<stylized-button href=${routes.devRoot.build({})}>Go to Dashboard</stylized-button>
+					<stylized-button href=${routes.home.build({})}>Go Home</stylized-button>
 				</div>
 			</invalid-page-state>`
 		};
@@ -572,6 +595,9 @@ export namespace responses {
 	export function registerRequired(): RenderResult {
 		return {
 			title: 'Register Required',
+			breadcrumb: {
+				type: 'Custom'
+			},
 			template: html`<invalid-page-state>
 				<h1 slot="title">Registered Only</h1>
 				<h2 slot="subtitle">
@@ -589,6 +615,9 @@ export namespace responses {
 	export function desktopOnly(): RenderResult {
 		return {
 			title: 'Desktop Only',
+			breadcrumb: {
+				type: 'Custom'
+			},
 			template: html`<invalid-page-state>
 				<h1 slot="title">Desktop Only</h1>
 				<h2 slot="subtitle">This page is only available on a Desktop platform.</h2>
@@ -599,6 +628,9 @@ export namespace responses {
 	export function developerOnly(): RenderResult {
 		return {
 			title: 'Private Beta',
+			breadcrumb: {
+				type: 'Custom'
+			},
 			template: html`<page-dev-only></page-dev-only>`
 		};
 	}

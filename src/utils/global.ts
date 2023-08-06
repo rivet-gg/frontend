@@ -84,9 +84,6 @@ export class GlobalState {
 	/// Whether or not the current thread is active (the user is not AFK).
 	currentThreadActive = false;
 
-	/// Data for the game that is currently being played.
-	playingGame?: api.identity.GameHandle;
-
 	status: GlobalStatus = GlobalStatus.Loading;
 
 	broadcast: BroadcastSystem = new BroadcastSystem(true);
@@ -533,13 +530,6 @@ export class GlobalState {
 			this.status = status;
 			globalEventGroups.dispatch('status-change', status);
 		}
-	}
-
-	setPlayingGame(game?: api.portal.GameProfile) {
-		// Save the data
-		this.playingGame = game;
-
-		// TODO: Send to live server
 	}
 
 	onSettingChange(change: SettingChange) {
