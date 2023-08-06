@@ -738,12 +738,13 @@ export default class DevGameNamespace extends LitElement {
 				<div id="subheader">
 					${when(
 						this.version.config.cdn,
-						() => html`<stylized-button
-							id="visit-button"
-							right-icon="solid/arrow-right"
-							.href=${visitUrl}
-							>Visit</stylized-button
-						>`
+						() =>
+							html`<stylized-button
+								id="visit-button"
+								right-icon="solid/arrow-right"
+								.href=${visitUrl}
+								>Visit</stylized-button
+							>`
 					)}
 					<span>Name ID: <b>${this.namespace.nameId}</b></span>
 				</div>
@@ -956,32 +957,36 @@ export default class DevGameNamespace extends LitElement {
 					<table id="domains">
 						${when(
 							this.namespace.config.cdn.domains.length,
-							() => html`<tr>
-									<th>Hostname</th>
-									<th>Created</th>
-									<th>Status</th>
-									<th>
-										<icon-button
-											id="refresh-button"
-											src="solid/rotate-left"
-											custom
-											@mouseenter=${tooltip('Refresh')}
-											.trigger=${this.fetchData.bind(this)}
-										></icon-button>
-									</th>
-								</tr>
-								${this.namespace.config.cdn.domains.map((d, i) => this.renderDomain(d, i))}`
+							() =>
+								html`<tr>
+										<th>Hostname</th>
+										<th>Created</th>
+										<th>Status</th>
+										<th>
+											<icon-button
+												id="refresh-button"
+												src="solid/rotate-left"
+												custom
+												@mouseenter=${tooltip('Refresh')}
+												.trigger=${this.fetchData.bind(this)}
+											></icon-button>
+										</th>
+									</tr>
+									${this.namespace.config.cdn.domains.map((d, i) =>
+										this.renderDomain(d, i)
+									)}`
 						)}
 					</table>
 
 					${when(
 						this.namespace.config.cdn.domains.length < 10,
-						() => html`<dashed-button
-							id="add-domain"
-							icon="solid/plus"
-							.trigger=${this.openCustomHostnameModal.bind(this)}
-							>Add domain</dashed-button
-						>`
+						() =>
+							html`<dashed-button
+								id="add-domain"
+								icon="solid/plus"
+								.trigger=${this.openCustomHostnameModal.bind(this)}
+								>Add domain</dashed-button
+							>`
 					)}
 				</div>
 			</div>
@@ -1085,12 +1090,13 @@ export default class DevGameNamespace extends LitElement {
 						)}
 						${when(
 							this.namespace.config.cdn.authUserList.length < CDN_AUTH_USER_MAX,
-							() => html`<dashed-button
-								id="add-auth-user"
-								icon="solid/plus"
-								.trigger=${this.addAuthUser.bind(this)}
-								>Add user</dashed-button
-							>`
+							() =>
+								html`<dashed-button
+									id="add-auth-user"
+									icon="solid/plus"
+									.trigger=${this.addAuthUser.bind(this)}
+									>Add user</dashed-button
+								>`
 						)}
 					</div>
 				</div>
@@ -1214,85 +1220,90 @@ export default class DevGameNamespace extends LitElement {
 						<table id="ports">
 							${when(
 								this.devTokenPorts.length,
-								() => html`<tr>
-										<th>Label</th>
-										<th>Port</th>
-										<th>Protocol</th>
-									</tr>
-									${repeat(
-										this.devTokenPorts,
-										(_, i) => this.devTokenPortIds[i],
-										(p, i) => {
-											let portErrors = this.devTokenValidationErrors.findFormatted(
-												'ports',
-												i
-											);
+								() =>
+									html`<tr>
+											<th>Label</th>
+											<th>Port</th>
+											<th>Protocol</th>
+										</tr>
+										${repeat(
+											this.devTokenPorts,
+											(_, i) => this.devTokenPortIds[i],
+											(p, i) => {
+												let portErrors = this.devTokenValidationErrors.findFormatted(
+													'ports',
+													i
+												);
 
-											return html`${portErrors.length
-													? html`<tr>
-															<td colspan="4">
-																<error-list
-																	.errors=${portErrors}
-																></error-list>
-															</td>
-													  </tr>`
-													: null}
-												<tr>
-													<td class="port-input">
-														<text-input
-															class="port short"
-															placeholder="Label"
-															light
-															.init=${p.label}
-															@input=${this.updatePortLabel.bind(this, i)}
-														></text-input>
-													</td>
-													<td>
-														<text-input
-															class="port short"
-															placeholder="Port"
-															light
-															number
-															.min=${1}
-															.max=${65535}
-															.init=${p.targetPort.toString()}
-															@input=${this.updatePort.bind(this, i)}
-														></text-input>
-													</td>
-													<td>
-														<drop-down-list
-															light
-															.selection=${PORT_PROTOCOLS.find(
-																pr => pr.value == p.proxyProtocol
-															)}
-															.options=${PORT_PROTOCOLS}
-															.orientation=${Orientation.TopRight}
-															@select=${this.updatePortProtocol.bind(this, i)}
-														></drop-down-list>
-													</td>
-													<td>
-														<icon-button
-															src="solid/xmark"
-															small
-															.trigger=${this.removePort.bind(this, i)}
-														></icon-button>
-													</td>
-												</tr>`;
-										}
-									)}`
+												return html`${portErrors.length
+														? html`<tr>
+																<td colspan="4">
+																	<error-list
+																		.errors=${portErrors}
+																	></error-list>
+																</td>
+														  </tr>`
+														: null}
+													<tr>
+														<td class="port-input">
+															<text-input
+																class="port short"
+																placeholder="Label"
+																light
+																.init=${p.label}
+																@input=${this.updatePortLabel.bind(this, i)}
+															></text-input>
+														</td>
+														<td>
+															<text-input
+																class="port short"
+																placeholder="Port"
+																light
+																number
+																.min=${1}
+																.max=${65535}
+																.init=${p.targetPort.toString()}
+																@input=${this.updatePort.bind(this, i)}
+															></text-input>
+														</td>
+														<td>
+															<drop-down-list
+																light
+																.selection=${PORT_PROTOCOLS.find(
+																	pr => pr.value == p.proxyProtocol
+																)}
+																.options=${PORT_PROTOCOLS}
+																.orientation=${Orientation.TopRight}
+																@select=${this.updatePortProtocol.bind(
+																	this,
+																	i
+																)}
+															></drop-down-list>
+														</td>
+														<td>
+															<icon-button
+																src="solid/xmark"
+																small
+																.trigger=${this.removePort.bind(this, i)}
+															></icon-button>
+														</td>
+													</tr>`;
+											}
+										)}`
 							)}
 						</table>
 						${when(
 							this.devTokenPorts.length < 16,
-							() => html`<dashed-button
-								id="create-port"
-								class="short"
-								light
-								centered
-								icon="solid/plus"
-								.trigger=${this.createPort.bind(this)}
-								>Add port</dashed-button
-							>`
+							() =>
+								html`<dashed-button
+									id="create-port"
+									class="short"
+									light
+									centered
+									icon="solid/plus"
+									.trigger=${this.createPort.bind(this)}
+									>Add port</dashed-button
+								>`
 						)}
 					</div>
 				</div>

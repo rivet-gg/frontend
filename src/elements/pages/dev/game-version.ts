@@ -183,16 +183,17 @@ export default class DevGameNamespace extends LitElement {
 					${repeat(
 						this.game.namespaces.filter(n => n.versionId == this.version.versionId),
 						n => n.namespaceId,
-						n => html` <a
-							class="namespace"
-							href=${routes.devNamespace.build({
-								gameId: this.game.gameId,
-								namespaceId: n.namespaceId
-							})}
-						>
-							<div class="font-semibold">${n.displayName}</div>
-							<e-svg src="solid/arrow-right"></e-svg>
-						</a>`
+						n =>
+							html` <a
+								class="namespace"
+								href=${routes.devNamespace.build({
+									gameId: this.game.gameId,
+									namespaceId: n.namespaceId
+								})}
+							>
+								<div class="font-semibold">${n.displayName}</div>
+								<e-svg src="solid/arrow-right"></e-svg>
+							</a>`
 					)}
 					<div id="deploy-namespace">
 						<div class="font-semibold">Deploy to namespace:</div>

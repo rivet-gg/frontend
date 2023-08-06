@@ -109,7 +109,7 @@ export default class HorizontalFeed extends LitElement {
 					external: {
 						profile: ''
 					}
-				} as api.identity.IdentityHandle)
+				}) as api.identity.IdentityHandle
 		);
 
 		return html`

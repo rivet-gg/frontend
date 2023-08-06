@@ -224,11 +224,11 @@ export default class GroupSidebar extends LitElement {
 						>`
 					);
 				} else {
-					actions.push(html`<stylized-button
-						id="apply-button"
-						.trigger=${this.applyForGroup.bind(this)}
-						>Apply</stylized-button
-					>`);
+					actions.push(
+						html`<stylized-button id="apply-button" .trigger=${this.applyForGroup.bind(this)}
+							>Apply</stylized-button
+						>`
+					);
 				}
 			} else {
 				actions.push(
@@ -236,9 +236,11 @@ export default class GroupSidebar extends LitElement {
 				);
 			}
 		} else {
-			actions.push(html`<stylized-button .trigger=${this.openCreateInviteModal.bind(this)}
-				>Create invite</stylized-button
-			>`);
+			actions.push(
+				html`<stylized-button .trigger=${this.openCreateInviteModal.bind(this)}
+					>Create invite</stylized-button
+				>`
+			);
 
 			// if (global.currentParty) {
 			// 	let isLeader = global.currentParty.members.some(
@@ -269,24 +271,28 @@ export default class GroupSidebar extends LitElement {
 			// }
 
 			if (notInChat && !isOwner) {
-				actions.push(html`<stylized-button
-					id="leave-button"
-					color="#d93636"
-					.trigger=${this.leaveGroup.bind(this)}
-					>Leave group</stylized-button
-				>`);
+				actions.push(
+					html`<stylized-button
+						id="leave-button"
+						color="#d93636"
+						.trigger=${this.leaveGroup.bind(this)}
+						>Leave group</stylized-button
+					>`
+				);
 			}
 		}
 
 		if (isOwner) {
-			actions.push(html`<stylized-button .trigger=${this.openEditModal.bind(this)}
-				>Edit group</stylized-button
-			>`);
-			actions.push(html`<stylized-button
-				id="transfer-ownership"
-				.trigger=${this.transferGroupOwnership.bind(this)}
-				>Transfer ownership</stylized-button
-			>`);
+			actions.push(
+				html`<stylized-button .trigger=${this.openEditModal.bind(this)}>Edit group</stylized-button>`
+			);
+			actions.push(
+				html`<stylized-button
+					id="transfer-ownership"
+					.trigger=${this.transferGroupOwnership.bind(this)}
+					>Transfer ownership</stylized-button
+				>`
+			);
 		}
 
 		return actions;
@@ -308,27 +314,36 @@ export default class GroupSidebar extends LitElement {
 				${repeat(
 					this.profile ? this.joinRequests : [],
 					jr => jr.identity.identityId,
-					jr => html`<identity-tile
-						.identity=${jr.identity}
-						no-context-menu
-						@contextmenu=${showJoinRequestContextMenu({
-							identity: jr.identity,
-							groupId: this.profile.groupId
-						})}
-					>
-						<div slot="right" class="join-request-actions">
-							<icon-button
-								custom
-								src="solid/check"
-								.trigger=${this.resolveJoinRequest.bind(this, jr.identity.identityId, true)}
-							></icon-button>
-							<icon-button
-								custom
-								src="solid/xmark"
-								.trigger=${this.resolveJoinRequest.bind(this, jr.identity.identityId, false)}
-							></icon-button>
-						</div>
-					</identity-tile>`
+					jr =>
+						html`<identity-tile
+							.identity=${jr.identity}
+							no-context-menu
+							@contextmenu=${showJoinRequestContextMenu({
+								identity: jr.identity,
+								groupId: this.profile.groupId
+							})}
+						>
+							<div slot="right" class="join-request-actions">
+								<icon-button
+									custom
+									src="solid/check"
+									.trigger=${this.resolveJoinRequest.bind(
+										this,
+										jr.identity.identityId,
+										true
+									)}
+								></icon-button>
+								<icon-button
+									custom
+									src="solid/xmark"
+									.trigger=${this.resolveJoinRequest.bind(
+										this,
+										jr.identity.identityId,
+										false
+									)}
+								></icon-button>
+							</div>
+						</identity-tile>`
 				)}
 			</info-panel-body>
 		`;
@@ -349,23 +364,24 @@ export default class GroupSidebar extends LitElement {
 				${repeat(
 					this.bannedIdentities,
 					ban => ban.identity.identityId,
-					ban => html`<identity-tile
-						.identity=${ban.identity}
-						no-context-menu
-						@contextmenu=${showBannedIdentityContextMenu({
-							identity: ban.identity,
-							groupId: this.profile.groupId
-						})}
-					>
-						<div slot="right" class="ban-actions">
-							<icon-button
-								custom
-								src="solid/rotate-left"
-								@mouseenter=${tooltip('Unban')}
-								.trigger=${this.unbanIdentity.bind(this, ban.identity.identityId, false)}
-							></icon-button>
-						</div>
-					</identity-tile>`
+					ban =>
+						html`<identity-tile
+							.identity=${ban.identity}
+							no-context-menu
+							@contextmenu=${showBannedIdentityContextMenu({
+								identity: ban.identity,
+								groupId: this.profile.groupId
+							})}
+						>
+							<div slot="right" class="ban-actions">
+								<icon-button
+									custom
+									src="solid/rotate-left"
+									@mouseenter=${tooltip('Unban')}
+									.trigger=${this.unbanIdentity.bind(this, ban.identity.identityId, false)}
+								></icon-button>
+							</div>
+						</identity-tile>`
 				)}
 			</info-panel-body>
 		`;

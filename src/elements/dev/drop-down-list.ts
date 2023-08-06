@@ -219,55 +219,58 @@ export default class DropDownList<T> extends LitElement {
 				<div id="controls" @click=${this.onControlsClick.bind(this)}>
 					${when(
 						this.isOverlay && this.filter,
-						() => html`<input
-							id="filter-input"
-							maxlength="64"
-							type="text"
-							placeholder="Filter..."
-							@click=${(e: Event) => e.stopPropagation()}
-							@keydown=${this.onFilterKeyDown.bind(this)}
-							@input=${this.onFilterInput.bind(this)}
-						/>`,
-						() => html`<p
-							id="selection"
-							title=${this.selection ? this.selection.title ?? '' : ''}
-						>
-							${this.selection
-								? this.selection.template ?? this.selection.label ?? '<Empty>'
-								: this.placeholder}
-						</p>`
+						() =>
+							html`<input
+								id="filter-input"
+								maxlength="64"
+								type="text"
+								placeholder="Filter..."
+								@click=${(e: Event) => e.stopPropagation()}
+								@keydown=${this.onFilterKeyDown.bind(this)}
+								@input=${this.onFilterInput.bind(this)}
+							/>`,
+						() =>
+							html`<p id="selection" title=${this.selection ? this.selection.title ?? '' : ''}>
+								${this.selection
+									? this.selection.template ?? this.selection.label ?? '<Empty>'
+									: this.placeholder}
+							</p>`
 					)}
 					<e-svg id="icon" src=${caret}></e-svg>
 				</div>
 				${when(
 					this.isOverlay,
-					() => html`<div id="spacer"></div>
-						<div id="options">
-							${when(!options.length, () => html`<p class="muted">No options available</p>`)}
-							<div>
-								${repeat(
-									options,
-									o => o,
-									(o, i) => {
-										let classes = classMap({
-											option: true,
-											disabled: o.disabled,
-											header: o.header,
-											unstyled: o.unstyled,
-											selected: this.filter && this.filterSelection == i
-										});
-
-										return html`<div
-											class=${classes}
-											@click=${o.header ? null : this.onOptionClick.bind(this, o)}
-											title=${o.title ?? ''}
-										>
-											${o.template ?? o.label ?? '<Empty>'}
-										</div>`;
-									}
+					() =>
+						html`<div id="spacer"></div>
+							<div id="options">
+								${when(
+									!options.length,
+									() => html`<p class="muted">No options available</p>`
 								)}
-							</div>
-						</div>`
+								<div>
+									${repeat(
+										options,
+										o => o,
+										(o, i) => {
+											let classes = classMap({
+												option: true,
+												disabled: o.disabled,
+												header: o.header,
+												unstyled: o.unstyled,
+												selected: this.filter && this.filterSelection == i
+											});
+
+											return html`<div
+												class=${classes}
+												@click=${o.header ? null : this.onOptionClick.bind(this, o)}
+												title=${o.title ?? ''}
+											>
+												${o.template ?? o.label ?? '<Empty>'}
+											</div>`;
+										}
+									)}
+								</div>
+							</div>`
 				)}
 			</div>
 		`;

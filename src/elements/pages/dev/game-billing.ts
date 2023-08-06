@@ -256,9 +256,12 @@ export default class DevGameBilling extends LitElement {
 								>Contact Support</a
 							>
 							for more info.`,
-					() => html`You will be billed immediately following this change.
-						<a class="link" href="https://rivet.gg/support" target="_blank">Contact Support</a>
-						for more info.`
+					() =>
+						html`You will be billed immediately following this change.
+							<a class="link" href="https://rivet.gg/support" target="_blank"
+								>Contact Support</a
+							>
+							for more info.`
 				)}
 			</p>`,
 			[
@@ -504,11 +507,12 @@ export default class DevGameBilling extends LitElement {
 				</div>
 				${when(
 					!this.isExporting,
-					() => html`<stylized-button
-						id="export"
-						.trigger=${this.exportLobbyHistory.bind(this, this.game.gameId)}
-						>Export Data</stylized-button
-					>`
+					() =>
+						html`<stylized-button
+							id="export"
+							.trigger=${this.exportLobbyHistory.bind(this, this.game.gameId)}
+							>Export Data</stylized-button
+						>`
 				)}
 				${when(
 					this.isExporting || this.isUpdating,
@@ -527,16 +531,17 @@ export default class DevGameBilling extends LitElement {
 				${repeat(
 					this.assortedBillingData,
 					ns => ns.namespaceId,
-					ns => html`<div class="namespace">
-						<h3>${ns.namespace.displayName}</h3>
-						<div class="lobby-groups">
-							${repeat(
-								ns.lobbyGroups,
-								lb => lb.lobbyGroupNameId,
-								this.renderLobbyGroup.bind(this)
-							)}
-						</div>
-					</div>`
+					ns =>
+						html`<div class="namespace">
+							<h3>${ns.namespace.displayName}</h3>
+							<div class="lobby-groups">
+								${repeat(
+									ns.lobbyGroups,
+									lb => lb.lobbyGroupNameId,
+									this.renderLobbyGroup.bind(this)
+								)}
+							</div>
+						</div>`
 				)}
 			</div>`;
 	}
@@ -682,16 +687,17 @@ export default class DevGameBilling extends LitElement {
 				<h1>Enterprise</h1>
 				${when(
 					planInfo,
-					() => html`<div class="price">
-						<p>
-							<b
-								>$${numbro(
-									priceMonthly /
-										(planInfo.interval == cloud.BillingInterval.MONTHLY ? 1 : 12)
-								).format('0,0')}</b
-							>/mo
-						</p>
-					</div>`
+					() =>
+						html`<div class="price">
+							<p>
+								<b
+									>$${numbro(
+										priceMonthly /
+											(planInfo.interval == cloud.BillingInterval.MONTHLY ? 1 : 12)
+									).format('0,0')}</b
+								>/mo
+							</p>
+						</div>`
 				)}
 				<p>Everything <b>Studio</b> plus...</p>
 				<ul>

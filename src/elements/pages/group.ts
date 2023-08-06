@@ -467,14 +467,15 @@ export default class GroupPage extends LitElement {
 
 				${when(
 					this.profile,
-					() => html`<group-sidebar
-						slot="sidebar"
-						.profile=${this.profile}
-						.bannedIdentities=${this.bannedIdentities}
-						.members=${this.members}
-						.joinRequests=${this.joinRequests}
-						@event=${this.onActionEvent.bind(this)}
-					></group-sidebar>`
+					() =>
+						html`<group-sidebar
+							slot="sidebar"
+							.profile=${this.profile}
+							.bannedIdentities=${this.bannedIdentities}
+							.members=${this.members}
+							.joinRequests=${this.joinRequests}
+							@event=${this.onActionEvent.bind(this)}
+						></group-sidebar>`
 				)}
 			</profile-layout>
 

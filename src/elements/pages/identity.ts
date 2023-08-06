@@ -296,24 +296,26 @@ export default class IdentityPage extends LitElement {
 					${this.buildBackButton()}
 					${when(
 						this.profile,
-						() => html`<identity-avatar
-							id="main-avatar"
-							shadow
-							hide-status
-							.identity=${identity}
-						></identity-avatar>`,
+						() =>
+							html`<identity-avatar
+								id="main-avatar"
+								shadow
+								hide-status
+								.identity=${identity}
+							></identity-avatar>`,
 						() => html`<loading-placeholder id="main-avatar-placeholder"></loading-placeholder>`
 					)}
 					<div id="main-display-name">
 						${when(
 							this.profile,
-							() => html`<identity-name
-								style=${nameStyles}
-								.identity=${identity}
-								no-link
-								show-number
-								inline
-							></identity-name>`,
+							() =>
+								html`<identity-name
+									style=${nameStyles}
+									.identity=${identity}
+									no-link
+									show-number
+									inline
+								></identity-name>`,
 							() =>
 								when(
 									profileNotFound,
@@ -349,10 +351,11 @@ export default class IdentityPage extends LitElement {
 			<!-- TODO: Fetch the game instead of using games[0] -->
 			${when(
 				this.profile && this.gameNameId,
-				() => html`<expanded-game-stats
-					.identity=${this.profile}
-					.game=${this.profile.games[0]}
-				></expanded-game-stats>`
+				() =>
+					html`<expanded-game-stats
+						.identity=${this.profile}
+						.game=${this.profile.games[0]}
+					></expanded-game-stats>`
 			)}
 
 			<!-- Editing modal -->
@@ -415,16 +418,18 @@ export default class IdentityPage extends LitElement {
 
 		return when(
 			this.profile.games.length,
-			() => html`<div id="games">
-				${repeat(
-					this.profile.games,
-					game => game.game.gameId,
-					game => html`<game-stats .identity=${this.profile} .data=${game}></game-stats>`
-				)}
-			</div>`,
-			() => html`<p class="no-content">
-				<b>${this.profile.displayName}</b> has no games on their profile
-			</p>`
+			() =>
+				html`<div id="games">
+					${repeat(
+						this.profile.games,
+						game => game.game.gameId,
+						game => html`<game-stats .identity=${this.profile} .data=${game}></game-stats>`
+					)}
+				</div>`,
+			() =>
+				html`<p class="no-content">
+					<b>${this.profile.displayName}</b> has no games on their profile
+				</p>`
 		);
 	}
 

@@ -97,22 +97,23 @@ export default class UserBanner extends LitElement {
 				<!-- Guest Banner -->
 				${when(
 					!global.currentIdentity.isRegistered,
-					() => html`<div id="guest-banner" class="block">
-						<e-svg id="guest-image" src="graphics/computer" non-icon preserve></e-svg>
+					() =>
+						html`<div id="guest-banner" class="block">
+							<e-svg id="guest-image" src="graphics/computer" non-icon preserve></e-svg>
 
-						<div id="guest-content">
-							<h2>Looks like you're logged in as a guest</h2>
-							<p>
-								Registering with Rivet gives you access to <b>joining groups</b>,
-								<b>editing your profile</b>, <b>adding friends</b>, and much more.
-							</p>
-							<div id="guest-actions">
-								<stylized-button .trigger=${() => UIRoot.shared.openRegisterPanel()}
-									>Register Now</stylized-button
-								>
+							<div id="guest-content">
+								<h2>Looks like you're logged in as a guest</h2>
+								<p>
+									Registering with Rivet gives you access to <b>joining groups</b>,
+									<b>editing your profile</b>, <b>adding friends</b>, and much more.
+								</p>
+								<div id="guest-actions">
+									<stylized-button .trigger=${() => UIRoot.shared.openRegisterPanel()}
+										>Register Now</stylized-button
+									>
+								</div>
 							</div>
-						</div>
-					</div>`
+						</div>`
 				)}
 			</div>
 		</div> `;

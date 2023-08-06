@@ -386,7 +386,7 @@ export default class FileUploader extends LitElement {
 											<h1>Uploading...</h1>
 											<h2><span id='upload-name'>${currentUpload[0].repeat(2)}</span id='upload-type'><span>${
 												currentUpload[1]
-										  }</span></h2>
+											}</span></h2>
 											<div id='progress-area'>
 												<loading-bar .progress=${progress}></loading-bar>
 												<h3>${this.uploadState.progress}/${this.uploadState.total}</h3>

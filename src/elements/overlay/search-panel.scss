@@ -48,7 +48,9 @@
 				padding: 4px 10px;
 				cursor: pointer;
 
-				transition: border-color consts.$transition-length, background-color consts.$transition-length;
+				transition:
+					border-color consts.$transition-length,
+					background-color consts.$transition-length;
 
 				&:last-child {
 					margin-right: 0;

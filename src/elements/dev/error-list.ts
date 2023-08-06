@@ -22,10 +22,11 @@ export default class ErrorList extends LitElement {
 				${repeat(
 					this.errors,
 					e => e,
-					e => html`<div class="error">
-						<e-svg src="solid/triangle-exclamation"></e-svg>
-						<span>${e}</span>
-					</div>`
+					e =>
+						html`<div class="error">
+							<e-svg src="solid/triangle-exclamation"></e-svg>
+							<span>${e}</span>
+						</div>`
 				)}
 			</div>
 		`;

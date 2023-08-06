@@ -330,19 +330,21 @@ export default class SettingsPage extends LitElement {
 			</div> -->
 			${when(
 				global.currentIdentity.isRegistered,
-				() => html`<div class="spacer"></div>
-					<div class="padded-cell">
-						<h1 class="item-header">Toggle deletion</h1>
-						<p>
-							Marks your account for deletion. After 30 days of this switch being on, your Rivet
-							account and all associated game accounts will be <b>permanently deleted</b>.
-						</p>
-						<toggle-switch
-							?value=${global.currentIdentity.awaitingDeletion}
-							@toggle=${(e: ToggleSwitchEvent) =>
-								this.settingChanged('toggle-deletion', e.value)}
-						></toggle-switch>
-					</div>`
+				() =>
+					html`<div class="spacer"></div>
+						<div class="padded-cell">
+							<h1 class="item-header">Toggle deletion</h1>
+							<p>
+								Marks your account for deletion. After 30 days of this switch being on, your
+								Rivet account and all associated game accounts will be
+								<b>permanently deleted</b>.
+							</p>
+							<toggle-switch
+								?value=${global.currentIdentity.awaitingDeletion}
+								@toggle=${(e: ToggleSwitchEvent) =>
+									this.settingChanged('toggle-deletion', e.value)}
+							></toggle-switch>
+						</div>`
 			)}
 
 			<!-- Editing modal -->
@@ -420,17 +422,18 @@ export default class SettingsPage extends LitElement {
 					${repeat(
 					OAUTH_PROVIDERS,
 					p => p.id,
-					p => html` <div class="oauth-connection" style="background-color: ${p.color};">
-						<div class="header">
-							<h1><e-svg src=${p.iconPath}></e-svg> ${p.name}</h1>
-						</div>
-						<h2 class="account-name">NicholasKissel302</h2>
-						<e-svg
-							class="close-button"
-							src="regular/link-slash"
-							@mouseenter=${tooltip('Unlink')}
-						></e-svg>
-					</div>`
+					p =>
+						html` <div class="oauth-connection" style="background-color: ${p.color};">
+							<div class="header">
+								<h1><e-svg src=${p.iconPath}></e-svg> ${p.name}</h1>
+							</div>
+							<h2 class="account-name">NicholasKissel302</h2>
+							<e-svg
+								class="close-button"
+								src="regular/link-slash"
+								@mouseenter=${tooltip('Unlink')}
+							></e-svg>
+						</div>`
 				)}
 				</div> -->
 			</div>
@@ -461,24 +464,25 @@ export default class SettingsPage extends LitElement {
 			${repeat(
 				this.changelog,
 				item => item.id,
-				(item, i) => html` ${i != 0 ? html`<div class="spacer"></div>` : null}
-					<div class="changelog-item">
-						<h1 class="title">${item.title}</h1>
-						<div class="subtitle">
-							<a
-								class="author"
-								href=${routes.identity.build(identityRouteData(item.author))}
-								@contextmenu=${showIdentityContextMenu(item.author)}
-							>
-								<identity-avatar .identity=${item.author} hide-status></identity-avatar>
-								<identity-name .identity=${item.author}></identity-name>
-							</a>
-							<span class="timestamp"
-								>&nbsp;- <date-display .timestamp=${item.ts}></date-display
-							></span>
-						</div>
-						<p class="body">${item.body}</p>
-					</div>`
+				(item, i) =>
+					html` ${i != 0 ? html`<div class="spacer"></div>` : null}
+						<div class="changelog-item">
+							<h1 class="title">${item.title}</h1>
+							<div class="subtitle">
+								<a
+									class="author"
+									href=${routes.identity.build(identityRouteData(item.author))}
+									@contextmenu=${showIdentityContextMenu(item.author)}
+								>
+									<identity-avatar .identity=${item.author} hide-status></identity-avatar>
+									<identity-name .identity=${item.author}></identity-name>
+								</a>
+								<span class="timestamp"
+									>&nbsp;- <date-display .timestamp=${item.ts}></date-display
+								></span>
+							</div>
+							<p class="body">${item.body}</p>
+						</div>`
 			)}
 		</div>`;
 	}

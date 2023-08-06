@@ -268,17 +268,18 @@ export default class DevGames extends LitElement {
 				: null}
 			${when(
 				!config.IS_PROD && global.currentIdentity.isRegistered,
-				() => html` <div
-					class="dashed-border-button flex justify-center items-center hover:cursor-pointer w-full h-32 place-content-center text-[#d1d1d1]  hover:text-white hover:bg-[#ffffff05]"
-					@click=${this.openGroupModal.bind(this)}
-					@mouseenter=${() => (this.createGroupHovered = true)}
-					@mouseleave=${() => (this.createGroupHovered = false)}
-				>
-					<div class="font-bold text-lg text-center">
-						<e-svg src="solid/plus"></e-svg>
-						New Developer Group
-					</div>
-				</div>`
+				() =>
+					html` <div
+						class="dashed-border-button flex justify-center items-center hover:cursor-pointer w-full h-32 place-content-center text-[#d1d1d1]  hover:text-white hover:bg-[#ffffff05]"
+						@click=${this.openGroupModal.bind(this)}
+						@mouseenter=${() => (this.createGroupHovered = true)}
+						@mouseleave=${() => (this.createGroupHovered = false)}
+					>
+						<div class="font-bold text-lg text-center">
+							<e-svg src="solid/plus"></e-svg>
+							New Developer Group
+						</div>
+					</div>`
 			)}
 		`;
 	}
@@ -316,85 +317,90 @@ export default class DevGames extends LitElement {
 
 		return when(
 			group.isDeveloper,
-			() => html`<div class="group">
-				<div class="group-header">
-					<!-- <a href=${routes.groupSettings.build({
-						id: group.groupId
-					})} class="max-sm:w-1/3 md:w-2/3"> -->
-					<div class="max-sm:w-1/3 md:w-2/3 flex flex-row space-x-3">
-						<div class="max-sm:invisible max-sm:w-0 my-auto">
-							<group-avatar
-								class="w-8 h-8"
-								style="--font-size: 12px"
-								.group=${group}
-							></group-avatar>
+			() =>
+				html`<div class="group">
+					<div class="group-header">
+						<!-- <a href=${routes.groupSettings.build({
+							id: group.groupId
+						})} class="max-sm:w-1/3 md:w-2/3"> -->
+						<div class="max-sm:w-1/3 md:w-2/3 flex flex-row space-x-3">
+							<div class="max-sm:invisible max-sm:w-0 my-auto">
+								<group-avatar
+									class="w-8 h-8"
+									style="--font-size: 12px"
+									.group=${group}
+								></group-avatar>
+							</div>
+							<h2 class="text-ellipsis overflow-hidden text-[24px] max-w-3/4">
+								${group.displayName}
+							</h2>
 						</div>
-						<h2 class="text-ellipsis overflow-hidden text-[24px] max-w-3/4">
-							${group.displayName}
-						</h2>
+						<!-- </a> -->
+						${when(
+							group.isDeveloper,
+							() =>
+								html` <div class="flex flex-row ml-auto space-x-1">
+									<stylized-button
+										class="analytics-button"
+										icon="solid/chart-line-up"
+										href=${routes.analyticsOverview.build({
+											groupId: group.groupId
+										})}
+										>Analytics</stylized-button
+									>
+									<stylized-button
+										class="billing-button"
+										icon="solid/dollar-sign"
+										href=${routes.groupBilling.build({ groupId: group.groupId })}
+										>Billing</stylized-button
+									>
+									<stylized-button
+										class="settings-button"
+										icon="regular/gear"
+										href=${routes.groupSettings.build({ id: group.groupId })}
+										>Settings</stylized-button
+									>
+								</div>`
+							// Reenable when open beta
+							// () =>
+							// 	when(
+							// 		isOwner,
+							// 		() => html`<stylized-button
+							// 			.trigger=${this.convertGroup.bind(this, group.groupId)}
+							// 			>Convert Group</stylized-button
+							// 		>`
+							// 	)
+						)}
 					</div>
-					<!-- </a> -->
 					${when(
 						group.isDeveloper,
-						() => html` <div class="flex flex-row ml-auto space-x-1">
-							<stylized-button
-								class="analytics-button"
-								icon="solid/chart-line-up"
-								href=${routes.analyticsOverview.build({
-									groupId: group.groupId
-								})}
-								>Analytics</stylized-button
-							>
-							<stylized-button
-								class="billing-button"
-								icon="solid/dollar-sign"
-								href=${routes.groupBilling.build({ groupId: group.groupId })}
-								>Billing</stylized-button
-							>
-							<stylized-button
-								class="settings-button"
-								icon="regular/gear"
-								href=${routes.groupSettings.build({ id: group.groupId })}
-								>Settings</stylized-button
-							>
-						</div>`
-						// Reenable when open beta
-						// () =>
-						// 	when(
-						// 		isOwner,
-						// 		() => html`<stylized-button
-						// 			.trigger=${this.convertGroup.bind(this, group.groupId)}
-						// 			>Convert Group</stylized-button
-						// 		>`
-						// 	)
+						() =>
+							html`<div class="games-list grid grid-cols-4 gap-4">
+								<div
+									id="create-game"
+									class="dashed-border-button"
+									@click=${this.openGameModal.bind(this, group.groupId)}
+								>
+									<div id="create-game-content">
+										<lazy-img src=${assets.asset('/games/blank/logo.png')}></lazy-img>
+										Create a new game
+									</div>
+								</div>
+								${repeat(
+									this.data.games.filter(g => g.developerGroupId == group.groupId),
+									g => g.gameId,
+									g =>
+										html`<dev-game-tile
+											.game=${g}
+											.group=${this.data.groups.find(
+												gr => gr.groupId == g.developerGroupId
+											)}
+										></dev-game-tile>`
+								)}
+							</div>`,
+						() => html`<p class="muted-text">This group is not a developer group.</p>`
 					)}
-				</div>
-				${when(
-					group.isDeveloper,
-					() => html`<div class="games-list grid grid-cols-4 gap-4">
-						<div
-							id="create-game"
-							class="dashed-border-button"
-							@click=${this.openGameModal.bind(this, group.groupId)}
-						>
-							<div id="create-game-content">
-								<lazy-img src=${assets.asset('/games/blank/logo.png')}></lazy-img>
-								Create a new game
-							</div>
-						</div>
-						${repeat(
-							this.data.games.filter(g => g.developerGroupId == group.groupId),
-							g => g.gameId,
-							g =>
-								html`<dev-game-tile
-									.game=${g}
-									.group=${this.data.groups.find(gr => gr.groupId == g.developerGroupId)}
-								></dev-game-tile>`
-						)}
-					</div>`,
-					() => html`<p class="muted-text">This group is not a developer group.</p>`
-				)}
-			</div>`
+				</div>`
 		);
 	}
 

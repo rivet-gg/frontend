@@ -211,57 +211,64 @@ export default class PartySidebar extends LitElement {
 				v => v.value == this.party.publicity.groups
 			);
 
-			actions.push(html`<div id="publicity">
-				<h2>Publicity</h2>
-				<div class="drop-down">
-					Anyone
-					<drop-down-list
-						.selection=${publicPublicitySelection}
-						.options=${PUBLICITY}
-						@select=${this.changePublicPublicity.bind(this)}
-					></drop-down-list>
-				</div>
-				<div class="drop-down">
-					Friends
-					<drop-down-list
-						.selection=${friendsPublicitySelection}
-						.options=${this.lessThanPublicPublicityOptions}
-						@select=${this.changeMutualFollowersPublicity.bind(this)}
-					></drop-down-list>
-				</div>
-				<div class="drop-down">
-					Groups
-					<drop-down-list
-						.selection=${groupsPublicitySelection}
-						.options=${this.lessThanPublicPublicityOptions}
-						@select=${this.changeGroupsPublicity.bind(this)}
-					></drop-down-list>
-				</div>
-			</div>`);
+			actions.push(
+				html`<div id="publicity">
+					<h2>Publicity</h2>
+					<div class="drop-down">
+						Anyone
+						<drop-down-list
+							.selection=${publicPublicitySelection}
+							.options=${PUBLICITY}
+							@select=${this.changePublicPublicity.bind(this)}
+						></drop-down-list>
+					</div>
+					<div class="drop-down">
+						Friends
+						<drop-down-list
+							.selection=${friendsPublicitySelection}
+							.options=${this.lessThanPublicPublicityOptions}
+							@select=${this.changeMutualFollowersPublicity.bind(this)}
+						></drop-down-list>
+					</div>
+					<div class="drop-down">
+						Groups
+						<drop-down-list
+							.selection=${groupsPublicitySelection}
+							.options=${this.lessThanPublicPublicityOptions}
+							@select=${this.changeGroupsPublicity.bind(this)}
+						></drop-down-list>
+					</div>
+				</div>`
+			);
 
-			actions.push(html`<stylized-button
-				?disabled=${!!this.party.activity.idle}
-				.trigger=${this.setIdle.bind(this)}
-				>Set party to idle</stylized-button
-			>`);
+			actions.push(
+				html`<stylized-button
+					?disabled=${!!this.party.activity.idle}
+					.trigger=${this.setIdle.bind(this)}
+					>Set party to idle</stylized-button
+				>`
+			);
 
-			actions.push(html`<stylized-button .trigger=${this.inviteIdentity.bind(this)}
-				>Invite others</stylized-button
-			>`);
+			actions.push(
+				html`<stylized-button .trigger=${this.inviteIdentity.bind(this)}
+					>Invite others</stylized-button
+				>`
+			);
 
-			actions.push(html`<stylized-button
-				id="transfer-ownership"
-				.trigger=${this.transferPartyOwnership.bind(this)}
-				>Transfer ownership</stylized-button
-			>`);
+			actions.push(
+				html`<stylized-button
+					id="transfer-ownership"
+					.trigger=${this.transferPartyOwnership.bind(this)}
+					>Transfer ownership</stylized-button
+				>`
+			);
 		}
 
-		actions.push(html`<stylized-button
-			id="leave-button"
-			color="#d4393b"
-			.trigger=${this.leaveParty.bind(this)}
-			>Leave party</stylized-button
-		>`);
+		actions.push(
+			html`<stylized-button id="leave-button" color="#d4393b" .trigger=${this.leaveParty.bind(this)}
+				>Leave party</stylized-button
+			>`
+		);
 
 		return actions;
 	}

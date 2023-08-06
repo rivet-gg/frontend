@@ -136,9 +136,10 @@ export default class GroupInvitePage extends LitElement {
 				</div>
 				${when(
 					this.isConsuming,
-					() => html`<div id="wait">
-						<loading-wheel .message=${'Please wait...'}></loading-wheel>
-					</div>`
+					() =>
+						html`<div id="wait">
+							<loading-wheel .message=${'Please wait...'}></loading-wheel>
+						</div>`
 				)}
 			</div>
 		`;

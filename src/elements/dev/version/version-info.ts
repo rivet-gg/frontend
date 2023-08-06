@@ -145,15 +145,16 @@ export default class DevVersionInfo extends LitElement {
 				)}
 				${when(
 					this.editing || this.config.matchmaker,
-					() => html`<version-info-matchmaker
-						.game=${this.game}
-						.config=${this.config}
-						.tiers=${this.tiers}
-						.errors=${this.errors.branch('matchmaker')}
-						.editing=${this.editing}
-						@toggle=${this.toggleMatchmaker.bind(this)}
-						@update=${this.updateConfig.bind(this)}
-					></version-info-matchmaker>`
+					() =>
+						html`<version-info-matchmaker
+							.game=${this.game}
+							.config=${this.config}
+							.tiers=${this.tiers}
+							.errors=${this.errors.branch('matchmaker')}
+							.editing=${this.editing}
+							@toggle=${this.toggleMatchmaker.bind(this)}
+							@update=${this.updateConfig.bind(this)}
+						></version-info-matchmaker>`
 				)}
 				${this.editing || this.config.kv
 					? html`<version-info-kv
