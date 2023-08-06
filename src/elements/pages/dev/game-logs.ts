@@ -371,22 +371,15 @@ export default class DevGameLogs extends LitElement {
 
 		// Show placeholder if no lobbies and nothing is loading
 		if (!this.isLoadingNamespace && !this.isLoadingLobby && !selectedLobby && this.lobbies.length == 0) {
-			return html`<div id="base" class="no-lobbies"><p class="muted-text">No lobbies found</p></div>`;
+			return html` <slot name="namespace-select"></slot>
+				<div id="base" class="no-lobbies">
+					<p class="muted-text">No lobbies found</p>
+				</div>`;
 		}
 
 		return html`
-			<div id="base">
-				${when(
-					global.isMobile,
-					() =>
-						when(
-							selectedLobby,
-							() => this.renderBody(selectedLobby),
-							() => this.renderSidebar()
-						),
-					() => html`${this.renderSidebar()}${this.renderBody(selectedLobby)}`
-				)}
-			</div>
+			<slot name="namespace-select"></slot>
+			<div id="base">${this.renderSidebar()}${this.renderBody(selectedLobby)}</div>
 		`;
 	}
 

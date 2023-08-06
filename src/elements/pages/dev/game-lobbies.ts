@@ -277,6 +277,7 @@ export default class DevGameLobbies extends LitElement {
 
 		return html`
 			<div id="base">
+				<slot name="namespace-select"></slot>
 				<div id="right-aligned">
 					${this.isLoadingLobbies ? html`<loading-wheel custom></loading-wheel>` : null}
 					<p id="timer-label">Updated ${this.lastRefreshLabel} ago</p>

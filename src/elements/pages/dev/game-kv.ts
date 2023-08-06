@@ -351,6 +351,7 @@ export default class DevGameKv extends LitElement {
 		let keyPath = splitKey(this.currentKey);
 
 		return html`<div id="base">
+			<slot name="namespace-select"></slot>
 			${when(
 				this.version.config.kv,
 				() => html`<div id="navigation-holder">

@@ -126,7 +126,6 @@ export default class DevGame extends LitElement {
 		if (this.game == null) return this.renderPlaceholder();
 
 		let body = null;
-		let title = html`Loading...`;
 
 		let pageId = null; // Used for sidebar with pages that don't have a specific ID
 
@@ -147,7 +146,7 @@ export default class DevGame extends LitElement {
 		}
 
 		let namespaceSelect = html`<div id="namespace-select-area">
-			<h3>Namespace</h3>
+			<div class="text-white/75 font-semibold text-sm mb-1">Namespace</div>
 			<drop-down-list
 				id="logs-namespace-select"
 				.options=${namespaceOptions}
@@ -161,18 +160,12 @@ export default class DevGame extends LitElement {
 			if (!global.isMobile || this.config.mobileSummary) {
 				body = html`<page-dev-game-summary .game=${this.game}></page-dev-game-summary>`;
 
-				title = html`<e-svg src="regular/square-info"></e-svg>
-					<h1>${this.game.displayName}</h1>`;
-
 				UIRouter.shared.updateTitle(this.game.displayName);
 
 				pageId = 'summary';
 			}
 		} else if (this.config.billing) {
 			body = html`<page-dev-game-billing .game=${this.game}></page-dev-game-billing>`;
-
-			title = html`<e-svg src="solid/square-dollar"></e-svg>
-				<h1>Billing</h1>`;
 
 			UIRouter.shared.updateTitle(`${this.game.displayName} – Billing`);
 
@@ -186,7 +179,6 @@ export default class DevGame extends LitElement {
 			let namespaceName = this.game.namespaces.find(
 				n => n.namespaceId == this.config.namespace.namespaceId
 			).displayName;
-			title = html`<h1>${namespaceName}</h1>`;
 
 			UIRouter.shared.updateTitle(`${this.game.displayName} – ${namespaceName}`);
 		} else if (this.config.version) {
@@ -197,23 +189,16 @@ export default class DevGame extends LitElement {
 
 			let version = this.game.versions.find(v => v.versionId == this.config.version.versionId);
 			let versionName = version ? version.displayName : 'Unknown version';
-			title = html`<h1>${versionName}</h1>`;
 
 			UIRouter.shared.updateTitle(`${this.game.displayName} – ${versionName}`);
 		} else if (this.config.versionDraft) {
 			body = html`<page-dev-game-version-draft .game=${this.game}></page-dev-game-version-draft>`;
-
-			title = html`<e-svg src="regular/file"></e-svg>
-				<h1>New Version Draft</h1>`;
 
 			UIRouter.shared.updateTitle(`${this.game.displayName} – Version Draft`);
 
 			pageId = 'draft';
 		} else if (this.config.tokens) {
 			body = html`<page-dev-game-tokens .game=${this.game}></page-dev-game-tokens>`;
-
-			title = html`<e-svg src="solid/key"></e-svg>
-				<h1>Tokens</h1>`;
 
 			UIRouter.shared.updateTitle(`${this.game.displayName} – Tokens`);
 
@@ -223,13 +208,9 @@ export default class DevGame extends LitElement {
 				.game=${this.game}
 				.namespaceId=${this.namespaceSelection ? this.namespaceSelection.value : null}
 				.lobbyId=${this.config.logsLobbyId ?? null}
-			></page-dev-game-logs>`;
-
-			title = html`
-				<e-svg src="solid/book"></e-svg>
-				<h1>Logs</h1>
-				${namespaceSelect}
-			`;
+			>
+				<div slot="namespace-select">${namespaceSelect}</div>
+			</page-dev-game-logs>`;
 
 			UIRouter.shared.updateTitle(`${this.game.displayName} – Logs`);
 
@@ -238,13 +219,9 @@ export default class DevGame extends LitElement {
 			body = html`<page-dev-game-lobbies
 				.game=${this.game}
 				.namespaceId=${this.namespaceSelection ? this.namespaceSelection.value : null}
-			></page-dev-game-lobbies>`;
-
-			title = html`
-				<e-svg src="solid/table-rows"></e-svg>
-				<h1>Lobbies</h1>
-				${namespaceSelect}
-			`;
+			>
+				<div slot="namespace-select">${namespaceSelect}</div>
+			</page-dev-game-lobbies>`;
 
 			UIRouter.shared.updateTitle(`${this.game.displayName} – Lobbies`);
 
@@ -253,13 +230,9 @@ export default class DevGame extends LitElement {
 			body = html`<page-dev-game-kv
 				.game=${this.game}
 				.namespaceId=${this.namespaceSelection ? this.namespaceSelection.value : null}
-			></page-dev-game-kv>`;
-
-			title = html`
-				<e-svg src="solid/table-list"></e-svg>
-				<h1>Key Value</h1>
-				${namespaceSelect}
-			`;
+			>
+				<div slot="namespace-select">${namespaceSelect}</div>
+			</page-dev-game-kv>`;
 
 			UIRouter.shared.updateTitle(`${this.game.displayName} – KV`);
 
@@ -267,9 +240,7 @@ export default class DevGame extends LitElement {
 		}
 
 		return html`
-			<rvt-sidebar-layout
-				>${this.renderSidebar(pageId)}${this.renderBody(title, body)}</rvt-sidebar-layout
-			>
+			<rvt-sidebar-layout> ${this.renderSidebar(pageId)}${this.renderBody(body)} </rvt-sidebar-layout>
 		`;
 	}
 
@@ -288,13 +259,8 @@ export default class DevGame extends LitElement {
 		</div>`;
 	}
 
-	renderBody(title: TemplateResult, body: TemplateResult) {
-		return html`<rvt-sidebar-body id="body" slot="body">
-			<!-- Header -->
-			<page-header>${title}</page-header>
-
-			${body}
-		</rvt-sidebar-body>`;
+	renderBody(body: TemplateResult) {
+		return html`<rvt-sidebar-body id="body" slot="body"> ${body} </rvt-sidebar-body>`;
 	}
 
 	renderPlaceholder() {
