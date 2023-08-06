@@ -5,7 +5,7 @@ import styles from './group-members.scss';
 import { repeat } from 'lit/directives/repeat.js';
 import global from '../../utils/global';
 import routes, { responses } from '../../routes';
-import { GlobalMobileChangeEvent, globalEventGroups } from '../../utils/global-events';
+import { globalEventGroups } from '../../utils/global-events';
 import * as api from '../../utils/api';
 
 import UIRouter from '../root/ui-router';
@@ -34,22 +34,12 @@ export default class PageGroupMembers extends LitElement {
 	groupStream?: api.RepeatingRequest<api.group.GetGroupProfileCommandOutput>;
 	membersStream?: api.RepeatingRequest<api.group.GetGroupMembersCommandOutput>;
 
-	// === EVENT HANDLERS ===
-	handleMobile: (e: GlobalMobileChangeEvent) => void;
-
 	connectedCallback() {
 		super.connectedCallback();
-
-		// Handle mobile
-		this.handleMobile = this.onMobile.bind(this);
-		globalEventGroups.add('mobile', this.handleMobile);
 	}
 
 	disconnectedCallback() {
 		super.disconnectedCallback();
-
-		// Remove event listeners
-		globalEventGroups.remove('mobile', this.handleMobile);
 
 		if (this.groupStream) this.groupStream.cancel();
 	}
@@ -107,18 +97,6 @@ export default class PageGroupMembers extends LitElement {
 			logging.error('Request error', err);
 			globalEventGroups.dispatch('error', err);
 		});
-	}
-
-	// Update on mobile change
-	onMobile() {
-		// This page is inaccessible to desktop, navigate back to home
-		if (!global.isMobile) {
-			UIRouter.shared.navigate(routes.home.build({}), {
-				replaceHistory: true
-			});
-		}
-
-		this.requestUpdate();
 	}
 
 	render() {

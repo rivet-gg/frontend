@@ -259,22 +259,20 @@ export default class PartyChatPage extends LitElement {
 
 		return html`
 			<div id="base">
-				${global.isMobile
-					? this.renderChat()
-					: html`<right-sidebar-layout>
-							${this.renderChat()}
-							${this.party
-								? html`<party-sidebar
-										slot="sidebar"
-										.party=${this.party}
-										@event=${this.onActionEvent.bind(this)}
-								  >
-										<div slot="extras-bottom">
-											<chat-preview-button></chat-preview-button>
-										</div>
-								  </party-sidebar>`
-								: null}
-					  </right-sidebar-layout>`}
+				<right-sidebar-layout>
+					${this.renderChat()}
+					${this.party
+						? html`<party-sidebar
+								slot="sidebar"
+								.party=${this.party}
+								@event=${this.onActionEvent.bind(this)}
+						  >
+								<div slot="extras-bottom">
+									<chat-preview-button></chat-preview-button>
+								</div>
+						  </party-sidebar>`
+						: null}
+				</right-sidebar-layout>
 			</div>
 
 			${this.renderTransferPartyOwnershipModal()}

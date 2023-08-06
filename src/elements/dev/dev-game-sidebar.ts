@@ -256,9 +256,7 @@ export default class DevGameSidebar extends LitElement {
 			<rvt-sidebar-group title="General">
 				<rvt-sidebar-button
 					?current=${this.pageId == 'summary'}
-					href=${global.isMobile
-						? routes.devGameSummary.build({ gameId: this.game.gameId })
-						: routes.devGame.build({ gameId: this.game.gameId })}
+					href=${routes.devGame.build({ gameId: this.game.gameId })}
 					icon="regular/square-info"
 					>Overview</rvt-sidebar-button
 				>

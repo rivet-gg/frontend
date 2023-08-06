@@ -13,7 +13,6 @@ import UIRouter from '../root/ui-router';
 
 import assets from '../../data/assets';
 import format from '../../utils/stat-format';
-import { GlobalMobileChangeEvent, globalEventGroups } from '../../utils/global-events';
 import * as api from '../../utils/api';
 import logging from '../../utils/logging';
 
@@ -55,24 +54,6 @@ export default class GamePage extends LitElement {
 			data: { owner: any; values: any[] }[];
 		}
 	> = new Map();
-
-	// === EVENT HANDLERS ===
-	handleMobile: (e: GlobalMobileChangeEvent) => void;
-
-	connectedCallback() {
-		super.connectedCallback();
-
-		// Handle mobile
-		this.handleMobile = this.onMobile.bind(this);
-		globalEventGroups.add('mobile', this.handleMobile);
-	}
-
-	disconnectedCallback() {
-		super.disconnectedCallback();
-
-		// Remove event handlers
-		globalEventGroups.remove('mobile', this.handleMobile);
-	}
 
 	protected updated(changedProperties: PropertyValues): void {
 		// Request data if category set
@@ -158,7 +139,7 @@ export default class GamePage extends LitElement {
 	render() {
 		if (this.loadError) return responses.renderError(this.loadError);
 
-		return html` <div id="base">${global.isMobile ? this.renderMobile() : this.renderDesktop()}</div> `;
+		return html` <div id="base">${this.renderDesktop()}</div> `;
 	}
 
 	renderDesktop() {
@@ -363,205 +344,6 @@ export default class GamePage extends LitElement {
 		`;
 	}
 
-	renderMobile() {
-		// Determine leaderboard selection
-		let selection =
-			this.leaderboardType == 'identities'
-				? this.selectedIdentityLeaderboardCategory
-				: this.selectedGroupLeaderboardCategory;
-
-		// TODO: DELETE ON PROD
-		this.gameFriends = [...Array(3)].map(
-			() =>
-				({
-					identityId: '',
-					displayName: ['Nicholas Kissel', 'Nathan Flurry', 'Zack'][Math.round(Math.random() * 2)],
-					accountNumber: 1234,
-					avatarUrl: `https://assets2.rivet.gg/avatars/avatar-${Math.round(Math.random() * 7)}.png`,
-					presence: {
-						updateTs: new Date(0),
-						status: api.identity.IdentityStatus.ONLINE,
-						game: {
-							id: '',
-							nameId: '',
-							displayName: ''
-						},
-						party: null,
-						gameActivity: null
-					},
-					isRegistered: false,
-					isClaimed: false,
-					isAdmin: false,
-					external: {
-						profile: ''
-					}
-				} as api.identity.IdentityHandle)
-		);
-		this.friendsFetched = true;
-
-		return html`
-			<!-- Banner -->
-			<div id="banner">
-				<div id="banner-bg">
-					${this.profile
-						? html`<video
-								id="video-clip"
-								autoplay
-								muted
-								disablePictureInPicture
-								disableRemotePlayback
-								loop
-								playsinline
-								poster="${assets.gameSnapshotUrl(
-									this.profile.nameId,
-									this.snapshotSize,
-									this.snapshotId
-								)}"
-						  >
-								<source
-									src=${assets.gameClipUrl(this.profile.nameId, this.snapshotSize)}
-									type="video/mp4"
-								/>
-						  </video>`
-						: null}
-				</div>
-				<div id="banner-right">
-					${this.profile
-						? html`<lazy-img
-								id="main-logo"
-								src=${assets.gameLogoUrl(this.profile.nameId)}
-								bg-size="contain"
-						  ></lazy-img>`
-						: null}
-				</div>
-			</div>
-
-			<!-- Body -->
-			<div id="body">
-				<div id="main-info">
-					<div id="column">
-						<!-- Tags -->
-						<div id="tags-holder">
-							${repeat(
-								this.profile ? this.profile.tags : [],
-								(t: string) => html`<a class="tag">${t}</a>`
-							)}
-						</div>
-
-						<!-- Title -->
-						<div id="main-title">${this.profile ? this.profile.displayName : null}</div>
-
-						<!-- Developer -->
-						${this.profile
-							? html` <div id="developer">
-									<a
-										href=${routes.groupSettings.build(
-											groupRouteData(this.profile.developer)
-										)}
-									>
-										<div id="main-thumbnail-placeholder"></div>
-										${this.profile.developer.displayName}
-									</a>
-							  </div>`
-							: null}
-					</div>
-
-					<!-- Play button -->
-					<icon-button
-						id="play"
-						src="solid/play"
-						color="white"
-						.trigger=${this.playGame.bind(this)}
-					></icon-button>
-				</div>
-
-				<!-- Description -->
-				<info-panel-header>
-					<div slot="title">Description</div>
-				</info-panel-header>
-
-				<info-panel-body>
-					<div id="description">
-						${this.profile && this.profile.description ? this.profile.description : null}
-					</div>
-				</info-panel-body>
-
-				<!-- Social -->
-				<info-panel-header>
-					<div slot="title">Friends playing now</div>
-				</info-panel-header>
-
-				<info-panel-body> ${this.renderGameFriendsMobile(this.gameFriends)} </info-panel-body>
-
-				<!-- Popular groups -->
-				<info-panel-header>
-					<div slot="title">Popular groups</div>
-				</info-panel-header>
-
-				<info-panel-body>
-					${this.renderGroupList(this.profile ? this.profile.recommendedGroups : [])}
-				</info-panel-body>
-
-				<!-- Leaderboards -->
-				<info-panel-header>
-					<div slot="title">
-						Leaderboards
-
-						<!-- Leaderboard type toggle -->
-						<div id="leaderboard-type-toggle">
-							${this.leaderboardType == 'identities'
-								? html` <stylized-button color="#F0F0F0" small text="#1d1d1d"
-											>Identities</stylized-button
-										>
-										<stylized-button
-											color="transparent"
-											small
-											.trigger=${this.changeLeaderboardType.bind(this, 'groups')}
-											>Groups</stylized-button
-										>`
-								: html` <stylized-button
-											color="transparent"
-											small
-											.trigger=${this.changeLeaderboardType.bind(this, 'identities')}
-											>Identities</stylized-button
-										>
-										<stylized-button color="#F0F0F0" small text="#1d1d1d"
-											>Groups</stylized-button
-										>`}
-						</div>
-						<!-- Leaderboard category buttons -->
-						${this.profile && this.leaderboardDataCache.size
-							? html`<div id="leaderboard-buttons">
-									${repeat(
-										this.leaderboardType == 'identities'
-											? this.profile.identityLeaderboardCategories
-											: this.profile.groupLeaderboardCategories,
-										a => a.displayName,
-										a =>
-											selection == a.displayName
-												? html`<stylized-button small color="#F0F0F0" text="#1d1d1d"
-														>${a.displayName}</stylized-button
-												  >`
-												: html`<stylized-button
-														small
-														color="transparent"
-														.trigger=${this.changeLeaderboardCategory.bind(
-															this,
-															a.displayName
-														)}
-														>${a.displayName}</stylized-button
-												  >`
-									)}
-							  </div>`
-							: null}
-					</div>
-				</info-panel-header>
-
-				<info-panel-body> ${this.renderLeaderboard()} </info-panel-body>
-			</div>
-		`;
-	}
-
 	renderGameFriends(friends: api.identity.IdentityHandle[]) {
 		return this.friendsFetched
 			? friends.length
@@ -576,14 +358,6 @@ export default class GamePage extends LitElement {
 								></identity-tile>`
 						)}
 				  </div>`
-				: html`<p class="placeholder">No friends playing</p>`
-			: html`<p class="placeholder">Fetching friends...</p>`;
-	}
-
-	renderGameFriendsMobile(friends: api.identity.IdentityHandle[]) {
-		return this.friendsFetched
-			? friends.length
-				? html`<horizontal-feed inactive .feedIdentities=${friends}></horizontal-feed>`
 				: html`<p class="placeholder">No friends playing</p>`
 			: html`<p class="placeholder">Fetching friends...</p>`;
 	}
@@ -772,10 +546,6 @@ export default class GamePage extends LitElement {
 							<td><loading-placeholder></loading-placeholder></td>
 						</tr>
 					</table>`}`;
-	}
-
-	onMobile() {
-		this.requestUpdate();
 	}
 
 	changeLeaderboardCategory(category: string) {

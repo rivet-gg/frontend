@@ -506,7 +506,6 @@ export default class DevGameBilling extends LitElement {
 					!this.isExporting,
 					() => html`<stylized-button
 						id="export"
-						?small=${global.isMobile}
 						.trigger=${this.exportLobbyHistory.bind(this, this.game.gameId)}
 						>Export Data</stylized-button
 					>`

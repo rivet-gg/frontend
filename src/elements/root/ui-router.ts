@@ -4,12 +4,7 @@ import { repeat } from 'lit/directives/repeat.js';
 import { cssify } from '../../utils/css';
 import global from '../../utils/global';
 import timing from '../../utils/timing';
-import {
-	windowEventGroups,
-	bodyEventGroups,
-	GlobalMobileChangeEvent,
-	globalEventGroups
-} from '../../utils/global-events';
+import { windowEventGroups, bodyEventGroups } from '../../utils/global-events';
 import logging from '../../utils/logging';
 import { classMap } from 'lit/directives/class-map.js';
 import { styleMap } from 'lit/directives/style-map.js';
@@ -22,8 +17,6 @@ import routes, {
 	responses,
 	routesArray
 } from '../../routes';
-import SidebarPage from '../pages/sidebar';
-import { MenuItem } from '../sidebar/main-sidebar';
 
 import * as uuid from 'uuid';
 import { BreadCrumb } from '../common/navbar';
@@ -36,7 +29,6 @@ interface PageState {
 
 // Options for navigating to a page
 interface NavigateOpts {
-	disableAnimation?: boolean; // Disabled slide animation on mobile
 	replaceHistory?: boolean; // Removes the previous page in history
 	pageState?: PageState; // State config
 	previousPage?: RemovablePage; // Used for back navigation
@@ -60,12 +52,7 @@ interface RemovablePage {
 }
 
 export class RouteChangeEvent extends Event {
-	constructor(
-		public title: string,
-		public menuItem: MenuItem = null,
-		public mobileNavStuck: boolean = null,
-		public breadcrumb: BreadCrumb = undefined
-	) {
+	constructor(public title: string, public breadcrumb: BreadCrumb = undefined) {
 		super('change');
 	}
 }
@@ -86,21 +73,6 @@ export default class UIRouter extends LitElement {
 	history: RemovablePage[] = [];
 	forwardsHistory: string[] = [];
 
-	// === SIDEBAR HOMEPAGE DATA ===
-	sidebarHomePage: RemovablePage;
-	@query('page-sidebar')
-	sidebarHome: SidebarPage;
-
-	// === TOUCH DATA ===
-	startTouch: Touch = null;
-	startTouchTime: number = null;
-	swipeActive = false;
-	swipeDirection = 0;
-	@property({ type: Number })
-	touchDifferenceX: number = null;
-	@property({ type: Number })
-	touchDifferenceY: number = null;
-
 	@property({ type: Number })
 	windowWidth: number = null;
 
@@ -109,13 +81,9 @@ export default class UIRouter extends LitElement {
 
 	// === EVENT HANDLERS ===
 	handleResize: () => void;
-	handleMobile: (e: GlobalMobileChangeEvent) => void;
 	handleClick: (e: MouseEvent) => void;
 	handlePopstate: (e: PopStateEvent) => void;
 	handleScroll: (e: Event) => void;
-	handleTouchStart: (e: TouchEvent) => void;
-	handleTouchMove: (e: TouchEvent) => void;
-	handleTouchEnd: (e: TouchEvent) => void;
 
 	/*=== Navigation State ===*/
 	/// Returns the full URL for the current page.
@@ -158,35 +126,19 @@ export default class UIRouter extends LitElement {
 		UIRouter.shared = this;
 
 		// Parse the path url
-		let url = routes.sidebarHome.build({});
+		let url = routes.home.build({});
 		let parsed = new URL(url);
 
 		// Resolve the route
 		let renderResult = this.resolveRoute(parsed.pathname, parsed.searchParams) as RenderResultTemplate;
-
-		// Create home page and cache it
-		this.sidebarHomePage = {
-			renderResult: renderResult,
-			src: url,
-			old: false,
-			new: false,
-			back: false,
-			state: {
-				scrollTop: 0
-			},
-			id: uuid.v4()
-		};
 	}
 
 	firstUpdated(changedProperties: PropertyValues) {
 		super.firstUpdated(changedProperties);
 
-		this.sidebarHomePage.old = true;
-
 		// Navigate to initial route
 		this.navigate(this.fullPath, {
-			replaceHistory: true,
-			disableAnimation: true
+			replaceHistory: true
 		});
 	}
 
@@ -198,33 +150,16 @@ export default class UIRouter extends LitElement {
 		windowEventGroups.add('resize', this.handleResize, timing.milliseconds(100));
 		this.onResize();
 
-		// Handle mobile
-		this.handleMobile = this.onMobile.bind(this);
-		globalEventGroups.add('mobile', this.handleMobile);
-
 		// Add pop state event; this makes it so when the identity presses the back
 		// button, it loads the appropriate page
 		this.handlePopstate = this.onPopstate.bind(this);
 		windowEventGroups.add('popstate', this.handlePopstate);
-
-		// Establish event handlers
-		this.handleScroll = this.onScroll.bind(this);
-		bodyEventGroups.add('scroll', this.handleScroll);
 
 		// Intercept all click events
 		this.handleClick = this.onClick.bind(this);
 		windowEventGroups.add('click', this.handleClick, {
 			capture: true // Capture event before any other events
 		});
-
-		// Handle touch events
-		this.handleTouchStart = this.onTouchStart.bind(this);
-		windowEventGroups.add('touchstart', this.handleTouchStart);
-		this.handleTouchMove = this.onTouchMove.bind(this);
-		windowEventGroups.add('touchmove', this.handleTouchMove);
-		this.handleTouchEnd = this.onTouchEnd.bind(this);
-		windowEventGroups.add('touchend', this.handleTouchEnd);
-		windowEventGroups.add('touchcancel', this.handleTouchEnd);
 	}
 
 	disconnectedCallback() {
@@ -234,13 +169,6 @@ export default class UIRouter extends LitElement {
 		windowEventGroups.remove('resize', this.handleResize, timing.milliseconds(100));
 		windowEventGroups.remove('popstate', this.handlePopstate);
 		windowEventGroups.remove('click', this.handleClick);
-		bodyEventGroups.remove('scroll', this.handleScroll);
-		globalEventGroups.remove('mobile', this.handleMobile);
-
-		windowEventGroups.remove('touchstart', this.handleTouchStart);
-		windowEventGroups.remove('touchmove', this.handleTouchMove);
-		windowEventGroups.remove('touchend', this.handleTouchEnd);
-		windowEventGroups.remove('touchcancel', this.handleTouchEnd);
 	}
 
 	onPopstate(event: PopStateEvent) {
@@ -255,17 +183,6 @@ export default class UIRouter extends LitElement {
 				forward: true
 			});
 		}
-		// Weird outlier, when 2 or more pages are in the forwardsHistory array and the current page is sidebar home,
-		// disable forwards navigation manually (no forwards navigation can occur from the sidebar home page)
-		else if (this.sidebarHomePage.new && this.forwardsHistory[2] == this.fullPath) {
-			// This code stops the forward navigation, but fails to set the tab title because setting
-			// document.title too quickly after a navigation does not work
-			// // Navigate to sidebar home page
-			// this.navigate(this.sidebarHomePage.src, {
-			// 	pageState: this.sidebarHomePage.state,
-			// 	previousPage: this.sidebarHomePage
-			// });
-		}
 		// Load event, force partial load, and send the event state
 		else {
 			this.navigate(this.fullPath, {
@@ -276,96 +193,6 @@ export default class UIRouter extends LitElement {
 
 	onResize() {
 		this.windowWidth = window.innerWidth;
-	}
-
-	// Update on mobile change
-	onMobile() {
-		let mobileOnly = this.newestPage
-			? this.newestPage.renderResult.mobileRedirect
-			: this.sidebarHomePage.new;
-
-		// Some pages are inaccessible to desktop, navigate back to redirect if mobile change is detected
-		if (!global.isMobile && mobileOnly) {
-			let mobileRedirect = this.newestPage
-				? this.newestPage.renderResult.mobileRedirect
-				: this.sidebarHomePage.renderResult.mobileRedirect;
-
-			this.navigate(mobileRedirect, {
-				replaceHistory: true
-			});
-		}
-
-		this.requestUpdate();
-	}
-
-	onTouchStart(e: TouchEvent) {
-		this.startTouch = e.changedTouches[0];
-		this.startTouchTime = performance.now();
-		this.touchDifferenceX = 0;
-		this.touchDifferenceY = 0;
-	}
-
-	onTouchMove(e: TouchEvent) {
-		if (this.startTouch) {
-			this.touchDifferenceX = e.changedTouches[0].pageX - this.startTouch.pageX;
-			this.touchDifferenceY = e.changedTouches[0].pageY - this.startTouch.pageY;
-
-			// If no swipe is currently active, check for swipe
-			if (!this.swipeDirection) {
-				let swipeLength = Math.sqrt(this.touchDifferenceX ** 2 + this.touchDifferenceY ** 2);
-				let normX = Math.abs(this.touchDifferenceX / swipeLength);
-				let normY = Math.abs(this.touchDifferenceY / swipeLength);
-
-				// Check if a swipe has occurred
-				if (
-					Math.abs(this.touchDifferenceX) > MIN_SWIPE_THRESHOLD ||
-					Math.abs(this.touchDifferenceY) > MIN_SWIPE_THRESHOLD
-				) {
-					// Detect page navigation swipe (right to left)
-					if (normX > 0.5 && normY < 0.5 && this.sidebarHomePage.old && this.touchDifferenceX > 0) {
-						this.swipeActive = true;
-						this.swipeDirection = Math.sign(this.touchDifferenceX);
-					}
-					// Cancel swipe if vertical swipe detected
-					else this.stopTouch();
-				}
-			}
-
-			// Not part of the previous if statement because swipeDirection mutates
-			if (this.swipeActive) {
-				this.touchDifferenceX -= MIN_SWIPE_THRESHOLD * this.swipeDirection;
-			}
-		}
-	}
-
-	onTouchEnd(e: TouchEvent) {
-		if (this.startTouch) {
-			this.touchDifferenceX = e.changedTouches[0].pageX - this.startTouch.pageX;
-			this.touchDifferenceY = e.changedTouches[0].pageY - this.startTouch.pageY;
-
-			// Apply velocity to swipe
-			let elapsed = Math.min(300, performance.now() - this.startTouchTime) / 300;
-			let swipeX = this.touchDifferenceX / Math.max(0.2, elapsed);
-
-			// Navigate back to the previous page
-			if (swipeX > 80) this.navBack();
-
-			this.stopTouch();
-		}
-	}
-
-	stopTouch() {
-		this.startTouch = null;
-		this.startTouchTime = null;
-		this.swipeActive = false;
-		this.swipeDirection = 0;
-		this.touchDifferenceX = null;
-		this.touchDifferenceY = null;
-	}
-
-	onScroll() {
-		// Scroll does not need to be updated on desktop
-		if (global.isMobile) this.scrollTop = document.body.scrollTop;
 	}
 
 	/// Checks if a click element can redirect the page. If there is a page
@@ -421,7 +248,6 @@ export default class UIRouter extends LitElement {
 		opts = Object.assign(
 			{
 				replaceHistory: false,
-				disableAnimation: false,
 				pageState: null,
 				previousPage: null,
 				forward: false
@@ -453,21 +279,8 @@ export default class UIRouter extends LitElement {
 		// Resolve the route
 		let renderResult = this.resolveRoute(parsed.pathname, parsed.searchParams);
 		let newest = this.newestPage;
-
-		// Do not navigate to page if it is mobile only, navigate to it's mobile redirect
-		if (!global.isMobile && (renderResult as RenderResultTemplate).mobileRedirect) {
-			let mobileRedirect = (renderResult as RenderResultTemplate).mobileRedirect;
-
-			// Log event
-			logging.event('Mobile redirect', url, '->', mobileRedirect, opts.pageState);
-
-			opts.replaceHistory = true;
-			this.navigate(mobileRedirect, opts);
-
-			return;
-		}
 		// Handle redirect if needed and don't do anything else; if doesn't match, then cast to a template
-		else if ((renderResult as RenderResultRedirect).redirect) {
+		if ((renderResult as RenderResultRedirect).redirect) {
 			let redirect = (renderResult as RenderResultRedirect).redirect;
 
 			// Log event
@@ -493,22 +306,6 @@ export default class UIRouter extends LitElement {
 		// Hide overlays on navigation
 		UIRoot.shared.closeSearchPanel();
 
-		// Special case for navigating to the home page, no new page is created
-		if (opts.previousPage == null && url == this.sidebarHomePage.src) {
-			opts.previousPage = this.sidebarHomePage;
-		}
-		// If navigating to a new page from the home page, clear history
-		else if (this.sidebarHomePage.new) {
-			this.sidebarHomePage.new = false;
-			this.sidebarHomePage.old = true;
-
-			// Clear all removal timeouts to prevent error upon removing page
-			this.history.forEach(page => clearTimeout(page.removalTimeout));
-			this.history.length = 0;
-
-			fromHome = true;
-		}
-
 		// Prevent adding page to history upon navigating back to previous page
 		if (opts.previousPage == null) {
 			// Cycle through the page list to update the very last active page
@@ -526,7 +323,7 @@ export default class UIRouter extends LitElement {
 				renderResult: renderResult,
 				src: url,
 				old: false,
-				new: opts.disableAnimation,
+				new: false,
 				back: opts.previousPage != null,
 				state: {
 					scrollTop: 0
@@ -568,11 +365,6 @@ export default class UIRouter extends LitElement {
 			title = opts.previousPage.renderResult.title;
 			pageTitle = 'Rivet – ' + title;
 
-			// Update history information for home page
-			if (this.sidebarHomePage.new) {
-				history.replaceState(newPageState, pageTitle, url);
-			}
-
 			document.title = pageTitle;
 
 			this.requestUpdate();
@@ -607,18 +399,8 @@ export default class UIRouter extends LitElement {
 		this.searchParams = parsed.searchParams;
 
 		// Propagate the event up to the UI root
-		let event = new RouteChangeEvent(
-			title,
-			renderResult.menuItem,
-			!!renderResult.mobileNavStuck,
-			renderResult.breadcrumb
-		);
+		let event = new RouteChangeEvent(title, renderResult.breadcrumb);
 		this.dispatchEvent(event);
-
-		// TODO: Propagate as event
-		// Update mobile sidebar home page
-		if (global.isMobile && this.sidebarHome && renderResult.menuItem)
-			this.sidebarHome.activeMenu = renderResult.menuItem;
 
 		// Scroll back to location from state
 		document.body.scrollTop = newPageState.scrollTop;
@@ -635,8 +417,7 @@ export default class UIRouter extends LitElement {
 	// Used by other elements to navigate to a previous page
 	navBack() {
 		// Check if navigating to the home page
-		if (global.isMobile && !this.canGoBack(this.getBackedPages())) this.back(true);
-		else history.back();
+		history.back();
 	}
 
 	// Used internally on all back navigations
@@ -653,17 +434,6 @@ export default class UIRouter extends LitElement {
 						page.old = true;
 						page.new = false;
 						page.state.scrollTop = document.body.scrollTop;
-
-						// The sidebar home page isn't actually navigated "back" to since its page is permanently
-						// loaded so no new page is needed
-						if (goToHome) {
-							// Navigate to sidebar home page
-							this.navigate(this.sidebarHomePage.src, {
-								pageState: this.sidebarHomePage.state,
-								previousPage: this.sidebarHomePage
-							});
-							break;
-						}
 
 						// Remove current page from history after animation is over
 						page.removalTimeout = window.setTimeout(() => {
@@ -763,120 +533,34 @@ export default class UIRouter extends LitElement {
 	}
 
 	render() {
-		// Create touch classes
-		let baseClasses = classMap({
-			mobile: global.isMobile,
-			notouch: !this.swipeActive
-		});
-
 		// Clone the page history list so it will not be mutated
 		let pageList = [...this.history];
 		// Count how many back animation pages there are (used for animation purposes)
 		let backedPages = this.getBackedPages();
 
-		// Add the sidebar home page to the page list
-		if (global.isMobile && (this.sidebarHomePage.old || this.sidebarHomePage.new)) {
-			pageList.unshift(this.sidebarHomePage);
-		}
+		let newestPage = pageList[pageList.length - 1];
 
-		if (!global.isMobile) {
-			let newestPage = pageList[pageList.length - 1];
+		if (!newestPage) return html`<div id="base"></div>`;
 
-			if (!newestPage) return html`<div id="base" class=${baseClasses}></div>`;
+		// Create class map
+		let classes = classMap({
+			page: true,
+			old: newestPage.old,
+			new: newestPage.new,
+			back: newestPage.back
+		});
 
-			// Create class map
-			let classes = classMap({
-				page: true,
-				old: newestPage.old,
-				new: newestPage.new,
-				back: newestPage.back,
-				home: newestPage == this.sidebarHomePage
-			});
+		// Position old pages in the proper y-pos based on scroll
+		let scrollStyle = styleMap({
+			transform: newestPage.old ? `translateY(${-newestPage.state.scrollTop + this.scrollTop}px)` : null
+		});
 
-			// Create style map (includes touch drag translation)
-			let xPageTransform = this.getXPageTransform(newestPage);
-			let style = styleMap({
-				transform: xPageTransform !== null ? `translateX(${xPageTransform}px)` : null
-			});
-
-			// Position old pages in the proper y-pos based on scroll
-			let scrollStyle = styleMap({
-				transform: newestPage.old
-					? `translateY(${-newestPage.state.scrollTop + this.scrollTop}px)`
-					: null
-			});
-
-			// Two divs are used here because you cannot animate separate transform properties in
-			// css separately
-			return html`<div id="base" class=${baseClasses}>
-				<div class=${classes} style=${style}>
-					<div class="y-scroll" style=${scrollStyle}>${newestPage.renderResult.template}</div>
-				</div>
-			</div>`;
-		} else {
-			return html` <div id="base" class=${baseClasses}>
-				${repeat(
-					pageList,
-					p => p.id,
-					(p, i) => {
-						// Do not render pages that are too far back in the history
-						if (i < this.history.length - (backedPages + 2)) return null;
-
-						// Do not render the home page unless there are no pages left
-						if (p == this.sidebarHomePage && this.canGoBack(backedPages)) return null;
-
-						// Create class map
-						let classes = classMap({
-							page: true,
-							old: p.old,
-							new: p.new,
-							back: p.back,
-							home: p == this.sidebarHomePage
-						});
-
-						// Create style map (includes touch drag translation)
-						let xPageTransform = this.getXPageTransform(p);
-						let style = styleMap({
-							transform: xPageTransform !== null ? `translateX(${xPageTransform}px)` : null
-						});
-
-						// Position old pages in the proper y-pos based on scroll
-						let scrollStyle = styleMap({
-							transform: p.old ? `translateY(${-p.state.scrollTop + this.scrollTop}px)` : null
-						});
-
-						// Two divs are used here because you cannot animate separate transform properties in
-						// css separately
-						return html` <div class=${classes} style=${style}>
-							<div class="y-scroll" style=${scrollStyle}>${p.renderResult.template}</div>
-						</div>`;
-					}
-				)}
-			</div>`;
-		}
-	}
-
-	getXPageTransform(page: RemovablePage) {
-		// No transformation needed if no swipe is happening
-		if (!this.swipeActive) {
-			return null;
-		} else {
-			// Transformation for old pages
-			if (page.old) {
-				// Page is navigating back
-				if (page.back) return null;
-				else
-					return (
-						Math.min(0, Math.max(-this.windowWidth, this.touchDifferenceX - this.windowWidth)) / 4
-					);
-			}
-			// Transformation for new pages
-			else if (page.new) {
-				return Math.min(this.windowWidth, Math.max(0, this.touchDifferenceX));
-			}
-		}
-
-		// Pages can be neither old nor new during the first 10ms for animation starting purposes
-		return null;
+		// Two divs are used here because you cannot animate separate transform properties in
+		// css separately
+		return html`<div id="base">
+			<div class=${classes}>
+				<div class="y-scroll" style=${scrollStyle}>${newestPage.renderResult.template}</div>
+			</div>
+		</div>`;
 	}
 }

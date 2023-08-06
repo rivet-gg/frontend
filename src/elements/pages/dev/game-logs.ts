@@ -154,7 +154,7 @@ export default class DevGameLogs extends LitElement {
 			await this.fetchMoreLobbies();
 
 			// Select first lobby if on desktop
-			if (this.lobbies.length > 0 && !global.isMobile && !initialLobbyId)
+			if (this.lobbies.length > 0 && !initialLobbyId)
 				this.changeLobbySelection(this.lobbies[0].lobbyId);
 		} catch (err) {
 			this.loadError = err;
@@ -198,21 +198,17 @@ export default class DevGameLogs extends LitElement {
 	/// This should be used by all lobby ID changes in order to ensure the URL
 	/// is up to date.
 	changeLobbySelection(lobbyId?: string) {
-		if (global.isMobile) {
-			this.lobbyId = lobbyId;
+		if (lobbyId) {
+			UIRouter.shared.navigate(
+				routes.devLogLobby.build(
+					{ gameId: this.game.gameId, lobbyId: lobbyId },
+					{ namespaceId: this.namespaceId }
+				)
+			);
 		} else {
-			if (lobbyId) {
-				UIRouter.shared.navigate(
-					routes.devLogLobby.build(
-						{ gameId: this.game.gameId, lobbyId: lobbyId },
-						{ namespaceId: this.namespaceId }
-					)
-				);
-			} else {
-				UIRouter.shared.navigate(
-					routes.devLogs.build({ gameId: this.game.gameId }, { namespaceId: this.namespaceId })
-				);
-			}
+			UIRouter.shared.navigate(
+				routes.devLogs.build({ gameId: this.game.gameId }, { namespaceId: this.namespaceId })
+			);
 		}
 	}
 

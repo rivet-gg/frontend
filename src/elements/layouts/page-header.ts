@@ -8,15 +8,11 @@ import { classMap } from 'lit/directives/class-map.js';
 export default class PageHeader extends LitElement {
 	static styles = cssify(styles);
 
-	@property({ type: Boolean, attribute: 'on-mobile' })
-	onMobile = false;
-
 	@property({ type: Boolean })
 	rightAlign = false;
 
 	render() {
 		let classes = classMap({
-			'on-mobile': this.onMobile,
 			'right-align': this.rightAlign
 		});
 

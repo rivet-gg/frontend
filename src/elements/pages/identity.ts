@@ -7,7 +7,7 @@ import { cssify } from '../../utils/css';
 import styles from './identity.scss';
 import routes, { responses } from '../../routes';
 import UIRouter from '../root/ui-router';
-import { GlobalMobileChangeEvent, globalEventGroups } from '../../utils/global-events';
+import { globalEventGroups } from '../../utils/global-events';
 import { showAlert } from '../../ui/helpers';
 import global from '../../utils/global';
 
@@ -53,25 +53,13 @@ export default class IdentityPage extends LitElement {
 	colorExtractor: ColorExtractor = new ColorExtractor();
 
 	// === EVENT HANDLERS ===
-	handleMobile: (e: GlobalMobileChangeEvent) => void;
 	identityStream?: api.RepeatingRequest<api.identity.GetIdentityProfileCommandOutput>;
-
-	connectedCallback() {
-		super.connectedCallback();
-
-		// Handle mobile change
-		this.handleMobile = this.onMobile.bind(this);
-		globalEventGroups.add('mobile', this.handleMobile);
-	}
 
 	disconnectedCallback() {
 		super.disconnectedCallback();
 
 		// Dispose events
 		if (this.identityStream) this.identityStream.cancel();
-
-		// Remove event listeners
-		globalEventGroups.remove('mobile', this.handleMobile);
 	}
 
 	updated(changedProperties: PropertyValues) {
@@ -167,10 +155,6 @@ export default class IdentityPage extends LitElement {
 	fetchColor() {
 		this.colorExtractor.update(this.profile.avatarUrl);
 		this.colorExtractor.getPalette().then(() => this.requestUpdate('colorExtractor'));
-	}
-
-	onMobile() {
-		this.requestUpdate();
 	}
 
 	// Assumes current identity is leader
@@ -290,7 +274,7 @@ export default class IdentityPage extends LitElement {
 		let profileNotFound = this.loadError && this.loadError.status == 404;
 		if (this.loadError && !profileNotFound) return responses.renderError(this.loadError);
 
-		return global.isMobile ? this.renderMobile(profileNotFound) : this.renderDesktop(profileNotFound);
+		return this.renderDesktop(profileNotFound);
 	}
 
 	renderDesktop(profileNotFound: boolean) {
@@ -379,157 +363,6 @@ export default class IdentityPage extends LitElement {
 			>
 				<identity-profile-edit
 					slot="body"
-					@close=${this.editModalClose.bind(this)}
-				></identity-profile-edit>
-			</drop-down-modal>
-		`;
-	}
-
-	// TODO: Abstract this as a mobile profile layout so it's shared with the group layout
-	renderMobile(profileNotFound: boolean) {
-		let identity = this.profile;
-		let isSelf = this.profile && this.profile.identityId == global.currentIdentity.identityId;
-
-		let bgStyles = styleMap({
-			backgroundImage: this.colorExtractor.createBackgroundGradient()
-		});
-		let nameStyles = styleMap({
-			'--color': this.colorExtractor.createTextColor()
-		});
-
-		return html`
-			<!-- Profile info and actions -->
-			<div id="banner">
-				<div id="banner-bg" slot="banner-bg" style=${bgStyles}></div>
-
-				<div id="banner-center">
-					<icon-button
-						id="mobile-nav-back"
-						src="regular/chevron-left"
-						small
-						color="white"
-						.trigger=${this.navigateBack.bind(this)}
-					></icon-button>
-
-					${when(
-						this.profile,
-						() => html`<identity-avatar
-							id="main-avatar"
-							shadow
-							hide-status
-							.identity=${identity}
-						></identity-avatar>`,
-						() => html`<loading-placeholder id="main-avatar-placeholder"></loading-placeholder>`
-					)}
-					<div id="main-display-name">
-						${when(
-							this.profile,
-							() => html`<identity-name
-								style=${nameStyles}
-								.identity=${identity}
-								no-link
-								show-number
-								inline
-							></identity-name>`,
-							() =>
-								when(
-									profileNotFound,
-									() => 'Profile not found',
-									() => html`<loading-placeholder></loading-placeholder>
-										<loading-placeholder></loading-placeholder>`
-								)
-						)}
-					</div>
-				</div>
-			</div>
-
-			<div id="body">
-				<!-- Actions -->
-				<info-group-body id="identity-actions">
-					${when(
-						this.profile,
-						() =>
-							when(
-								isSelf,
-								() => html`<stylized-button
-									icon="regular/user-pen"
-									id="edit-profile"
-									small
-									.trigger=${this.openEditModal.bind(this)}
-									>Edit profile</stylized-button
-								>`,
-								() => html`<stylized-button
-										icon="regular/message"
-										small
-										href=${routes.identityDirectChat.build({
-											id: this.identityId
-										})}
-										>Message</stylized-button
-									>
-									<stylized-button
-										icon="regular/user-plus"
-										small
-										.trigger=${this.toggleFollow.bind(this)}
-										>${this.profile.following ? 'Unfollow' : 'Follow'}</stylized-button
-									>
-									${when(
-										!isSelf,
-										() => html`<stylized-button
-											icon="regular/chart-network"
-											small
-											href="${routes.identityFriends.build(
-												identityRouteData(identity)
-											)}"
-											>View mutuals</stylized-button
-										>`
-									)}`
-							),
-						() => html`<loading-placeholder></loading-placeholder>
-							<loading-placeholder></loading-placeholder>
-							<loading-placeholder></loading-placeholder>`
-					)}
-				</info-group-body>
-
-				<!-- About -->
-				<info-panel-header>
-					<div slot="title">Bio</div>
-				</info-panel-header>
-
-				<info-panel-body id="about">${this.renderAbout()}</info-panel-body>
-
-				<!-- Groups -->
-				<info-panel-header>
-					<div slot="title">Groups</div>
-				</info-panel-header>
-
-				<info-panel-body id="groups">${this.renderGroups()}</info-panel-body>
-
-				<!-- Games -->
-				<info-panel-header>
-					<div slot="title">Games</div>
-				</info-panel-header>
-
-				<info-panel-body id="games-body" noindent>${this.renderGames()}</info-panel-body>
-			</div>
-
-			<!-- TODO: Fetch the game instead of using games[0] -->
-			${when(
-				this.profile && this.gameNameId,
-				() => html`<expanded-game-stats
-					.identity=${this.profile}
-					.game=${this.profile.games[0]}
-				></expanded-game-stats>`
-			)}
-
-			<!-- Editing modal -->
-			<drop-down-modal
-				large-animation
-				.active=${this.editModalActive}
-				@close=${this.editModalClose.bind(this)}
-			>
-				<identity-profile-edit
-					slot="body"
-					.identity=${this.profile}
 					@close=${this.editModalClose.bind(this)}
 				></identity-profile-edit>
 			</drop-down-modal>

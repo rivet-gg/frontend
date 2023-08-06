@@ -32,7 +32,6 @@ export interface DevGameRootConfig {
 	logsLobbyId?: string;
 	lobbies?: true;
 	kv?: true;
-	mobileSummary?: true; // Summary page for mobile
 }
 
 @customElement('page-dev-game')
@@ -157,13 +156,11 @@ export default class DevGame extends LitElement {
 		</div>`;
 
 		if (this.config.summary) {
-			if (!global.isMobile || this.config.mobileSummary) {
-				body = html`<page-dev-game-summary .game=${this.game}></page-dev-game-summary>`;
+			body = html`<page-dev-game-summary .game=${this.game}></page-dev-game-summary>`;
 
-				UIRouter.shared.updateTitle(this.game.displayName);
+			UIRouter.shared.updateTitle(this.game.displayName);
 
-				pageId = 'summary';
-			}
+			pageId = 'summary';
 		} else if (this.config.billing) {
 			body = html`<page-dev-game-billing .game=${this.game}></page-dev-game-billing>`;
 
@@ -264,50 +261,37 @@ export default class DevGame extends LitElement {
 	}
 
 	renderPlaceholder() {
-		return global.isMobile
-			? html`<div id="placeholder">
-					<div id="placeholder-body" slot="body">
-						<div id="placeholder-centered-body">
-							<loading-placeholder class="placeholder-page-header"></loading-placeholder>
-							<loading-placeholder class="placeholder-group"></loading-placeholder>
-							<div>
-								<loading-placeholder class="placeholder-text"></loading-placeholder>
-								<loading-placeholder class="placeholder-text small"></loading-placeholder>
-							</div>
+		return html`
+			<h-tab-layout id="placeholder">
+				<div id="placeholder-sidebar" slot="tabs">
+					<loading-placeholder class="placeholder-logo"></loading-placeholder>
+					<loading-placeholder class="placeholder-rack"></loading-placeholder>
+					<loading-placeholder class="placeholder-rack"></loading-placeholder>
+					<loading-placeholder class="placeholder-rack"></loading-placeholder>
+					<loading-placeholder class="placeholder-rack"></loading-placeholder>
+					<div class="placeholder-subtitle">
+						<loading-placeholder></loading-placeholder>
+					</div>
+					<loading-placeholder class="placeholder-rack"></loading-placeholder>
+					<loading-placeholder class="placeholder-rack"></loading-placeholder>
+					<loading-placeholder class="placeholder-rack"></loading-placeholder>
+					<div class="placeholder-subtitle">
+						<loading-placeholder></loading-placeholder>
+					</div>
+					<loading-placeholder class="placeholder-rack"></loading-placeholder>
+					<loading-placeholder class="placeholder-rack"></loading-placeholder>
+				</div>
+				<div id="placeholder-body" slot="body">
+					<div id="placeholder-centered-body">
+						<loading-placeholder class="placeholder-page-header"></loading-placeholder>
+						<loading-placeholder class="placeholder-group"></loading-placeholder>
+						<div>
+							<loading-placeholder class="placeholder-text"></loading-placeholder>
+							<loading-placeholder class="placeholder-text small"></loading-placeholder>
 						</div>
 					</div>
-			  </div>`
-			: html`
-					<h-tab-layout id="placeholder">
-						<div id="placeholder-sidebar" slot="tabs">
-							<loading-placeholder class="placeholder-logo"></loading-placeholder>
-							<loading-placeholder class="placeholder-rack"></loading-placeholder>
-							<loading-placeholder class="placeholder-rack"></loading-placeholder>
-							<loading-placeholder class="placeholder-rack"></loading-placeholder>
-							<loading-placeholder class="placeholder-rack"></loading-placeholder>
-							<div class="placeholder-subtitle">
-								<loading-placeholder></loading-placeholder>
-							</div>
-							<loading-placeholder class="placeholder-rack"></loading-placeholder>
-							<loading-placeholder class="placeholder-rack"></loading-placeholder>
-							<loading-placeholder class="placeholder-rack"></loading-placeholder>
-							<div class="placeholder-subtitle">
-								<loading-placeholder></loading-placeholder>
-							</div>
-							<loading-placeholder class="placeholder-rack"></loading-placeholder>
-							<loading-placeholder class="placeholder-rack"></loading-placeholder>
-						</div>
-						<div id="placeholder-body" slot="body">
-							<div id="placeholder-centered-body">
-								<loading-placeholder class="placeholder-page-header"></loading-placeholder>
-								<loading-placeholder class="placeholder-group"></loading-placeholder>
-								<div>
-									<loading-placeholder class="placeholder-text"></loading-placeholder>
-									<loading-placeholder class="placeholder-text small"></loading-placeholder>
-								</div>
-							</div>
-						</div>
-					</h-tab-layout>
-			  `;
+				</div>
+			</h-tab-layout>
+		`;
 	}
 }

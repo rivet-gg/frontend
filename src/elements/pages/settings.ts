@@ -5,7 +5,7 @@ import { when } from 'lit/directives/when.js';
 import styles from './settings.scss';
 import { cssify } from '../../utils/css';
 import { tooltip, showIdentityContextMenu, showAlert } from '../../ui/helpers';
-import { GlobalMobileChangeEvent, globalEventGroups, SettingChangeEvent } from '../../utils/global-events';
+import { globalEventGroups, SettingChangeEvent } from '../../utils/global-events';
 import UIRouter from '../root/ui-router';
 import global from '../../utils/global';
 import routes, { responses } from '../../routes';
@@ -63,7 +63,6 @@ export default class SettingsPage extends LitElement {
 	changelog: any[] = [];
 
 	// === EVENT HANDLERS ===
-	handleMobile: (e: GlobalMobileChangeEvent) => void;
 	handleSettingChange: (e: SettingChangeEvent) => void;
 
 	constructor() {
@@ -122,10 +121,6 @@ export default class SettingsPage extends LitElement {
 	connectedCallback() {
 		super.connectedCallback();
 
-		// Handle mobile change
-		this.handleMobile = this.onMobile.bind(this);
-		globalEventGroups.add('mobile', this.handleMobile);
-
 		// Handle settings change
 		this.handleSettingChange = this.onSettingChange.bind(this);
 		globalEventGroups.add('setting-change', this.handleSettingChange);
@@ -135,7 +130,6 @@ export default class SettingsPage extends LitElement {
 		super.disconnectedCallback();
 
 		// Remove event listeners
-		globalEventGroups.remove('mobile', this.handleMobile);
 		globalEventGroups.remove('setting-change', this.handleSettingChange);
 	}
 
@@ -143,12 +137,11 @@ export default class SettingsPage extends LitElement {
 		super.updated(changedProperties);
 
 		// Set tab if needed; we don't get an updated event if the tab is null
-		if (this.tabId == null && !global.isMobile) {
-			this.navigateTab(this.tabs[0].items[0].id, false);
+		if (this.tabId == null) {
+			this.navigateTab(this.tabs[0].items[0].id);
 		}
 
-		// Update mobile navbar title
-		if (global.isMobile && changedProperties.has('tabId')) {
+		if (changedProperties.has('tabId')) {
 			let currentTab = this.tabs
 				.flatMap(x => x.items)
 				.find(p => p.hasOwnProperty('id') && p.id == this.tabId);
@@ -157,13 +150,12 @@ export default class SettingsPage extends LitElement {
 		}
 	}
 
-	navigateTab(tabId: string, disableAnimation = true) {
+	navigateTab(tabId: string) {
 		// Navigate to the correct tab; this will update this view automatically
 		let url = routes.settings.build({ tab: tabId });
 
 		UIRouter.shared.navigate(url, {
-			replaceHistory: !global.isMobile,
-			disableAnimation: global.isMobile ? false : disableAnimation
+			replaceHistory: true
 		});
 	}
 
@@ -193,10 +185,6 @@ export default class SettingsPage extends LitElement {
 		} else {
 			logging.warn('Unknown setting', key, '=', value);
 		}
-	}
-
-	onMobile() {
-		this.requestUpdate();
 	}
 
 	// Called by event handler after a setting is successfully changed
@@ -237,7 +225,7 @@ export default class SettingsPage extends LitElement {
 	}
 
 	render() {
-		if (!this.tabId && !global.isMobile) return null;
+		if (!this.tabId) return null;
 		if (this.loadError) return responses.renderError(this.loadError);
 
 		let currentTab = this.tabs

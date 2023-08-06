@@ -257,7 +257,6 @@ export interface GlobalChangeEvent<T> {
 
 export type SettingChangeEvent = GlobalChangeEvent<SettingChange>;
 export type NotificationEvent = GlobalChangeEvent<api.identity.GlobalEvent>;
-export type GlobalMobileChangeEvent = GlobalChangeEvent<boolean>;
 export type GlobalStatusChangeEvent = GlobalChangeEvent<GlobalStatus>;
 export type ThreadReadEvent = GlobalChangeEvent<string>;
 export type ThreadUpdateEvent = GlobalChangeEvent<api.identity.ChatThread[]>;

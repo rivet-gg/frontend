@@ -1154,9 +1154,6 @@ export default class ChatView extends LitElement {
 					<div id="chat-contents">${this.renderMessages()}</div>
 				</div>
 
-				<!-- Mobile typing status -->
-				${global.isMobile ? this.renderTypingIndicator() : null}
-
 				<!-- Chat controls -->
 				${cache(
 					!this.hideInput
@@ -1217,7 +1214,7 @@ export default class ChatView extends LitElement {
 				)}
 
 				<!-- Typing status -->
-				${global.isMobile ? null : this.renderTypingIndicator()}
+				${this.renderTypingIndicator()}
 			</div>
 		`;
 	}
@@ -1249,10 +1246,7 @@ export default class ChatView extends LitElement {
 		// More than 3 identities typing
 		else typingMessage = html`Multiple people are typing...`;
 
-		return html`<div
-			id="status-bar"
-			class=${classMap({ hidden: global.isMobile ? typingStatuses.length <= 0 : false })}
-		>
+		return html`<div id="status-bar">
 			${typingStatuses.length > 0
 				? html`<div id="loading-dot-holder">
 							<div class="loading-dot"></div>

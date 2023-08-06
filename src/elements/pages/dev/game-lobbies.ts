@@ -344,12 +344,10 @@ export default class DevGameLobbies extends LitElement {
 						<th class="right players-column">Players</th>
 						<th class="right">
 							Max Players
-							${global.isMobile
-								? null
-								: html`<e-svg
-										src="regular/circle-question"
-										@mouseenter=${tooltip('Normal/Direct/Party')}
-								  ></e-svg>`}
+							<e-svg
+								src="regular/circle-question"
+								@mouseenter=${tooltip('Normal/Direct/Party')}
+							></e-svg>
 						</th>
 						<th class="right">Uptime</th>
 					</tr>

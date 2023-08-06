@@ -1,7 +1,7 @@
 import { LitElement, html } from 'lit';
 import { customElement } from 'lit/decorators.js';
 import { cssify } from '../../utils/css';
-import styles from './home.scss';
+import styles from './dev-dash.scss';
 
 @customElement('dev-dash')
 export default class DeveloperDash extends LitElement {

@@ -40,8 +40,7 @@ export default class ThreadResolvePage extends LitElement {
 
 			if (url) {
 				UIRouter.shared.navigate(url, {
-					replaceHistory: true,
-					disableAnimation: true
+					replaceHistory: true
 				});
 			} else {
 				this.loadError = 'Invalid topic variant';

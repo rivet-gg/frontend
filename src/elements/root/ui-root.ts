@@ -7,12 +7,7 @@ import { repeat } from 'lit/directives/repeat.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { cssify } from '../../utils/css';
 import global, { GlobalStatus } from '../../utils/global';
-import {
-	globalEventGroups,
-	GlobalMobileChangeEvent,
-	windowEventGroups,
-	GlobalStatusChangeEvent
-} from '../../utils/global-events';
+import { globalEventGroups, windowEventGroups, GlobalStatusChangeEvent } from '../../utils/global-events';
 import timing from '../../utils/timing';
 import styles from './ui-root.scss';
 import UIRouter, { RouteChangeEvent, RouteTitleChangeEvent } from './ui-router';
@@ -172,9 +167,6 @@ export default class UIRoot extends LitElement {
 	routeTitle = '';
 
 	@property({ type: Boolean })
-	mobileNavStuck = false;
-
-	@property({ type: Boolean })
 	registerPanelActive = false;
 
 	@property({ type: Boolean })
@@ -197,7 +189,6 @@ export default class UIRoot extends LitElement {
 	handleStatusChange: (e: GlobalStatusChangeEvent) => void;
 	handleResize: () => void;
 	handleKeyDown: (e: KeyboardEvent) => void;
-	handleMobile: (e: GlobalMobileChangeEvent) => void;
 
 	// === DEBUG ===
 	@property({ type: Object })
@@ -246,11 +237,6 @@ export default class UIRoot extends LitElement {
 		// Handle key down
 		this.handleKeyDown = this.onKeyDown.bind(this);
 		windowEventGroups.add('keydown', this.handleKeyDown);
-
-		// Handle mobile detection
-		this.handleMobile = this.onMobile.bind(this);
-		globalEventGroups.add('mobile', this.handleMobile);
-		this.onMobile();
 	}
 
 	disconnectedCallback() {
@@ -262,7 +248,6 @@ export default class UIRoot extends LitElement {
 		globalEventGroups.remove('status-change', this.handleStatusChange);
 		windowEventGroups.remove('resize', this.handleResize, timing.milliseconds(100));
 		windowEventGroups.remove('keydown', this.handleKeyDown);
-		globalEventGroups.remove('mobile', this.handleMobile);
 
 		if (this.playingGameData !== null) windowEventGroups.remove('beforeunload', this.beforeUnload);
 	}
@@ -475,13 +460,6 @@ export default class UIRoot extends LitElement {
 		}
 	}
 
-	// Update on mobile change
-	onMobile() {
-		document.body.classList.toggle('has-scrollbar', !global.isMobile);
-
-		this.requestUpdate();
-	}
-
 	onEmojiSelect(event: EmojiSelectEvent) {
 		if (!this.emojiPickerData) return;
 
@@ -496,11 +474,6 @@ export default class UIRoot extends LitElement {
 		this.breadcrumb = event.breadcrumb;
 
 		this.onHomePage = event.title == 'Home';
-
-		if (event.mobileNavStuck !== null) {
-			this.mobileNavStuck = event.mobileNavStuck;
-			this.routeTitle = event.title;
-		}
 
 		// Update title name after the page animation is complete
 		setTimeout(() => {
@@ -726,17 +699,11 @@ export default class UIRoot extends LitElement {
 		let scaledHeight = Math.round(fullHeight * scalePercent);
 
 		return html`
-			<!-- Mobile Navigation -->
-			<!-- ${when(
-				global.isMobile,
-				() => html`<mobile-nav .title=${this.routeTitle} .stuck=${this.mobileNavStuck}></mobile-nav>`
-			)} -->
-
 			<!-- Offset for navbar -->
 			<div class="pt-14"></div>
 
 			<!-- Page Body -->
-			<div id="content-holder" class=${classMap({ mobile: global.isMobile })}>
+			<div id="content-holder">
 				<ui-router
 					@change=${this.onRouteChange.bind(this)}
 					@title-change=${this.onTitleChange.bind(this)}
@@ -872,20 +839,17 @@ export default class UIRoot extends LitElement {
 			<notification-overlay></notification-overlay>
 
 			<!-- Tooltip -->
-			${when(
-				!global.isMobile,
-				() => html`<overlay-positioning
-					.active=${this.tooltipData.active}
-					.contextElement=${this.tooltipData.contextElement}
-					.orientation=${Orientation.TopCenter}
-					@close=${this.hideTooltip.bind(this)}
-					no-pointer
-					scale-animation
-					offset-y="5"
-				>
-					<div id="tooltip">${this.tooltipData.text}</div>
-				</overlay-positioning>`
-			)}
+			<overlay-positioning
+				.active=${this.tooltipData.active}
+				.contextElement=${this.tooltipData.contextElement}
+				.orientation=${Orientation.TopCenter}
+				@close=${this.hideTooltip.bind(this)}
+				no-pointer
+				scale-animation
+				offset-y="5"
+			>
+				<div id="tooltip">${this.tooltipData.text}</div>
+			</overlay-positioning>
 
 			<!-- Context menu -->
 			<overlay-positioning

@@ -11,12 +11,13 @@ import PushNotifications from './push-notifications';
 import { BroadcastEvent, BroadcastEventKind } from '../data/broadcast';
 import { ls } from './cache';
 import { BroadcastSystem } from './broadcast';
-import { CHAT_THREAD_HISTORY } from '../elements/sidebar/main-sidebar';
 import { RivetClient } from '@rivet-gg/api-internal';
 import { Fetcher, fetcher } from '@rivet-gg/api-internal/core';
 import { HttpRequest } from '@aws-sdk/protocol-http';
 import { HttpHandlerOptions } from '@aws-sdk/types';
 import { FailedResponse } from '@rivet-gg/api-internal/core/fetcher/APIResponse';
+
+const CHAT_THREAD_HISTORY = 64;
 
 // Keep in sync with mobile widths in consts.css
 export enum WindowSize {
@@ -101,7 +102,6 @@ export class GlobalState {
 	recentFollowersStream: api.RepeatingRequest<api.identity.ListRecentFollowersCommandOutput>;
 
 	// Mobile information
-	isMobile = false;
 	windowSize: number = WindowSize.Large;
 
 	async init() {
@@ -547,15 +547,9 @@ export class GlobalState {
 	}
 
 	onResize() {
-		let oldMobile = this.isMobile;
 		let oldSize = this.windowSize;
 
 		let width = window.innerWidth;
-
-		this.isMobile = width <= WindowSize.Mobile;
-
-		// Dispatch mobile change event
-		if (this.isMobile != oldMobile) globalEventGroups.dispatch('mobile', this.isMobile);
 
 		if (width <= WindowSize.Small) this.windowSize = WindowSize.Small;
 		else if (width <= WindowSize.Mobile) this.windowSize = WindowSize.Mobile;

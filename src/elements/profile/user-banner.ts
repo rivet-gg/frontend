@@ -1,7 +1,7 @@
 import { LitElement, TemplateResult, html } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
 import { cssify } from '../../utils/css';
-import styles from '../pages/home.scss';
+import styles from './user-banner.scss';
 import global from '../../utils/global';
 import assets from '../../data/assets';
 import { responses } from '../../routes';

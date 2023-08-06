@@ -5,7 +5,7 @@ import styles from './identity-friends.scss';
 import { repeat } from 'lit/directives/repeat.js';
 import global from '../../utils/global';
 import routes, { responses } from '../../routes';
-import { GlobalMobileChangeEvent, globalEventGroups } from '../../utils/global-events';
+import { globalEventGroups } from '../../utils/global-events';
 import { padAccountNumber } from '../../data/identity';
 import * as api from '../../utils/api';
 
@@ -36,24 +36,6 @@ export default class PageIdentityFriends extends LitElement {
 	profileFetched = false;
 
 	identityStream?: api.RepeatingRequest<api.identity.GetIdentityProfileCommandOutput>;
-
-	// === EVENT HANDLERS ===
-	handleMobile: (e: GlobalMobileChangeEvent) => void;
-
-	connectedCallback() {
-		super.connectedCallback();
-
-		// Handle mobile
-		this.handleMobile = this.onMobile.bind(this);
-		globalEventGroups.add('mobile', this.handleMobile);
-	}
-
-	disconnectedCallback() {
-		super.disconnectedCallback();
-
-		// Remove event listeners
-		globalEventGroups.remove('mobile', this.handleMobile);
-	}
 
 	protected updated(changedProperties: PropertyValues): void {
 		// Request data if category set
@@ -104,18 +86,6 @@ export default class PageIdentityFriends extends LitElement {
 		} else {
 			this.friendsFetched = true;
 		}
-	}
-
-	// Update on mobile change
-	onMobile() {
-		// This page is inaccessible to desktop, navigate back to home
-		if (!global.isMobile) {
-			UIRouter.shared.navigate(routes.home.build({}), {
-				replaceHistory: true
-			});
-		}
-
-		this.requestUpdate();
 	}
 
 	render() {

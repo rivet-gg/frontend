@@ -5,7 +5,6 @@ import styles from './notification-overlay.scss';
 import timing from '../../utils/timing';
 import {
 	globalEventGroups,
-	GlobalMobileChangeEvent,
 	ErrorEvent,
 	NotificationEvent,
 	GlobalStatusChangeEvent
@@ -59,7 +58,6 @@ export default class NotificationOverlay extends LitElement {
 	// === EVENT HANDLERS ===
 	handleStatusChange: (e: GlobalStatusChangeEvent) => void;
 	handleNotification: (e: NotificationEvent) => void;
-	handleMobile: (e: GlobalMobileChangeEvent) => void;
 	handleError: (e: ErrorEvent) => void;
 
 	async connectedCallback() {
@@ -70,10 +68,6 @@ export default class NotificationOverlay extends LitElement {
 		// Handle status change
 		this.handleStatusChange = this.onStatusChange.bind(this);
 		globalEventGroups.add('status-change', this.handleStatusChange);
-
-		// Handle mobile change
-		this.handleMobile = this.onMobile.bind(this);
-		globalEventGroups.add('mobile', this.handleMobile);
 
 		this.handleNotification = this.onNotification.bind(this);
 		globalEventGroups.add('notification', this.handleNotification);
@@ -87,16 +81,10 @@ export default class NotificationOverlay extends LitElement {
 
 		// Remove event handlers
 		globalEventGroups.remove('status-change', this.handleStatusChange);
-		globalEventGroups.remove('mobile', this.handleMobile);
 		globalEventGroups.remove('notification', this.handleNotification);
 		globalEventGroups.remove('error', this.handleError);
 
 		window.clearTimeout(this.clockTimeout);
-	}
-
-	// Update on mobile change
-	onMobile() {
-		this.requestUpdate();
 	}
 
 	onNotification(e: NotificationEvent) {
@@ -232,11 +220,6 @@ export default class NotificationOverlay extends LitElement {
 	}
 
 	pointerEnterNotification(id: string, e: Event) {
-		// Prevent sidebar from sliding open on notification swipe
-		if (global.isMobile) {
-			e.stopPropagation();
-		}
-
 		// Get the notification
 		let notification = this.notifications.find(n => n.id == id);
 		if (!notification) return;
@@ -371,17 +354,6 @@ export default class NotificationOverlay extends LitElement {
 	}
 
 	render() {
-		if (global.isMobile) {
-			// Dismiss all notifications except the most recent one when on mobile
-			for (let i = 0; i < this.notifications.length; i++) {
-				let notification = this.notifications[i];
-
-				if (i != 0 && !notification.isFading) {
-					this.dismissNotification(notification.id);
-				}
-			}
-		}
-
 		return html`
 			<!-- Offset notification overlay for navbar -->
 			<div class="pt-[4rem]"></div>
