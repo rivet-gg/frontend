@@ -81,6 +81,18 @@ namespace routes {
 		}
 	});
 
+	// Moved developer path
+	export let developerRedirect = new Route<{ path: string }>({
+		path: '/developer/:path*',
+		render({ path }, search) {
+			return {
+				redirect: `${window.location.origin}/${path}${
+					search ? `?${new URLSearchParams(search).toString()}` : ''
+				}`
+			};
+		}
+	});
+
 	// Reuse the same template in order to preserve the same `page-identity` instance.
 	function renderPageIdentity(identityId: string, gameNameId: string | null) {
 		return html`<page-identity .identityId=${identityId} .gameNameId=${gameNameId}></page-identity>`;
