@@ -67,7 +67,7 @@
 		"path-to-regexp": "^6.1.0",
 		"postcss": "^8.4.26",
 		"posthog-js": "^1.37.0",
-		"prettier": "^2.2.1",
+		"prettier": "3.0",
 		"resize-observer-polyfill": "^1.5.1",
 		"sass": "^1.55.0",
 		"sass-loader": "^13.1.0",
