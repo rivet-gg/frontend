@@ -2,6 +2,7 @@ import { html, LitElement, PropertyValues, TemplateResult } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { cssify } from '../../utils/css';
 import global from '../../utils/global';
+import cloud from '@rivet-gg/cloud';
 import styles from './navbar.scss';
 import routes from '../../routes';
 import * as api from '../../utils/api';
@@ -10,6 +11,7 @@ import logging from '../../utils/logging';
 import { GameFull } from '@rivet-gg/cloud';
 import assets from '../../data/assets';
 import { ifDefined } from 'lit/directives/if-defined.js';
+import { CloudGameCache, GroupProfileCache } from '../../data/cache';
 
 export type Breadcrumb =
 	| { type: 'Home' }
@@ -40,6 +42,10 @@ export default class NavBar extends LitElement {
 	@property({ type: Array })
 	displaycrumbs: CrumbDisplay[] = [];
 
+	// Data streams
+	groupStream: api.RepeatingRequest<api.group.GetGroupProfileCommandOutput> = null;
+	gameStream?: api.RepeatingRequest<cloud.GetGameByIdCommandOutput>;
+
 	updated(changedProperties: PropertyValues) {
 		super.updated(changedProperties);
 
@@ -49,7 +55,23 @@ export default class NavBar extends LitElement {
 		}
 	}
 
+	disconnectedCallback() {
+		super.disconnectedCallback();
+
+		if (this.groupStream) this.groupStream.cancel();
+		if (this.gameStream) this.gameStream.cancel();
+	}
+
 	async fetchData() {
+		if (this.groupStream) {
+			this.groupStream.cancel();
+			this.groupStream = null;
+		}
+		if (this.gameStream) {
+			this.gameStream.cancel();
+			this.gameStream = null;
+		}
+
 		let crumb = this.breadcrumbs;
 
 		try {
@@ -60,45 +82,55 @@ export default class NavBar extends LitElement {
 
 					break;
 				case 'Group':
-					let summary = await global.api.group.getProfile(crumb.groupId);
+					let groupTitle = crumb.title;
+					this.groupStream = await GroupProfileCache.watch(crumb.groupId, res => {
+						let summary = res.group;
 
-					this.displaycrumbs = [
-						{
-							name: summary.group.displayName,
-							url: routes.groupSettings.build({ id: summary.group.groupId }),
-							img: { type: 'Group', infoObj: summary.group }
-						}
-					];
-					if (crumb.title)
-						this.displaycrumbs.push({
-							name: crumb.title
-						});
+						this.displaycrumbs = [
+							{
+								name: summary.displayName,
+								url: routes.groupSettings.build({ id: summary.groupId }),
+								img: { type: 'Group', infoObj: summary }
+							}
+						];
+						if (groupTitle)
+							this.displaycrumbs.push({
+								name: groupTitle
+							});
 
-					this.requestUpdate('displaycrumbs');
+						this.requestUpdate('displaycrumbs');
+					});
 
 					break;
 				case 'Game':
-					let gameData = (await global.api.cloud.games.games.getGameById(crumb.gameId)).game;
-					let devGroupData = (await global.api.group.getProfile(gameData.developerGroupId)).group;
+					// Fetch events
+					let gameTitle = crumb.title;
+					this.gameStream = await CloudGameCache.watch(crumb.gameId, async res => {
+						let gameData = res.game;
 
-					this.displaycrumbs = [
-						{
-							name: devGroupData.displayName,
-							url: routes.groupSettings.build({ id: devGroupData.groupId }),
-							img: { type: 'Group', infoObj: devGroupData }
-						},
-						{
-							name: gameData.displayName,
-							url: routes.devGame.build({ gameId: gameData.gameId }),
-							img: { type: 'Game', infoObj: gameData }
-						}
-					];
-					if (crumb.title)
-						this.displaycrumbs.push({
-							name: crumb.title
+						this.groupStream = await GroupProfileCache.watch(res.game.developerGroupId, res => {
+							let groupData = res.group;
+
+							this.displaycrumbs = [
+								{
+									name: groupData.displayName,
+									url: routes.groupSettings.build({ id: groupData.groupId }),
+									img: { type: 'Group', infoObj: groupData }
+								},
+								{
+									name: gameData.displayName,
+									url: routes.devGame.build({ gameId: gameData.gameId }),
+									img: { type: 'Game', infoObj: gameData }
+								}
+							];
+							if (gameTitle)
+								this.displaycrumbs.push({
+									name: gameTitle
+								});
+
+							this.requestUpdate('displaycrumbs');
 						});
-
-					this.requestUpdate('displaycrumbs');
+					});
 
 					break;
 				case 'Custom':
