@@ -9,14 +9,19 @@ import { when } from 'lit/directives/when.js';
 import logging from '../../utils/logging';
 import { GameFull } from '@rivet-gg/cloud';
 import assets from '../../data/assets';
+import { ifDefined } from 'lit/directives/if-defined.js';
 
 export type Breadcrumb =
 	| { type: 'Home' }
-	| { type: 'Group'; groupId: string }
-	| { type: 'Game'; gameId: string }
-	| { type: 'Custom' };
+	| { type: 'Group'; groupId: string; title?: string }
+	| { type: 'Game'; gameId: string; title?: string }
+	| { type: 'Custom'; title?: string };
 
-export type CrumbDisplay = { name: string; url: string; img?: { type: string; infoObj: any } };
+interface CrumbDisplay {
+	name: string;
+	url?: string;
+	img?: { type: string; infoObj: any };
+}
 
 @customElement('nav-bar')
 export default class NavBar extends LitElement {
@@ -27,7 +32,7 @@ export default class NavBar extends LitElement {
 	identity: api.identity.IdentityProfile | undefined;
 
 	@property({ type: String })
-	title: string = '';
+	routeTitle: string = '';
 
 	@property({ type: Object })
 	breadcrumbs: Breadcrumb = undefined;
@@ -64,6 +69,11 @@ export default class NavBar extends LitElement {
 							img: { type: 'Group', infoObj: summary.group }
 						}
 					];
+					if (crumb.title)
+						this.displaycrumbs.push({
+							name: crumb.title
+						});
+
 					this.requestUpdate('displaycrumbs');
 
 					break;
@@ -83,6 +93,10 @@ export default class NavBar extends LitElement {
 							img: { type: 'Game', infoObj: gameData }
 						}
 					];
+					if (crumb.title)
+						this.displaycrumbs.push({
+							name: crumb.title
+						});
 
 					this.requestUpdate('displaycrumbs');
 
@@ -90,9 +104,7 @@ export default class NavBar extends LitElement {
 				case 'Custom':
 					this.displaycrumbs = [
 						{
-							name: devGroupData.displayName,
-							url: routes.groupSettings.build({ id: devGroupData.groupId }),
-							img: { type: 'Group', infoObj: devGroupData }
+							name: this.routeTitle
 						}
 					];
 					this.requestUpdate('displaycrumbs');
@@ -148,7 +160,7 @@ export default class NavBar extends LitElement {
 							</svg>
 
 							<a
-								href="${crumb.url}"
+								.href=${ifDefined(crumb.url)}
 								class="text-slate-200 hover:bg-slate-200/5 hover:text-white flex font-display text-md items-center rounded-md gap-3 pl-3.5 pr-3.5 py-1.5 transition"
 							>
 								${when(typeof crumb.img !== 'undefined', () => {

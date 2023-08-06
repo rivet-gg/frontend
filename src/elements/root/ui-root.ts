@@ -554,7 +554,8 @@ export default class UIRoot extends LitElement {
 				></ui-router>
 			</div>
 
-			<nav-bar .title=${this.routeTitle} .breadcrumbs=${this.breadcrumb}></nav-bar>
+			<nav-bar .routeTitle=${this.routeTitle} .breadcrumbs=${this.breadcrumb}></nav-bar>
+
 			<!-- Interactable Overlays -->
 			<overlay-positioning
 				.active=${this.emojiPickerData.active}

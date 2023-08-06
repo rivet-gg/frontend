@@ -163,7 +163,7 @@ namespace routes {
 
 			return {
 				title: 'Group',
-				breadcrumb: { type: 'Group', groupId: id },
+				breadcrumb: { type: 'Group', groupId: id, title: 'Settings' },
 				template: renderPageGroupSettings(id, null)
 			};
 		}
@@ -176,7 +176,7 @@ namespace routes {
 
 			return {
 				title: 'Group Chat',
-				breadcrumb: { type: 'Group', groupId: id },
+				breadcrumb: { type: 'Group', groupId: id, title: 'Chat' },
 				template: html`<page-group-chat .groupId=${id}></page-group-chat>`
 			};
 		}
@@ -202,7 +202,7 @@ namespace routes {
 
 			return {
 				title: 'Group Members',
-				breadcrumb: { type: 'Group', groupId: id },
+				breadcrumb: { type: 'Group', groupId: id, title: 'Members' },
 				template: html`<page-group-members .groupId=${id}></page-group-members>`
 			};
 		}
@@ -218,7 +218,8 @@ namespace routes {
 				title: `Billing`,
 				breadcrumb: {
 					type: 'Group',
-					groupId
+					groupId,
+					title: 'Billing'
 				},
 				template: html`<page-group-billing .groupId=${groupId}></page-group-billing>`
 			};
@@ -236,7 +237,8 @@ namespace routes {
 				title: `Analytics`,
 				breadcrumb: {
 					type: 'Group',
-					groupId
+					groupId,
+					title: 'Analytics'
 				},
 				template: html`<page-analytics-overview .groupId=${groupId}></page-analytics-overview>`
 			};
@@ -351,7 +353,7 @@ namespace routes {
 
 			return {
 				title: 'Game',
-				breadcrumb: { type: 'Game', gameId },
+				breadcrumb: { type: 'Game', gameId, title: 'Summary' },
 				template: renderPageDevGame(gameId, { summary: true })
 			};
 		}
@@ -365,7 +367,7 @@ namespace routes {
 
 			return {
 				title: 'Game',
-				breadcrumb: { type: 'Game', gameId },
+				breadcrumb: { type: 'Game', gameId, title: 'Summary' },
 				template: renderPageDevGame(gameId, { summary: true })
 			};
 		}
@@ -380,7 +382,7 @@ namespace routes {
 
 			return {
 				title: 'Game Namespace',
-				breadcrumb: { type: 'Game', gameId },
+				breadcrumb: { type: 'Game', gameId, title: 'Namespace' },
 				template: renderPageDevGame(gameId, { namespace: { namespaceId } })
 			};
 		}
@@ -395,7 +397,7 @@ namespace routes {
 
 			return {
 				title: 'Game Version',
-				breadcrumb: { type: 'Game', gameId },
+				breadcrumb: { type: 'Game', gameId, title: 'Version' },
 				template: renderPageDevGame(gameId, { version: { versionId } })
 			};
 		}
@@ -409,7 +411,7 @@ namespace routes {
 
 			return {
 				title: 'Game Version Draft',
-				breadcrumb: { type: 'Game', gameId },
+				breadcrumb: { type: 'Game', gameId, title: 'Version Draft' },
 				template: renderPageDevGame(gameId, { versionDraft: true })
 			};
 		}
@@ -423,7 +425,7 @@ namespace routes {
 
 			return {
 				title: 'Game API',
-				breadcrumb: { type: 'Game', gameId },
+				breadcrumb: { type: 'Game', gameId, title: 'API' },
 				template: renderPageDevGame(gameId, { tokens: true })
 			};
 		}
@@ -438,7 +440,7 @@ namespace routes {
 
 			return {
 				title: 'Game Logs',
-				breadcrumb: { type: 'Game', gameId },
+				breadcrumb: { type: 'Game', gameId, title: 'Logs' },
 				template: renderPageDevGame(gameId, { logs: true, namespaceId })
 			};
 		}
@@ -453,7 +455,7 @@ namespace routes {
 
 			return {
 				title: 'Game Logs',
-				breadcrumb: { type: 'Game', gameId },
+				breadcrumb: { type: 'Game', gameId, title: 'Logs' },
 				template: renderPageDevGame(gameId, { logs: true, namespaceId, logsLobbyId: lobbyId })
 			};
 		}
@@ -468,7 +470,7 @@ namespace routes {
 
 			return {
 				title: 'Game Lobbies',
-				breadcrumb: { type: 'Game', gameId },
+				breadcrumb: { type: 'Game', gameId, title: 'Lobbies' },
 				template: renderPageDevGame(gameId, { lobbies: true, namespaceId })
 			};
 		}
@@ -483,7 +485,7 @@ namespace routes {
 
 			return {
 				title: 'Game KV',
-				breadcrumb: { type: 'Game', gameId },
+				breadcrumb: { type: 'Game', gameId, title: 'KV' },
 				template: renderPageDevGame(gameId, { kv: true, namespaceId })
 			};
 		}
@@ -497,7 +499,7 @@ namespace routes {
 
 			return {
 				title: 'Game Billing',
-				breadcrumb: { type: 'Game', gameId },
+				breadcrumb: { type: 'Game', gameId, title: 'Billing' },
 				template: renderPageDevGame(gameId, { sites: true })
 			};
 		}
@@ -514,7 +516,7 @@ namespace routes {
 
 			return {
 				title: 'Game Builds',
-				breadcrumb: { type: 'Game', gameId },
+				breadcrumb: { type: 'Game', gameId, title: 'Builds' },
 				template: renderPageDevGame(gameId, { builds: true })
 			};
 		}
