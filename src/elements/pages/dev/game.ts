@@ -267,20 +267,14 @@ export default class DevGame extends LitElement {
 		}
 
 		return html`
-			${global.isMobile
-				? html`<div id="base">
-						${this.config.summary && !this.config.mobileSummary
-							? this.renderSidebar(pageId)
-							: this.renderBody(title, body)}
-				  </div>`
-				: html`<h-tab-layout
-						>${this.renderSidebar(pageId)}${this.renderBody(title, body)}</h-tab-layout
-				  >`}
+			<rvt-sidebar-layout
+				>${this.renderSidebar(pageId)}${this.renderBody(title, body)}</rvt-sidebar-layout
+			>
 		`;
 	}
 
 	renderSidebar(pageId: string) {
-		return html`<div id="tabs" slot="tabs">
+		return html`<div id="tabs" slot="sidebar">
 			<dev-game-sidebar
 				.game=${this.game}
 				.gameId=${this.gameId}
@@ -295,19 +289,12 @@ export default class DevGame extends LitElement {
 	}
 
 	renderBody(title: TemplateResult, body: TemplateResult) {
-		let bodyClasses = classMap({
-			wide: this.config.lobbies || this.config.billing,
-			free: this.config.logs
-		});
+		return html`<rvt-sidebar-body id="body" slot="body">
+			<!-- Header -->
+			<page-header>${title}</page-header>
 
-		return html`<div id="body" slot="body">
-			<div id="centered-body" class=${bodyClasses}>
-				<!-- Header -->
-				<page-header>${title}</page-header>
-
-				${body}
-			</div>
-		</div>`;
+			${body}
+		</rvt-sidebar-body>`;
 	}
 
 	renderPlaceholder() {

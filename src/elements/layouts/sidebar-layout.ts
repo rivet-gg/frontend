@@ -103,7 +103,15 @@ export class Button extends LitElement {
 						'group flex gap-x-3 rounded-md p-2 text-white text-sm items-center leading-6 font-semibold transition'
 					)}
 				>
-					<e-svg .src=${this.icon} class="h-4 w-4 shrink-0" aria-hidden="true"></e-svg>
+					${when(
+						this.icon,
+						() =>
+							html`<e-svg
+								.src=${this.icon}
+								class="h-4 w-4 shrink-0"
+								aria-hidden="true"
+							></e-svg>`
+					)}
 					<span class="truncate"><slot></slot></span>
 				</a>
 			</li>

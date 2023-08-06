@@ -64,7 +64,6 @@ export default class NavBar extends LitElement {
 					this.displaycrumbs = [
 						{
 							name: developer_group_data.displayName,
-							// url: `/groups/${developer_group_data.groupId}`,
 							url: routes.groupSettings.build({ id: developer_group_data.groupId }),
 							img: { type: 'Group', info_obj: developer_group_data }
 						},
@@ -138,15 +137,14 @@ export default class NavBar extends LitElement {
 
 							<a
 								href="${crumb.url}"
-								class="text-slate-200 hover:bg-slate-200/5 hover:text-white flex font-display text-md items-center rounded-md gap-3 pl-3.5 pr-3.5 py-1.5 transition font-bold"
+								class="text-slate-200 hover:bg-slate-200/5 hover:text-white flex font-display text-md items-center rounded-md gap-3 pl-3.5 pr-3.5 py-1.5 transition"
 							>
 								${when(typeof crumb.img !== 'undefined', () => {
 									switch (crumb.img.type) {
 										case 'Group':
 											return this.renderGroupAvatar(crumb.img.info_obj);
-										// TODO - Get a nicer default game logo, current one looks off-centered within nav
-										// case "Game":
-										//     return this.renderGameAvatar(crumb.img.info_obj);
+										case 'Game':
+											return this.renderGameAvatar(crumb.img.info_obj);
 										default:
 											return html``;
 									}

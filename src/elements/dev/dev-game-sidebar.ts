@@ -232,7 +232,7 @@ export default class DevGameSidebar extends LitElement {
 
 	render() {
 		return html`
-			<div id="base">${this.game ? this.renderContent() : this.renderPlaceholder()}</div>
+			<rvt-sidebar>${this.game ? this.renderContent() : this.renderPlaceholder()}</rvt-sidebar>
 
 			${this.renderCreateNamespaceModal()}
 		`;
@@ -252,58 +252,30 @@ export default class DevGameSidebar extends LitElement {
 			}
 		}
 
-		let generalClasses = classMap({
-			selected: this.pageId == 'summary'
-		});
-		let billingClasses = classMap({
-			selected: this.pageId == 'billing'
-		});
-		let tokensClasses = classMap({
-			selected: this.pageId == 'tokens'
-		});
-		let logsClasses = classMap({
-			selected: this.pageId == 'logs'
-		});
-		let lobbiesClasses = classMap({
-			selected: this.pageId == 'lobbies'
-		});
-		let kvClasses = classMap({
-			selected: this.pageId == 'kv'
-		});
-
 		return html`
-			<div id="title">
-				<lazy-img
-					id="icon"
-					src=${this.game.logoUrl ?? assets.asset('/games/blank/logo.png')}
-					bg-size="contain"
-				></lazy-img>
-				<h1>${this.game.displayName}</h1>
-			</div>
-
-			<info-panel-body id="main-actions" noindent>
-				<stylized-button
-					class=${generalClasses}
+			<rvt-sidebar-group title="General">
+				<rvt-sidebar-button
+					?current=${this.pageId == 'summary'}
 					href=${global.isMobile
 						? routes.devGameSummary.build({ gameId: this.game.gameId })
 						: routes.devGame.build({ gameId: this.game.gameId })}
 					icon="regular/square-info"
-					>Overview</stylized-button
+					>Overview</rvt-sidebar-button
 				>
 				<!-- <stylized-button
-					class=${billingClasses}
+					?current=${this.pageId == 'billing'}
 					href=${routes.devBilling.build({ gameId: this.game.gameId })}
 					icon="solid/square-dollar"
 					>Billing</stylized-button
 				> -->
-				<stylized-button
-					class=${tokensClasses}
+				<rvt-sidebar-button
+					?current=${this.pageId == 'tokens'}
 					href=${routes.devTokens.build({ gameId: this.game.gameId })}
 					icon="solid/key"
-					>API</stylized-button
+					>API</rvt-sidebar-button
 				>
-				<stylized-button
-					class=${logsClasses}
+				<rvt-sidebar-button
+					?current=${this.pageId == 'logs'}
 					href=${routes.devLogs.build(
 						{
 							gameId: this.game.gameId
@@ -311,10 +283,10 @@ export default class DevGameSidebar extends LitElement {
 						{ namespaceId: this.configNamespaceId }
 					)}
 					icon="solid/book"
-					>Logs</stylized-button
+					>Logs</rvt-sidebar-button
 				>
-				<stylized-button
-					class=${lobbiesClasses}
+				<rvt-sidebar-button
+					?current=${this.pageId == 'lobbies'}
 					href=${routes.devLobbies.build(
 						{
 							gameId: this.game.gameId
@@ -322,10 +294,10 @@ export default class DevGameSidebar extends LitElement {
 						{ namespaceId: this.configNamespaceId }
 					)}
 					icon="solid/table-rows"
-					>Lobbies</stylized-button
+					>Lobbies</rvt-sidebar-button
 				>
-				<stylized-button
-					class=${kvClasses}
+				<rvt-sidebar-button
+					?current=${this.pageId == 'kv'}
 					href=${routes.devKv.build(
 						{
 							gameId: this.game.gameId
@@ -333,20 +305,18 @@ export default class DevGameSidebar extends LitElement {
 						{ namespaceId: this.configNamespaceId }
 					)}
 					icon="solid/table-list"
-					>KV</stylized-button
+					>KV</rvt-sidebar-button
 				>
-			</info-panel-body>
+			</rvt-sidebar-group>
 
-			<info-panel-header><div slot="title">Namespaces</div></info-panel-header>
-			<info-panel-body id="namespaces">
+			<rvt-sidebar-group title="Namespaces">
 				<dashed-button icon="regular/plus" .trigger=${this.openNamespaceModal.bind(this)}
 					>New namespace</dashed-button
 				>
 				${repeat(this.game.namespaces, n => n.namespaceId, this.renderNamespace.bind(this))}
-			</info-panel-body>
+			</rvt-sidebar-group>
 
-			<info-panel-header><div slot="title">Versions</div></info-panel-header>
-			<info-panel-body id="versions">
+			<rvt-sidebar-group id="versions" title="Versions">
 				<dashed-button
 					id="draft-button"
 					?selected=${this.pageId == 'draft'}
@@ -360,7 +330,7 @@ export default class DevGameSidebar extends LitElement {
 					([ts, v]) => ts,
 					([ts, v]) => this.renderVersionFolder(ts, v)
 				)}
-			</info-panel-body>
+			</rvt-sidebar-group>
 		`;
 	}
 
@@ -376,21 +346,16 @@ export default class DevGameSidebar extends LitElement {
 
 	renderNamespace(namespace: cloud.NamespaceSummary) {
 		let version = versionForId(this.game, namespace.versionId);
-		let classes = classMap({
-			namespace: true,
-			selected: namespace.namespaceId == this.namespaceId
-		});
 
-		return html`<stylized-button
-			class=${classes}
+		return html`<rvt-sidebar-button
+			?current=${namespace.namespaceId == this.namespaceId}
 			href=${routes.devNamespace.build({
 				gameId: this.game.gameId,
 				namespaceId: namespace.namespaceId
 			})}
 		>
-			<span class="display-name">${namespace.displayName}</span>
-			<span class="version-display-name">${version.displayName}</span>
-		</stylized-button>`;
+			${namespace.displayName} (${version.displayName})
+		</rvt-sidebar-button>`;
 	}
 
 	renderVersionFolder(ts: number, versionFolder: VersionFolder) {
