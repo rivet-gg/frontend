@@ -196,6 +196,14 @@ module.exports = async function () {
 					}
 				]
 			}),
+			new CopyWebpackPlugin({
+				patterns: [
+					{
+						from: path.resolve(__dirname, 'html', 'fonts'),
+						to: path.join(__dirname, 'dist', 'fonts')
+					}
+				]
+			}),
 
 			...(process.env.WEBPACK_BUILD_ANALYZER
 				? [
