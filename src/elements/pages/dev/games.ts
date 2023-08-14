@@ -267,7 +267,7 @@ export default class DevGames extends LitElement {
 				  </div>`
 				: null}
 			${when(
-				!config.IS_PROD && global.currentIdentity.isRegistered,
+				global.currentIdentity.isRegistered && global.currentIdentity.isAdmin,
 				() =>
 					html` <div
 						class="dashed-border-button flex justify-center items-center hover:cursor-pointer w-full h-32 place-content-center text-[#d1d1d1]  hover:text-white hover:bg-[#ffffff05]"
