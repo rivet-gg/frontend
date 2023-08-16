@@ -267,10 +267,10 @@ export default class DevGames extends LitElement {
 				  </div>`
 				: null}
 			${when(
-				!config.IS_PROD && global.currentIdentity.isRegistered,
+				global.currentIdentity.isRegistered,
 				() =>
 					html` <div
-						class="dashed-border-button flex justify-center items-center hover:cursor-pointer w-full h-32 place-content-center text-[#d1d1d1]  hover:text-white hover:bg-[#ffffff05]"
+						class="dashed-border-button flex justify-center items-center hover:cursor-pointer w-full h-32 place-content-center text-[#d1d1d1]  hover:text-white hover:bg-button-bg-hover-color"
 						@click=${this.openGroupModal.bind(this)}
 						@mouseenter=${() => (this.createGroupHovered = true)}
 						@mouseleave=${() => (this.createGroupHovered = false)}
@@ -331,7 +331,7 @@ export default class DevGames extends LitElement {
 									.group=${group}
 								></group-avatar>
 							</div>
-							<h2 class="text-ellipsis overflow-hidden text-[24px] max-w-3/4">
+							<h2 class="my-auto text-ellipsis overflow-hidden text-[24px] max-w-3/4">
 								${group.displayName}
 							</h2>
 						</div>

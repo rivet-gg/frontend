@@ -12,7 +12,7 @@ export default class DeveloperDash extends LitElement {
 			<div class="w-full">
 				<user-banner></user-banner>
 
-				<div class="w-[97%] max-w-[1100px] m-auto">
+				<div class="sm:px-5 max-w-contentwidth m-auto">
 					<page-dev-games></page-dev-games>
 				</div>
 			</div>

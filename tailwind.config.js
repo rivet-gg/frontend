@@ -10,6 +10,12 @@ module.exports = {
 			pixel: ['Silkscreen', 'ui-sans-serif', 'system-ui']
 		},
 		extend: {
+			colors: {
+				'button-bg-hover-color': '#ffffff05'
+			},
+			maxWidth: {
+				contentwidth: '1100px'
+			},
 			translate: {
 				'.05': '.05rem'
 			}
