@@ -1,10 +1,13 @@
 import './device-link';
+import './game-banner';
 import './game-billing';
 import './game-builds';
 import './game-kv';
 import './game-lobbies';
 import './game-logs';
 import './game-namespace';
+import './game-namespace-tile';
+import './game-overview';
 import './game-sites';
 import './game-summary';
 import './game-tokens';

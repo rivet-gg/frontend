@@ -119,7 +119,7 @@ export default class NavBar extends LitElement {
 								},
 								{
 									name: gameData.displayName,
-									url: routes.devGame.build({ gameId: gameData.gameId }),
+									url: routes.devGameOverview.build({ gameId: gameData.gameId }),
 									img: { type: 'Game', infoObj: gameData }
 								}
 							];
@@ -217,7 +217,6 @@ export default class NavBar extends LitElement {
 	render() {
 		return html`
                 <nav class="gap-10 px-6 lg:z-30 pointer-events-auto fixed inset-x-0 top-0 z-50 flex flex-col transition md:divide-white/15 backdrop-blur  bg-zinc-900/[.8]">
-                    <!-- TODO - standardize logo size with main page -->
                     <div class="h-14 flex items-center justify-between ">
                     <div class="absolute inset-x-0 top-full h-px transition bg-[#29292c]"></div>
                     

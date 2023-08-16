@@ -371,6 +371,20 @@ namespace routes {
 		}
 	});
 
+	export let devGameOverview = new Route<{ gameId: string }>({
+		path: '/games/:gameId/overview',
+		render({ gameId }) {
+			if (!global.currentIdentity.isRegistered) return responses.registerRequired();
+			if (!utils.validateUuid(gameId)) return responses.notFound();
+
+			return {
+				title: 'Game Overview',
+				breadcrumb: { type: 'Game', gameId, title: 'Overview' },
+				template: html` <game-overview .gameId=${gameId}></game-overview> `
+			};
+		}
+	});
+
 	export let devGameSummary = new Route<{ gameId: string }>({
 		path: '/games/:gameId/summary',
 		render({ gameId }) {
