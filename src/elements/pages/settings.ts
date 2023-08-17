@@ -292,25 +292,30 @@ export default class SettingsPage extends LitElement {
 					<div class="item-header-holder">
 						<h1 class="item-header text-lg py-1">Link Email</h1>
 						${isRegistered
-							? html`<span class="badge bg-green-700 rounded-lg px-3 py-0.5"><e-svg src="solid/check"></e-svg> Registered</span>`
+							? html`<span class="badge bg-green-700 rounded-lg px-3 py-0.5"
+									><e-svg src="solid/check"></e-svg> Registered</span
+							  >`
 							: html`
-								<p class="py-1">Link your email to Rivet for full account access.</p>
-								<stylized-button
-									icon="solid/envelope"
-									color="#404040"
-									text="#eeeeee"
-									.trigger=${() => UIRoot.shared.openRegisterPanel()}
-									>${isRegistered ? 'View registration' : 'Link email'}</stylized-button
-								>
-							`}
+									<p class="py-1">Link your email to Rivet for full account access.</p>
+									<stylized-button
+										icon="solid/envelope"
+										color="#404040"
+										text="#eeeeee"
+										.trigger=${() => UIRoot.shared.openRegisterPanel()}
+										>${isRegistered ? 'View registration' : 'Link email'}</stylized-button
+									>
+							  `}
 					</div>
 				</div>
 				<div class="padded-cell flex flex-col space-y-1">
 					<h1 class="item-header text-lg">Push notifications</h1>
-					<p class="pb-1">Allow Rivet to send your device push notifications for messages while you are away.</p>
+					<p class="pb-1">
+						Allow Rivet to send your device push notifications for messages while you are away.
+					</p>
 					<toggle-switch
 						?value=${this.settings.pushNotifications}
-						@toggle=${(e: ToggleSwitchEvent) => this.settingChanged('push-notifications', e.value)}
+						@toggle=${(e: ToggleSwitchEvent) =>
+							this.settingChanged('push-notifications', e.value)}
 					></toggle-switch>
 				</div>
 				<!-- <div class='spacer'></div>
@@ -337,20 +342,19 @@ export default class SettingsPage extends LitElement {
 				${when(
 					global.currentIdentity.isRegistered,
 					() =>
-						html`
-							<div class="padded-cell flex flex-col space-y-1">
-								<h1 class="item-header text-lg">Toggle deletion</h1>
-								<p class="pb-1">
-									Marks your account for deletion. After 30 days of this switch being on, your
-									Rivet account and all associated game accounts will be
-									<b>permanently deleted</b>.
-								</p>
-								<toggle-switch
-									?value=${global.currentIdentity.awaitingDeletion}
-									@toggle=${(e: ToggleSwitchEvent) =>
-										this.settingChanged('toggle-deletion', e.value)}
-								></toggle-switch>
-							</div>`
+						html` <div class="padded-cell flex flex-col space-y-1">
+							<h1 class="item-header text-lg">Toggle deletion</h1>
+							<p class="pb-1">
+								Marks your account for deletion. After 30 days of this switch being on, your
+								Rivet account and all associated game accounts will be
+								<b>permanently deleted</b>.
+							</p>
+							<toggle-switch
+								?value=${global.currentIdentity.awaitingDeletion}
+								@toggle=${(e: ToggleSwitchEvent) =>
+									this.settingChanged('toggle-deletion', e.value)}
+							></toggle-switch>
+						</div>`
 				)}
 			</div>
 
