@@ -102,9 +102,15 @@ export default class SettingsPage extends LitElement {
 				items: [
 					{
 						id: 'privacy',
+						icon: 'solid/lock',
+						title: 'Privacy Policy',
+						url: 'https://rivet.gg/privacy'
+					},
+					{
+						id: 'terms',
 						icon: 'solid/file',
-						title: 'Privacy & Terms',
-						render: this.renderPrivacy
+						title: 'Terms of Service',
+						url: 'https://rivet.gg/terms'
 					},
 					{
 						id: 'support',
@@ -358,38 +364,6 @@ export default class SettingsPage extends LitElement {
 					@close=${this.editModalClose.bind(this)}
 				></identity-profile-edit>
 			</drop-down-modal>
-		`;
-	}
-
-	renderPrivacy() {
-		return html`
-			<div class="padded-cell">
-				<h1 class="item-header">Privacy Policy and Terms of Service</h1>
-				<p>
-					Review our
-					<a class="decorated link" href="https://rivet.gg/privacy" target="_blank"
-						>Privacy Policy</a
-					>
-					and
-					<a class="decorated link" href="https://rivet.gg/terms" target="_blank"
-						>Terms of Service</a
-					>
-					here.
-				</p>
-			</div>
-			<!-- <div class='spacer'></div>
-			<div class='padded-cell'>
-				<h1 class='item-header'>Enhance your experience with data collection</h1>
-				<p>Rivet uses data collection to personalize your experience using our app and help find software bugs for a cleaner experience.</p>
-				<toggle-switch ?value=${this.settings.collectData} @toggle=${(e: ToggleSwitchEvent) =>
-				this.settingChanged('collect-data', e.value)}></toggle-switch>
-			</div>
-			<div class='padded-cell'>
-				<h1 class='item-header'>Third-party data collection</h1>
-				<p>Allow our third-party partners to securely access certain identity data for various services used across client.</p>
-				<toggle-switch ?value=${this.settings.collectData} @toggle=${(e: ToggleSwitchEvent) =>
-				this.settingChanged('third-party-data', e.value)}></toggle-switch>
-			</div> -->
 		`;
 	}
 
