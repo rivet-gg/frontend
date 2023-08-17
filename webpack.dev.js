@@ -16,7 +16,7 @@ module.exports = async function () {
 			hot: false,
 			overlay: true,
 			historyApiFallback: {
-				rewrites: [{ from: /.*/, to: '/404.html' }]
+				rewrites: [{ from: /.*/, to: '/index.html' }]
 			},
 			index: 'index.html'
 		},
