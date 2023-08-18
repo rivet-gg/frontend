@@ -307,17 +307,16 @@ export default class SettingsPage extends LitElement {
 							  `}
 					</div>
 				</div>
-				<div class="padded-cell flex flex-col space-y-1">
+				<!-- <div class="padded-cell flex flex-col space-y-1">
 					<h1 class="item-header text-lg">Push notifications</h1>
 					<p class="pb-1">
 						Allow Rivet to send your device push notifications for messages while you are away.
 					</p>
 					<toggle-switch
 						?value=${this.settings.pushNotifications}
-						@toggle=${(e: ToggleSwitchEvent) =>
-							this.settingChanged('push-notifications', e.value)}
+						@toggle=${(e: ToggleSwitchEvent) => this.settingChanged('push-notifications', e.value)}
 					></toggle-switch>
-				</div>
+				</div> -->
 				<!-- <div class='spacer'></div>
 				<div class='padded-cell'>
 					<h1 class='item-header'>Email <span class='muted'>******email@gmail.com</span></h1>
