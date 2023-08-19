@@ -19,50 +19,6 @@ export namespace RootCache {
 	}
 }
 
-export namespace ThreadHistoryCache {
-	interface Payload {
-		chatMessages: api.chat.ChatMessage[];
-	}
-
-	export async function get(threadId: string): Promise<Payload> {
-		return await readCache(['threads2', threadId, 'history']);
-	}
-
-	export function set(threadId: string, payload: Payload) {
-		writeCache(['threads2', threadId, 'history'], payload);
-	}
-}
-
-export namespace ThreadLiveCache {
-	interface Payload {
-		lastReadTs: Date;
-		watch: api.chat.WatchResponse;
-	}
-
-	export async function get(threadId: string): Promise<Payload> {
-		return await readCache(['threads2', threadId]);
-	}
-
-	export function set(threadId: string, payload: Payload) {
-		writeCache(['threads2', threadId], payload);
-	}
-}
-
-export namespace RecentThreadsCache {
-	interface Payload {
-		threads: api.identity.ChatThread[];
-		watch: api.identity.WatchResponse;
-	}
-
-	export async function get(): Promise<Payload> {
-		return await readCache(['threads2', 'recent']);
-	}
-
-	export function set(payload: Payload) {
-		writeCache(['threads2', 'recent'], payload);
-	}
-}
-
 export namespace IdentityProfileCache {
 	type Payload = api.identity.GetIdentityProfileCommandOutput;
 

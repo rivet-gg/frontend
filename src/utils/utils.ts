@@ -511,36 +511,6 @@ const utils = {
 		}
 	},
 
-	formatIdentityListName(
-		identities: api.identity.IdentityHandle[],
-		currentIdentity: api.identity.IdentityHandle
-	) {
-		// One identity in a chat
-		if (identities.length < 2) {
-			return 'Empty chat';
-		}
-		// Two identities in a chat, make the chat title the username of the other identity
-		else if (identities.length == 2) {
-			return identities.find(identity => identity.identityId != currentIdentity.identityId).displayName;
-		} else {
-			// Render list of identities
-			let displayNames = identities.map(
-				(u, i) =>
-					`${u.displayName}${
-						i == identities.length - 2 ? ', and ' : i != identities.length - 1 ? ', ' : ''
-					}`
-			);
-
-			// Truncate list to 3
-			if (identities.length > 3) {
-				displayNames.length = 3;
-				displayNames.push(`and ${identities.length - 3} more`);
-			}
-
-			return displayNames.join('').trim();
-		}
-	},
-
 	// Format a list of strings
 	formatList(items: string[], truncationLength = 0, andSymbol = 'and') {
 		// Render list of identities

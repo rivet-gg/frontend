@@ -6,7 +6,7 @@ import timing from './timing';
 import { windowEventGroups, globalEventGroups } from './global-events';
 import * as api from './api';
 import * as cloud from '@rivet-gg/cloud';
-import { RecentThreadsCache, RootCache } from '../data/cache';
+import { RootCache } from '../data/cache';
 import PushNotifications from './push-notifications';
 import { BroadcastEvent, BroadcastEventKind } from '../data/broadcast';
 import { ls } from './cache';
@@ -16,8 +16,6 @@ import { Fetcher, fetcher } from '@rivet-gg/api-internal/core';
 import { HttpRequest } from '@aws-sdk/protocol-http';
 import { HttpHandlerOptions } from '@aws-sdk/types';
 import { FailedResponse } from '@rivet-gg/api-internal/core/fetcher/APIResponse';
-
-const CHAT_THREAD_HISTORY = 64;
 
 // Keep in sync with mobile widths in consts.css
 export enum WindowSize {
@@ -371,97 +369,7 @@ export class GlobalState {
 				);
 			});
 
-			this.startEventsStream();
 			this.startRecentFollowersStream();
-		});
-	}
-
-	startEventsStream() {
-		RecentThreadsCache.get().then(payload => {
-			if (payload) {
-				// Dispatch event for main-sidebar to use
-				globalEventGroups.dispatch('thread-update', payload.threads);
-
-				this.recentThreads = Array.from(payload.threads);
-			}
-
-			if (this.eventStream) this.eventStream.cancel();
-			this.eventStream = new api.RepeatingRequest(
-				async (abortSignal, watchIndex) => {
-					return await this.live.identity.watchEvents({ watchIndex }, { abortSignal });
-				},
-				{ watchIndex: payload?.watch }
-			);
-
-			this.eventStream.onMessage(res => {
-				let dispatchRecentThreads = false;
-				for (let update of res.events) {
-					if (update.kind.chatMessage) {
-						dispatchRecentThreads = true;
-
-						if (update.notification) globalEventGroups.dispatch('notification', update);
-
-						let thread = update.kind.chatMessage.thread;
-
-						let ts = thread.tailMessage ? thread.tailMessage.sendTs : thread.createTs;
-						// Remove old chat entry
-						let threadIndex = this.recentThreads.findIndex(c => c.threadId == thread.threadId);
-						if (threadIndex != -1) {
-							this.recentThreads.splice(threadIndex, 1);
-						}
-						// Insert at the appropriate date
-						let didInsert = false;
-						for (let i = this.recentThreads.length - 1; i >= 0; i--) {
-							let ts2 = this.recentThreads[i].tailMessage
-								? this.recentThreads[i].tailMessage.sendTs
-								: this.recentThreads[i].createTs;
-							if (ts2 < ts) {
-								this.recentThreads.splice(i + 1, 0, thread);
-								didInsert = true;
-								break;
-							}
-						}
-						if (!didInsert) this.recentThreads.unshift(thread);
-						if (this.recentThreads.length > CHAT_THREAD_HISTORY)
-							this.recentThreads.splice(0, this.recentThreads.length - CHAT_THREAD_HISTORY);
-					}
-					// Update unread count
-					else if (update.kind.chatRead) {
-						dispatchRecentThreads = true;
-
-						let thread = this.recentThreads.find(
-							t => t.threadId == update.kind.chatRead.threadId
-						);
-						thread.unreadCount = 0;
-						thread.lastReadTs = update.kind.chatRead.readTs;
-					}
-					// Remove thread
-					else if (update.kind.chatThreadRemove) {
-						let threadIndex = this.recentThreads.findIndex(
-							t => t.threadId == update.kind.chatThreadRemove.threadId
-						);
-						logging.debug('Thread removed', update.kind.chatThreadRemove.threadId, threadIndex);
-
-						if (threadIndex != -1) this.recentThreads.splice(threadIndex, 1);
-					} else if (update.kind.identityUpdate) {
-						// NOOP, we already tail the profile endpoint
-					} else {
-						logging.warn('Unknown update kind', update);
-					}
-				}
-
-				// Dispatch event for main-sidebar to use
-				if (dispatchRecentThreads) globalEventGroups.dispatch('thread-update', this.recentThreads);
-
-				RecentThreadsCache.set({
-					threads: this.recentThreads,
-					watch: res.watch
-				});
-			});
-
-			this.eventStream.onError(err => {
-				logging.error('Request error', err);
-			});
 		});
 	}
 
@@ -549,11 +457,6 @@ export class GlobalState {
 
 		// Dispatch resize event
 		if (this.windowSize != oldSize) globalEventGroups.dispatch('resize', this.windowSize);
-	}
-
-	// Dispatch a read event for the purpose of updating the main sidebar
-	readThread(id: string) {
-		globalEventGroups.dispatch('thread-read', id);
 	}
 }
 

@@ -48,9 +48,6 @@ export default class IdentitySidebar extends LitElement {
 	@property({ type: Array })
 	mutualFriends: api.identity.IdentityHandle[] = [];
 
-	@property({ type: Boolean, attribute: 'in-chat' })
-	inChat = false;
-
 	// === EVENT HANDLERS ===
 	handlePartyUpdate: (e: PartyUpdateEvent) => void;
 
@@ -149,65 +146,59 @@ export default class IdentitySidebar extends LitElement {
 			</info-panel-body>
 
 			${when(
-				!this.inChat,
+				!isSelf,
 				() =>
-					html`${when(
-							!isSelf,
-							() =>
-								html`<!-- Friends -->
-									<info-panel-header>
-										<div slot="title">Mutual friends</div>
-									</info-panel-header>
-
-									<info-panel-body
-										>${this.renderIdentityList(
-											this.mutualFriends,
-											html`<p>No friends in common</p>`
-										)}</info-panel-body
-									>`
-						)}
-						${when(
-							this.profile,
-							() =>
-								html`<!-- Followers -->
-									<info-panel-header>
-										<div slot="title">
-											${numbro(followerCount).format('0,0')}
-											Follower${followerCount != 1 ? 's' : null}
-										</div>
-									</info-panel-header>
-
-									<info-panel-body
-										>${this.renderIdentityList(
-											this.followers,
-											html`<p>No followers</p>`
-										)}</info-panel-body
-									>
-
-									<!-- Following -->
-									<info-panel-header>
-										<div slot="title">
-											${numbro(followingCount).format('0,0')} Following
-										</div>
-									</info-panel-header>
-
-									<info-panel-body
-										>${this.renderIdentityList(
-											this.following,
-											html`<p>Not following anyone</p>`
-										)}</info-panel-body
-									>`
-						)}
-
-						<!-- Groups -->
+					html`<!-- Friends -->
 						<info-panel-header>
-							<div slot="title">Groups</div>
+							<div slot="title">Mutual friends</div>
 						</info-panel-header>
 
-						<info-panel-body id="groups" ?noindent=${this.profile?.groups?.length}
-							>${when(!this.profileNotFound, () => this.renderGroups())}</info-panel-body
+						<info-panel-body
+							>${this.renderIdentityList(
+								this.mutualFriends,
+								html`<p>No friends in common</p>`
+							)}</info-panel-body
 						>`
 			)}
+			${when(
+				this.profile,
+				() =>
+					html`<!-- Followers -->
+						<info-panel-header>
+							<div slot="title">
+								${numbro(followerCount).format('0,0')}
+								Follower${followerCount != 1 ? 's' : null}
+							</div>
+						</info-panel-header>
+
+						<info-panel-body
+							>${this.renderIdentityList(
+								this.followers,
+								html`<p>No followers</p>`
+							)}</info-panel-body
+						>
+
+						<!-- Following -->
+						<info-panel-header>
+							<div slot="title">${numbro(followingCount).format('0,0')} Following</div>
+						</info-panel-header>
+
+						<info-panel-body
+							>${this.renderIdentityList(
+								this.following,
+								html`<p>Not following anyone</p>`
+							)}</info-panel-body
+						>`
+			)}
+
+			<!-- Groups -->
+			<info-panel-header>
+				<div slot="title">Groups</div>
+			</info-panel-header>
+
+			<info-panel-body id="groups" ?noindent=${this.profile?.groups?.length}
+				>${when(!this.profileNotFound, () => this.renderGroups())}</info-panel-body
+			>
 
 			<slot name="extras-bottom"></slot>
 		</div>`;
@@ -230,18 +221,6 @@ export default class IdentitySidebar extends LitElement {
 				>`
 			);
 		} else {
-			if (!this.inChat) {
-				actions.push(
-					html`<stylized-button
-						icon="solid/message"
-						href=${routes.identityDirectChat.build({
-							id: this.profile.identityId
-						})}
-						>Message</stylized-button
-					>`
-				);
-			}
-
 			// if (global.currentParty) {
 			// 	let isLeader = global.currentParty.members.some(
 			// 		member =>
@@ -337,78 +316,7 @@ export default class IdentitySidebar extends LitElement {
 					.trigger=${isSelf ? this.promptStatus.bind(this) : null}
 					>${statusText}</stylized-button
 				>
-				${when(
-					this.profile.party,
-					() => this.renderParty(this.profile.party),
-					() =>
-						when(this.profile.presence.gameActivity, () =>
-							this.renderGameActivity(this.profile.presence.gameActivity)
-						)
-				)}
 			</info-panel-body>`;
-	}
-
-	renderParty(party: api.party.PartySummary) {
-		return html`<div class="party">
-			<div class="info">
-				<h1 class="title">In Party</h1>
-				<avatar-collage
-					class="members"
-					max="6"
-					.identities=${party.members.map(m => m.identity)}
-				></avatar-collage>
-			</div>
-			${this.renderPartyActivity(party.activity)}
-		</div>`;
-	}
-
-	renderPartyActivity(activity: api.party.PartyActivity) {
-		if (activity.idle) {
-			return null;
-		} else if (activity.matchmakerFindingLobby) {
-			let game = activity.matchmakerFindingLobby.game;
-
-			return html`<div class="activity">
-				<a class="activity-link"></a>
-				<div class="activity-content">
-					<lazy-img
-						class="activity-game-logo"
-						bg-size=${game.logoUrl ? 'contain' : 'cover'}
-						src=${game.logoUrl ?? assets.asset('/games/blank/logo.png')}
-						@mouseenter=${tooltip(game.displayName)}
-					></lazy-img>
-					<div class="activity-description">
-						<div class="activity-description-content">
-							<h2>${game.displayName}</h2>
-							<h3>Finding lobby...</h3>
-						</div>
-						<loading-wheel custom></loading-wheel>
-					</div>
-				</div>
-			</div>`;
-		} else if (activity.matchmakerLobby) {
-			let game = activity.matchmakerLobby.game;
-
-			return html`<div class="activity">
-				<div class="activity-content">
-					<lazy-img
-						class="activity-game-logo"
-						bg-size=${game.logoUrl ? 'contain' : 'cover'}
-						src=${game.logoUrl ?? assets.asset('/games/blank/logo.png')}
-						@mouseenter=${tooltip(game.displayName)}
-					></lazy-img>
-					<div class="activity-description">
-						<div class="activity-description-content">
-							<h2>${game.displayName}</h2>
-							<!-- <h3>32 left</h3> -->
-						</div>
-					</div>
-				</div>
-			</div>`;
-		} else {
-			logging.warn('Unknown party activity', activity);
-			return null;
-		}
 	}
 
 	renderGameActivity(gameActivity: api.identity.IdentityGameActivity) {

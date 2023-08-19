@@ -306,9 +306,6 @@ export default class UIRouter extends LitElement {
 
 		let fromHome = false;
 
-		// Hide overlays on navigation
-		UIRoot.shared.closeSearchPanel();
-
 		// Prevent adding page to history upon navigating back to previous page
 		if (opts.previousPage == null) {
 			// Cycle through the page list to update the very last active page

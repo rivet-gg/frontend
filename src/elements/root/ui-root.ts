@@ -15,7 +15,6 @@ import EmojiPicker, { EmojiItemData, EmojiSelectEvent } from '../overlay/emoji-p
 import { AlertOption } from '../overlay/alert-panel';
 import { ActionSheetItem } from '../overlay/action-sheet';
 import { showAlert } from '../../ui/helpers';
-import SearchPanel from '../overlay/search-panel';
 import * as api from '../../utils/api';
 import RegisterPanel from '../overlay/register-panel';
 import config from '../../config';
@@ -46,21 +45,6 @@ export interface AlertPanelData {
 interface ActionSheetData {
 	contextElement: HTMLElement;
 	options: ActionSheetItem[];
-	active: boolean;
-}
-
-// Enables which item to search for in the search panel
-interface SearchPanelFilter {
-	identities?: boolean;
-	games?: boolean;
-	chats?: boolean;
-	groups?: boolean;
-}
-
-// Options for showing the search panel (with `helpers.showSearchPanel`).
-export interface SearchPanelData {
-	filter: SearchPanelFilter;
-	selectionCb?: (item: api.identity.IdentityHandle | api.group.GroupHandle) => void;
 	active: boolean;
 }
 
@@ -105,9 +89,6 @@ export default class UIRoot extends LitElement {
 	@query('emoji-picker')
 	emojiPicker: EmojiPicker;
 
-	@query('search-panel')
-	searchPanel: SearchPanel;
-
 	@query('register-panel')
 	registerPanel: RegisterPanel;
 
@@ -136,9 +117,6 @@ export default class UIRoot extends LitElement {
 		orientation: Orientation.TopLeft,
 		active: false
 	};
-
-	@property({ type: Object })
-	searchPanelData: SearchPanelData = { filter: null, active: false };
 
 	@property({ type: Object })
 	dropDownListData: DropDownListData<any> = {
@@ -329,8 +307,6 @@ export default class UIRoot extends LitElement {
 				this.hideContextMenu();
 			} else if (this.alertPanelData.active) {
 				this.hideAlertPanel();
-			} else if (this.searchPanelData.active) {
-				this.closeSearchPanel();
 			}
 		}
 	}
@@ -361,30 +337,6 @@ export default class UIRoot extends LitElement {
 		}, TRANSITION_LENGTH);
 	}
 
-	openSearchPanel(data: SearchPanelData) {
-		this.searchPanelData = data;
-
-		this.updateComplete.then(async () => {
-			// Waiting for this makes sure that the body's scroll height is updated before setting scroll
-			// position
-			await this.getUpdateComplete();
-
-			this.searchPanel.focusInput();
-		});
-	}
-
-	closeSearchPanel() {
-		this.searchPanelData.active = false;
-		this.requestUpdate('searchPanelData');
-
-		// Clear after animation is complete
-		setTimeout(() => {
-			if (this.searchPanel) {
-				this.searchPanel.clearSearch();
-			}
-		}, timing.milliseconds(300));
-	}
-
 	openRegisterPanel() {
 		this.registerPanelActive = true;
 
@@ -399,11 +351,6 @@ export default class UIRoot extends LitElement {
 
 	closeRegisterPanel() {
 		this.registerPanelActive = false;
-
-		// Clear after animation is complete
-		setTimeout(() => {
-			if (this.searchPanel) this.registerPanel.resetRegister();
-		}, timing.milliseconds(300));
 	}
 
 	// Manage loading status
@@ -567,16 +514,6 @@ export default class UIRoot extends LitElement {
 			>
 				<emoji-picker @select=${this.onEmojiSelect.bind(this)}></emoji-picker>
 			</overlay-positioning>
-
-			<!-- Search overlay -->
-			<drop-down-modal
-				.active=${this.searchPanelData.active}
-				@close=${this.closeSearchPanel.bind(this)}
-			>
-				<modal-body slot="body">
-					<search-panel .options=${this.searchPanelData}></search-panel>
-				</modal-body>
-			</drop-down-modal>
 
 			<!-- Register overlay -->
 			<drop-down-modal .active=${this.registerPanelActive} @close=${this.closeRegisterPanel.bind(this)}>

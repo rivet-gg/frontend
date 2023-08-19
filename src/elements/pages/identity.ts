@@ -157,61 +157,6 @@ export default class IdentityPage extends LitElement {
 		this.colorExtractor.getPalette().then(() => this.requestUpdate('colorExtractor'));
 	}
 
-	// Assumes current identity is leader
-	async inviteToParty() {
-		try {
-			let inviteToken;
-			if (!global.currentParty) {
-				// Read publicity from cache
-				let publicity: api.party.CreatePartyPublicityConfig = {};
-				try {
-					publicity = JSON.parse(ls.getString('party-publicity', '{}'));
-				} catch {}
-
-				let partyRes = await global.live.party.createParty({
-					partySize: 4,
-					publicity,
-					invites: [{}]
-				});
-
-				inviteToken = partyRes.invites[0].token;
-			} else {
-				inviteToken = (await global.live.party.createPartyInvite({})).invite.token;
-			}
-
-			// Send invite chat message
-			await global.live.chat.sendChatMessage({
-				topic: { identityId: this.identityId },
-				messageBody: { partyInvite: { token: inviteToken } }
-			});
-		} catch (err) {
-			logging.error('Error creating/inviting to party', err);
-			this.loadError = err;
-		}
-	}
-
-	async requestToJoinParty() {
-		try {
-			await global.live.party.sendJoinRequest({
-				partyId: this.profile.party.partyId
-			});
-		} catch (err) {
-			logging.error('Error requesting to join party', err);
-			this.loadError = err;
-		}
-	}
-
-	async joinParty(partyId: string) {
-		try {
-			await global.live.party.joinParty({
-				invite: { partyId }
-			});
-		} catch (err) {
-			logging.error('Error joining party', err);
-			this.loadError = err;
-		}
-	}
-
 	async toggleFollow() {
 		try {
 			if (this.profile.following) {
@@ -256,14 +201,8 @@ export default class IdentityPage extends LitElement {
 	onActionEvent(event: IdentityActionEvent) {
 		let action = event.action;
 
-		if (action.inviteToParty) {
-			this.inviteToParty();
-		} else if (action.openEditModal) {
+		if (action.openEditModal) {
 			this.openEditModal();
-		} else if (action.requestToJoinParty) {
-			this.requestToJoinParty();
-		} else if (action.joinParty) {
-			this.joinParty(action.joinParty.partyId);
 		} else if (action.toggleFollow) {
 			this.toggleFollow();
 		} else logging.warn('Identity sidebar event not hooked up', action);

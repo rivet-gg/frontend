@@ -73,27 +73,6 @@ export function showBannedIdentityContextMenu(context: Context['bannedIdentity']
 	});
 }
 
-export function showPartyMemberContextMenu(context: Context['partyMember']): (e: MouseEvent) => void {
-	return abstractContextMenu(() => {
-		let ctx: Context = { partyMember: context };
-		return html`<context-menu .ctx=${ctx}></context-menu>`;
-	});
-}
-
-export function showChatThreadContextMenu(context: Context['chatThread']): (e: MouseEvent) => void {
-	return abstractContextMenu(() => {
-		let ctx: Context = { chatThread: context };
-		return html`<context-menu .ctx=${ctx}></context-menu>`;
-	});
-}
-
-export function showChatMessageContextMenu(context: Context['chatMessage']): (e: MouseEvent) => void {
-	return abstractContextMenu(() => {
-		let ctx: Context = { chatMessage: context };
-		return html`<context-menu .ctx=${ctx}></context-menu>`;
-	});
-}
-
 export function showLobbyContextMenu(context: Context['lobby']): (e: MouseEvent) => void {
 	return abstractContextMenu(() => {
 		let ctx: Context = { lobby: context };

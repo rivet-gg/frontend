@@ -20,7 +20,6 @@ import timing, { wait } from '../../utils/timing';
 interface GroupAction {
 	applyForGroup?: true;
 	openEditModal?: true;
-	inviteToParty?: true;
 	kickMember?: { identityId: string };
 	banIdentity?: { identityId: string };
 	unbanIdentity?: { identityId: string };
@@ -50,9 +49,6 @@ export default class GroupSidebar extends LitElement {
 	@property({ type: Array })
 	joinRequests: api.group.GroupJoinRequest[] = [];
 
-	@property({ type: Boolean, attribute: 'in-chat' })
-	inChat = false;
-
 	@property({ type: Boolean, attribute: 'do-offline-members' })
 	doOfflineMembers = false;
 
@@ -64,9 +60,6 @@ export default class GroupSidebar extends LitElement {
 
 	connectedCallback() {
 		super.connectedCallback();
-
-		this.handlePartyUpdate = this.onPartyUpdate.bind(this);
-		globalEventGroups.add('party-update', this.handlePartyUpdate);
 	}
 
 	updated(changedProperties: PropertyValues) {
@@ -104,10 +97,6 @@ export default class GroupSidebar extends LitElement {
 		}
 	}
 
-	onPartyUpdate() {
-		this.requestUpdate();
-	}
-
 	async applyForGroup() {
 		this.dispatchEvent(new GroupActionEvent({ applyForGroup: true }));
 
@@ -117,10 +106,6 @@ export default class GroupSidebar extends LitElement {
 
 	openEditModal() {
 		this.dispatchEvent(new GroupActionEvent({ openEditModal: true }));
-	}
-
-	inviteToParty() {
-		this.dispatchEvent(new GroupActionEvent({ inviteToParty: true }));
 	}
 
 	leaveGroup() {
@@ -211,7 +196,6 @@ export default class GroupSidebar extends LitElement {
 		if (!this.profile) return [];
 
 		let groupId = this.profile.groupId;
-		let notInChat = !this.inChat;
 
 		let actions = [];
 
@@ -270,7 +254,7 @@ export default class GroupSidebar extends LitElement {
 			// 	>`);
 			// }
 
-			if (notInChat && !isOwner) {
+			if (!isOwner) {
 				actions.push(
 					html`<stylized-button
 						id="leave-button"
@@ -378,7 +362,7 @@ export default class GroupSidebar extends LitElement {
 									custom
 									src="solid/rotate-left"
 									@mouseenter=${tooltip('Unban')}
-									.trigger=${this.unbanIdentity.bind(this, ban.identity.identityId, false)}
+									.trigger=${this.unbanIdentity.bind(this, ban.identity.identityId)}
 								></icon-button>
 							</div>
 						</identity-tile>`

@@ -111,45 +111,6 @@ namespace routes {
 		}
 	});
 
-	export let resolveThread = new Route<{ id: string }>({
-		path: '/threads/:id',
-		render({ id }) {
-			if (!utils.validateUuid(id)) return responses.notFound();
-
-			return {
-				title: 'Thread',
-				breadcrumb: { type: 'Custom' },
-				template: html`<page-thread-resolve .threadId=${id}></page-thread-resolve>`
-			};
-		}
-	});
-
-	export let identityDirectChat = new Route<{ id: string }>({
-		path: '/identities/:id/chat',
-		render({ id }) {
-			if (!utils.validateUuid(id)) return responses.notFound();
-
-			return {
-				title: 'Identity Chat',
-				breadcrumb: { type: 'Custom' },
-				template: html`<page-identity-direct-chat .identityId=${id}></page-identity-direct-chat>`
-			};
-		}
-	});
-
-	export let identityGameStat = new Route<{ id: string; gameNameId: string }>({
-		path: '/identities/:id/game/:gameNameId',
-		render({ id, gameNameId }) {
-			if (!utils.validateUuid(id)) return responses.notFound();
-
-			return {
-				title: 'Identity',
-				breadcrumb: { type: 'Custom' },
-				template: renderPageIdentity(id, gameNameId)
-			};
-		}
-	});
-
 	export let identityFriends = new Route<{ id: string }>({
 		path: '/identities/:id/friends',
 		render({ id }) {
@@ -177,32 +138,6 @@ namespace routes {
 				title: 'Group',
 				breadcrumb: { type: 'Group', groupId: id, title: 'Settings' },
 				template: renderPageGroupSettings(id, null)
-			};
-		}
-	});
-
-	export let groupChat = new Route<{ id: string }>({
-		path: '/groups/:id/chat',
-		render({ id }) {
-			if (!utils.validateUuid(id)) return responses.notFound();
-
-			return {
-				title: 'Group Chat',
-				breadcrumb: { type: 'Group', groupId: id, title: 'Chat' },
-				template: html`<page-group-chat .groupId=${id}></page-group-chat>`
-			};
-		}
-	});
-
-	export let groupGameStat = new Route<{ id: string; gameNameId: string }>({
-		path: '/groups/:id/game/:gameNameId',
-		render({ id, gameNameId }) {
-			if (!utils.validateUuid(id)) return responses.notFound();
-
-			return {
-				title: 'Group',
-				breadcrumb: { type: 'Group', groupId: id },
-				template: renderPageGroupSettings(id, gameNameId)
 			};
 		}
 	});
@@ -264,30 +199,6 @@ namespace routes {
 				title: 'Group Invite',
 				breadcrumb: { type: 'Custom' },
 				template: html`<page-group-invite .code=${code}></page-group-invite>`
-			};
-		}
-	});
-
-	export let party = new Route<{ id: string }>({
-		path: '/parties/:id',
-		render({ id }) {
-			if (!utils.validateUuid(id)) return responses.notFound();
-
-			return {
-				title: `Party`,
-				breadcrumb: { type: 'Custom' },
-				template: html`<page-party-chat .partyId=${id}></page-party-chat>`
-			};
-		}
-	});
-
-	export let partyInvite = new Route<{ token: string }>({
-		path: '/party/invite/:token',
-		render({ token }) {
-			return {
-				title: `Party Invite`,
-				breadcrumb: { type: 'Custom' },
-				template: html`<page-party-invite .inviteToken=${token}></page-party-invite>`
 			};
 		}
 	});
@@ -533,26 +444,6 @@ namespace routes {
 			};
 		}
 	});
-
-	// export let kitchenSink = new Route<{}>({
-	// 	path: '/kitchen-sink',
-	// 	render() {
-	// 		return {
-	// 			title: `Kitchen Sink`,
-	// 			template: html`<page-kitchen-sink></page-kitchen-sink>`
-	// 		};
-	// 	}
-	// });
-
-	// export let test = new Route<{}>({
-	// 	path: '/test',
-	// 	render() {
-	// 		return {
-	// 			title: `Kitchen Sink`,
-	// 			template: html`<div class="w-full h-full"><rvt-sidebar-layout></rvt-sidebar-layout></div>`
-	// 		};
-	// 	}
-	// });
 }
 
 export namespace responses {

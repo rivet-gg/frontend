@@ -355,45 +355,11 @@ export default class GroupPage extends LitElement {
 		}
 	}
 
-	// Assumes current identity is leader
-	async inviteToParty() {
-		try {
-			let inviteToken;
-			if (!global.currentParty) {
-				// Read publicity from cache
-				let publicity: api.party.CreatePartyPublicityConfig = {};
-				try {
-					publicity = JSON.parse(ls.getString('party-publicity', '{}'));
-				} catch {}
-
-				let partyRes = await global.live.party.createParty({
-					partySize: 4,
-					publicity,
-					invites: [{}]
-				});
-
-				inviteToken = partyRes.invites[0].token;
-			} else {
-				inviteToken = (await global.live.party.createPartyInvite({})).invite.token;
-			}
-
-			// Send invite chat message
-			await global.live.chat.sendChatMessage({
-				topic: { groupId: this.groupId },
-				messageBody: { partyInvite: { token: inviteToken } }
-			});
-		} catch (err) {
-			logging.error('Error creating/inviting to party', err);
-			this.loadError = err;
-		}
-	}
-
 	onActionEvent(event: GroupActionEvent) {
 		let action = event.action;
 
 		if (action.applyForGroup) this.applyForGroup();
 		else if (action.openEditModal) this.openEditModal();
-		else if (action.inviteToParty) this.inviteToParty();
 		else if (action.kickMember) this.kickMember(action.kickMember.identityId);
 		else if (action.banIdentity) this.banIdentity(action.banIdentity.identityId);
 		else if (action.unbanIdentity) this.unbanIdentity(action.unbanIdentity.identityId);
