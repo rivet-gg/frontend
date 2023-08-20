@@ -8,6 +8,7 @@ import { IdentityChangeEvent, globalEventGroups } from '../../utils/global-event
 import { isDeveloper } from '../../utils/identity';
 import routes from '../../routes';
 import UIRouter from '../root/ui-router';
+import UIRoot from '../root/ui-root';
 @customElement('dev-dash')
 export default class DeveloperDash extends LitElement {
 	static styles = cssify(styles);
@@ -58,10 +59,17 @@ export default class DeveloperDash extends LitElement {
 						<div class="absolute text-center top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pb-12">	
 							<h1 class="text-3xl pb-2">Private Beta</h1>
 							<h2 class="text-lg pb-4">Rivet is still in private beta. Join the waitlist to get early access.</h2>
-							<div class="w-full flex flex-row place-content-center m-auto">
+							<div class="w-full flex flex-row place-content-center m-auto pb-5">
 								<stylized-button href="https://b8v8449klvp.typeform.com/rivet" target="_blank">
 									Beta Access Form
 								</stylized-button>
+							</div>
+							<div class="w-3/4 border-b-white/10 border-b-[1px] h-px mx-auto"></div>
+							<h2 class="text-md pt-5 pb-3">Have access and just got logged out?</h2>
+							<div class="w-full flex flex-row place-content-center m-auto pb-5">
+								<stylized-button .trigger=${() => UIRoot.shared.openRegisterPanel()}>
+									Login
+								</stylized-button
 							</div>
 						</div>
 					`
