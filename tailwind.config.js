@@ -11,7 +11,14 @@ module.exports = {
 		},
 		extend: {
 			colors: {
-				'button-bg-hover-color': '#ffffff05'
+				'button-bg-hover-color': '#ffffff05',
+				'base-bg': '#18181b', // Also change this in html/index.html and html/static-styles.css
+				'raised-bg': '#FFFFFF17',
+				'lowered-bg': '#00000020',
+				'context-menu': '#262626',
+				'raised-hover': '#FFFFFF27',
+				'muted-text': '#737373',
+				'main-accent': '#7f56d9'
 			},
 			maxWidth: {
 				contentwidth: '1100px'

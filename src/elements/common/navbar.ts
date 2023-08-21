@@ -12,17 +12,21 @@ import { GameFull } from '@rivet-gg/cloud';
 import assets from '../../data/assets';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { CloudGameCache, GroupProfileCache } from '../../data/cache';
+import { DropDownSelectEvent, DropDownSelection } from '../dev/drop-down-list';
+import UIRouter from '../root/ui-router';
 
 export type Breadcrumb =
 	| { type: 'Home' }
 	| { type: 'Group'; groupId: string; title?: string }
 	| { type: 'Game'; gameId: string; title?: string }
+	| { type: 'Namespace'; gameId: string; namespaceId: string; title?: string }
 	| { type: 'Custom'; title?: string };
 
 interface CrumbDisplay {
 	name: string;
 	url?: string;
 	img?: { type: string; infoObj: any };
+	component?: TemplateResult;
 }
 
 @customElement('nav-bar')
@@ -133,6 +137,58 @@ export default class NavBar extends LitElement {
 					});
 
 					break;
+				case 'Namespace':
+					// Not the displayName of the current namespace
+					let namespaceTitle = crumb.title;
+					let namespaceId = crumb.namespaceId;
+
+					this.gameStream = await CloudGameCache.watch(crumb.gameId, async res => {
+						let gameData = res.game;
+
+						let currentNamespace = gameData.namespaces.find(ns => ns.namespaceId === namespaceId);
+
+						this.groupStream = await GroupProfileCache.watch(res.game.developerGroupId, res => {
+							let groupData = res.group;
+							
+							const ns_options: DropDownSelection<cloud.NamespaceSummary>[] = gameData.namespaces.map(ns => ({
+								label: ns.displayName,
+
+								value: ns
+							}))
+
+							// TODO --> Update namespace-dropdown with a drop-down-list to standardize
+							this.displaycrumbs = [
+								{
+									name: groupData.displayName,
+									url: routes.groupSettings.build({ id: groupData.groupId }),
+									img: { type: 'Group', infoObj: groupData }
+								},
+								{
+									name: gameData.displayName,
+									url: routes.devGameOverview.build({ gameId: gameData.gameId }),
+									img: { type: 'Game', infoObj: gameData }
+								},
+								{
+									name: namespaceTitle,
+									component: html`
+												<namespace-dropdown .game=${gameData} .currentNamespace=${currentNamespace}></namespace-dropdown>
+											`
+								}
+							];
+							
+							// <drop-down-list
+							// 	.placeholder=${currentNamespace.displayName}
+							// 	.options=${ns_options}
+							// 	@select=${ (event: DropDownSelectEvent<cloud.NamespaceSummary>) => {
+							// 		UIRouter.shared.navigate(routes.devNamespace.build({gameId: gameData.gameId, namespaceId: event.selection.value.namespaceId}));
+							// 	}}
+							// ></drop-down-list>
+							this.requestUpdate('displaycrumbs');
+						});
+					});
+
+
+					break;
 				case 'Custom':
 					this.displaycrumbs = [
 						{
@@ -171,25 +227,45 @@ export default class NavBar extends LitElement {
 		`;
 	}
 
+	renderChevron(): TemplateResult {
+		return html`
+			<svg
+				class="h-5 w-5 flex-shrink-0 text-gray-200"
+				viewBox="0 0 20 20"
+				fill="currentColor"
+				aria-hidden="true"
+			>
+				<path
+					fill-rule="evenodd"
+					d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z"
+					clip-rule="evenodd"
+				/>
+			</svg>
+			`
+	}
+
 	renderBreadCrumb(): TemplateResult {
 		return html`${this.displaycrumbs.map((crumb: CrumbDisplay | undefined) =>
 			when(
 				typeof crumb !== 'undefined' && crumb.name !== 'Home',
-				() => html`
+				() => {
+					if(typeof crumb.component !== 'undefined') {
+						return html`
+						<li class="group">
+							<div class="flex items-center">
+								${this.renderChevron()}
+								<div class="px-3.5 py-1.5">
+									${crumb.component}
+								</div>
+							</div>
+						</li>
+						`
+					}
+
+					return html`
 					<li class="group">
 						<div class="flex items-center">
-							<svg
-								class="h-5 w-5 flex-shrink-0 text-gray-200"
-								viewBox="0 0 20 20"
-								fill="currentColor"
-								aria-hidden="true"
-							>
-								<path
-									fill-rule="evenodd"
-									d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z"
-									clip-rule="evenodd"
-								/>
-							</svg>
+							${this.renderChevron()}
 
 							<a
 								.href=${ifDefined(crumb.url)}
@@ -210,6 +286,7 @@ export default class NavBar extends LitElement {
 						</div>
 					</li>
 				`
+				}
 			)
 		)}`;
 	}

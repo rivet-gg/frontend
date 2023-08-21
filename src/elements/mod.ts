@@ -18,6 +18,7 @@ import './common/lazy-image';
 import './common/loading-placeholder';
 import './common/loading-placeholder-text';
 import './common/loading-wheel';
+import './common/namespace-dropdown';
 import './common/navbar';
 import './common/overlay-positioning';
 import './common/page-filter';

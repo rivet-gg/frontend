@@ -408,7 +408,7 @@ namespace routes {
 
 			return {
 				title: 'Game Namespace',
-				breadcrumb: { type: 'Game', gameId, title: 'Namespace' },
+				breadcrumb: { type: 'Namespace', gameId, namespaceId, title: 'Namespace' },
 				template: renderPageDevGame(gameId, { namespace: { namespaceId } })
 			};
 		}

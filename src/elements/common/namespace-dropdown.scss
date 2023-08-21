@@ -1,0 +1,10 @@
+.test {
+    display: grid;
+    grid-template-rows: 0fr;
+
+    transition: grid-template-rows 500ms;
+}
+
+.test[aria-expanded="true"] {
+    grid-template-rows: 1fr;
+}
