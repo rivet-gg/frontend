@@ -25,7 +25,9 @@ export default class RichEmbed extends LitElement {
 
 	renderNamespaceListEntry(namespace: cloud.NamespaceSummary): TemplateResult {
 		return html`
-			<a class="pt-3 last:pb-3 group text-sm text-gray-200 hover:text-white flex flex-row place-content-around" href=${routes.devNamespace.build({gameId: this.game.gameId, namespaceId: namespace.namespaceId })}>
+			<a class="pt-3 last:pb-3 transition-all first:border-t-[1px] border-zinc-800 first:aria-expanded:border-zinc-600/80 group text-sm text-gray-200 hover:text-white flex flex-row place-content-around" 
+				href=${routes.devNamespace.build({gameId: this.game.gameId, namespaceId: namespace.namespaceId })}
+				aria-expanded=${this.expanded}>
 				${ namespace.displayName }
 				<svg
 					class="h-5 w-5 ml-auto flex-shrink-0 text-gray-200 group-hover:text-white"
@@ -46,13 +48,13 @@ export default class RichEmbed extends LitElement {
 	render() {
 		return html`
 			<div class="relative min-w-[14rem] overflow-ellipsis bg-zinc-800 rounded-md py-1 transition-all aria-expanded:rounded-b-none hover:cursor-pointer" aria-expanded=${this.expanded} @click=${() => this.switchExpandstate()}>
-				<div class="px-3 transition-all pb-1 mt-2 aria-expanded:rounded-b-none aria-expanded:delay-[300ms] min-w-full flex flex-col peer bg-zinc-800" aria-expanded=${this.expanded}>
+				<div class="px-3 transition-all pb-1 mt-1 aria-expanded:rounded-b-none aria-expanded:delay-[300ms] min-w-full flex flex-col peer bg-zinc-800" aria-expanded=${this.expanded}>
 					<div class="flex flex-row place-content-around w-full">
 						<h2 class="text-md text-gray-200">${this.currentNamespace.displayName}</h2>
 						<button class="ml-auto rotate-90 aria-expanded:-rotate-90 transition ease-in-out duration-200" aria-expanded=${this.expanded}>
 							<svg
 							class="h-5 w-5 flex-shrink-0 text-gray-200"
-							viewBox="0 0 20 20"
+							viewBox="0 0 18 18"
 							fill="currentColor"
 							aria-hidden="true"
 							>

@@ -12,8 +12,6 @@ import { GameFull } from '@rivet-gg/cloud';
 import assets from '../../data/assets';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { CloudGameCache, GroupProfileCache } from '../../data/cache';
-import { DropDownSelectEvent, DropDownSelection } from '../dev/drop-down-list';
-import UIRouter from '../root/ui-router';
 
 export type Breadcrumb =
 	| { type: 'Home' }
@@ -149,12 +147,6 @@ export default class NavBar extends LitElement {
 
 						this.groupStream = await GroupProfileCache.watch(res.game.developerGroupId, res => {
 							let groupData = res.group;
-							
-							const ns_options: DropDownSelection<cloud.NamespaceSummary>[] = gameData.namespaces.map(ns => ({
-								label: ns.displayName,
-
-								value: ns
-							}))
 
 							// TODO --> Update namespace-dropdown with a drop-down-list to standardize
 							this.displaycrumbs = [
@@ -170,19 +162,10 @@ export default class NavBar extends LitElement {
 								},
 								{
 									name: namespaceTitle,
-									component: html`
-												<namespace-dropdown .game=${gameData} .currentNamespace=${currentNamespace}></namespace-dropdown>
-											`
+									component: html`<namespace-dropdown .game=${gameData} .currentNamespace=${currentNamespace}></namespace-dropdown>`
 								}
 							];
-							
-							// <drop-down-list
-							// 	.placeholder=${currentNamespace.displayName}
-							// 	.options=${ns_options}
-							// 	@select=${ (event: DropDownSelectEvent<cloud.NamespaceSummary>) => {
-							// 		UIRouter.shared.navigate(routes.devNamespace.build({gameId: gameData.gameId, namespaceId: event.selection.value.namespaceId}));
-							// 	}}
-							// ></drop-down-list>
+
 							this.requestUpdate('displaycrumbs');
 						});
 					});
