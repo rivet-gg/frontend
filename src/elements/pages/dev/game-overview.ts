@@ -302,6 +302,22 @@ export default class DevGameOverview extends LitElement {
 		}
 	}
 
+	async createCloudToken() {
+		let createRes = await global.cloud.createCloudToken({ gameId: this.game.gameId });
+
+		showAlert(
+			'Cloud Token Creation',
+			html` <span
+					>Copy this token to your clipboard. You will not be able to access this token again.</span
+				>
+				<br />
+				<copy-area light confidential>
+					<code class="no-ligatures thick">${createRes.token}</code>
+				</copy-area>
+			`
+		);
+	}
+
 	renderNamespaceList(game: cloud.GameFull): TemplateResult {
 		if (!game.namespaces) return html`<h1>No namespaces found</h1>`;
 		return html`
@@ -342,7 +358,19 @@ export default class DevGameOverview extends LitElement {
 	rendergameEditButtons(game: cloud.GameFull): TemplateResult {
 		return html`
 			<div class="w-1/2">
-				<h1 class="text-xl pb-4">Edit Game</h1>
+				<h1 class="text-xl pb-4">Game Settings</h1>
+				<div>
+					<stylized-button
+						class="w-full"
+						centered
+						large
+						id="create-token-button"
+						icon="solid/key"
+						.trigger=${this.createCloudToken.bind(this)}
+						>Create Cloud Token</stylized-button
+					>
+				</div>
+				<div class="pt-2 p-px border-white/10 border-b-[1px]"></div>
 				<div id="input-area" class="space-y-5">
 					<h3 class="text-lg py-2">Logo</h3>
 					<file-uploader
