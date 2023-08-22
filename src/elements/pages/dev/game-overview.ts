@@ -16,6 +16,13 @@ import global from '../../../utils/global';
 import { InputUpdateEvent } from '../../dev/text-input';
 import { TraversableErrors, VALIDATION_ERRORS } from '../../../utils/traversable-errors';
 import timing, { Debounce } from '../../../utils/timing';
+import { FileInput, PrepareResponse } from '../../common/file-uploader';
+import fileSize from '../../../utils/files';
+
+enum UploadType {
+	Logo,
+	Banner
+}
 
 @customElement('game-overview')
 export default class DevGameOverview extends LitElement {
@@ -121,6 +128,56 @@ export default class DevGameOverview extends LitElement {
 			});
 		} catch (err) {
 			logging.error('failed to fetch game data', err);
+		}
+	}
+
+	async prepareUpload(type: UploadType, files: FileInput[]): Promise<PrepareResponse> {
+		let imageFile = files[0];
+		if (!imageFile) {
+			logging.warn('no image file provided');
+			return null;
+		}
+
+		// Prepare the upload
+		let createRes;
+		if (type == UploadType.Logo) {
+			createRes = await global.cloud.gameLogoUploadPrepare({
+				gameId: this.game.gameId,
+				path: imageFile.prepared.path,
+				mime: imageFile.prepared.contentType,
+				contentLength: imageFile.prepared.contentLength
+			});
+		} else if (type == UploadType.Banner) {
+			createRes = await global.cloud.gameBannerUploadPrepare({
+				gameId: this.game.gameId,
+				path: imageFile.prepared.path,
+				mime: imageFile.prepared.contentType,
+				contentLength: imageFile.prepared.contentLength
+			});
+		}
+
+		return {
+			uploadId: createRes.uploadId,
+			files: [
+				{
+					presignedRequest: createRes.presignedRequest,
+					input: imageFile
+				}
+			]
+		};
+	}
+
+	async completeUpload(type: UploadType, prepareRes: PrepareResponse) {
+		if (type == UploadType.Logo) {
+			await global.cloud.gameLogoUploadComplete({
+				gameId: this.game.gameId,
+				uploadId: prepareRes.uploadId
+			});
+		} else if (type == UploadType.Banner) {
+			await global.cloud.gameBannerUploadComplete({
+				gameId: this.game.gameId,
+				uploadId: prepareRes.uploadId
+			});
 		}
 	}
 
@@ -282,12 +339,54 @@ export default class DevGameOverview extends LitElement {
 		`;
 	}
 
+	rendergameEditButtons(game: cloud.GameFull): TemplateResult {
+		return html`
+			<div class="w-1/2">
+				<h1 class="text-xl pb-4">Edit Game</h1>
+				<div id="input-area" class="space-y-5">
+					<h3 class="text-lg py-2">Logo</h3>
+					<file-uploader
+						id="logo-input"
+						max-size=${fileSize.megabytes(5)}
+						.accept=${'image/png, image/jpeg'}
+						.allowed=${/\.(png|jpe?g)$/i}
+						.prepareUpload=${this.prepareUpload.bind(this, UploadType.Logo)}
+						.completeUpload=${this.completeUpload.bind(this, UploadType.Logo)}
+					>
+						<e-svg slot="icon" src="regular/file-arrow-up"></e-svg>
+						<div slot="content">
+							<p class="file-input-title">Upload Game Logo</p>
+							<p class="file-input-subtitle">Recommended size 512x256 px</p>
+						</div>
+					</file-uploader>
+					<h3 class="text-lg py-2">Banner</h3>
+					<file-uploader
+						id="banner-input"
+						max-size=${fileSize.megabytes(10)}
+						.accept=${'image/png, image/jpeg'}
+						.allowed=${/\.(pn|jpe?)g$/i}
+						.prepareUpload=${this.prepareUpload.bind(this, UploadType.Banner)}
+						.completeUpload=${this.completeUpload.bind(this, UploadType.Banner)}
+					>
+						<e-svg slot="icon" src="regular/file-arrow-up"></e-svg>
+						<div slot="content">
+							<p class="file-input-title">Upload Game Banner</p>
+							<p class="file-input-subtitle">Recommended size 2048x1024 px</p>
+						</div>
+					</file-uploader>
+				</div>
+			</div>
+		`
+	}
+
 	render() {
 		return html`
 			<div class="mx-auto max-w-contentwidth px-[10px] md:px-5 lg:px-0 pb-12">
 				<game-banner .game=${this.game}></game-banner>
-
-				${when(this.game, () => this.renderNamespaceList(this.game))}
+				<div class="flex flex-row w-full space-x-8">
+					${when(this.game, () => this.rendergameEditButtons(this.game))}
+					${when(this.game, () => this.renderNamespaceList(this.game))}
+				</div>
 			</div>
 
 			${this.renderCreateNamespaceModal()}
