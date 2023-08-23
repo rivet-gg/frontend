@@ -202,7 +202,7 @@ export default class DevGameLobbies extends LitElement {
 
 	onClickLobby(lobbyId: string) {
 		UIRouter.shared.navigate(
-			routes.devLogLobby.build({ gameId: this.game.gameId, lobbyId }, { namespaceId: this.namespaceId })
+			routes.devLogLobby.build({ gameId: this.game.gameId, lobbyId, namespaceId: this.namespaceId }, { namespaceId: this.namespaceId })
 		);
 	}
 

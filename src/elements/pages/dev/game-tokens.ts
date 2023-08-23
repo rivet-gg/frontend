@@ -31,6 +31,9 @@ export default class DevGameTokens extends LitElement {
 	@property({ type: Object })
 	game: cloud.GameFull;
 
+	@property({ type: String })
+	namespaceId: string;
+
 	@property({ type: Object })
 	loadError?: any;
 
@@ -96,21 +99,6 @@ export default class DevGameTokens extends LitElement {
 
 			if (err.hasOwnProperty('statusText')) this.loadError = await (err as Response).json();
 		});
-	}
-
-	async createCloudToken() {
-		let createRes = await global.cloud.createCloudToken({ gameId: this.game.gameId });
-
-		showAlert(
-			'Cloud Token Creation',
-			html` <span
-					>Copy this token to your clipboard. You will not be able to access this token again.</span
-				>
-				<br />
-				<copy-area light confidential>
-					<code class="no-ligatures thick">${createRes.token}</code>
-				</copy-area>`
-		);
 	}
 
 	async createPublicToken(namespaceId: string) {
@@ -247,22 +235,14 @@ export default class DevGameTokens extends LitElement {
 			if (lastInput) lastInput.focus();
 		});
 	}
-
+	
 	render() {
 		if (this.loadError) return responses.renderError(this.loadError, true);
-
 		return html`
 			<div id="base">
-				<stylized-button
-					id="create-token-button"
-					icon="solid/key"
-					.trigger=${this.createCloudToken.bind(this)}
-					>Create Cloud Token</stylized-button
-				>
-
-				<h1>Namespaces</h1>
+				<h1>Generate Namespace Tokens</h1>
 				<div id="namespaces">
-					${repeat(this.game.namespaces, a => a.namespaceId, this.renderNamespace.bind(this))}
+					${this.renderNamespace(this.game.namespaces.find((ns) => ns.namespaceId === this.namespaceId ) )}
 				</div>
 			</div>
 

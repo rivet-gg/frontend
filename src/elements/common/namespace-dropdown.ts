@@ -4,6 +4,7 @@ import { cssify } from '../../utils/css';
 import styles from './namespace-dropdown.scss';
 import cloud from '@rivet-gg/cloud';
 import routes from '../../routes';
+import clsx from 'clsx';
 
 @customElement('namespace-dropdown')
 export default class RichEmbed extends LitElement {
@@ -23,24 +24,28 @@ export default class RichEmbed extends LitElement {
 		return this.expanded;
 	}
 
-	renderNamespaceListEntry(namespace: cloud.NamespaceSummary): TemplateResult {
+	renderNamespaceListEntry(namespace: cloud.NamespaceSummary, isCurrent: boolean): TemplateResult {
 		return html`
-			<a class="pt-3 last:pb-3 transition-all first:border-t-[1px] border-zinc-800 first:aria-expanded:border-zinc-600/80 group text-sm text-gray-200 hover:text-white flex flex-row place-content-around" 
+			<a class="pt-3 last:pb-3 transition-all first:border-t-[1px] border-zinc-800 first:aria-expanded:border-zinc-600/80 group text-sm text-gray-200 hover:text-white flex flex-row place-content-around"
 				href=${routes.devNamespace.build({gameId: this.game.gameId, namespaceId: namespace.namespaceId })}
 				aria-expanded=${this.expanded}>
-				${ namespace.displayName }
-				<svg
-					class="h-5 w-5 ml-auto flex-shrink-0 text-gray-200 group-hover:text-white"
-					viewBox="0 0 20 20"
-					fill="currentColor"
-					aria-hidden="true"
-				>
-					<path
-						fill-rule="evenodd"
-						d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z"
-						clip-rule="evenodd"
-					/>
-				</svg>
+				<div class=${clsx(
+						isCurrent ? 'font-bold text-white' : '',
+						"mr-auto"
+					)}>
+					${ namespace.displayName }
+				</div>
+				<!-- ${
+					isCurrent ? 
+					html`
+						<e-svg
+							src="regular/check"
+							class="mb-[2px] h-full"
+							preserve
+						></e-svg>
+					` :
+					html``
+				} -->
 			</a>
 		`
 	}
@@ -71,7 +76,7 @@ export default class RichEmbed extends LitElement {
 					<ul class="overflow-hidden flex flex-col w-full px-3 max-h-48 aria-expanded:mb-1 aria-expanded:overflow-scroll" aria-expanded=${this.expanded}>
 						${
 							this.game.namespaces.map((namespace) => {
-								return this.renderNamespaceListEntry(namespace);
+								return this.renderNamespaceListEntry(namespace, namespace.namespaceId === this.currentNamespace.namespaceId);
 							})
 						}
 					</ul>

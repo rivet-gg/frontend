@@ -201,13 +201,13 @@ export default class DevGameLogs extends LitElement {
 		if (lobbyId) {
 			UIRouter.shared.navigate(
 				routes.devLogLobby.build(
-					{ gameId: this.game.gameId, lobbyId: lobbyId },
+					{ gameId: this.game.gameId, lobbyId: lobbyId, namespaceId: this.namespaceId },
 					{ namespaceId: this.namespaceId }
 				)
 			);
 		} else {
 			UIRouter.shared.navigate(
-				routes.devLogs.build({ gameId: this.game.gameId }, { namespaceId: this.namespaceId })
+				routes.devLogs.build({ gameId: this.game.gameId, namespaceId: this.namespaceId }, { namespaceId: this.namespaceId })
 			);
 		}
 	}

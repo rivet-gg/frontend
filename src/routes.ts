@@ -353,8 +353,8 @@ namespace routes {
 	});
 
 	// Reuse the same template in order to preserve the same `page-dev-game` instance.
-	function renderPageDevGame(gameId: string, config: DevGameRootConfig) {
-		return html`<page-dev-game .gameId=${gameId} .config=${config}></page-dev-game>`;
+	function renderPageDevGame(gameId: string, namespaceId: string, config: DevGameRootConfig) {
+		return html`<page-dev-game .gameId=${gameId} .namespaceId=${namespaceId} .config=${config}></page-dev-game>`;
 	}
 
 	export let devGame = new Route<{ gameId: string }>({
@@ -365,37 +365,19 @@ namespace routes {
 
 			return {
 				title: 'Game',
-				breadcrumb: { type: 'Game', gameId, title: 'Summary' },
-				template: renderPageDevGame(gameId, { summary: true })
-			};
-		}
-	});
-
-	export let devGameOverview = new Route<{ gameId: string }>({
-		path: '/games/:gameId/overview',
-		render({ gameId }) {
-			if (!global.currentIdentity.isRegistered) return responses.registerRequired();
-			if (!utils.validateUuid(gameId)) return responses.notFound();
-
-			return {
-				title: 'Game Overview',
 				breadcrumb: { type: 'Game', gameId, title: 'Overview' },
 				template: html` <game-overview .gameId=${gameId}></game-overview> `
 			};
 		}
 	});
 
-	export let devGameSummary = new Route<{ gameId: string }>({
-		path: '/games/:gameId/summary',
+	// TODO --> Move this to `/games/:gameId/`
+	export let devGameOverview = new Route<{ gameId: string }>({
+		path: '/games/:gameId/overview',
 		render({ gameId }) {
-			if (!global.currentIdentity.isRegistered) return responses.registerRequired();
-			if (!utils.validateUuid(gameId)) return responses.notFound();
-
 			return {
-				title: 'Game',
-				breadcrumb: { type: 'Game', gameId, title: 'Summary' },
-				template: renderPageDevGame(gameId, { summary: true })
-			};
+				redirect: `${window.location.origin}/games/${gameId}`
+			}
 		}
 	});
 
@@ -409,22 +391,22 @@ namespace routes {
 			return {
 				title: 'Game Namespace',
 				breadcrumb: { type: 'Namespace', gameId, namespaceId, title: 'Namespace' },
-				template: renderPageDevGame(gameId, { namespace: { namespaceId } })
+				template: renderPageDevGame(gameId, namespaceId, { summary: true, namespace: { namespaceId } })
 			};
 		}
 	});
 
-	export let devVersion = new Route<{ gameId: string; versionId: string }>({
-		path: '/games/:gameId/versions/:versionId',
-		render({ gameId, versionId }) {
+	export let devVersion = new Route<{ gameId: string; namespaceId: string, versionId: string }>({
+		path: '/games/:gameId/namespaces/:namespaceId/versions/:versionId',
+		render({ gameId, namespaceId, versionId }) {
 			if (!global.currentIdentity.isRegistered) return responses.registerRequired();
 
 			if (!utils.validateUuid(gameId) || !utils.validateUuid(versionId)) return responses.notFound();
 
 			return {
 				title: 'Game Version',
-				breadcrumb: { type: 'Game', gameId, title: 'Version' },
-				template: renderPageDevGame(gameId, { version: { versionId } })
+				breadcrumb: { type: 'Namespace', gameId, namespaceId, title: 'Version' },
+				template: renderPageDevGame(gameId, namespaceId, { namespace: { namespaceId }, version: { versionId } })
 			};
 		}
 	});
@@ -438,81 +420,81 @@ namespace routes {
 			return {
 				title: 'Game Version Draft',
 				breadcrumb: { type: 'Game', gameId, title: 'Version Draft' },
-				template: renderPageDevGame(gameId, { versionDraft: true })
+				template: renderPageDevGame(gameId, null, { versionDraft: true })
 			};
 		}
 	});
 
-	export let devTokens = new Route<{ gameId: string }>({
-		path: '/games/:gameId/api',
-		render({ gameId }) {
+	export let devTokens = new Route<{ gameId: string, namespaceId: string }>({
+		path: '/games/:gameId/namespaces/:namespaceId/api',
+		render({ gameId, namespaceId }) {
 			if (!global.currentIdentity.isRegistered) return responses.registerRequired();
 			if (!utils.validateUuid(gameId)) return responses.notFound();
 
 			return {
-				title: 'Game API',
-				breadcrumb: { type: 'Game', gameId, title: 'API' },
-				template: renderPageDevGame(gameId, { tokens: true })
+				title: 'Namespace Tokens',
+				breadcrumb: { type: 'Namespace', gameId, namespaceId, title: 'Tokens' },
+				template: renderPageDevGame(gameId, namespaceId, { tokens: true, namespaceId })
 			};
 		}
 	});
 
-	export let devLogs = new Route<{ gameId: string }, { namespaceId: string }>({
-		path: '/games/:gameId/logs',
-		render({ gameId }, { namespaceId }) {
+	export let devLogs = new Route<{ gameId: string, namespaceId: string }>({
+		path: '/games/:gameId/namespaces/:namespaceId/logs',
+		render({ gameId, namespaceId }) {
 			if (!global.currentIdentity.isRegistered) return responses.registerRequired();
 			if (!utils.validateUuid(gameId)) return responses.notFound();
 			if (namespaceId && !utils.validateUuid(namespaceId)) return responses.notFound();
 
 			return {
 				title: 'Game Logs',
-				breadcrumb: { type: 'Game', gameId, title: 'Logs' },
-				template: renderPageDevGame(gameId, { logs: true, namespaceId })
+				breadcrumb: { type: 'Namespace', gameId, namespaceId, title: 'Logs' },
+				template: renderPageDevGame(gameId, namespaceId, { logs: true, namespaceId })
 			};
 		}
 	});
 
-	export let devLogLobby = new Route<{ gameId: string; lobbyId: string }, { namespaceId: string }>({
-		path: '/games/:gameId/logs/:lobbyId',
-		render({ gameId, lobbyId }, { namespaceId }) {
+	export let devLogLobby = new Route<{ gameId: string, namespaceId: string, lobbyId: string }>({
+		path: '/games/:gameId/namespaces/:namespaceId/logs/:lobbyId',
+		render({ gameId, namespaceId, lobbyId }) {
 			if (!global.currentIdentity.isRegistered) return responses.registerRequired();
 			if (!utils.validateUuid(gameId)) return responses.notFound();
 			if (!utils.validateUuid(lobbyId)) return responses.notFound();
 
 			return {
 				title: 'Game Logs',
-				breadcrumb: { type: 'Game', gameId, title: 'Logs' },
-				template: renderPageDevGame(gameId, { logs: true, namespaceId, logsLobbyId: lobbyId })
+				breadcrumb: { type: 'Namespace', gameId, namespaceId, title: 'Lobby Logs' },
+				template: renderPageDevGame(gameId, namespaceId, { logs: true, namespaceId, logsLobbyId: lobbyId })
 			};
 		}
 	});
 
-	export let devLobbies = new Route<{ gameId: string }, { namespaceId: string }>({
-		path: '/games/:gameId/lobbies',
-		render({ gameId }, { namespaceId }) {
+	export let devLobbies = new Route<{ gameId: string, namespaceId: string }>({
+		path: '/games/:gameId/namespaces/:namespaceId/lobbies',
+		render({ gameId, namespaceId }) {
 			if (!global.currentIdentity.isRegistered) return responses.registerRequired();
 			if (!utils.validateUuid(gameId)) return responses.notFound();
 			if (namespaceId && !utils.validateUuid(namespaceId)) return responses.notFound();
 
 			return {
 				title: 'Game Lobbies',
-				breadcrumb: { type: 'Game', gameId, title: 'Lobbies' },
-				template: renderPageDevGame(gameId, { lobbies: true, namespaceId })
+				breadcrumb: { type: 'Namespace', gameId, namespaceId, title: 'Lobbies' },
+				template: renderPageDevGame(gameId, namespaceId, { lobbies: true, namespaceId })
 			};
 		}
 	});
 
-	export let devKv = new Route<{ gameId: string }, { namespaceId: string }>({
-		path: '/games/:gameId/kv',
-		render({ gameId }, { namespaceId }) {
+	export let devKv = new Route<{ gameId: string, namespaceId: string }>({
+		path: '/games/:gameId/namespaces/:namespaceId/kv',
+		render({ gameId, namespaceId }) {
 			if (!global.currentIdentity.isRegistered) return responses.registerRequired();
 			if (!utils.validateUuid(gameId)) return responses.notFound();
 			if (namespaceId && !utils.validateUuid(namespaceId)) return responses.notFound();
 
 			return {
 				title: 'Game KV',
-				breadcrumb: { type: 'Game', gameId, title: 'KV' },
-				template: renderPageDevGame(gameId, { kv: true, namespaceId })
+				breadcrumb: { type: 'Namespace', gameId, namespaceId, title: 'KV' },
+				template: renderPageDevGame(gameId, namespaceId, { kv: true, namespaceId })
 			};
 		}
 	});
@@ -526,7 +508,7 @@ namespace routes {
 			return {
 				title: 'Game Billing',
 				breadcrumb: { type: 'Game', gameId, title: 'Billing' },
-				template: renderPageDevGame(gameId, { sites: true })
+				template: renderPageDevGame(gameId, null, { sites: true })
 			};
 		}
 	});
@@ -543,7 +525,7 @@ namespace routes {
 			return {
 				title: 'Game Builds',
 				breadcrumb: { type: 'Game', gameId, title: 'Builds' },
-				template: renderPageDevGame(gameId, { builds: true })
+				template: renderPageDevGame(gameId, null, { builds: true })
 			};
 		}
 	});

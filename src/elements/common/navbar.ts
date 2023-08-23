@@ -166,6 +166,12 @@ export default class NavBar extends LitElement {
 								}
 							];
 
+							if(namespaceTitle !== 'Namespace') {
+								this.displaycrumbs.push({
+									name: namespaceTitle
+								});
+							}
+
 							this.requestUpdate('displaycrumbs');
 						});
 					});

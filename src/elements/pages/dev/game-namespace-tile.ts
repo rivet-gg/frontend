@@ -29,11 +29,11 @@ export default class GameNamespaceTile extends LitElement {
 				})}
 			>
 				<div>
-					<h1 class="text-lg">${this.namespace.displayName}</h1>
-					<h2 class="text-sm font-light italic text-white/60">${this.namespace.nameId}</h2>
+					<p class="text-lg font-semibold">${this.namespace.displayName}</p>
+					<p class="text-sm font-extralight italic text-white/60">${this.namespace.nameId}</p>
 				</div>
 				<div>
-					<h1 class="text-lg">${this.version.displayName}</h1>
+					<p class="text-lg font-light">${this.version.displayName}</p>
 				</div>
 			</a>
 		`;

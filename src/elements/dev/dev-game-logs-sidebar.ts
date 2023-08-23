@@ -88,7 +88,7 @@ export default class DevGameLogsSidebar extends LitElement {
 		return html`<a
 			class=${classes}
 			href=${routes.devLogLobby.build(
-				{ gameId: this.game.gameId, lobbyId: lobby.lobbyId },
+				{ gameId: this.game.gameId, lobbyId: lobby.lobbyId, namespaceId: this.namespaceId },
 				{ namespaceId: this.namespaceId }
 			)}
 		>

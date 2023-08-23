@@ -411,7 +411,7 @@ export default class DevGameOverview extends LitElement {
 		return html`
 			<div class="mx-auto max-w-contentwidth px-[10px] md:px-5 lg:px-0 pb-12">
 				<game-banner .game=${this.game}></game-banner>
-				<div class="flex flex-row w-full space-x-8">
+				<div class="flex flex-row w-full space-x-8 max-md:px-4 ">
 					${when(this.game, () => this.rendergameEditButtons(this.game))}
 					${when(this.game, () => this.renderNamespaceList(this.game))}
 				</div>
