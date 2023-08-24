@@ -390,7 +390,7 @@ namespace routes {
 
 			return {
 				title: 'Game Namespace',
-				breadcrumb: { type: 'Namespace', gameId, namespaceId, title: 'Namespace' },
+				breadcrumb: { type: 'Namespace', gameId, namespaceId, title: 'Overview' },
 				template: renderPageDevGame(gameId, namespaceId, { summary: true, namespace: { namespaceId } })
 			};
 		}

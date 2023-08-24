@@ -118,7 +118,7 @@ export default class DevGame extends LitElement {
 
 
 		if (this.config.summary) {
-			body = html`<page-dev-game-summary .game=${this.game}></page-dev-game-summary>`;
+			body = html`<page-dev-game-summary .game=${this.game} .namespaceId=${this.namespaceId}></page-dev-game-summary>`;
 
 			UIRouter.shared.updateTitle(this.game.displayName);
 

@@ -21,6 +21,9 @@ export default class DevGameNamespace extends LitElement {
 	game: cloud.GameFull;
 
 	@property({ type: String })
+	namespaceId: string;
+
+	@property({ type: String })
 	versionId: string;
 
 	@property({ type: Object })
@@ -151,7 +154,7 @@ export default class DevGameNamespace extends LitElement {
 		);
 
 		// Switch to draft view
-		UIRouter.shared.navigate(routes.devVersionDraft.build({ gameId: this.game.gameId }));
+		UIRouter.shared.navigate(routes.devVersion.build({ gameId: this.game.gameId, versionId: this.versionId, namespaceId: this.namespaceId }));
 	}
 
 	render() {
