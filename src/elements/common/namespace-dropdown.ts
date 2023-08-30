@@ -56,7 +56,7 @@ export default class RichEmbed extends LitElement {
 				<div class="px-3 transition-all pb-1 mt-1 aria-expanded:rounded-b-none aria-expanded:delay-[300ms] min-w-full flex flex-col peer bg-zinc-800" aria-expanded=${this.expanded}>
 					<div class="flex flex-row place-content-around w-full">
 						<h2 class="text-md text-gray-200">${this.currentNamespace.displayName}</h2>
-						<button class="ml-auto rotate-90 aria-expanded:-rotate-90 transition ease-in-out duration-200" aria-expanded=${this.expanded}>
+						<button class="ml-auto rotate-90 aria-expanded:-rotate-90 transition ease-in-out duration-150" aria-expanded=${this.expanded}>
 							<svg
 							class="h-5 w-5 flex-shrink-0 text-gray-200"
 							viewBox="0 0 18 18"
