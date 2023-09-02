@@ -12,6 +12,7 @@ import { GameFull } from '@rivet-gg/cloud';
 import assets from '../../data/assets';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { CloudGameCache, GroupProfileCache } from '../../data/cache';
+import { globalEventGroups, IdentityChangeEvent } from '../../utils/global-events';
 
 export type Breadcrumb =
 	| { type: 'Home' }
@@ -48,6 +49,20 @@ export default class NavBar extends LitElement {
 	groupStream: api.RepeatingRequest<api.group.GetGroupProfileCommandOutput> = null;
 	gameStream?: api.RepeatingRequest<cloud.GetGameByIdCommandOutput>;
 
+	/// === EVENTS ===
+	handleIdentityChange: (e: IdentityChangeEvent) => void;
+
+	connectedCallback() {
+		super.connectedCallback();
+
+		this.handleIdentityChange = this.onIdentityChange.bind(this);
+		globalEventGroups.add('identity-change', this.handleIdentityChange);
+	}
+
+	onIdentityChange() {
+		this.requestUpdate();
+	}
+
 	updated(changedProperties: PropertyValues) {
 		super.updated(changedProperties);
 
@@ -59,6 +74,8 @@ export default class NavBar extends LitElement {
 
 	disconnectedCallback() {
 		super.disconnectedCallback();
+
+		globalEventGroups.remove('identity-change', this.handleIdentityChange);
 
 		if (this.groupStream) this.groupStream.cancel();
 		if (this.gameStream) this.gameStream.cancel();
