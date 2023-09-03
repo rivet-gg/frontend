@@ -55,8 +55,10 @@ $tile-border-radius: 20px;
 			$crop: 2%;
 			position: absolute;
 			top: -$crop;
+			left: -$crop;
 			width: 100% + $crop * 2;
 			height: 100% + $crop * 2;
+			max-width: unset;
 			object-fit: cover;
 
 			$mask: radial-gradient(
