@@ -297,9 +297,7 @@ $tile-border-radius: 20px;
 		max-width: 300px;
 		box-sizing: border-box;
 
-		transition:
-			transform consts.$transition-length,
-			box-shadow consts.$transition-length;
+		transition: transform consts.$transition-length, box-shadow consts.$transition-length;
 
 		@include common.active-state();
 
@@ -414,9 +412,7 @@ $tile-border-radius: 20px;
 			max-width: 420px;
 			box-sizing: border-box;
 
-			transition:
-				transform consts.$transition-length,
-				box-shadow consts.$transition-length;
+			transition: transform consts.$transition-length, box-shadow consts.$transition-length;
 
 			@include common.active-state();
 
@@ -606,9 +602,7 @@ $tile-border-radius: 20px;
 			max-width: 320px;
 			box-sizing: border-box;
 
-			transition:
-				transform consts.$transition-length,
-				box-shadow consts.$transition-length;
+			transition: transform consts.$transition-length, box-shadow consts.$transition-length;
 
 			@include common.active-state();
 
@@ -753,9 +747,7 @@ $tile-border-radius: 20px;
 
 			box-sizing: border-box;
 			border-radius: $tile-border-radius;
-			transition:
-				transform consts.$transition-length,
-				box-shadow consts.$transition-length;
+			transition: transform consts.$transition-length, box-shadow consts.$transition-length;
 
 			cursor: pointer;
 			@include common.active-state();

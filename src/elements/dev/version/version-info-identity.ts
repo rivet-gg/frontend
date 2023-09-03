@@ -78,7 +78,7 @@ export default class VersionInfoIdentity extends LitElement {
 								></identity-avatar>
 							</div>`;
 						}
-					}) as UploadEntry
+					} as UploadEntry)
 			);
 	}
 

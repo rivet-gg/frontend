@@ -23,9 +23,7 @@
 		&.temporary {
 			opacity: 0.9;
 
-			transition:
-				transform consts.$transition-length,
-				opacity consts.$transition-length * 0.75;
+			transition: transform consts.$transition-length, opacity consts.$transition-length * 0.75;
 			animation: animate-in consts.$transition-length;
 
 			&:hover,

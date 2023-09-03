@@ -59,24 +59,18 @@ $transition-duration: 250ms; // Also update in ui-router
 			.page {
 				&.old {
 					box-shadow: none;
-					transition:
-						box-shadow $transition-duration,
-						transform $transition-duration * 4;
+					transition: box-shadow $transition-duration, transform $transition-duration * 4;
 					transition-timing-function: ease-out;
 
 					&.back {
-						transition:
-							box-shadow $transition-duration,
-							transform $transition-duration;
+						transition: box-shadow $transition-duration, transform $transition-duration;
 						transition-timing-function: ease-out;
 					}
 				}
 
 				&.new {
 					box-shadow: none;
-					transition:
-						box-shadow $transition-duration,
-						transform $transition-duration;
+					transition: box-shadow $transition-duration, transform $transition-duration;
 					transition-timing-function: ease-out;
 				}
 			}
