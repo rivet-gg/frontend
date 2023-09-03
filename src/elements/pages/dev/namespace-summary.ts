@@ -136,23 +136,23 @@ export default class DevNamespaceSummary extends LitElement {
 				.href=${visitUrl}> Visit </stylized-button>`
 	}
 
-	renderModules() {
-		return html`
-			<div class="pt-12 ">
-				<h3 class="text-xl text-slate-200">Modules</h3>
-				<dev-version-info
-					.game=${this.game}
-					.tiers=${this.tiers}
-					.config=${this.version.config}
-				></dev-version-info>
-				<div class="flex place-content-center mx-auto pt-4">
-					<stylized-button
-					right-icon="solid/arrow-right"
-					> Add Module </stylized-button>
-				</div>
-			</div>
-		`
-	}
+	// renderModules() {
+	// 	return html`
+	// 		<div class="pt-12 ">
+	// 			<h3 class="text-xl text-slate-200">Modules</h3>
+	// 			<dev-version-info
+	// 				.game=${this.game}
+	// 				.tiers=${this.tiers}
+	// 				.config=${this.version.config}
+	// 			></dev-version-info>
+	// 			<div class="flex place-content-center mx-auto pt-4">
+	// 				<stylized-button
+	// 				right-icon="solid/arrow-right"
+	// 				> Add Module </stylized-button>
+	// 			</div>
+	// 		</div>
+	// 	`
+	// }
 
 	render() {
 		return html`
@@ -189,7 +189,7 @@ export default class DevNamespaceSummary extends LitElement {
 						<stylized-button class="mt-auto" href=${routes.devVersionSummary.build({ gameId: this.game.gameId, namespaceId: this.namespaceId })}>Manage Version</stylized-button>
 					</div>
 					
-					${this.renderModules()}
+
 				</div>
 			`)}
 		`;

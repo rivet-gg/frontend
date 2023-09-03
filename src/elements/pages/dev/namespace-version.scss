@@ -65,3 +65,18 @@
 		}
 	}
 }
+
+@keyframes pulse {
+	8% {
+		box-shadow: 0 0 0 2px rgba(21, 113, 0, 0.909);
+	}
+	12% {
+		box-shadow: 0 0 0 4px rgba(0, 242, 0, 0);
+	}
+  }
+  
+  .pulse {
+	animation: 3s linear pulse infinite;
+
+  }
+  
