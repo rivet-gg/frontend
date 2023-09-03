@@ -172,7 +172,7 @@ export default class NavBar extends LitElement {
 	}
 
 	renderCrumbImage(crumb: CrumbDisplay): TemplateResult {
-		if(typeof crumb.img === 'undefined') return html``;
+		if (typeof crumb.img === 'undefined') return html``;
 
 		switch (crumb.img.type) {
 			case 'Group':
@@ -203,28 +203,12 @@ export default class NavBar extends LitElement {
 									clip-rule="evenodd"
 								/>
 							</svg>
-							${
-								when(typeof crumb.url !== 'undefined', () => {
-									return html`
-										<a
-										href=${ifDefined(crumb.url)}
-										class="text-slate-200 hover:bg-slate-200/5 hover:text-white flex font-display text-md items-center rounded-md gap-3 pl-3.5 pr-3.5 py-1.5 transition"
-										>
-											${this.renderCrumbImage(crumb)}
-											${crumb.name}
-										</a>
-									`
-								}, () => {
-									return html`
-										<a
-										class="text-slate-200 hover:bg-slate-200/5 hover:text-white flex font-display text-md items-center rounded-md gap-3 pl-3.5 pr-3.5 py-1.5 transition"
-										>
-											${this.renderCrumbImage(crumb)}
-											${crumb.name}
-										</a>
-									`
-								})
-							}
+							<a
+								href=${ifDefined(crumb.url)}
+								class="text-slate-200 hover:bg-slate-200/5 hover:text-white flex font-display text-md items-center rounded-md gap-3 pl-3.5 pr-3.5 py-1.5 transition"
+							>
+								${this.renderCrumbImage(crumb)} ${crumb.name}
+							</a>
 						</div>
 					</li>
 				`
@@ -234,70 +218,77 @@ export default class NavBar extends LitElement {
 
 	render() {
 		return html`
-                <nav class="gap-10 px-6 lg:z-30 pointer-events-auto fixed inset-x-0 top-0 z-50 flex flex-col transition md:divide-white/15 backdrop-blur  bg-zinc-900/[.8]">
-                    <!-- TODO - standardize logo size with main page -->
-                    <div class="h-14 flex items-center justify-between ">
-						<div class="absolute inset-x-0 top-full h-px transition bg-[#29292c]"></div>
-						
-						<div class="flex flex-row align-middle my-auto max-sm:mx-auto">
-		
-							<div class="sm:hidden absolute left-2">
-								<identity-avatar
-									class="my-auto block w-7 h-7"
-									hide-status
-									shadow
-									.identity=${global.currentIdentity}
-								></identity-avatar>
-							</div>
+			<nav
+				class="gap-10 px-6 lg:z-30 pointer-events-auto fixed inset-x-0 top-0 z-50 flex flex-col transition md:divide-white/15 backdrop-blur  bg-zinc-900/[.8]"
+			>
+				<!-- TODO - standardize logo size with main page -->
+				<div class="h-14 flex items-center justify-between ">
+					<div class="absolute inset-x-0 top-full h-px transition bg-[#29292c]"></div>
 
-							<a aria-label="Home" class="my-auto" href=${routes.home.build({})}>
-								<div class="h-6">
-									<e-svg
-										src="logo/logo-gradient-white"
-										class="mb-[2px] h-full w-auto"
-										preserve
-									></e-svg>
-								</div>
-							</a>
-
-							<div class="sm:hidden absolute right-2 flex place-content-center my-auto opacity-75 transition hover:opacity-100">
-								<icon-button
-									src="regular/gear"
-									class="my-auto"
-									small
-									color="#ececec80"
-									href=${routes.settings.build({})}
-								></icon-button>
-							</div>
-
-							<div class="hidden my-auto sm:ml-6 sm:block">
-								<div class="flex my-auto" aria-label="Breadcrumb">
-									<ol role="list" class="flex items-center">
-										${this.renderBreadCrumb()}
-									</ol>
-								</div>
-							</div>
+					<div class="flex flex-row align-middle my-auto max-sm:mx-auto">
+						<div class="sm:hidden absolute left-2">
+							<identity-avatar
+								class="my-auto block w-7 h-7"
+								hide-status
+								shadow
+								.identity=${global.currentIdentity}
+							></identity-avatar>
 						</div>
 
-						<div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0 space-x-4 max-sm:invisible my-auto">
-							<identity-name class="my-auto text-sm" .identity=${
-								global.currentIdentity
-							} no-link></identity-name>
-							<identity-avatar
-									class="block w-6 h-6 m-2"
-									hide-status
-									.identity=${global.currentIdentity}
-								></identity-avatar>
-						
+						<a aria-label="Home" class="my-auto" href=${routes.home.build({})}>
+							<div class="h-6">
+								<e-svg
+									src="logo/logo-gradient-white"
+									class="mb-[2px] h-full w-auto"
+									preserve
+								></e-svg>
+							</div>
+						</a>
+
+						<div
+							class="sm:hidden absolute right-2 flex place-content-center my-auto opacity-75 transition hover:opacity-100"
+						>
 							<icon-button
 								src="regular/gear"
+								class="my-auto"
 								small
 								color="#ececec80"
 								href=${routes.settings.build({})}
 							></icon-button>
 						</div>
+
+						<div class="hidden my-auto sm:ml-6 sm:block">
+							<div class="flex my-auto" aria-label="Breadcrumb">
+								<ol role="list" class="flex items-center">
+									${this.renderBreadCrumb()}
+								</ol>
+							</div>
+						</div>
 					</div>
-				</nav>
+
+					<div
+						class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0 space-x-4 max-sm:invisible my-auto"
+					>
+						<identity-name
+							class="my-auto text-sm"
+							.identity=${global.currentIdentity}
+							no-link
+						></identity-name>
+						<identity-avatar
+							class="block w-6 h-6 m-2"
+							hide-status
+							.identity=${global.currentIdentity}
+						></identity-avatar>
+
+						<icon-button
+							src="regular/gear"
+							small
+							color="#ececec80"
+							href=${routes.settings.build({})}
+						></icon-button>
+					</div>
+				</div>
+			</nav>
 		`;
 	}
 }
