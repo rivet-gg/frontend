@@ -192,7 +192,7 @@ export default class NavBar extends LitElement {
 							</svg>
 
 							<a
-								.href=${ifDefined(crumb.url)}
+								href=${ifDefined(crumb.url)}
 								class="text-slate-200 hover:bg-slate-200/5 hover:text-white flex font-display text-md items-center rounded-md gap-3 pl-3.5 pr-3.5 py-1.5 transition"
 							>
 								${when(typeof crumb.img !== 'undefined', () => {
