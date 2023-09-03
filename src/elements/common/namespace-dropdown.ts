@@ -72,7 +72,7 @@ export default class RichEmbed extends LitElement {
 						</button>
 					</div>
 				</div>
-				<div class="bg-zinc-800 w-full rounded-b-md absolute test" aria-expanded=${this.expanded}>
+				<div class="bg-zinc-800 w-full rounded-b-md absolute dropdownExpansion" aria-expanded=${this.expanded}>
 					<ul class="overflow-hidden flex flex-col w-full px-3 max-h-48 aria-expanded:mb-1 aria-expanded:overflow-scroll" aria-expanded=${this.expanded}>
 						${
 							this.game.namespaces.map((namespace) => {
