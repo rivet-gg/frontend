@@ -179,11 +179,14 @@ export default class NavBar extends LitElement {
 								},
 								{
 									name: namespaceTitle,
-									component: html`<namespace-dropdown .game=${gameData} .currentNamespace=${currentNamespace}></namespace-dropdown>`
+									component: html`<namespace-dropdown
+										.game=${gameData}
+										.currentNamespace=${currentNamespace}
+									></namespace-dropdown>`
 								}
 							];
 
-							if(namespaceTitle !== 'Namespace') {
+							if (namespaceTitle !== 'Namespace') {
 								this.displaycrumbs.push({
 									name: namespaceTitle
 								});
@@ -192,7 +195,6 @@ export default class NavBar extends LitElement {
 							this.requestUpdate('displaycrumbs');
 						});
 					});
-
 
 					break;
 				case 'Custom':
@@ -247,28 +249,24 @@ export default class NavBar extends LitElement {
 					clip-rule="evenodd"
 				/>
 			</svg>
-			`
+		`;
 	}
 
 	renderBreadCrumb(): TemplateResult {
 		return html`${this.displaycrumbs.map((crumb: CrumbDisplay | undefined) =>
-			when(
-				typeof crumb !== 'undefined' && crumb.name !== 'Home',
-				() => {
-					if(typeof crumb.component !== 'undefined') {
-						return html`
+			when(typeof crumb !== 'undefined' && crumb.name !== 'Home', () => {
+				if (typeof crumb.component !== 'undefined') {
+					return html`
 						<li class="group">
 							<div class="flex items-center">
 								${this.renderChevron()}
-								<div class="px-3.5 py-1.5">
-									${crumb.component}
-								</div>
+								<div class="px-3.5 py-1.5">${crumb.component}</div>
 							</div>
 						</li>
-						`
-					}
+					`;
+				}
 
-					return html`
+				return html`
 					<li class="group">
 						<div class="flex items-center">
 							${this.renderChevron()}
@@ -291,9 +289,8 @@ export default class NavBar extends LitElement {
 							</a>
 						</div>
 					</li>
-				`
-				}
-			)
+				`;
+			})
 		)}`;
 	}
 

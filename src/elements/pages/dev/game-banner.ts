@@ -27,11 +27,12 @@ export default class DevGameBanner extends LitElement {
 		return html`
 			<div class="my-[20px] md:my-[40px] mx-auto bg-zinc-700 h-[18.2rem] rounded-[20px]">
 				<div class="flex flex-col place-content-center m-auto h-full w-1/2 text-center">
-					${ this.game ? html ` 
-						${this.renderGameIcon(this.game)}
-						<h1 class="text-2xl mt-8">${this.game.displayName}</h1>
-					`: html ``
-					}
+					${this.game
+						? html`
+								${this.renderGameIcon(this.game)}
+								<h1 class="text-2xl mt-8">${this.game.displayName}</h1>
+						  `
+						: html``}
 				</div>
 			</div>
 		`;

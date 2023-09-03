@@ -102,7 +102,6 @@ export default class DevGame extends LitElement {
 		});
 	}
 
-
 	render() {
 		if (this.loadError) return responses.renderError(this.loadError);
 		if (this.game == null) return this.renderPlaceholder();
@@ -117,9 +116,11 @@ export default class DevGame extends LitElement {
 			value: n.namespaceId
 		}));
 
-
 		if (this.config.summary) {
-			body = html`<page-dev-namespace-summary .game=${this.game} .namespaceId=${this.namespaceId}></page-dev-namespace-summary>`;
+			body = html`<page-dev-namespace-summary
+				.game=${this.game}
+				.namespaceId=${this.namespaceId}
+			></page-dev-namespace-summary>`;
 
 			UIRouter.shared.updateTitle(this.game.displayName);
 
@@ -165,7 +166,10 @@ export default class DevGame extends LitElement {
 
 			pageId = 'draft';
 		} else if (this.config.tokens) {
-			body = html`<page-dev-game-tokens .game=${this.game} .namespaceId=${this.namespaceId}></page-dev-game-tokens>`;
+			body = html`<page-dev-game-tokens
+				.game=${this.game}
+				.namespaceId=${this.namespaceId}
+			></page-dev-game-tokens>`;
 
 			UIRouter.shared.updateTitle(`${this.game.displayName} – Tokens`);
 
@@ -182,20 +186,14 @@ export default class DevGame extends LitElement {
 
 			pageId = 'logs';
 		} else if (this.config.lobbies) {
-			body = html`<page-dev-game-lobbies
-				.game=${this.game}
-				.namespaceId=${this.namespaceId}
-			>
+			body = html`<page-dev-game-lobbies .game=${this.game} .namespaceId=${this.namespaceId}>
 			</page-dev-game-lobbies>`;
 
 			UIRouter.shared.updateTitle(`${this.game.displayName} – Lobbies`);
 
 			pageId = 'lobbies';
 		} else if (this.config.kv) {
-			body = html`<page-dev-game-kv
-				.game=${this.game}
-				.namespaceId=${this.namespaceId}
-			>
+			body = html`<page-dev-game-kv .game=${this.game} .namespaceId=${this.namespaceId}>
 			</page-dev-game-kv>`;
 
 			UIRouter.shared.updateTitle(`${this.game.displayName} – KV`);

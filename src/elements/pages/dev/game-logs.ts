@@ -207,7 +207,10 @@ export default class DevGameLogs extends LitElement {
 			);
 		} else {
 			UIRouter.shared.navigate(
-				routes.devLogs.build({ gameId: this.game.gameId, namespaceId: this.namespaceId }, { namespaceId: this.namespaceId })
+				routes.devLogs.build(
+					{ gameId: this.game.gameId, namespaceId: this.namespaceId },
+					{ namespaceId: this.namespaceId }
+				)
 			);
 		}
 	}

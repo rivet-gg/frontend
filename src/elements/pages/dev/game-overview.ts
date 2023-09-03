@@ -307,7 +307,8 @@ export default class DevGameOverview extends LitElement {
 
 		showAlert(
 			'Cloud Token Creation',
-			html` <span
+			html`
+				<span
 					>Copy this token to your clipboard. You will not be able to access this token again.</span
 				>
 				<br />
@@ -404,7 +405,7 @@ export default class DevGameOverview extends LitElement {
 					</file-uploader>
 				</div>
 			</div>
-		`
+		`;
 	}
 
 	render() {

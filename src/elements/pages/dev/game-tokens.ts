@@ -235,14 +235,16 @@ export default class DevGameTokens extends LitElement {
 			if (lastInput) lastInput.focus();
 		});
 	}
-	
+
 	render() {
 		if (this.loadError) return responses.renderError(this.loadError, true);
 		return html`
 			<div id="base">
 				<h1>Generate Namespace Tokens</h1>
 				<div id="namespaces">
-					${this.renderNamespace(this.game.namespaces.find((ns) => ns.namespaceId === this.namespaceId ) )}
+					${this.renderNamespace(
+						this.game.namespaces.find(ns => ns.namespaceId === this.namespaceId)
+					)}
 				</div>
 			</div>
 

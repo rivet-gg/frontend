@@ -354,7 +354,11 @@ namespace routes {
 
 	// Reuse the same template in order to preserve the same `page-dev-game` instance.
 	function renderPageDevGame(gameId: string, namespaceId: string, config: DevGameRootConfig) {
-		return html`<page-dev-game .gameId=${gameId} .namespaceId=${namespaceId} .config=${config}></page-dev-game>`;
+		return html`<page-dev-game
+			.gameId=${gameId}
+			.namespaceId=${namespaceId}
+			.config=${config}
+		></page-dev-game>`;
 	}
 
 	export let devGame = new Route<{ gameId: string }>({
@@ -377,7 +381,7 @@ namespace routes {
 		render({ gameId }) {
 			return {
 				redirect: `${window.location.origin}/games/${gameId}`
-			}
+			};
 		}
 	});
 
@@ -391,12 +395,15 @@ namespace routes {
 			return {
 				title: 'Game Namespace',
 				breadcrumb: { type: 'Namespace', gameId, namespaceId, title: 'Overview' },
-				template: renderPageDevGame(gameId, namespaceId, { summary: true, namespace: { namespaceId } })
+				template: renderPageDevGame(gameId, namespaceId, {
+					summary: true,
+					namespace: { namespaceId }
+				})
 			};
 		}
 	});
 
-	export let devVersionSummary = new Route<{ gameId: string; namespaceId: string}>({
+	export let devVersionSummary = new Route<{ gameId: string; namespaceId: string }>({
 		path: '/games/:gameId/namespaces/:namespaceId/versions',
 		render({ gameId, namespaceId }) {
 			if (!global.currentIdentity.isRegistered) return responses.registerRequired();
@@ -408,9 +415,9 @@ namespace routes {
 				template: renderPageDevGame(gameId, namespaceId, { versionSummary: true })
 			};
 		}
-	})
+	});
 
-	export let devVersion = new Route<{ gameId: string; namespaceId: string, versionId: string }>({
+	export let devVersion = new Route<{ gameId: string; namespaceId: string; versionId: string }>({
 		path: '/games/:gameId/namespaces/:namespaceId/versions/:versionId',
 		render({ gameId, namespaceId, versionId }) {
 			if (!global.currentIdentity.isRegistered) return responses.registerRequired();
@@ -420,7 +427,10 @@ namespace routes {
 			return {
 				title: 'Game Version',
 				breadcrumb: { type: 'Namespace', gameId, namespaceId, title: 'Version' },
-				template: renderPageDevGame(gameId, namespaceId, { namespace: { namespaceId }, version: { versionId } })
+				template: renderPageDevGame(gameId, namespaceId, {
+					namespace: { namespaceId },
+					version: { versionId }
+				})
 			};
 		}
 	});
@@ -439,7 +449,7 @@ namespace routes {
 		}
 	});
 
-	export let devTokens = new Route<{ gameId: string, namespaceId: string }>({
+	export let devTokens = new Route<{ gameId: string; namespaceId: string }>({
 		path: '/games/:gameId/namespaces/:namespaceId/api',
 		render({ gameId, namespaceId }) {
 			if (!global.currentIdentity.isRegistered) return responses.registerRequired();
@@ -453,7 +463,7 @@ namespace routes {
 		}
 	});
 
-	export let devLogs = new Route<{ gameId: string, namespaceId: string }>({
+	export let devLogs = new Route<{ gameId: string; namespaceId: string }>({
 		path: '/games/:gameId/namespaces/:namespaceId/logs',
 		render({ gameId, namespaceId }) {
 			if (!global.currentIdentity.isRegistered) return responses.registerRequired();
@@ -468,7 +478,7 @@ namespace routes {
 		}
 	});
 
-	export let devLogLobby = new Route<{ gameId: string, namespaceId: string, lobbyId: string }>({
+	export let devLogLobby = new Route<{ gameId: string; namespaceId: string; lobbyId: string }>({
 		path: '/games/:gameId/namespaces/:namespaceId/logs/:lobbyId',
 		render({ gameId, namespaceId, lobbyId }) {
 			if (!global.currentIdentity.isRegistered) return responses.registerRequired();
@@ -478,12 +488,16 @@ namespace routes {
 			return {
 				title: 'Game Logs',
 				breadcrumb: { type: 'Namespace', gameId, namespaceId, title: 'Lobby Logs' },
-				template: renderPageDevGame(gameId, namespaceId, { logs: true, namespaceId, logsLobbyId: lobbyId })
+				template: renderPageDevGame(gameId, namespaceId, {
+					logs: true,
+					namespaceId,
+					logsLobbyId: lobbyId
+				})
 			};
 		}
 	});
 
-	export let devLobbies = new Route<{ gameId: string, namespaceId: string }>({
+	export let devLobbies = new Route<{ gameId: string; namespaceId: string }>({
 		path: '/games/:gameId/namespaces/:namespaceId/lobbies',
 		render({ gameId, namespaceId }) {
 			if (!global.currentIdentity.isRegistered) return responses.registerRequired();
@@ -498,7 +512,7 @@ namespace routes {
 		}
 	});
 
-	export let devKv = new Route<{ gameId: string, namespaceId: string }>({
+	export let devKv = new Route<{ gameId: string; namespaceId: string }>({
 		path: '/games/:gameId/namespaces/:namespaceId/kv',
 		render({ gameId, namespaceId }) {
 			if (!global.currentIdentity.isRegistered) return responses.registerRequired();

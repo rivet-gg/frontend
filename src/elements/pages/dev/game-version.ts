@@ -67,10 +67,7 @@ export default class DevGameNamespace extends LitElement {
 	async fetchData() {
 		try {
 			let [versionRes, historyRes] = await Promise.all([
-				global.api.cloud.games.versions.getGameVersionById(
-					this.game.gameId,
-					this.versionId
-				),
+				global.api.cloud.games.versions.getGameVersionById(this.game.gameId, this.versionId),
 				global.api.cloud.games.namespaces.getGameNamespaceVersionHistoryList(
 					this.game.gameId,
 					this.namespaceId,
@@ -167,7 +164,13 @@ export default class DevGameNamespace extends LitElement {
 		);
 
 		// Switch to draft view
-		UIRouter.shared.navigate(routes.devVersion.build({ gameId: this.game.gameId, versionId: this.versionId, namespaceId: this.namespaceId }));
+		UIRouter.shared.navigate(
+			routes.devVersion.build({
+				gameId: this.game.gameId,
+				versionId: this.versionId,
+				namespaceId: this.namespaceId
+			})
+		);
 	}
 
 	render() {

@@ -78,7 +78,10 @@ export default class DevGameSidebar extends LitElement {
 			<rvt-sidebar-group title="General">
 				<rvt-sidebar-button
 					?current=${this.pageId == 'summary'}
-					href=${routes.devNamespace.build({ gameId: this.game.gameId, namespaceId: this.namespaceId })}
+					href=${routes.devNamespace.build({
+						gameId: this.game.gameId,
+						namespaceId: this.namespaceId
+					})}
 					icon="regular/square-info"
 					>Overview</rvt-sidebar-button
 				>
@@ -91,55 +94,45 @@ export default class DevGameSidebar extends LitElement {
 
 				<rvt-sidebar-button
 					?current=${this.pageId == 'tokens'}
-					href=${routes.devTokens.build(
-						{
-							gameId: this.game.gameId,
-							namespaceId: this.namespaceId
-						}
-					)}
+					href=${routes.devTokens.build({
+						gameId: this.game.gameId,
+						namespaceId: this.namespaceId
+					})}
 					icon="solid/key"
 					>Tokens</rvt-sidebar-button
 				>
 
 				<rvt-sidebar-button
 					?current=${this.pageId == 'lobbies'}
-					href=${routes.devLobbies.build(
-						{
-							gameId: this.game.gameId,
-							namespaceId: this.namespaceId,
-						}
-					)}
+					href=${routes.devLobbies.build({
+						gameId: this.game.gameId,
+						namespaceId: this.namespaceId
+					})}
 					icon="solid/table-rows"
 					>Lobbies</rvt-sidebar-button
 				>
 
 				<rvt-sidebar-button
 					?current=${this.pageId == 'logs'}
-					href=${routes.devLogs.build(
-						{
-							gameId: this.game.gameId,
-							namespaceId: this.namespaceId,
-						}
-					)}
+					href=${routes.devLogs.build({
+						gameId: this.game.gameId,
+						namespaceId: this.namespaceId
+					})}
 					icon="solid/book"
 					>Logs</rvt-sidebar-button
 				>
 
 				<rvt-sidebar-button
 					?current=${this.pageId == 'kv'}
-					href=${routes.devKv.build(
-						{
-							gameId: this.game.gameId,
-							namespaceId: this.namespaceId,
-						}
-					)}
+					href=${routes.devKv.build({
+						gameId: this.game.gameId,
+						namespaceId: this.namespaceId
+					})}
 					icon="solid/table-list"
 					>KV</rvt-sidebar-button
 				>
-				
-				<rvt-sidebar-button
-					href="https://rivet.gg/modules"
-					icon="solid/cubes"
+
+				<rvt-sidebar-button href="https://rivet.gg/modules" icon="solid/cubes"
 					>Modules</rvt-sidebar-button
 				>
 			</rvt-sidebar-group>
