@@ -9,9 +9,11 @@ import './game-namespace';
 import './game-namespace-tile';
 import './game-overview';
 import './game-sites';
-import './game-summary';
 import './game-tokens';
 import './game-version-draft';
 import './game-version';
 import './game';
 import './games';
+
+import './namespace-summary';
+import './namespace-version';

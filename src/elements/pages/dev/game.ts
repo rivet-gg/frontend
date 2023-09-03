@@ -17,6 +17,7 @@ import { globalEventGroups } from '../../../utils/global-events';
 export interface DevGameRootConfig {
 	summary?: true;
 	billing?: true;
+	versionSummary?: true;
 	version?: {
 		versionId: string;
 	};
@@ -118,7 +119,7 @@ export default class DevGame extends LitElement {
 
 
 		if (this.config.summary) {
-			body = html`<page-dev-game-summary .game=${this.game} .namespaceId=${this.namespaceId}></page-dev-game-summary>`;
+			body = html`<page-dev-namespace-summary .game=${this.game} .namespaceId=${this.namespaceId}></page-dev-namespace-summary>`;
 
 			UIRouter.shared.updateTitle(this.game.displayName);
 
@@ -140,6 +141,13 @@ export default class DevGame extends LitElement {
 			).displayName;
 
 			UIRouter.shared.updateTitle(`${this.game.displayName} – ${namespaceName}`);
+		} else if (this.config.versionSummary) {
+			body = html`<page-dev-namespace-version
+				.game=${this.game}
+				.namespaceId=${this.namespaceId}
+			></page-dev-namespace-version>`;
+
+			UIRouter.shared.updateTitle(`${this.game.displayName} – Versions`);
 		} else if (this.config.version) {
 			body = html`<page-dev-game-version
 				.game=${this.game}

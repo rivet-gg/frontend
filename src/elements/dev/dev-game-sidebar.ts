@@ -46,9 +46,6 @@ export default class DevGameSidebar extends LitElement {
 	configNamespaceId: string;
 
 	@property({ type: String })
-	versionId: string;
-
-	@property({ type: String })
 	pageId: string;
 
 	@property({ type: Object })
@@ -60,61 +57,11 @@ export default class DevGameSidebar extends LitElement {
 	@property({ type: Number })
 	createTs: number = Date.now();
 
-	@property({ type: Object })
-	versionFolders: Map<number, VersionFolder> = new Map();
-
-	// When a new version is created, navigation happens before the blocking request for the dev game
-	// completes. This flag makes sure the correct folder is opened
-	awaitNewVersion: boolean = false;
-
 	// === DEBOUNCE INFO ===
 	validateNamespaceDebounce: Debounce<() => ReturnType<typeof global.cloud.validateGameNamespace>>;
 
 	constructor() {
 		super();
-	}
-
-	updated(changedProperties: PropertyValues) {
-		super.updated(changedProperties);
-
-		// Re-create version folders
-		if (changedProperties.has('game')) {
-			let newVersionFolders = new Map();
-
-			for (let version of this.game.versions) {
-				// Create monthly timestamp from version timestamp
-				let date = new Date(version.createTs);
-				date.setUTCHours(0, 0, 0, 0);
-				date.setUTCDate(2);
-				let ts = date.getTime();
-
-				if (!newVersionFolders.has(ts)) {
-					newVersionFolders.set(ts, {
-						versions: [],
-						// Keep folder open if it was open before re-creation
-						open: this.versionFolders.get(ts)?.open || false
-					});
-				}
-				newVersionFolders.get(ts).versions.push(version);
-			}
-
-			this.versionFolders = newVersionFolders;
-		}
-
-		if (changedProperties.has('versionId') || this.awaitNewVersion) {
-			let found = false;
-
-			for (let folder of this.versionFolders.values()) {
-				if (folder.versions.some(v => v.versionId == this.versionId)) {
-					found = true;
-					folder.open = true;
-					this.requestUpdate('versionFolders');
-					break;
-				}
-			}
-
-			this.awaitNewVersion = !found;
-		}
 	}
 
 	render() {

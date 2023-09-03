@@ -30,6 +30,9 @@ export default class DevGameNamespace extends LitElement {
 	version: cloud.version.Full = null;
 
 	@property({ type: Object })
+	versionHistory: cloud.NamespaceVersion[] = [];
+
+	@property({ type: Object })
 	loadError?: any;
 
 	@property({ type: Object })
@@ -56,16 +59,26 @@ export default class DevGameNamespace extends LitElement {
 
 	resetData() {
 		this.version = null;
+		this.versionHistory.length = 0;
+
 		this.loadError = null;
 	}
 
 	async fetchData() {
 		try {
-			let res = await global.api.cloud.games.versions.getGameVersionById(
-				this.game.gameId,
-				this.versionId
-			);
-			this.version = res.version;
+			let [versionRes, historyRes] = await Promise.all([
+				global.api.cloud.games.versions.getGameVersionById(
+					this.game.gameId,
+					this.versionId
+				),
+				global.api.cloud.games.namespaces.getGameNamespaceVersionHistoryList(
+					this.game.gameId,
+					this.namespaceId,
+					{ limit: 10 }
+				)
+			]);
+			this.version = versionRes.version;
+			this.versionHistory = historyRes.versions;
 		} catch (err) {
 			this.loadError = err;
 		}

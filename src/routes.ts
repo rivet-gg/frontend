@@ -396,6 +396,20 @@ namespace routes {
 		}
 	});
 
+	export let devVersionSummary = new Route<{ gameId: string; namespaceId: string}>({
+		path: '/games/:gameId/namespaces/:namespaceId/versions',
+		render({ gameId, namespaceId }) {
+			if (!global.currentIdentity.isRegistered) return responses.registerRequired();
+			if (!utils.validateUuid(gameId)) return responses.notFound();
+
+			return {
+				title: 'Namespace Versions',
+				breadcrumb: { type: 'Namespace', gameId, namespaceId, title: 'Version' },
+				template: renderPageDevGame(gameId, namespaceId, { versionSummary: true })
+			};
+		}
+	})
+
 	export let devVersion = new Route<{ gameId: string; namespaceId: string, versionId: string }>({
 		path: '/games/:gameId/namespaces/:namespaceId/versions/:versionId',
 		render({ gameId, namespaceId, versionId }) {
