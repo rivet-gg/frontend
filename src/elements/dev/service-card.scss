@@ -78,9 +78,7 @@
 			border-radius: 20px;
 
 			color: #ececec;
-			transition:
-				margin-right consts.$transition-length,
-				margin-left consts.$transition-length;
+			transition: margin-right consts.$transition-length, margin-left consts.$transition-length;
 
 			&.hidden {
 				margin-right: -40px;

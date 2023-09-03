@@ -102,9 +102,15 @@ export default class SettingsPage extends LitElement {
 				items: [
 					{
 						id: 'privacy',
+						icon: 'solid/lock',
+						title: 'Privacy Policy',
+						url: 'https://rivet.gg/privacy'
+					},
+					{
+						id: 'terms',
 						icon: 'solid/file',
-						title: 'Privacy & Terms',
-						render: this.renderPrivacy
+						title: 'Terms of Service',
+						url: 'https://rivet.gg/terms'
 					},
 					{
 						id: 'support',
@@ -271,70 +277,73 @@ export default class SettingsPage extends LitElement {
 		let isRegistered = global.currentIdentity.isRegistered && !!identity;
 
 		return html`
-			<div class="padded-cell">
-				<h1 class="item-header">Profile appearance</h1>
-				<stylized-button
-					icon="solid/user-pen"
-					color="#404040"
-					text="#eeeeee"
-					.trigger=${this.openEditModal.bind(this)}
-					>Edit profile</stylized-button
-				>
-			</div>
-			<div class="spacer"></div>
-			<div class="padded-cell">
-				<div class="item-header-holder">
-					<h1 class="item-header">Link Email</h1>
-					${isRegistered
-						? html`<span class="badge"><e-svg src="solid/check"></e-svg> Registered</span>`
-						: null}
+			<div class="flex flex-col space-y-8">
+				<div class="padded-cell flex flex-col space-y-1">
+					<h1 class="item-header text-lg">Profile appearance</h1>
+					<stylized-button
+						icon="solid/user-pen"
+						color="#404040"
+						text="#eeeeee"
+						.trigger=${this.openEditModal.bind(this)}
+						>Edit profile</stylized-button
+					>
 				</div>
-				<p>Link your email to Rivet for full account access.</p>
-				<stylized-button
-					icon="solid/envelope"
-					color="#404040"
-					text="#eeeeee"
-					.trigger=${() => UIRoot.shared.openRegisterPanel()}
-					>${isRegistered ? 'View registration' : 'Link email'}</stylized-button
-				>
-			</div>
-			<div class="spacer"></div>
-			<div class="padded-cell">
-				<h1 class="item-header">Push notifications</h1>
-				<p>Allow Rivet to send your device push notifications for messages while you are away.</p>
-				<toggle-switch
-					?value=${this.settings.pushNotifications}
-					@toggle=${(e: ToggleSwitchEvent) => this.settingChanged('push-notifications', e.value)}
-				></toggle-switch>
-			</div>
-			<!-- <div class='spacer'></div>
-			<div class='padded-cell'>
-				<h1 class='item-header'>Email <span class='muted'>******email@gmail.com</span></h1>
-				<stylized-button icon='regular/envelope' color='#404040' text='#eeeeee' .trigger=${unimp}>Change email</stylized-button>
-			</div>
-			<div class='spacer'></div>
-			<div class='padded-cell'>
-				<h1 class='item-header'>Password</h1>
-				<stylized-button icon='regular/key' color='#404040' text='#eeeeee' .trigger=${unimp}>Change password</stylized-button>
-			</div>
-			<div class='spacer'></div>
-			<div class='padded-cell'>
-				<h1 class='item-header'>Two Factor Authentication <span class='twofa-badge'><e-svg src='regular/lock'></e-svg>Enabled</span></h1>
-				<p>Two factor authentication provides an extra layer of security to your Rivet account.</p>
-				<stylized-button icon='regular/lock' color='#404040' text='#eeeeee' .trigger=${unimp}>Remove two factor authentication</stylized-button>
-			</div>
-			<div class='spacer'></div>
-			<div class='padded-cell'>
-				<h1 class='item-header'>Delete account</h1>
-				<stylized-button icon= of'regular/identity-slash' color='#db3939' .trigger=${unimp}>Delete account</stylized-button>
-			</div> -->
-			${when(
-				global.currentIdentity.isRegistered,
-				() =>
-					html`<div class="spacer"></div>
-						<div class="padded-cell">
-							<h1 class="item-header">Toggle deletion</h1>
-							<p>
+				<div class="padded-cell flex flex-col space-y-1">
+					<div class="item-header-holder">
+						<h1 class="item-header text-lg py-1">Link Email</h1>
+						${isRegistered
+							? html`<span class="badge bg-green-700 rounded-lg px-3 py-0.5"
+									><e-svg src="solid/check"></e-svg> Registered</span
+							  >`
+							: html`
+									<p class="py-1">Link your email to Rivet for full account access.</p>
+									<stylized-button
+										icon="solid/envelope"
+										color="#404040"
+										text="#eeeeee"
+										.trigger=${() => UIRoot.shared.openRegisterPanel()}
+										>${isRegistered ? 'View registration' : 'Link email'}</stylized-button
+									>
+							  `}
+					</div>
+				</div>
+				<!-- <div class="padded-cell flex flex-col space-y-1">
+					<h1 class="item-header text-lg">Push notifications</h1>
+					<p class="pb-1">
+						Allow Rivet to send your device push notifications for messages while you are away.
+					</p>
+					<toggle-switch
+						?value=${this.settings.pushNotifications}
+						@toggle=${(e: ToggleSwitchEvent) => this.settingChanged('push-notifications', e.value)}
+					></toggle-switch>
+				</div> -->
+				<!-- <div class='spacer'></div>
+				<div class='padded-cell'>
+					<h1 class='item-header'>Email <span class='muted'>******email@gmail.com</span></h1>
+					<stylized-button icon='regular/envelope' color='#404040' text='#eeeeee' .trigger=${unimp}>Change email</stylized-button>
+				</div>
+				<div class='spacer'></div>
+				<div class='padded-cell'>
+					<h1 class='item-header'>Password</h1>
+					<stylized-button icon='regular/key' color='#404040' text='#eeeeee' .trigger=${unimp}>Change password</stylized-button>
+				</div>
+				<div class='spacer'></div>
+				<div class='padded-cell'>
+					<h1 class='item-header'>Two Factor Authentication <span class='twofa-badge'><e-svg src='regular/lock'></e-svg>Enabled</span></h1>
+					<p>Two factor authentication provides an extra layer of security to your Rivet account.</p>
+					<stylized-button icon='regular/lock' color='#404040' text='#eeeeee' .trigger=${unimp}>Remove two factor authentication</stylized-button>
+				</div>
+				<div class='spacer'></div>
+				<div class='padded-cell'>
+					<h1 class='item-header'>Delete account</h1>
+					<stylized-button icon= of'regular/identity-slash' color='#db3939' .trigger=${unimp}>Delete account</stylized-button>
+				</div> -->
+				${when(
+					global.currentIdentity.isRegistered,
+					() =>
+						html` <div class="padded-cell flex flex-col space-y-1">
+							<h1 class="item-header text-lg">Toggle deletion</h1>
+							<p class="pb-1">
 								Marks your account for deletion. After 30 days of this switch being on, your
 								Rivet account and all associated game accounts will be
 								<b>permanently deleted</b>.
@@ -345,7 +354,8 @@ export default class SettingsPage extends LitElement {
 									this.settingChanged('toggle-deletion', e.value)}
 							></toggle-switch>
 						</div>`
-			)}
+				)}
+			</div>
 
 			<!-- Editing modal -->
 			<drop-down-modal
@@ -358,38 +368,6 @@ export default class SettingsPage extends LitElement {
 					@close=${this.editModalClose.bind(this)}
 				></identity-profile-edit>
 			</drop-down-modal>
-		`;
-	}
-
-	renderPrivacy() {
-		return html`
-			<div class="padded-cell">
-				<h1 class="item-header">Privacy Policy and Terms of Service</h1>
-				<p>
-					Review our
-					<a class="decorated link" href="https://rivet.gg/privacy" target="_blank"
-						>Privacy Policy</a
-					>
-					and
-					<a class="decorated link" href="https://rivet.gg/terms" target="_blank"
-						>Terms of Service</a
-					>
-					here.
-				</p>
-			</div>
-			<!-- <div class='spacer'></div>
-			<div class='padded-cell'>
-				<h1 class='item-header'>Enhance your experience with data collection</h1>
-				<p>Rivet uses data collection to personalize your experience using our app and help find software bugs for a cleaner experience.</p>
-				<toggle-switch ?value=${this.settings.collectData} @toggle=${(e: ToggleSwitchEvent) =>
-				this.settingChanged('collect-data', e.value)}></toggle-switch>
-			</div>
-			<div class='padded-cell'>
-				<h1 class='item-header'>Third-party data collection</h1>
-				<p>Allow our third-party partners to securely access certain identity data for various services used across client.</p>
-				<toggle-switch ?value=${this.settings.collectData} @toggle=${(e: ToggleSwitchEvent) =>
-				this.settingChanged('third-party-data', e.value)}></toggle-switch>
-			</div> -->
 		`;
 	}
 

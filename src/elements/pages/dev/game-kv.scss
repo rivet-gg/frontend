@@ -108,9 +108,7 @@ page-error {
 			padding: 14px 18px;
 			cursor: pointer;
 
-			transition:
-				transform consts.$transition-length,
-				background-color consts.$transition-length;
+			transition: transform consts.$transition-length, background-color consts.$transition-length;
 
 			@include common.active-state();
 
@@ -132,9 +130,7 @@ page-error {
 				margin-left: -55px;
 				margin-right: 25px;
 
-				transition:
-					margin-left consts.$transition-length,
-					margin-right consts.$transition-length;
+				transition: margin-left consts.$transition-length, margin-right consts.$transition-length;
 				--padding: 6px;
 				--border-radius: 4px;
 				--color: #ececec;

@@ -52,10 +52,7 @@ interface RemovablePage {
 }
 
 export class RouteChangeEvent extends Event {
-	constructor(
-		public title: string,
-		public breadcrumb: Breadcrumb = undefined
-	) {
+	constructor(public title: string, public breadcrumb: Breadcrumb = undefined) {
 		super('change');
 	}
 }
