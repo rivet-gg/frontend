@@ -38,7 +38,7 @@ export default class DevBuilds extends LitElement {
 						displayName: b.displayName,
 						createTs: b.createTs,
 						contentLength: b.contentLength
-					}) as UploadEntry
+					} as UploadEntry)
 			);
 	}
 

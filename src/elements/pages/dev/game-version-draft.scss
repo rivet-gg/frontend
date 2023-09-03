@@ -80,9 +80,7 @@
 			box-shadow: 0 3px 12px rgba(0, 0, 0, 0.2);
 			cursor: pointer;
 
-			transition:
-				transform consts.$transition-length,
-				background-color consts.$transition-length;
+			transition: transform consts.$transition-length, background-color consts.$transition-length;
 
 			&:hover {
 				transform: translateY(-1px);

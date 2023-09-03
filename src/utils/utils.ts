@@ -13,11 +13,7 @@ const ENCODER = new TextEncoder();
 const LOG_1000 = Math.log(1000);
 
 export class OAuthProvider {
-	constructor(
-		public id: string,
-		public name: string,
-		public color: string
-	) {}
+	constructor(public id: string, public name: string, public color: string) {}
 
 	static forId(id: string): OAuthProvider {
 		return OAUTH_PROVIDERS.find(l => l.id == id);

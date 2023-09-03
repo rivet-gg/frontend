@@ -30,9 +30,7 @@
 				cursor: pointer;
 				padding: 10px 16px 10px 10px;
 
-				transition:
-					transform consts.$transition-length,
-					background-color consts.$transition-length;
+				transition: transform consts.$transition-length, background-color consts.$transition-length;
 				box-shadow: 0 2px 7px rgba(0, 0, 0, 0.2);
 
 				&:hover {

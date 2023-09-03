@@ -58,9 +58,7 @@
 	pointer-events: none;
 
 	// Don't transition width or height for performance
-	transition:
-		consts.$transition-length bottom,
-		consts.$transition-length right;
+	transition: consts.$transition-length bottom, consts.$transition-length right;
 
 	&.minimize {
 		box-shadow: 0 0 16px rgba(0, 0, 0, 0.25);
@@ -223,9 +221,7 @@ search-panel {
 	border-radius: 4px;
 	box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
 
-	transition:
-		consts.$transition-length opacity,
-		consts.$transition-length transform;
+	transition: consts.$transition-length opacity, consts.$transition-length transform;
 }
 
 #dim {
