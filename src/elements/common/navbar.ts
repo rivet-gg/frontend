@@ -250,6 +250,19 @@ export default class NavBar extends LitElement {
 				/>
 			</svg>
 		`;
+  }
+
+	renderCrumbImage(crumb: CrumbDisplay): TemplateResult {
+		if (typeof crumb.img === 'undefined') return html``;
+
+		switch (crumb.img.type) {
+			case 'Group':
+				return this.renderGroupAvatar(crumb.img.infoObj);
+			case 'Game':
+				return this.renderGameAvatar(crumb.img.infoObj);
+			default:
+				return html``;
+		}
 	}
 
 	renderBreadCrumb(): TemplateResult {
@@ -270,22 +283,11 @@ export default class NavBar extends LitElement {
 					<li class="group">
 						<div class="flex items-center">
 							${this.renderChevron()}
-
 							<a
-								.href=${ifDefined(crumb.url)}
+								href=${ifDefined(crumb.url)}
 								class="text-slate-200 hover:bg-slate-200/5 hover:text-white flex font-display text-md items-center rounded-md gap-3 pl-3.5 pr-3.5 py-1.5 transition"
 							>
-								${when(typeof crumb.img !== 'undefined', () => {
-									switch (crumb.img.type) {
-										case 'Group':
-											return this.renderGroupAvatar(crumb.img.infoObj);
-										case 'Game':
-											return this.renderGameAvatar(crumb.img.infoObj);
-										default:
-											return html``;
-									}
-								})}
-								${crumb.name}
+								${this.renderCrumbImage(crumb)} ${crumb.name}
 							</a>
 						</div>
 					</li>
@@ -310,7 +312,6 @@ export default class NavBar extends LitElement {
                                 .identity=${global.currentIdentity}
                             ></identity-avatar>
                         </div>
-
 						<a aria-label="Home" class="my-auto" href=${routes.home.build({})}>
 							<div class="h-6">
 								<e-svg
@@ -321,43 +322,50 @@ export default class NavBar extends LitElement {
 							</div>
 						</a>
 
-                        <div class="sm:hidden absolute right-2 flex place-content-center my-auto opacity-75 transition hover:opacity-100">
-                            <icon-button
-                                src="regular/gear"
-                                class="my-auto"
-                                small
-                                color="#ececec80"
-                                href=${routes.settings.build({})}
-                            ></icon-button>
-                        </div>
+						<div
+							class="sm:hidden absolute right-2 flex place-content-center my-auto opacity-75 transition hover:opacity-100"
+						>
+							<icon-button
+								src="regular/gear"
+								class="my-auto"
+								small
+								color="#ececec80"
+								href=${routes.settings.build({})}
+							></icon-button>
+						</div>
 
-                        <div class="hidden my-auto sm:ml-6 sm:block">
-                            <div class="flex my-auto" aria-label="Breadcrumb">
-                                <ol role="list" class="flex items-center">
-                                    ${this.renderBreadCrumb()}
-                                </ol>
-                            </div>
-                        </div>
-                    </div>
+						<div class="hidden my-auto sm:ml-6 sm:block">
+							<div class="flex my-auto" aria-label="Breadcrumb">
+								<ol role="list" class="flex items-center">
+									${this.renderBreadCrumb()}
+								</ol>
+							</div>
+						</div>
+					</div>
 
-                    <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0 space-x-4 max-sm:invisible my-auto">
-                        <identity-name class="my-auto text-sm" .identity=${
-							global.currentIdentity
-						} no-link></identity-name>
-                        <identity-avatar
-                                class="block w-6 h-6 m-2"
-                                hide-status
-                                .identity=${global.currentIdentity}
-                            ></identity-avatar>
-                    
-                        <icon-button
-                            src="regular/gear"
-                            small
-                            color="#ececec80"
-                            href=${routes.settings.build({})}
-                        ></icon-button>
-                    </div>
-				</nav>
+					<div
+						class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0 space-x-4 max-sm:invisible my-auto"
+					>
+						<identity-name
+							class="my-auto text-sm"
+							.identity=${global.currentIdentity}
+							no-link
+						></identity-name>
+						<identity-avatar
+							class="block w-6 h-6 m-2"
+							hide-status
+							.identity=${global.currentIdentity}
+						></identity-avatar>
+
+						<icon-button
+							src="regular/gear"
+							small
+							color="#ececec80"
+							href=${routes.settings.build({})}
+						></icon-button>
+					</div>
+				</div>
+			</nav>
 		`;
 	}
 }
