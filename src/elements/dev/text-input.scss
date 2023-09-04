@@ -28,9 +28,7 @@
 			font-size: $font-size;
 
 			// box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
-			box-shadow:
-				rgba(0, 0, 0, 0.12) 0px 1px 1px,
-				rgba(0, 0, 0, 0.1) 0px 1px 3px;
+			box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 1px, rgba(0, 0, 0, 0.1) 0px 1px 3px;
 
 			&:hover,
 			&:focus {
@@ -84,13 +82,9 @@
 		text-align: $text-align;
 		color: #ececec;
 
-		box-shadow:
-			rgba(0, 0, 0, 0.08) 0px 1px 1px,
-			rgba(0, 0, 0, 0.06) 0px 1px 3px;
+		box-shadow: rgba(0, 0, 0, 0.08) 0px 1px 1px, rgba(0, 0, 0, 0.06) 0px 1px 3px;
 
-		transition:
-			background-color consts.$transition-length,
-			border consts.$transition-length;
+		transition: background-color consts.$transition-length, border consts.$transition-length;
 
 		&:hover,
 		&:focus {

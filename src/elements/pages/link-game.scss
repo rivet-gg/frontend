@@ -327,9 +327,7 @@ loading-wheel {
 
 			transform: translateY(6vh);
 
-			transition:
-				transform 2s,
-				opacity consts.$transition-length;
+			transition: transform 2s, opacity consts.$transition-length;
 			background-image: radial-gradient(100% 100% at bottom, #00000080, transparent);
 
 			&.light {

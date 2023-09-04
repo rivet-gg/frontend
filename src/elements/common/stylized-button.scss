@@ -41,11 +41,8 @@
 
 	cursor: pointer;
 	overflow: hidden;
-	transition:
-		color consts.$transition-length,
-		background-color consts.$transition-length,
-		transform consts.$transition-length,
-		box-shadow consts.$transition-length;
+	transition: color consts.$transition-length, background-color consts.$transition-length,
+		transform consts.$transition-length, box-shadow consts.$transition-length;
 
 	e-svg {
 		--fill: #{$icon-color};
@@ -142,9 +139,7 @@
 			opacity: 0;
 
 			transform: translate(-5px, 0);
-			transition:
-				opacity consts.$transition-length,
-				transform consts.$transition-length;
+			transition: opacity consts.$transition-length, transform consts.$transition-length;
 		}
 	}
 }

@@ -78,9 +78,7 @@
 			outline: none;
 			color: inherit;
 			font-size: inherit;
-			transition:
-				background-color consts.$transition-length,
-				padding consts.$transition-length,
+			transition: background-color consts.$transition-length, padding consts.$transition-length,
 				margin consts.$transition-length;
 
 			&:hover {
