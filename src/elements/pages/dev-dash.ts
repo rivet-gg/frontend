@@ -45,17 +45,17 @@ export default class DeveloperDash extends LitElement {
 
 	render() {
 		return html`
-			${
-				when(global.currentIdentity.groups.find((group) => group.group.isDeveloper),
-					() => html`	
-						<div class="w-full">
-							<user-banner></user-banner>
-              <div class="sm:px-5 max-w-contentwidth m-auto">
-								<page-dev-games></page-dev-games>
-							</div>
+			${when(
+				global.currentIdentity.groups.find(group => group.group.isDeveloper),
+				() => html`
+					<div class="w-full">
+						<user-banner></user-banner>
+						<div class="sm:px-5 max-w-contentwidth m-auto">
+							<page-dev-games></page-dev-games>
 						</div>
-					`,
-					() => html`
+					</div>
+				`,
+				() => html`
 						<div class="absolute text-center top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pb-12">	
 							<h1 class="text-3xl pb-2">Private Beta</h1>
 							<h2 class="text-lg pb-4">Rivet is still in private beta. Join the waitlist to get early access.</h2>
@@ -73,8 +73,7 @@ export default class DeveloperDash extends LitElement {
 							</div>
 						</div>
 					`
-				)
-			}
-    `;
+			)}
+		`;
 	}
 }
