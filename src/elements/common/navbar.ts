@@ -285,7 +285,7 @@ export default class NavBar extends LitElement {
 							${this.renderChevron()}
 							<a
 								href=${ifDefined(crumb.url)}
-								class="text-slate-200 hover:bg-slate-200/5 hover:text-white flex font-display text-md items-center rounded-md gap-3 pl-3.5 pr-3.5 py-1.5 transition"
+								class="text-slate-200 hover:bg-slate-200/5 hover:text-white group-last:hover:bg-transparent group-last:hover:text-slate-200 flex font-display text-md items-center rounded-md gap-3 pl-3.5 pr-3.5 py-1.5 transition"
 							>
 								${this.renderCrumbImage(crumb)} ${crumb.name}
 							</a>
