@@ -279,7 +279,7 @@ export default class DevNamespaceVersion extends LitElement {
 						@click=${() => {
 							this.displayVersion = displayVersion.PRODUCTION;
 						}}
-						>Previous Production Versions</stylized-button
+						>Rollback</stylized-button
 					>
 					<stylized-button
 						class="mt-auto"

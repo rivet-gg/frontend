@@ -132,9 +132,9 @@ export default class DevGameSidebar extends LitElement {
 					>KV</rvt-sidebar-button
 				>
 
-				<rvt-sidebar-button href="https://rivet.gg/modules" icon="solid/cubes"
+				<!-- <rvt-sidebar-button href="https://rivet.gg/modules" icon="solid/cubes"
 					>Modules</rvt-sidebar-button
-				>
+				> -->
 			</rvt-sidebar-group>
 		`;
 	}

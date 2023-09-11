@@ -186,7 +186,7 @@ export default class NavBar extends LitElement {
 								}
 							];
 
-							if (namespaceTitle !== 'Namespace') {
+							if (namespaceTitle !== 'Namespace' && namespaceTitle !== 'Overview') {
 								this.displaycrumbs.push({
 									name: namespaceTitle
 								});

@@ -9,6 +9,7 @@ import global from '../../../utils/global';
 import { when } from 'lit/directives/when.js';
 import utils from '../../../utils/utils';
 import routes from '../../../routes';
+import { showAlert } from '../../../ui/helpers';
 
 @customElement('page-dev-namespace-summary')
 export default class DevNamespaceSummary extends LitElement {
@@ -107,6 +108,46 @@ export default class DevNamespaceSummary extends LitElement {
 		}
 	}
 
+	showDeployVersionSteps() {
+		showAlert(
+			'Deploy Version',
+			html`
+				<div>
+					<div class="flex flex-row space-x-6 pb-3 font-semibold">
+						
+						<a
+							class="border-transparent text-white hover:border-zinc-300 duration-200 transition-all ease-out hover:opacity-100 lh-full flex h-full shrink-0 items-center gap-1 whitespace-nowrap border-b-2 pt-1 text-lg font-medium opacity-90"
+							href="https://rivet.gg/learn/unity"
+							><span
+								class="bg-clip-text bg-gradient-to-r text-transparent font-semibold from-cyan-600 to-cyan-800"
+								>Unity</span
+							></a
+						>
+						<a
+							class="border-transparent text-white hover:border-zinc-300 duration-200 transition ease-out hover:opacity-100 lh-full flex h-full shrink-0 items-center gap-1 whitespace-nowrap border-b-2 pt-1 text-lg font-medium opacity-90"
+							href="https://rivet.gg/learn/unreal"
+							><span
+								class="bg-clip-text bg-gradient-to-r text-transparent font-semibold from-rose-400 to-rose-600"
+								>Unreal</span
+							></a
+						>
+						<a
+							class="border-transparent text-white hover:border-zinc-300 duration-200 transition ease-out hover:opacity-100 lh-full flex h-full shrink-0 items-center gap-1 whitespace-nowrap border-b-2 pt-1 text-lg font-medium opacity-90"
+							href="https://rivet.gg/learn/html5"
+							aria-current="page"
+							><span
+								class="bg-clip-text bg-gradient-to-r text-transparent font-semibold from-orange-400 to-orange-600"
+								>HTML5</span
+							></a
+						>
+					</div>
+					<code class="text-md italic">rivet deploy -n prod</code>
+				</div>
+			`,
+			
+		);
+	}
+
 	renderVisitButton(): TemplateResult {
 		let visitHost: string;
 		let visitUrl: string;
@@ -130,25 +171,65 @@ export default class DevNamespaceSummary extends LitElement {
 		// )
 
 		// return html`asdfasdf`;
-		return html`<stylized-button id="visit-button" right-icon="solid/arrow-right" .href=${visitUrl}>
+		// TODO -> left align button
+		return html`<stylized-button class="w-full" id="visit-button" right-icon="solid/arrow-right" .href=${visitUrl}>
 			Visit
 		</stylized-button>`;
 	}
 
-	// renderModules() {
+	renderModules() {
+		return html`
+			<div class="pt-12">
+				<h3 class="text-xl text-slate-200">Configuration</h3>
+				<dev-version-info
+					.game=${this.game}
+					.tiers=${this.tiers}
+					.config=${this.version.config}
+				></dev-version-info>
+				<!-- <div class="flex place-content-center mx-auto pt-4">
+					<stylized-button
+					right-icon="solid/arrow-right"
+					> Add Module </stylized-button>
+				</div> -->
+			</div>
+		`
+	}
+
+	// renderVersionDeployInstructions() {
 	// 	return html`
-	// 		<div class="pt-12 ">
-	// 			<h3 class="text-xl text-slate-200">Modules</h3>
-	// 			<dev-version-info
-	// 				.game=${this.game}
-	// 				.tiers=${this.tiers}
-	// 				.config=${this.version.config}
-	// 			></dev-version-info>
-	// 			<div class="flex place-content-center mx-auto pt-4">
-	// 				<stylized-button
-	// 				right-icon="solid/arrow-right"
-	// 				> Add Module </stylized-button>
+	// 		<div class="pt-6 space-y-2">
+	// 			<p class="text-md text-slate-200 font-bold">Deploy new version:</p>
+	// 			<div class="flex flex-row space-x-6 pb-2 text-purple-400 font-semibold">
+	// 				<!-- <a class="transition hover:text-white hover:underline" href="https://rivet.gg/learn/unity">Unity</a>
+	// 			<a class="transition  hover:text-white hover:underline" href="https://rivet.gg/learn/unreal">Unreal</a>
+	// 			<a class="transition  hover:text-white hover:underline" href="https://rivet.gg/learn/html5">HTML5</a> -->
+	// 				<a
+	// 					class="border-transparent text-white hover:border-white hover:opacity-100 lh-full flex h-full shrink-0 items-center gap-1 whitespace-nowrap border-b-2 pt-1 text-md font-medium opacity-90"
+	// 					href="https://rivet.gg/learn/unity"
+	// 					><span
+	// 						class="bg-clip-text bg-gradient-to-r text-transparent font-semibold from-cyan-300 to-cyan-500"
+	// 						>Unity</span
+	// 					></a
+	// 				>
+	// 				<a
+	// 					class="border-transparent text-white hover:border-white hover:opacity-100 lh-full flex h-full shrink-0 items-center gap-1 whitespace-nowrap border-b-2 pt-1 text-md font-medium opacity-90"
+	// 					href="https://rivet.gg/learn/unreal"
+	// 					><span
+	// 						class="bg-clip-text bg-gradient-to-r text-transparent font-semibold from-rose-400 to-rose-600"
+	// 						>Unreal</span
+	// 					></a
+	// 				>
+	// 				<a
+	// 					class="border-transparent text-white hover:border-white hover:opacity-100 lh-full flex h-full shrink-0 items-center gap-1 whitespace-nowrap border-b-2 pt-1 text-md font-medium opacity-90"
+	// 					href="https://rivet.gg/learn/html5"
+	// 					aria-current="page"
+	// 					><span
+	// 						class="bg-clip-text bg-gradient-to-r text-transparent font-semibold from-orange-400 to-orange-600"
+	// 						>HTML5</span
+	// 					></a
+	// 				>
 	// 			</div>
+	// 			<code class="text-md text-slate-300 italic">rivet deploy -n prod</code>
 	// 		</div>
 	// 	`
 	// }
@@ -173,47 +254,23 @@ export default class DevNamespaceSummary extends LitElement {
 									</h4>
 								</div>
 							</div>
-							<div class="ml-auto">${this.renderVisitButton()}</div>
+							<div class="flex flex-col space-y-2 ml-auto">
+								<stylized-button 
+									right-icon="solid/arrow-right"
+									.trigger=${this.showDeployVersionSteps.bind(this)}
+									>
+									New Version
+								</stylized-button>
+								${this.renderVisitButton()}
+							</div>
 						</div>
 
-						<div class="pt-6 space-y-2">
-							<p class="text-md text-slate-200 font-bold">Deploy new version:</p>
-							<div class="flex flex-row space-x-6 pb-2 text-purple-400 font-semibold">
-								<!-- <a class="transition hover:text-white hover:underline" href="https://rivet.gg/learn/unity">Unity</a>
-							<a class="transition  hover:text-white hover:underline" href="https://rivet.gg/learn/unreal">Unreal</a>
-							<a class="transition  hover:text-white hover:underline" href="https://rivet.gg/learn/html5">HTML5</a> -->
-								<a
-									class="border-transparent text-white hover:border-white hover:opacity-100 lh-full flex h-full shrink-0 items-center gap-1 whitespace-nowrap border-b-2 pt-1 text-md font-medium opacity-90"
-									href="https://rivet.gg/learn/unity"
-									><span
-										class="bg-clip-text bg-gradient-to-r text-transparent font-semibold from-cyan-300 to-cyan-500"
-										>Unity</span
-									></a
-								>
-								<a
-									class="border-transparent text-white hover:border-white hover:opacity-100 lh-full flex h-full shrink-0 items-center gap-1 whitespace-nowrap border-b-2 pt-1 text-md font-medium opacity-90"
-									href="https://rivet.gg/learn/unreal"
-									><span
-										class="bg-clip-text bg-gradient-to-r text-transparent font-semibold from-rose-400 to-rose-600"
-										>Unreal</span
-									></a
-								>
-								<a
-									class="border-transparent text-white hover:border-white hover:opacity-100 lh-full flex h-full shrink-0 items-center gap-1 whitespace-nowrap border-b-2 pt-1 text-md font-medium opacity-90"
-									href="https://rivet.gg/learn/html5"
-									aria-current="page"
-									><span
-										class="bg-clip-text bg-gradient-to-r text-transparent font-semibold from-orange-400 to-orange-600"
-										>HTML5</span
-									></a
-								>
-							</div>
-							<code class="text-md text-slate-300 italic">rivet deploy -n prod</code>
-						</div>
+						
 
 						<div class="pt-6">
 							<stylized-button
 								class="mt-auto"
+								right-icon="solid/arrow-right"
 								href=${routes.devVersionSummary.build({
 									gameId: this.game.gameId,
 									namespaceId: this.namespaceId
@@ -221,6 +278,8 @@ export default class DevNamespaceSummary extends LitElement {
 								>Manage Version</stylized-button
 							>
 						</div>
+
+						${this.renderModules()}
 					</div>
 				`
 			)}
