@@ -9,7 +9,7 @@ import { globalEventGroups } from '../../../utils/global-events';
 import { responses } from '../../../routes';
 import utils from '../../../utils/utils';
 import { when } from 'lit/directives/when.js';
-import { tooltip } from '../../../ui/helpers';
+import { showAlert, tooltip } from '../../../ui/helpers';
 import clsx from 'clsx';
 
 enum displayVersion {
@@ -172,6 +172,19 @@ export default class DevNamespaceVersion extends LitElement {
 		return this.displayVersion === displayVersion.PRODUCTION;
 	}
 
+	rollbackConfirmModal(version: cloud.VersionFull | cloud.VersionSummary) {
+		showAlert(
+			'Confirm Deployment',
+			html`
+				<div>
+					<h4 class="text-lg">From Version: <strong>${this.version.displayName}</strong></h4>
+					<h4 class="text-lg">To Version: <strong>${version.displayName}</strong></h4>
+				</div>
+			`,
+			[{label: 'Cancel', destructive: true}, { label: 'Confirm', color: 'green', cb: () => { this.updateVersion(version.versionId) } }]
+		);
+	}
+
 	renderVersionEntry(version: cloud.VersionFull | cloud.VersionSummary): TemplateResult {
 		return html`
 			<div class="flex flex-row place-content-between py-2">
@@ -210,7 +223,7 @@ export default class DevNamespaceVersion extends LitElement {
 						return html`
 							<stylized-button
 								class="my-auto"
-								@click=${() => this.updateVersion(version.versionId)}
+								.trigger=${this.rollbackConfirmModal.bind(this, version)}
 							>
 								${this.isProduction() ? html` Rollback ` : html` Deploy `}
 							</stylized-button>
