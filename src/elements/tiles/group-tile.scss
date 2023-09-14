@@ -22,7 +22,9 @@
 			transform: translateY(0);
 
 			// Adds transition delay
-			transition: opacity consts.$transition-length 0.1s, transform consts.$transition-length 0.1s;
+			transition:
+				opacity consts.$transition-length 0.1s,
+				transform consts.$transition-length 0.1s;
 		}
 	}
 
@@ -119,7 +121,9 @@
 		box-sizing: border-box;
 
 		transform: translateY(5%);
-		transition: opacity consts.$transition-length, transform consts.$transition-length;
+		transition:
+			opacity consts.$transition-length,
+			transform consts.$transition-length;
 
 		#details-title {
 			text-align: center;
@@ -178,7 +182,9 @@
 			transform: translateY(0);
 
 			// Adds transition delay
-			transition: opacity consts.$transition-length 0.1s, transform consts.$transition-length 0.1s;
+			transition:
+				opacity consts.$transition-length 0.1s,
+				transform consts.$transition-length 0.1s;
 		}
 	}
 }

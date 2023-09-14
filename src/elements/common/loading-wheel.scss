@@ -83,7 +83,9 @@
 		--fill: #{$color};
 
 		// animation: rotate 1.5s forwards infinite linear; // cubic-bezier(.55,-0.76,.43,1.68)
-		animation: 2.4s infinite -1.2s spin-animation, 0.8s fade-in;
+		animation:
+			2.4s infinite -1.2s spin-animation,
+			0.8s fade-in;
 	}
 
 	& > h1 {

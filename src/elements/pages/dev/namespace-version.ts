@@ -11,6 +11,7 @@ import utils from '../../../utils/utils';
 import { when } from 'lit/directives/when.js';
 import { showAlert, tooltip } from '../../../ui/helpers';
 import clsx from 'clsx';
+import UIRouter from '../../root/ui-router';
 
 enum displayVersion {
 	PRODUCTION = 'PRODUCTION',
@@ -181,7 +182,16 @@ export default class DevNamespaceVersion extends LitElement {
 					<h4 class="text-lg">To Version: <strong>${version.displayName}</strong></h4>
 				</div>
 			`,
-			[{label: 'Cancel', destructive: true}, { label: 'Confirm', color: 'green', cb: () => { this.updateVersion(version.versionId) } }]
+			[
+				{ label: 'Cancel', destructive: true },
+				{
+					label: 'Confirm',
+					color: 'green',
+					cb: () => {
+						this.updateVersion(version.versionId);
+					}
+				}
+			]
 		);
 	}
 
@@ -265,15 +275,24 @@ export default class DevNamespaceVersion extends LitElement {
 		`;
 	}
 
+	navigateBack() {
+		UIRouter.shared.navBack();
+	}
+
 	render() {
 		if (this.loadError) return responses.renderError(this.loadError, true);
 		if (this.namespace == null) return this.renderPlaceholder();
 
 		return html`
 			<div class="flex flex-col px-2 pt-6 text-slate-300">
-				<div class="flex flex-row place-content-end mr-auto">
-					<div>
-						<h3 class="text-3xl text-white">${this.namespace.displayName}</h3>
+				<div class="flex flex-row place-content-end">
+					<div class="w-full">
+						<div class="flex flex-row place-content-between w-full">
+							<h3 class="text-3xl text-white mr-auto">${this.namespace.displayName}</h3>
+							<stylized-button .trigger=${this.navigateBack.bind(this)} id="nav-back">
+								Back
+							</stylized-button>
+						</div>
 						<div class="flex flex-col text-lg">
 							<h4 class="font-light italic text-white/40">${this.version.displayName}</h4>
 							<h4 class="font-light italic text-white/40">
@@ -283,27 +302,33 @@ export default class DevNamespaceVersion extends LitElement {
 					</div>
 				</div>
 
-				<div class="py-6 flex flex-row w-1/2 space-x-3 max-sm:flex-wrap space-y-2">
-					<stylized-button
-						class="mt-auto"
-						text=${this.isProduction() ? '#737373' : ''}
-						color=${this.isProduction() ? '#7f56d940' : '#7f56d9'}
-						?no-action=${this.isProduction()}
-						@click=${() => {
-							this.displayVersion = displayVersion.PRODUCTION;
-						}}
-						>Rollback</stylized-button
-					>
-					<stylized-button
-						class="mt-auto"
-						text=${!this.isProduction() ? ' #737373' : ''}
-						color=${!this.isProduction() ? '#7f56d940' : '#7f56d9'}
-						?no-action=${!this.isProduction()}
-						@click=${() => {
-							this.displayVersion = displayVersion.ALL;
-						}}
-						>All Versions</stylized-button
-					>
+				<div class="pt-6 pb-3 flex flex-row space-x-3 space-y-2 w-full">
+					<nav class="mb-2 flex space-x-8 text-md" aria-label="Tabs">
+						<a
+							no-action=${this.isProduction()}
+							@click=${() => {
+								this.displayVersion = displayVersion.PRODUCTION;
+							}}
+							class=${clsx(
+								this.isProduction()
+									? 'px-4 mx-2 border-b font-semibold pb-1 border-purple-500 text-purple-500'
+									: 'font-semibold px-4 pb-1 border-transparent text-white/40 hover:border-white/80 mx-2 hover:cursor-pointer hover:text-white/80'
+							)}
+							>Rollback</a
+						>
+						<a
+							no-action=${!this.isProduction()}
+							@click=${() => {
+								this.displayVersion = displayVersion.ALL;
+							}}
+							class=${clsx(
+								!this.isProduction()
+									? 'px-3 mx-2 pb-1 font-semibold border-b border-purple-500 text-purple-500'
+									: 'font-semibold px-3 pb-1 border-transparent text-white/40 hover:border-white/80 mx-2 hover:cursor-pointer hover:text-white/80'
+							)}
+							>All Versions</a
+						>
+					</nav>
 				</div>
 
 				<div class="space-y-2">

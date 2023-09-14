@@ -114,7 +114,6 @@ export default class DevNamespaceSummary extends LitElement {
 			html`
 				<div>
 					<div class="flex flex-row space-x-6 pb-3 font-semibold">
-						
 						<a
 							class="border-transparent text-white hover:border-zinc-300 duration-200 transition-all ease-out hover:opacity-100 lh-full flex h-full shrink-0 items-center gap-1 whitespace-nowrap border-b-2 pt-1 text-lg font-medium opacity-90"
 							href="https://rivet.gg/learn/unity"
@@ -143,8 +142,7 @@ export default class DevNamespaceSummary extends LitElement {
 					</div>
 					<code class="text-md italic">rivet deploy -n prod</code>
 				</div>
-			`,
-			
+			`
 		);
 	}
 
@@ -170,9 +168,13 @@ export default class DevNamespaceSummary extends LitElement {
 		// 		>`
 		// )
 
-		// return html`asdfasdf`;
 		// TODO -> left align button
-		return html`<stylized-button class="w-full" id="visit-button" right-icon="solid/arrow-right" .href=${visitUrl}>
+		return html`<stylized-button
+			class=""
+			id="visit-button"
+			right-icon="solid/arrow-right"
+			.href=${visitUrl}
+		>
 			Visit
 		</stylized-button>`;
 	}
@@ -192,7 +194,7 @@ export default class DevNamespaceSummary extends LitElement {
 					> Add Module </stylized-button>
 				</div> -->
 			</div>
-		`
+		`;
 	}
 
 	// renderVersionDeployInstructions() {
@@ -255,29 +257,26 @@ export default class DevNamespaceSummary extends LitElement {
 								</div>
 							</div>
 							<div class="flex flex-col space-y-2 ml-auto">
-								<stylized-button 
+								<stylized-button
+									class="mt-auto"
+									right-icon="solid/arrow-right"
+									href=${routes.devVersionSummary.build({
+										gameId: this.game.gameId,
+										namespaceId: this.namespaceId
+									})}
+									>Manage Version</stylized-button
+								>
+								<stylized-button
+									class="w-full"
 									right-icon="solid/arrow-right"
 									.trigger=${this.showDeployVersionSteps.bind(this)}
-									>
+								>
 									New Version
 								</stylized-button>
-								${this.renderVisitButton()}
 							</div>
 						</div>
 
-						
-
-						<div class="pt-6">
-							<stylized-button
-								class="mt-auto"
-								right-icon="solid/arrow-right"
-								href=${routes.devVersionSummary.build({
-									gameId: this.game.gameId,
-									namespaceId: this.namespaceId
-								})}
-								>Manage Version</stylized-button
-							>
-						</div>
+						<div class="pt-6">${this.renderVisitButton()}</div>
 
 						${this.renderModules()}
 					</div>

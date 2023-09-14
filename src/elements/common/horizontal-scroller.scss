@@ -37,7 +37,9 @@
 			font-size: 12px;
 			border-radius: $height * 0.5;
 			cursor: pointer;
-			transition: consts.$transition-length transform, consts.$transition-length background,
+			transition:
+				consts.$transition-length transform,
+				consts.$transition-length background,
 				consts.$transition-length color;
 
 			@include common.small-header();

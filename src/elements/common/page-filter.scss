@@ -29,7 +29,9 @@
 	background-color: #313131;
 	border-radius: 14px;
 
-	transition: background-color consts.$transition-length, border-radius consts.$transition-length * 0.5;
+	transition:
+		background-color consts.$transition-length,
+		border-radius consts.$transition-length * 0.5;
 
 	&.active {
 		background-color: #4d4d4d;
@@ -105,7 +107,9 @@
 		font-family: consts.$open-sans;
 		font-weight: 600;
 		border: none;
-		transition: background-color consts.$transition-length, border-radius consts.$transition-length * 0.5;
+		transition:
+			background-color consts.$transition-length,
+			border-radius consts.$transition-length * 0.5;
 
 		&::placeholder {
 			font-weight: bold;
