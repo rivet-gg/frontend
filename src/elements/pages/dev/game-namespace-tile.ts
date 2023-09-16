@@ -22,7 +22,7 @@ export default class GameNamespaceTile extends LitElement {
 	render() {
 		return html`
 			<a
-				class="m-auto h-full p-2 border-white/10 border flex flex-row place-content-between hover:bg-button-bg-hover-color hover:-translate-y-px transition"
+				class="m-auto h-full p-2 rounded-lg border-white/10 border flex flex-row place-content-between hover:bg-button-bg-hover-color hover:-translate-y-px transition"
 				href=${routes.devNamespace.build({
 					gameId: this.gameId,
 					namespaceId: this.namespace.namespaceId

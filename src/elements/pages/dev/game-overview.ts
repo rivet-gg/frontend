@@ -356,11 +356,14 @@ export default class DevGameOverview extends LitElement {
 		`;
 	}
 
-	rendergameEditButtons(game: cloud.GameFull): TemplateResult {
+	renderAnalytics(game: cloud.GameFull): TemplateResult {
 		return html`
 			<div class="w-1/2">
-				<h1 class="text-xl pb-4">Game Settings</h1>
-				<div>
+				<h1 class="text-xl pb-4">Analytics</h1>
+				<div class="flex flex-row space-x-4 w-full h-80 bg-zinc-600/30 place-content-center rounded-lg">
+					<h4 class="m-auto italic text-gray-300 text-lg">Coming Soon...</h4>
+				</div>
+				<!-- <div>
 					<stylized-button
 						class="w-full"
 						centered
@@ -403,17 +406,18 @@ export default class DevGameOverview extends LitElement {
 							<p class="file-input-subtitle">Recommended size 2048x1024 px</p>
 						</div>
 					</file-uploader>
-				</div>
+				</div> -->
+
 			</div>
 		`;
 	}
 
 	render() {
 		return html`
-			<div class="mx-auto max-w-contentwidth px-[10px] md:px-5 lg:px-0 pb-12">
+			<div class="mx-auto max-w-contentwidth px-[10px] md:px-5 lg:px-0 pb-8">
 				<game-banner .game=${this.game}></game-banner>
 				<div class="flex flex-row w-full space-x-8 max-md:px-4 ">
-					${when(this.game, () => this.rendergameEditButtons(this.game))}
+					${when(this.game, () => this.renderAnalytics(this.game))}
 					${when(this.game, () => this.renderNamespaceList(this.game))}
 				</div>
 			</div>
