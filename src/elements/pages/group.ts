@@ -3,27 +3,28 @@ import { html, LitElement, PropertyValues } from 'lit';
 import { when } from 'lit/directives/when.js';
 import { styleMap } from 'lit/directives/style-map.js';
 import { cssify } from '../../utils/css';
-import styles from './group.scss';
+import styles from './groups.scss';
 import routes, { responses } from '../../routes';
 import global from '../../utils/global';
+import cloud from '@rivet-gg/cloud';
 import { globalEventGroups } from '../../utils/global-events';
 import { showAlert } from '../../ui/helpers';
 import UIRouter from '../root/ui-router';
 
-import { groupRouteData } from '../../data/group';
 import assets from '../../data/assets';
 import * as api from '../../utils/api';
 
-import { GroupProfileCache } from '../../data/cache';
+import { CloudDashboardCache, GroupProfileCache } from '../../data/cache';
 import logging from '../../utils/logging';
 import { GroupActionEvent } from '../group/group-sidebar';
 import { DropDownSelectEvent, DropDownSelection } from '../dev/drop-down-list';
-import timing from '../../utils/timing';
+import timing, { Debounce } from '../../utils/timing';
 import utils from '../../utils/utils';
 import { InputUpdateEvent } from '../dev/text-input';
 import { ls } from '../../utils/cache';
 import { ColorExtractor } from '../../utils/colors';
-import { Orientation } from '../common/overlay-positioning';
+import { repeat } from 'lit/directives/repeat.js';
+import { TraversableErrors, VALIDATION_ERRORS } from '../../utils/traversable-errors';
 
 enum CreateInviteState {
 	Create,
@@ -75,6 +76,9 @@ export default class GroupPage extends LitElement {
 	@property({ type: String })
 	gameNameId?: string;
 
+	@property({ type: Array})
+	games?: cloud.GameSummary[] = null;
+
 	@property({ type: Object })
 	loadError?: any;
 
@@ -112,19 +116,77 @@ export default class GroupPage extends LitElement {
 
 	inviteCodeCopyResultTimeout: number = null;
 
+	// === GAME COMPONENTS ===
+	@property({ type: Boolean })
+	gameModalActive = false;
+
+	@property({ type: String })
+	gameDisplayNameValue: string = null;
+
+	@property({ type: String })
+	gameNameIdValue = '';
+
+	@property({ type: Boolean })
+	isCreatingGame = false;
+
+	@property({ type: String })
+	gameValidationErrors: TraversableErrors = new TraversableErrors(VALIDATION_ERRORS.GAME);
+
+	@property({ type: Boolean })
+	gameIsValid = false;
+
+
 	// === COLOR EXTRACTION ===
 	@property({ type: Object })
 	colorExtractor: ColorExtractor = new ColorExtractor();
+
+	// === DEBOUNCE INFO ===
+	validateGameDebounce: Debounce<() => ReturnType<typeof global.cloud.validateGame>>;
 
 	// === EVENT HANDLERS ===
 	groupStream?: api.RepeatingRequest<api.group.GetGroupProfileCommandOutput>;
 	groupBansStream?: api.RepeatingRequest<api.group.GetGroupBansCommandOutput>;
 	membersStream?: api.RepeatingRequest<api.group.GetGroupMembersCommandOutput>;
 	joinRequestsStream?: api.RepeatingRequest<api.group.GetGroupJoinRequestsCommandOutput>;
+	gameStream?: api.RepeatingRequest<cloud.GetGamesCommandOutput>;
+
+	constructor() {
+		super();
+
+		this.validateGameDebounce = new Debounce({
+			delay: timing.milliseconds(500),
+			cb: async () => {
+				let displayName = this.gameDisplayNameValue ?? '';
+				let nameId = this.gameNameIdValue.length
+					? this.gameNameIdValue
+					: utils.convertStringToId(displayName);
+
+				return await global.cloud.validateGame({
+					nameId,
+					displayName
+				});
+			},
+			completeCb: res => {
+				// Save errors
+				this.gameValidationErrors.load(res.errors.map(err => err.path));
+				this.gameIsValid = this.gameValidationErrors.isEmpty();
+
+				// Refresh UI
+				this.requestUpdate('gameValidationErrors');
+			}
+		});
+		this.validateGameDebounce.onError(async err => {
+			this.loadError = err;
+			this.gameIsValid = false;
+		});
+	}
+
+
 	disconnectedCallback(): void {
 		super.disconnectedCallback();
 
 		if (this.groupStream) this.groupStream.cancel();
+		if (this.gameStream) this.gameStream.cancel();
 		if (this.membersStream) this.membersStream.cancel();
 		if (this.joinRequestsStream) this.joinRequestsStream.cancel();
 		if (this.groupBansStream) this.groupBansStream.cancel();
@@ -137,6 +199,8 @@ export default class GroupPage extends LitElement {
 		if (changedProperties.has('groupId')) {
 			this.resetGroupData();
 			this.fetchGroup();
+			this.resetGameData();
+			this.fetchGames();
 		}
 	}
 
@@ -147,6 +211,29 @@ export default class GroupPage extends LitElement {
 		this.members.length = 0;
 		this.joinRequests.length = 0;
 		this.bannedIdentities.length = 0;
+	}
+
+	resetGameData() {
+		if(this.games) this.games.length = 0;
+	}
+
+	async fetchGames() {
+		if (this.gameStream) this.gameStream.cancel();
+
+		// Fetch events
+		this.gameStream = await CloudDashboardCache.watch(data => {
+			data.games.sort((a, b) => a.displayName.localeCompare(b.displayName));
+			this.games = data.games.filter(a => a.developerGroupId == this.groupId);
+			
+		});
+
+		this.gameStream.onError(err => {
+			logging.error('Request error', err);
+
+			// Only set `loadError` on initiation
+			if (this.games) globalEventGroups.dispatch('error', err);
+			else this.loadError = err;
+		});
 	}
 
 	async fetchGroup() {
@@ -424,6 +511,52 @@ export default class GroupPage extends LitElement {
 		this.editModalActive = false;
 	}
 
+	openGameModal(groupId: string) {
+		this.gameModalActive = true;
+	}
+
+	gameModalClose() {
+		this.gameModalActive = false;
+	}
+
+	gameDisplayNameInput(event: InputUpdateEvent) {
+		this.gameDisplayNameValue = event.value;
+
+		this.validateGameDebounce.trigger();
+	}
+
+	gameNameIdInput(event: InputUpdateEvent) {
+		this.gameNameIdValue = event.value;
+
+		this.validateGameDebounce.trigger();
+	}
+
+	async createGame() {
+		if (!this.gameIsValid) return;
+
+		try {
+			let displayName = this.gameDisplayNameValue;
+			let nameId = this.gameNameIdValue.length
+				? this.gameNameIdValue
+				: utils.convertStringToId(displayName);
+
+			let res = await global.cloud.createGame({
+				nameId,
+				displayName,
+				developerGroupId: this.profile.groupId
+			});
+
+			this.fetchGames();
+			this.gameModalClose();
+
+			// Open new game page
+			UIRouter.shared.navigate(routes.devGame.build({ gameId: res.gameId }));
+		} catch (err) {
+			this.loadError = err;
+			this.isCreatingGame = false;
+		}
+	}
+
 	render() {
 		let profileNotFound = this.loadError && this.loadError.status == 404;
 		if (this.loadError && !profileNotFound) return responses.renderError(this.loadError);
@@ -444,8 +577,42 @@ export default class GroupPage extends LitElement {
 			color: this.colorExtractor.createTextColor()
 		});
 
+		console.log("group:", this.profile);
+		console.log("Games: ", this.games);
 		return html`
-			<profile-layout>
+			<div class="mx-auto max-w-contentwidth px-[10px] md:px-5 lg:px-0 pb-8">
+				<group-banner .group=${this.profile}></group-banner>
+				<div class="flex flex-row w-full space-x-8 max-md:px-4 ">
+				${when(
+						this.games,
+						() =>
+							html`<div class="games-list grid grid-cols-4 gap-4">
+								<div
+									id="create-game"
+									class="dashed-border-button"
+									@click=${this.openGameModal.bind(this, this.profile.groupId)}
+								>
+									<div id="create-game-content">
+										<lazy-img src=${assets.asset('/games/blank/logo.png')}></lazy-img>
+										Create a new game
+									</div>
+								</div>
+							${repeat(
+								this.games,
+								g => g.gameId,
+								g =>
+									html`<dev-game-tile
+										.game=${g}
+										.group=${this.profile}
+									></dev-game-tile>`
+							)}
+							</div>`,
+						() => html``
+						)}
+				</div>
+			</div>
+			
+			<!-- <profile-layout>
 				<div id="banner-bg" slot="banner-bg" style=${bgStyles}>
 					${when(
 						this.profile ? !this.profile.avatarUrl : false,
@@ -477,15 +644,10 @@ export default class GroupPage extends LitElement {
 							@event=${this.onActionEvent.bind(this)}
 						></group-sidebar>`
 				)}
-			</profile-layout>
-
-			<!-- TODO: -->
-			<!-- ${this.profile && this.gameNameId
-				? html`<expanded-game-stats .group=${this.profile} .game=${null}></expanded-game-stats>`
-				: null} -->
+			</profile-layout> -->
 
 			<!-- Editing modal -->
-			<drop-down-modal
+			<!-- <drop-down-modal
 				large-animation
 				.active=${this.editModalActive}
 				@close=${this.editModalClose.bind(this)}
@@ -495,10 +657,68 @@ export default class GroupPage extends LitElement {
 					.profile=${this.profile}
 					@close=${this.editModalClose.bind(this)}
 				></group-profile-edit>
-			</drop-down-modal>
-
-			${this.renderTransferGroupOwnershipModal()}${this.renderCreateInviteModal()}
+			</drop-down-modal> -->
+			${this.renderCreateGameModal()}
+			<!-- ${this.renderTransferGroupOwnershipModal()}${this.renderCreateInviteModal()} -->
 		`;
+	}
+
+	renderCreateGameModal() {
+		if (!this.games && !this.profile) return null;
+
+		let displayName = this.gameDisplayNameValue;
+		let displayNameErrors = this.gameValidationErrors.findFormatted('display-name');
+		let nameIdErrors = this.gameValidationErrors.findFormatted('name-id');
+
+		return html` <drop-down-modal
+			id="create-game-modal"
+			?active=${this.gameModalActive}
+			@close=${this.gameModalClose.bind(this)}
+		>
+			<modal-body slot="body">
+				<h1>Create your new game</h1>
+				<div class="input-group">
+					<h2>Owner Developer Group</h2>
+					<h4>${this.profile.displayName}</h4>
+					<h2>Game Display Name</h2>
+					<text-input
+						light
+						placeholder="Enter a game name..."
+						@input=${this.gameDisplayNameInput.bind(this)}
+					></text-input>
+					${when(
+						displayNameErrors.length > 0,
+						() => html`
+							<span id="create-game-error">
+								<e-svg src="regular/circle-exclamation"></e-svg> ${displayNameErrors[0]}</li>
+							</span>`
+					)}
+					<h2>Game Name ID</h2>
+					<text-input
+						light
+						.filter=${(v: string) => v.replace(/[\s\-]+/g, '-').toLowerCase()}
+						placeholder=${displayName
+							? utils.convertStringToId(displayName)
+							: 'Enter a name id...'}
+						@input=${this.gameNameIdInput.bind(this)}
+					></text-input>
+					${when(
+						nameIdErrors.length > 0,
+						() => html`
+							<span id="create-game-error">
+								<e-svg src="regular/circle-exclamation"></e-svg> ${nameIdErrors[0]}</li>
+							</span>`
+					)}
+				</div>
+				<p class="content">We’ll walk you though the details of editing your game later.</p>
+				<stylized-button
+					.trigger=${this.createGame.bind(this)}
+					?disabled=${!this.gameIsValid}
+					?loading=${this.isCreatingGame}
+					>Create</stylized-button
+				>
+			</modal-body>
+		</drop-down-modal>`;
 	}
 
 	// TODO: Make this work with the paginated members endpoint

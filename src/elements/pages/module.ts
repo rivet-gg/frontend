@@ -7,6 +7,7 @@ import './dev/module';
 import './error';
 import './game';
 import './group';
+import './group-banner';
 import './group-chat';
 import './group-invite';
 import './group-members';

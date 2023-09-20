@@ -1,5 +1,40 @@
 @use '../shared/common';
 @use '../shared/consts';
+@use '../shared/utils';
+
+.dashed-border-button {
+	$border-width: 3px;
+	$border-radius: 30px;
+
+	overflow: hidden;
+	display: flex;
+	position: relative;
+	padding: $border-width;
+	border-radius: $border-radius;
+
+	background-image: utils.dashed-border(
+		rgba(255, 255, 255, 0.12),
+		$border-radius,
+		$border-width,
+		$dash-array: (5, 11),
+		$dash-offset: 2px
+	);
+
+	&:hover {
+		background-image: utils.dashed-border(
+			rgba(255, 255, 255, 0.15),
+			$border-radius,
+			$border-width,
+			$dash-array: (5, 11),
+			$dash-offset: 2px
+		);
+
+		#create-game-content {
+			background-color: rgba(255, 255, 255, 0.02);
+		}
+	}
+}
+
 
 #base {
 	position: relative;
@@ -254,6 +289,89 @@
 				text-overflow: ellipsis;
 				overflow: hidden;
 			}
+		}
+	}
+}
+
+
+.games-list {
+	#create-game {
+		$border-width: 3px;
+		$border-radius: 32px;
+
+		overflow: hidden;
+		display: flex;
+		position: relative;
+		height: 320px;
+		border-radius: $border-radius;
+
+		background-image: utils.dashed-border(
+			rgba(255, 255, 255, 0.12),
+			$border-radius,
+			$border-width,
+			$dash-array: (5, 11),
+			$dash-offset: 2px
+		);
+
+		&:hover {
+			background-image: utils.dashed-border(
+				rgba(255, 255, 255, 0.15),
+				$border-radius,
+				$border-width,
+				$dash-array: (5, 11),
+				$dash-offset: 2px
+			);
+
+			#create-game-content {
+				background-color: rgba(255, 255, 255, 0.02);
+			}
+		}
+
+		@include common.active-state();
+
+		#create-game-content {
+			position: relative;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			z-index: 1;
+
+			padding: 16px;
+			box-sizing: border-box;
+			width: 100%;
+			height: 100%;
+			border-radius: $border-radius - $border-width;
+			text-align: center;
+
+			font-size: 20px;
+			font-weight: 600;
+			color: rgba(255, 255, 255, 0.8);
+			cursor: pointer;
+
+			lazy-img {
+				width: 140px;
+				height: 140px;
+				margin: -25px 15px 30px 15px;
+			}
+		}
+	}
+
+	#non-dev-group-selected {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		margin: 5px 0 0 10px;
+
+		h2 {
+			margin: 0;
+			font-size: 16px;
+			font-weight: 600;
+			color: #ecececcc;
+		}
+
+		stylized-button {
+			margin-left: 12px;
 		}
 	}
 }
