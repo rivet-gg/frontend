@@ -8,6 +8,7 @@ import { RivetError } from '@rivet-gg/api-internal';
 import { isDeveloper } from './utils/identity';
 import config from './config';
 import { Breadcrumb } from './elements/common/navbar';
+import { GameSettingsRootConfig } from './elements/pages/dev/game-settings';
 
 export type RenderResult = RenderResultTemplate | RenderResultRedirect;
 
@@ -167,6 +168,19 @@ namespace routes {
 	function renderPageGroupSettings(groupId: string, gameNameId: string | null) {
 		return html`<page-group .groupId=${groupId} .gameNameId=${gameNameId}></page-group>`;
 	}
+
+	export let groupOverview = new Route<{ id: string }>({
+		path: '/groups/:id',
+		render({ id }) {
+			if (!utils.validateUuid(id)) return responses.notFound();
+
+			return {
+				title: 'Group',
+				breadcrumb: { type: 'Group', groupId: id },
+				template: renderPageGroupSettings(id, null)
+			};
+		}
+	});
 
 	export let groupSettings = new Route<{ id: string }>({
 		path: '/groups/:id/settings',
@@ -381,6 +395,28 @@ namespace routes {
 		render({ gameId }) {
 			return {
 				redirect: `${window.location.origin}/games/${gameId}`
+			};
+		}
+	});
+
+	function renderPageDevGameSettings(gameId: string, config: GameSettingsRootConfig) {
+		return html`<page-dev-game-settings
+			.gameId=${gameId}
+			.config=${config}
+		></page-dev-game-settings>`;
+	}
+
+	export let devGameSettings = new Route<{ gameId: string, tab?: string }>({
+		path: '/games/:gameId/settings/:tab?',
+		render({ gameId, tab }) {
+			return {
+				title: 'Settings',
+				breadcrumb: { type: 'Custom' },
+				template: renderPageDevGameSettings(gameId, {
+					general: tab === 'general',
+					tokens: tab === 'tokens',
+					billing: tab === 'billing',
+				})
 			};
 		}
 	});

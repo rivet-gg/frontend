@@ -15,7 +15,7 @@ export default class DevGameTile extends LitElement {
 	@property({ type: Object })
 	game: cloud.GameSummary;
 
-	@property({ type: Array })
+	@property({ type: Object })
 	group: api.group.GroupProfile;
 
 	render() {

@@ -5,6 +5,7 @@ import * as api from '../../../utils/api';
 import * as cloud from '@rivet-gg/cloud';
 import { cssify } from '../../../utils/css';
 import assets from '../../../data/assets';
+import routes from '../../../routes';
 
 @customElement('game-banner')
 export default class DevGameBanner extends LitElement {
@@ -25,10 +26,18 @@ export default class DevGameBanner extends LitElement {
 
 	render() {
 		return html`
-			<div class="my-[20px] md:my-[40px] mx-auto bg-zinc-700 h-[18.2rem] rounded-[20px]">
+			<div class="relative my-[20px] md:my-[40px] mx-auto bg-zinc-700 h-[18.2rem] rounded-[20px]">
 				<div class="flex flex-col place-content-center m-auto h-full w-1/2 text-center">
 					${this.game
 						? html`
+								<stylized-button
+                                    class="absolute top-6 right-10"
+                                    color="gray"
+                                    .icon=${'solid/gear'}
+                                    .href=${routes.devGameSettings.build({gameId: this.game.gameId})}    
+                                >
+                                Settings
+                                </stylized-button>
 								${this.renderGameIcon(this.game)}
 								<h1 class="text-2xl mt-8">${this.game.displayName}</h1>
 						  `

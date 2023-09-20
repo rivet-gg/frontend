@@ -69,7 +69,7 @@ export default class DeveloperDash extends LitElement {
 							<div class="w-full flex flex-row place-content-center m-auto pb-5">
 								<stylized-button .trigger=${() => UIRoot.shared.openRegisterPanel()}>
 									Login
-								</stylized-button
+								</stylized-button>
 							</div>
 						</div>
 					`
