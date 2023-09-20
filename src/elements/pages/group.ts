@@ -577,8 +577,6 @@ export default class GroupPage extends LitElement {
 			color: this.colorExtractor.createTextColor()
 		});
 
-		console.log("group:", this.profile);
-		console.log("Games: ", this.games);
 		return html`
 			<div class="mx-auto max-w-contentwidth px-[10px] md:px-5 lg:px-0 pb-8">
 				<group-banner .group=${this.profile}></group-banner>

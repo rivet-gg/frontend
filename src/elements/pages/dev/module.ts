@@ -9,7 +9,6 @@ import './game-namespace';
 import './game-namespace-tile';
 import './game-overview';
 import './game-settings';
-import './game-settings-sidebar';
 import './game-settings-general';
 import './game-settings-tokens';
 import './game-settings-billing';

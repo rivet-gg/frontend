@@ -39,7 +39,7 @@ export default class DevGameSettings extends LitElement {
 	static styles = cssify(styles);
 
 	@property({ type: String })
-	tabId?: string;
+	tabId: string = null;
 
     @property({ type: String })
     gameId: string;
@@ -59,8 +59,6 @@ export default class DevGameSettings extends LitElement {
 
 	constructor() {
 		super();
-
-        console.log("tabid: ", this.tabId);
 
 		// Build tabs
 		this.tabs = [
@@ -90,6 +88,10 @@ export default class DevGameSettings extends LitElement {
 		];
 	}
 
+    // firstUpdated() {
+        
+    // }
+
     renderGeneral() {
         return html`<h1>fdjsalfdjsaf</h1>`;
     }
@@ -116,12 +118,6 @@ export default class DevGameSettings extends LitElement {
 		this.game = null;
 	}
 
-    firstUpdated() {
-        if(this.tabId == undefined) {
-            this.tabId = "general";
-        }
-    }
-
 	updated(changedProperties: PropertyValues) {
 		super.updated(changedProperties);
 
@@ -137,6 +133,12 @@ export default class DevGameSettings extends LitElement {
 
 			if (currentTab) UIRouter.shared.updateTitle(currentTab.title);
 		}
+
+        if (changedProperties.has('config')) {
+            if(this.config.billing) this.tabId = "billing";
+            else if(this.config.tokens) this.tabId = "tokens";
+            else this.tabId = "general";
+        }
 	}
 
     async fetchData() {
@@ -159,7 +161,6 @@ export default class DevGameSettings extends LitElement {
 	}
 
 	navigateTab(tabId: string) {
-        console.log("newtabid: ", tabId);
 		// Navigate to the correct tab; this will update this view automatically
 		let url = routes.devGameSettings.build({ gameId: this.gameId, tab: tabId });
 
@@ -170,6 +171,7 @@ export default class DevGameSettings extends LitElement {
 
 	render() {
 		if (!this.tabId) return null;
+        if (!this.game) return this.renderPlaceholder();
 		if (this.loadError) return responses.renderError(this.loadError);
 
         let body = null;
@@ -205,15 +207,16 @@ export default class DevGameSettings extends LitElement {
 							<rvt-sidebar-group .title=${group.title}>
 								${map(
 									group.items,
-									p =>
-										html`<rvt-sidebar-button
-											?current=${p.id == this.tabId}
-											.href=${p.url}
-											.target=${p.notHub ? '_blank' : null}
-											.trigger=${!p.url ? this.navigateTab.bind(this, p.id) : null}
-											.icon=${p.icon}
-											>${p.title}</rvt-sidebar-button
-										>`
+									p => {                                        
+                                        return html`<rvt-sidebar-button
+                                        ?current=${p.id == this.tabId}
+                                        .href=${p.url}
+                                        .target=${p.notHub ? '_blank' : null}
+                                        .trigger=${!p.url ? this.navigateTab.bind(this, p.id) : null}
+                                        .icon=${p.icon}
+                                        >${p.title}</rvt-sidebar-button
+                                    >`
+                                    }	
 								)}
 							</rvt-sidebar-group>
 						`
@@ -223,4 +226,13 @@ export default class DevGameSettings extends LitElement {
 			</rvt-sidebar-layout>
 		`;
 	}
+
+    renderPlaceholder(): TemplateResult {
+        return html`
+            <div id="title">
+                <loading-placeholder></loading-placeholder>
+                <loading-placeholder></loading-placeholder>
+            </div>
+        `;
+    }
 }
