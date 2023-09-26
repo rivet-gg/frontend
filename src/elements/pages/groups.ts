@@ -88,7 +88,7 @@ export default class GroupsPage extends LitElement {
 				.active=${this.createGroupModalActive}
 				@create=${(event: GroupCreateEvent) =>
 					UIRouter.shared.navigate(
-						routes.groupSettings.build({
+						routes.groupOverview.build({
 							id: event.groupId
 						})
 					)}

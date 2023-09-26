@@ -9,6 +9,7 @@ import { isDeveloper } from './utils/identity';
 import config from './config';
 import { Breadcrumb } from './elements/common/navbar';
 import { GameSettingsRootConfig } from './elements/pages/dev/game-settings';
+import { GroupSettingsRootConfig } from './elements/pages/group-settings';
 
 export type RenderResult = RenderResultTemplate | RenderResultRedirect;
 
@@ -165,9 +166,44 @@ namespace routes {
 	});
 
 	// Reuse the same template in order to preserve the same `page-group` instance.
-	function renderPageGroupSettings(groupId: string, gameNameId: string | null) {
+	// Potentially deprecate -- renderPageGroupSettings currently handles the Settings view
+	function renderPageGroupView(groupId: string, gameNameId: string | null) {
 		return html`<page-group .groupId=${groupId} .gameNameId=${gameNameId}></page-group>`;
 	}
+
+	// Reuse the same template in order to preserve the same `page-group` instance.
+	function renderPageGroupSettings(groupId: string, config?: GroupSettingsRootConfig) {
+		return html`<page-group-settings
+			.groupId=${groupId}
+			.config=${config}
+		></page-group-settings>`;
+	}
+
+	export let groupSettingsRedirect = new Route<{ groupId: string }>({
+		path: '/groups/:groupId/settings',
+		render({ groupId }) {
+			return {
+				redirect: routes.groupSettings.build({groupId, tab: 'general'})
+			};
+		}
+	});
+
+	export let groupSettings = new Route<{ groupId: string, tab?: string }>({
+		path: '/groups/:groupId/settings/:tab?',
+		render({ groupId, tab }) {
+			return {
+				title: 'Settings',
+				breadcrumb: { type: 'GroupSettings', groupId: groupId, title: tab },
+				template: renderPageGroupSettings(groupId, {
+					general: tab === 'general' || tab === undefined,
+					members: tab === 'members',
+					billing: tab === 'billing',
+				})
+			};
+		}
+	});
+
+	
 
 	export let groupOverview = new Route<{ id: string }>({
 		path: '/groups/:id',
@@ -177,20 +213,7 @@ namespace routes {
 			return {
 				title: 'Group',
 				breadcrumb: { type: 'Group', groupId: id },
-				template: renderPageGroupSettings(id, null)
-			};
-		}
-	});
-
-	export let groupSettings = new Route<{ id: string }>({
-		path: '/groups/:id/settings',
-		render({ id }) {
-			if (!utils.validateUuid(id)) return responses.notFound();
-
-			return {
-				title: 'Group',
-				breadcrumb: { type: 'Group', groupId: id, title: 'Settings' },
-				template: renderPageGroupSettings(id, null)
+				template: html`<page-group .groupId=${id}></page-group>`
 			};
 		}
 	});
@@ -216,7 +239,7 @@ namespace routes {
 			return {
 				title: 'Group',
 				breadcrumb: { type: 'Group', groupId: id },
-				template: renderPageGroupSettings(id, gameNameId)
+				template: renderPageGroupView(id, gameNameId)
 			};
 		}
 	});
@@ -406,12 +429,21 @@ namespace routes {
 		></page-dev-game-settings>`;
 	}
 
+	export let devGameSettingsRedirect = new Route<{ gameId: string }>({
+		path: '/games/:gameId/settings',
+		render({ gameId }) {
+			return {
+				redirect: routes.devGameSettings.build({gameId, tab: 'general'})
+			};
+		}
+	});
+
 	export let devGameSettings = new Route<{ gameId: string, tab?: string }>({
 		path: '/games/:gameId/settings/:tab?',
 		render({ gameId, tab }) {
 			return {
 				title: 'Settings',
-				breadcrumb: { type: 'Custom' },
+				breadcrumb: { type: 'GameSettings', gameId: gameId, title: tab },
 				template: renderPageDevGameSettings(gameId, {
 					general: tab === 'general',
 					tokens: tab === 'tokens',

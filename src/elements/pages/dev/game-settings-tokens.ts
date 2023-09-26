@@ -1,10 +1,17 @@
 import { LitElement, html, PropertyValues, TemplateResult } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
-import cloud from '@rivet-gg/cloud';
+import { customElement, property, queryAll } from 'lit/decorators.js';
+import * as cloud from '@rivet-gg/cloud';
+import global from '../../../utils/global';
 import { responses } from '../../../routes';
 import { cssify } from '../../../utils/css';
 import { map } from 'lit/directives/map.js';
 import { ifDefined } from 'lit/directives/if-defined';
+import { showAlert } from '../../../ui/helpers';
+import logging from '../../../utils/logging';
+import { DropDownSelectEvent, DropDownSelection } from '../../dev/drop-down-list';
+import utils from '../../../utils/utils';
+import timing, { Debounce } from '../../../utils/timing';
+import { TraversableErrors, VALIDATION_ERRORS } from '../../../utils/traversable-errors';
 
 interface Token {
     name: string;
@@ -13,24 +20,16 @@ interface Token {
     renderFunction?: any;
 }
 
-const tokens: Token[] = [
-    {
-        name: "Public Namespace Token",
-        url: "https://rivet.gg/docs/general/concepts/handling-game-tokens#public-namespace-tokens",
-        description: "Public namespace tokens are used to access public namespaces. They are used by the client to access public namespaces.",
-        renderFunction: () => {
-            console.log("testPublic")
-        }
-    },
-    {
-        name: "Development Token",
-        url: "https://rivet.gg/docs/general/concepts/dev-tokens",
-        description: "Development tokens are used to access development namespaces. They are used by the client to access development namespaces.",
-        renderFunction: () => {
-            console.log("testDevelopment")
-        }
-    }
-]
+const PORT_PROTOCOLS: DropDownSelection<cloud.ProxyProtocol>[] = [
+	{
+		label: 'HTTP',
+		value: cloud.ProxyProtocol.HTTP
+	},
+	{
+		label: 'HTTPS',
+		value: cloud.ProxyProtocol.HTTPS
+	}
+];
 
 @customElement('page-dev-game-settings-tokens')
 export default class DevGameSettingsTokens extends LitElement {
@@ -42,6 +41,22 @@ export default class DevGameSettingsTokens extends LitElement {
 	@property({ type: Object })
 	loadError?: any;
 
+    // === DEV TOKEN COMPONENTS ===
+	activeNamespaceId: string;
+
+    @property({ type: String })
+    selectedNamespace: string = "";
+
+    @property({ type: Array })
+    tokens: Token[] = [
+        {
+            name: "Cloud Token",
+            url: "https://rivet.gg/docs/general/concepts/token-types#cloud",
+            description: "Cloud tokens are used to access Rivet Cloud. They are used by the client to access Rivet Cloud.",
+            renderFunction: this.createCloudToken
+        }
+    ]
+
 	updated(changedProperties: PropertyValues) {
 		super.updated(changedProperties);
 	}
@@ -50,6 +65,23 @@ export default class DevGameSettingsTokens extends LitElement {
 		this.loadError = null;
 
 		this.requestUpdate();
+	}
+
+    async createCloudToken() {
+		let createRes = await global.cloud.createCloudToken({ gameId: this.game.gameId });
+
+		showAlert(
+			'Cloud Token Creation',
+			html`
+				<span
+					>Copy this token to your clipboard. You will not be able to access this token again.</span
+				>
+				<br />
+				<copy-area light confidential>
+					<code class="no-ligatures thick">${createRes.token}</code>
+				</copy-area>
+			`
+		);
 	}
 
     renderTokenBlock(token: Token): TemplateResult {
@@ -66,8 +98,6 @@ export default class DevGameSettingsTokens extends LitElement {
                     </stylized-button>
                 </div>
                 <p class="pt-3 pr-24">${token.description}</p>
-                <!-- <h3 class="text-lg py-1.5 underline "><a .href=${token.url} class="hover:text-main-accent">Docs</a></h3> -->
-                <!-- <button @click=${token.renderFunction}>Generate</button> -->
                 <stylized-button
                     class="my-auto pt-4"
                     @click=${token.renderFunction}
@@ -83,8 +113,9 @@ export default class DevGameSettingsTokens extends LitElement {
 		if (this.loadError) return responses.renderError(this.loadError, true);
 
 		return html`
+            <h1 class="text-2xl pb-2">Generate Game Tokens</h1>
 			<div class="flex flex-col space-y-4">
-                ${map(tokens, (token) => this.renderTokenBlock(token))}
+                ${map(this.tokens, (token) => this.renderTokenBlock(token))}
 			</div>
 		`;
 	}

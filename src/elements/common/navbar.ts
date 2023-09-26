@@ -17,6 +17,8 @@ import { globalEventGroups, IdentityChangeEvent } from '../../utils/global-event
 export type Breadcrumb =
 	| { type: 'Home' }
 	| { type: 'Group'; groupId: string; title?: string }
+	| { type: 'GroupSettings'; groupId: string; title?: string}
+	| { type: 'GameSettings'; gameId: string; title?: string}
 	| { type: 'Game'; gameId: string; title?: string }
 	| { type: 'Namespace'; gameId: string; namespaceId: string; title?: string }
 	| { type: 'Custom'; title?: string };
@@ -108,7 +110,7 @@ export default class NavBar extends LitElement {
 						this.displaycrumbs = [
 							{
 								name: summary.displayName,
-								url: routes.groupSettings.build({ id: summary.groupId }),
+								url: routes.groupOverview.build({ id: summary.groupId }),
 								img: { type: 'Group', infoObj: summary }
 							}
 						];
@@ -133,7 +135,7 @@ export default class NavBar extends LitElement {
 							this.displaycrumbs = [
 								{
 									name: groupData.displayName,
-									url: routes.groupSettings.build({ id: groupData.groupId }),
+									url: routes.groupOverview.build({ id: groupData.groupId }),
 									img: { type: 'Group', infoObj: groupData }
 								},
 								{
@@ -169,7 +171,7 @@ export default class NavBar extends LitElement {
 							this.displaycrumbs = [
 								{
 									name: groupData.displayName,
-									url: routes.groupSettings.build({ id: groupData.groupId }),
+									url: routes.groupOverview.build({ id: groupData.groupId }),
 									img: { type: 'Group', infoObj: groupData }
 								},
 								{
@@ -192,6 +194,71 @@ export default class NavBar extends LitElement {
 								});
 							}
 
+							this.requestUpdate('displaycrumbs');
+						});
+					});
+
+					break;
+				case 'GroupSettings': 
+					let groupSettingsCurrentTab = crumb.title.charAt(0).toUpperCase() + crumb.title.slice(1);
+
+					this.groupStream = await GroupProfileCache.watch(crumb.groupId, res => {
+						let groupData = res.group;
+
+						this.displaycrumbs = [
+							{
+								name: groupData.displayName,
+								url: routes.groupOverview.build({ id: groupData.groupId }),
+								img: { type: 'Group', infoObj: groupData }
+							},
+							{
+								name: "Group Settings",
+								url: routes.groupSettings.build({ groupId: groupData.groupId }),
+							}
+						];
+
+						if(["General", "Members", "Billing"].includes(groupSettingsCurrentTab)){	
+							this.displaycrumbs.push({
+								name: groupSettingsCurrentTab
+							})
+						};
+
+						this.requestUpdate('displaycrumbs');
+					});
+
+					break;
+				case 'GameSettings':
+					let gameSettingsCurrentTab = crumb.title.charAt(0).toUpperCase() + crumb.title.slice(1);
+
+					this.gameStream = await CloudGameCache.watch(crumb.gameId, async res => {
+						let gameData = res.game;
+
+						this.groupStream = await GroupProfileCache.watch(res.game.developerGroupId, res => {
+							let groupData = res.group;
+
+							this.displaycrumbs = [
+								{
+									name: groupData.displayName,
+									url: routes.groupOverview.build({ id: groupData.groupId }),
+									img: { type: 'Group', infoObj: groupData }
+								},
+								{
+									name: gameData.displayName,
+									url: routes.devGameOverview.build({ gameId: gameData.gameId }),
+									img: { type: 'Game', infoObj: gameData }
+								},
+								{
+									name: "Game Settings",
+									url: routes.devGameSettings.build({ gameId: gameData.gameId }),
+								}
+							];
+
+							if(["General", "Tokens", "Billing"].includes(gameSettingsCurrentTab)){	
+								this.displaycrumbs.push({
+									name: gameSettingsCurrentTab
+								})
+							};
+						
 							this.requestUpdate('displaycrumbs');
 						});
 					});

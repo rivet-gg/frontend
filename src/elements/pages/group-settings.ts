@@ -1,15 +1,14 @@
 import { customElement, property } from 'lit/decorators.js';
 import { LitElement, html, PropertyValues, TemplateResult } from 'lit';
-import { cssify } from '../../../utils/css';
+import { cssify } from '../../utils/css';
 import styles from './game.scss';
-import routes, { responses } from '../../../routes';
-import cloud from '@rivet-gg/cloud';
-import * as api from '../../../utils/api';
-import UIRouter from '../../root/ui-router';
-import { CloudGameCache } from '../../../data/cache';
-import logging from '../../../utils/logging';
-import { globalEventGroups } from '../../../utils/global-events';
-import { when } from 'lit/directives/when.js';
+import routes, { responses } from '../../routes';
+import group from '@rivet-gg/group';
+import * as api from '../../utils/api';
+import UIRouter from '../root/ui-router';
+import { GroupProfileCache } from '../../data/cache';
+import logging from '../../utils/logging';
+import { globalEventGroups } from '../../utils/global-events';
 import { map } from 'lit/directives/map.js';
 
 
@@ -28,24 +27,24 @@ interface SettingsPageData {
 	spacer?: boolean;
 }
 
-export interface GameSettingsRootConfig {
+export interface GroupSettingsRootConfig {
     general?: boolean;
-    tokens?: boolean;
+    members?: boolean;
     billing?: boolean;
 }
 
-@customElement('page-dev-game-settings')
-export default class DevGameSettings extends LitElement {
+@customElement('page-group-settings')
+export default class GroupSettings extends LitElement {
 	static styles = cssify(styles);
 
 	@property({ type: String })
 	tabId: string = null;
 
     @property({ type: String })
-    gameId: string;
+    groupId: string;
 
     @property({ type: Object })
-	game: cloud.GameFull = null;
+	group: group.GroupProfile;
 
 	tabs: TabGroup[];
 
@@ -53,9 +52,9 @@ export default class DevGameSettings extends LitElement {
 	loadError?: any;
 
 	@property({ type: Object })
-	config: GameSettingsRootConfig;
+	config: GroupSettingsRootConfig;
 
-    gameStream?: api.RepeatingRequest<cloud.GetGameByIdCommandOutput>;
+	groupStream: api.RepeatingRequest<api.group.GetGroupProfileCommandOutput> = null;
 
 	constructor() {
 		super();
@@ -67,13 +66,13 @@ export default class DevGameSettings extends LitElement {
 				items: [
 					{
 						id: 'general',
-						icon: 'solid/user',
+						icon: 'regular/square-info',
 						title: 'General',
 					},
 					{
-						id: 'tokens',
-						icon: 'solid/key',
-						title: 'Tokens',
+						id: 'members',
+						icon: 'solid/user',
+						title: 'Members',
 					},
 					{
 						id: 'billing',
@@ -92,17 +91,17 @@ export default class DevGameSettings extends LitElement {
 	disconnectedCallback() {
 		super.disconnectedCallback();
 
-        if(this.gameStream) this.gameStream.cancel();
+		if (this.groupStream) this.groupStream.cancel();
 	}
 
     resetData() {
-		this.game = null;
+		this.group = null;
 	}
 
 	updated(changedProperties: PropertyValues) {
 		super.updated(changedProperties);
 
-        if ( changedProperties.has('gameId')) {
+        if ( changedProperties.has('groupId')) {
             this.resetData();
             this.fetchData();
         }
@@ -117,33 +116,30 @@ export default class DevGameSettings extends LitElement {
 
         if (changedProperties.has('config')) {
             if(this.config.billing) this.tabId = "billing";
-            else if(this.config.tokens) this.tabId = "tokens";
+            else if(this.config.members) this.tabId = "members";
             else this.tabId = "general";
         }
 	}
 
     async fetchData() {
-		if (this.gameStream) this.gameStream.cancel();
+		if (this.groupStream) this.groupStream.cancel();
 
 		// Fetch events
-		this.gameStream = await CloudGameCache.watch(this.gameId, res => {
-			this.game = res.game;
-
-			// Sort game versions by timestamp descending
-			this.game.versions.sort((a, b) => b.createTs.getTime() - a.createTs.getTime());
+		this.groupStream = await GroupProfileCache.watch(this.groupId, res => {
+			this.group = res.group;
 		});
 
-		this.gameStream.onError(err => {
+		this.groupStream.onError(err => {
 			logging.error('Request error', err);
 
-			if (this.game) globalEventGroups.dispatch('error', err);
+			if (this.group) globalEventGroups.dispatch('error', err);
 			else this.loadError = err;
 		});
 	}
 
 	navigateTab(tabId: string) {
 		// Navigate to the correct tab; this will update this view automatically
-		let url = routes.devGameSettings.build({ gameId: this.gameId, tab: tabId });
+		let url = routes.groupSettings.build({ groupId: this.groupId, tab: tabId });
 
 		UIRouter.shared.navigate(url, {
 			replaceHistory: true
@@ -152,27 +148,31 @@ export default class DevGameSettings extends LitElement {
 
 	render() {
 		if (!this.tabId) return null;
-        if (!this.game) return this.renderPlaceholder();
+        if (!this.group) return this.renderPlaceholder();
 		if (this.loadError) return responses.renderError(this.loadError);
 
         let body = null;
 
+		let currentTab = this.tabs
+			.flatMap(x => x.items)
+			.find(p => p.hasOwnProperty('id') && p.id == this.tabId);
+
         if (this.config.general) {
-            body = html`<page-dev-game-settings-general
-                .game=${this.game}
-            ></page-dev-game-settings-general>`;
+            body = html`<page-group-settings-general
+                .group=${this.group}
+            ></page-group-settings-general>`;
 
             UIRouter.shared.updateTitle("General");
         } else if (this.config.billing) {
-            body = html`<page-dev-game-settings-billing .game=${this.game}></page-dev-game-settings-billing>`;
+            body = html`<page-group-settings-billing .group=${this.group}></page-group-settings-billing>`;
 
-            UIRouter.shared.updateTitle(`${this.game.displayName} - Billing`);
-        } else if (this.config.tokens) {
-            body = html`<page-dev-game-settings-tokens
-                .game=${this.game}
-            ></page-dev-game-settings-tokens>`;
+            UIRouter.shared.updateTitle(`${this.group.displayName} - Billing`);
+        } else if (this.config.members) {
+            body = html`<page-group-settings-members
+                .group=${this.group}
+            ></page-group-settings-members>`;
 
-            UIRouter.shared.updateTitle(`${this.game.displayName} – Tokens`);
+            UIRouter.shared.updateTitle(`${this.group.displayName} – Members`);
         } 
 
 		return html`

@@ -32,7 +32,7 @@ export default class DevGroupBanner extends LitElement {
                                     class="absolute top-6 right-10"
                                     color="gray"
                                     .icon=${'solid/gear'}
-                                    .href=${routes.groupSettings.build({id: this.group.groupId})}    
+                                    .href=${routes.groupSettings.build({groupId: this.group.groupId })}    
                                 >
                                 Settings
                                 </stylized-button>

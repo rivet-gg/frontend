@@ -296,7 +296,7 @@ export default class GamePage extends LitElement {
 							${this.profile
 								? html` <a
 										id="developer"
-										href=${routes.groupSettings.build(
+										href=${routes.groupOverview.build(
 											groupRouteData(this.profile.developer)
 										)}
 								  >

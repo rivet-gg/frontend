@@ -12,6 +12,7 @@ import utils from '../../../utils/utils';
 import { DropDownSelectEvent, DropDownSelection } from '../../dev/drop-down-list';
 import { TraversableErrors, VALIDATION_ERRORS } from '../../../utils/traversable-errors';
 import timing, { Debounce } from '../../../utils/timing';
+import { map } from 'lit/directives/map.js';
 
 const PORT_PROTOCOLS: DropDownSelection<cloud.ProxyProtocol>[] = [
 	{
@@ -23,6 +24,13 @@ const PORT_PROTOCOLS: DropDownSelection<cloud.ProxyProtocol>[] = [
 		value: cloud.ProxyProtocol.HTTPS
 	}
 ];
+
+interface Token {
+    name: string;
+    url: string;
+    description: string;
+    renderFunction?: any;
+}
 
 @customElement('page-dev-game-tokens')
 export default class DevGameTokens extends LitElement {
@@ -239,33 +247,62 @@ export default class DevGameTokens extends LitElement {
 	render() {
 		if (this.loadError) return responses.renderError(this.loadError, true);
 		return html`
-			<div id="base">
-				<h1>Generate Namespace Tokens</h1>
-				<div id="namespaces">
-					${this.renderNamespace(
-						this.game.namespaces.find(ns => ns.namespaceId === this.namespaceId)
-					)}
-				</div>
+			<h1 class="text-2xl pb-2">Generate Namespace Tokens</h1>
+			<div id="namespaces">
+				${this.renderNamespace(
+					this.game.namespaces.find(ns => ns.namespaceId === this.namespaceId)
+				)}
 			</div>
 
 			${this.renderCreateDevTokenModal()}
 		`;
 	}
 
+	renderTokenBlock(token: Token) {
+        return html`
+			<div class="w-4/5 mx-auto border-2 border-zinc-900 bg-raised-bg rounded-lg p-5">
+				<div class="flex flex-row w-full place-content-between align-middle mx-auto">
+					<h2 class="text-xl my-auto">${token.name}</h2>
+					<stylized-button
+					class="my-auto"
+					.href=${token.url}
+					right-icon="solid/arrow-right"
+					>
+						Docs
+					</stylized-button>
+				</div>
+				<p class="pt-3 pr-24">${token.description}</p>
+				<!-- <h3 class="text-lg py-1.5 underline "><a .href=${token.url} class="hover:text-main-accent">Docs</a></h3> -->
+				<!-- <button @click=${token.renderFunction}>Generate</button> -->
+				<stylized-button
+					class="my-auto pt-4"
+					@click=${token.renderFunction}
+					right-icon="solid/plus"
+					>
+					Generate
+				</stylized-button>
+			</div>
+        `
+    }
+
 	renderNamespace(namespace: cloud.NamespaceSummary) {
+		const tokens = [
+			{
+				name: "Public Namespace Token",
+				url: "https://rivet.gg/docs/general/concepts/handling-game-tokens#public-namespace-tokens",
+				description: "Public namespace tokens are used to access public namespaces. They are used by the client to access public namespaces.",
+				renderFunction: this.createPublicToken.bind(this, namespace.namespaceId)
+			},
+			{
+				name: "Development Token",
+				url: "https://rivet.gg/docs/general/concepts/dev-tokens",
+				description: "Development tokens are used to access development namespaces. They are used by the client to access development namespaces.",
+				renderFunction: this.openDevTokenModal.bind(this, namespace.namespaceId)
+			},
+		]
 		return html`
-			<div class="namespace-tokens">
-				<h2>${namespace.displayName}</h2>
-				<stylized-button
-					icon="solid/ticket"
-					.trigger=${this.createPublicToken.bind(this, namespace.namespaceId)}
-					>Create Public Token</stylized-button
-				>
-				<stylized-button
-					icon="solid/lock"
-					.trigger=${this.openDevTokenModal.bind(this, namespace.namespaceId)}
-					>Create Development Token</stylized-button
-				>
+			<div class="flex flex-col space-y-4">
+                ${map(tokens, (token) => this.renderTokenBlock(token))}
 			</div>
 		`;
 	}

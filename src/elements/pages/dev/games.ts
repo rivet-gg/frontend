@@ -320,9 +320,6 @@ export default class DevGames extends LitElement {
 			() =>
 				html`<div class="group">
 					<div class="group-header">
-						<!-- <a href=${routes.groupSettings.build({
-							id: group.groupId
-						})} class="max-sm:w-1/3 md:w-2/3"> -->
 						<div class="max-sm:w-1/3 md:w-2/3 flex flex-row space-x-3">
 							<div class="max-sm:invisible max-sm:w-0 my-auto">
 								<group-avatar
@@ -357,7 +354,7 @@ export default class DevGames extends LitElement {
 									<stylized-button
 										class="settings-button"
 										icon="regular/gear"
-										href=${routes.groupSettings.build({ id: group.groupId })}
+										href=${routes.groupSettings.build({ groupId: group.groupId })}
 										>Settings</stylized-button
 									>
 								</div>`
