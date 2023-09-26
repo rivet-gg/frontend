@@ -29,7 +29,7 @@ export default class DevGameSettingsBilling extends LitElement {
 
 		return html`
 			<div id="base">
-                <h1></h1>
+				<h1></h1>
 			</div>
 		`;
 	}

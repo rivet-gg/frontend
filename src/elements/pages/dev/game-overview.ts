@@ -360,7 +360,9 @@ export default class DevGameOverview extends LitElement {
 		return html`
 			<div class="w-1/2">
 				<h1 class="text-xl pb-4">Analytics</h1>
-				<div class="flex flex-row space-x-4 w-full h-80 bg-zinc-600/30 place-content-center rounded-lg">
+				<div
+					class="flex flex-row space-x-4 w-full h-80 bg-zinc-600/30 place-content-center rounded-lg"
+				>
 					<h4 class="m-auto italic text-gray-300 text-lg">Coming Soon...</h4>
 				</div>
 				<!-- <div>
@@ -407,7 +409,6 @@ export default class DevGameOverview extends LitElement {
 						</div>
 					</file-uploader>
 				</div> -->
-
 			</div>
 		`;
 	}

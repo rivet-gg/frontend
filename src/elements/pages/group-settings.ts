@@ -11,7 +11,6 @@ import logging from '../../utils/logging';
 import { globalEventGroups } from '../../utils/global-events';
 import { map } from 'lit/directives/map.js';
 
-
 interface TabGroup {
 	title: string;
 	items: SettingsPageData[];
@@ -28,9 +27,9 @@ interface SettingsPageData {
 }
 
 export interface GroupSettingsRootConfig {
-    general?: boolean;
-    members?: boolean;
-    billing?: boolean;
+	general?: boolean;
+	members?: boolean;
+	billing?: boolean;
 }
 
 @customElement('page-group-settings')
@@ -40,10 +39,10 @@ export default class GroupSettings extends LitElement {
 	@property({ type: String })
 	tabId: string = null;
 
-    @property({ type: String })
-    groupId: string;
+	@property({ type: String })
+	groupId: string;
 
-    @property({ type: Object })
+	@property({ type: Object })
 	group: group.GroupProfile;
 
 	tabs: TabGroup[];
@@ -67,20 +66,20 @@ export default class GroupSettings extends LitElement {
 					{
 						id: 'general',
 						icon: 'regular/square-info',
-						title: 'General',
+						title: 'General'
 					},
 					{
 						id: 'members',
 						icon: 'solid/user',
-						title: 'Members',
+						title: 'Members'
 					},
 					{
 						id: 'billing',
 						icon: 'solid/dollar-sign',
-						title: 'Billing',
+						title: 'Billing'
 					}
 				]
-			},
+			}
 		];
 	}
 
@@ -94,17 +93,17 @@ export default class GroupSettings extends LitElement {
 		if (this.groupStream) this.groupStream.cancel();
 	}
 
-    resetData() {
+	resetData() {
 		this.group = null;
 	}
 
 	updated(changedProperties: PropertyValues) {
 		super.updated(changedProperties);
 
-        if ( changedProperties.has('groupId')) {
-            this.resetData();
-            this.fetchData();
-        }
+		if (changedProperties.has('groupId')) {
+			this.resetData();
+			this.fetchData();
+		}
 
 		if (changedProperties.has('tabId')) {
 			let currentTab = this.tabs
@@ -114,14 +113,14 @@ export default class GroupSettings extends LitElement {
 			if (currentTab) UIRouter.shared.updateTitle(currentTab.title);
 		}
 
-        if (changedProperties.has('config')) {
-            if(this.config.billing) this.tabId = "billing";
-            else if(this.config.members) this.tabId = "members";
-            else this.tabId = "general";
-        }
+		if (changedProperties.has('config')) {
+			if (this.config.billing) this.tabId = 'billing';
+			else if (this.config.members) this.tabId = 'members';
+			else this.tabId = 'general';
+		}
 	}
 
-    async fetchData() {
+	async fetchData() {
 		if (this.groupStream) this.groupStream.cancel();
 
 		// Fetch events
@@ -148,32 +147,28 @@ export default class GroupSettings extends LitElement {
 
 	render() {
 		if (!this.tabId) return null;
-        if (!this.group) return this.renderPlaceholder();
+		if (!this.group) return this.renderPlaceholder();
 		if (this.loadError) return responses.renderError(this.loadError);
 
-        let body = null;
+		let body = null;
 
 		let currentTab = this.tabs
 			.flatMap(x => x.items)
 			.find(p => p.hasOwnProperty('id') && p.id == this.tabId);
 
-        if (this.config.general) {
-            body = html`<page-group-settings-general
-                .group=${this.group}
-            ></page-group-settings-general>`;
+		if (this.config.general) {
+			body = html`<page-group-settings-general .group=${this.group}></page-group-settings-general>`;
 
-            UIRouter.shared.updateTitle("General");
-        } else if (this.config.billing) {
-            body = html`<page-group-settings-billing .group=${this.group}></page-group-settings-billing>`;
+			UIRouter.shared.updateTitle('General');
+		} else if (this.config.billing) {
+			body = html`<page-group-settings-billing .group=${this.group}></page-group-settings-billing>`;
 
-            UIRouter.shared.updateTitle(`${this.group.displayName} - Billing`);
-        } else if (this.config.members) {
-            body = html`<page-group-settings-members
-                .group=${this.group}
-            ></page-group-settings-members>`;
+			UIRouter.shared.updateTitle(`${this.group.displayName} - Billing`);
+		} else if (this.config.members) {
+			body = html`<page-group-settings-members .group=${this.group}></page-group-settings-members>`;
 
-            UIRouter.shared.updateTitle(`${this.group.displayName} – Members`);
-        } 
+			UIRouter.shared.updateTitle(`${this.group.displayName} – Members`);
+		}
 
 		return html`
 			<rvt-sidebar-layout>
@@ -182,19 +177,16 @@ export default class GroupSettings extends LitElement {
 						this.tabs,
 						group => html`
 							<rvt-sidebar-group .title=${group.title}>
-								${map(
-									group.items,
-									p => {                                        
-                                        return html`<rvt-sidebar-button
-                                        ?current=${p.id == this.tabId}
-                                        .href=${p.url}
-                                        .target=${p.notHub ? '_blank' : null}
-                                        .trigger=${!p.url ? this.navigateTab.bind(this, p.id) : null}
-                                        .icon=${p.icon}
-                                        >${p.title}</rvt-sidebar-button
-                                    >`
-                                    }	
-								)}
+								${map(group.items, p => {
+									return html`<rvt-sidebar-button
+										?current=${p.id == this.tabId}
+										.href=${p.url}
+										.target=${p.notHub ? '_blank' : null}
+										.trigger=${!p.url ? this.navigateTab.bind(this, p.id) : null}
+										.icon=${p.icon}
+										>${p.title}</rvt-sidebar-button
+									>`;
+								})}
 							</rvt-sidebar-group>
 						`
 					)}
@@ -204,12 +196,12 @@ export default class GroupSettings extends LitElement {
 		`;
 	}
 
-    renderPlaceholder(): TemplateResult {
-        return html`
-            <div id="title">
-                <loading-placeholder></loading-placeholder>
-                <loading-placeholder></loading-placeholder>
-            </div>
-        `;
-    }
+	renderPlaceholder(): TemplateResult {
+		return html`
+			<div id="title">
+				<loading-placeholder></loading-placeholder>
+				<loading-placeholder></loading-placeholder>
+			</div>
+		`;
+	}
 }

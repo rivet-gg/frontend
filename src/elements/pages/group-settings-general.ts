@@ -40,7 +40,7 @@ export default class GroupSettingsGeneral extends LitElement {
 	static styles = cssify();
 
 	@property({ type: Object })
-	group:  group.GroupProfile;
+	group: group.GroupProfile;
 
 	@property({ type: Object })
 	loadError?: any;
@@ -205,7 +205,6 @@ export default class GroupSettingsGeneral extends LitElement {
 			color: this.colorExtractor.createTextColor()
 		});
 
-
 		return html`
 			<h1 class="text-2xl pb-2">Basic Info</h1>
 
@@ -221,7 +220,7 @@ export default class GroupSettingsGeneral extends LitElement {
 							id="cancel"
 							.trigger=${this.reset.bind(this)}
 							color="gray"
-							?disabled=${(!(this.hasChanges || this.hasAvatarChanges))}
+							?disabled=${!(this.hasChanges || this.hasAvatarChanges)}
 							>Cancel</stylized-button
 						>
 					<stylized-button
@@ -238,17 +237,19 @@ export default class GroupSettingsGeneral extends LitElement {
 						${when(!this.avatarUrlValue, () => html`<lazy-img src=${bgUrl}></lazy-img>`)}
 					</div> -->
 					<!-- <div id="avatar-holder" class="flex flex-row space-x-4 p-4 pt-2"> -->
-						<!-- ${this.group
-							? html`<group-avatar
-									class="block w-16 h-16 hover:cursor-pointer"
-									shadow
-									@mouseenter=${tooltip('Change profile image')}
-									@click=${this.changeProfileImage.bind(this)}
-									.group=${this.group}
-									.placeholderOverride=${this.validDisplayNameValue}
-									.imagePlaceholder=${this.avatarUrlValue}
-								></group-avatar>`
-							: null} -->
+						<!-- ${
+							this.group
+								? html`<group-avatar
+										class="block w-16 h-16 hover:cursor-pointer"
+										shadow
+										@mouseenter=${tooltip('Change profile image')}
+										@click=${this.changeProfileImage.bind(this)}
+										.group=${this.group}
+										.placeholderOverride=${this.validDisplayNameValue}
+										.imagePlaceholder=${this.avatarUrlValue}
+								  ></group-avatar>`
+								: null
+						} -->
 
 						<!-- Change profile image button -->
 						<!-- <e-svg
@@ -281,9 +282,7 @@ export default class GroupSettingsGeneral extends LitElement {
 
 				<h2 class="text-lg pt-4 pb-2">
 					Change Group Name (<span class="lettercount"
-						>${utils.countCodePoints(
-							this.displayNameValue ?? ''
-						)}/${MAX_GROUPNAME_LENGTH}</span
+						>${utils.countCodePoints(this.displayNameValue ?? '')}/${MAX_GROUPNAME_LENGTH}</span
 					>)
 				</h2>
 				<text-input
@@ -293,12 +292,14 @@ export default class GroupSettingsGeneral extends LitElement {
 					@input=${this.displayNameInput.bind(this)}
 				></text-input>
 				<div class="pb-2"></div>
-				${displayNameErrors.length > 0
-					? html`
+				${
+					displayNameErrors.length > 0
+						? html`
 				<span id="profile-error" class="py-4">
 					<e-svg src="regular/circle-exclamation"></e-svg> ${displayNameErrors[0]}</li>
 				</span>`
-					: null}
+						: null
+				}
 
 				<div id="publicity-area" class="py-4">
 					<h2 class="text-lg pb-2">Update Publicity</h2>

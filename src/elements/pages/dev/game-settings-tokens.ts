@@ -14,10 +14,10 @@ import timing, { Debounce } from '../../../utils/timing';
 import { TraversableErrors, VALIDATION_ERRORS } from '../../../utils/traversable-errors';
 
 interface Token {
-    name: string;
-    url: string;
-    description: string;
-    renderFunction?: any;
+	name: string;
+	url: string;
+	description: string;
+	renderFunction?: any;
 }
 
 const PORT_PROTOCOLS: DropDownSelection<cloud.ProxyProtocol>[] = [
@@ -41,21 +41,22 @@ export default class DevGameSettingsTokens extends LitElement {
 	@property({ type: Object })
 	loadError?: any;
 
-    // === DEV TOKEN COMPONENTS ===
+	// === DEV TOKEN COMPONENTS ===
 	activeNamespaceId: string;
 
-    @property({ type: String })
-    selectedNamespace: string = "";
+	@property({ type: String })
+	selectedNamespace: string = '';
 
-    @property({ type: Array })
-    tokens: Token[] = [
-        {
-            name: "Cloud Token",
-            url: "https://rivet.gg/docs/general/concepts/token-types#cloud",
-            description: "Cloud tokens are used to access Rivet Cloud. They are used by the client to access Rivet Cloud.",
-            renderFunction: this.createCloudToken
-        }
-    ]
+	@property({ type: Array })
+	tokens: Token[] = [
+		{
+			name: 'Cloud Token',
+			url: 'https://rivet.gg/docs/general/concepts/token-types#cloud',
+			description:
+				'Cloud tokens are used to access Rivet Cloud. They are used by the client to access Rivet Cloud.',
+			renderFunction: this.createCloudToken
+		}
+	];
 
 	updated(changedProperties: PropertyValues) {
 		super.updated(changedProperties);
@@ -67,7 +68,7 @@ export default class DevGameSettingsTokens extends LitElement {
 		this.requestUpdate();
 	}
 
-    async createCloudToken() {
+	async createCloudToken() {
 		let createRes = await global.cloud.createCloudToken({ gameId: this.game.gameId });
 
 		showAlert(
@@ -84,38 +85,30 @@ export default class DevGameSettingsTokens extends LitElement {
 		);
 	}
 
-    renderTokenBlock(token: Token): TemplateResult {
-        return html`
-            <div class="w-4/5 mx-auto border-2 border-zinc-900 bg-raised-bg rounded-lg p-5">
-                <div class="flex flex-row w-full place-content-between align-middle mx-auto">
-                    <h2 class="text-xl my-auto">${token.name}</h2>
-                    <stylized-button
-                    class="my-auto"
-                    .href=${token.url}
-                    right-icon="solid/arrow-right"
-                    >
-                        Docs
-                    </stylized-button>
-                </div>
-                <p class="pt-3 pr-24">${token.description}</p>
-                <stylized-button
-                    class="my-auto pt-4"
-                    @click=${token.renderFunction}
-                    right-icon="solid/plus"
-                    >
-                    Generate
-                </stylized-button>
-            </div>
-        `
-    }
+	renderTokenBlock(token: Token): TemplateResult {
+		return html`
+			<div class="w-4/5 mx-auto border-2 border-zinc-900 bg-raised-bg rounded-lg p-5">
+				<div class="flex flex-row w-full place-content-between align-middle mx-auto">
+					<h2 class="text-xl my-auto">${token.name}</h2>
+					<stylized-button class="my-auto" .href=${token.url} right-icon="solid/arrow-right">
+						Docs
+					</stylized-button>
+				</div>
+				<p class="pt-3 pr-24">${token.description}</p>
+				<stylized-button class="my-auto pt-4" @click=${token.renderFunction} right-icon="solid/plus">
+					Generate
+				</stylized-button>
+			</div>
+		`;
+	}
 
 	render() {
 		if (this.loadError) return responses.renderError(this.loadError, true);
 
 		return html`
-            <h1 class="text-2xl pb-2">Generate Game Tokens</h1>
+			<h1 class="text-2xl pb-2">Generate Game Tokens</h1>
 			<div class="flex flex-col space-y-4">
-                ${map(this.tokens, (token) => this.renderTokenBlock(token))}
+				${map(this.tokens, token => this.renderTokenBlock(token))}
 			</div>
 		`;
 	}

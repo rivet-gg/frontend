@@ -1,6 +1,6 @@
 import { LitElement, html, PropertyValues, TemplateResult } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
-import group from '@rivet-gg/group'
+import group from '@rivet-gg/group';
 import global from '../../utils/global';
 import * as api from '../../utils/api';
 import styles from './group-settings-members.scss';
@@ -11,7 +11,12 @@ import logging from '../../utils/logging';
 import { globalEventGroups } from '../../utils/global-events';
 import timing, { wait } from '../../utils/timing';
 import { repeat } from 'lit/directives/repeat.js';
-import { showAlert, showBannedIdentityContextMenu, showJoinRequestContextMenu, tooltip } from '../../ui/helpers';
+import {
+	showAlert,
+	showBannedIdentityContextMenu,
+	showJoinRequestContextMenu,
+	tooltip
+} from '../../ui/helpers';
 import { DropDownSelectEvent, DropDownSelection } from '../dev/drop-down-list';
 import utils from '../../utils/utils';
 import { InputUpdateEvent } from '../dev/text-input';
@@ -69,14 +74,14 @@ export default class GroupSettingsMembers extends LitElement {
 
 	@property({ type: Object })
 	group: group.GroupProfile;
-	
+
 	@property({ type: Object })
 	loadError?: any;
-	
+
 	// === MEMBER PROPERTIES ===
 	@property({ type: Array })
 	groupMembers: group.GroupMember[] = null;
-	
+
 	@property({ type: Array })
 	joinRequests: api.group.GroupJoinRequest[] = [];
 
@@ -106,7 +111,7 @@ export default class GroupSettingsMembers extends LitElement {
 	inviteCodeCopyResultElement: HTMLElement;
 
 	inviteCodeCopyResultTimeout: number = null;
-	
+
 	groupBansStream?: api.RepeatingRequest<api.group.GetGroupBansCommandOutput>;
 	joinRequestsStream?: api.RepeatingRequest<api.group.GetGroupJoinRequestsCommandOutput>;
 	membersStream?: api.RepeatingRequest<api.group.GetGroupMembersCommandOutput> = null;
@@ -114,7 +119,7 @@ export default class GroupSettingsMembers extends LitElement {
 	updated(changedProperties: PropertyValues) {
 		super.updated(changedProperties);
 
-		if(changedProperties.has('group')) {
+		if (changedProperties.has('group')) {
 			this.resetData();
 			this.fetchBans();
 			this.fetchMembers();
@@ -125,7 +130,7 @@ export default class GroupSettingsMembers extends LitElement {
 	disconnectedCallback(): void {
 		super.disconnectedCallback();
 
-		if(this.membersStream) this.membersStream.cancel();
+		if (this.membersStream) this.membersStream.cancel();
 		if (this.joinRequestsStream) this.joinRequestsStream.cancel();
 		if (this.groupBansStream) this.groupBansStream.cancel();
 	}
@@ -355,12 +360,12 @@ export default class GroupSettingsMembers extends LitElement {
 				action.resolveJoinRequest.identityId,
 				action.resolveJoinRequest.resolution
 			);
-		// } else if (action.transferGroupOwnership) this.transferOwnershipModal();
+			// } else if (action.transferGroupOwnership) this.transferOwnershipModal();
 		} else if (action.openCreateInviteModal) this.openCreateInviteModal();
 	}
 
 	fetchMembers() {
-		if(!this.group) this.groupMembers = [];
+		if (!this.group) this.groupMembers = [];
 
 		if (this.membersStream) this.membersStream.cancel();
 		this.membersStream = new api.RepeatingRequest(async (abortSignal, watchIndex) => {
@@ -371,7 +376,9 @@ export default class GroupSettingsMembers extends LitElement {
 		});
 
 		this.membersStream.onMessage(res => {
-			this.groupMembers = res.members.sort((a, b) => a.identity.displayName.localeCompare(b.identity.displayName));
+			this.groupMembers = res.members.sort((a, b) =>
+				a.identity.displayName.localeCompare(b.identity.displayName)
+			);
 		});
 
 		this.membersStream.onError(err => {
@@ -444,15 +451,12 @@ export default class GroupSettingsMembers extends LitElement {
 	renderActions(isOwner: boolean): TemplateResult {
 		let actions = [];
 
-		if(!this.group.isCurrentIdentityMember) {
-			if(this.group.publicity === api.portal.GroupPublicity.OPEN) {
+		if (!this.group.isCurrentIdentityMember) {
+			if (this.group.publicity === api.portal.GroupPublicity.OPEN) {
 				if (this.group.isCurrentIdentityRequestingJoin) {
-					actions.push(
-						html`
-							<stylized-button id="apply-button" disabled
-							>Application pending</stylized-button>
-						`
-					);
+					actions.push(html`
+						<stylized-button id="apply-button" disabled>Application pending</stylized-button>
+					`);
 				} else {
 					actions.push(
 						html`<stylized-button id="apply-button" .trigger=${this.applyForGroup.bind(this)}
@@ -465,28 +469,26 @@ export default class GroupSettingsMembers extends LitElement {
 					html`<stylized-button id="apply-button" disabled>Applications closed</stylized-button>`
 				);
 			}
-		}  else {
+		} else {
 			actions.push(
 				html`<stylized-button .trigger=${this.openCreateInviteModal.bind(this)}
 					>Create invite</stylized-button
-					>`
+				>`
 			);
-			if(!isOwner) {
+			if (!isOwner) {
 				actions.push(
-					html`<stylized-button color="#d93636" .trigger=${this.leaveGroup.bind(this)}>Leave Group</stylized-button>`
-				)
+					html`<stylized-button color="#d93636" .trigger=${this.leaveGroup.bind(this)}
+						>Leave Group</stylized-button
+					>`
+				);
 			}
 		}
 
 		return html`
 			<div class="flex flex-col space-y-2 md:border-l-2 border-context-menu px-2 pl-8 ml-2">
-				${
-					actions.map((action) => html`
-						<div class="action mx-auto w-full">${action}</div>
-					`)
-				}
+				${actions.map(action => html` <div class="action mx-auto w-full">${action}</div> `)}
 			</div>
-		`
+		`;
 	}
 
 	renderJoinRequests(isOwner: boolean): TemplateResult {
@@ -497,28 +499,44 @@ export default class GroupSettingsMembers extends LitElement {
 				<h1 class="text-2xl pb-2 pt-4 mt-4 border-t-2 border-context-menu">Join Requests</h1>
 
 				<div id="join-requests w-80">
-					${
-						this.joinRequests.length ? 
-						repeat(
-							this.group ? this.joinRequests : [],
-							jr => jr.identity.identityId,
-							jr =>
-								html`<identity-tile
-									.identity=${jr.identity}
-									no-context-menu
-									@contextmenu=${showJoinRequestContextMenu({
-										identity: jr.identity,
-										groupId: this.group.groupId
-									})}
-								>
-									<div slot="right" class="pr-1 space-x-2">
-										<e-svg class="ban w-5 h-5" src="solid/xmark" @mouseenter=${tooltip('Deny')} @click=${this.resolveJoinRequest.bind(this, jr.identity.identityId, false)}></e-svg>
-										<e-svg class="accept w-5 h-5" src="solid/check" @mouseenter=${tooltip('Accept')} @click=${this.resolveJoinRequest.bind(this, jr.identity.identityId, true)}></e-svg>	
-									</div>
-								</identity-tile>`
-						) :
-						html`<p class="text-md text-muted-text">No join requests.</p>`
-					}
+					${this.joinRequests.length
+						? repeat(
+								this.group ? this.joinRequests : [],
+								jr => jr.identity.identityId,
+								jr =>
+									html`<identity-tile
+										.identity=${jr.identity}
+										no-context-menu
+										@contextmenu=${showJoinRequestContextMenu({
+											identity: jr.identity,
+											groupId: this.group.groupId
+										})}
+									>
+										<div slot="right" class="pr-1 space-x-2">
+											<e-svg
+												class="ban w-5 h-5"
+												src="solid/xmark"
+												@mouseenter=${tooltip('Deny')}
+												@click=${this.resolveJoinRequest.bind(
+													this,
+													jr.identity.identityId,
+													false
+												)}
+											></e-svg>
+											<e-svg
+												class="accept w-5 h-5"
+												src="solid/check"
+												@mouseenter=${tooltip('Accept')}
+												@click=${this.resolveJoinRequest.bind(
+													this,
+													jr.identity.identityId,
+													true
+												)}
+											></e-svg>
+										</div>
+									</identity-tile>`
+						  )
+						: html`<p class="text-md text-muted-text">No join requests.</p>`}
 				</div>
 			</div>
 		`;
@@ -531,27 +549,30 @@ export default class GroupSettingsMembers extends LitElement {
 			<h1 class="text-2xl pb-2 pt-4 mt-4 border-t-2 border-context-menu">Banned Users</h1>
 
 			<div id="bans w-80">
-				${
-					this.bannedIdentities.length ? 
-					repeat(
-						this.bannedIdentities,
-						ban => ban.identity.identityId,
-						ban =>
-							html`<identity-tile
-								.identity=${ban.identity}
-								no-context-menu
-								@contextmenu=${showBannedIdentityContextMenu({
-									identity: ban.identity,
-									groupId: this.group.groupId
-								})}
-							>
-								<div slot="right" class="ban-actions">
-									<e-svg class="w-5 h-5" src="solid/rotate-left" @mouseenter=${tooltip('Unban')} @click=${this.unbanIdentity.bind(this, ban.identity.identityId)}></e-svg>
-								</div>
-							</identity-tile>`
-					) :
-					html`<p class="text-md text-muted-text">No banned users.</p>`
-				}
+				${this.bannedIdentities.length
+					? repeat(
+							this.bannedIdentities,
+							ban => ban.identity.identityId,
+							ban =>
+								html`<identity-tile
+									.identity=${ban.identity}
+									no-context-menu
+									@contextmenu=${showBannedIdentityContextMenu({
+										identity: ban.identity,
+										groupId: this.group.groupId
+									})}
+								>
+									<div slot="right" class="ban-actions">
+										<e-svg
+											class="w-5 h-5"
+											src="solid/rotate-left"
+											@mouseenter=${tooltip('Unban')}
+											@click=${this.unbanIdentity.bind(this, ban.identity.identityId)}
+										></e-svg>
+									</div>
+								</identity-tile>`
+					  )
+					: html`<p class="text-md text-muted-text">No banned users.</p>`}
 			</div>
 		`;
 	}
@@ -585,15 +606,19 @@ export default class GroupSettingsMembers extends LitElement {
 				<div>
 					<p class="content">
 						Are you sure you want to transfer ownership of group
-						<span id="group-transfer-name"><strong class="text-md">${this.group.displayName}</strong></span>? This action
-						<b>CANNOT</b> be undone.
+						<span id="group-transfer-name"
+							><strong class="text-md">${this.group.displayName}</strong></span
+						>? This action <b>CANNOT</b> be undone.
 						${this.group.isDeveloper
 							? html`<br /><br /><b
 										>As a developer group, transferring ownership will cause all billing
-										related emails to be sent to the new owner. Your bank account information
-										will stay attached to the group unless removed by a Rivet employee.</b
+										related emails to be sent to the new owner. Your bank account
+										information will stay attached to the group unless removed by a Rivet
+										employee.</b
 									><br />Contact
-									<a class="link" href="https://rivet.gg/support" target="_blank">Support</a>
+									<a class="link" href="https://rivet.gg/support" target="_blank"
+										>Support</a
+									>
 									for more info.<br />`
 							: null}
 					</p>
@@ -616,66 +641,103 @@ export default class GroupSettingsMembers extends LitElement {
 	render() {
 		if (this.loadError) return responses.renderError(this.loadError, true);
 		if (!this.group) return this.renderPlaceholder();
-		
-		let isOwner = this.group
-			? global.currentIdentity.identityId === this.group.ownerIdentityId
-			: false;
+
+		let isOwner = this.group ? global.currentIdentity.identityId === this.group.ownerIdentityId : false;
 
 		return html`
 			<div class="w-full flex flex-col md:flex-row place-content-between">
 				<div class="w-3/4">
-					${
-						this.groupMembers ? html`
-							<div>
-							<h3 class="text-2xl pb-2">Group Members</h3>
-							<ol class="flex flex-col pb-4e">
-								${
-									map(this.groupMembers, (member) => {
-										let ident = member.identity;
-										return html`
-											<!-- ${  ident.identityId !== this.group.ownerIdentityId ? html`<div class="my-1 py-px border-t-[1px] border-context-menu "></div>` : null} -->
-											<li class=${clsx("group hover:bg-raised-bg px-2 rounded-xl flex flex-row place-content-between space-x-3 py-3 ", ident.identityId === this.group.ownerIdentityId ? "order-[-100]" : "")}>
-												<div class="flex flex-row">
-													${ident.identityId == this.group.ownerIdentityId
-														? html`<div class="my-auto pb-1"><e-svg class="owner" src="solid/crown" @mouseenter=${tooltip('Owner')}></e-svg></div>`
-														: html`<div class="my-auto pb-1"><e-svg src="solid/user" @mouseenter=${tooltip('Member')}></e-svg></div>`}
-													<identity-avatar 
-														class="block w-10 h-10 pl-2 my-auto"
-														.identity=${ident}>
-													</identity-avatar>
-													<h4 class="my-auto pl-4">${ident.displayName}</h4>
-												</div>
-												${
-													(isOwner && (ident.identityId !== global.currentIdentity.identityId) && (ident.identityId !== this.group.ownerIdentityId) ) ? html`
-													<div class="invisible group-hover:visible my-auto pr-1">
-														<e-svg class="ban w-5 h-5" src="solid/xmark" @mouseenter=${tooltip('Ban')} @click=${this.confirmBanModal.bind(this, ident)}></e-svg>
-														${
-															ident.isRegistered ? html`
-																<e-svg class="pl-1 w-5 h-5" src="solid/arrow-right" @mouseenter=${tooltip('Transfer Ownership')} @click=${this.transferOwnershipModal.bind(this, ident)}></e-svg>
-															` : null
-														}
+					${this.groupMembers
+						? html`
+								<div>
+									<h3 class="text-2xl pb-2">Group Members</h3>
+									<ol class="flex flex-col pb-4e">
+										${map(this.groupMembers, member => {
+											let ident = member.identity;
+											return html`
+												<!-- ${ident.identityId !== this.group.ownerIdentityId
+													? html`<div
+															class="my-1 py-px border-t-[1px] border-context-menu "
+													  ></div>`
+													: null} -->
+												<li
+													class=${clsx(
+														'group hover:bg-raised-bg px-2 rounded-xl flex flex-row place-content-between space-x-3 py-3 ',
+														ident.identityId === this.group.ownerIdentityId
+															? 'order-[-100]'
+															: ''
+													)}
+												>
+													<div class="flex flex-row">
+														${ident.identityId == this.group.ownerIdentityId
+															? html`<div class="my-auto pb-1">
+																	<e-svg
+																		class="owner"
+																		src="solid/crown"
+																		@mouseenter=${tooltip('Owner')}
+																	></e-svg>
+															  </div>`
+															: html`<div class="my-auto pb-1">
+																	<e-svg
+																		src="solid/user"
+																		@mouseenter=${tooltip('Member')}
+																	></e-svg>
+															  </div>`}
+														<identity-avatar
+															class="block w-10 h-10 pl-2 my-auto"
+															.identity=${ident}
+														>
+														</identity-avatar>
+														<h4 class="my-auto pl-4">${ident.displayName}</h4>
 													</div>
-													` : null
-												}
-											</li>
-										`;
-									})
-								}
-							</ol>
-							${this.renderJoinRequests(isOwner)}
-							${this.renderBans(isOwner)}
-							</div>
-						` :
-						html`
-							<h3>Loading...</h3>
-						`
-					}
+													${isOwner &&
+													ident.identityId !== global.currentIdentity.identityId &&
+													ident.identityId !== this.group.ownerIdentityId
+														? html`
+																<div
+																	class="invisible group-hover:visible my-auto pr-1"
+																>
+																	<e-svg
+																		class="ban w-5 h-5"
+																		src="solid/xmark"
+																		@mouseenter=${tooltip('Ban')}
+																		@click=${this.confirmBanModal.bind(
+																			this,
+																			ident
+																		)}
+																	></e-svg>
+																	${ident.isRegistered
+																		? html`
+																				<e-svg
+																					class="pl-1 w-5 h-5"
+																					src="solid/arrow-right"
+																					@mouseenter=${tooltip(
+																						'Transfer Ownership'
+																					)}
+																					@click=${this.transferOwnershipModal.bind(
+																						this,
+																						ident
+																					)}
+																				></e-svg>
+																		  `
+																		: null}
+																</div>
+														  `
+														: null}
+												</li>
+											`;
+										})}
+									</ol>
+									${this.renderJoinRequests(isOwner)} ${this.renderBans(isOwner)}
+								</div>
+						  `
+						: html` <h3>Loading...</h3> `}
 				</div>
 
 				${this.renderActions(isOwner)}
 			</div>
 			${this.renderCreateInviteModal()}
-		`
+		`;
 	}
 
 	renderPlaceholder() {

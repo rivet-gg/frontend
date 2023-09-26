@@ -31,13 +31,13 @@ export default class DevGameBanner extends LitElement {
 					${this.game
 						? html`
 								<stylized-button
-                                    class="absolute top-6 right-10"
-                                    color="gray"
-                                    .icon=${'solid/gear'}
-                                    .href=${routes.devGameSettings.build({gameId: this.game.gameId})}    
-                                >
-                                Settings
-                                </stylized-button>
+									class="absolute top-6 right-10"
+									color="gray"
+									.icon=${'solid/gear'}
+									.href=${routes.devGameSettings.build({ gameId: this.game.gameId })}
+								>
+									Settings
+								</stylized-button>
 								${this.renderGameIcon(this.game)}
 								<h1 class="text-2xl mt-8">${this.game.displayName}</h1>
 						  `

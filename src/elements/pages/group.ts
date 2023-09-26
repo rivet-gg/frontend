@@ -76,7 +76,7 @@ export default class GroupPage extends LitElement {
 	@property({ type: String })
 	gameNameId?: string;
 
-	@property({ type: Array})
+	@property({ type: Array })
 	games?: cloud.GameSummary[] = null;
 
 	@property({ type: Object })
@@ -135,7 +135,6 @@ export default class GroupPage extends LitElement {
 	@property({ type: Boolean })
 	gameIsValid = false;
 
-
 	// === COLOR EXTRACTION ===
 	@property({ type: Object })
 	colorExtractor: ColorExtractor = new ColorExtractor();
@@ -181,7 +180,6 @@ export default class GroupPage extends LitElement {
 		});
 	}
 
-
 	disconnectedCallback(): void {
 		super.disconnectedCallback();
 
@@ -214,7 +212,7 @@ export default class GroupPage extends LitElement {
 	}
 
 	resetGameData() {
-		if(this.games) this.games.length = 0;
+		if (this.games) this.games.length = 0;
 	}
 
 	async fetchGames() {
@@ -224,7 +222,6 @@ export default class GroupPage extends LitElement {
 		this.gameStream = await CloudDashboardCache.watch(data => {
 			data.games.sort((a, b) => a.displayName.localeCompare(b.displayName));
 			this.games = data.games.filter(a => a.developerGroupId == this.groupId);
-			
 		});
 
 		this.gameStream.onError(err => {
@@ -581,7 +578,7 @@ export default class GroupPage extends LitElement {
 			<div class="mx-auto max-w-contentwidth px-[10px] md:px-5 lg:px-0 pb-8">
 				<group-banner .group=${this.profile}></group-banner>
 				<div class="flex flex-row w-full space-x-8 max-md:px-4 ">
-				${when(
+					${when(
 						this.games,
 						() =>
 							html`<div class="games-list grid grid-cols-4 gap-4">
@@ -595,53 +592,46 @@ export default class GroupPage extends LitElement {
 										Create a new game
 									</div>
 								</div>
-							${repeat(
-								this.games,
-								g => g.gameId,
-								g =>
-									html`<dev-game-tile
-										.game=${g}
-										.group=${this.profile}
-									></dev-game-tile>`
-							)}
+								${repeat(
+									this.games,
+									g => g.gameId,
+									g =>
+										html`<dev-game-tile
+											.game=${g}
+											.group=${this.profile}
+										></dev-game-tile>`
+								)}
 							</div>`,
 						() => html``
-						)}
+					)}
 				</div>
 			</div>
-			
+
 			<!-- <profile-layout>
 				<div id="banner-bg" slot="banner-bg" style=${bgStyles}>
-					${when(
-						this.profile ? !this.profile.avatarUrl : false,
-						() => html`<lazy-img src=${bgUrl}></lazy-img>`
-					)}
+					${when(this.profile ? !this.profile.avatarUrl : false, () => html`<lazy-img src=${bgUrl}></lazy-img>`)}
 				</div>
 
 				<div id="banner-center" slot="banner-center">
 					${this.buildBackButton()}
 					${this.profile ? html`<group-avatar shadow .group=${this.profile}></group-avatar>` : null}
 					<div id="main-display-name" style=${nameStyles}>
-						${this.profile
-							? this.profile.displayName
-							: profileNotFound
-							? 'Group not found'
-							: null}
+						${this.profile ? this.profile.displayName : profileNotFound ? 'Group not found' : null}
 					</div>
 				</div>
 
 				${when(
-					this.profile,
-					() =>
-						html`<group-sidebar
-							slot="sidebar"
-							.profile=${this.profile}
-							.bannedIdentities=${this.bannedIdentities}
-							.members=${this.members}
-							.joinRequests=${this.joinRequests}
-							@event=${this.onActionEvent.bind(this)}
-						></group-sidebar>`
-				)}
+				this.profile,
+				() =>
+					html`<group-sidebar
+						slot="sidebar"
+						.profile=${this.profile}
+						.bannedIdentities=${this.bannedIdentities}
+						.members=${this.members}
+						.joinRequests=${this.joinRequests}
+						@event=${this.onActionEvent.bind(this)}
+					></group-sidebar>`
+			)}
 			</profile-layout> -->
 
 			<!-- Editing modal -->

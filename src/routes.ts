@@ -173,22 +173,19 @@ namespace routes {
 
 	// Reuse the same template in order to preserve the same `page-group` instance.
 	function renderPageGroupSettings(groupId: string, config?: GroupSettingsRootConfig) {
-		return html`<page-group-settings
-			.groupId=${groupId}
-			.config=${config}
-		></page-group-settings>`;
+		return html`<page-group-settings .groupId=${groupId} .config=${config}></page-group-settings>`;
 	}
 
 	export let groupSettingsRedirect = new Route<{ groupId: string }>({
 		path: '/groups/:groupId/settings',
 		render({ groupId }) {
 			return {
-				redirect: routes.groupSettings.build({groupId, tab: 'general'})
+				redirect: routes.groupSettings.build({ groupId, tab: 'general' })
 			};
 		}
 	});
 
-	export let groupSettings = new Route<{ groupId: string, tab?: string }>({
+	export let groupSettings = new Route<{ groupId: string; tab?: string }>({
 		path: '/groups/:groupId/settings/:tab?',
 		render({ groupId, tab }) {
 			return {
@@ -197,13 +194,11 @@ namespace routes {
 				template: renderPageGroupSettings(groupId, {
 					general: tab === 'general' || tab === undefined,
 					members: tab === 'members',
-					billing: tab === 'billing',
+					billing: tab === 'billing'
 				})
 			};
 		}
 	});
-
-	
 
 	export let groupOverview = new Route<{ id: string }>({
 		path: '/groups/:id',
@@ -423,22 +418,19 @@ namespace routes {
 	});
 
 	function renderPageDevGameSettings(gameId: string, config: GameSettingsRootConfig) {
-		return html`<page-dev-game-settings
-			.gameId=${gameId}
-			.config=${config}
-		></page-dev-game-settings>`;
+		return html`<page-dev-game-settings .gameId=${gameId} .config=${config}></page-dev-game-settings>`;
 	}
 
 	export let devGameSettingsRedirect = new Route<{ gameId: string }>({
 		path: '/games/:gameId/settings',
 		render({ gameId }) {
 			return {
-				redirect: routes.devGameSettings.build({gameId, tab: 'general'})
+				redirect: routes.devGameSettings.build({ gameId, tab: 'general' })
 			};
 		}
 	});
 
-	export let devGameSettings = new Route<{ gameId: string, tab?: string }>({
+	export let devGameSettings = new Route<{ gameId: string; tab?: string }>({
 		path: '/games/:gameId/settings/:tab?',
 		render({ gameId, tab }) {
 			return {
@@ -447,7 +439,7 @@ namespace routes {
 				template: renderPageDevGameSettings(gameId, {
 					general: tab === 'general',
 					tokens: tab === 'tokens',
-					billing: tab === 'billing',
+					billing: tab === 'billing'
 				})
 			};
 		}

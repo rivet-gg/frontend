@@ -12,7 +12,6 @@ import { globalEventGroups } from '../../../utils/global-events';
 import { when } from 'lit/directives/when.js';
 import { map } from 'lit/directives/map.js';
 
-
 interface TabGroup {
 	title: string;
 	items: SettingsPageData[];
@@ -29,9 +28,9 @@ interface SettingsPageData {
 }
 
 export interface GameSettingsRootConfig {
-    general?: boolean;
-    tokens?: boolean;
-    billing?: boolean;
+	general?: boolean;
+	tokens?: boolean;
+	billing?: boolean;
 }
 
 @customElement('page-dev-game-settings')
@@ -41,10 +40,10 @@ export default class DevGameSettings extends LitElement {
 	@property({ type: String })
 	tabId: string = null;
 
-    @property({ type: String })
-    gameId: string;
+	@property({ type: String })
+	gameId: string;
 
-    @property({ type: Object })
+	@property({ type: Object })
 	game: cloud.GameFull = null;
 
 	tabs: TabGroup[];
@@ -55,7 +54,7 @@ export default class DevGameSettings extends LitElement {
 	@property({ type: Object })
 	config: GameSettingsRootConfig;
 
-    gameStream?: api.RepeatingRequest<cloud.GetGameByIdCommandOutput>;
+	gameStream?: api.RepeatingRequest<cloud.GetGameByIdCommandOutput>;
 
 	constructor() {
 		super();
@@ -68,20 +67,20 @@ export default class DevGameSettings extends LitElement {
 					{
 						id: 'general',
 						icon: 'solid/user',
-						title: 'General',
+						title: 'General'
 					},
 					{
 						id: 'tokens',
 						icon: 'solid/key',
-						title: 'Tokens',
+						title: 'Tokens'
 					},
 					{
 						id: 'billing',
 						icon: 'solid/dollar-sign',
-						title: 'Billing',
+						title: 'Billing'
 					}
 				]
-			},
+			}
 		];
 	}
 
@@ -92,20 +91,20 @@ export default class DevGameSettings extends LitElement {
 	disconnectedCallback() {
 		super.disconnectedCallback();
 
-        if(this.gameStream) this.gameStream.cancel();
+		if (this.gameStream) this.gameStream.cancel();
 	}
 
-    resetData() {
+	resetData() {
 		this.game = null;
 	}
 
 	updated(changedProperties: PropertyValues) {
 		super.updated(changedProperties);
 
-        if ( changedProperties.has('gameId')) {
-            this.resetData();
-            this.fetchData();
-        }
+		if (changedProperties.has('gameId')) {
+			this.resetData();
+			this.fetchData();
+		}
 
 		if (changedProperties.has('tabId')) {
 			let currentTab = this.tabs
@@ -115,14 +114,14 @@ export default class DevGameSettings extends LitElement {
 			if (currentTab) UIRouter.shared.updateTitle(currentTab.title);
 		}
 
-        if (changedProperties.has('config')) {
-            if(this.config.billing) this.tabId = "billing";
-            else if(this.config.tokens) this.tabId = "tokens";
-            else this.tabId = "general";
-        }
+		if (changedProperties.has('config')) {
+			if (this.config.billing) this.tabId = 'billing';
+			else if (this.config.tokens) this.tabId = 'tokens';
+			else this.tabId = 'general';
+		}
 	}
 
-    async fetchData() {
+	async fetchData() {
 		if (this.gameStream) this.gameStream.cancel();
 
 		// Fetch events
@@ -152,28 +151,24 @@ export default class DevGameSettings extends LitElement {
 
 	render() {
 		if (!this.tabId) return null;
-        if (!this.game) return this.renderPlaceholder();
+		if (!this.game) return this.renderPlaceholder();
 		if (this.loadError) return responses.renderError(this.loadError);
 
-        let body = null;
+		let body = null;
 
-        if (this.config.general) {
-            body = html`<page-dev-game-settings-general
-                .game=${this.game}
-            ></page-dev-game-settings-general>`;
+		if (this.config.general) {
+			body = html`<page-dev-game-settings-general .game=${this.game}></page-dev-game-settings-general>`;
 
-            UIRouter.shared.updateTitle("General");
-        } else if (this.config.billing) {
-            body = html`<page-dev-game-settings-billing .game=${this.game}></page-dev-game-settings-billing>`;
+			UIRouter.shared.updateTitle('General');
+		} else if (this.config.billing) {
+			body = html`<page-dev-game-settings-billing .game=${this.game}></page-dev-game-settings-billing>`;
 
-            UIRouter.shared.updateTitle(`${this.game.displayName} - Billing`);
-        } else if (this.config.tokens) {
-            body = html`<page-dev-game-settings-tokens
-                .game=${this.game}
-            ></page-dev-game-settings-tokens>`;
+			UIRouter.shared.updateTitle(`${this.game.displayName} - Billing`);
+		} else if (this.config.tokens) {
+			body = html`<page-dev-game-settings-tokens .game=${this.game}></page-dev-game-settings-tokens>`;
 
-            UIRouter.shared.updateTitle(`${this.game.displayName} – Tokens`);
-        } 
+			UIRouter.shared.updateTitle(`${this.game.displayName} – Tokens`);
+		}
 
 		return html`
 			<rvt-sidebar-layout>
@@ -182,19 +177,16 @@ export default class DevGameSettings extends LitElement {
 						this.tabs,
 						group => html`
 							<rvt-sidebar-group .title=${group.title}>
-								${map(
-									group.items,
-									p => {                                        
-                                        return html`<rvt-sidebar-button
-                                        ?current=${p.id == this.tabId}
-                                        .href=${p.url}
-                                        .target=${p.notHub ? '_blank' : null}
-                                        .trigger=${!p.url ? this.navigateTab.bind(this, p.id) : null}
-                                        .icon=${p.icon}
-                                        >${p.title}</rvt-sidebar-button
-                                    >`
-                                    }	
-								)}
+								${map(group.items, p => {
+									return html`<rvt-sidebar-button
+										?current=${p.id == this.tabId}
+										.href=${p.url}
+										.target=${p.notHub ? '_blank' : null}
+										.trigger=${!p.url ? this.navigateTab.bind(this, p.id) : null}
+										.icon=${p.icon}
+										>${p.title}</rvt-sidebar-button
+									>`;
+								})}
 							</rvt-sidebar-group>
 						`
 					)}
@@ -204,12 +196,12 @@ export default class DevGameSettings extends LitElement {
 		`;
 	}
 
-    renderPlaceholder(): TemplateResult {
-        return html`
-            <div id="title">
-                <loading-placeholder></loading-placeholder>
-                <loading-placeholder></loading-placeholder>
-            </div>
-        `;
-    }
+	renderPlaceholder(): TemplateResult {
+		return html`
+			<div id="title">
+				<loading-placeholder></loading-placeholder>
+				<loading-placeholder></loading-placeholder>
+			</div>
+		`;
+	}
 }

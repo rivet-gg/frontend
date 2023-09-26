@@ -27,9 +27,7 @@ export default class GroupSettingsBilling extends LitElement {
 	render() {
 		if (this.loadError) return responses.renderError(this.loadError, true);
 
-		return html`
-			<h1></h1>
-		`;
+		return html` <h1></h1> `;
 	}
 
 	renderPlaceholder() {

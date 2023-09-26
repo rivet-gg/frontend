@@ -17,8 +17,8 @@ import { globalEventGroups, IdentityChangeEvent } from '../../utils/global-event
 export type Breadcrumb =
 	| { type: 'Home' }
 	| { type: 'Group'; groupId: string; title?: string }
-	| { type: 'GroupSettings'; groupId: string; title?: string}
-	| { type: 'GameSettings'; gameId: string; title?: string}
+	| { type: 'GroupSettings'; groupId: string; title?: string }
+	| { type: 'GameSettings'; gameId: string; title?: string }
 	| { type: 'Game'; gameId: string; title?: string }
 	| { type: 'Namespace'; gameId: string; namespaceId: string; title?: string }
 	| { type: 'Custom'; title?: string };
@@ -199,7 +199,7 @@ export default class NavBar extends LitElement {
 					});
 
 					break;
-				case 'GroupSettings': 
+				case 'GroupSettings':
 					let groupSettingsCurrentTab = crumb.title.charAt(0).toUpperCase() + crumb.title.slice(1);
 
 					this.groupStream = await GroupProfileCache.watch(crumb.groupId, res => {
@@ -212,16 +212,16 @@ export default class NavBar extends LitElement {
 								img: { type: 'Group', infoObj: groupData }
 							},
 							{
-								name: "Group Settings",
-								url: routes.groupSettings.build({ groupId: groupData.groupId }),
+								name: 'Group Settings',
+								url: routes.groupSettings.build({ groupId: groupData.groupId })
 							}
 						];
 
-						if(["General", "Members", "Billing"].includes(groupSettingsCurrentTab)){	
+						if (['General', 'Members', 'Billing'].includes(groupSettingsCurrentTab)) {
 							this.displaycrumbs.push({
 								name: groupSettingsCurrentTab
-							})
-						};
+							});
+						}
 
 						this.requestUpdate('displaycrumbs');
 					});
@@ -248,17 +248,17 @@ export default class NavBar extends LitElement {
 									img: { type: 'Game', infoObj: gameData }
 								},
 								{
-									name: "Game Settings",
-									url: routes.devGameSettings.build({ gameId: gameData.gameId }),
+									name: 'Game Settings',
+									url: routes.devGameSettings.build({ gameId: gameData.gameId })
 								}
 							];
 
-							if(["General", "Tokens", "Billing"].includes(gameSettingsCurrentTab)){	
+							if (['General', 'Tokens', 'Billing'].includes(gameSettingsCurrentTab)) {
 								this.displaycrumbs.push({
 									name: gameSettingsCurrentTab
-								})
-							};
-						
+								});
+							}
+
 							this.requestUpdate('displaycrumbs');
 						});
 					});

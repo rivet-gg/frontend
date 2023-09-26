@@ -26,10 +26,10 @@ const PORT_PROTOCOLS: DropDownSelection<cloud.ProxyProtocol>[] = [
 ];
 
 interface Token {
-    name: string;
-    url: string;
-    description: string;
-    renderFunction?: any;
+	name: string;
+	url: string;
+	description: string;
+	renderFunction?: any;
 }
 
 @customElement('page-dev-game-tokens')
@@ -249,9 +249,7 @@ export default class DevGameTokens extends LitElement {
 		return html`
 			<h1 class="text-2xl pb-2">Generate Namespace Tokens</h1>
 			<div id="namespaces">
-				${this.renderNamespace(
-					this.game.namespaces.find(ns => ns.namespaceId === this.namespaceId)
-				)}
+				${this.renderNamespace(this.game.namespaces.find(ns => ns.namespaceId === this.namespaceId))}
 			</div>
 
 			${this.renderCreateDevTokenModal()}
@@ -259,51 +257,43 @@ export default class DevGameTokens extends LitElement {
 	}
 
 	renderTokenBlock(token: Token) {
-        return html`
+		return html`
 			<div class="w-4/5 mx-auto border-2 border-zinc-900 bg-raised-bg rounded-lg p-5">
 				<div class="flex flex-row w-full place-content-between align-middle mx-auto">
 					<h2 class="text-xl my-auto">${token.name}</h2>
-					<stylized-button
-					class="my-auto"
-					.href=${token.url}
-					right-icon="solid/arrow-right"
-					>
+					<stylized-button class="my-auto" .href=${token.url} right-icon="solid/arrow-right">
 						Docs
 					</stylized-button>
 				</div>
 				<p class="pt-3 pr-24">${token.description}</p>
 				<!-- <h3 class="text-lg py-1.5 underline "><a .href=${token.url} class="hover:text-main-accent">Docs</a></h3> -->
 				<!-- <button @click=${token.renderFunction}>Generate</button> -->
-				<stylized-button
-					class="my-auto pt-4"
-					@click=${token.renderFunction}
-					right-icon="solid/plus"
-					>
+				<stylized-button class="my-auto pt-4" @click=${token.renderFunction} right-icon="solid/plus">
 					Generate
 				</stylized-button>
 			</div>
-        `
-    }
+		`;
+	}
 
 	renderNamespace(namespace: cloud.NamespaceSummary) {
 		const tokens = [
 			{
-				name: "Public Namespace Token",
-				url: "https://rivet.gg/docs/general/concepts/handling-game-tokens#public-namespace-tokens",
-				description: "Public namespace tokens are used to access public namespaces. They are used by the client to access public namespaces.",
+				name: 'Public Namespace Token',
+				url: 'https://rivet.gg/docs/general/concepts/handling-game-tokens#public-namespace-tokens',
+				description:
+					'Public namespace tokens are used to access public namespaces. They are used by the client to access public namespaces.',
 				renderFunction: this.createPublicToken.bind(this, namespace.namespaceId)
 			},
 			{
-				name: "Development Token",
-				url: "https://rivet.gg/docs/general/concepts/dev-tokens",
-				description: "Development tokens are used to access development namespaces. They are used by the client to access development namespaces.",
+				name: 'Development Token',
+				url: 'https://rivet.gg/docs/general/concepts/dev-tokens',
+				description:
+					'Development tokens are used to access development namespaces. They are used by the client to access development namespaces.',
 				renderFunction: this.openDevTokenModal.bind(this, namespace.namespaceId)
-			},
-		]
+			}
+		];
 		return html`
-			<div class="flex flex-col space-y-4">
-                ${map(tokens, (token) => this.renderTokenBlock(token))}
-			</div>
+			<div class="flex flex-col space-y-4">${map(tokens, token => this.renderTokenBlock(token))}</div>
 		`;
 	}
 
