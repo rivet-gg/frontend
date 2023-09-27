@@ -337,18 +337,18 @@ export default class DevGames extends LitElement {
 							group.isDeveloper,
 							() =>
 								html` <div class="flex flex-row ml-auto space-x-1">
-									<stylized-button
+									<!-- <stylized-button
 										class="analytics-button"
 										icon="solid/chart-line-up"
 										href=${routes.analyticsOverview.build({
 											groupId: group.groupId
 										})}
 										>Analytics</stylized-button
-									>
+									> -->
 									<stylized-button
 										class="billing-button"
 										icon="solid/dollar-sign"
-										href=${routes.groupBilling.build({ groupId: group.groupId })}
+										href=${routes.groupSettings.build({ groupId: group.groupId, tab: "Billing" })}
 										>Billing</stylized-button
 									>
 									<stylized-button

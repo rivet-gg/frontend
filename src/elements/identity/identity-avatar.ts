@@ -96,14 +96,6 @@ export default class IdentityAvatar extends LitElement {
 				: null}
 		`;
 
-		// Create link
-		if (this.link)
-			return html`<a
-				id="identity-avatar"
-				class=${classMap(classes)}
-				href=${routes.identity.build(identityRouteData(this.identity))}
-				>${body}</a
-			>`;
-		else return html`<div id="identity-avatar" class=${classMap(classes)}>${body}</div>`;
+		return html`<div id="identity-avatar" class=${classMap(classes)}>${body}</div>`;
 	}
 }

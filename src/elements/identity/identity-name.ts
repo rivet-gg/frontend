@@ -50,13 +50,6 @@ export default class IdentityName extends LitElement {
 				: null}
 		</span>`;
 
-		if (this.noLink) return html`<span class="identity-name">${body}</span>`;
-		// Create link
-		else
-			return html`<a
-				class="identity-name"
-				href="${routes.identity.build(identityRouteData(this.identity))}"
-				>${body}</a
-			>`;
+		return html`<span class="identity-name">${body}</span>`;
 	}
 }

@@ -71,9 +71,6 @@ export default class IdentityTile extends LitElement {
 				class=${classes}
 				@contextmenu=${this.noContextMenu ? null : showIdentityContextMenu(this.identity)}
 			>
-				${this.noLink
-					? null
-					: html`<a id="link" href=${routes.identity.build(identityRouteData(this.identity))}></a>`}
 				<identity-avatar
 					.link=${!this.noLink}
 					.hideStatus=${this.hideStatus /*  */}

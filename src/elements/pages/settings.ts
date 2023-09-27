@@ -58,10 +58,6 @@ export default class SettingsPage extends LitElement {
 	@property({ type: Boolean })
 	editModalActive = false;
 
-	@property({ type: Array })
-	// changelog: api.portal.ChangelogEntry[] = [];
-	changelog: any[] = [];
-
 	// === EVENT HANDLERS ===
 	handleSettingChange: (e: SettingChangeEvent) => void;
 
@@ -435,34 +431,6 @@ export default class SettingsPage extends LitElement {
 							> `}
 			</div>
 		`;
-	}
-
-	renderChangelog() {
-		return html` <div id="changelog">
-			${repeat(
-				this.changelog,
-				item => item.id,
-				(item, i) =>
-					html` ${i != 0 ? html`<div class="spacer"></div>` : null}
-						<div class="changelog-item">
-							<h1 class="title">${item.title}</h1>
-							<div class="subtitle">
-								<a
-									class="author"
-									href=${routes.identity.build(identityRouteData(item.author))}
-									@contextmenu=${showIdentityContextMenu(item.author)}
-								>
-									<identity-avatar .identity=${item.author} hide-status></identity-avatar>
-									<identity-name .identity=${item.author}></identity-name>
-								</a>
-								<span class="timestamp"
-									>&nbsp;- <date-display .timestamp=${item.ts}></date-display
-								></span>
-							</div>
-							<p class="body">${item.body}</p>
-						</div>`
-			)}
-		</div>`;
 	}
 
 	async logout(): Promise<void> {

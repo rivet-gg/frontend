@@ -422,8 +422,9 @@ export default class DevGameBilling extends LitElement {
 				>Profile</stylized-button
 			>
 			<stylized-button
-				href=${routes.groupBilling.build({
-					groupId: this.group.groupId
+				href=${routes.groupSettings.build({
+					groupId: this.group.groupId,
+					tab: 'Billing'
 				})}
 				>Group Billing</stylized-button
 			>
@@ -444,7 +445,7 @@ export default class DevGameBilling extends LitElement {
 								Complete your account setup by adding billing information to start developing.
 							</p>
 							<stylized-button
-								href=${routes.groupBilling.build({ groupId: this.game.developerGroupId })}
+								href=${routes.groupSettings.build({ groupId: this.game.developerGroupId, tab: 'Billing' })}
 								>Complete Setup</stylized-button
 							>
 						</div>

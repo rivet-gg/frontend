@@ -225,9 +225,7 @@ export default class ContextMenu extends LitElement {
 
 		let isSelf = identity.identityId == global.currentIdentity.identityId;
 
-		return html`<context-action href=${routes.identity.build(identityRouteData(identity))}
-				>View profile</context-action
-			>
+		return html`
 			${when(
 				!isSelf,
 				() =>
@@ -254,9 +252,7 @@ export default class ContextMenu extends LitElement {
 
 		let showAdminControls = !isSelf && ctx.selfIsOwner;
 
-		return html`<context-action href=${routes.identity.build(identityRouteData(identity))}
-				>View profile</context-action
-			>
+		return html`
 			${when(
 				!isSelf,
 				() =>
@@ -290,10 +286,7 @@ export default class ContextMenu extends LitElement {
 		let ctx = this.ctx.joinRequest;
 		let identity = ctx.identity;
 
-		return html`<context-action href=${routes.identity.build(identityRouteData(identity))}
-				>View profile</context-action
-			>
-			<div class="spacer"></div>
+		return html`
 			<context-action
 				.trigger=${this.resolveJoinRequest.bind(this, true)}
 				@triggered=${this.onActionClick.bind(this)}
@@ -308,12 +301,8 @@ export default class ContextMenu extends LitElement {
 
 	renderBannedIdentityContextMenu() {
 		let ctx = this.ctx.bannedIdentity;
-		let identity = ctx.identity;
 
-		return html`<context-action href=${routes.identity.build(identityRouteData(identity))}
-				>View profile</context-action
-			>
-			<div class="spacer"></div>
+		return html`
 			<context-action
 				.trigger=${this.unbanIdentity.bind(this)}
 				@triggered=${this.onActionClick.bind(this)}

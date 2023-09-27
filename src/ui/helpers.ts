@@ -1,15 +1,8 @@
 import { html, TemplateResult } from 'lit';
-import { styleMap } from 'lit/directives/style-map.js';
 import UIRoot from '../elements/root/ui-root';
-import routes from '../routes';
-import cloud from '@rivet-gg/cloud';
-import { when } from 'lit/directives/when.js';
 import { AlertOption } from '../elements/overlay/alert-panel';
 import { ActionSheetItem } from '../elements/overlay/action-sheet';
 import { EmojiItemData } from '../elements/overlay/emoji-picker';
-import { identityRouteData } from '../data/identity';
-import global from '../utils/global';
-import utils from '../utils/utils';
 import * as api from '../utils/api';
 import logging from '../utils/logging';
 import config from '../config';

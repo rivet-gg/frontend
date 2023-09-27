@@ -6,7 +6,6 @@ import { DevGameRootConfig } from './elements/pages/dev/game';
 import UIRoot from './elements/root/ui-root';
 import { RivetError } from '@rivet-gg/api-internal';
 import { isDeveloper } from './utils/identity';
-import config from './config';
 import { Breadcrumb } from './elements/common/navbar';
 import { GameSettingsRootConfig } from './elements/pages/dev/game-settings';
 import { GroupSettingsRootConfig } from './elements/pages/group-settings';
@@ -95,44 +94,7 @@ namespace routes {
 		}
 	});
 
-	// Reuse the same template in order to preserve the same `page-identity` instance.
-	function renderPageIdentity(identityId: string, gameNameId: string | null) {
-		return html`<page-identity .identityId=${identityId} .gameNameId=${gameNameId}></page-identity>`;
-	}
-
-	export let identity = new Route<{ id: string }>({
-		path: '/identities/:id',
-		render({ id }) {
-			if (!utils.validateUuid(id)) return responses.notFound();
-
-			return {
-				title: 'Identity',
-				breadcrumb: { type: 'Custom' },
-				template: renderPageIdentity(id, null)
-			};
-		}
-	});
-
-	export let identityFriends = new Route<{ id: string }>({
-		path: '/identities/:id/friends',
-		render({ id }) {
-			if (!utils.validateUuid(id)) return responses.notFound();
-
-			return {
-				title: 'Mutual Friends',
-				breadcrumb: { type: 'Custom' },
-				template: html`<page-identity-friends .identityId=${id}></page-identity-friends>`
-			};
-		}
-	});
-
-	// Reuse the same template in order to preserve the same `page-group` instance.
-	// Potentially deprecate -- renderPageGroupSettings currently handles the Settings view
-	function renderPageGroupView(groupId: string, gameNameId: string | null) {
-		return html`<page-group .groupId=${groupId} .gameNameId=${gameNameId}></page-group>`;
-	}
-
-	// Reuse the same template in order to preserve the same `page-group` instance.
+	// Reuse the same template in order to preserve the same `page-group-settings` instance.
 	function renderPageGroupSettings(groupId: string, config?: GroupSettingsRootConfig) {
 		return html`<page-group-settings .groupId=${groupId} .config=${config}></page-group-settings>`;
 	}
@@ -174,42 +136,10 @@ namespace routes {
 		}
 	});
 
-	export let groupMembers = new Route<{ id: string }>({
-		path: '/groups/:id/members',
-		render({ id }) {
-			if (!utils.validateUuid(id)) return responses.notFound();
-
-			return {
-				title: 'Group Members',
-				breadcrumb: { type: 'Group', groupId: id, title: 'Members' },
-				template: html`<page-group-members .groupId=${id}></page-group-members>`
-			};
-		}
-	});
-
-	export let groupBilling = new Route<{ groupId: string }>({
-		path: '/groups/:groupId/billing',
-		render({ groupId }) {
-			if (!global.currentIdentity.isRegistered) return responses.registerRequired();
-			if (!utils.validateUuid(groupId)) return responses.notFound();
-
-			return {
-				title: `Billing`,
-				breadcrumb: {
-					type: 'Group',
-					groupId,
-					title: 'Billing'
-				},
-				template: html`<page-group-billing .groupId=${groupId}></page-group-billing>`
-			};
-		}
-	});
-
 	export let analyticsOverview = new Route<{ groupId: string }>({
 		path: '/groups/:groupId/analytics',
 		render({ groupId }) {
 			if (!global.currentIdentity.isRegistered) return responses.registerRequired();
-
 			if (!utils.validateUuid(groupId)) return responses.notFound();
 
 			return {
@@ -242,30 +172,6 @@ namespace routes {
 				title: `Settings`,
 				breadcrumb: { type: 'Custom' },
 				template: html`<page-settings .tabId=${tab}></page-settings>`
-			};
-		}
-	});
-
-	export let admin = new Route<{}>({
-		path: '/admin',
-		render() {
-			if (!global.currentIdentity.isAdmin) return responses.notFound();
-
-			return {
-				title: `Admin`,
-				breadcrumb: { type: 'Custom' },
-				template: html`<page-admin></page-admin>`
-			};
-		}
-	});
-
-	export let recentFollowers = new Route<{}>({
-		path: '/recent-followers',
-		render() {
-			return {
-				title: `Recent Followers`,
-				breadcrumb: { type: 'Custom' },
-				template: html`<page-recent-followers></page-recent-followers>`
 			};
 		}
 	});
