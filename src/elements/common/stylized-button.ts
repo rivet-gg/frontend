@@ -35,6 +35,12 @@ export default class StylizedButton extends LitElement {
 	@property({ type: String, attribute: 'text' })
 	textColor: string;
 
+	@property({ type: String, attribute: 'border-width' })
+	borderWidth: string;
+
+	@property({ type: String, attribute: 'border-color' })
+	borderColor: string;
+
 	@property({ type: String, attribute: 'align' })
 	align: 'left' | 'center' | 'right' = 'center';
 
@@ -68,8 +74,24 @@ export default class StylizedButton extends LitElement {
 		return this.color == 'white' ? 'black' : 'white';
 	}
 
+	get cssBorderColor(): string {
+		if (this.borderColor) return this.borderColor;
+		return this.color == 'white' ? 'black' : 'white';
+	}
+
+	// TODO: Implement support for specifying border styles
+	get cssBorderStyle(): string {
+		if (this.borderWidth) return 'solid';
+		return 'none';
+	}
+
 	get cssBackgroundColor(): string {
 		return this.color;
+	}
+
+	get cssBorderWidth(): string {
+		if (this.borderWidth) return this.borderWidth;
+		return this.color == 'white' ? '1px' : '0px';
 	}
 
 	get sizeClass(): string {
@@ -116,7 +138,13 @@ export default class StylizedButton extends LitElement {
 			splashy: this.isSplashy,
 			[`align-${this.align}`]: this.align != 'center'
 		});
-		let styles = styleMap({ '--color': this.cssColor, '--bg-color': this.cssBackgroundColor });
+		let styles = styleMap({
+			'--color': this.cssColor,
+			'--bg-color': this.cssBackgroundColor,
+			'border-style': this.cssBorderStyle,
+			'border-color': this.cssBorderColor,
+			'border-width': this.cssBorderWidth ? this.cssBorderWidth : null
+		});
 
 		// Icon
 		let icon = null;

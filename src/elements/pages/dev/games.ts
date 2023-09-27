@@ -16,6 +16,9 @@ import { TraversableErrors, VALIDATION_ERRORS } from '../../../utils/traversable
 import timing, { Debounce } from '../../../utils/timing';
 import UIRouter from '../../root/ui-router';
 
+const tailwindConfig = require('../../../../tailwind.config.js');
+const tailwind_palette = tailwindConfig.theme.extend.colors;
+
 import config from '../../../config';
 import { InputUpdateEvent } from '../../dev/text-input';
 import assets from '../../../data/assets';
@@ -341,20 +344,29 @@ export default class DevGames extends LitElement {
 										class="analytics-button"
 										icon="solid/chart-line-up"
 										href=${routes.analyticsOverview.build({
-											groupId: group.groupId
-										})}
+										groupId: group.groupId
+									})}
 										>Analytics</stylized-button
 									> -->
 									<stylized-button
 										class="billing-button"
 										icon="solid/dollar-sign"
-										href=${routes.groupSettings.build({ groupId: group.groupId, tab: "Billing" })}
+										border-color=${tailwind_palette['muted-text']}
+										border-width=".75px"
+										href=${routes.groupSettings.build({
+											groupId: group.groupId,
+											tab: 'Billing'
+										})}
+										color=${tailwind_palette['raised-bg']}
 										>Billing</stylized-button
 									>
 									<stylized-button
 										class="settings-button"
 										icon="regular/gear"
+										border-color=${tailwind_palette['muted-text']}
+										border-width=".75px"
 										href=${routes.groupSettings.build({ groupId: group.groupId })}
+										color=${tailwind_palette['raised-bg']}
 										>Settings</stylized-button
 									>
 								</div>`
