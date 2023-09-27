@@ -418,7 +418,7 @@ export default class DevGameBilling extends LitElement {
 				></avatar-collage>
 			</div>
 
-			<stylized-button href=${routes.groupSettings.build({ id: this.game.developerGroupId })}
+			<stylized-button href=${routes.groupOverview.build({ id: this.game.developerGroupId })}
 				>Profile</stylized-button
 			>
 			<stylized-button

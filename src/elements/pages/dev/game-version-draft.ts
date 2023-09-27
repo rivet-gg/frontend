@@ -33,6 +33,9 @@ export default class DevGameNamespace extends LitElement {
 	@property({ type: Object })
 	game: cloud.GameFull;
 
+	@property({ type: String })
+	namespaceId: string;
+
 	@property({ type: Object })
 	tiers: cloud.RegionTier[] = [];
 
@@ -308,7 +311,8 @@ export default class DevGameNamespace extends LitElement {
 			UIRouter.shared.navigate(
 				routes.devVersion.build({
 					gameId: this.game.gameId,
-					versionId
+					versionId,
+					namespaceId: this.namespaceId
 				})
 			);
 

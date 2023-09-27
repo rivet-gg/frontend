@@ -325,7 +325,7 @@ export default class ContextMenu extends LitElement {
 		let ctx = this.ctx.group;
 		let group = ctx.group;
 
-		return html`<context-action href=${routes.groupSettings.build({ id: group.groupId })}
+		return html`<context-action href=${routes.groupSettings.build({ groupId: group.groupId, tab: 'General' })}
 			>View profile</context-action
 		>`;
 	}

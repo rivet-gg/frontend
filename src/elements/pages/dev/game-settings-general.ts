@@ -3,7 +3,6 @@ import { customElement, property } from 'lit/decorators.js';
 import { map } from 'lit/directives/map.js';
 import { when } from 'lit/directives/when.js';
 import { cssify } from '../../../utils/css';
-import styles from './game-summary.scss';
 import cloud from '@rivet-gg/cloud';
 import global from '../../../utils/global';
 import routes from '../../../routes';
@@ -18,9 +17,9 @@ enum UploadType {
 	Banner
 }
 
-@customElement('page-dev-game-summary')
-export default class DevGameSummary extends LitElement {
-	static styles = cssify(styles);
+@customElement('page-dev-game-settings-general')
+export default class DevGameSettingsGeneral extends LitElement {
+	static styles = cssify();
 
 	@property({ type: Object })
 	game: cloud.GameFull = null;
@@ -78,27 +77,18 @@ export default class DevGameSummary extends LitElement {
 	render() {
 		return html`
 			<div id="base">
-				<h1>Basic Info</h1>
+				<h1 class="text-2xl pb-2">Basic Info</h1>
 				<div id="input-area" class="space-y-5">
 					<div class="not-allowed">
 						<div class="disabled">
-							<h4>Game Title</h4>
+							<h4 class="text-lg pb-1">Game Title</h4>
 							<text-input
 								placeholder="Enter a game title here"
 								.init=${this.game.displayName}
 							></text-input>
-							<!-- <h4>Description</h4>
-								<text-input
-									id="description"
-									area
-									maxlength="256"
-									placeholder="Enter a game description here"
-								></text-input>
-								<h4>Tags</h4>
-								<text-input placeholder="Enter game tags here"></text-input> -->
 						</div>
 					</div>
-					<h4>Logo</h4>
+					<h4 class="text-lg pb-1">Logo</h4>
 					<file-uploader
 						id="logo-input"
 						max-size=${fileSize.megabytes(5)}
@@ -113,7 +103,7 @@ export default class DevGameSummary extends LitElement {
 							<p class="file-input-subtitle">Recommended size 512x256 px</p>
 						</div>
 					</file-uploader>
-					<h4>Banner</h4>
+					<h4 class="text-lg pb-1">Banner</h4>
 					<file-uploader
 						id="banner-input"
 						max-size=${fileSize.megabytes(10)}

@@ -17,6 +17,7 @@ import { globalEventGroups } from '../../../utils/global-events';
 export interface DevGameRootConfig {
 	summary?: true;
 	billing?: true;
+	versionSummary?: true;
 	version?: {
 		versionId: string;
 	};
@@ -38,20 +39,23 @@ export interface DevGameRootConfig {
 export default class DevGame extends LitElement {
 	static styles = cssify(styles);
 
-	@query('#ns-display-name-input')
-	namespaceDisplayName: HTMLInputElement;
+	// @query('#ns-display-name-input')
+	// namespaceDisplayName: HTMLInputElement;
 
-	@query('#ns-name-id-input')
-	namespaceNameId: HTMLInputElement;
+	// @query('#ns-name-id-input')
+	// namespaceNameId: HTMLInputElement;
 
 	@property({ type: String })
 	gameId: string;
 
+	@property({ type: String })
+	namespaceId: string;
+
 	@property({ type: Object })
 	config: DevGameRootConfig = { summary: true };
 
-	@property({ type: Object })
-	namespaceSelection: DropDownSelection<string> = null;
+	// @property({ type: Object })
+	// namespaceSelection: DropDownSelection<string> = null;
 
 	@property({ type: Object })
 	game: cloud.GameFull = null;
@@ -98,28 +102,6 @@ export default class DevGame extends LitElement {
 		});
 	}
 
-	changeNamespaceSelection(event: DropDownSelectEvent<string>) {
-		let routeParameterConfig = { gameId: this.gameId };
-		let routeSearchConfig = { namespaceId: event.selection.value };
-
-		// Navigate to new route with the selected namespace id
-		if (this.config.logs) {
-			UIRouter.shared.navigate(routes.devLogs.build(routeParameterConfig, routeSearchConfig), {
-				replaceHistory: true
-			});
-		} else if (this.config.lobbies) {
-			UIRouter.shared.navigate(routes.devLobbies.build(routeParameterConfig, routeSearchConfig), {
-				replaceHistory: true
-			});
-		} else if (this.config.kv) {
-			UIRouter.shared.navigate(routes.devKv.build(routeParameterConfig, routeSearchConfig), {
-				replaceHistory: true
-			});
-		} else {
-			this.namespaceSelection = event.selection;
-		}
-	}
-
 	render() {
 		if (this.loadError) return responses.renderError(this.loadError);
 		if (this.game == null) return this.renderPlaceholder();
@@ -134,29 +116,11 @@ export default class DevGame extends LitElement {
 			value: n.namespaceId
 		}));
 
-		if (this.config.namespaceId) {
-			this.namespaceSelection = namespaceOptions.find(
-				option => option.value == this.config.namespaceId
-			);
-		}
-		// Default to first namespace for selection
-		if (!this.namespaceSelection) {
-			this.namespaceSelection = namespaceOptions[0];
-		}
-
-		let namespaceSelect = html`<div id="namespace-select-area">
-			<div class="text-white/75 font-semibold text-sm mb-1">Namespace</div>
-			<drop-down-list
-				id="logs-namespace-select"
-				.options=${namespaceOptions}
-				.selection=${this.namespaceSelection}
-				.orientation=${Orientation.TopRight}
-				@select=${this.changeNamespaceSelection.bind(this)}
-			></drop-down-list>
-		</div>`;
-
 		if (this.config.summary) {
-			body = html`<page-dev-game-summary .game=${this.game}></page-dev-game-summary>`;
+			body = html`<page-dev-namespace-summary
+				.game=${this.game}
+				.namespaceId=${this.namespaceId}
+			></page-dev-namespace-summary>`;
 
 			UIRouter.shared.updateTitle(this.game.displayName);
 
@@ -178,6 +142,13 @@ export default class DevGame extends LitElement {
 			).displayName;
 
 			UIRouter.shared.updateTitle(`${this.game.displayName} – ${namespaceName}`);
+		} else if (this.config.versionSummary) {
+			body = html`<page-dev-namespace-version
+				.game=${this.game}
+				.namespaceId=${this.namespaceId}
+			></page-dev-namespace-version>`;
+
+			UIRouter.shared.updateTitle(`${this.game.displayName} – Versions`);
 		} else if (this.config.version) {
 			body = html`<page-dev-game-version
 				.game=${this.game}
@@ -195,7 +166,10 @@ export default class DevGame extends LitElement {
 
 			pageId = 'draft';
 		} else if (this.config.tokens) {
-			body = html`<page-dev-game-tokens .game=${this.game}></page-dev-game-tokens>`;
+			body = html`<page-dev-game-tokens
+				.game=${this.game}
+				.namespaceId=${this.namespaceId}
+			></page-dev-game-tokens>`;
 
 			UIRouter.shared.updateTitle(`${this.game.displayName} – Tokens`);
 
@@ -203,36 +177,26 @@ export default class DevGame extends LitElement {
 		} else if (this.config.logs) {
 			body = html`<page-dev-game-logs
 				.game=${this.game}
-				.namespaceId=${this.namespaceSelection ? this.namespaceSelection.value : null}
+				.namespaceId=${this.namespaceId}
 				.lobbyId=${this.config.logsLobbyId ?? null}
 			>
-				<div slot="namespace-select">${namespaceSelect}</div>
 			</page-dev-game-logs>`;
 
 			UIRouter.shared.updateTitle(`${this.game.displayName} – Logs`);
 
 			pageId = 'logs';
 		} else if (this.config.lobbies) {
-			body = html`<page-dev-game-lobbies
-				.game=${this.game}
-				.namespaceId=${this.namespaceSelection ? this.namespaceSelection.value : null}
-			>
-				<div slot="namespace-select">${namespaceSelect}</div>
+			body = html`<page-dev-game-lobbies .game=${this.game} .namespaceId=${this.namespaceId}>
 			</page-dev-game-lobbies>`;
 
 			UIRouter.shared.updateTitle(`${this.game.displayName} – Lobbies`);
 
 			pageId = 'lobbies';
 		} else if (this.config.kv) {
-			body = html`<page-dev-game-kv
-				.game=${this.game}
-				.namespaceId=${this.namespaceSelection ? this.namespaceSelection.value : null}
-			>
-				<div slot="namespace-select">${namespaceSelect}</div>
+			body = html`<page-dev-game-kv .game=${this.game} .namespaceId=${this.namespaceId}>
 			</page-dev-game-kv>`;
 
 			UIRouter.shared.updateTitle(`${this.game.displayName} – KV`);
-
 			pageId = 'kv';
 		}
 
@@ -246,12 +210,9 @@ export default class DevGame extends LitElement {
 			<dev-game-sidebar
 				.game=${this.game}
 				.gameId=${this.gameId}
-				.namespaceId=${this.config.namespace ? this.config.namespace.namespaceId : null}
+				.namespaceId=${this.namespaceId}
 				.versionId=${this.config.version ? this.config.version.versionId : null}
 				.pageId=${pageId}
-				.configNamespaceId=${this.config.namespaceId ?? this.namespaceSelection
-					? this.namespaceSelection.value
-					: null}
 			></dev-game-sidebar>
 		</div>`;
 	}

@@ -270,7 +270,7 @@ export default class DevGames extends LitElement {
 				global.currentIdentity.isRegistered && global.currentIdentity.isAdmin,
 				() =>
 					html` <div
-						class="dashed-border-button flex justify-center items-center hover:cursor-pointer w-full h-32 place-content-center text-[#d1d1d1]  hover:text-white hover:bg-[#ffffff05]"
+						class="dashed-border-button flex justify-center items-center hover:cursor-pointer w-full h-32 place-content-center text-[#d1d1d1]  hover:text-white hover:bg-button-bg-hover-color"
 						@click=${this.openGroupModal.bind(this)}
 						@mouseenter=${() => (this.createGroupHovered = true)}
 						@mouseleave=${() => (this.createGroupHovered = false)}
@@ -320,9 +320,6 @@ export default class DevGames extends LitElement {
 			() =>
 				html`<div class="group">
 					<div class="group-header">
-						<!-- <a href=${routes.groupSettings.build({
-							id: group.groupId
-						})} class="max-sm:w-1/3 md:w-2/3"> -->
 						<div class="max-sm:w-1/3 md:w-2/3 flex flex-row space-x-3">
 							<div class="max-sm:invisible max-sm:w-0 my-auto">
 								<group-avatar
@@ -331,7 +328,7 @@ export default class DevGames extends LitElement {
 									.group=${group}
 								></group-avatar>
 							</div>
-							<h2 class="text-ellipsis overflow-hidden text-[24px] max-w-3/4">
+							<h2 class="my-auto text-ellipsis overflow-hidden text-[24px] max-w-3/4">
 								${group.displayName}
 							</h2>
 						</div>
@@ -357,7 +354,7 @@ export default class DevGames extends LitElement {
 									<stylized-button
 										class="settings-button"
 										icon="regular/gear"
-										href=${routes.groupSettings.build({ id: group.groupId })}
+										href=${routes.groupSettings.build({ groupId: group.groupId })}
 										>Settings</stylized-button
 									>
 								</div>`

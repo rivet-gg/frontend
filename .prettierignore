@@ -3,5 +3,5 @@
 **/gen/**
 
 # Uses paritals
-html/404.hbs
+html/index.hbs
 

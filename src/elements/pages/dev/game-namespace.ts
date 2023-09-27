@@ -753,7 +753,8 @@ export default class DevGameNamespace extends LitElement {
 					id="version"
 					href=${routes.devVersion.build({
 						gameId: this.game.gameId,
-						versionId: this.namespace.versionId
+						versionId: this.namespace.versionId,
+						namespaceId: this.namespace.namespaceId
 					})}
 				>
 					<h3>${currentVersionName}</h3>

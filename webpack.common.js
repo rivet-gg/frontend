@@ -173,11 +173,9 @@ module.exports = async function () {
 		plugins: [
 			new webpack.DefinePlugin(defineValues),
 
-			// We emit to 404.html so all non-matched routes go to the portal.
-			// https://developers.cloudflare.com/pages/platform/serving-pages/#not-found-behavior
 			new HtmlWebpackPlugin({
-				filename: '404.html',
-				template: path.resolve(__dirname, 'html', '404.hbs'),
+				filename: 'index.html',
+				template: path.resolve(__dirname, 'html', 'index.hbs'),
 				templateParameters: {
 					rivetLogoEncoded: 'data:image/svg+xml,' + encodeURIComponent(rivetLogo)
 				},

@@ -1,0 +1,17 @@
+e-svg {
+	&.owner {
+		--fill: #ffb600;
+	}
+
+	&.admin {
+		--fill: #ececec;
+	}
+
+	&.ban {
+		--fill: #ff0000;
+	}
+
+	&.accept {
+		--fill: #23e900;
+	}
+}
