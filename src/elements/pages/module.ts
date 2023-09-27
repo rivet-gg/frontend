@@ -5,6 +5,7 @@ import './dev-only';
 import './dev/module';
 import './error';
 import './game';
+import './group';
 import './group-banner';
 import './group-invite';
 import './group-settings';

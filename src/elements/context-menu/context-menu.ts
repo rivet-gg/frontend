@@ -225,18 +225,17 @@ export default class ContextMenu extends LitElement {
 
 		let isSelf = identity.identityId == global.currentIdentity.identityId;
 
-		return html`
-			${when(
-				!isSelf,
-				() =>
-					html`<context-action
-						class=${classMap({ destructive: this.isFollowing })}
-						.trigger=${this.toggleFollow.bind(this)}
-						@triggered=${this.onActionClick.bind(this)}
-						?loading=${!summary}
-						>${this.isFollowing ? 'Remove' : 'Add'} friend</context-action
-					>`
-			)}`;
+		return html` ${when(
+			!isSelf,
+			() =>
+				html`<context-action
+					class=${classMap({ destructive: this.isFollowing })}
+					.trigger=${this.toggleFollow.bind(this)}
+					@triggered=${this.onActionClick.bind(this)}
+					?loading=${!summary}
+					>${this.isFollowing ? 'Remove' : 'Add'} friend</context-action
+				>`
+		)}`;
 	}
 
 	renderGroupMemberContextMenu() {
@@ -252,42 +251,40 @@ export default class ContextMenu extends LitElement {
 
 		let showAdminControls = !isSelf && ctx.selfIsOwner;
 
-		return html`
-			${when(
-				!isSelf,
-				() =>
-					html`<context-action
-						class=${classMap({ destructive: this.isFollowing })}
-						.trigger=${this.toggleFollow.bind(this)}
+		return html` ${when(
+			!isSelf,
+			() =>
+				html`<context-action
+					class=${classMap({ destructive: this.isFollowing })}
+					.trigger=${this.toggleFollow.bind(this)}
+					@triggered=${this.onActionClick.bind(this)}
+					?loading=${!summary}
+					>${this.isFollowing ? 'Remove' : 'Add'} friend</context-action
+				>`
+		)}
+		${when(
+			showAdminControls,
+			() =>
+				html`<div class="spacer"></div>
+					<context-action
+						class="destructive"
+						.trigger=${this.kickGroupMember.bind(this)}
 						@triggered=${this.onActionClick.bind(this)}
-						?loading=${!summary}
-						>${this.isFollowing ? 'Remove' : 'Add'} friend</context-action
+						>Kick</context-action
+					><context-action
+						class="destructive"
+						.trigger=${this.banIdentity.bind(this)}
+						@triggered=${this.onActionClick.bind(this)}
+						>Ban</context-action
 					>`
-			)}
-			${when(
-				showAdminControls,
-				() =>
-					html`<div class="spacer"></div>
-						<context-action
-							class="destructive"
-							.trigger=${this.kickGroupMember.bind(this)}
-							@triggered=${this.onActionClick.bind(this)}
-							>Kick</context-action
-						><context-action
-							class="destructive"
-							.trigger=${this.banIdentity.bind(this)}
-							@triggered=${this.onActionClick.bind(this)}
-							>Ban</context-action
-						>`
-			)}`;
+		)}`;
 	}
 
 	renderJoinRequestContextMenu() {
 		let ctx = this.ctx.joinRequest;
 		let identity = ctx.identity;
 
-		return html`
-			<context-action
+		return html` <context-action
 				.trigger=${this.resolveJoinRequest.bind(this, true)}
 				@triggered=${this.onActionClick.bind(this)}
 				>Accept join request</context-action
@@ -302,19 +299,19 @@ export default class ContextMenu extends LitElement {
 	renderBannedIdentityContextMenu() {
 		let ctx = this.ctx.bannedIdentity;
 
-		return html`
-			<context-action
-				.trigger=${this.unbanIdentity.bind(this)}
-				@triggered=${this.onActionClick.bind(this)}
-				>Unban</context-action
-			>`;
+		return html` <context-action
+			.trigger=${this.unbanIdentity.bind(this)}
+			@triggered=${this.onActionClick.bind(this)}
+			>Unban</context-action
+		>`;
 	}
 
 	renderGroupContextMenu() {
 		let ctx = this.ctx.group;
 		let group = ctx.group;
 
-		return html`<context-action href=${routes.groupSettings.build({ groupId: group.groupId, tab: 'General' })}
+		return html`<context-action
+			href=${routes.groupSettings.build({ groupId: group.groupId, tab: 'General' })}
 			>View profile</context-action
 		>`;
 	}
