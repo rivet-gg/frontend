@@ -348,10 +348,6 @@ export default class LinkGamePage extends LitElement {
 						<e-svg non-icon preserve src="products2/group-duotone"></e-svg>
 						<h4>Groups</h4>
 					</div>
-					<div class="service">
-						<e-svg non-icon preserve src="products2/chat-duotone"></e-svg>
-						<h4>Chat</h4>
-					</div>
 				</div>
 			</div>`;
 		} else if (this.stage == Stage.Complete && !global.currentIdentity.isRegistered) {
