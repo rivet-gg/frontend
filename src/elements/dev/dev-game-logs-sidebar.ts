@@ -7,8 +7,6 @@ import { classMap } from 'lit/directives/class-map.js';
 import { tooltip } from '../../ui/helpers';
 import cloud from '@rivet-gg/cloud';
 import { formatLobbyStatus } from '../pages/dev/game-logs';
-import logging from '../../utils/logging';
-import UIRouter from '../root/ui-router';
 import routes from '../../routes';
 
 @customElement('dev-game-logs-sidebar')

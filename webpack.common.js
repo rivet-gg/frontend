@@ -80,12 +80,6 @@ module.exports = async function () {
 	Object.assign(colors, {
 		separator: '#4a4a4a'
 	});
-	Object.assign(colors, {
-		'status-in-game': colors['blue'],
-		'status-online': colors['green'],
-		'status-away': colors['yellow'],
-		'status-offline': colors['light-gray']
-	});
 
 	// Export values
 	defineValues['SHARED_COLORS'] = JSON.stringify(colors);

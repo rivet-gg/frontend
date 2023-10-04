@@ -252,7 +252,6 @@ export default class IdentityProfileEdit extends LitElement {
 						<div id="avatar-holder">
 							<identity-avatar
 								id="main-avatar"
-								hide-status
 								.identity=${fakeIdentity}
 							></identity-avatar>
 

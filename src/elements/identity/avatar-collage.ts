@@ -39,7 +39,6 @@ export default class AvatarCollage extends LitElement {
 						html`<div class="identity-clip">
 							<identity-avatar
 								id="main-avatar"
-								hide-status
 								.identity=${u}
 								@pointerenter=${tooltip(
 									`${u.displayName}#${padAccountNumber(u.accountNumber)}`

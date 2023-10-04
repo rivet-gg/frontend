@@ -26,9 +26,6 @@ export default class IdentityTile extends LitElement {
 	@property({ type: Boolean, attribute: 'no-context-menu' })
 	noContextMenu = false;
 
-	@property({ type: Boolean, attribute: 'hide-status' })
-	hideStatus = false;
-
 	@property({ type: Boolean, attribute: 'hide-presence' })
 	hidePresence = false;
 
@@ -43,8 +40,6 @@ export default class IdentityTile extends LitElement {
 
 	connectedCallback() {
 		super.connectedCallback();
-
-		// TODO: update events
 	}
 
 	disconnectedCallback() {
@@ -53,10 +48,6 @@ export default class IdentityTile extends LitElement {
 
 	render() {
 		let classes = classMap({
-			'offline-opacity':
-				this.offlineOpacity &&
-				this.identity.presence &&
-				this.identity.presence.status == api.identity.IdentityStatus.OFFLINE,
 			'has-link': !this.noLink,
 			light: this.light
 		});
@@ -68,7 +59,6 @@ export default class IdentityTile extends LitElement {
 			>
 				<identity-avatar
 					.link=${!this.noLink}
-					.hideStatus=${this.hideStatus /*  */}
 					.identity=${this.identity}
 				></identity-avatar>
 				<div id="spaced">

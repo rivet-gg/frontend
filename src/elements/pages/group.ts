@@ -16,7 +16,6 @@ import * as api from '../../utils/api';
 
 import { CloudDashboardCache, GroupProfileCache } from '../../data/cache';
 import logging from '../../utils/logging';
-import { GroupActionEvent } from '../group/group-sidebar';
 import { DropDownSelectEvent, DropDownSelection } from '../dev/drop-down-list';
 import timing, { Debounce } from '../../utils/timing';
 import utils from '../../utils/utils';
@@ -30,6 +29,24 @@ enum CreateInviteState {
 	Create,
 	Result
 }
+interface GroupAction {
+	applyForGroup?: true;
+	openEditModal?: true;
+	kickMember?: { identityId: string };
+	banIdentity?: { identityId: string };
+	unbanIdentity?: { identityId: string };
+	leaveGroup?: true;
+	transferGroupOwnership?: true;
+	resolveJoinRequest?: { identityId: string; resolution: boolean };
+	openCreateInviteModal?: true;
+}
+
+export class GroupActionEvent extends Event {
+	constructor(public action: GroupAction) {
+		super('event');
+	}
+}
+
 
 const INVITE_TTL_SELECTION: DropDownSelection<number>[] = [
 	{
@@ -573,47 +590,7 @@ export default class GroupPage extends LitElement {
 				</div>
 			</div>
 
-			<!-- <profile-layout>
-				<div id="banner-bg" slot="banner-bg" style=${bgStyles}>
-					${when(this.profile ? !this.profile.avatarUrl : false, () => html`<lazy-img src=${bgUrl}></lazy-img>`)}
-				</div>
-
-				<div id="banner-center" slot="banner-center">
-					${this.buildBackButton()}
-					${this.profile ? html`<group-avatar shadow .group=${this.profile}></group-avatar>` : null}
-					<div id="main-display-name" style=${nameStyles}>
-						${this.profile ? this.profile.displayName : profileNotFound ? 'Group not found' : null}
-					</div>
-				</div>
-
-				${when(
-				this.profile,
-				() =>
-					html`<group-sidebar
-						slot="sidebar"
-						.profile=${this.profile}
-						.bannedIdentities=${this.bannedIdentities}
-						.members=${this.members}
-						.joinRequests=${this.joinRequests}
-						@event=${this.onActionEvent.bind(this)}
-					></group-sidebar>`
-			)}
-			</profile-layout> -->
-
-			<!-- Editing modal -->
-			<!-- <drop-down-modal
-				large-animation
-				.active=${this.editModalActive}
-				@close=${this.editModalClose.bind(this)}
-			>
-				<group-profile-edit
-					slot="body"
-					.profile=${this.profile}
-					@close=${this.editModalClose.bind(this)}
-				></group-profile-edit>
-			</drop-down-modal> -->
 			${this.renderCreateGameModal()}
-			<!-- ${this.renderTransferGroupOwnershipModal()}${this.renderCreateInviteModal()} -->
 		`;
 	}
 
@@ -683,7 +660,7 @@ export default class GroupPage extends LitElement {
 			m => m.identity.identityId != global.currentIdentity.identityId
 		);
 		let identityOptions = members.map(u => ({
-			template: html`<identity-tile .identity=${u.identity} light hide-status no-link></identity-tile>`,
+			template: html`<identity-tile .identity=${u.identity} light no-link></identity-tile>`,
 			value: u.identity.identityId
 		}));
 

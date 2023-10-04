@@ -375,7 +375,6 @@ export default class NavBar extends LitElement {
 						<div class="sm:hidden absolute left-2">
 							<identity-avatar
 								class="my-auto block w-7 h-7"
-								hide-status
 								shadow
 								.identity=${global.currentIdentity}
 							></identity-avatar>
@@ -421,7 +420,6 @@ export default class NavBar extends LitElement {
 						></identity-name>
 						<identity-avatar
 							class="block w-6 h-6 m-2"
-							hide-status
 							.identity=${global.currentIdentity}
 						></identity-avatar>
 

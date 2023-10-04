@@ -47,7 +47,6 @@ import './dev/version/version-info-identity';
 import './dev/version/version-info-kv';
 import './dev/version/version-info-matchmaker';
 import './group/group-avatar';
-import './group/group-sidebar';
 import './identity/avatar-collage';
 import './identity/identity-avatar';
 import './identity/identity-name';

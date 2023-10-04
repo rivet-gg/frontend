@@ -215,38 +215,6 @@ const utils = {
 		return true;
 	},
 
-	statusColor(identity?: api.identity.IdentityHandle): string {
-		if (!identity) return COLORS['status-offline'];
-		// if (identity.activity && identity.activity.t == "Game") return COLORS["status-in-game"];
-		switch (identity.presence.status) {
-			case api.identity.IdentityStatus.ONLINE:
-				return COLORS['status-online'];
-			case api.identity.IdentityStatus.OFFLINE:
-				return COLORS['status-offline'];
-			case api.identity.IdentityStatus.AWAY:
-				return COLORS['status-away'];
-			default:
-				logging.error('Invalid status', identity.presence.status);
-				return null;
-		}
-	},
-
-	statusText(identity?: api.identity.IdentityHandle): string {
-		if (!identity) return '...';
-
-		switch (identity.presence.status) {
-			case api.identity.IdentityStatus.ONLINE:
-				return 'Online';
-			case api.identity.IdentityStatus.OFFLINE:
-				return 'Offline';
-			case api.identity.IdentityStatus.AWAY:
-				return 'Away';
-			default:
-				logging.error('Invalid status', identity.presence.status);
-				return '?';
-		}
-	},
-
 	urlBase64ToUint8Array(base64String: string) {
 		let padding = '='.repeat((4 - (base64String.length % 4)) % 4);
 		let base64 = (base64String + padding).replace(/\-/g, '+').replace(/_/g, '/');

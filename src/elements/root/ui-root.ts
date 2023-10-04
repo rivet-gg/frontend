@@ -1,6 +1,5 @@
 import { customElement, property, query } from 'lit/decorators.js';
-import { LitElement, html, TemplateResult, PropertyValues } from 'lit';
-import { styleMap } from 'lit/directives/style-map.js';
+import { LitElement, html, TemplateResult } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { when } from 'lit/directives/when.js';
 import { repeat } from 'lit/directives/repeat.js';
@@ -13,8 +12,6 @@ import styles from './ui-root.scss';
 import UIRouter, { RouteChangeEvent, RouteTitleChangeEvent } from './ui-router';
 import { AlertOption } from '../overlay/alert-panel';
 import { ActionSheetItem } from '../overlay/action-sheet';
-import { showAlert } from '../../ui/helpers';
-import * as api from '../../utils/api';
 import RegisterPanel from '../overlay/register-panel';
 import config from '../../config';
 import { HookFetch } from '../../utils/fetch-hook';
