@@ -7,7 +7,7 @@ import { when } from 'lit/directives/when.js';
 import { ToggleSwitchEvent } from '../../common/toggle-switch';
 import CheckBox from '../check-box';
 import { TraversableErrors, VALIDATION_ERRORS } from '../../../utils/traversable-errors';
-import { UpdateConfigEvent } from '../../pages/dev/game-version-draft';
+import { UpdateConfigEvent } from '../../pages/dev/game/pages/game-version-draft';
 
 @customElement('dev-version-info')
 export default class DevVersionInfo extends LitElement {

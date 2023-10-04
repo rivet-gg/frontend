@@ -2,12 +2,12 @@ import { TemplateResult, html } from 'lit';
 import * as pathToRegexp from 'path-to-regexp';
 import global from './utils/global';
 import utils from './utils/utils';
-import { DevGameRootConfig } from './elements/pages/dev/game';
+import { DevGameRootConfig } from './elements/pages/dev/game/pages/game';
 import UIRoot from './elements/root/ui-root';
 import { RivetError } from '@rivet-gg/api-internal';
 import { isDeveloper } from './utils/identity';
 import { Breadcrumb } from './elements/common/navbar';
-import { GameSettingsRootConfig } from './elements/pages/dev/game-settings';
+import { GameSettingsRootConfig } from './elements/pages/dev/game/settings/game-settings';
 import { GroupSettingsRootConfig } from './elements/pages/group-settings';
 
 export type RenderResult = RenderResultTemplate | RenderResultRedirect;
@@ -54,16 +54,15 @@ class Route<P extends RouteParameters, S extends SearchParameters = {}> {
 		let path = this.pathFunction(params);
 
 		// Build URL
-		return `${window.location.origin}${path}${
-			search ? `?${new URLSearchParams(search).toString()}` : ''
-		}`;
+		return `${window.location.origin}${path}${search ? `?${new URLSearchParams(search).toString()}` : ''
+			}`;
 	}
 }
 
 namespace routes {
 	export let home = new Route<{}>({
 		path: '/',
-		render({}) {
+		render({ }) {
 			return {
 				title: 'Home',
 				breadcrumb: { type: 'Home' },
@@ -87,9 +86,8 @@ namespace routes {
 		path: '/developer/:path*',
 		render({ path }, search) {
 			return {
-				redirect: `${window.location.origin}/${path}${
-					search ? `?${new URLSearchParams(search).toString()}` : ''
-				}`
+				redirect: `${window.location.origin}/${path}${search ? `?${new URLSearchParams(search).toString()}` : ''
+					}`
 			};
 		}
 	});
