@@ -55,9 +55,6 @@ export default class ContextMenu extends LitElement {
 	// === EXTRA DATA ===
 	@property({ type: Object })
 	identitySummary: api.identity.IdentitySummary = null;
-	// Fake follow state
-	@property({ type: Boolean })
-	isFollowing: boolean = false;
 
 	isFetching: boolean = false;
 
@@ -71,7 +68,6 @@ export default class ContextMenu extends LitElement {
 		if (changedProperties.has('ctx')) {
 			// Reset data
 			this.identitySummary = null;
-			this.isFollowing = false;
 			this.isFetching = false;
 
 			let ctx = this.ctx;
@@ -96,7 +92,6 @@ export default class ContextMenu extends LitElement {
 			let identity = this.ctx.identity?.identity ?? this.ctx.groupMember.identity;
 			if (ctxIdentityId == identity.identityId) {
 				this.identitySummary = res.identities[0];
-				this.isFollowing = this.identitySummary.following;
 			}
 		} catch (err) {
 			logging.error('Request error', err);
@@ -104,27 +99,6 @@ export default class ContextMenu extends LitElement {
 		}
 
 		this.isFetching = false;
-	}
-
-	async toggleFollow() {
-		let summary = this.identitySummary;
-
-		try {
-			if (summary.following) {
-				await global.live.identity.unfollowIdentity({
-					identityId: summary.identityId
-				});
-				this.isFollowing = false;
-			} else {
-				await global.live.identity.followIdentity({
-					identityId: summary.identityId
-				});
-				this.isFollowing = true;
-			}
-		} catch (err) {
-			logging.error('Error following', err);
-			globalEventGroups.dispatch('error', err);
-		}
 	}
 
 	async resolveJoinRequest(resolution: boolean) {
@@ -192,8 +166,7 @@ export default class ContextMenu extends LitElement {
 		let ctx = this.ctx;
 
 		let body;
-		if (ctx.identity) body = this.renderIdentityContextMenu();
-		else if (ctx.groupMember) body = this.renderGroupMemberContextMenu();
+		if (ctx.groupMember) body = this.renderGroupMemberContextMenu();
 		else if (ctx.joinRequest) body = this.renderJoinRequestContextMenu();
 		else if (ctx.bannedIdentity) body = this.renderBannedIdentityContextMenu();
 		else if (ctx.group) body = this.renderGroupContextMenu();
@@ -218,26 +191,6 @@ export default class ContextMenu extends LitElement {
 		</div>`;
 	}
 
-	renderIdentityContextMenu() {
-		let ctx = this.ctx.identity;
-		let identity = ctx.identity;
-		let summary = this.identitySummary;
-
-		let isSelf = identity.identityId == global.currentIdentity.identityId;
-
-		return html` ${when(
-			!isSelf,
-			() =>
-				html`<context-action
-					class=${classMap({ destructive: this.isFollowing })}
-					.trigger=${this.toggleFollow.bind(this)}
-					@triggered=${this.onActionClick.bind(this)}
-					?loading=${!summary}
-					>${this.isFollowing ? 'Remove' : 'Add'} friend</context-action
-				>`
-		)}`;
-	}
-
 	renderGroupMemberContextMenu() {
 		let ctx = this.ctx.groupMember;
 		let identity = ctx.identity;
@@ -251,17 +204,7 @@ export default class ContextMenu extends LitElement {
 
 		let showAdminControls = !isSelf && ctx.selfIsOwner;
 
-		return html` ${when(
-			!isSelf,
-			() =>
-				html`<context-action
-					class=${classMap({ destructive: this.isFollowing })}
-					.trigger=${this.toggleFollow.bind(this)}
-					@triggered=${this.onActionClick.bind(this)}
-					?loading=${!summary}
-					>${this.isFollowing ? 'Remove' : 'Add'} friend</context-action
-				>`
-		)}
+		return html`
 		${when(
 			showAdminControls,
 			() =>

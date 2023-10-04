@@ -260,5 +260,4 @@ export type NotificationEvent = GlobalChangeEvent<api.identity.GlobalEvent>;
 export type GlobalStatusChangeEvent = GlobalChangeEvent<GlobalStatus>;
 export type IdentityChangeEvent = GlobalChangeEvent<api.identity.IdentityProfile>;
 export type GlobalResizeEvent = GlobalChangeEvent<WindowSize>;
-export type RecentFollowersUpdateEvent = GlobalChangeEvent<void>;
 export type ErrorEvent = GlobalChangeEvent<any>;

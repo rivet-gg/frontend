@@ -69,9 +69,6 @@ export class GlobalState {
 	/// Data for the current signed in identity.
 	currentIdentity: api.identity.IdentityProfile;
 
-	/// A list of recent followers
-	recentFollowers: api.identity.IdentityHandle[] = [];
-
 	status: GlobalStatus = GlobalStatus.Loading;
 
 	broadcast: BroadcastSystem = new BroadcastSystem(true);
@@ -84,7 +81,6 @@ export class GlobalState {
 
 	identityStream: api.RepeatingRequest<api.identity.GetIdentitySelfProfileCommandOutput>;
 	eventStream: api.RepeatingRequest<api.identity.WatchEventsCommandOutput>;
-	recentFollowersStream: api.RepeatingRequest<api.identity.ListRecentFollowersCommandOutput>;
 
 	// Mobile information
 	windowSize: number = WindowSize.Large;
@@ -359,21 +355,6 @@ export class GlobalState {
 				);
 			});
 
-			this.startRecentFollowersStream();
-		});
-	}
-
-	startRecentFollowersStream() {
-		if (this.recentFollowersStream) this.recentFollowersStream.cancel();
-		this.recentFollowersStream = new api.RepeatingRequest(async (abortSignal, watchIndex) => {
-			return await this.live.identity.listRecentFollowers({ watchIndex }, { abortSignal });
-		});
-		this.recentFollowersStream.onMessage(res => {
-			this.recentFollowers = res.identities;
-			globalEventGroups.dispatch('recent-followers-update', null);
-		});
-		this.recentFollowersStream.onError(err => {
-			logging.error('Request error', err);
 		});
 	}
 

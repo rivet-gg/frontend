@@ -49,8 +49,6 @@ export default class IdentityTile extends LitElement {
 
 	disconnectedCallback() {
 		super.disconnectedCallback();
-
-		// Dispose event
 	}
 
 	render() {
@@ -73,6 +71,12 @@ export default class IdentityTile extends LitElement {
 					.hideStatus=${this.hideStatus /*  */}
 					.identity=${this.identity}
 				></identity-avatar>
+				<div id="spaced">
+					<div id="content">
+						<identity-name .identity=${this.identity} no-link></identity-name>
+					</div>
+					<slot name="right"></slot>
+				</div>
 			</div>
 		`;
 	}
