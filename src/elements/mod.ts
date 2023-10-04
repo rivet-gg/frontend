@@ -66,7 +66,6 @@ import './modal/modal-body';
 import './modals/mod';
 import './overlay/action-sheet';
 import './overlay/alert-panel';
-import './overlay/game-overlay';
 import './overlay/identity-notification';
 import './overlay/notification-overlay';
 import './overlay/register-panel';

@@ -341,10 +341,6 @@ export default class LinkGamePage extends LitElement {
 				<h3>Allow ${this.gameLinkData.game.displayName} to access:</h3>
 				<div id="services">
 					<div class="service">
-						<e-svg non-icon preserve src="products2/friend-duotone"></e-svg>
-						<h4>Friends</h4>
-					</div>
-					<div class="service">
 						<e-svg non-icon preserve src="products2/group-duotone"></e-svg>
 						<h4>Groups</h4>
 					</div>

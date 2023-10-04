@@ -281,7 +281,6 @@ $tile-border-radius: 20px;
 		}
 	}
 
-	#friends .identity-card,
 	#players .identity-card {
 		flex: 1 1 0;
 		display: flex;
@@ -632,7 +631,6 @@ $tile-border-radius: 20px;
 		}
 	}
 
-	.no-friends,
 	.no-recent-games {
 		text-align: center;
 		min-width: 195px;
@@ -737,7 +735,6 @@ $tile-border-radius: 20px;
 			}
 		}
 
-		#friends .identity-card,
 		#players .identity-card {
 			min-width: 155px;
 			max-width: unset;

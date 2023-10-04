@@ -37,9 +37,6 @@ export default class GamePage extends LitElement {
 	snapshotSize: [number, number] = [640, 480];
 	snapshotId: number = 1 + Math.floor(Math.random() * 8);
 
-	friendsFetched = false;
-	gameFriends: api.identity.IdentityHandle[] = [];
-
 	@property({ type: String })
 	selectedIdentityLeaderboardCategory: string = null;
 	@property({ type: String })
@@ -74,17 +71,6 @@ export default class GamePage extends LitElement {
 						this.selectedGroupLeaderboardCategory =
 							this.profile.groupLeaderboardCategories[0].displayName;
 					}
-
-					// TODO:
-					// Fetch online friends
-					// global.live.getGameFriends({ nameId: this.nameId })
-					// 	.then(({identities}: {identities: api.identity.IdentityHandle[]}) => {
-					// 		this.gameFriends = identities;
-					// 		this.friendsFetched = true;
-
-					// 		this.requestUpdate();
-					// 	})
-					// 	.catch((err: any) => this.loadError = err);
 				})
 				.catch(err => {
 					logging.error('Request error', err);
@@ -318,35 +304,10 @@ export default class GamePage extends LitElement {
 								)}
 							</div>
 						</info-panel-body>
-
-						<!-- Social -->
-						<info-panel-header>
-							<div slot="title">Friends playing now</div>
-						</info-panel-header>
-
-						<info-panel-body> ${this.renderGameFriends(this.gameFriends)} </info-panel-body>
 					</div>
 				</column-layout>
 			</div>
 		`;
-	}
-
-	renderGameFriends(friends: api.identity.IdentityHandle[]) {
-		return this.friendsFetched
-			? friends.length
-				? html` <div id="friends-list">
-						${repeat(
-							friends,
-							f => f.identityId,
-							f =>
-								html`<identity-tile
-									@contextmenu=${showIdentityContextMenu(f)}
-									.identity=${f}
-								></identity-tile>`
-						)}
-				  </div>`
-				: html`<p class="placeholder">No friends playing</p>`
-			: html`<p class="placeholder">Fetching friends...</p>`;
 	}
 
 	renderGroupList(groups: api.portal.GroupSummary[], loadingCount: number = LOAD_GROUP_COUNT) {

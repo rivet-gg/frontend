@@ -374,17 +374,6 @@
 					font-size: 24px;
 				}
 			}
-
-			#friends-list {
-				display: flex;
-				flex-direction: column;
-				width: 250px;
-
-				identity-tile {
-					display: block;
-					margin-bottom: 2px;
-				}
-			}
 		}
 	}
 
@@ -491,21 +480,6 @@
 					box-shadow: 0 1px 8px rgba(0, 0, 0, 0.18);
 
 					@include common.active-state;
-				}
-			}
-
-			#friends-list {
-				display: flex;
-				flex-direction: row;
-				flex-wrap: nowrap;
-				overflow-x: auto;
-
-				identity-feed-item {
-					margin-right: 18px;
-
-					&:last-child {
-						margin-right: 0;
-					}
 				}
 			}
 		}
