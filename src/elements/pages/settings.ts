@@ -4,14 +4,13 @@ import { repeat } from 'lit/directives/repeat.js';
 import { when } from 'lit/directives/when.js';
 import styles from './settings.scss';
 import { cssify } from '../../utils/css';
-import { tooltip, showIdentityContextMenu, showAlert } from '../../ui/helpers';
+import { tooltip, showAlert } from '../../ui/helpers';
 import { globalEventGroups, SettingChangeEvent } from '../../utils/global-events';
 import UIRouter from '../root/ui-router';
 import global from '../../utils/global';
 import routes, { responses } from '../../routes';
 
 import { OAUTH_PROVIDERS } from '../../utils/utils';
-import { identityRouteData } from '../../data/identity';
 import logging from '../../utils/logging';
 import { ToggleSwitchEvent } from '../common/toggle-switch';
 import UIRoot from '../root/ui-root';

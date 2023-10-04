@@ -1,16 +1,11 @@
-import { LitElement, html, PropertyValues } from 'lit';
+import { LitElement, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { map } from 'lit/directives/map.js';
-import { when } from 'lit/directives/when.js';
 import { cssify } from '../../../utils/css';
 import cloud from '@rivet-gg/cloud';
 import global from '../../../utils/global';
-import routes from '../../../routes';
-import * as api from '../../../utils/api';
 import fileSize from '../../../utils/files';
 import { FileInput, PrepareResponse } from '../../common/file-uploader';
 import logging from '../../../utils/logging';
-import { globalEventGroups } from '../../../utils/global-events';
 
 enum UploadType {
 	Logo,

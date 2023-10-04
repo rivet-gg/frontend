@@ -1,32 +1,12 @@
-import { LitElement, html, PropertyValues } from 'lit';
-import { customElement, property, queryAll } from 'lit/decorators.js';
+import { LitElement, html } from 'lit';
+import { customElement, property } from 'lit/decorators.js';
 import { cssify } from '../../utils/css';
 import styles from './dev-game-sidebar.scss';
 import routes from '../../routes';
-import * as uuid from 'uuid';
-import { when } from 'lit/directives/when.js';
 import * as cloud from '@rivet-gg/cloud';
-import utils from '../../utils/utils';
-import { versionForId } from '../../utils/dev';
-import { classMap } from 'lit/directives/class-map.js';
 import global from '../../utils/global';
-import UIRouter from '../root/ui-router';
-import logging from '../../utils/logging';
-import settings from '../../utils/settings';
-import { showAlert, tooltip } from '../../ui/helpers';
-import assets from '../../data/assets';
-import timing, { Debounce } from '../../utils/timing';
+import { Debounce } from '../../utils/timing';
 import { TraversableErrors, VALIDATION_ERRORS } from '../../utils/traversable-errors';
-import { InputUpdateEvent } from './text-input';
-import { globalEventGroups } from '../../utils/global-events';
-import { DropDownSelectEvent, DropDownSelection } from './drop-down-list';
-import { repeat } from 'lit/directives/repeat.js';
-import { Orientation } from '../common/overlay-positioning';
-
-interface VersionFolder {
-	versions: cloud.VersionSummary[];
-	open: boolean;
-}
 
 @customElement('dev-game-sidebar')
 export default class DevGameSidebar extends LitElement {

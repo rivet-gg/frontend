@@ -1,17 +1,13 @@
 import { customElement, property, query } from 'lit/decorators.js';
 import { LitElement, html, PropertyValues, TemplateResult } from 'lit';
 import { cssify } from '../../../utils/css';
-import { classMap } from 'lit/directives/class-map.js';
 import styles from './game.scss';
-import routes, { responses } from '../../../routes';
-import global from '../../../utils/global';
+import { responses } from '../../../routes';
 import cloud from '@rivet-gg/cloud';
 import * as api from '../../../utils/api';
-import { DropDownSelectEvent, DropDownSelection } from '../../dev/drop-down-list';
 import UIRouter from '../../root/ui-router';
 import { CloudGameCache } from '../../../data/cache';
 import logging from '../../../utils/logging';
-import { Orientation } from '../../common/overlay-positioning';
 import { globalEventGroups } from '../../../utils/global-events';
 
 export interface DevGameRootConfig {

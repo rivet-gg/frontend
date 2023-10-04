@@ -1,6 +1,5 @@
 import { LitElement, html, PropertyValues } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { styleMap } from 'lit/directives/style-map.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { when } from 'lit/directives/when.js';
 import { cssify } from '../../utils/css';
@@ -10,7 +9,6 @@ import * as api from '../../utils/api';
 import cloud from '@rivet-gg/cloud';
 import global from '../../utils/global';
 import logging from '../../utils/logging';
-import { identityRouteData } from '../../data/identity';
 import routes from '../../routes';
 import { globalEventGroups } from '../../utils/global-events';
 import UIRoot from '../root/ui-root';

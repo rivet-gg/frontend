@@ -20,7 +20,6 @@ import { DropDownSelectEvent, DropDownSelection } from '../dev/drop-down-list';
 import timing, { Debounce } from '../../utils/timing';
 import utils from '../../utils/utils';
 import { InputUpdateEvent } from '../dev/text-input';
-import { ls } from '../../utils/cache';
 import { ColorExtractor } from '../../utils/colors';
 import { repeat } from 'lit/directives/repeat.js';
 import { TraversableErrors, VALIDATION_ERRORS } from '../../utils/traversable-errors';

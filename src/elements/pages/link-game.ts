@@ -3,13 +3,10 @@ import config from '../../config';
 import { customElement, property } from 'lit/decorators.js';
 import { cssify } from '../../utils/css';
 import styles from './link-game.scss';
-import { when } from 'lit/directives/when.js';
 import { classMap } from 'lit/directives/class-map.js';
-import { global, GlobalStatus } from '../../utils/global';
+import { global } from '../../utils/global';
 import routes, { responses } from '../../routes';
 
-import { globalEventGroups, GlobalStatusChangeEvent } from '../../utils/global-events';
-import UIRouter from '../root/ui-router';
 import settings from '../../utils/settings';
 import * as api from '../../utils/api';
 import { showAlert, tooltip } from '../../ui/helpers';

@@ -5,7 +5,7 @@ import { when } from 'lit/directives/when.js';
 import { repeat } from 'lit/directives/repeat.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { cssify } from '../../utils/css';
-import global, { GlobalStatus } from '../../utils/global';
+import { GlobalStatus } from '../../utils/global';
 import { globalEventGroups, windowEventGroups, GlobalStatusChangeEvent } from '../../utils/global-events';
 import timing from '../../utils/timing';
 import styles from './ui-root.scss';

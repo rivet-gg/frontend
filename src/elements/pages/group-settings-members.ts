@@ -9,7 +9,7 @@ import { cssify } from '../../utils/css';
 import { map } from 'lit/directives/map.js';
 import logging from '../../utils/logging';
 import { globalEventGroups } from '../../utils/global-events';
-import timing, { wait } from '../../utils/timing';
+import timing from '../../utils/timing';
 import { repeat } from 'lit/directives/repeat.js';
 import {
 	showAlert,
