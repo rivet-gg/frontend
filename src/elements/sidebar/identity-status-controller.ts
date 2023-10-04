@@ -56,10 +56,6 @@ export default class IdentityStatusController extends LitElement {
 		globalEventGroups.remove('party-update', this.handlePartyUpdate);
 	}
 
-	updated(changedProperties: PropertyValues) {
-		super.updated(changedProperties);
-	}
-
 	onIdentityChange() {
 		this.requestUpdate();
 	}
