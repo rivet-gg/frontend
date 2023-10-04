@@ -9,7 +9,6 @@ import numbro from 'numbro';
 import routes, { responses } from '../../../routes';
 import { cssify } from '../../../utils/css';
 import utils from '../../../utils/utils';
-import { getRegionEmoji } from '../../../utils/emoji';
 import { DropDownSelectEvent, DropDownSelection } from '../../dev/drop-down-list';
 import { showLobbyContextMenu, tooltip } from '../../../ui/helpers';
 import timing from '../../../utils/timing';
@@ -224,14 +223,10 @@ export default class DevGameLobbies extends LitElement {
 		// Region filter
 		let regionOptions: DropDownSelection<cloud.RegionSummary | string>[] = this.game.availableRegions.map(
 			region => {
-				// Get lobby region emoji, default to DO icon if not provided
-				let regionIcon = getRegionEmoji(region.universalRegion);
-
 				// Region selection
 				let regionTitle = `${region.regionDisplayName}`;
 				return {
-					template: html`<e-svg class="left-icon" preserve src=${regionIcon}></e-svg
-						>${regionTitle}`,
+					template: html`${regionTitle}`,
 					title: regionTitle,
 					value: region
 				};
@@ -382,9 +377,7 @@ export default class DevGameLobbies extends LitElement {
 	}
 
 	renderLobby(l: cloud.AnalyticsLobbySummary, i: number, statusRequired: boolean) {
-		// Get lobby region emoji
 		let regionData = this.game.availableRegions.find(r => r.regionId == l.regionId);
-		let regionIcon = getRegionEmoji(regionData.universalRegion);
 
 		let unregisteredCount = l.totalPlayerCount - l.registeredPlayerCount;
 		let unregisteredCountFormatted = numbro(unregisteredCount).format('0,0');
@@ -407,14 +400,6 @@ export default class DevGameLobbies extends LitElement {
 				visitLogsCb: this.visitLogs.bind(this, l.lobbyId)
 			})}
 		>
-			<td>
-				<e-svg
-					class="region-icon"
-					preserve
-					src=${regionIcon}
-					@mouseenter=${tooltip(tooltipText)}
-				></e-svg>
-			</td>
 			${!l.isReady
 				? html`<td>
 						<e-svg

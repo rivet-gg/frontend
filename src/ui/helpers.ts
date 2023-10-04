@@ -2,7 +2,6 @@ import { html, TemplateResult } from 'lit';
 import UIRoot from '../elements/root/ui-root';
 import { AlertOption } from '../elements/overlay/alert-panel';
 import { ActionSheetItem } from '../elements/overlay/action-sheet';
-import { EmojiItemData } from '../elements/overlay/emoji-picker';
 import * as api from '../utils/api';
 import logging from '../utils/logging';
 import config from '../config';
@@ -105,49 +104,6 @@ export function showAlert(
 ) {
 	// Show alert
 	UIRoot.shared.showAlertPanel({ title, details, options, active: true });
-}
-
-export function showEmojiPicker(anchor: HTMLElement, cb: (item: EmojiItemData) => void) {
-	// Set data
-	UIRoot.shared.openEmojiPicker({
-		contextElement: anchor,
-		cb,
-		active: true
-	});
-
-	// Focus search after render
-	setTimeout(() => {
-		if (UIRoot.shared.emojiPicker) {
-			UIRoot.shared.emojiPicker.focusSearch();
-		}
-	}, 0);
-}
-
-export function showEmojiPickerForInput(anchor: HTMLElement, input: HTMLInputElement | HTMLTextAreaElement) {
-	// Show picker
-	showEmojiPicker(anchor, item => {
-		if (input.selectionStart || input.selectionStart == 0) {
-			// Insert symbol at cursor
-			let startPos = input.selectionStart;
-			let endPos = input.selectionEnd;
-
-			// Get the insert text; if there's two emojis with a given base
-			// ID, then we need to specify the group too
-			let id = item.name;
-			let insertText = `:${id}: `; // We add a space afterwards for simplicity
-
-			// Update the value
-			input.value =
-				input.value.substring(0, startPos) +
-				insertText +
-				input.value.substring(endPos, input.value.length);
-		} else {
-			// Insert symbol at end
-			input.value += item.symbol;
-		}
-
-		input.focus();
-	});
 }
 
 export function showActionSheet(anchor: HTMLElement, options: ActionSheetItem[]) {

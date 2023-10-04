@@ -11,7 +11,6 @@ import { globalEventGroups, windowEventGroups, GlobalStatusChangeEvent } from '.
 import timing from '../../utils/timing';
 import styles from './ui-root.scss';
 import UIRouter, { RouteChangeEvent, RouteTitleChangeEvent } from './ui-router';
-import EmojiPicker, { EmojiItemData, EmojiSelectEvent } from '../overlay/emoji-picker';
 import { AlertOption } from '../overlay/alert-panel';
 import { ActionSheetItem } from '../overlay/action-sheet';
 import { showAlert } from '../../ui/helpers';
@@ -27,12 +26,6 @@ import { Breadcrumb } from '../common/navbar';
 
 export const MIN_SWIPE_THRESHOLD = 10;
 const TRANSITION_LENGTH = timing.milliseconds(200); // Match with consts.scss/$transition-length
-
-interface EmojiPickerData {
-	contextElement: HTMLElement;
-	cb: (item: EmojiItemData) => void;
-	active: boolean;
-}
 
 export interface AlertPanelData {
 	title: string;
@@ -86,18 +79,12 @@ export default class UIRoot extends LitElement {
 	@query('ui-router')
 	router: UIRouter;
 
-	@query('emoji-picker')
-	emojiPicker: EmojiPicker;
-
 	@query('register-panel')
 	registerPanel: RegisterPanel;
 
 	// === DATA ==
 	@property({ type: Number })
 	globalStatus: GlobalStatus = GlobalStatus.Loading;
-
-	@property({ type: Object })
-	emojiPickerData: EmojiPickerData = { contextElement: null, cb: null, active: false };
 
 	@property({ type: Object })
 	alertPanelData: AlertPanelData = { title: '', details: null, options: [], active: false };
@@ -206,15 +193,6 @@ export default class UIRoot extends LitElement {
 	}
 
 	// === STATE MANAGEMENT ===
-	public openEmojiPicker(data: EmojiPickerData) {
-		this.emojiPickerData = data;
-	}
-
-	public closeEmojiPicker() {
-		this.emojiPickerData.active = false;
-		this.requestUpdate('emojiPickerData');
-	}
-
 	public showAlertPanel(data?: AlertPanelData) {
 		this.alertPanelData = data;
 	}
@@ -292,8 +270,7 @@ export default class UIRoot extends LitElement {
 		this.windowSize.height = window.innerHeight;
 		this.requestUpdate('windowSize');
 
-		// Turn off the emoji picker, tooltip, and context menu on resize
-		this.closeEmojiPicker();
+		// Turn off the tooltip and context menu on resize
 		this.hideContextMenu();
 		this.hideActionSheet();
 		this.hideTooltip();
@@ -309,16 +286,6 @@ export default class UIRoot extends LitElement {
 				this.hideAlertPanel();
 			}
 		}
-	}
-
-	onEmojiSelect(event: EmojiSelectEvent) {
-		if (!this.emojiPickerData) return;
-
-		// Call callback
-		this.emojiPickerData.cb(event.item);
-
-		// Hide picker
-		this.emojiPickerData.active = false;
 	}
 
 	onRouteChange(event: RouteChangeEvent) {
@@ -502,18 +469,6 @@ export default class UIRoot extends LitElement {
 			</div>
 
 			<nav-bar .routeTitle=${this.routeTitle} .breadcrumbs=${this.breadcrumb}></nav-bar>
-
-			<!-- Interactable Overlays -->
-			<overlay-positioning
-				.active=${this.emojiPickerData.active}
-				.contextElement=${this.emojiPickerData.contextElement}
-				.orientation=${Orientation.BottomCenter}
-				@close=${this.closeEmojiPicker.bind(this)}
-				scale-animation
-				offset-y="-5"
-			>
-				<emoji-picker @select=${this.onEmojiSelect.bind(this)}></emoji-picker>
-			</overlay-positioning>
 
 			<!-- Register overlay -->
 			<drop-down-modal .active=${this.registerPanelActive} @close=${this.closeRegisterPanel.bind(this)}>

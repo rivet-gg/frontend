@@ -9,7 +9,6 @@ import routes, { responses } from '../../../routes';
 import { cssify } from '../../../utils/css';
 import utils from '../../../utils/utils';
 import timing from '../../../utils/timing';
-import { getRegionEmoji } from '../../../utils/emoji';
 import { formatExitCodeMessage } from '../../../utils/error-signals';
 import * as api from '../../../utils/api';
 
@@ -426,9 +425,7 @@ export default class DevGameLogs extends LitElement {
 			failed: !!lobby.status.stopped && lobby.status.stopped.failed
 		});
 
-		// Get lobby region emoji
 		let regionData = this.game.availableRegions.find(r => r.regionId == lobby.regionId) ?? UNKNOWN_REGION;
-		let regionIcon = getRegionEmoji(regionData.universalRegion);
 
 		return html`
 			<div id="log" class="bordered-area">
@@ -437,7 +434,6 @@ export default class DevGameLogs extends LitElement {
 						<div class="content-header-left">
 							<h2 class="content-header-title">${lobby.lobbyGroupNameId}</h2>
 							<h3 id="log-region">
-								<e-svg class="region-icon" preserve src=${regionIcon}></e-svg>
 								${regionData.regionDisplayName}
 							</h3>
 							${when(

@@ -18,7 +18,6 @@ import { globalEventGroups } from '../../../utils/global-events';
 import UIRouter from '../../root/ui-router';
 import moment from 'moment';
 import { Orientation } from '../../common/overlay-positioning';
-import { getRegionEmoji } from '../../../utils/emoji';
 import numbro from 'numbro';
 import { GroupProfileCache } from '../../../data/cache';
 
@@ -563,15 +562,12 @@ export default class DevGameBilling extends LitElement {
 					lobbyGroup.metrics,
 					rt => rt.regionId,
 					regionTier => {
-						// Get lobby region emoji
 						let regionData = this.billing.availableRegions.find(
 							r => r.regionId == regionTier.regionId
 						);
-						let regionIcon = getRegionEmoji(regionData.universalRegion);
 
 						return html`
 							<div class="cell region-name">
-								<e-svg class="region-icon" preserve src=${regionIcon}></e-svg>
 								<h2>${regionData.regionDisplayName}</h2>
 							</div>
 							<div class="cell tier-name">
