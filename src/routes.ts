@@ -115,9 +115,9 @@ namespace routes {
 				title: 'Settings',
 				breadcrumb: { type: 'GroupSettings', groupId: groupId, title: tab },
 				template: renderPageGroupSettings(groupId, {
-					general: tab === 'general' || tab === undefined,
-					members: tab === 'members',
-					billing: tab === 'billing'
+					general: tab.toLowerCase() === 'general' || tab === undefined,
+					members: tab.toLowerCase() === 'members',
+					billing: tab.toLowerCase() === 'billing'
 				})
 			};
 		}
