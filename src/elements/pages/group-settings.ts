@@ -70,7 +70,7 @@ export default class GroupSettings extends LitElement {
 					},
 					{
 						id: 'members',
-						icon: 'solid/user',
+						icon: 'light/user-group',
 						title: 'Members'
 					},
 					{

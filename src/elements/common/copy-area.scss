@@ -17,6 +17,8 @@
 	flex-direction: row;
 	align-items: flex-start;
 
+	width: 12rem;
+
 	padding: 6px 6px 6px 12px;
 	border-radius: 3px;
 	box-sizing: border-box;
@@ -98,7 +100,7 @@
 	#result {
 		position: absolute;
 		top: 8px;
-		right: 42px;
+		right: 48px;
 		padding: 5px 10px;
 		border-radius: 3px;
 		background: #808080;
@@ -107,5 +109,7 @@
 		box-shadow: 0 1px 9px rgba(0, 0, 0, 0.25);
 
 		animation: fade-out consts.$transition-length 1s forwards;
+
+		white-space: nowrap;
 	}
 }

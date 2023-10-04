@@ -108,7 +108,7 @@ export default class DevGameSidebar extends LitElement {
 						gameId: this.game.gameId,
 						namespaceId: this.namespaceId
 					})}
-					icon="solid/table-rows"
+					icon="light/server"
 					>Lobbies</rvt-sidebar-button
 				>
 

@@ -75,19 +75,21 @@ export default class CopyArea extends LitElement {
 
 		return html`
 			<div id="base" class=${baseClasses}>
-				<span id="content" class=${classes} @click=${this.toggleHidden.bind(this)}>
-					<slot></slot>
-					${this.isConfidential ? html`<span id="hidden">Click to reveal</span>` : null}
-				</span>
-				<icon-button
-					id="copy-button"
-					color=${this.light ? '#252525' : '#737373'}
-					highlight-color=${this.light ? '#18181b' : '#ffffff'}
-					src="solid/copy"
-					.trigger=${this.copyText.bind(this)}
-				></icon-button>
+				<div class="flex flex-row align-middle ml-auto my-auto">
+					<span id="content" class=${classes} @click=${this.toggleHidden.bind(this)}>
+						<slot></slot>
+						${this.isConfidential ? html`<span id="hidden">Click to reveal</span>` : null}
+					</span>
+					<icon-button
+						id="copy-button"
+						color=${this.light ? '#252525' : '#737373'}
+						highlight-color=${this.light ? '#18181b' : '#ffffff'}
+						src="solid/copy"
+						.trigger=${this.copyText.bind(this)}
+					></icon-button>
 
-				${this.result ? html`<div id="result">${this.result}</div>` : null}
+					${this.result ? html`<div id="result">${this.result}</div>` : null}
+				</div>
 			</div>
 		`;
 	}

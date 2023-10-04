@@ -16,13 +16,6 @@ import global from '../../../utils/global';
 import { InputUpdateEvent } from '../../dev/text-input';
 import { TraversableErrors, VALIDATION_ERRORS } from '../../../utils/traversable-errors';
 import timing, { Debounce } from '../../../utils/timing';
-import { FileInput, PrepareResponse } from '../../common/file-uploader';
-import fileSize from '../../../utils/files';
-
-enum UploadType {
-	Logo,
-	Banner
-}
 
 @customElement('game-overview')
 export default class DevGameOverview extends LitElement {
@@ -128,56 +121,6 @@ export default class DevGameOverview extends LitElement {
 			});
 		} catch (err) {
 			logging.error('failed to fetch game data', err);
-		}
-	}
-
-	async prepareUpload(type: UploadType, files: FileInput[]): Promise<PrepareResponse> {
-		let imageFile = files[0];
-		if (!imageFile) {
-			logging.warn('no image file provided');
-			return null;
-		}
-
-		// Prepare the upload
-		let createRes;
-		if (type == UploadType.Logo) {
-			createRes = await global.cloud.gameLogoUploadPrepare({
-				gameId: this.game.gameId,
-				path: imageFile.prepared.path,
-				mime: imageFile.prepared.contentType,
-				contentLength: imageFile.prepared.contentLength
-			});
-		} else if (type == UploadType.Banner) {
-			createRes = await global.cloud.gameBannerUploadPrepare({
-				gameId: this.game.gameId,
-				path: imageFile.prepared.path,
-				mime: imageFile.prepared.contentType,
-				contentLength: imageFile.prepared.contentLength
-			});
-		}
-
-		return {
-			uploadId: createRes.uploadId,
-			files: [
-				{
-					presignedRequest: createRes.presignedRequest,
-					input: imageFile
-				}
-			]
-		};
-	}
-
-	async completeUpload(type: UploadType, prepareRes: PrepareResponse) {
-		if (type == UploadType.Logo) {
-			await global.cloud.gameLogoUploadComplete({
-				gameId: this.game.gameId,
-				uploadId: prepareRes.uploadId
-			});
-		} else if (type == UploadType.Banner) {
-			await global.cloud.gameBannerUploadComplete({
-				gameId: this.game.gameId,
-				uploadId: prepareRes.uploadId
-			});
 		}
 	}
 
@@ -302,23 +245,6 @@ export default class DevGameOverview extends LitElement {
 		}
 	}
 
-	async createCloudToken() {
-		let createRes = await global.cloud.createCloudToken({ gameId: this.game.gameId });
-
-		showAlert(
-			'Cloud Token Creation',
-			html`
-				<span
-					>Copy this token to your clipboard. You will not be able to access this token again.</span
-				>
-				<br />
-				<copy-area light confidential>
-					<code class="no-ligatures thick">${createRes.token}</code>
-				</copy-area>
-			`
-		);
-	}
-
 	renderNamespaceList(game: cloud.GameFull): TemplateResult {
 		if (!game.namespaces) return html`<h1>No namespaces found</h1>`;
 		return html`
@@ -365,50 +291,6 @@ export default class DevGameOverview extends LitElement {
 				>
 					<h4 class="m-auto italic text-gray-300 text-lg">Coming Soon...</h4>
 				</div>
-				<!-- <div>
-					<stylized-button
-						class="w-full"
-						centered
-						large
-						id="create-token-button"
-						icon="solid/key"
-						.trigger=${this.createCloudToken.bind(this)}
-						>Create Cloud Token</stylized-button
-					>
-				</div>
-				<div class="pt-2 p-px border-white/10 border-b-[1px]"></div>
-				<div id="input-area" class="space-y-5">
-					<h3 class="text-lg py-2">Logo</h3>
-					<file-uploader
-						id="logo-input"
-						max-size=${fileSize.megabytes(5)}
-						.accept=${'image/png, image/jpeg'}
-						.allowed=${/\.(png|jpe?g)$/i}
-						.prepareUpload=${this.prepareUpload.bind(this, UploadType.Logo)}
-						.completeUpload=${this.completeUpload.bind(this, UploadType.Logo)}
-					>
-						<e-svg slot="icon" src="regular/file-arrow-up"></e-svg>
-						<div slot="content">
-							<p class="file-input-title">Upload Game Logo</p>
-							<p class="file-input-subtitle">Recommended size 512x256 px</p>
-						</div>
-					</file-uploader>
-					<h3 class="text-lg py-2">Banner</h3>
-					<file-uploader
-						id="banner-input"
-						max-size=${fileSize.megabytes(10)}
-						.accept=${'image/png, image/jpeg'}
-						.allowed=${/\.(pn|jpe?)g$/i}
-						.prepareUpload=${this.prepareUpload.bind(this, UploadType.Banner)}
-						.completeUpload=${this.completeUpload.bind(this, UploadType.Banner)}
-					>
-						<e-svg slot="icon" src="regular/file-arrow-up"></e-svg>
-						<div slot="content">
-							<p class="file-input-title">Upload Game Banner</p>
-							<p class="file-input-subtitle">Recommended size 2048x1024 px</p>
-						</div>
-					</file-uploader>
-				</div> -->
 			</div>
 		`;
 	}
