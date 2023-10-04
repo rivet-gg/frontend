@@ -1,17 +1,11 @@
 import { LitElement, html, PropertyValues, TemplateResult } from 'lit';
-import { customElement, property, queryAll } from 'lit/decorators.js';
+import { customElement, property } from 'lit/decorators.js';
 import * as cloud from '@rivet-gg/cloud';
 import global from '../../../utils/global';
 import { responses } from '../../../routes';
 import { cssify } from '../../../utils/css';
 import { map } from 'lit/directives/map.js';
-import { ifDefined } from 'lit/directives/if-defined';
 import { showAlert } from '../../../ui/helpers';
-import logging from '../../../utils/logging';
-import { DropDownSelectEvent, DropDownSelection } from '../../dev/drop-down-list';
-import utils from '../../../utils/utils';
-import timing, { Debounce } from '../../../utils/timing';
-import { TraversableErrors, VALIDATION_ERRORS } from '../../../utils/traversable-errors';
 
 interface Token {
 	name: string;
@@ -19,17 +13,6 @@ interface Token {
 	description: string;
 	renderFunction?: any;
 }
-
-const PORT_PROTOCOLS: DropDownSelection<cloud.ProxyProtocol>[] = [
-	{
-		label: 'HTTP',
-		value: cloud.ProxyProtocol.HTTP
-	},
-	{
-		label: 'HTTPS',
-		value: cloud.ProxyProtocol.HTTPS
-	}
-];
 
 @customElement('page-dev-game-settings-tokens')
 export default class DevGameSettingsTokens extends LitElement {

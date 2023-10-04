@@ -9,7 +9,6 @@ import UIRouter from '../../root/ui-router';
 import { CloudGameCache } from '../../../data/cache';
 import logging from '../../../utils/logging';
 import { globalEventGroups } from '../../../utils/global-events';
-import { when } from 'lit/directives/when.js';
 import { map } from 'lit/directives/map.js';
 
 interface TabGroup {

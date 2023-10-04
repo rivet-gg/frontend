@@ -1,9 +1,7 @@
 import logging from './logging';
-import { COLORS } from './colors';
 import config from '../config';
 import * as uuid from 'uuid';
 import timing from './timing';
-import * as api from '../utils/api';
 import numbro from 'numbro';
 
 export type EnumData<T, C> = { t: T; c: C };

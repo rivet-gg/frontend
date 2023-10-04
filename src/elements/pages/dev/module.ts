@@ -1,7 +1,6 @@
 import './device-link';
 import './game-banner';
 import './game-billing';
-import './game-builds';
 import './game-kv';
 import './game-lobbies';
 import './game-logs';
@@ -12,7 +11,6 @@ import './game-settings';
 import './game-settings-general';
 import './game-settings-tokens';
 import './game-settings-billing';
-import './game-sites';
 import './game-tokens';
 import './game-version-draft';
 import './game-version';

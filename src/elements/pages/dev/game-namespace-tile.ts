@@ -1,14 +1,12 @@
-import { LitElement, TemplateResult, html } from 'lit';
+import { LitElement, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import styles from './game-banner.scss';
 import * as cloud from '@rivet-gg/cloud';
 import { cssify } from '../../../utils/css';
-import assets from '../../../data/assets';
 import routes from '../../../routes';
 
 @customElement('game-namespace-tile')
 export default class GameNamespaceTile extends LitElement {
-	static styles = cssify(styles);
+	static styles = cssify();
 
 	@property({ type: String })
 	gameId: string;

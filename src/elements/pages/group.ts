@@ -3,7 +3,7 @@ import { html, LitElement, PropertyValues } from 'lit';
 import { when } from 'lit/directives/when.js';
 import { styleMap } from 'lit/directives/style-map.js';
 import { cssify } from '../../utils/css';
-import styles from './groups.scss';
+import styles from './group.scss';
 import routes, { responses } from '../../routes';
 import global from '../../utils/global';
 import cloud from '@rivet-gg/cloud';

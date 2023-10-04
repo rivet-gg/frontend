@@ -1,7 +1,6 @@
 import { customElement, property } from 'lit/decorators.js';
 import { LitElement, html, PropertyValues, TemplateResult } from 'lit';
 import { cssify } from '../../utils/css';
-import styles from './game.scss';
 import routes, { responses } from '../../routes';
 import group from '@rivet-gg/group';
 import * as api from '../../utils/api';
@@ -34,7 +33,7 @@ export interface GroupSettingsRootConfig {
 
 @customElement('page-group-settings')
 export default class GroupSettings extends LitElement {
-	static styles = cssify(styles);
+	static styles = cssify();
 
 	@property({ type: String })
 	tabId: string = null;

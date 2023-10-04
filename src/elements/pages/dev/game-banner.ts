@@ -1,6 +1,5 @@
 import { LitElement, TemplateResult, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import styles from './game-banner.scss';
 import * as api from '../../../utils/api';
 import * as cloud from '@rivet-gg/cloud';
 import { cssify } from '../../../utils/css';
@@ -9,7 +8,7 @@ import routes from '../../../routes';
 
 @customElement('game-banner')
 export default class DevGameBanner extends LitElement {
-	static styles = cssify(styles);
+	static styles = cssify();
 
 	@property({ type: Object })
 	game: cloud.GameFull;
