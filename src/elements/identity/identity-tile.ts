@@ -17,9 +17,6 @@ export default class IdentityTile extends LitElement {
 	@property({ type: Object })
 	identity: api.identity.IdentityHandle;
 
-	@property({ type: Object })
-	partyState: api.party.PartyMemberState;
-
 	@property({ type: Boolean, attribute: 'offline-opacity' })
 	offlineOpacity = false;
 
@@ -76,32 +73,7 @@ export default class IdentityTile extends LitElement {
 					.hideStatus=${this.hideStatus /*  */}
 					.identity=${this.identity}
 				></identity-avatar>
-				<div id="spaced">
-					<div id="content">
-						<identity-name .identity=${this.identity} no-link></identity-name>
-						${this.partyState
-							? this.renderPartyState()
-							: this.identity.presence && !this.hidePresence
-							? html`<h2 id="activity">
-									${utils.formatActivity(this.identity.presence, this.identity.party)}
-							  </h2>`
-							: null}
-					</div>
-					<slot name="right"></slot>
-				</div>
 			</div>
 		`;
-	}
-
-	renderPartyState() {
-		if (this.partyState.matchmakerReady) {
-			return html`<h2 id="activity">Ready</h2>`;
-		} else if (this.partyState.matchmakerFindingLobby) {
-			return html`<h2 id="activity">Matching...</h2>`;
-		} else if (this.partyState.matchmakerLobby) {
-			return html`<h2 id="activity">In Game</h2>`;
-		}
-
-		return null;
 	}
 }

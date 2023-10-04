@@ -494,23 +494,6 @@ const utils = {
 			.map(a => a[0]);
 	},
 
-	formatActivity(
-		presence: api.identity.IdentityPresence,
-		party?: api.party.PartyHandle | api.party.PartySummary
-	): string {
-		if (presence.gameActivity) {
-			if (party) {
-				return `Playing ${presence.gameActivity.game.displayName} with party`;
-			} else {
-				return `Playing ${presence.gameActivity.game.displayName}`;
-			}
-		} else if (party) {
-			return `In party`;
-		} else {
-			return null;
-		}
-	},
-
 	// Format a list of strings
 	formatList(items: string[], truncationLength = 0, andSymbol = 'and') {
 		// Render list of identities

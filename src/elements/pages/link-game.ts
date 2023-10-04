@@ -349,10 +349,6 @@ export default class LinkGamePage extends LitElement {
 						<h4>Groups</h4>
 					</div>
 					<div class="service">
-						<e-svg non-icon preserve src="products2/party-duotone"></e-svg>
-						<h4>Parties</h4>
-					</div>
-					<div class="service">
 						<e-svg non-icon preserve src="products2/chat-duotone"></e-svg>
 						<h4>Chat</h4>
 					</div>

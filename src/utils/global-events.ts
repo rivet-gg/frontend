@@ -261,7 +261,6 @@ export type GlobalStatusChangeEvent = GlobalChangeEvent<GlobalStatus>;
 export type ThreadReadEvent = GlobalChangeEvent<string>;
 export type ThreadUpdateEvent = GlobalChangeEvent<api.identity.ChatThread[]>;
 export type IdentityChangeEvent = GlobalChangeEvent<api.identity.IdentityProfile>;
-export type PartyUpdateEvent = GlobalChangeEvent<api.identity.PartySummary>;
 export type GlobalResizeEvent = GlobalChangeEvent<WindowSize>;
 export type RecentFollowersUpdateEvent = GlobalChangeEvent<void>;
 export type ErrorEvent = GlobalChangeEvent<any>;

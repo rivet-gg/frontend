@@ -349,8 +349,6 @@ export default class GroupSettingsMembers extends LitElement {
 		let action = event.action;
 
 		if (action.applyForGroup) this.applyForGroup();
-		// else if (action.openEditModal) this.openEditModal();
-		// else if (action.inviteToParty) this.inviteToParty();
 		else if (action.kickMember) this.kickMember(action.kickMember.identityId);
 		else if (action.banIdentity) this.banIdentity(action.banIdentity.identityId);
 		else if (action.unbanIdentity) this.unbanIdentity(action.unbanIdentity.identityId);
@@ -360,7 +358,6 @@ export default class GroupSettingsMembers extends LitElement {
 				action.resolveJoinRequest.identityId,
 				action.resolveJoinRequest.resolution
 			);
-			// } else if (action.transferGroupOwnership) this.transferOwnershipModal();
 		} else if (action.openCreateInviteModal) this.openCreateInviteModal();
 	}
 

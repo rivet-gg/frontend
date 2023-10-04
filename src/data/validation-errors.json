@@ -67,10 +67,6 @@
 						"max-players-direct": {
 							"too-low": "Direct player count cannot be below 0",
 							"too-high": "Direct player count cannot be above 32"
-						},
-						"max-players-party": {
-							"too-low": "Party player count cannot be below 0",
-							"too-high": "Party player count cannot be above 32"
 						}
 					},
 					"no-regions": "No regions selected",

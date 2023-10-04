@@ -68,19 +68,9 @@ export class GlobalState {
 
 	/// Data for the current signed in identity.
 	currentIdentity: api.identity.IdentityProfile;
-	/// Data for the current active party.
-	currentParty?: api.party.PartySummary;
-
-	/// Recent threads in the sidebar.
-	recentThreads: api.identity.ChatThread[] = [];
 
 	/// A list of recent followers
 	recentFollowers: api.identity.IdentityHandle[] = [];
-
-	/// Thread ID of the current thread.
-	currentThread: string;
-	/// Whether or not the current thread is active (the user is not AFK).
-	currentThreadActive = false;
 
 	status: GlobalStatus = GlobalStatus.Loading;
 

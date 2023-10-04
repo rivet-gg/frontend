@@ -88,41 +88,6 @@ export namespace GroupProfileCache {
 	}
 }
 
-export namespace PartyProfileCache {
-	type Payload = api.party.GetPartyProfileCommandOutput;
-
-	export async function get(partyId: string): Promise<Payload> {
-		return await readCache(['parties', partyId]);
-	}
-
-	export async function set(partyId: string, payload: Payload) {
-		await writeCache(['parties', partyId], payload);
-	}
-
-	// Watches an party endpoint while automatically taking care of reading/writing cache
-	export async function watch(
-		partyId: string,
-		cb: (data: Payload) => void,
-		reqOpts?: api.RepeatingRequestOptions
-	): Promise<api.RepeatingRequest<api.party.GetPartyProfileCommandOutput>> {
-		return await abstractWatch<
-			api.party.GetPartyProfileCommandInput,
-			api.party.GetPartyProfileCommandOutput,
-			Payload
-		>(
-			global.live.party.getPartyProfile.bind(global.live.party),
-			{ partyId },
-			PartyProfileCache.get.bind(PartyProfileCache, partyId),
-			res => {
-				cb(res);
-				PartyProfileCache.set(partyId, res);
-			},
-			cb,
-			reqOpts
-		);
-	}
-}
-
 export namespace CloudGameCache {
 	type Payload = cloud.GetGameByIdCommandOutput;
 

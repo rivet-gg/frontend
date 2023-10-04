@@ -14,7 +14,6 @@ import { tooltip } from '../../ui/helpers';
 
 import numbro from 'numbro';
 import * as api from '../../utils/api';
-import { globalEventGroups, PartyUpdateEvent } from '../../utils/global-events';
 import timing, { wait } from '../../utils/timing';
 
 interface GroupAction {
@@ -54,9 +53,6 @@ export default class GroupSidebar extends LitElement {
 
 	@property({ type: Array })
 	bannedIdentities: api.group.GroupBannedIdentity[] = [];
-
-	// === EVENT HANDLERS ===
-	handlePartyUpdate: (e: PartyUpdateEvent) => void;
 
 	connectedCallback() {
 		super.connectedCallback();
@@ -225,25 +221,6 @@ export default class GroupSidebar extends LitElement {
 					>Create invite</stylized-button
 				>`
 			);
-
-			// if (global.currentParty) {
-			// 	let isLeader = global.currentParty.members.some(
-			// 		member =>
-			// 			member.isLeader && member.identity.identityId == global.currentIdentity.identityId
-			// 	);
-
-			// 	if (isLeader) {
-			// 		actions.push(html`<stylized-button .trigger=${this.inviteToParty.bind(this)}
-			// 			>Send party invite</stylized-button
-			// 		>`);
-			// 	}
-			// } else {
-			// 	actions.push(
-			// 		html`<stylized-button .trigger=${this.inviteToParty.bind(this)}
-			// 			>Create group party</stylized-button
-			// 		>`
-			// 	);
-			// }
 
 			// if (this.profile.isDeveloper) {
 			// 	actions.push(html`<stylized-button
