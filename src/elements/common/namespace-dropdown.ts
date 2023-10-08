@@ -2,7 +2,7 @@ import { html, LitElement, TemplateResult } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { cssify } from '../../utils/css';
 import styles from './namespace-dropdown.scss';
-import cloud from '@rivet-gg/cloud';
+import { Rivet } from '@rivet-gg/api-internal';
 import routes from '../../routes';
 import clsx from 'clsx';
 
@@ -11,10 +11,10 @@ export default class RichEmbed extends LitElement {
 	static styles = cssify(styles);
 
 	@property({ type: Object })
-	game: cloud.GameFull;
+	game: Rivet.cloud.GameFull;
 
 	@property({ type: Object })
-	currentNamespace: cloud.NamespaceSummary;
+	currentNamespace: Rivet.cloud.NamespaceSummary;
 
 	@property({ type: Boolean })
 	expanded: boolean;
@@ -24,22 +24,22 @@ export default class RichEmbed extends LitElement {
 		return this.expanded;
 	}
 
-	renderNamespaceListEntry(namespace: cloud.NamespaceSummary, isCurrent: boolean): TemplateResult {
+	renderNamespaceListEntry(namespace: Rivet.cloud.NamespaceSummary, isCurrent: boolean): TemplateResult {
 		return html`
 			<a
 				class="pt-3 last:pb-3 transition-all first:border-t-[1px] border-zinc-800 first:aria-expanded:border-zinc-600/80 group text-sm text-gray-200 hover:text-white flex flex-row place-content-around"
 				href=${routes.devNamespace.build({
-					gameId: this.game.gameId,
-					namespaceId: namespace.namespaceId
-				})}
+			gameId: this.game.gameId,
+			namespaceId: namespace.namespaceId
+		})}
 				aria-expanded=${this.expanded}
 			>
 				<div class=${clsx(isCurrent ? 'font-bold text-white' : '', 'mr-auto')}>
 					${namespace.displayName}
 				</div>
 				<!-- ${isCurrent
-					? html` <e-svg src="regular/check" class="mb-[2px] h-full" preserve></e-svg> `
-					: html``} -->
+				? html` <e-svg src="regular/check" class="mb-[2px] h-full" preserve></e-svg> `
+				: html``} -->
 			</a>
 		`;
 	}
@@ -85,11 +85,11 @@ export default class RichEmbed extends LitElement {
 						aria-expanded=${this.expanded}
 					>
 						${this.game.namespaces.map(namespace => {
-							return this.renderNamespaceListEntry(
-								namespace,
-								namespace.namespaceId === this.currentNamespace.namespaceId
-							);
-						})}
+			return this.renderNamespaceListEntry(
+				namespace,
+				namespace.namespaceId === this.currentNamespace.namespaceId
+			);
+		})}
 					</ul>
 				</div>
 			</div>

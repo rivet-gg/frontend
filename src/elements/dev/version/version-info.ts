@@ -1,8 +1,8 @@
 import { LitElement, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
+import { Rivet } from "@rivet-gg/api-internal";
 import { cssify } from '../../../utils/css';
 import styles from './version-info.scss';
-import * as cloud from '@rivet-gg/api-internal/api/resources/cloud';
 import { when } from 'lit/directives/when.js';
 import { ToggleSwitchEvent } from '../../common/toggle-switch';
 import CheckBox from '../check-box';
@@ -14,13 +14,13 @@ export default class DevVersionInfo extends LitElement {
 	static styles = cssify(styles);
 
 	@property({ type: Object })
-	game: cloud.GameFull;
+	game: Rivet.cloud.GameFull;
 
 	@property({ type: Object })
-	config: cloud.version.Config;
+	config: Rivet.cloud.version.Config;
 
 	@property({ type: Object })
-	tiers: cloud.RegionTier[] = [];
+	tiers: Rivet.cloud.RegionTier[] = [];
 
 	@property({ type: Boolean })
 	editing: boolean;
@@ -62,11 +62,11 @@ export default class DevVersionInfo extends LitElement {
 					docker: {
 						image: undefined,
 						args: [],
-						networkMode: cloud.version.matchmaker.NetworkMode.Bridge,
+						networkMode: Rivet.cloud.version.matchmaker.NetworkMode.Bridge,
 						ports: {
 							default: {
 								port: 80,
-								protocol: cloud.version.matchmaker.PortProtocol.Https
+								protocol: Rivet.cloud.version.matchmaker.PortProtocol.Https
 							}
 						},
 						env: {
@@ -129,8 +129,8 @@ export default class DevVersionInfo extends LitElement {
 		return html`
 			<div id="base">
 				${!this.editing && this.noServices()
-					? html`<p class="muted">No services enabled for this version.</p>`
-					: null}
+				? html`<p class="muted">No services enabled for this version.</p>`
+				: null}
 				${when(
 					this.editing || this.config.cdn,
 					() =>
@@ -157,7 +157,7 @@ export default class DevVersionInfo extends LitElement {
 						></version-info-matchmaker>`
 				)}
 				${this.editing || this.config.kv
-					? html`<version-info-kv
+				? html`<version-info-kv
 							.game=${this.game}
 							.config=${this.config}
 							.errors=${this.errors.branch('kv')}
@@ -165,9 +165,9 @@ export default class DevVersionInfo extends LitElement {
 							@toggle=${this.toggleKv.bind(this)}
 							@update=${this.updateConfig.bind(this)}
 					  ></version-info-kv>`
-					: null}
+				: null}
 				${this.editing || this.config.identity
-					? html`<version-info-identity
+				? html`<version-info-identity
 							.game=${this.game}
 							.config=${this.config}
 							.errors=${this.errors.branch('identity')}
@@ -175,7 +175,7 @@ export default class DevVersionInfo extends LitElement {
 							@toggle=${this.toggleIdentity.bind(this)}
 							@update=${this.updateConfig.bind(this)}
 					  ></version-info-identity>`
-					: null}
+				: null}
 			</div>
 		`;
 	}

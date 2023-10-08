@@ -47,7 +47,7 @@ export class AuthManager {
 
 	public constructor() {
 		this.auth = new api.auth.AuthService({
-			endpoint: config.API_AUTH_URL,
+			endpoint: config.ORIGIN_API + '/auth',
 			// Force the credentials to be included, since we need to be able to modify cookies here
 			requestHandler: api.requestHandlerMiddleware(null, { credentials: 'include' })
 		});
@@ -137,8 +137,8 @@ export class AuthManager {
 					attempts <= 2
 						? timing.seconds(1)
 						: attempts <= 5
-						? timing.seconds(2.5)
-						: timing.seconds(10)
+							? timing.seconds(2.5)
+							: timing.seconds(10)
 				);
 			}
 		}

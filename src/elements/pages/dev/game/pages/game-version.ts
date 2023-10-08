@@ -5,7 +5,7 @@ import { cssify } from '../../../../../utils/css';
 import styles from './game-version.scss';
 import routes, { responses } from '../../../../../routes';
 import global from '../../../../../utils/global';
-import * as cloud from '@rivet-gg/api-internal/api/resources/cloud';
+import { Rivet } from "@rivet-gg/api-internal";
 import { showAlert } from '../../../../../ui/helpers';
 import settings from '../../../../../utils/settings';
 import UIRouter from '../../../../root/ui-router';
@@ -18,7 +18,7 @@ export default class DevGameNamespace extends LitElement {
 	static styles = cssify(styles);
 
 	@property({ type: Object })
-	game: cloud.GameFull;
+	game: Rivet.cloud.GameFull;
 
 	@property({ type: String })
 	namespaceId: string;
@@ -27,16 +27,16 @@ export default class DevGameNamespace extends LitElement {
 	versionId: string;
 
 	@property({ type: Object })
-	version: cloud.version.Full = null;
+	version: Rivet.cloud.version.Full = null;
 
 	@property({ type: Object })
-	versionHistory: cloud.NamespaceVersion[] = [];
+	versionHistory: Rivet.cloud.NamespaceVersion[] = [];
 
 	@property({ type: Object })
 	loadError?: any;
 
 	@property({ type: Object })
-	tiers: cloud.RegionTier[] = [];
+	tiers: Rivet.cloud.RegionTier[] = [];
 
 	@property({ type: String })
 	namespaceSelection: string = null;
@@ -200,20 +200,20 @@ export default class DevGameNamespace extends LitElement {
 				<h2>Active namespaces</h2>
 				<div id="namespaces">
 					${repeat(
-						this.game.namespaces.filter(n => n.versionId == this.version.versionId),
-						n => n.namespaceId,
-						n =>
-							html` <a
+			this.game.namespaces.filter(n => n.versionId == this.version.versionId),
+			n => n.namespaceId,
+			n =>
+				html` <a
 								class="namespace"
 								href=${routes.devNamespace.build({
-									gameId: this.game.gameId,
-									namespaceId: n.namespaceId
-								})}
+					gameId: this.game.gameId,
+					namespaceId: n.namespaceId
+				})}
 							>
 								<div class="font-semibold">${n.displayName}</div>
 								<e-svg src="solid/arrow-right"></e-svg>
 							</a>`
-					)}
+		)}
 					<div id="deploy-namespace">
 						<div class="font-semibold">Deploy to namespace:</div>
 						<drop-down-list

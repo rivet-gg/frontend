@@ -15,7 +15,7 @@ import { RivetClient } from '@rivet-gg/api-internal';
 import { Fetcher, fetcher } from '@rivet-gg/api-internal/core';
 import { HttpRequest } from '@aws-sdk/protocol-http';
 import { HttpHandlerOptions } from '@aws-sdk/types';
-import { FailedResponse } from '@rivet-gg/api-internal/core/fetcher/APIResponse';
+import { FailedResponse } from '@rivet-gg/api-internal/types/core/fetcher/APIResponse';
 
 // Keep in sync with mobile widths in consts.css
 export enum WindowSize {
@@ -140,23 +140,9 @@ export class GlobalState {
 		};
 
 		// Create live instance.
-		logging.net('Connecting to live...', config.API_PORTAL_URL);
+		logging.net('Connecting to live...', config.ORIGIN_API + '/portal');
 		this.api = new RivetClient({
-			environment: {
-				auth: config.API_AUTH_URL,
-				chat: config.API_CHAT_URL,
-				cloud: config.API_CLOUD_URL,
-				group: config.API_GROUP_URL,
-				identity: config.API_IDENTITY_URL,
-				kv: config.API_KV_URL,
-				party: config.API_PARTY_URL,
-				portal: config.API_PARTY_URL,
-
-				// Unused
-				admin: '',
-				job: '',
-				matchmaker: ''
-			},
+			environment: config.ORIGIN_API,
 			token: async () => (await _global.authManager.fetchToken(true)).token,
 			fetcher: async args => {
 				let response = await fetcher(args);
@@ -183,27 +169,27 @@ export class GlobalState {
 		});
 		this.live = {
 			portal: new api.portal.PortalService({
-				endpoint: config.API_PORTAL_URL,
+				endpoint: config.ORIGIN_API + '/portal',
 				requestHandler: refreshMiddleware()
 			}),
 			identity: new api.identity.IdentityService({
-				endpoint: config.API_IDENTITY_URL,
+				endpoint: config.ORIGIN_API + '/identity',
 				requestHandler: refreshMiddleware()
 			}),
 			group: new api.group.GroupService({
-				endpoint: config.API_GROUP_URL,
+				endpoint: config.ORIGIN_API + '/group',
 				requestHandler: refreshMiddleware()
 			}),
 			chat: new api.chat.ChatService({
-				endpoint: config.API_CHAT_URL,
+				endpoint: config.ORIGIN_API + '/chat',
 				requestHandler: refreshMiddleware()
 			}),
 			kv: new api.kv.KvService({
-				endpoint: config.API_KV_URL,
+				endpoint: config.ORIGIN_API + '/kv',
 				requestHandler: refreshMiddleware()
 			}),
 			party: new api.party.PartyService({
-				endpoint: config.API_PARTY_URL,
+				endpoint: config.ORIGIN_API + '/party',
 				requestHandler: refreshMiddleware()
 			})
 		};
@@ -217,14 +203,14 @@ export class GlobalState {
 			});
 
 		this.auth = new api.auth.AuthService({
-			endpoint: config.API_AUTH_URL,
+			endpoint: config.ORIGIN_API + "/auth",
 			// Force the credentials to be included, since we need to be able to modify cookies here
 			requestHandler: refreshMiddleware({ credentials: 'include' })
 		});
 
 		// Build cloud instance
 		this.cloud = new cloud.CloudService({
-			endpoint: config.API_CLOUD_URL,
+			endpoint: config.ORIGIN_API + "/cloud",
 			tls: true,
 			maxAttempts: 0,
 			requestHandler: refreshMiddleware()

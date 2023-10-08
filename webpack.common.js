@@ -34,7 +34,7 @@ module.exports = async function () {
 
 		RIVET_NAMESPACE: process.env.CF_PAGES_BRANCH,
 
-		BASE_URL: process.env.BASE_URL || 'https://staging.gameinc.io',
+		RIVET_ORIGIN_API: process.env.RIVET_ORIGIN_API || 'https://staging.gameinc.io',
 		ASSETS_URL: process.env.ASSETS_URL
 	};
 	for (let key in envValues) {

@@ -27,7 +27,7 @@ export class OAuthProvider {
 
 	get oauthUrl(): string {
 		let nextUrl = `${window.location.origin}${window.location.pathname}?linked=${this.id}`;
-		return `${config.API_AUTH_URL}/oauth/${encodeURIComponent(this.id)}?next=${encodeURIComponent(
+		return `${config.ORIGIN_API}/auth/oauth/${encodeURIComponent(this.id)}?next=${encodeURIComponent(
 			nextUrl
 		)}`;
 	}

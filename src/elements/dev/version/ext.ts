@@ -1,29 +1,29 @@
-import * as cloud from '@rivet-gg/api-internal/api/resources/cloud';
+import { Rivet } from '@rivet-gg/api-internal';
 
 export interface MatchmakerConfigExt {
-	config: cloud.version.matchmaker.Config;
+	config: Rivet.cloud.version.matchmaker.Config;
 	gameModes: GameModeExt[];
 	docker: GameModeRuntimeDockerExt;
 }
 
 export interface GameModeExt {
 	nameId: string;
-	gameMode: cloud.version.matchmaker.gameMode.GameMode;
+	gameMode: Rivet.cloud.version.matchmaker.gameMode.GameMode;
 	regions: GameModeRegionExt[];
 }
 
 export interface GameModeRegionExt {
 	nameId: string;
-	region: cloud.version.matchmaker.gameMode.GameModeRegion;
+	region: Rivet.cloud.version.matchmaker.gameMode.GameModeRegion;
 }
 
 export interface GameModeRuntimeDockerExt {
-	docker: cloud.version.matchmaker.gameMode.GameModeRuntimeDocker;
+	docker: Rivet.cloud.version.matchmaker.gameMode.GameModeRuntimeDocker;
 	env: { key: string; value: string }[];
 	ports: GameModeRuntimeDockerPortExt[];
 }
 
 export interface GameModeRuntimeDockerPortExt {
 	label: string;
-	port: cloud.version.matchmaker.gameMode.GameModeRuntimeDockerPort;
+	port: Rivet.cloud.version.matchmaker.gameMode.GameModeRuntimeDockerPort;
 }

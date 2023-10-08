@@ -46,7 +46,7 @@ export default class DeveloperDash extends LitElement {
 	render() {
 		return html`
 			${when(
-				global.currentIdentity.groups.find(group => group.group.isDeveloper),
+				(global.currentIdentity.isAdmin) || global.currentIdentity.groups.find(group => group.group.isDeveloper),
 				() => html`
 					<div class="w-full">
 						<user-banner></user-banner>

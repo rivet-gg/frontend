@@ -57,7 +57,7 @@ export default class LinkGamePage extends LitElement {
 		super();
 
 		this.preAuthService = new api.identity.IdentityService({
-			endpoint: config.API_IDENTITY_URL
+			endpoint: config.ORIGIN_API + '/identity'
 		});
 
 		// Automatically advance to "allow" stage if registered

@@ -4,7 +4,7 @@ import { repeat } from 'lit/directives/repeat.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { cssify } from '../../../../../utils/css';
 import styles from './game-version-draft.scss';
-import * as cloud from '@rivet-gg/api-internal/api/resources/cloud';
+import { Rivet } from '@rivet-gg/api-internal';
 import settings from '../../../../../utils/settings';
 import logging from '../../../../../utils/logging';
 import global from '../../../../../utils/global';
@@ -16,13 +16,13 @@ import timing, { Debounce, wait } from '../../../../../utils/timing';
 import { globalEventGroups } from '../../../../../utils/global-events';
 
 export class UpdateConfigEvent extends Event {
-	constructor(public config: cloud.version.Config) {
+	constructor(public config: Rivet.cloud.version.Config) {
 		super('update');
 	}
 }
 
 interface DraftSettings {
-	config?: cloud.version.Config;
+	config?: Rivet.cloud.version.Config;
 	displayName?: string;
 }
 
@@ -31,13 +31,13 @@ export default class DevGameNamespace extends LitElement {
 	static styles = cssify(styles);
 
 	@property({ type: Object })
-	game: cloud.GameFull;
+	game: Rivet.cloud.GameFull;
 
 	@property({ type: String })
 	namespaceId: string;
 
 	@property({ type: Object })
-	tiers: cloud.RegionTier[] = [];
+	tiers: Rivet.cloud.RegionTier[] = [];
 
 	@property({ type: Boolean })
 	isPublishing = false;
@@ -54,7 +54,7 @@ export default class DevGameNamespace extends LitElement {
 	publishNamespaces: Set<string> = new Set();
 
 	nameValue = '';
-	versionConfig: cloud.version.Config;
+	versionConfig: Rivet.cloud.version.Config;
 
 	@property({ type: Boolean })
 	versionIsValid = false;
@@ -127,7 +127,7 @@ export default class DevGameNamespace extends LitElement {
 		}
 	}
 
-	migrateDraft(config: cloud.version.Config) {
+	migrateDraft(config: Rivet.cloud.version.Config) {
 		if (config.cdn) {
 			if (!config.cdn.routes) config.cdn.routes = [];
 		}
@@ -138,7 +138,7 @@ export default class DevGameNamespace extends LitElement {
 		}
 	}
 
-	async saveDraft(config: cloud.version.Config = this.versionConfig) {
+	async saveDraft(config: Rivet.cloud.version.Config = this.versionConfig) {
 		this.versionConfig = config;
 
 		settings.setVersionConfigDraft(
@@ -371,17 +371,16 @@ export default class DevGameNamespace extends LitElement {
 					>
 				</div>
 				${this.publishError || this.validateError
-					? html`<error-list
+				? html`<error-list
 							.errors=${[
-								`${this.publishError ? 'Error publishing' : 'Validation error'}: ${
-									(this.publishError || this.validateError).message
-								}`
-							]}
+						`${this.publishError ? 'Error publishing' : 'Validation error'}: ${(this.publishError || this.validateError).message
+						}`
+					]}
 					  ></error-list>`
-					: null}
+				: null}
 				${displayNameErrors.length
-					? html`<error-list .errors=${displayNameErrors}></error-list>`
-					: null}
+				? html`<error-list .errors=${displayNameErrors}></error-list>`
+				: null}
 				<h1>Version properties</h1>
 				<div id="input-area">
 					<h3>Version Name</h3>
@@ -394,30 +393,30 @@ export default class DevGameNamespace extends LitElement {
 				</div>
 
 				${this.game.namespaces.length
-					? html` <h1 id="namespace-title">Initiate namespaces</h1>
+				? html` <h1 id="namespace-title">Initiate namespaces</h1>
 							<i id="namespace-subtitle">You can change this later</i>
 							<div id="namespaces">
 								${repeat(
-									this.game.namespaces,
-									n => n.namespaceId,
-									n => {
-										let selected = this.publishNamespaces.has(n.namespaceId);
-										let classes = classMap({
-											namespace: true,
-											selected: selected
-										});
+					this.game.namespaces,
+					n => n.namespaceId,
+					n => {
+						let selected = this.publishNamespaces.has(n.namespaceId);
+						let classes = classMap({
+							namespace: true,
+							selected: selected
+						});
 
-										return html`<div
+						return html`<div
 											class=${classes}
 											@click=${this.toggleNamespace.bind(this, n.namespaceId)}
 										>
 											<h3>${n.displayName}</h3>
 											<check-box ?checked=${selected}></check-box>
 										</div>`;
-									}
-								)}
+					}
+				)}
 							</div>`
-					: null}
+				: null}
 
 				<h1>Services</h1>
 				<dev-version-info
