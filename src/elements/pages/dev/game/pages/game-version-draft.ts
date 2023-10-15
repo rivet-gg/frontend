@@ -371,16 +371,17 @@ export default class DevGameNamespace extends LitElement {
 					>
 				</div>
 				${this.publishError || this.validateError
-				? html`<error-list
+					? html`<error-list
 							.errors=${[
-						`${this.publishError ? 'Error publishing' : 'Validation error'}: ${(this.publishError || this.validateError).message
-						}`
-					]}
+								`${this.publishError ? 'Error publishing' : 'Validation error'}: ${
+									(this.publishError || this.validateError).message
+								}`
+							]}
 					  ></error-list>`
-				: null}
+					: null}
 				${displayNameErrors.length
-				? html`<error-list .errors=${displayNameErrors}></error-list>`
-				: null}
+					? html`<error-list .errors=${displayNameErrors}></error-list>`
+					: null}
 				<h1>Version properties</h1>
 				<div id="input-area">
 					<h3>Version Name</h3>
@@ -393,30 +394,30 @@ export default class DevGameNamespace extends LitElement {
 				</div>
 
 				${this.game.namespaces.length
-				? html` <h1 id="namespace-title">Initiate namespaces</h1>
+					? html` <h1 id="namespace-title">Initiate namespaces</h1>
 							<i id="namespace-subtitle">You can change this later</i>
 							<div id="namespaces">
 								${repeat(
-					this.game.namespaces,
-					n => n.namespaceId,
-					n => {
-						let selected = this.publishNamespaces.has(n.namespaceId);
-						let classes = classMap({
-							namespace: true,
-							selected: selected
-						});
+									this.game.namespaces,
+									n => n.namespaceId,
+									n => {
+										let selected = this.publishNamespaces.has(n.namespaceId);
+										let classes = classMap({
+											namespace: true,
+											selected: selected
+										});
 
-						return html`<div
+										return html`<div
 											class=${classes}
 											@click=${this.toggleNamespace.bind(this, n.namespaceId)}
 										>
 											<h3>${n.displayName}</h3>
 											<check-box ?checked=${selected}></check-box>
 										</div>`;
-					}
-				)}
+									}
+								)}
 							</div>`
-				: null}
+					: null}
 
 				<h1>Services</h1>
 				<dev-version-info

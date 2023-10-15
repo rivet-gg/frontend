@@ -11,24 +11,25 @@ import { DropDownSelectEvent, DropDownSelection } from '../drop-down-list';
 import { SelectBuildEvent } from '../builds';
 import * as ext from './ext';
 
-export const HCAPTCHA_DIFFICULTIES: DropDownSelection<Rivet.cloud.version.matchmaker.CaptchaHcaptchaLevel>[] = [
-	{
-		label: 'Easy',
-		value: Rivet.cloud.version.matchmaker.CaptchaHcaptchaLevel.Easy
-	},
-	{
-		label: 'Moderate',
-		value: Rivet.cloud.version.matchmaker.CaptchaHcaptchaLevel.Moderate
-	},
-	{
-		label: 'Difficult',
-		value: Rivet.cloud.version.matchmaker.CaptchaHcaptchaLevel.Difficult
-	},
-	{
-		label: 'Always On',
-		value: Rivet.cloud.version.matchmaker.CaptchaHcaptchaLevel.AlwaysOn
-	}
-];
+export const HCAPTCHA_DIFFICULTIES: DropDownSelection<Rivet.cloud.version.matchmaker.CaptchaHcaptchaLevel>[] =
+	[
+		{
+			label: 'Easy',
+			value: Rivet.cloud.version.matchmaker.CaptchaHcaptchaLevel.Easy
+		},
+		{
+			label: 'Moderate',
+			value: Rivet.cloud.version.matchmaker.CaptchaHcaptchaLevel.Moderate
+		},
+		{
+			label: 'Difficult',
+			value: Rivet.cloud.version.matchmaker.CaptchaHcaptchaLevel.Difficult
+		},
+		{
+			label: 'Always On',
+			value: Rivet.cloud.version.matchmaker.CaptchaHcaptchaLevel.AlwaysOn
+		}
+	];
 
 const PORT_PROTOCOLS: DropDownSelection<Rivet.cloud.version.matchmaker.PortProtocol>[] = [
 	{
@@ -200,7 +201,9 @@ export default class VersionInfoMatchmaker extends LitElement {
 		this.updateConfig();
 	}
 
-	changeHcaptchaDifficulty(event: DropDownSelectEvent<Rivet.cloud.version.matchmaker.CaptchaHcaptchaLevel>) {
+	changeHcaptchaDifficulty(
+		event: DropDownSelectEvent<Rivet.cloud.version.matchmaker.CaptchaHcaptchaLevel>
+	) {
 		this.configExt.config.captcha.hcaptcha.level = event.selection.value;
 
 		this.updateConfig();
@@ -358,7 +361,8 @@ export default class VersionInfoMatchmaker extends LitElement {
 	updatePortProtocol(idx: number, event: DropDownSelectEvent<Rivet.cloud.version.matchmaker.PortProtocol>) {
 		// Switch from target port to port range and vice versa
 		if (
-			this.dockerRuntimeExt.ports[idx].port.protocol != Rivet.cloud.version.matchmaker.PortProtocol.Udp &&
+			this.dockerRuntimeExt.ports[idx].port.protocol !=
+				Rivet.cloud.version.matchmaker.PortProtocol.Udp &&
 			event.selection.value == Rivet.cloud.version.matchmaker.PortProtocol.Udp
 		) {
 			this.dockerRuntimeExt.ports[idx].port.port = undefined;
@@ -367,7 +371,8 @@ export default class VersionInfoMatchmaker extends LitElement {
 				max: MAX_HOST_PORT
 			};
 		} else if (
-			this.dockerRuntimeExt.ports[idx].port.protocol == Rivet.cloud.version.matchmaker.PortProtocol.Udp &&
+			this.dockerRuntimeExt.ports[idx].port.protocol ==
+				Rivet.cloud.version.matchmaker.PortProtocol.Udp &&
 			event.selection.value != Rivet.cloud.version.matchmaker.PortProtocol.Udp
 		) {
 			this.dockerRuntimeExt.ports[idx].port.port = 80;

@@ -16,7 +16,7 @@ const config = {
 	ORIGIN_API: RIVET_ORIGIN_API as string,
 	ASSETS_URL: ENV_ASSETS_URL as string,
 
-	MEDIA_URL: RIVET_ORIGIN_API + "/media",
+	MEDIA_URL: RIVET_ORIGIN_API + '/media',
 
 	API_AUTH_URL: modifyBaseUrl(RIVET_ORIGIN_API, 'auth.', '/v1'),
 	API_PORTAL_URL: modifyBaseUrl(RIVET_ORIGIN_API, 'portal.', '/v1'),

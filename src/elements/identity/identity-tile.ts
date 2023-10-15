@@ -57,10 +57,7 @@ export default class IdentityTile extends LitElement {
 				class=${classes}
 				@contextmenu=${this.noContextMenu ? null : showIdentityContextMenu(this.identity)}
 			>
-				<identity-avatar
-					.link=${!this.noLink}
-					.identity=${this.identity}
-				></identity-avatar>
+				<identity-avatar .link=${!this.noLink} .identity=${this.identity}></identity-avatar>
 				<div id="spaced">
 					<div id="content">
 						<identity-name .identity=${this.identity} no-link></identity-name>

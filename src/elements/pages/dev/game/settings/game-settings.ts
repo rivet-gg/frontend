@@ -172,11 +172,11 @@ export default class DevGameSettings extends LitElement {
 			<rvt-sidebar-layout>
 				<rvt-sidebar slot="sidebar">
 					${map(
-			this.tabs,
-			group => html`
+						this.tabs,
+						group => html`
 							<rvt-sidebar-group .title=${group.title}>
 								${map(group.items, p => {
-				return html`<rvt-sidebar-button
+									return html`<rvt-sidebar-button
 										?current=${p.id == this.tabId}
 										.href=${p.url}
 										.target=${p.notHub ? '_blank' : null}
@@ -184,10 +184,10 @@ export default class DevGameSettings extends LitElement {
 										.icon=${p.icon}
 										>${p.title}</rvt-sidebar-button
 									>`;
-			})}
+								})}
 							</rvt-sidebar-group>
 						`
-		)}
+					)}
 				</rvt-sidebar>
 				<rvt-sidebar-body id="body" slot="body">${body}</rvt-sidebar-body>
 			</rvt-sidebar-layout>

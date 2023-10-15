@@ -5,7 +5,7 @@ import { cssify } from '../../../../../utils/css';
 import styles from './game-version.scss';
 import routes, { responses } from '../../../../../routes';
 import global from '../../../../../utils/global';
-import { Rivet } from "@rivet-gg/api-internal";
+import { Rivet } from '@rivet-gg/api-internal';
 import { showAlert } from '../../../../../ui/helpers';
 import settings from '../../../../../utils/settings';
 import UIRouter from '../../../../root/ui-router';
@@ -200,20 +200,20 @@ export default class DevGameNamespace extends LitElement {
 				<h2>Active namespaces</h2>
 				<div id="namespaces">
 					${repeat(
-			this.game.namespaces.filter(n => n.versionId == this.version.versionId),
-			n => n.namespaceId,
-			n =>
-				html` <a
+						this.game.namespaces.filter(n => n.versionId == this.version.versionId),
+						n => n.namespaceId,
+						n =>
+							html` <a
 								class="namespace"
 								href=${routes.devNamespace.build({
-					gameId: this.game.gameId,
-					namespaceId: n.namespaceId
-				})}
+									gameId: this.game.gameId,
+									namespaceId: n.namespaceId
+								})}
 							>
 								<div class="font-semibold">${n.displayName}</div>
 								<e-svg src="solid/arrow-right"></e-svg>
 							</a>`
-		)}
+					)}
 					<div id="deploy-namespace">
 						<div class="font-semibold">Deploy to namespace:</div>
 						<drop-down-list

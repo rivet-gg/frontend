@@ -3,18 +3,18 @@ import { LitElement, html, TemplateResult, PropertyValues } from 'lit';
 import { repeat } from 'lit/directives/repeat.js';
 import { when } from 'lit/directives/when.js';
 import styles from './settings.scss';
-import { cssify } from '../../utils/css';
-import { tooltip, showAlert } from '../../ui/helpers';
-import { globalEventGroups, SettingChangeEvent } from '../../utils/global-events';
-import UIRouter from '../root/ui-router';
-import global from '../../utils/global';
-import routes, { responses } from '../../routes';
+import { cssify } from '../../../../utils/css';
+import { tooltip, showAlert } from '../../../../ui/helpers';
+import { globalEventGroups, SettingChangeEvent } from '../../../../utils/global-events';
+import UIRouter from '../../../root/ui-router';
+import global from '../../../../utils/global';
+import routes, { responses } from '../../../../routes';
 
-import { OAUTH_PROVIDERS } from '../../utils/utils';
-import logging from '../../utils/logging';
-import { ToggleSwitchEvent } from '../common/toggle-switch';
-import UIRoot from '../root/ui-root';
-import { ls } from '../../utils/cache';
+import { OAUTH_PROVIDERS } from '../../../../utils/utils';
+import logging from '../../../../utils/logging';
+import { ToggleSwitchEvent } from '../../../common/toggle-switch';
+import UIRoot from '../../../root/ui-root';
+import { ls } from '../../../../utils/cache';
 import { map } from 'lit/directives/map.js';
 
 interface TabGroup {
@@ -272,9 +272,10 @@ export default class SettingsPage extends LitElement {
 		let isRegistered = global.currentIdentity.isRegistered && !!identity;
 
 		return html`
-			<div class="flex flex-col space-y-8">
-				<div class="padded-cell flex flex-col space-y-1">
-					<h1 class="item-header text-lg">Profile appearance</h1>
+			<div class="flex flex-col space-y-2">
+				<h1 class="text-2xl pb-2">Profile Settings</h1>
+				<div>
+					<h2 class="text-lg pb-2">Profile appearance</h2>
 					<stylized-button
 						icon="solid/user-pen"
 						color="#404040"
@@ -283,61 +284,28 @@ export default class SettingsPage extends LitElement {
 						>Edit profile</stylized-button
 					>
 				</div>
-				<div class="padded-cell flex flex-col space-y-1">
-					<div class="item-header-holder">
-						<h1 class="item-header text-lg py-1">Link Email</h1>
-						${isRegistered
-							? html`<span class="badge bg-green-700 rounded-lg px-3 py-0.5"
-									><e-svg src="solid/check"></e-svg> Registered</span
-							  >`
-							: html`
-									<p class="py-1">Link your email to Rivet for full account access.</p>
-									<stylized-button
-										icon="solid/envelope"
-										color="#404040"
-										text="#eeeeee"
-										.trigger=${() => UIRoot.shared.openRegisterPanel()}
-										>${isRegistered ? 'View registration' : 'Link email'}</stylized-button
-									>
-							  `}
-					</div>
+				<div class="item-header-holder">
+					<h2 class="text-lg py-2">Link Email</h2>
+					${isRegistered
+						? html`<span class="badge bg-green-700 rounded-lg px-3 py-0.5"
+								><e-svg src="solid/check"></e-svg> Registered</span
+						  >`
+						: html`
+								<p class="py-1">Link your email to Rivet for full account access.</p>
+								<stylized-button
+									icon="solid/envelope"
+									color="#404040"
+									text="#eeeeee"
+									.trigger=${() => UIRoot.shared.openRegisterPanel()}
+									>${isRegistered ? 'View registration' : 'Link email'}</stylized-button
+								>
+						  `}
 				</div>
-				<!-- <div class="padded-cell flex flex-col space-y-1">
-					<h1 class="item-header text-lg">Push notifications</h1>
-					<p class="pb-1">
-						Allow Rivet to send your device push notifications for messages while you are away.
-					</p>
-					<toggle-switch
-						?value=${this.settings.pushNotifications}
-						@toggle=${(e: ToggleSwitchEvent) => this.settingChanged('push-notifications', e.value)}
-					></toggle-switch>
-				</div> -->
-				<!-- <div class='spacer'></div>
-				<div class='padded-cell'>
-					<h1 class='item-header'>Email <span class='muted'>******email@gmail.com</span></h1>
-					<stylized-button icon='regular/envelope' color='#404040' text='#eeeeee' .trigger=${unimp}>Change email</stylized-button>
-				</div>
-				<div class='spacer'></div>
-				<div class='padded-cell'>
-					<h1 class='item-header'>Password</h1>
-					<stylized-button icon='regular/key' color='#404040' text='#eeeeee' .trigger=${unimp}>Change password</stylized-button>
-				</div>
-				<div class='spacer'></div>
-				<div class='padded-cell'>
-					<h1 class='item-header'>Two Factor Authentication <span class='twofa-badge'><e-svg src='regular/lock'></e-svg>Enabled</span></h1>
-					<p>Two factor authentication provides an extra layer of security to your Rivet account.</p>
-					<stylized-button icon='regular/lock' color='#404040' text='#eeeeee' .trigger=${unimp}>Remove two factor authentication</stylized-button>
-				</div>
-				<div class='spacer'></div>
-				<div class='padded-cell'>
-					<h1 class='item-header'>Delete account</h1>
-					<stylized-button icon= of'regular/identity-slash' color='#db3939' .trigger=${unimp}>Delete account</stylized-button>
-				</div> -->
 				${when(
 					global.currentIdentity.isRegistered,
-					() =>
-						html` <div class="padded-cell flex flex-col space-y-1">
-							<h1 class="item-header text-lg">Toggle deletion</h1>
+					() => html`
+						<div>
+							<h2 class="text-lg py-2">Toggle deletion</h2>
 							<p class="pb-1">
 								Marks your account for deletion. After 30 days of this switch being on, your
 								Rivet account and all associated game accounts will be
@@ -348,7 +316,8 @@ export default class SettingsPage extends LitElement {
 								@toggle=${(e: ToggleSwitchEvent) =>
 									this.settingChanged('toggle-deletion', e.value)}
 							></toggle-switch>
-						</div>`
+						</div>
+					`
 				)}
 			</div>
 

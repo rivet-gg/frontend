@@ -1,6 +1,6 @@
-@use '../shared/common';
-@use '../shared/utils';
-@use '../shared/consts';
+@use '../../../shared/common';
+@use '../../../shared/utils';
+@use '../../../shared/consts';
 
 // TODO: Simplify the unnecessary styles in this file
 
@@ -375,7 +375,6 @@
 		}
 	}
 }
-
 
 #banner-bg {
 	& > lazy-img {

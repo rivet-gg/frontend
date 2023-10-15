@@ -95,7 +95,7 @@ export default class DevGameOverview extends LitElement {
 
 		if (changedProperties.has('game')) {
 			this.fetchData();
-			this.requestUpdate();
+			// this.requestUpdate();
 		}
 	}
 
@@ -127,14 +127,17 @@ export default class DevGameOverview extends LitElement {
 	openNamespaceModal() {
 		if (this.game.versions.length == 0) {
 			showAlert(
-				'Cannot create namespace',
-				html`You cannot create a namespace before creating a version first.`,
+				'Cannot Create Namespace',
+				html`
+					<p class="text-lg pt-2 font-semibold text-red-500">You cannot create a namespace before creating a version first.</p>
+					<p class="text-lg pt-2">Use the Rivet CLI to create a version for this game.</p>
+				`,
 				[
-					{
-						label: 'Create A Version',
-						cb: () =>
-							UIRouter.shared.navigate(routes.devVersionDraft.build({ gameId: this.gameId }))
-					},
+					// {
+					// 	label: 'Create A Version',
+					// 	cb: () =>
+					// 		UIRouter.shared.navigate(routes.devVersionDraft.build({ gameId: this.gameId }))
+					// },
 					{
 						label: 'Dismiss'
 					}

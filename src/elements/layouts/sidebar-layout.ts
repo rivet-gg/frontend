@@ -13,7 +13,9 @@ export default class Layout extends LitElement {
 		return html`
 			<div>
 				<!-- Sidebar -->
-				<div class="fixed flex w-72 flex-col border-white/10 border-r top-14 max-[850px]:top-0 bottom-0">
+				<div
+					class="fixed flex w-72 flex-col border-white/10 border-r top-14 max-[850px]:top-0 bottom-0"
+				>
 					<div class="min-h-full overflow-y-auto px-6 py-5 w-full h-full">
 						<slot name="sidebar"></slot>
 					</div>

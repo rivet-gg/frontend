@@ -8,7 +8,7 @@ import { RivetError } from '@rivet-gg/api-internal';
 import { isDeveloper } from './utils/identity';
 import { Breadcrumb } from './elements/common/navbar';
 import { GameSettingsRootConfig } from './elements/pages/dev/game/settings/game-settings';
-import { GroupSettingsRootConfig } from './elements/pages/group-settings';
+import { GroupSettingsRootConfig } from './elements/pages/dev/group/settings/group-settings';
 
 export type RenderResult = RenderResultTemplate | RenderResultRedirect;
 
@@ -54,15 +54,16 @@ class Route<P extends RouteParameters, S extends SearchParameters = {}> {
 		let path = this.pathFunction(params);
 
 		// Build URL
-		return `${window.location.origin}${path}${search ? `?${new URLSearchParams(search).toString()}` : ''
-			}`;
+		return `${window.location.origin}${path}${
+			search ? `?${new URLSearchParams(search).toString()}` : ''
+		}`;
 	}
 }
 
 namespace routes {
 	export let home = new Route<{}>({
 		path: '/',
-		render({ }) {
+		render({}) {
 			return {
 				title: 'Home',
 				breadcrumb: { type: 'Home' },
@@ -86,8 +87,9 @@ namespace routes {
 		path: '/developer/:path*',
 		render({ path }, search) {
 			return {
-				redirect: `${window.location.origin}/${path}${search ? `?${new URLSearchParams(search).toString()}` : ''
-					}`
+				redirect: `${window.location.origin}/${path}${
+					search ? `?${new URLSearchParams(search).toString()}` : ''
+				}`
 			};
 		}
 	});

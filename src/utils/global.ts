@@ -203,14 +203,14 @@ export class GlobalState {
 			});
 
 		this.auth = new api.auth.AuthService({
-			endpoint: config.ORIGIN_API + "/auth",
+			endpoint: config.ORIGIN_API + '/auth',
 			// Force the credentials to be included, since we need to be able to modify cookies here
 			requestHandler: refreshMiddleware({ credentials: 'include' })
 		});
 
 		// Build cloud instance
 		this.cloud = new cloud.CloudService({
-			endpoint: config.ORIGIN_API + "/cloud",
+			endpoint: config.ORIGIN_API + '/cloud',
 			tls: true,
 			maxAttempts: 0,
 			requestHandler: refreshMiddleware()
@@ -340,7 +340,6 @@ export class GlobalState {
 					this.setupLiveAttempts <= 3 ? timing.seconds(1) : timing.seconds(5)
 				);
 			});
-
 		});
 	}
 

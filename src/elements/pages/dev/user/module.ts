@@ -1,0 +1,2 @@
+import './consent';
+import './settings';

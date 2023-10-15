@@ -1,15 +1,15 @@
 import { LitElement, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import routes, { responses } from '../../routes';
-import { cssify } from '../../utils/css';
+import routes, { responses } from '../../../../routes';
+import { cssify } from '../../../../utils/css';
 import styles from './group-invite.scss';
 import { classMap } from 'lit/directives/class-map.js';
 import { when } from 'lit/directives/when.js';
-import * as api from '../../utils/api';
+import * as api from '../../../../utils/api';
 
-import global from '../../utils/global';
-import UIRouter from '../root/ui-router';
-import timing, { Debounce } from '../../utils/timing';
+import global from '../../../../utils/global';
+import UIRouter from '../../../root/ui-router';
+import timing, { Debounce } from '../../../../utils/timing';
 
 @customElement('page-group-invite')
 export default class GroupInvitePage extends LitElement {
