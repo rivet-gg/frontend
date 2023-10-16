@@ -1,13 +1,13 @@
 import { customElement, property } from 'lit/decorators.js';
 import { LitElement, html, PropertyValues, TemplateResult } from 'lit';
-import { cssify } from '../../utils/css';
-import routes, { responses } from '../../routes';
+import { cssify } from '../../../../../utils/css';
+import routes, { responses } from '../../../../../routes';
 import group from '@rivet-gg/group';
-import * as api from '../../utils/api';
-import UIRouter from '../root/ui-router';
-import { GroupProfileCache } from '../../data/cache';
-import logging from '../../utils/logging';
-import { globalEventGroups } from '../../utils/global-events';
+import * as api from '../../../../../utils/api';
+import UIRouter from '../../../../root/ui-router';
+import { GroupProfileCache } from '../../../../../data/cache';
+import logging from '../../../../../utils/logging';
+import { globalEventGroups } from '../../../../../utils/global-events';
 import { map } from 'lit/directives/map.js';
 
 interface TabGroup {

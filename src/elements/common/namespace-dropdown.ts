@@ -29,17 +29,17 @@ export default class RichEmbed extends LitElement {
 			<a
 				class="pt-3 last:pb-3 transition-all first:border-t-[1px] border-zinc-800 first:aria-expanded:border-zinc-600/80 group text-sm text-gray-200 hover:text-white flex flex-row place-content-around"
 				href=${routes.devNamespace.build({
-			gameId: this.game.gameId,
-			namespaceId: namespace.namespaceId
-		})}
+					gameId: this.game.gameId,
+					namespaceId: namespace.namespaceId
+				})}
 				aria-expanded=${this.expanded}
 			>
 				<div class=${clsx(isCurrent ? 'font-bold text-white' : '', 'mr-auto')}>
 					${namespace.displayName}
 				</div>
 				<!-- ${isCurrent
-				? html` <e-svg src="regular/check" class="mb-[2px] h-full" preserve></e-svg> `
-				: html``} -->
+					? html` <e-svg src="regular/check" class="mb-[2px] h-full" preserve></e-svg> `
+					: html``} -->
 			</a>
 		`;
 	}
@@ -85,11 +85,11 @@ export default class RichEmbed extends LitElement {
 						aria-expanded=${this.expanded}
 					>
 						${this.game.namespaces.map(namespace => {
-			return this.renderNamespaceListEntry(
-				namespace,
-				namespace.namespaceId === this.currentNamespace.namespaceId
-			);
-		})}
+							return this.renderNamespaceListEntry(
+								namespace,
+								namespace.namespaceId === this.currentNamespace.namespaceId
+							);
+						})}
 					</ul>
 				</div>
 			</div>

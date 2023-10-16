@@ -325,8 +325,8 @@ export default class FileUploader extends LitElement {
 			? this.uploadState.type == 'uploading'
 				? this.uploadState.progress / this.uploadState.total
 				: this.uploadState.type == 'completing'
-					? 1
-					: 0
+				? 1
+				: 0
 			: 0;
 
 		// Separate file type from current upload
@@ -346,8 +346,8 @@ export default class FileUploader extends LitElement {
 		let accept = this.video
 			? 'video/mp4,video/x-m4v,video/*'
 			: this.image
-				? 'image/*'
-				: this.accept ?? null;
+			? 'image/*'
+			: this.accept ?? null;
 
 		return html`
 			<div id="base" @drop=${this.onChange.bind(this)} @dragover=${(e: Event) => e.preventDefault()}>
@@ -356,53 +356,54 @@ export default class FileUploader extends LitElement {
 						<slot name="icon"></slot>
 						<slot name="content"></slot>
 						${when(
-			this.uploadError,
-			() =>
-				html`<h3 id="error">
+							this.uploadError,
+							() =>
+								html`<h3 id="error">
 									${when(
-					typeof this.uploadError == 'string',
-					() => this.uploadError,
-					() => html`Error while uploading. Please try again.</h3>`
-				)}
+										typeof this.uploadError == 'string',
+										() => this.uploadError,
+										() => html`Error while uploading. Please try again.</h3>`
+									)}
 								</h3>`
-		)}
+						)}
 					</div>
 
 					${uploading
-				? html` <div id="upload">
+						? html` <div id="upload">
 								<div id="upload-background" style=${loadingBarStyles}></div>
 								<div id="upload-content">
 									${this.uploadState.type == 'preparing'
-						? html` <h1>
+										? html` <h1>
 													Preparing ${this.uploadState.count}
 													file${this.uploadState.count == 1 ? '' : 's'}...
 												</h1>
 												<div id="progress-area">
 													<loading-bar .progress=${0}></loading-bar>
 												</div>`
-						: null}
+										: null}
 									${this.uploadState.type == 'uploading'
-						? html`
+										? html`
 											<h1>Uploading...</h1>
-											<h2><span id='upload-name'>${currentUpload[0].repeat(2)}</span id='upload-type'><span>${currentUpload[1]
-							}</span></h2>
+											<h2><span id='upload-name'>${currentUpload[0].repeat(2)}</span id='upload-type'><span>${
+												currentUpload[1]
+											}</span></h2>
 											<div id='progress-area'>
 												<loading-bar .progress=${progress}></loading-bar>
 												<h3>${this.uploadState.progress}/${this.uploadState.total}</h3>
 											</div>`
-						: null}
+										: null}
 									${this.uploadState.type == 'completing'
-						? html` <h1>Completing upload...</h1>
+										? html` <h1>Completing upload...</h1>
 												<div id="progress-area">
 													<loading-bar .progress=${1}></loading-bar>
 												</div>`
-						: null}
+										: null}
 								</div>
 						  </div>`
-				: null}
+						: null}
 					${this.dragActive && !uploading
-				? html` <div id="overlay">Drag and drop files here</div>`
-				: null}
+						? html` <div id="overlay">Drag and drop files here</div>`
+						: null}
 				</label>
 				<input
 					id="file-upload"

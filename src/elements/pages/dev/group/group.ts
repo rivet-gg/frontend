@@ -2,27 +2,27 @@ import { customElement, property, query } from 'lit/decorators.js';
 import { html, LitElement, PropertyValues } from 'lit';
 import { when } from 'lit/directives/when.js';
 import { styleMap } from 'lit/directives/style-map.js';
-import { cssify } from '../../utils/css';
+import { cssify } from '../../../../utils/css';
 import styles from './group.scss';
-import routes, { responses } from '../../routes';
-import global from '../../utils/global';
+import routes, { responses } from '../../../../routes';
+import global from '../../../../utils/global';
 import cloud from '@rivet-gg/cloud';
-import { globalEventGroups } from '../../utils/global-events';
-import { showAlert } from '../../ui/helpers';
-import UIRouter from '../root/ui-router';
+import { globalEventGroups } from '../../../../utils/global-events';
+import { showAlert } from '../../../../ui/helpers';
+import UIRouter from '../../../root/ui-router';
 
-import assets from '../../data/assets';
-import * as api from '../../utils/api';
+import assets from '../../../../data/assets';
+import * as api from '../../../../utils/api';
 
-import { CloudDashboardCache, GroupProfileCache } from '../../data/cache';
-import logging from '../../utils/logging';
-import { DropDownSelectEvent, DropDownSelection } from '../dev/drop-down-list';
-import timing, { Debounce } from '../../utils/timing';
-import utils from '../../utils/utils';
-import { InputUpdateEvent } from '../dev/text-input';
-import { ColorExtractor } from '../../utils/colors';
+import { CloudDashboardCache, GroupProfileCache } from '../../../../data/cache';
+import logging from '../../../../utils/logging';
+import { DropDownSelectEvent, DropDownSelection } from '../../../dev/drop-down-list';
+import timing, { Debounce } from '../../../../utils/timing';
+import utils from '../../../../utils/utils';
+import { InputUpdateEvent } from '../../../dev/text-input';
+import { ColorExtractor } from '../../../../utils/colors';
 import { repeat } from 'lit/directives/repeat.js';
-import { TraversableErrors, VALIDATION_ERRORS } from '../../utils/traversable-errors';
+import { TraversableErrors, VALIDATION_ERRORS } from '../../../../utils/traversable-errors';
 
 enum CreateInviteState {
 	Create,
@@ -45,7 +45,6 @@ export class GroupActionEvent extends Event {
 		super('event');
 	}
 }
-
 
 const INVITE_TTL_SELECTION: DropDownSelection<number>[] = [
 	{
@@ -570,8 +569,10 @@ export default class GroupPage extends LitElement {
 									@click=${this.openGameModal.bind(this, this.profile.groupId)}
 								>
 									<div id="create-game-content">
-										<lazy-img src=${assets.asset('/games/blank/logo.png')}></lazy-img>
-										Create a new game
+										<div>
+											<lazy-img src=${assets.asset('/games/blank/logo.png')}></lazy-img>
+											Create a new game
+										</div>
 									</div>
 								</div>
 								${repeat(
@@ -606,11 +607,11 @@ export default class GroupPage extends LitElement {
 			@close=${this.gameModalClose.bind(this)}
 		>
 			<modal-body slot="body">
-				<h1>Create your new game</h1>
-				<div class="input-group">
-					<h2>Owner Developer Group</h2>
-					<h4>${this.profile.displayName}</h4>
-					<h2>Game Display Name</h2>
+				<h1 class="text-2xl font-bold pb-4">Create your new game</h1>
+				<div class="input-group px-8">
+					<h2 class="text-lg font-semibold">Owner Developer Group</h2>
+					<h4 class="text-md pb-2 text-center">${this.profile.displayName}</h4>
+					<h2 class="font-semibold py-2">Game Display Name</h2>
 					<text-input
 						light
 						placeholder="Enter a game name..."
@@ -619,11 +620,11 @@ export default class GroupPage extends LitElement {
 					${when(
 						displayNameErrors.length > 0,
 						() => html`
-							<span id="create-game-error">
-								<e-svg src="regular/circle-exclamation"></e-svg> ${displayNameErrors[0]}</li>
+							<span id="create-game-error" class="font-semibold text-center pt-4 text-red-500">
+								${displayNameErrors[0]}</li>
 							</span>`
 					)}
-					<h2>Game Name ID</h2>
+					<h2 class="font-semibold py-2">Game Name ID</h2>
 					<text-input
 						light
 						.filter=${(v: string) => v.replace(/[\s\-]+/g, '-').toLowerCase()}
@@ -635,12 +636,14 @@ export default class GroupPage extends LitElement {
 					${when(
 						nameIdErrors.length > 0,
 						() => html`
-							<span id="create-game-error">
-								<e-svg src="regular/circle-exclamation"></e-svg> ${nameIdErrors[0]}</li>
+							<span id="create-game-error" class="font-semibold text-center pt-4 text-red-500">
+								${nameIdErrors[0]}</li>
 							</span>`
 					)}
 				</div>
-				<p class="content">We’ll walk you though the details of editing your game later.</p>
+				<p class="content text-center py-5 font-semibold">
+					We’ll walk you though the details of editing your game later.
+				</p>
 				<stylized-button
 					.trigger=${this.createGame.bind(this)}
 					?disabled=${!this.gameIsValid}

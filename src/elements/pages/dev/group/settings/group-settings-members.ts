@@ -1,25 +1,25 @@
 import { LitElement, html, PropertyValues, TemplateResult } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
 import group from '@rivet-gg/group';
-import global from '../../utils/global';
-import * as api from '../../utils/api';
+import global from '../../../../../utils/global';
+import * as api from '../../../../../utils/api';
 import styles from './group-settings-members.scss';
-import routes, { responses } from '../../routes';
-import { cssify } from '../../utils/css';
+import routes, { responses } from '../../../../../routes';
+import { cssify } from '../../../../../utils/css';
 import { map } from 'lit/directives/map.js';
-import logging from '../../utils/logging';
-import { globalEventGroups } from '../../utils/global-events';
-import timing from '../../utils/timing';
+import logging from '../../../../../utils/logging';
+import { globalEventGroups } from '../../../../../utils/global-events';
+import timing from '../../../../../utils/timing';
 import { repeat } from 'lit/directives/repeat.js';
 import {
 	showAlert,
 	showBannedIdentityContextMenu,
 	showJoinRequestContextMenu,
 	tooltip
-} from '../../ui/helpers';
-import { DropDownSelectEvent, DropDownSelection } from '../dev/drop-down-list';
-import utils from '../../utils/utils';
-import { InputUpdateEvent } from '../dev/text-input';
+} from '../../../../../ui/helpers';
+import { DropDownSelectEvent, DropDownSelection } from '../../../../dev/drop-down-list';
+import utils from '../../../../../utils/utils';
+import { InputUpdateEvent } from '../../../../dev/text-input';
 import clsx from 'clsx';
 import { IdentityHandle } from '@rivet-gg/identity';
 

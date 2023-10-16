@@ -1,6 +1,6 @@
 import { LitElement, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { Rivet } from "@rivet-gg/api-internal";
+import { Rivet } from '@rivet-gg/api-internal';
 import { cssify } from '../../../utils/css';
 import styles from './version-info.scss';
 import { when } from 'lit/directives/when.js';
@@ -129,8 +129,8 @@ export default class DevVersionInfo extends LitElement {
 		return html`
 			<div id="base">
 				${!this.editing && this.noServices()
-				? html`<p class="muted">No services enabled for this version.</p>`
-				: null}
+					? html`<p class="muted">No services enabled for this version.</p>`
+					: null}
 				${when(
 					this.editing || this.config.cdn,
 					() =>
@@ -157,7 +157,7 @@ export default class DevVersionInfo extends LitElement {
 						></version-info-matchmaker>`
 				)}
 				${this.editing || this.config.kv
-				? html`<version-info-kv
+					? html`<version-info-kv
 							.game=${this.game}
 							.config=${this.config}
 							.errors=${this.errors.branch('kv')}
@@ -165,9 +165,9 @@ export default class DevVersionInfo extends LitElement {
 							@toggle=${this.toggleKv.bind(this)}
 							@update=${this.updateConfig.bind(this)}
 					  ></version-info-kv>`
-				: null}
+					: null}
 				${this.editing || this.config.identity
-				? html`<version-info-identity
+					? html`<version-info-identity
 							.game=${this.game}
 							.config=${this.config}
 							.errors=${this.errors.branch('identity')}
@@ -175,7 +175,7 @@ export default class DevVersionInfo extends LitElement {
 							@toggle=${this.toggleIdentity.bind(this)}
 							@update=${this.updateConfig.bind(this)}
 					  ></version-info-identity>`
-				: null}
+					: null}
 			</div>
 		`;
 	}

@@ -1,24 +1,28 @@
 import { LitElement, html, PropertyValues } from 'lit';
 import { customElement, property, query, queryAll } from 'lit/decorators.js';
-import { cssify } from '../../utils/css';
+import { cssify } from '../../../../../utils/css';
 import group from '@rivet-gg/group';
-import global from '../../utils/global';
-import { responses } from '../../routes';
-import * as api from '../../utils/api';
-import fileSize from '../../utils/files';
-import FileUploader, { FileInput, FileUploaderPausedEvent, PrepareResponse } from '../common/file-uploader';
-import logging from '../../utils/logging';
-import { DropDownSelectEvent, DropDownSelection } from '../dev/drop-down-list';
-import { TraversableErrors, VALIDATION_ERRORS } from '../../utils/traversable-errors';
-import TextInput, { InputUpdateEvent } from '../dev/text-input';
-import { ColorExtractor } from '../../utils/colors';
-import timing, { Debounce } from '../../utils/timing';
-import assets from '../../data/assets';
+import global from '../../../../../utils/global';
+import { responses } from '../../../../../routes';
+import * as api from '../../../../../utils/api';
+import fileSize from '../../../../../utils/files';
+import FileUploader, {
+	FileInput,
+	FileUploaderPausedEvent,
+	PrepareResponse
+} from '../../../../common/file-uploader';
+import logging from '../../../../../utils/logging';
+import { DropDownSelectEvent, DropDownSelection } from '../../../../dev/drop-down-list';
+import { TraversableErrors, VALIDATION_ERRORS } from '../../../../../utils/traversable-errors';
+import TextInput, { InputUpdateEvent } from '../../../../dev/text-input';
+import { ColorExtractor } from '../../../../../utils/colors';
+import timing, { Debounce } from '../../../../../utils/timing';
+import assets from '../../../../../data/assets';
 import { when } from 'lit/directives/when.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { styleMap } from 'lit/directives/style-map.js';
-import { tooltip } from '../../ui/helpers';
-import utils from '../../utils/utils';
+import { tooltip } from '../../../../../ui/helpers';
+import utils from '../../../../../utils/utils';
 
 const MAX_GROUPNAME_LENGTH = 24;
 const MAX_BIO_LENGTH = 200;

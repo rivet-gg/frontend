@@ -47,7 +47,8 @@ export default class DeveloperDash extends LitElement {
 	render() {
 		return html`
 			${when(
-				(global.currentIdentity.isAdmin) || global.currentIdentity.groups.find(group => group.group.isDeveloper),
+				global.currentIdentity.isAdmin ||
+					global.currentIdentity.groups.find(group => group.group.isDeveloper),
 				() => html`
 					<div class="w-full">
 						<user-banner></user-banner>
@@ -57,10 +58,16 @@ export default class DeveloperDash extends LitElement {
 					</div>
 				`,
 				() => html`
-					<div class=${clsx(
-							global.currentIdentity.isRegistered ? "absolute text-center top-1/2 left-1/2 -translate-x-1/2 translate-y-1/2 pt-36" : '',
-							(!global.currentIdentity.isRegistered) ? "absolute text-center top-1/2 left-1/2 -translate-x-1/2 translate-y-1/2 pt-20" : ''
-						)}>
+					<div
+						class=${clsx(
+							global.currentIdentity.isRegistered
+								? 'absolute text-center top-1/2 left-1/2 -translate-x-1/2 translate-y-1/2 pt-36'
+								: '',
+							!global.currentIdentity.isRegistered
+								? 'absolute text-center top-1/2 left-1/2 -translate-x-1/2 translate-y-1/2 pt-20'
+								: ''
+						)}
+					>
 						<h1 class="text-3xl pb-2">Private Beta</h1>
 						<h2 class="text-lg pb-4">
 							Rivet is still in private beta. Join the waitlist to get early access.
@@ -70,16 +77,18 @@ export default class DeveloperDash extends LitElement {
 								Beta Access Form
 							</stylized-button>
 						</div>
-						${when(!global.currentIdentity.isRegistered, () => html`
+						${when(
+							!global.currentIdentity.isRegistered,
+							() => html`
 								<div class="w-3/4 border-b-white/10 border-b-[1px] h-px mx-auto"></div>
-									<h2 class="text-md pt-5 pb-3">Have access and just got logged out?</h2>
-										<div class="w-full flex flex-row place-content-center m-auto pb-5">
-										<stylized-button .trigger=${() => UIRoot.shared.openRegisterPanel()}>
-											Login
-										</stylized-button>
+								<h2 class="text-md pt-5 pb-3">Have access and just got logged out?</h2>
+								<div class="w-full flex flex-row place-content-center m-auto pb-5">
+									<stylized-button .trigger=${() => UIRoot.shared.openRegisterPanel()}>
+										Login
+									</stylized-button>
 								</div>
-							`)
-						}
+							`
+						)}
 					</div>
 				`
 			)}

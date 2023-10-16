@@ -202,8 +202,7 @@ export default class ContextMenu extends LitElement {
 
 		let showAdminControls = !isSelf && ctx.selfIsOwner;
 
-		return html`
-		${when(
+		return html` ${when(
 			showAdminControls,
 			() =>
 				html`<div class="spacer"></div>

@@ -137,8 +137,8 @@ export class AuthManager {
 					attempts <= 2
 						? timing.seconds(1)
 						: attempts <= 5
-							? timing.seconds(2.5)
-							: timing.seconds(10)
+						? timing.seconds(2.5)
+						: timing.seconds(10)
 				);
 			}
 		}

@@ -433,9 +433,7 @@ export default class DevGameLogs extends LitElement {
 					<div class="content-header">
 						<div class="content-header-left">
 							<h2 class="content-header-title">${lobby.lobbyGroupNameId}</h2>
-							<h3 id="log-region">
-								${regionData.regionDisplayName}
-							</h3>
+							<h3 id="log-region">${regionData.regionDisplayName}</h3>
 							${when(
 								lobby.status.stopped !== undefined,
 								() => html`

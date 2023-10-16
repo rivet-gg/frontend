@@ -100,9 +100,7 @@ export default class VersionPublishSumary extends LitElement {
 
 		return html`<div class="region">
 			<ul>
-				<li>
-					${regionConfig.regionDisplayName} (${formattedTierNameId})
-				</li>
+				<li>${regionConfig.regionDisplayName} (${formattedTierNameId})</li>
 				<li class="expanded-list-item">
 					<p>Lobbies</p>
 				</li>

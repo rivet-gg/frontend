@@ -1,8 +1,8 @@
 import { LitElement, html, PropertyValues } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import group from '@rivet-gg/group';
-import { responses } from '../../routes';
-import { cssify } from '../../utils/css';
+import { responses } from '../../../../../routes';
+import { cssify } from '../../../../../utils/css';
 
 @customElement('page-group-settings-billing')
 export default class GroupSettingsBilling extends LitElement {

@@ -1,8 +1,8 @@
 import { LitElement, html } from 'lit';
 import { customElement } from 'lit/decorators.js';
-import { cssify } from '../../utils/css';
+import { cssify } from '../../../../utils/css';
 import styles from './consent.scss';
-import global from '../../utils/global';
+import global from '../../../../utils/global';
 
 @customElement('page-consent')
 export default class ConsentPage extends LitElement {

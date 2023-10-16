@@ -1,9 +1,9 @@
 import { LitElement, PropertyValues, TemplateResult, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import * as group from '@rivet-gg/group';
-import { cssify } from '../../utils/css';
-import assets from '../../data/assets';
-import routes from '../../routes';
+import { cssify } from '../../../../utils/css';
+import assets from '../../../../data/assets';
+import routes from '../../../../routes';
 
 @customElement('group-banner')
 export default class DevGroupBanner extends LitElement {

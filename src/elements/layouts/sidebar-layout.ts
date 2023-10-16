@@ -11,10 +11,12 @@ export default class Layout extends LitElement {
 
 	render() {
 		return html`
-			<div style="w-full">
+			<div>
 				<!-- Sidebar -->
-				<div class="fixed flex w-72 flex-col border-white/10 border-r top-14 bottom-0">
-					<div class="overflow-y-auto px-6 py-5 w-full h-full">
+				<div
+					class="fixed flex w-72 flex-col border-white/10 border-r top-14 max-[850px]:top-0 bottom-0"
+				>
+					<div class="min-h-full overflow-y-auto px-6 py-5 w-full h-full">
 						<slot name="sidebar"></slot>
 					</div>
 				</div>

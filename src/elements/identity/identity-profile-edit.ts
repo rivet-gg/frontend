@@ -250,10 +250,7 @@ export default class IdentityProfileEdit extends LitElement {
 						<div id="banner-bg" style=${bgStyles}></div>
 
 						<div id="avatar-holder">
-							<identity-avatar
-								id="main-avatar"
-								.identity=${fakeIdentity}
-							></identity-avatar>
+							<identity-avatar id="main-avatar" .identity=${fakeIdentity}></identity-avatar>
 
 							<!-- Change profile image button -->
 							<icon-button
