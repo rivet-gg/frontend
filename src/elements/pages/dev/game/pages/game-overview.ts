@@ -90,12 +90,16 @@ export default class DevGameOverview extends LitElement {
 		});
 	}
 
+	async firstUpdated(changedProperties: PropertyValues) {
+		super.firstUpdated(changedProperties);
+		this.fetchData();
+	}
+
 	updated(changedProperties: PropertyValues) {
 		super.updated(changedProperties);
 
-		if (changedProperties.has('game')) {
+		if (changedProperties.has('gameId')) {
 			this.fetchData();
-			// this.requestUpdate();
 		}
 	}
 
@@ -115,7 +119,6 @@ export default class DevGameOverview extends LitElement {
 				let gameData = res.game;
 				if (gameData) {
 					this.game = gameData;
-					this.requestUpdate('game');
 					return;
 				}
 			});
