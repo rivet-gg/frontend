@@ -25,12 +25,12 @@ This will open `http://localhost:5080` in your browser. By default, this will co
 >
 > See our backend repo [here](https://github.com/rivet-gg/rivet).
 
-### Configuration `RIVET_ORIGIN_API`
+### Configuration `RIVET_API_ENDPOINT`
 
 To configure the hub to connect to your own server (for example, `mydomain.com`), update the `.env` file in this folder to include the following:
 
 ```
-RIVET_ORIGIN_API=https://mydomain.com
+RIVET_API_ENDPOINT=https://mydomain.com
 ```
 
 ### Backend configuration

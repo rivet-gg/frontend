@@ -2205,7 +2205,7 @@
 
 "@rivet-gg/common@https://github.com/rivet-gg/rivet-sdk-js#4f439a15506de88c24c0e08ae3e5fe05cb0c60a0":
   version "0.1.0"
-  resolved "git+ssh://git@github.com/rivet-gg/rivet-sdk-js.git#4f439a15506de88c24c0e08ae3e5fe05cb0c60a0"
+  resolved "https://github.com/rivet-gg/rivet-sdk-js#4f439a15506de88c24c0e08ae3e5fe05cb0c60a0"
   integrity sha512-itN3X/QvE7cpGa2LzveUS+/nsLMU6gVw8CLfDiMCruNSeiufkalPdnHMGpkpcy0UaI2sN1qAY34EIII4yftyhw==
   dependencies:
     node-fetch "^2.6.7"

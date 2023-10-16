@@ -12,7 +12,7 @@ declare global {
 
 	let ENV_RIVET_NAMESPACE: string;
 
-	let ENV_RIVET_ORIGIN_API: string;
+	let ENV_RIVET_API_ENDPOINT: string;
 	let ENV_ASSETS_URL: string;
 
 	interface Element {
