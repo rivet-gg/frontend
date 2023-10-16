@@ -48,10 +48,6 @@ export default class DevNamespaceVersion extends LitElement {
 		this.fetchData();
 	}
 
-	updated(changedProperties: PropertyValues) {
-		// Request data if category set
-	}
-
 	resetData() {
 		this.namespace = null;
 		this.version = null;

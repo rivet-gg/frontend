@@ -52,7 +52,7 @@ export default class DeveloperDash extends LitElement {
 				() => html`
 					<div class="w-full">
 						<user-banner></user-banner>
-						<div class="sm:px-5 max-w-contentwidth m-auto">
+						<div class="sm:px-5 min-[1024px]:px-5 lg:px-0 max-w-contentwidth m-auto">
 							<page-dev-games></page-dev-games>
 						</div>
 					</div>

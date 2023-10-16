@@ -10,6 +10,9 @@ module.exports = {
 			pixel: ['Silkscreen', 'ui-sans-serif', 'system-ui']
 		},
 		extend: {
+			screens: {
+				'mdLg': '1100px',
+			},
 			colors: {
 				'button-bg-hover-color': '#ffffff05',
 				'base-bg': '#18181b', // Also change this in html/index.html and html/static-styles.css
