@@ -351,7 +351,7 @@ export default class DevGames extends LitElement {
 										>Analytics</stylized-button
 									> -->
 									<stylized-button
-										class="billing-button"
+										class="billing-button w-20"
 										border-color=${tailwind_palette['raised-bg-border-color']}
 										border-width=".75px"
 										href=${routes.groupSettings.build({
