@@ -475,13 +475,13 @@ export default class VersionInfoMatchmaker extends LitElement {
 						${this.configExt.config.captcha ? this.renderCaptchaConfig() : null}
 				  </div>
 				</div>`
-				: html`<h3>Captcha Verification</h3>
+				: html`<h3 class="pb-1 text-lg">Captcha Verification</h3>
 						<p class="muted">No captcha</p>`}
 
-			<h3>Runtime</h3>
+			<h3 class="pt-3 pb-1 text-lg">Runtime</h3>
 			${this.renderRuntimeConfig()}
 
-			<h3>Game Modes</h3>
+			<h3 class="pt-3 pb-1 text-lg">Game Modes</h3>
 			${gameModeMetaErrors.length
 				? html`<error-list .errors=${gameModeMetaErrors}></error-list>`
 				: null}

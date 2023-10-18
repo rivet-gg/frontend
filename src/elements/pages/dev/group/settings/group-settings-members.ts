@@ -246,10 +246,10 @@ export default class GroupSettingsMembers extends LitElement {
 		>
 			<modal-body slot="body">
 				${this.createInviteState == CreateInviteState.Create
-					? html`<h1>Create Group Invite</h1>
+					? html`<h4 class="pb-2 text-2xl font-bold">Create Group Invite</h4>
 							<div id="inputs">
 								<div class="input-group">
-									<h2>Expiration time</h2>
+									<h4 class="font-bold text-md pb-1">Expiration Time</h4>
 									<drop-down-list
 										light
 										fixed
@@ -260,8 +260,10 @@ export default class GroupSettingsMembers extends LitElement {
 											(this.createInviteTTLSelection = ev.selection)}
 									></drop-down-list>
 								</div>
-								<div class="input-group">
-									<h2>Maximum use count (0 for infinite)</h2>
+								<div class="input-group pb-4">
+									<h4 class="font-bold text-md pt-2 pb-1">
+										Max Use Count (0 for infinite)
+									</h4>
 									<text-input
 										light
 										number
@@ -280,18 +282,22 @@ export default class GroupSettingsMembers extends LitElement {
 								this.createInviteUseCountValue == null}
 								>Create</stylized-button
 							>`
-					: html`<h1>Group Invite Code</h1>
+					: html`<h4 class="text-2xl font-bold pb-2">Group Invite Code</h4>
 							<div id="result">
-								<h3 id="invite-code">${this.inviteCode}</h3>
-								<div id="invite-link-area">
+								<h4 class="text-center text-lg font-semibold my-auto">${this.inviteCode}</h4>
+								<div
+									id="invite-link-area"
+									class="flex flex-row align-middle space-x-2 pt-3 pb-2 relative"
+								>
 									<a
-										class="link"
+										class="link my-auto text-main-accent"
 										id="invite-link"
 										href=${routes.groupInvite.build({ code: this.inviteCode })}
 										>${routes.groupInvite.build({ code: this.inviteCode })}</a
 									>
 									<icon-button
 										id="copy-button"
+										class="pb-1"
 										color=${'#252525'}
 										highlight-color=${'#18181b'}
 										src="solid/copy"
@@ -299,11 +305,15 @@ export default class GroupSettingsMembers extends LitElement {
 									></icon-button>
 
 									${this.inviteCodeCopyResult
-										? html`<div id="copy-result">${this.inviteCodeCopyResult}</div>`
+										? html`<div id="copy-result" class="absolute -right-2.5 -bottom-2">
+												${this.inviteCodeCopyResult}
+										  </div>`
 										: null}
 								</div>
 							</div>
-							<p class="content">Share this code or link to allow people to join your group.</p>
+							<p class="pt-1 pb-4">
+								Share this code or link to allow people to join your group.
+							</p>
 							<stylized-button .trigger=${this.createInviteModalClose.bind(this)}
 								>Dismiss</stylized-button
 							>`}
@@ -659,9 +669,15 @@ export default class GroupSettingsMembers extends LitElement {
 													: null} -->
 												<li
 													class=${clsx(
-														'group hover:bg-raised-bg px-2 rounded-xl flex flex-row place-content-between space-x-3 py-3 ',
+														'group px-2 rounded-xl flex flex-row place-content-between space-x-3 py-3 ',
 														ident.identityId === this.group.ownerIdentityId
 															? 'order-[-100]'
+															: '',
+														this.group.ownerIdentityId ===
+															global.currentIdentity.identityId &&
+															ident.identityId !==
+																global.currentIdentity.identityId
+															? 'hover:bg-raised-bg'
 															: ''
 													)}
 												>

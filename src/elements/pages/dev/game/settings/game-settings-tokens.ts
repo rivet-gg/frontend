@@ -73,12 +73,10 @@ export default class DevGameSettingsTokens extends LitElement {
 			<div class="w-4/5 mx-auto border-2 border-zinc-900 bg-raised-bg rounded-lg p-5">
 				<div class="flex flex-row w-full place-content-between align-middle mx-auto">
 					<h2 class="text-xl my-auto">${token.name}</h2>
-					<stylized-button class="my-auto" .href=${token.url} right-icon="solid/arrow-right">
-						Docs
-					</stylized-button>
+					<stylized-button class="my-auto" .href=${token.url}> Docs </stylized-button>
 				</div>
 				<p class="pt-3 pr-24">${token.description}</p>
-				<stylized-button class="my-auto pt-4" @click=${token.renderFunction} right-icon="solid/plus">
+				<stylized-button class="my-auto pt-4" @click=${token.renderFunction}>
 					Generate
 				</stylized-button>
 			</div>

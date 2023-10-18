@@ -32,7 +32,6 @@ export default class DevGameBanner extends LitElement {
 								<stylized-button
 									class="absolute top-6 right-10"
 									color="gray"
-									.icon=${'solid/gear'}
 									.href=${routes.devGameSettings.build({ gameId: this.game.gameId })}
 								>
 									Settings

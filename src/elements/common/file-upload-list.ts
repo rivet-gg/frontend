@@ -165,7 +165,7 @@ export default class FileUploadList extends LitElement {
 					  </file-uploader>`
 					: null}
 				${this.entries.length
-					? html`${this.label ? html`<h2>${this.label}</h2>` : null}
+					? html`${this.label ? html`<h3 class="pb-1 text-lg">${this.label}</h3>` : null}
 							<div id="entries" class=${classMap({ 'no-header': !this.label })}>
 								${repeat(
 									this.entries,

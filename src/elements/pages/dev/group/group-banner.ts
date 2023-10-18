@@ -4,6 +4,7 @@ import * as group from '@rivet-gg/group';
 import { cssify } from '../../../../utils/css';
 import assets from '../../../../data/assets';
 import routes from '../../../../routes';
+import { when } from 'lit/directives/when.js';
 
 @customElement('group-banner')
 export default class DevGroupBanner extends LitElement {
@@ -28,14 +29,19 @@ export default class DevGroupBanner extends LitElement {
 				<div class="flex flex-col place-content-center m-auto h-full w-1/2 text-center">
 					${this.group
 						? html`
-								<stylized-button
-									class="absolute top-6 right-10"
-									color="gray"
-									.icon=${'solid/gear'}
-									.href=${routes.groupSettings.build({ groupId: this.group.groupId })}
-								>
-									Settings
-								</stylized-button>
+								${when(this.group.isCurrentIdentityMember, () => {
+									return html`
+										<stylized-button
+											class="absolute top-6 right-10"
+											color="gray"
+											.href=${routes.groupSettings.build({
+												groupId: this.group.groupId
+											})}
+										>
+											Settings
+										</stylized-button>
+									`;
+								})}
 								${this.renderGroupIcon(this.group)}
 								<h1 class="text-2xl mt-8">${this.group.displayName}</h1>
 						  `

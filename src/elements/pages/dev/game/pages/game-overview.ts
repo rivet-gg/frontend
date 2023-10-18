@@ -90,12 +90,16 @@ export default class DevGameOverview extends LitElement {
 		});
 	}
 
+	async firstUpdated(changedProperties: PropertyValues) {
+		super.firstUpdated(changedProperties);
+		this.fetchData();
+	}
+
 	updated(changedProperties: PropertyValues) {
 		super.updated(changedProperties);
 
-		if (changedProperties.has('game')) {
+		if (changedProperties.has('gameId')) {
 			this.fetchData();
-			// this.requestUpdate();
 		}
 	}
 
@@ -115,7 +119,6 @@ export default class DevGameOverview extends LitElement {
 				let gameData = res.game;
 				if (gameData) {
 					this.game = gameData;
-					this.requestUpdate('game');
 					return;
 				}
 			});
@@ -129,7 +132,9 @@ export default class DevGameOverview extends LitElement {
 			showAlert(
 				'Cannot Create Namespace',
 				html`
-					<p class="text-lg pt-2 font-semibold text-red-500">You cannot create a namespace before creating a version first.</p>
+					<p class="text-lg pt-2 font-semibold text-red-500">
+						You cannot create a namespace before creating a version first.
+					</p>
 					<p class="text-lg pt-2">Use the Rivet CLI to create a version for this game.</p>
 				`,
 				[
@@ -258,10 +263,12 @@ export default class DevGameOverview extends LitElement {
 						icon="regular/plus"
 						centered
 						large
+						dashed
+						color="transparent"
 						.trigger=${this.openNamespaceModal.bind(this)}
-						class="w-full"
+						class="w-full pb-1"
 					>
-						New namespace
+						New Namespace
 					</stylized-button>
 
 					${repeat(
@@ -287,10 +294,10 @@ export default class DevGameOverview extends LitElement {
 
 	renderAnalytics(game: cloud.GameFull): TemplateResult {
 		return html`
-			<div class="w-1/2">
+			<div class="w-1/2 ">
 				<h1 class="text-xl pb-4">Analytics</h1>
 				<div
-					class="flex flex-row space-x-4 w-full h-80 bg-zinc-600/30 place-content-center rounded-lg"
+					class="flex flex-row space-x-4 w-full h-80 bg-zinc-600/30 place-content-center rounded-lg bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-fuchsia-600/25 via-fuchsia-900/40 to-fuchsia-700/75"
 				>
 					<h4 class="m-auto italic text-gray-300 text-lg">Coming Soon...</h4>
 				</div>
