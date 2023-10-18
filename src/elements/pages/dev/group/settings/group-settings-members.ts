@@ -660,10 +660,14 @@ export default class GroupSettingsMembers extends LitElement {
 													: null} -->
 												<li
 													class=${clsx(
-														'group hover:bg-raised-bg px-2 rounded-xl flex flex-row place-content-between space-x-3 py-3 ',
+														'group px-2 rounded-xl flex flex-row place-content-between space-x-3 py-3 ',
 														ident.identityId === this.group.ownerIdentityId
 															? 'order-[-100]'
-															: ''
+															: '',
+														this.group.ownerIdentityId === global.currentIdentity.identityId && ident.identityId !== global.currentIdentity.identityId 
+															? 'hover:bg-raised-bg'
+															: '',
+
 													)}
 												>
 													<div class="flex flex-row">
