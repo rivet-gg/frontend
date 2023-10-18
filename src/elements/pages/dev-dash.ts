@@ -69,9 +69,9 @@ export default class DeveloperDash extends LitElement {
 						)}
 					>
 						<h1 class="text-3xl pb-2">Private Beta</h1>
-						<h2 class="text-lg pb-4">
+						<h4 class="text-lg pb-4">
 							Rivet is still in private beta. Join the waitlist to get early access.
-						</h2>
+						</h4>
 						<div class="w-full flex flex-row place-content-center m-auto pb-5">
 							<stylized-button href="https://b8v8449klvp.typeform.com/rivet" target="_blank">
 								Beta Access Form
@@ -81,7 +81,7 @@ export default class DeveloperDash extends LitElement {
 							!global.currentIdentity.isRegistered,
 							() => html`
 								<div class="w-3/4 border-b-white/10 border-b-[1px] h-px mx-auto"></div>
-								<h2 class="text-md pt-5 pb-3">Have access and just got logged out?</h2>
+								<h4 class="text-md pt-5 pb-3">Have access and just got logged out?</h4>
 								<div class="w-full flex flex-row place-content-center m-auto pb-5">
 									<stylized-button .trigger=${() => UIRoot.shared.openRegisterPanel()}>
 										Login
