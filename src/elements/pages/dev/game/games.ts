@@ -277,13 +277,11 @@ export default class DevGames extends LitElement {
 						@click=${this.openGroupModal.bind(this)}
 						@mouseenter=${() => (this.createGroupHovered = true)}
 						@mouseleave=${() => (this.createGroupHovered = false)}
-					>	
+					>
 						<div class="font-bold text-lg pb-0.5 pr-2">
 							<e-svg src="solid/plus"></e-svg>
 						</div>
-						<div class="font-bold text-lg text-center">
-							New Developer Group
-						</div>
+						<div class="font-bold text-lg text-center">New Developer Group</div>
 					</div>`
 			)}
 		`;

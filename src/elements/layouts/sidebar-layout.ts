@@ -13,9 +13,7 @@ export default class Layout extends LitElement {
 		return html`
 			<div>
 				<!-- Sidebar -->
-				<div
-					class="fixed flex w-72 flex-col border-white/10 border-r top-14 max-sm:top-0 bottom-0"
-				>
+				<div class="fixed flex w-72 flex-col border-white/10 border-r top-14 max-sm:top-0 bottom-0">
 					<div class="min-h-full overflow-y-auto px-6 py-5 w-full h-full">
 						<slot name="sidebar"></slot>
 					</div>
@@ -101,7 +99,9 @@ export class Button extends LitElement {
 					.target=${ifDefined(this.target)}
 					@click=${ifDefined(this.trigger)}
 					class=${clsx(
-						this.current ? 'opacity-100 cursor-default' : 'opacity-60 hover:opacity-100 hover:cursor-pointer',
+						this.current
+							? 'opacity-100 cursor-default'
+							: 'opacity-60 hover:opacity-100 hover:cursor-pointer',
 						'group flex gap-x-3 rounded-md p-2 text-white text-sm items-center leading-6 font-semibold transition'
 					)}
 				>

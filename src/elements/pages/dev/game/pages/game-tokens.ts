@@ -261,9 +261,7 @@ export default class DevGameTokens extends LitElement {
 			<div class="w-4/5 mx-auto border-2 border-zinc-900 bg-raised-bg rounded-lg p-5">
 				<div class="flex flex-row w-full place-content-between align-middle mx-auto">
 					<h2 class="text-xl my-auto">${token.name}</h2>
-					<stylized-button class="my-auto" .href=${token.url}>
-						Docs
-					</stylized-button>
+					<stylized-button class="my-auto" .href=${token.url}> Docs </stylized-button>
 				</div>
 				<p class="pt-3 pr-24">${token.description}</p>
 				<!-- <h3 class="text-lg py-1.5 underline "><a .href=${token.url} class="hover:text-main-accent">Docs</a></h3> -->

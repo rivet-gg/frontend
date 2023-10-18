@@ -11,7 +11,7 @@ module.exports = {
 		},
 		extend: {
 			screens: {
-				'mdLg': '1100px',
+				mdLg: '1100px'
 			},
 			colors: {
 				'button-bg-hover-color': '#ffffff05',

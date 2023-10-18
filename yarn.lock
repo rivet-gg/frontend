@@ -9,7 +9,7 @@
 
 "@ampproject/remapping@^2.2.0":
   version "2.2.1"
-  resolved "https://registry.npmjs.org/@ampproject/remapping/-/remapping-2.2.1.tgz"
+  resolved "https://registry.yarnpkg.com/@ampproject/remapping/-/remapping-2.2.1.tgz#99e8e11851128b8702cd57c33684f1d0f260b630"
   integrity sha512-lFMjJTrFL3j7L9yBxwYfCq2k6qqwHyzuUl/XBnif78PWTJYyL/dfowQHWE3sp6U6ZzqWiiIZnpTMO96zhkjwtg==
   dependencies:
     "@jridgewell/gen-mapping" "^0.3.0"
@@ -2205,7 +2205,7 @@
 
 "@rivet-gg/common@https://github.com/rivet-gg/rivet-sdk-js#4f439a15506de88c24c0e08ae3e5fe05cb0c60a0":
   version "0.1.0"
-  resolved "https://github.com/rivet-gg/rivet-sdk-js#4f439a15506de88c24c0e08ae3e5fe05cb0c60a0"
+  resolved "git+ssh://git@github.com/rivet-gg/rivet-sdk-js.git#4f439a15506de88c24c0e08ae3e5fe05cb0c60a0"
   integrity sha512-itN3X/QvE7cpGa2LzveUS+/nsLMU6gVw8CLfDiMCruNSeiufkalPdnHMGpkpcy0UaI2sN1qAY34EIII4yftyhw==
   dependencies:
     node-fetch "^2.6.7"

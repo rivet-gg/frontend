@@ -41,7 +41,7 @@ export default class StylizedButton extends LitElement {
 	@property({ type: String, attribute: 'border-color' })
 	borderColor: string;
 
-	@property({ type: Boolean, attribute: 'dashed'})
+	@property({ type: Boolean, attribute: 'dashed' })
 	dashed = false;
 
 	@property({ type: String, attribute: 'align' })
@@ -140,7 +140,7 @@ export default class StylizedButton extends LitElement {
 			active: this.forceActive,
 			loading: this.isLoading,
 			splashy: this.isSplashy,
-			"dashed-border-button": this.dashed,
+			'dashed-border-button': this.dashed,
 			[`align-${this.align}`]: this.align != 'center'
 		});
 		let styles = styleMap({

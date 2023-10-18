@@ -321,10 +321,14 @@ export default class GroupPage extends LitElement {
 							</div>`,
 						() => html`
 							<div class="flex flex-col space-y-6 mx-auto">
-								<h4 class="text-xl w-full text-center">You do not have access to view this group's games.</h4>
-								<p class="text-md text-center">Try getting invited, or make sure that you are logged in.</p>
+								<h4 class="text-xl w-full text-center">
+									You do not have access to view this group's games.
+								</h4>
+								<p class="text-md text-center">
+									Try getting invited, or make sure that you are logged in.
+								</p>
 							</div>
-							`
+						`
 					)}
 				</div>
 			</div>

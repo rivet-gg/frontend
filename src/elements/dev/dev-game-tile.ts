@@ -10,28 +10,27 @@ import * as api from '../../utils/api';
 
 const GRADIENTS = [
 	// "bg-gradient-to-br from-green-300 to-purple-400",
-	"bg-[conic-gradient(at_top_right,_var(--tw-gradient-stops))] from-teal-200 via-violet-600 to-blue-900",
-	"bg-gradient-to-b from-pink-400 to-pink-600",
-	"bg-gradient-to-br from-purple-500 via-violet-700 to-teal-900",
-	"bg-gradient-to-bl from-pink-500 via-pink-600 to-red-400",
-]
-
+	'bg-[conic-gradient(at_top_right,_var(--tw-gradient-stops))] from-teal-200 via-violet-600 to-blue-900',
+	'bg-gradient-to-b from-pink-400 to-pink-600',
+	'bg-gradient-to-br from-purple-500 via-violet-700 to-teal-900',
+	'bg-gradient-to-bl from-pink-500 via-pink-600 to-red-400'
+];
 
 @customElement('dev-game-tile')
 export default class DevGameTile extends LitElement {
 	static styles = cssify(styles);
-	
+
 	@property({ type: Object })
 	game: cloud.GameSummary;
-	
+
 	@property({ type: Object })
 	group: api.group.GroupProfile;
-	
+
 	cardGradient = GRADIENTS[Math.floor(Math.random() * GRADIENTS.length)];
 
 	render() {
 		return html`
-			<a id="base" href=${routes.devGame.build({ gameId: this.game.gameId })} >
+			<a id="base" href=${routes.devGame.build({ gameId: this.game.gameId })}>
 				<div id="info" class=${this.cardGradient}>
 					${this.game.bannerUrl
 						? html`<lazy-img id="bg" src=${this.game.bannerUrl} bg-size="cover"></lazy-img>`
