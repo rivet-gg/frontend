@@ -294,9 +294,9 @@ export default class GroupPage extends LitElement {
 				<group-banner .group=${this.profile}></group-banner>
 				<div class="flex flex-row w-full space-x-8 max-md:px-4 ">
 					${when(
-						this.games,
+						this.games && this.profile.isCurrentIdentityMember,
 						() =>
-							html`<div class="games-list grid grid-cols-4 gap-4">
+							html`<div class="games-list grid grid-cols-4 gap-4 w-full">
 								<div
 									id="create-game"
 									class="dashed-border-button"
@@ -319,7 +319,12 @@ export default class GroupPage extends LitElement {
 										></dev-game-tile>`
 								)}
 							</div>`,
-						() => html``
+						() => html`
+							<div class="flex flex-col space-y-6 mx-auto">
+								<h4 class="text-xl w-full text-center">You do not have access to view this group's games.</h4>
+								<p class="text-md text-center">Try getting invited, or make sure that you are logged in.</p>
+							</div>
+							`
 					)}
 				</div>
 			</div>
