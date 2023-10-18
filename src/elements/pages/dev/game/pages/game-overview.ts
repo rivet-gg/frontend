@@ -261,10 +261,12 @@ export default class DevGameOverview extends LitElement {
 						icon="regular/plus"
 						centered
 						large
+						dashed
+						color="transparent"
 						.trigger=${this.openNamespaceModal.bind(this)}
-						class="w-full"
+						class="w-full pb-1"
 					>
-						New namespace
+						New Namespace
 					</stylized-button>
 
 					${repeat(

@@ -1,5 +1,6 @@
 @use '../shared/common';
 @use '../shared/consts';
+@use '../shared/utils';
 
 :host {
 	display: block;
@@ -145,6 +146,35 @@
 			transition:
 				opacity consts.$transition-length,
 				transform consts.$transition-length;
+		}
+	}
+
+	&.dashed-border-button {
+		$border-width: 3px;
+		$border-radius: 10px;
+	
+		overflow: hidden;
+		display: flex;
+		position: relative;
+		padding: $border-width;
+		border-radius: $border-radius;
+	
+		background-image: utils.dashed-border(
+			rgba(255, 255, 255, 0.12),
+			$border-radius,
+			$border-width,
+			$dash-array: (5, 11),
+			$dash-offset: 2px
+		);
+	
+		&:hover {
+			background-image: utils.dashed-border(
+				rgba(255, 255, 255, 0.15),
+				$border-radius,
+				$border-width,
+				$dash-array: (5, 11),
+				$dash-offset: 2px
+			);
 		}
 	}
 }
