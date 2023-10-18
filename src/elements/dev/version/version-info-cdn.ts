@@ -95,7 +95,7 @@ export default class VersionInfoCdn extends LitElement {
 				>
 				</dev-cdn-sites>
 			</div>
-			<h3>Custom Headers</h3>
+			<h3 class="pt-3 pb-1 text-lg">Custom Headers</h3>
 			${routesErrors.length
 				? html`<error-list id="custom-header-errors" .errors=${routesErrors}></error-list>`
 				: null}

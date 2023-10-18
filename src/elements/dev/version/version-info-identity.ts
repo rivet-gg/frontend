@@ -187,7 +187,7 @@ export default class VersionInfoIdentity extends LitElement {
 				@multi-select=${this.onSelect.bind(this)}
 			>
 			</file-upload-list>
-			<h4>Custom display names</h4>
+			<h3 class="pb-1 text-lg">Custom display names</h3>
 			${customDisplayNameErrors.length
 				? html`<error-list .errors=${customDisplayNameErrors}></error-list>`
 				: null}
