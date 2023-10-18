@@ -30,12 +30,11 @@ export default class DevGroupBanner extends LitElement {
 					${this.group
 						? html`
 								${
-									when(this.group.isCurrentIdentityMember, () => {
-										html`
+									when(this.group.isCurrentIdentityMember, () => { 
+										return html`
 											<stylized-button
 												class="absolute top-6 right-10"
 												color="gray"
-												.icon=${'solid/gear'}
 												.href=${routes.groupSettings.build({ groupId: this.group.groupId })}
 											>
 												Settings

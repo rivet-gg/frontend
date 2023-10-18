@@ -277,9 +277,11 @@ export default class DevGames extends LitElement {
 						@click=${this.openGroupModal.bind(this)}
 						@mouseenter=${() => (this.createGroupHovered = true)}
 						@mouseleave=${() => (this.createGroupHovered = false)}
-					>
-						<div class="font-bold text-lg text-center">
+					>	
+						<div class="font-bold text-lg pb-0.5 pr-2">
 							<e-svg src="solid/plus"></e-svg>
+						</div>
+						<div class="font-bold text-lg text-center">
 							New Developer Group
 						</div>
 					</div>`
@@ -350,8 +352,7 @@ export default class DevGames extends LitElement {
 									> -->
 									<stylized-button
 										class="billing-button"
-										icon="solid/dollar-sign"
-										border-color=${tailwind_palette['muted-text']}
+										border-color=${tailwind_palette['raised-bg-border-color']}
 										border-width=".75px"
 										href=${routes.groupSettings.build({
 											groupId: group.groupId,
@@ -362,8 +363,7 @@ export default class DevGames extends LitElement {
 									>
 									<stylized-button
 										class="settings-button"
-										icon="regular/gear"
-										border-color=${tailwind_palette['muted-text']}
+										border-color=${tailwind_palette['raised-bg-border-color']}
 										border-width=".75px"
 										href=${routes.groupSettings.build({ groupId: group.groupId })}
 										color=${tailwind_palette['raised-bg']}
