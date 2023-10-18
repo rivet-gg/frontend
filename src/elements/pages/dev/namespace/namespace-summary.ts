@@ -172,7 +172,6 @@ export default class DevNamespaceSummary extends LitElement {
 		return html`<stylized-button
 			class=""
 			id="visit-button"
-			right-icon="solid/arrow-right"
 			.href=${visitUrl}
 		>
 			Visit
@@ -182,7 +181,7 @@ export default class DevNamespaceSummary extends LitElement {
 	renderModules() {
 		return html`
 			<div class="pt-12">
-				<h3 class="text-xl text-slate-200">Configuration</h3>
+				<h3 class="text-xl text-slate-100 pb-4">Configuration</h3>
 				<dev-version-info
 					.game=${this.game}
 					.tiers=${this.tiers}
@@ -259,7 +258,6 @@ export default class DevNamespaceSummary extends LitElement {
 							<div class="flex flex-col space-y-2 ml-auto">
 								<stylized-button
 									class="mt-auto"
-									right-icon="solid/arrow-right"
 									href=${routes.devVersionSummary.build({
 										gameId: this.game.gameId,
 										namespaceId: this.namespaceId
@@ -268,7 +266,6 @@ export default class DevNamespaceSummary extends LitElement {
 								>
 								<stylized-button
 									class="w-full"
-									right-icon="solid/arrow-right"
 									.trigger=${this.showDeployVersionSteps.bind(this)}
 								>
 									New Version
