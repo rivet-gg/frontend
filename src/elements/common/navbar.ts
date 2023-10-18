@@ -13,6 +13,7 @@ import assets from '../../data/assets';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { CloudGameCache, GroupProfileCache } from '../../data/cache';
 import { globalEventGroups, IdentityChangeEvent } from '../../utils/global-events';
+import clsx from 'clsx';
 
 export type Breadcrumb =
 	| { type: 'Home' }
@@ -140,7 +141,6 @@ export default class NavBar extends LitElement {
 								},
 								{
 									name: gameData.displayName,
-									url: routes.devGameOverview.build({ gameId: gameData.gameId }),
 									img: { type: 'Game', infoObj: gameData }
 								}
 							];
@@ -213,7 +213,6 @@ export default class NavBar extends LitElement {
 							},
 							{
 								name: 'Group Settings',
-								url: routes.groupSettings.build({ groupId: groupData.groupId })
 							}
 						];
 
@@ -249,7 +248,6 @@ export default class NavBar extends LitElement {
 								},
 								{
 									name: 'Game Settings',
-									url: routes.devGameSettings.build({ gameId: gameData.gameId })
 								}
 							];
 
@@ -352,7 +350,7 @@ export default class NavBar extends LitElement {
 							${this.renderChevron()}
 							<a
 								href=${ifDefined(crumb.url)}
-								class="text-slate-200 hover:bg-slate-200/5 hover:text-white group-last:hover:bg-transparent group-last:hover:text-slate-200 flex font-display text-md items-center rounded-md gap-3 pl-3.5 pr-3.5 py-1.5 transition"
+								class=${clsx(crumb.url ? "hover:bg-slate-200/5 hover:text-white" : "", "text-slate-200 group-last:hover:bg-transparent group-last:hover:text-slate-200 flex font-display text-md items-center rounded-md gap-3 pl-3.5 pr-3.5 py-1.5 transition")}
 							>
 								${this.renderCrumbImage(crumb)} ${crumb.name}
 							</a>
