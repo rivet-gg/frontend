@@ -246,10 +246,10 @@ export default class GroupSettingsMembers extends LitElement {
 		>
 			<modal-body slot="body">
 				${this.createInviteState == CreateInviteState.Create
-					? html`<h1>Create Group Invite</h1>
+					? html`<h4 class="pb-2 text-2xl font-bold">Create Group Invite</h4>
 							<div id="inputs">
 								<div class="input-group">
-									<h2>Expiration time</h2>
+									<h4 class="font-bold text-md pb-1">Expiration Time</h4>
 									<drop-down-list
 										light
 										fixed
@@ -261,7 +261,7 @@ export default class GroupSettingsMembers extends LitElement {
 									></drop-down-list>
 								</div>
 								<div class="input-group">
-									<h2>Maximum use count (0 for infinite)</h2>
+									<h4 class="font-bold text-md pt-2 pb-1">Max Use Count (0 for infinite)</h4>
 									<text-input
 										light
 										number
