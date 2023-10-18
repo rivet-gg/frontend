@@ -260,7 +260,7 @@ export default class GroupSettingsMembers extends LitElement {
 											(this.createInviteTTLSelection = ev.selection)}
 									></drop-down-list>
 								</div>
-								<div class="input-group">
+								<div class="input-group pb-4">
 									<h4 class="font-bold text-md pt-2 pb-1">Max Use Count (0 for infinite)</h4>
 									<text-input
 										light
@@ -280,30 +280,31 @@ export default class GroupSettingsMembers extends LitElement {
 								this.createInviteUseCountValue == null}
 								>Create</stylized-button
 							>`
-					: html`<h1>Group Invite Code</h1>
+					: html`<h4 class="text-2xl font-bold pb-2">Group Invite Code</h4>
 							<div id="result">
-								<h3 id="invite-code">${this.inviteCode}</h3>
-								<div id="invite-link-area">
+								<h4 class="text-center text-lg font-semibold my-auto">${this.inviteCode}</h4>
+								<div id="invite-link-area" class="flex flex-row align-middle space-x-2 pt-3 pb-2 relative">
 									<a
-										class="link"
+										class="link my-auto text-main-accent"
 										id="invite-link"
 										href=${routes.groupInvite.build({ code: this.inviteCode })}
 										>${routes.groupInvite.build({ code: this.inviteCode })}</a
 									>
 									<icon-button
 										id="copy-button"
+										class="pb-1"
 										color=${'#252525'}
 										highlight-color=${'#18181b'}
 										src="solid/copy"
 										.trigger=${this.copyInviteCode.bind(this)}
 									></icon-button>
-
+									
 									${this.inviteCodeCopyResult
-										? html`<div id="copy-result">${this.inviteCodeCopyResult}</div>`
+										? html`<div id="copy-result" class="absolute -right-2.5 -bottom-2">${this.inviteCodeCopyResult}</div>`
 										: null}
 								</div>
 							</div>
-							<p class="content">Share this code or link to allow people to join your group.</p>
+							<p class="pt-1 pb-4">Share this code or link to allow people to join your group.</p>
 							<stylized-button .trigger=${this.createInviteModalClose.bind(this)}
 								>Dismiss</stylized-button
 							>`}
