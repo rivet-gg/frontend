@@ -1,0 +1,70 @@
+{
+	"name": "@rivet-gg/common",
+	"version": "0.1.0",
+	"scripts": {
+		"prepack": "yarn build",
+		"build": "concurrently 'yarn:build:cjs' 'yarn:build:es' 'yarn:build:types'",
+		"build:cjs": "tsc -p tsconfig.cjs.json",
+		"build:es": "tsc -p tsconfig.es.json",
+		"build:types": "tsc -p tsconfig.types.json",
+		"build:types:downlevel": "downlevel-dts dist-types dist-types/ts3.4",
+		"clean": "rimraf ./dist-* && rimraf *.tsbuildinfo",
+		"test": "exit 0"
+	},
+	"browser": {
+		"node-fetch": false,
+		"./dist-cjs/middleware.js": "./dist-cjs/middleware.browser.js",
+		"./dist-es/middleware.js": "./dist-es/middleware.browser.js",
+		"./dist-types/middleware.js": "./dist-types/middleware.browser.js"
+	},
+	"main": "./dist-cjs/index.js",
+	"module": "./dist-es/index.js",
+	"types": "./dist-types/index.d.ts",
+	"author": {
+		"name": "Rivet SDK for JavaScript",
+		"url": "https://docs.rivet.gg/"
+	},
+	"license": "ISC",
+	"dependencies": {
+		"tslib": "^2.3.1",
+		"node-fetch": "^2.6.7"
+	},
+	"devDependencies": {
+		"@types/node-fetch": "^2.6.1",
+		"@aws-sdk/abort-controller": "3.78.0",
+		"@aws-sdk/protocol-http": "3.78.0",
+		"@types/node": "^10.0.0",
+		"concurrently": "7.0.0",
+		"downlevel-dts": "0.7.0",
+		"rimraf": "3.0.2",
+		"typedoc": "0.23.7",
+		"typescript": "~4.6.2"
+	},
+	"typesVersions": {
+		"<4.0": {
+			"dist-types/*": [
+				"dist-types/ts3.4/*"
+			]
+		}
+	},
+	"files": [
+		"dist-*"
+	],
+	"homepage": "https://github.com/rivet-gg/rivet-sdk-js",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/rivet-gg/rivet-sdk-js.git"
+	},
+	"prettier": {
+		"trailingComma": "none",
+		"tabWidth": 4,
+		"useTabs": true,
+		"singleQuote": true,
+		"printWidth": 110,
+		"endOfLine": "lf",
+		"arrowParens": "avoid",
+		"bracketSpacing": true,
+		"jsxBracketSameLine": true,
+		"jsxSingleQuote": true
+	}
+}
