@@ -3,11 +3,7 @@ import { customElement, property, query } from 'lit/decorators.js';
 import { repeat } from 'lit/directives/repeat.js';
 import { cssify } from '../../utils/css';
 import styles from './identity-status-controller.scss';
-import {
-	showActionSheet,
-	showIdentityContextMenu,
-	tooltip
-} from '../../ui/helpers';
+import { showActionSheet, showIdentityContextMenu, tooltip } from '../../ui/helpers';
 import global from '../../utils/global';
 import routes from '../../routes';
 import { padAccountNumber } from '../../data/identity';

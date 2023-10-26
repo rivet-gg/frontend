@@ -10,6 +10,7 @@
 		"start": "yarn install && yarn run serve",
 		"serve": "webpack-cli serve --config webpack.dev.js",
 		"format": "npx prettier --write --cache \"src/**/*.{ts,scss}\"",
+		"format:check": "npx prettier --check .",
 		"lint": "eslint src/",
 		"lint:fix": "eslint --fix src/"
 	},
