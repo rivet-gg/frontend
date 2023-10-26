@@ -1,5 +1,12 @@
 @use '../shared/common';
 @use '../shared/consts';
+@use '../shared/animations';
+
+:host {
+	#nav-bar {
+		@include animations.slideInFromTop(animations.$first-navigation-params);
+	}
+}
 
 // === DEBUG ===
 #debug {

@@ -544,7 +544,8 @@ export default class UIRouter extends LitElement {
 			page: true,
 			old: newestPage.old,
 			new: newestPage.new,
-			back: newestPage.back
+			back: newestPage.back,
+			first: pageList.length == 1
 		});
 
 		return html` <div class="${classes} h-full">${newestPage.renderResult.template}</div> `;

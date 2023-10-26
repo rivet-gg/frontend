@@ -1,27 +1,14 @@
 @use '../shared/common';
 @use '../shared/consts';
-
-$transition-duration: 400ms;
+@use '../shared/animations';
 
 :host {
 	flex-grow: 1;
 
 	.page {
-		transform: translateY(100%);
-
-		&.new {
-			animation: $transition-duration ease-in-out $transition-duration 1 forwards slideInFromBottom;
+		&.first {
+			position: relative;
+			@include animations.slideInFromBottom(animations.$first-navigation-params);
 		}
-	}
-}
-
-@keyframes slideInFromBottom {
-	0% {
-		transform: translateY(10%);
-		opacity: 0;
-	}
-	100% {
-		transform: translateY(0%);
-		opacity: 1;
 	}
 }
