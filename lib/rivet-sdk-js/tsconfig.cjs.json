@@ -1,0 +1,23 @@
+{
+	"extends": "./tsconfig.json",
+	"compilerOptions": {
+		"downlevelIteration": true,
+		"esModuleInterop": true,
+		"incremental": true,
+		"moduleResolution": "node",
+		"noFallthroughCasesInSwitch": true,
+		"preserveConstEnums": true,
+		"removeComments": true,
+		"resolveJsonModule": true,
+		"importHelpers": true,
+		"module": "commonjs",
+		"noEmitHelpers": true,
+		"target": "ES2018",
+		"baseUrl": ".",
+		"experimentalDecorators": true,
+		"outDir": "dist-cjs",
+		"pretty": true,
+		"rootDir": "src",
+		"strict": false
+	}
+}
