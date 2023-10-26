@@ -67,7 +67,7 @@ export default class RvtUserDashboard extends LitElement {
 						<e-svg class="w-16 h-auto" src="logo/logo-gradient-white" preserve></e-svg>
 						<h1 class="text-5xl mt-2 mb-8">Welcome to Rivet!</h1>
 						<p class="text-lg">Rivet is still in private beta.</p>
-						<p class="my-2">Join the waitlist to get early access.</p>
+						<p class="my-2 text-lg">Join the waitlist to get early access.</p>
 						<div class="flex justify-center my-8">
 							<stylized-button href="https://b8v8449klvp.typeform.com/rivet" target="_blank">
 								Beta Access Form
