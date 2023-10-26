@@ -6,6 +6,12 @@
 $tile-margin: 8px;
 $tile-border-radius: 20px;
 
+:host {
+	display: flex;
+	justify-content: center;
+	min-height: 100%;
+}
+
 #base {
 	padding: 0 20px 27px 20px;
 
@@ -60,10 +66,10 @@ $tile-border-radius: 20px;
 			object-fit: cover;
 
 			$mask: radial-gradient(
-				circle farthest-corner at 0 calc(100% + 150px),
-				rgba(0, 0, 0, 0.7) 0%,
-				rgba(0, 0, 0, 0.7) 5%,
-				rgba(0, 0, 0, 1) 100%
+					circle farthest-corner at 0 calc(100% + 150px),
+					rgba(0, 0, 0, 0.7) 0%,
+					rgba(0, 0, 0, 0.7) 5%,
+					rgba(0, 0, 0, 1) 100%
 			);
 			mask-image: $mask;
 			-webkit-mask-image: $mask;
@@ -296,9 +302,8 @@ $tile-border-radius: 20px;
 		max-width: 300px;
 		box-sizing: border-box;
 
-		transition:
-			transform consts.$transition-length,
-			box-shadow consts.$transition-length;
+		transition: transform consts.$transition-length,
+		box-shadow consts.$transition-length;
 
 		@include common.active-state();
 
@@ -403,9 +408,8 @@ $tile-border-radius: 20px;
 			max-width: 320px;
 			box-sizing: border-box;
 
-			transition:
-				transform consts.$transition-length,
-				box-shadow consts.$transition-length;
+			transition: transform consts.$transition-length,
+			box-shadow consts.$transition-length;
 
 			@include common.active-state();
 
@@ -550,9 +554,8 @@ $tile-border-radius: 20px;
 
 			box-sizing: border-box;
 			border-radius: $tile-border-radius;
-			transition:
-				transform consts.$transition-length,
-				box-shadow consts.$transition-length;
+			transition: transform consts.$transition-length,
+			box-shadow consts.$transition-length;
 
 			cursor: pointer;
 			@include common.active-state();

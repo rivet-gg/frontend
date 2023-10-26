@@ -1,4 +1,4 @@
-import { TemplateResult, html } from 'lit';
+import { html, TemplateResult } from 'lit';
 import * as pathToRegexp from 'path-to-regexp';
 import global from './utils/global';
 import utils from './utils/utils';
@@ -63,11 +63,13 @@ class Route<P extends RouteParameters, S extends SearchParameters = {}> {
 namespace routes {
 	export let home = new Route<{}>({
 		path: '/',
-		render({}) {
+		render() {
 			return {
 				title: 'Home',
 				breadcrumb: { type: 'Home' },
-				template: html` <dev-dash .identity=${global.currentIdentity}></dev-dash> `
+				template: html`
+					<rvt-user-dashboard .identity="${global.currentIdentity}"></rvt-user-dashboard>
+				`
 			};
 		}
 	});
@@ -87,7 +89,7 @@ namespace routes {
 		path: '/developer/:path*',
 		render({ path }, search) {
 			return {
-				redirect: `${window.location.origin}/${path}${
+				redirect: `${window.location.origin} /${path}${
 					search ? `?${new URLSearchParams(search).toString()}` : ''
 				}`
 			};
@@ -96,7 +98,7 @@ namespace routes {
 
 	// Reuse the same template in order to preserve the same `page-group-settings` instance.
 	function renderPageGroupSettings(groupId: string, config?: GroupSettingsRootConfig) {
-		return html`<page-group-settings .groupId=${groupId} .config=${config}></page-group-settings>`;
+		return html` <page-group-settings .groupId="${groupId}" .config="${config}"></page-group-settings>`;
 	}
 
 	export let groupSettingsRedirect = new Route<{ groupId: string }>({
@@ -131,7 +133,7 @@ namespace routes {
 			return {
 				title: 'Group',
 				breadcrumb: { type: 'Group', groupId: id },
-				template: html`<page-group .groupId=${id}></page-group>`
+				template: html` <page-group .groupId="${id}"></page-group>`
 			};
 		}
 	});
@@ -149,7 +151,7 @@ namespace routes {
 					groupId,
 					title: 'Analytics'
 				},
-				template: html`<page-analytics-overview .groupId=${groupId}></page-analytics-overview>`
+				template: html` <page-analytics-overview .groupId="${groupId}"></page-analytics-overview>`
 			};
 		}
 	});
@@ -160,7 +162,7 @@ namespace routes {
 			return {
 				title: 'Group Invite',
 				breadcrumb: { type: 'Custom' },
-				template: html`<page-group-invite .code=${code}></page-group-invite>`
+				template: html` <page-group-invite .code="${code}"></page-group-invite>`
 			};
 		}
 	});
@@ -171,7 +173,7 @@ namespace routes {
 			return {
 				title: `Settings`,
 				breadcrumb: { type: 'Custom' },
-				template: html`<page-settings .tabId=${tab}></page-settings>`
+				template: html` <page-settings .tabId="${tab}"></page-settings>`
 			};
 		}
 	});
@@ -182,7 +184,7 @@ namespace routes {
 			return {
 				title: `Link account`,
 				breadcrumb: { type: 'Custom' },
-				template: html`<page-link-game .token=${token}></page-link-game>`
+				template: html` <page-link-game .token="${token}"></page-link-game>`
 			};
 		}
 	});
@@ -196,17 +198,17 @@ namespace routes {
 			return {
 				title: 'Link Device',
 				breadcrumb: { type: 'Custom' },
-				template: html`<page-dev-device-link .deviceLinkToken=${token}></page-dev-device-link>`
+				template: html` <page-dev-device-link .deviceLinkToken="${token}"></page-dev-device-link>`
 			};
 		}
 	});
 
 	// Reuse the same template in order to preserve the same `page-dev-game` instance.
 	function renderPageDevGame(gameId: string, namespaceId: string, config: DevGameRootConfig) {
-		return html`<page-dev-game
-			.gameId=${gameId}
-			.namespaceId=${namespaceId}
-			.config=${config}
+		return html` <page-dev-game
+			.gameId="${gameId}"
+			.namespaceId="${namespaceId}"
+			.config="${config}"
 		></page-dev-game>`;
 	}
 
@@ -219,7 +221,7 @@ namespace routes {
 			return {
 				title: 'Game',
 				breadcrumb: { type: 'Game', gameId, title: 'Overview' },
-				template: html` <game-overview .gameId=${gameId}></game-overview> `
+				template: html` <game-overview .gameId="${gameId}"></game-overview> `
 			};
 		}
 	});
@@ -235,7 +237,10 @@ namespace routes {
 	});
 
 	function renderPageDevGameSettings(gameId: string, config: GameSettingsRootConfig) {
-		return html`<page-dev-game-settings .gameId=${gameId} .config=${config}></page-dev-game-settings>`;
+		return html` <page-dev-game-settings
+			.gameId="${gameId}"
+			.config="${config}"
+		></page-dev-game-settings>`;
 	}
 
 	export let devGameSettingsRedirect = new Route<{ gameId: string }>({
@@ -444,7 +449,7 @@ export namespace responses {
 				type: 'Custom'
 			},
 
-			template: html`<page-error message="Forbidden"></page-error>`
+			template: html` <page-error message="Forbidden"></page-error>`
 		};
 	}
 
@@ -454,7 +459,7 @@ export namespace responses {
 			breadcrumb: {
 				type: 'Custom'
 			},
-			template: html`<page-error message="Bad Request"></page-error>`
+			template: html` <page-error message="Bad Request"></page-error>`
 		};
 	}
 
@@ -464,7 +469,7 @@ export namespace responses {
 			breadcrumb: {
 				type: 'Custom'
 			},
-			template: html`<invalid-page-state>
+			template: html` <invalid-page-state>
 				<h1 slot="title">404</h1>
 				<h2 slot="subtitle">This page isn't available or it doesn't exist. Sorry!</h2>
 			</invalid-page-state>`
@@ -477,7 +482,7 @@ export namespace responses {
 			breadcrumb: {
 				type: 'Custom'
 			},
-			template: html`<invalid-page-state>
+			template: html` <invalid-page-state>
 				<h1 slot="title">Coming Soon</h1>
 				<h2 slot="subtitle">This page isn't available yet. Come back soon!</h2>
 				<div slot="actions">
@@ -493,15 +498,15 @@ export namespace responses {
 			breadcrumb: {
 				type: 'Custom'
 			},
-			template: html`<invalid-page-state>
+			template: html` <invalid-page-state>
 				<h1 slot="title">Registered Only</h1>
 				<h2 slot="subtitle">
 					This page isn't available for guest accounts. Register to save your account.
 				</h2>
 				<div slot="actions">
-					<stylized-button .trigger=${() => UIRoot.shared.openRegisterPanel()}
-						>Register Now</stylized-button
-					>
+					<stylized-button .trigger="${() => UIRoot.shared.openRegisterPanel()}"
+						>Register Now
+					</stylized-button>
 				</div>
 			</invalid-page-state>`
 		};
@@ -513,7 +518,7 @@ export namespace responses {
 			breadcrumb: {
 				type: 'Custom'
 			},
-			template: html`<invalid-page-state>
+			template: html` <invalid-page-state>
 				<h1 slot="title">Desktop Only</h1>
 				<h2 slot="subtitle">This page is only available on a Desktop platform.</h2>
 			</invalid-page-state>`
@@ -526,7 +531,7 @@ export namespace responses {
 			breadcrumb: {
 				type: 'Custom'
 			},
-			template: html`<page-dev-only></page-dev-only>`
+			template: html` <page-dev-only></page-dev-only>`
 		};
 	}
 
@@ -535,7 +540,7 @@ export namespace responses {
 		let errorMessage: string;
 		if (typeof error == 'string') errorMessage = error;
 		else if (error instanceof RivetError) {
-			return html`<page-error
+			return html` <page-error
 				.message=${(error.body as any)?.message}
 				.expand=${!notFullHeight}
 			></page-error>`;
@@ -548,7 +553,7 @@ export namespace responses {
 			errorMessage = err.statusText ? err.statusText : err.status.toString() ?? 'Error';
 		} else errorMessage = 'Error';
 
-		return html`<page-error .message=${errorMessage} .expand=${!notFullHeight}></page-error>`;
+		return html` <page-error .message="${errorMessage}" .expand="${!notFullHeight}"></page-error>`;
 	}
 }
 

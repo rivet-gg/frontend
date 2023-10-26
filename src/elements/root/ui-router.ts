@@ -1,15 +1,11 @@
-import { LitElement, html, PropertyValues } from 'lit';
-import { customElement, property, query } from 'lit/decorators.js';
-import { repeat } from 'lit/directives/repeat.js';
+import { html, LitElement, PropertyValues } from 'lit';
+import { customElement, property } from 'lit/decorators.js';
 import { cssify } from '../../utils/css';
-import global from '../../utils/global';
 import timing from '../../utils/timing';
-import { windowEventGroups, bodyEventGroups } from '../../utils/global-events';
+import { windowEventGroups } from '../../utils/global-events';
 import logging from '../../utils/logging';
 import { classMap } from 'lit/directives/class-map.js';
-import { styleMap } from 'lit/directives/style-map.js';
 import styles from './ui-router.scss';
-import UIRoot, { MIN_SWIPE_THRESHOLD } from './ui-root';
 import routes, {
 	RenderResult,
 	RenderResultRedirect,
@@ -89,6 +85,7 @@ export default class UIRouter extends LitElement {
 	handleScroll: (e: Event) => void;
 
 	/*=== Navigation State ===*/
+
 	/// Returns the full URL for the current page.
 	get fullPath(): string {
 		return location.href;
@@ -540,7 +537,7 @@ export default class UIRouter extends LitElement {
 
 		let newestPage = pageList[pageList.length - 1];
 
-		if (!newestPage) return html`<div id="base"></div>`;
+		if (!newestPage) return html``;
 
 		// Create class map
 		let classes = classMap({
@@ -550,17 +547,6 @@ export default class UIRouter extends LitElement {
 			back: newestPage.back
 		});
 
-		// Position old pages in the proper y-pos based on scroll
-		let scrollStyle = styleMap({
-			transform: newestPage.old ? `translateY(${-newestPage.state.scrollTop + this.scrollTop}px)` : null
-		});
-
-		// Two divs are used here because you cannot animate separate transform properties in
-		// css separately
-		return html`<div id="base">
-			<div class=${classes}>
-				<div class="y-scroll" style=${scrollStyle}>${newestPage.renderResult.template}</div>
-			</div>
-		</div>`;
+		return html` <div class="${classes} h-full">${newestPage.renderResult.template}</div> `;
 	}
 }

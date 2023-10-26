@@ -1,12 +1,12 @@
 import { customElement, property, query } from 'lit/decorators.js';
-import { LitElement, html, TemplateResult } from 'lit';
+import { html, LitElement, TemplateResult } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { when } from 'lit/directives/when.js';
 import { repeat } from 'lit/directives/repeat.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { cssify } from '../../utils/css';
 import { GlobalStatus } from '../../utils/global';
-import { globalEventGroups, windowEventGroups, GlobalStatusChangeEvent } from '../../utils/global-events';
+import { globalEventGroups, GlobalStatusChangeEvent, windowEventGroups } from '../../utils/global-events';
 import timing from '../../utils/timing';
 import styles from './ui-root.scss';
 import UIRouter, { RouteChangeEvent, RouteTitleChangeEvent } from './ui-router';
@@ -17,7 +17,7 @@ import config from '../../config';
 import { HookFetch } from '../../utils/fetch-hook';
 import { DeferredStageEvent, Stage } from '../pages/link-game';
 import StylizedButton from '../common/stylized-button';
-import { Orientation, Alignment } from '../common/overlay-positioning';
+import { Alignment, Orientation } from '../common/overlay-positioning';
 import { DropDownSelectEvent, DropDownSelection } from '../dev/drop-down-list';
 import { Breadcrumb } from '../common/navbar';
 
@@ -163,7 +163,6 @@ export default class UIRoot extends LitElement {
 	// === LIFECYCLE ===
 	connectedCallback() {
 		super.connectedCallback();
-
 		// Handle status change
 		this.handleStatusChange = this.onStatusChange.bind(this);
 		globalEventGroups.add('status-change', this.handleStatusChange);
@@ -365,7 +364,6 @@ export default class UIRoot extends LitElement {
 	// === RENDER ===
 	render() {
 		let content = null;
-
 		// NOTE: Game link page has own flow
 		if (
 			window.location.pathname.startsWith('/link/') &&
@@ -385,17 +383,16 @@ export default class UIRoot extends LitElement {
 				${this.renderBasicOverlays()}
 			`;
 		} else {
+			console.log(this.globalStatus);
 			switch (this.globalStatus) {
 				// Loading
 				case GlobalStatus.Loading:
 				case GlobalStatus.Authenticating:
 					this.showLoading();
 					break;
-
-				// Interactive
 				case GlobalStatus.Consenting:
 					this.hideLoading();
-					content = html`<page-consent></page-consent>`;
+					content = html` <rvt-dashboard></rvt-dashboard>`;
 					break;
 				case GlobalStatus.Connected:
 				case GlobalStatus.Reconnecting:
@@ -441,7 +438,7 @@ export default class UIRoot extends LitElement {
 							inFlightHostCountsSorted,
 							x => x[0],
 							x => {
-								return html`<li class="${classMap({ error: x[1] > 3 })}">
+								return html` <li class="${classMap({ error: x[1] > 3 })}">
 									${x[0]}: <span>${x[1]}</span>
 								</li>`;
 							}
@@ -454,11 +451,8 @@ export default class UIRoot extends LitElement {
 
 	renderContent() {
 		return html`
-			<!-- Offset for navbar -->
-			<div class="pt-14"></div>
-
 			<!-- Page Body -->
-			<div id="content-holder">
+			<div id="content-holder" class="min-h-screen flex pt-14 box-border">
 				<ui-router
 					@change=${this.onRouteChange.bind(this)}
 					@title-change=${this.onTitleChange.bind(this)}
