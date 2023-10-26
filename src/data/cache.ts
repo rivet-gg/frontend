@@ -19,50 +19,6 @@ export namespace RootCache {
 	}
 }
 
-export namespace ThreadHistoryCache {
-	interface Payload {
-		chatMessages: api.chat.ChatMessage[];
-	}
-
-	export async function get(threadId: string): Promise<Payload> {
-		return await readCache(['threads', threadId, 'history']);
-	}
-
-	export function set(threadId: string, payload: Payload) {
-		writeCache(['threads', threadId, 'history'], payload);
-	}
-}
-
-export namespace ThreadLiveCache {
-	interface Payload {
-		lastReadTs: Date;
-		watch: api.chat.WatchResponse;
-	}
-
-	export async function get(threadId: string): Promise<Payload> {
-		return await readCache(['threads', threadId]);
-	}
-
-	export function set(threadId: string, payload: Payload) {
-		writeCache(['threads', threadId], payload);
-	}
-}
-
-export namespace RecentThreadsCache {
-	interface Payload {
-		threads: api.identity.ChatThread[];
-		watch: api.identity.WatchResponse;
-	}
-
-	export async function get(): Promise<Payload> {
-		return await readCache(['threads', 'recent']);
-	}
-
-	export function set(payload: Payload) {
-		writeCache(['threads', 'recent'], payload);
-	}
-}
-
 export namespace IdentityProfileCache {
 	type Payload = api.identity.GetIdentityProfileCommandOutput;
 
@@ -125,41 +81,6 @@ export namespace GroupProfileCache {
 			res => {
 				cb(res);
 				GroupProfileCache.set(groupId, res);
-			},
-			cb,
-			reqOpts
-		);
-	}
-}
-
-export namespace PartyProfileCache {
-	type Payload = api.party.GetPartyProfileCommandOutput;
-
-	export async function get(partyId: string): Promise<Payload> {
-		return await readCache(['parties', partyId]);
-	}
-
-	export async function set(partyId: string, payload: Payload) {
-		await writeCache(['parties', partyId], payload);
-	}
-
-	// Watches an party endpoint while automatically taking care of reading/writing cache
-	export async function watch(
-		partyId: string,
-		cb: (data: Payload) => void,
-		reqOpts?: api.RepeatingRequestOptions
-	): Promise<api.RepeatingRequest<api.party.GetPartyProfileCommandOutput>> {
-		return await abstractWatch<
-			api.party.GetPartyProfileCommandInput,
-			api.party.GetPartyProfileCommandOutput,
-			Payload
-		>(
-			global.live.party.getPartyProfile.bind(global.live.party),
-			{ partyId },
-			PartyProfileCache.get.bind(PartyProfileCache, partyId),
-			res => {
-				cb(res);
-				PartyProfileCache.set(partyId, res);
 			},
 			cb,
 			reqOpts

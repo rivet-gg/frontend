@@ -3,13 +3,10 @@ import config from '../../config';
 import { customElement, property } from 'lit/decorators.js';
 import { cssify } from '../../utils/css';
 import styles from './link-game.scss';
-import { when } from 'lit/directives/when.js';
 import { classMap } from 'lit/directives/class-map.js';
-import { global, GlobalStatus } from '../../utils/global';
+import { global } from '../../utils/global';
 import routes, { responses } from '../../routes';
 
-import { globalEventGroups, GlobalStatusChangeEvent } from '../../utils/global-events';
-import UIRouter from '../root/ui-router';
 import settings from '../../utils/settings';
 import * as api from '../../utils/api';
 import { showAlert, tooltip } from '../../ui/helpers';
@@ -60,7 +57,7 @@ export default class LinkGamePage extends LitElement {
 		super();
 
 		this.preAuthService = new api.identity.IdentityService({
-			endpoint: config.API_IDENTITY_URL
+			endpoint: config.ORIGIN_API + '/identity'
 		});
 
 		// Automatically advance to "allow" stage if registered
@@ -341,20 +338,8 @@ export default class LinkGamePage extends LitElement {
 				<h3>Allow ${this.gameLinkData.game.displayName} to access:</h3>
 				<div id="services">
 					<div class="service">
-						<e-svg non-icon preserve src="products2/friend-duotone"></e-svg>
-						<h4>Friends</h4>
-					</div>
-					<div class="service">
 						<e-svg non-icon preserve src="products2/group-duotone"></e-svg>
 						<h4>Groups</h4>
-					</div>
-					<div class="service">
-						<e-svg non-icon preserve src="products2/party-duotone"></e-svg>
-						<h4>Parties</h4>
-					</div>
-					<div class="service">
-						<e-svg non-icon preserve src="products2/chat-duotone"></e-svg>
-						<h4>Chat</h4>
 					</div>
 				</div>
 			</div>`;

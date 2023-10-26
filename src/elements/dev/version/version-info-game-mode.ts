@@ -5,7 +5,6 @@ import { cssify } from '../../../utils/css';
 import styles from './version-info-game-mode.scss';
 import cloud from '@rivet-gg/cloud';
 import { classMap } from 'lit/directives/class-map.js';
-import { getRegionEmoji } from '../../../utils/emoji';
 import { TraversableErrors, VALIDATION_ERRORS } from '../../../utils/traversable-errors';
 import { DropDownSelectEvent } from '../drop-down-list';
 import TextInput from '../text-input';
@@ -307,8 +306,6 @@ export class DevVersionInfoLobbyGroup extends LitElement {
 
 		let hasRegion = this.config.regions.findIndex(x => x.nameId == region.regionNameId) != -1;
 
-		let regionIcon = getRegionEmoji(region.universalRegion);
-
 		let classes = classMap({
 			region: true,
 			item: true,
@@ -321,7 +318,6 @@ export class DevVersionInfoLobbyGroup extends LitElement {
 					: null}
 				<div class=${classes} @click=${this.toggleRegion.bind(this, region.regionNameId)}>
 					<div class="region-info">
-						<e-svg preserve src=${regionIcon}></e-svg>
 						<h3>${region.regionDisplayName}</h3>
 					</div>
 					<check-box ?checked=${hasRegion}></check-box>
@@ -330,7 +326,6 @@ export class DevVersionInfoLobbyGroup extends LitElement {
 			if (hasRegion) {
 				return html` <div class="region immut-info">
 					<div class="region-info">
-						<e-svg preserve src=${regionIcon}></e-svg>
 						<h3>${region.regionDisplayName}</h3>
 					</div>
 				</div>`;

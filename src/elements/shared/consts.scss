@@ -32,16 +32,15 @@ $feed-open-width: 245px;
 $mobile-navbar-height: 50px;
 $bottom-bar-height: 64px;
 $identity-status-height: 67px;
-$chat-header-height: 150px;
 
 $avatar-background: rgba(255, 255, 255, 0.35);
 $avatar-background-light: rgba(0, 0, 0, 0.1);
 $overlay-bg: rgba(0, 0, 0, 0.5);
 
-$mobile-width-threshold: 850px; // Also update in ui-root and 404.hbs
-$mobile-width-threshold-small: 585px;
-$mobile-width-threshold-medium: 945px;
-$mobile-width-threshold-large: 1270px;
+$mobile-width-threshold: 640px; // Also update in ui-root and 404.hbs
+$mobile-width-threshold-small: 640px;
+$mobile-width-threshold-medium: 1024px;
+$mobile-width-threshold-large: 1280px;
 
 $static-banner-height: 345px;
 $static-banner-height-small: 240px;

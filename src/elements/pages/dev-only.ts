@@ -4,7 +4,6 @@ import { cssify } from '../../utils/css';
 import styles from './dev-only.scss';
 
 import global from '../../utils/global';
-import * as api from '../../utils/api';
 import routes, { responses } from '../../routes';
 import UIRouter from '../root/ui-router';
 import { globalEventGroups, IdentityChangeEvent } from '../../utils/global-events';

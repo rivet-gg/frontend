@@ -1,3 +1,7 @@
+// DEPRECATED
+//
+// Use @rivet-gg/api-internal instead
+
 import * as portal from '@rivet-gg/portal';
 import * as identity from '@rivet-gg/identity';
 import * as group from '@rivet-gg/group';

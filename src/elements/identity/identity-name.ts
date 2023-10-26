@@ -3,7 +3,6 @@ import { customElement, property, query } from 'lit/decorators.js';
 import { cssify } from '../../utils/css';
 import styles from './identity-name.scss';
 import routes from '../../routes';
-import { identityRouteData } from '../../data/identity';
 import * as api from '../../utils/api';
 
 import { styleMap } from 'lit/directives/style-map.js';
@@ -50,13 +49,6 @@ export default class IdentityName extends LitElement {
 				: null}
 		</span>`;
 
-		if (this.noLink) return html`<span class="identity-name">${body}</span>`;
-		// Create link
-		else
-			return html`<a
-				class="identity-name"
-				href="${routes.identity.build(identityRouteData(this.identity))}"
-				>${body}</a
-			>`;
+		return html`<span class="identity-name">${body}</span>`;
 	}
 }

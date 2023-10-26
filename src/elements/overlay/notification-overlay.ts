@@ -13,13 +13,8 @@ import { classMap } from 'lit/directives/class-map.js';
 import logging from '../../utils/logging';
 import { repeat } from 'lit/directives/repeat.js';
 import * as uuid from 'uuid';
-import { getMessageBody } from '../../utils/chat';
-import routes from '../../routes';
-import UIRouter from '../root/ui-router';
-import { groupRouteData } from '../../data/group';
-import global, { GlobalStatus } from '../../utils/global';
+import { GlobalStatus } from '../../utils/global';
 import * as api from '../../utils/api';
-import utils from '../../utils/utils';
 import { showAlert } from '../../ui/helpers';
 
 const TICK_RATE = timing.seconds(1);
@@ -36,7 +31,6 @@ interface TimeoutNotification {
 
 	// Either
 	body: {
-		chatMessage?: api.identity.GlobalEventChatMessage;
 		error?: any;
 		system?: { icon?: string; title: string; body: TemplateResult };
 	};
@@ -69,9 +63,6 @@ export default class NotificationOverlay extends LitElement {
 		this.handleStatusChange = this.onStatusChange.bind(this);
 		globalEventGroups.add('status-change', this.handleStatusChange);
 
-		this.handleNotification = this.onNotification.bind(this);
-		globalEventGroups.add('notification', this.handleNotification);
-
 		this.handleError = this.onError.bind(this);
 		globalEventGroups.add('error', this.handleError);
 	}
@@ -85,23 +76,6 @@ export default class NotificationOverlay extends LitElement {
 		globalEventGroups.remove('error', this.handleError);
 
 		window.clearTimeout(this.clockTimeout);
-	}
-
-	onNotification(e: NotificationEvent) {
-		let chatMessage = e.value.kind.chatMessage;
-		let notification = e.value.notification;
-
-		// Insert notification
-		this.notifications.unshift({
-			id: chatMessage.thread.tailMessage.chatMessageId,
-			timestamp: chatMessage.thread.tailMessage.sendTs,
-			life: NOTIFICATION_LIFESPAN,
-			timeoutId: null,
-			isFading: false,
-			mouseOver: false,
-			body: { chatMessage }
-		});
-		this.requestUpdate('notifications');
 	}
 
 	onError(e: ErrorEvent) {
@@ -248,88 +222,6 @@ export default class NotificationOverlay extends LitElement {
 		}
 	}
 
-	chatMessageIcon(chatMessage: api.identity.GlobalEventChatMessage) {
-		let topic = chatMessage.thread.topic;
-
-		if (topic.group) {
-			return html`<group-avatar id="title-icon" .group=${topic.group.group}></group-avatar>`;
-		} else if (topic.direct) {
-			let otherIdentity =
-				topic.direct.identityA.identityId == global.currentIdentity.identityId
-					? topic.direct.identityB
-					: topic.direct.identityA;
-			return html`<identity-avatar id="title-icon" .identity=${otherIdentity}></identity-avatar>`;
-		} else return null;
-	}
-
-	chatMessageTitle(chatMessage: api.identity.GlobalEventChatMessage) {
-		let topic = chatMessage.thread.topic;
-
-		if (topic.group) {
-			return html`<h1 slot="title">${topic.group.group.displayName}</h1>`;
-		} else if (topic.direct) {
-			let otherIdentity =
-				topic.direct.identityA.identityId == global.currentIdentity.identityId
-					? topic.direct.identityB
-					: topic.direct.identityA;
-			return html`<identity-name no-link .identity=${otherIdentity} slot="title"></identity-name>`;
-		} else return null;
-	}
-
-	chatMessageSubtitle(chatMessage: api.identity.GlobalEventChatMessage) {
-		let msg = chatMessage.thread.tailMessage;
-		let topic = chatMessage.thread.topic;
-
-		if (msg.body.text) {
-			if (topic.group) {
-				return html`<identity-name .identity=${msg.body.text.sender}></identity-name>`;
-			}
-
-			return null;
-		} else return null;
-	}
-
-	chatMessageDetails(chatMessage: api.identity.GlobalEventChatMessage) {
-		let msg = chatMessage.thread.tailMessage;
-		let body = getMessageBody(msg as api.chat.ChatMessage);
-
-		if (msg.body.text) {
-			return html`<rich-text
-				slot="details"
-				.content=${utils.truncateText((body as string).trim(), 200)}
-			></rich-text>`;
-		} else return html`<div slot="details">${body}</div>`;
-	}
-
-	chatMessageClick(chatMessage: api.identity.GlobalEventChatMessage) {
-		// Handle the notification
-		if (chatMessage.thread.topic.group) {
-			// Open the party
-			UIRouter.shared.navigate(
-				routes.groupChat.build(groupRouteData(chatMessage.thread.topic.group.group))
-			);
-		} else if (chatMessage.thread.topic.direct) {
-			let direct = chatMessage.thread.topic.direct;
-
-			// Open the identity
-			UIRouter.shared.navigate(
-				routes.identityDirectChat.build({
-					id:
-						direct.identityA.identityId == global.currentIdentity.identityId
-							? direct.identityB.identityId
-							: direct.identityA.identityId
-				})
-			);
-		} else if (chatMessage.thread.topic.party) {
-			// Open the party
-			UIRouter.shared.navigate(
-				routes.party.build({ id: chatMessage.thread.topic.party.party.partyId })
-			);
-		} else {
-			logging.warn('Failed to find action for notification', chatMessage);
-		}
-	}
-
 	errorClick(error: any) {
 		showAlert(error.name ?? 'Error', error.message ?? error);
 	}
@@ -364,25 +256,7 @@ export default class NotificationOverlay extends LitElement {
 					n => {
 						let classes = classMap({ fading: n.isFading });
 
-						if (n.body.chatMessage) {
-							let body = n.body.chatMessage;
-
-							return html`<identity-notification
-								class=${classes}
-								.timestamp=${n.timestamp}
-								.trigger=${this.chatMessageClick.bind(this, body)}
-								@opened=${this.dismissNotification.bind(this, n.id)}
-								@pointerenter=${this.pointerEnterNotification.bind(this, n.id)}
-								@pointerleave=${this.pointerLeaveNotification.bind(this, n.id)}
-								@pointercancel=${this.pointerLeaveNotification.bind(this, n.id)}
-								@close=${this.removeNotification.bind(this, n.id)}
-								@drop=${this.dismissNotification.bind(this, n.id)}
-								temporary
-							>
-								${this.chatMessageIcon(body)}${this.chatMessageTitle(body)}
-								${this.chatMessageSubtitle(body)}${this.chatMessageDetails(body)}
-							</identity-notification>`;
-						} else if (n.body.error) {
+						if (n.body.error) {
 							let body = n.body.error;
 
 							return html`<identity-notification

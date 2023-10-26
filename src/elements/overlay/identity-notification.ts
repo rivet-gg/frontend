@@ -181,7 +181,9 @@ export default class IdentityNotification extends LitElement {
 						</div>
 						<div id="close-holder">
 							<date-display id="date" short .timestamp=${this.timestamp}></date-display>
-							<e-svg id="close" src="regular/xmark" @click=${this.close.bind(this)}></e-svg>
+							<div class="pb-[.7rem]">
+								<e-svg id="close" src="regular/xmark" @click=${this.close.bind(this)}></e-svg>
+							</div>
 						</div>
 					</div>
 					<slot name="subtitle"></slot>

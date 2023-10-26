@@ -6,7 +6,7 @@ import timing from './timing';
 import { windowEventGroups, globalEventGroups } from './global-events';
 import * as api from './api';
 import * as cloud from '@rivet-gg/cloud';
-import { RecentThreadsCache, RootCache } from '../data/cache';
+import { RootCache } from '../data/cache';
 import PushNotifications from './push-notifications';
 import { BroadcastEvent, BroadcastEventKind } from '../data/broadcast';
 import { ls } from './cache';
@@ -15,9 +15,7 @@ import { RivetClient } from '@rivet-gg/api-internal';
 import { Fetcher, fetcher } from '@rivet-gg/api-internal/core';
 import { HttpRequest } from '@aws-sdk/protocol-http';
 import { HttpHandlerOptions } from '@aws-sdk/types';
-import { FailedResponse } from '@rivet-gg/api-internal/core/fetcher/APIResponse';
-
-const CHAT_THREAD_HISTORY = 64;
+import { FailedResponse } from '@rivet-gg/api-internal/types/core/fetcher/APIResponse';
 
 // Keep in sync with mobile widths in consts.css
 export enum WindowSize {
@@ -70,19 +68,6 @@ export class GlobalState {
 
 	/// Data for the current signed in identity.
 	currentIdentity: api.identity.IdentityProfile;
-	/// Data for the current active party.
-	currentParty?: api.party.PartySummary;
-
-	/// Recent threads in the sidebar.
-	recentThreads: api.identity.ChatThread[] = [];
-
-	/// A list of recent followers
-	recentFollowers: api.identity.IdentityHandle[] = [];
-
-	/// Thread ID of the current thread.
-	currentThread: string;
-	/// Whether or not the current thread is active (the user is not AFK).
-	currentThreadActive = false;
 
 	status: GlobalStatus = GlobalStatus.Loading;
 
@@ -96,7 +81,6 @@ export class GlobalState {
 
 	identityStream: api.RepeatingRequest<api.identity.GetIdentitySelfProfileCommandOutput>;
 	eventStream: api.RepeatingRequest<api.identity.WatchEventsCommandOutput>;
-	recentFollowersStream: api.RepeatingRequest<api.identity.ListRecentFollowersCommandOutput>;
 
 	// Mobile information
 	windowSize: number = WindowSize.Large;
@@ -156,23 +140,9 @@ export class GlobalState {
 		};
 
 		// Create live instance.
-		logging.net('Connecting to live...', config.API_PORTAL_URL);
+		logging.net('Connecting to live...', config.ORIGIN_API + '/portal');
 		this.api = new RivetClient({
-			environment: {
-				auth: config.API_AUTH_URL,
-				chat: config.API_CHAT_URL,
-				cloud: config.API_CLOUD_URL,
-				group: config.API_GROUP_URL,
-				identity: config.API_IDENTITY_URL,
-				kv: config.API_KV_URL,
-				party: config.API_PARTY_URL,
-				portal: config.API_PARTY_URL,
-
-				// Unused
-				admin: '',
-				job: '',
-				matchmaker: ''
-			},
+			environment: config.ORIGIN_API,
 			token: async () => (await _global.authManager.fetchToken(true)).token,
 			fetcher: async args => {
 				let response = await fetcher(args);
@@ -199,27 +169,27 @@ export class GlobalState {
 		});
 		this.live = {
 			portal: new api.portal.PortalService({
-				endpoint: config.API_PORTAL_URL,
+				endpoint: config.ORIGIN_API + '/portal',
 				requestHandler: refreshMiddleware()
 			}),
 			identity: new api.identity.IdentityService({
-				endpoint: config.API_IDENTITY_URL,
+				endpoint: config.ORIGIN_API + '/identity',
 				requestHandler: refreshMiddleware()
 			}),
 			group: new api.group.GroupService({
-				endpoint: config.API_GROUP_URL,
+				endpoint: config.ORIGIN_API + '/group',
 				requestHandler: refreshMiddleware()
 			}),
 			chat: new api.chat.ChatService({
-				endpoint: config.API_CHAT_URL,
+				endpoint: config.ORIGIN_API + '/chat',
 				requestHandler: refreshMiddleware()
 			}),
 			kv: new api.kv.KvService({
-				endpoint: config.API_KV_URL,
+				endpoint: config.ORIGIN_API + '/kv',
 				requestHandler: refreshMiddleware()
 			}),
 			party: new api.party.PartyService({
-				endpoint: config.API_PARTY_URL,
+				endpoint: config.ORIGIN_API + '/party',
 				requestHandler: refreshMiddleware()
 			})
 		};
@@ -233,14 +203,14 @@ export class GlobalState {
 			});
 
 		this.auth = new api.auth.AuthService({
-			endpoint: config.API_AUTH_URL,
+			endpoint: config.ORIGIN_API + '/auth',
 			// Force the credentials to be included, since we need to be able to modify cookies here
 			requestHandler: refreshMiddleware({ credentials: 'include' })
 		});
 
 		// Build cloud instance
 		this.cloud = new cloud.CloudService({
-			endpoint: config.API_CLOUD_URL,
+			endpoint: config.ORIGIN_API + '/cloud',
 			tls: true,
 			maxAttempts: 0,
 			requestHandler: refreshMiddleware()
@@ -370,112 +340,6 @@ export class GlobalState {
 					this.setupLiveAttempts <= 3 ? timing.seconds(1) : timing.seconds(5)
 				);
 			});
-
-			this.startEventsStream();
-			this.startRecentFollowersStream();
-		});
-	}
-
-	startEventsStream() {
-		RecentThreadsCache.get().then(payload => {
-			if (payload) {
-				// Dispatch event for main-sidebar to use
-				globalEventGroups.dispatch('thread-update', payload.threads);
-
-				this.recentThreads = Array.from(payload.threads);
-			}
-
-			if (this.eventStream) this.eventStream.cancel();
-			this.eventStream = new api.RepeatingRequest(
-				async (abortSignal, watchIndex) => {
-					return await this.live.identity.watchEvents({ watchIndex }, { abortSignal });
-				},
-				{ watchIndex: payload?.watch }
-			);
-
-			this.eventStream.onMessage(res => {
-				let dispatchRecentThreads = false;
-				for (let update of res.events) {
-					if (update.kind.chatMessage) {
-						dispatchRecentThreads = true;
-
-						if (update.notification) globalEventGroups.dispatch('notification', update);
-
-						let thread = update.kind.chatMessage.thread;
-
-						let ts = thread.tailMessage ? thread.tailMessage.sendTs : thread.createTs;
-						// Remove old chat entry
-						let threadIndex = this.recentThreads.findIndex(c => c.threadId == thread.threadId);
-						if (threadIndex != -1) {
-							this.recentThreads.splice(threadIndex, 1);
-						}
-						// Insert at the appropriate date
-						let didInsert = false;
-						for (let i = this.recentThreads.length - 1; i >= 0; i--) {
-							let ts2 = this.recentThreads[i].tailMessage
-								? this.recentThreads[i].tailMessage.sendTs
-								: this.recentThreads[i].createTs;
-							if (ts2 < ts) {
-								this.recentThreads.splice(i + 1, 0, thread);
-								didInsert = true;
-								break;
-							}
-						}
-						if (!didInsert) this.recentThreads.unshift(thread);
-						if (this.recentThreads.length > CHAT_THREAD_HISTORY)
-							this.recentThreads.splice(0, this.recentThreads.length - CHAT_THREAD_HISTORY);
-					}
-					// Update unread count
-					else if (update.kind.chatRead) {
-						dispatchRecentThreads = true;
-
-						let thread = this.recentThreads.find(
-							t => t.threadId == update.kind.chatRead.threadId
-						);
-						thread.unreadCount = 0;
-						thread.lastReadTs = update.kind.chatRead.readTs;
-					}
-					// Remove thread
-					else if (update.kind.chatThreadRemove) {
-						let threadIndex = this.recentThreads.findIndex(
-							t => t.threadId == update.kind.chatThreadRemove.threadId
-						);
-						logging.debug('Thread removed', update.kind.chatThreadRemove.threadId, threadIndex);
-
-						if (threadIndex != -1) this.recentThreads.splice(threadIndex, 1);
-					} else if (update.kind.identityUpdate) {
-						// NOOP, we already tail the profile endpoint
-					} else {
-						logging.warn('Unknown update kind', update);
-					}
-				}
-
-				// Dispatch event for main-sidebar to use
-				if (dispatchRecentThreads) globalEventGroups.dispatch('thread-update', this.recentThreads);
-
-				RecentThreadsCache.set({
-					threads: this.recentThreads,
-					watch: res.watch
-				});
-			});
-
-			this.eventStream.onError(err => {
-				logging.error('Request error', err);
-			});
-		});
-	}
-
-	startRecentFollowersStream() {
-		if (this.recentFollowersStream) this.recentFollowersStream.cancel();
-		this.recentFollowersStream = new api.RepeatingRequest(async (abortSignal, watchIndex) => {
-			return await this.live.identity.listRecentFollowers({ watchIndex }, { abortSignal });
-		});
-		this.recentFollowersStream.onMessage(res => {
-			this.recentFollowers = res.identities;
-			globalEventGroups.dispatch('recent-followers-update', null);
-		});
-		this.recentFollowersStream.onError(err => {
-			logging.error('Request error', err);
 		});
 	}
 
@@ -549,11 +413,6 @@ export class GlobalState {
 
 		// Dispatch resize event
 		if (this.windowSize != oldSize) globalEventGroups.dispatch('resize', this.windowSize);
-	}
-
-	// Dispatch a read event for the purpose of updating the main sidebar
-	readThread(id: string) {
-		globalEventGroups.dispatch('thread-read', id);
 	}
 }
 

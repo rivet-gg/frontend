@@ -1,6 +1,5 @@
 import { LitElement, html, PropertyValues } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { styleMap } from 'lit/directives/style-map.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { when } from 'lit/directives/when.js';
 import { cssify } from '../../utils/css';
@@ -10,7 +9,6 @@ import * as api from '../../utils/api';
 import cloud from '@rivet-gg/cloud';
 import global from '../../utils/global';
 import logging from '../../utils/logging';
-import { identityRouteData } from '../../data/identity';
 import routes from '../../routes';
 import { globalEventGroups } from '../../utils/global-events';
 import UIRoot from '../root/ui-root';
@@ -33,21 +31,9 @@ export interface Context {
 		identity: api.identity.IdentityHandle;
 		groupId: string;
 	};
-	partyMember?: {
-		partyMember: api.party.PartyMemberSummary;
-		selfIsLeader: Boolean;
-	};
 	group?: {
 		group: api.group.GroupHandle;
 		selfIsMember: boolean;
-	};
-	chatThread?: {
-		identityId?: string;
-		groupId?: string;
-	};
-	chatMessage?: {
-		chatMessage: api.chat.ChatMessage;
-		replyCb: (chatMessageId: string) => void;
 	};
 	lobby?: {
 		lobby: cloud.AnalyticsLobbySummary;
@@ -67,9 +53,6 @@ export default class ContextMenu extends LitElement {
 	// === EXTRA DATA ===
 	@property({ type: Object })
 	identitySummary: api.identity.IdentitySummary = null;
-	// Fake follow state
-	@property({ type: Boolean })
-	isFollowing: boolean = false;
 
 	isFetching: boolean = false;
 
@@ -83,7 +66,6 @@ export default class ContextMenu extends LitElement {
 		if (changedProperties.has('ctx')) {
 			// Reset data
 			this.identitySummary = null;
-			this.isFollowing = false;
 			this.isFetching = false;
 
 			let ctx = this.ctx;
@@ -108,7 +90,6 @@ export default class ContextMenu extends LitElement {
 			let identity = this.ctx.identity?.identity ?? this.ctx.groupMember.identity;
 			if (ctxIdentityId == identity.identityId) {
 				this.identitySummary = res.identities[0];
-				this.isFollowing = this.identitySummary.following;
 			}
 		} catch (err) {
 			logging.error('Request error', err);
@@ -116,27 +97,6 @@ export default class ContextMenu extends LitElement {
 		}
 
 		this.isFetching = false;
-	}
-
-	async toggleFollow() {
-		let summary = this.identitySummary;
-
-		try {
-			if (summary.following) {
-				await global.live.identity.unfollowIdentity({
-					identityId: summary.identityId
-				});
-				this.isFollowing = false;
-			} else {
-				await global.live.identity.followIdentity({
-					identityId: summary.identityId
-				});
-				this.isFollowing = true;
-			}
-		} catch (err) {
-			logging.error('Error following', err);
-			globalEventGroups.dispatch('error', err);
-		}
 	}
 
 	async resolveJoinRequest(resolution: boolean) {
@@ -151,28 +111,6 @@ export default class ContextMenu extends LitElement {
 			});
 		} catch (err) {
 			logging.error('Request Error', err);
-			globalEventGroups.dispatch('error', err);
-		}
-	}
-
-	async kickPartyMember() {
-		let identity = this.ctx.partyMember.partyMember.identity;
-
-		try {
-			await global.live.party.kickMember({ identityId: identity.identityId });
-		} catch (err) {
-			logging.error('Request error', err);
-			globalEventGroups.dispatch('error', err);
-		}
-	}
-
-	async transferPartyOwnership() {
-		let identity = this.ctx.partyMember.partyMember.identity;
-
-		try {
-			await global.live.party.transferPartyOwnership({ identityId: identity.identityId });
-		} catch (err) {
-			logging.error('Request error', err);
 			globalEventGroups.dispatch('error', err);
 		}
 	}
@@ -226,14 +164,10 @@ export default class ContextMenu extends LitElement {
 		let ctx = this.ctx;
 
 		let body;
-		if (ctx.identity) body = this.renderIdentityContextMenu();
-		else if (ctx.groupMember) body = this.renderGroupMemberContextMenu();
+		if (ctx.groupMember) body = this.renderGroupMemberContextMenu();
 		else if (ctx.joinRequest) body = this.renderJoinRequestContextMenu();
 		else if (ctx.bannedIdentity) body = this.renderBannedIdentityContextMenu();
 		else if (ctx.group) body = this.renderGroupContextMenu();
-		else if (ctx.partyMember) body = this.renderPartyMemberContextMenu();
-		else if (ctx.chatMessage) body = this.renderChatMessageContextMenu();
-		else if (ctx.chatThread) body = this.renderChatThreadContextMenu();
 		else if (ctx.lobby) body = this.renderLobbyContextMenu();
 
 		if (!body) logging.warn('invalid context menu body', ctx);
@@ -255,31 +189,6 @@ export default class ContextMenu extends LitElement {
 		</div>`;
 	}
 
-	renderIdentityContextMenu() {
-		let ctx = this.ctx.identity;
-		let identity = ctx.identity;
-		let summary = this.identitySummary;
-
-		let isSelf = identity.identityId == global.currentIdentity.identityId;
-
-		return html`<context-action href=${routes.identity.build(identityRouteData(identity))}
-				>View profile</context-action
-			>
-			${when(
-				!isSelf,
-				() =>
-					html`<context-action href=${routes.identityDirectChat.build(identityRouteData(identity))}
-							>Send message</context-action
-						><context-action
-							class=${classMap({ destructive: this.isFollowing })}
-							.trigger=${this.toggleFollow.bind(this)}
-							@triggered=${this.onActionClick.bind(this)}
-							?loading=${!summary}
-							>${this.isFollowing ? 'Remove' : 'Add'} friend</context-action
-						>`
-			)}`;
-	}
-
 	renderGroupMemberContextMenu() {
 		let ctx = this.ctx.groupMember;
 		let identity = ctx.identity;
@@ -293,49 +202,29 @@ export default class ContextMenu extends LitElement {
 
 		let showAdminControls = !isSelf && ctx.selfIsOwner;
 
-		return html`<context-action href=${routes.identity.build(identityRouteData(identity))}
-				>View profile</context-action
-			>
-			${when(
-				!isSelf,
-				() =>
-					html`<context-action href=${routes.identityDirectChat.build(identityRouteData(identity))}
-							>Send message</context-action
-						><context-action
-							class=${classMap({ destructive: this.isFollowing })}
-							.trigger=${this.toggleFollow.bind(this)}
-							@triggered=${this.onActionClick.bind(this)}
-							?loading=${!summary}
-							>${this.isFollowing ? 'Remove' : 'Add'} friend</context-action
-						>`
-			)}
-			${when(
-				showAdminControls,
-				() =>
-					html`<div class="spacer"></div>
-						<context-action
-							class="destructive"
-							.trigger=${this.kickGroupMember.bind(this)}
-							@triggered=${this.onActionClick.bind(this)}
-							>Kick</context-action
-						><context-action
-							class="destructive"
-							.trigger=${this.banIdentity.bind(this)}
-							@triggered=${this.onActionClick.bind(this)}
-							>Ban</context-action
-						>`
-			)}`;
+		return html` ${when(
+			showAdminControls,
+			() =>
+				html`<div class="spacer"></div>
+					<context-action
+						class="destructive"
+						.trigger=${this.kickGroupMember.bind(this)}
+						@triggered=${this.onActionClick.bind(this)}
+						>Kick</context-action
+					><context-action
+						class="destructive"
+						.trigger=${this.banIdentity.bind(this)}
+						@triggered=${this.onActionClick.bind(this)}
+						>Ban</context-action
+					>`
+		)}`;
 	}
 
 	renderJoinRequestContextMenu() {
 		let ctx = this.ctx.joinRequest;
 		let identity = ctx.identity;
 
-		return html`<context-action href=${routes.identity.build(identityRouteData(identity))}
-				>View profile</context-action
-			>
-			<div class="spacer"></div>
-			<context-action
+		return html` <context-action
 				.trigger=${this.resolveJoinRequest.bind(this, true)}
 				@triggered=${this.onActionClick.bind(this)}
 				>Accept join request</context-action
@@ -349,107 +238,22 @@ export default class ContextMenu extends LitElement {
 
 	renderBannedIdentityContextMenu() {
 		let ctx = this.ctx.bannedIdentity;
-		let identity = ctx.identity;
 
-		return html`<context-action href=${routes.identity.build(identityRouteData(identity))}
-				>View profile</context-action
-			>
-			<div class="spacer"></div>
-			<context-action
-				.trigger=${this.unbanIdentity.bind(this)}
-				@triggered=${this.onActionClick.bind(this)}
-				>Unban</context-action
-			>`;
-	}
-
-	renderPartyMemberContextMenu() {
-		let ctx = this.ctx.partyMember;
-		let member = ctx.partyMember;
-		let memberIsSelf = global.currentIdentity.identityId == member.identity.identityId;
-
-		return html`<context-action href=${routes.identity.build(identityRouteData(member.identity))}
-				>View profile</context-action
-			>
-			${when(
-				!memberIsSelf && ctx.selfIsLeader,
-				() =>
-					html`<div class="spacer"></div>
-						<context-action
-							class="destructive"
-							.trigger=${this.transferPartyOwnership.bind(this)}
-							@triggered=${this.onActionClick.bind(this)}
-							>Make leader</context-action
-						>
-						<context-action
-							class="destructive"
-							.trigger=${this.kickPartyMember.bind(this)}
-							@triggered=${this.onActionClick.bind(this)}
-							>Kick</context-action
-						>`
-			)}`;
+		return html` <context-action
+			.trigger=${this.unbanIdentity.bind(this)}
+			@triggered=${this.onActionClick.bind(this)}
+			>Unban</context-action
+		>`;
 	}
 
 	renderGroupContextMenu() {
 		let ctx = this.ctx.group;
 		let group = ctx.group;
 
-		return html`<context-action href=${routes.groupSettings.build({ id: group.groupId })}
-				>View profile</context-action
-			>
-			${when(
-				ctx.selfIsMember,
-				() =>
-					html`<context-action href=${routes.groupChat.build({ id: group.groupId })}
-						>Open chat</context-action
-					>`
-			)}`;
-	}
-
-	renderChatThreadContextMenu() {
-		let ctx = this.ctx.chatThread;
-
-		return when(
-			ctx.identityId,
-			() =>
-				html`<context-action href=${routes.identity.build({ id: ctx.identityId })}
-					>View profile</context-action
-				>`,
-			() =>
-				when(
-					ctx.groupId,
-					() =>
-						html`<context-action href=${routes.groupSettings.build({ id: ctx.groupId })}
-							>View profile</context-action
-						>`,
-					() => html`<p class="muted">No actions available</p>`
-				)
-		);
-	}
-
-	renderChatMessageContextMenu() {
-		let ctx = this.ctx.chatMessage;
-		let chatMessage = ctx.chatMessage;
-
-		let identity: api.identity.IdentityHandle;
-		let isOwnMessage = false;
-		if (chatMessage.body.text) {
-			identity = chatMessage.body.text.sender;
-
-			isOwnMessage = identity.identityId == global.currentIdentity.identityId;
-		}
-
-		return html`
-			${when(
-				identity,
-				() =>
-					html`<context-action
-						.trigger=${() => ctx.replyCb(chatMessage.chatMessageId)}
-						@triggered=${this.onActionClick.bind(this)}
-						>Reply to <b>${identity.displayName}</b></context-action
-					>`,
-				() => html`<p class="muted">No actions available</p>`
-			)}
-		`;
+		return html`<context-action
+			href=${routes.groupSettings.build({ groupId: group.groupId, tab: 'General' })}
+			>View profile</context-action
+		>`;
 	}
 
 	renderLobbyContextMenu() {

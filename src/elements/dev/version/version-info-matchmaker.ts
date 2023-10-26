@@ -3,7 +3,7 @@ import { cssify } from '../../../utils/css';
 import { customElement, property, queryAll } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { map } from 'lit/directives/map.js';
-import * as cloud from '@rivet-gg/api-internal/api/resources/cloud';
+import { Rivet } from '@rivet-gg/api-internal';
 import styles from './version-info-matchmaker.scss';
 import { TraversableErrors, VALIDATION_ERRORS } from '../../../utils/traversable-errors';
 import { ToggleSwitchEvent } from '../../common/toggle-switch';
@@ -11,48 +11,49 @@ import { DropDownSelectEvent, DropDownSelection } from '../drop-down-list';
 import { SelectBuildEvent } from '../builds';
 import * as ext from './ext';
 
-export const HCAPTCHA_DIFFICULTIES: DropDownSelection<cloud.version.matchmaker.CaptchaHcaptchaLevel>[] = [
-	{
-		label: 'Easy',
-		value: cloud.version.matchmaker.CaptchaHcaptchaLevel.Easy
-	},
-	{
-		label: 'Moderate',
-		value: cloud.version.matchmaker.CaptchaHcaptchaLevel.Moderate
-	},
-	{
-		label: 'Difficult',
-		value: cloud.version.matchmaker.CaptchaHcaptchaLevel.Difficult
-	},
-	{
-		label: 'Always On',
-		value: cloud.version.matchmaker.CaptchaHcaptchaLevel.AlwaysOn
-	}
-];
+export const HCAPTCHA_DIFFICULTIES: DropDownSelection<Rivet.cloud.version.matchmaker.CaptchaHcaptchaLevel>[] =
+	[
+		{
+			label: 'Easy',
+			value: Rivet.cloud.version.matchmaker.CaptchaHcaptchaLevel.Easy
+		},
+		{
+			label: 'Moderate',
+			value: Rivet.cloud.version.matchmaker.CaptchaHcaptchaLevel.Moderate
+		},
+		{
+			label: 'Difficult',
+			value: Rivet.cloud.version.matchmaker.CaptchaHcaptchaLevel.Difficult
+		},
+		{
+			label: 'Always On',
+			value: Rivet.cloud.version.matchmaker.CaptchaHcaptchaLevel.AlwaysOn
+		}
+	];
 
-const PORT_PROTOCOLS: DropDownSelection<cloud.version.matchmaker.PortProtocol>[] = [
+const PORT_PROTOCOLS: DropDownSelection<Rivet.cloud.version.matchmaker.PortProtocol>[] = [
 	{
 		label: 'HTTP',
-		value: cloud.version.matchmaker.PortProtocol.Http
+		value: Rivet.cloud.version.matchmaker.PortProtocol.Http
 	},
 	{
 		label: 'HTTPS',
-		value: cloud.version.matchmaker.PortProtocol.Https
+		value: Rivet.cloud.version.matchmaker.PortProtocol.Https
 	},
 	{
 		label: 'UDP',
-		value: cloud.version.matchmaker.PortProtocol.Udp
+		value: Rivet.cloud.version.matchmaker.PortProtocol.Udp
 	}
 ];
 
-const NETWORK_MODES: DropDownSelection<cloud.version.matchmaker.NetworkMode>[] = [
+const NETWORK_MODES: DropDownSelection<Rivet.cloud.version.matchmaker.NetworkMode>[] = [
 	{
 		label: 'Bridge',
-		value: cloud.version.matchmaker.NetworkMode.Bridge
+		value: Rivet.cloud.version.matchmaker.NetworkMode.Bridge
 	},
 	{
 		label: 'Host',
-		value: cloud.version.matchmaker.NetworkMode.Host
+		value: Rivet.cloud.version.matchmaker.NetworkMode.Host
 	}
 ];
 
@@ -64,16 +65,16 @@ export default class VersionInfoMatchmaker extends LitElement {
 	static styles = cssify(styles);
 
 	@property({ type: Object })
-	game: cloud.GameFull;
+	game: Rivet.cloud.GameFull;
 
 	@property({ type: Object })
-	config: cloud.version.Config;
+	config: Rivet.cloud.version.Config;
 
 	@property({ type: Object })
 	configExt: ext.MatchmakerConfigExt = { config: null, gameModes: [], docker: null };
 
 	@property({ type: Object })
-	tiers: cloud.RegionTier[] = [];
+	tiers: Rivet.cloud.RegionTier[] = [];
 
 	@property({ type: Boolean })
 	editing: boolean;
@@ -188,7 +189,7 @@ export default class VersionInfoMatchmaker extends LitElement {
 		if (e.value) {
 			this.configExt.config.captcha = {
 				hcaptcha: {
-					level: cloud.version.matchmaker.CaptchaHcaptchaLevel.Easy
+					level: Rivet.cloud.version.matchmaker.CaptchaHcaptchaLevel.Easy
 				},
 				requestsBeforeReverify: 15,
 				verificationTtl: 3600000
@@ -200,7 +201,9 @@ export default class VersionInfoMatchmaker extends LitElement {
 		this.updateConfig();
 	}
 
-	changeHcaptchaDifficulty(event: DropDownSelectEvent<cloud.version.matchmaker.CaptchaHcaptchaLevel>) {
+	changeHcaptchaDifficulty(
+		event: DropDownSelectEvent<Rivet.cloud.version.matchmaker.CaptchaHcaptchaLevel>
+	) {
 		this.configExt.config.captcha.hcaptcha.level = event.selection.value;
 
 		this.updateConfig();
@@ -242,7 +245,7 @@ export default class VersionInfoMatchmaker extends LitElement {
 			this.config.matchmaker.docker = {
 				image: undefined,
 				args: [],
-				networkMode: cloud.version.matchmaker.NetworkMode.Bridge
+				networkMode: Rivet.cloud.version.matchmaker.NetworkMode.Bridge
 			};
 			this.configExt.docker = {
 				docker: this.config.matchmaker.docker,
@@ -251,7 +254,7 @@ export default class VersionInfoMatchmaker extends LitElement {
 						label: 'default',
 						port: {
 							port: 80,
-							protocol: cloud.version.matchmaker.PortProtocol.Https
+							protocol: Rivet.cloud.version.matchmaker.PortProtocol.Https
 						}
 					}
 				],
@@ -296,7 +299,7 @@ export default class VersionInfoMatchmaker extends LitElement {
 		this.updateConfig();
 	}
 
-	updateNetworkMode(event: DropDownSelectEvent<cloud.version.matchmaker.NetworkMode>) {
+	updateNetworkMode(event: DropDownSelectEvent<Rivet.cloud.version.matchmaker.NetworkMode>) {
 		this.dockerRuntime.networkMode = event.selection.value;
 
 		this.updateConfig();
@@ -339,7 +342,7 @@ export default class VersionInfoMatchmaker extends LitElement {
 		this.updateConfig();
 	}
 
-	updatePortRange(idx: number, key: keyof cloud.version.matchmaker.PortRange, event: InputEvent) {
+	updatePortRange(idx: number, key: keyof Rivet.cloud.version.matchmaker.PortRange, event: InputEvent) {
 		let target = event.target as HTMLInputElement;
 		let value = parseInt(target.value);
 		if (!isNaN(value)) this.dockerRuntimeExt.ports[idx].port.portRange[key] = value;
@@ -355,11 +358,12 @@ export default class VersionInfoMatchmaker extends LitElement {
 		this.updateConfig();
 	}
 
-	updatePortProtocol(idx: number, event: DropDownSelectEvent<cloud.version.matchmaker.PortProtocol>) {
+	updatePortProtocol(idx: number, event: DropDownSelectEvent<Rivet.cloud.version.matchmaker.PortProtocol>) {
 		// Switch from target port to port range and vice versa
 		if (
-			this.dockerRuntimeExt.ports[idx].port.protocol != cloud.version.matchmaker.PortProtocol.Udp &&
-			event.selection.value == cloud.version.matchmaker.PortProtocol.Udp
+			this.dockerRuntimeExt.ports[idx].port.protocol !=
+				Rivet.cloud.version.matchmaker.PortProtocol.Udp &&
+			event.selection.value == Rivet.cloud.version.matchmaker.PortProtocol.Udp
 		) {
 			this.dockerRuntimeExt.ports[idx].port.port = undefined;
 			this.dockerRuntimeExt.ports[idx].port.portRange = {
@@ -367,8 +371,9 @@ export default class VersionInfoMatchmaker extends LitElement {
 				max: MAX_HOST_PORT
 			};
 		} else if (
-			this.dockerRuntimeExt.ports[idx].port.protocol == cloud.version.matchmaker.PortProtocol.Udp &&
-			event.selection.value != cloud.version.matchmaker.PortProtocol.Udp
+			this.dockerRuntimeExt.ports[idx].port.protocol ==
+				Rivet.cloud.version.matchmaker.PortProtocol.Udp &&
+			event.selection.value != Rivet.cloud.version.matchmaker.PortProtocol.Udp
 		) {
 			this.dockerRuntimeExt.ports[idx].port.port = 80;
 			this.dockerRuntimeExt.ports[idx].port.portRange = undefined;
@@ -387,7 +392,7 @@ export default class VersionInfoMatchmaker extends LitElement {
 	createPort() {
 		this.dockerRuntimeExt.ports.push({
 			label: '',
-			port: { port: 80, protocol: cloud.version.matchmaker.PortProtocol.Https }
+			port: { port: 80, protocol: Rivet.cloud.version.matchmaker.PortProtocol.Https }
 		});
 		this.updateConfig();
 
@@ -470,13 +475,13 @@ export default class VersionInfoMatchmaker extends LitElement {
 						${this.configExt.config.captcha ? this.renderCaptchaConfig() : null}
 				  </div>
 				</div>`
-				: html`<h3>Captcha Verification</h3>
+				: html`<h3 class="pb-1 text-lg">Captcha Verification</h3>
 						<p class="muted">No captcha</p>`}
 
-			<h3>Runtime</h3>
+			<h3 class="pt-3 pb-1 text-lg">Runtime</h3>
 			${this.renderRuntimeConfig()}
 
-			<h3>Game Modes</h3>
+			<h3 class="pt-3 pb-1 text-lg">Game Modes</h3>
 			${gameModeMetaErrors.length
 				? html`<error-list .errors=${gameModeMetaErrors}></error-list>`
 				: null}
@@ -794,7 +799,7 @@ export default class VersionInfoMatchmaker extends LitElement {
 						></text-input>
 					</td>
 					<td>
-						${p.port.protocol == cloud.version.matchmaker.PortProtocol.Udp
+						${p.port.protocol == Rivet.cloud.version.matchmaker.PortProtocol.Udp
 							? html`<div class="port-range">
 									<text-input
 										class="port short"
@@ -849,7 +854,7 @@ export default class VersionInfoMatchmaker extends LitElement {
 					</div>
 				</td>
 				<td>
-					${p.port.protocol == cloud.version.matchmaker.PortProtocol.Udp
+					${p.port.protocol == Rivet.cloud.version.matchmaker.PortProtocol.Udp
 						? html`<p class="immut-info">${p.port.portRange.min} - ${p.port.portRange.max}</p>`
 						: html`<p class="immut-info">${p.port.port}</p>`}
 				</td>

@@ -52,7 +52,10 @@ interface RemovablePage {
 }
 
 export class RouteChangeEvent extends Event {
-	constructor(public title: string, public breadcrumb: Breadcrumb = undefined) {
+	constructor(
+		public title: string,
+		public breadcrumb: Breadcrumb = undefined
+	) {
 		super('change');
 	}
 }
@@ -302,9 +305,6 @@ export default class UIRouter extends LitElement {
 		logging.event('Navigate', url, opts.pageState);
 
 		let fromHome = false;
-
-		// Hide overlays on navigation
-		UIRoot.shared.closeSearchPanel();
 
 		// Prevent adding page to history upon navigating back to previous page
 		if (opts.previousPage == null) {

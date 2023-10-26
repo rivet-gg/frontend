@@ -6,7 +6,6 @@ import { repeat } from 'lit/directives/repeat.js';
 import { when } from 'lit/directives/when.js';
 import utils from '../../utils/utils';
 import cloud from '@rivet-gg/cloud';
-import { getRegionEmoji } from '../../utils/emoji';
 
 @customElement('version-publish-summary')
 export default class VersionPublishSumary extends LitElement {
@@ -93,7 +92,6 @@ export default class VersionPublishSumary extends LitElement {
 
 	renderRegion(r: cloud.LobbyGroupRegion) {
 		let regionConfig = this.game.availableRegions.find(a => r.regionId == a.regionId);
-		let regionIcon = getRegionEmoji(regionConfig.universalRegion);
 
 		let formattedTierNameId = r.tierNameId
 			.replace('basic', 'Basic')
@@ -102,10 +100,7 @@ export default class VersionPublishSumary extends LitElement {
 
 		return html`<div class="region">
 			<ul>
-				<li>
-					<e-svg class="region-icon" preserve src=${regionIcon}></e-svg>
-					${regionConfig.regionDisplayName} (${formattedTierNameId})
-				</li>
+				<li>${regionConfig.regionDisplayName} (${formattedTierNameId})</li>
 				<li class="expanded-list-item">
 					<p>Lobbies</p>
 				</li>

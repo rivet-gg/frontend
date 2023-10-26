@@ -34,7 +34,7 @@ module.exports = async function () {
 
 		RIVET_NAMESPACE: process.env.CF_PAGES_BRANCH,
 
-		BASE_URL: process.env.BASE_URL || 'https://staging.gameinc.io',
+		RIVET_API_ENDPOINT: process.env.RIVET_API_ENDPOINT || 'https://api.staging.gameinc.io',
 		ASSETS_URL: process.env.ASSETS_URL
 	};
 	for (let key in envValues) {
@@ -79,12 +79,6 @@ module.exports = async function () {
 	});
 	Object.assign(colors, {
 		separator: '#4a4a4a'
-	});
-	Object.assign(colors, {
-		'status-in-game': colors['blue'],
-		'status-online': colors['green'],
-		'status-away': colors['yellow'],
-		'status-offline': colors['light-gray']
 	});
 
 	// Export values

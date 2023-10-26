@@ -49,7 +49,7 @@ export default class GroupTile extends LitElement {
 		>
 			${this.noLink
 				? null
-				: html`<a id="link" href=${routes.groupSettings.build({ id: this.group.groupId })}></a>`}
+				: html`<a id="link" href=${routes.groupOverview.build({ id: this.group.groupId })}></a>`}
 			<group-avatar .light=${this.light} .group=${this.group}></group-avatar>
 			<div id="spaced">
 				<div id="content">

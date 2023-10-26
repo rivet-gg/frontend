@@ -1,9 +1,7 @@
 import logging from './logging';
-import { COLORS } from './colors';
 import config from '../config';
 import * as uuid from 'uuid';
 import timing from './timing';
-import * as api from '../utils/api';
 import numbro from 'numbro';
 
 export type EnumData<T, C> = { t: T; c: C };
@@ -13,7 +11,11 @@ const ENCODER = new TextEncoder();
 const LOG_1000 = Math.log(1000);
 
 export class OAuthProvider {
-	constructor(public id: string, public name: string, public color: string) {}
+	constructor(
+		public id: string,
+		public name: string,
+		public color: string
+	) {}
 
 	static forId(id: string): OAuthProvider {
 		return OAUTH_PROVIDERS.find(l => l.id == id);
@@ -25,7 +27,7 @@ export class OAuthProvider {
 
 	get oauthUrl(): string {
 		let nextUrl = `${window.location.origin}${window.location.pathname}?linked=${this.id}`;
-		return `${config.API_AUTH_URL}/oauth/${encodeURIComponent(this.id)}?next=${encodeURIComponent(
+		return `${config.ORIGIN_API}/auth/oauth/${encodeURIComponent(this.id)}?next=${encodeURIComponent(
 			nextUrl
 		)}`;
 	}
@@ -209,38 +211,6 @@ const utils = {
 		// If we made it this far, objects
 		// are considered equivalent
 		return true;
-	},
-
-	statusColor(identity?: api.identity.IdentityHandle): string {
-		if (!identity) return COLORS['status-offline'];
-		// if (identity.activity && identity.activity.t == "Game") return COLORS["status-in-game"];
-		switch (identity.presence.status) {
-			case api.identity.IdentityStatus.ONLINE:
-				return COLORS['status-online'];
-			case api.identity.IdentityStatus.OFFLINE:
-				return COLORS['status-offline'];
-			case api.identity.IdentityStatus.AWAY:
-				return COLORS['status-away'];
-			default:
-				logging.error('Invalid status', identity.presence.status);
-				return null;
-		}
-	},
-
-	statusText(identity?: api.identity.IdentityHandle): string {
-		if (!identity) return '...';
-
-		switch (identity.presence.status) {
-			case api.identity.IdentityStatus.ONLINE:
-				return 'Online';
-			case api.identity.IdentityStatus.OFFLINE:
-				return 'Offline';
-			case api.identity.IdentityStatus.AWAY:
-				return 'Away';
-			default:
-				logging.error('Invalid status', identity.presence.status);
-				return '?';
-		}
 	},
 
 	urlBase64ToUint8Array(base64String: string) {
@@ -488,53 +458,6 @@ const utils = {
 			.filter(Boolean)
 			.slice(0, 3)
 			.map(a => a[0]);
-	},
-
-	formatActivity(
-		presence: api.identity.IdentityPresence,
-		party?: api.party.PartyHandle | api.party.PartySummary
-	): string {
-		if (presence.gameActivity) {
-			if (party) {
-				return `Playing ${presence.gameActivity.game.displayName} with party`;
-			} else {
-				return `Playing ${presence.gameActivity.game.displayName}`;
-			}
-		} else if (party) {
-			return `In party`;
-		} else {
-			return null;
-		}
-	},
-
-	formatIdentityListName(
-		identities: api.identity.IdentityHandle[],
-		currentIdentity: api.identity.IdentityHandle
-	) {
-		// One identity in a chat
-		if (identities.length < 2) {
-			return 'Empty chat';
-		}
-		// Two identities in a chat, make the chat title the username of the other identity
-		else if (identities.length == 2) {
-			return identities.find(identity => identity.identityId != currentIdentity.identityId).displayName;
-		} else {
-			// Render list of identities
-			let displayNames = identities.map(
-				(u, i) =>
-					`${u.displayName}${
-						i == identities.length - 2 ? ', and ' : i != identities.length - 1 ? ', ' : ''
-					}`
-			);
-
-			// Truncate list to 3
-			if (identities.length > 3) {
-				displayNames.length = 3;
-				displayNames.push(`and ${identities.length - 3} more`);
-			}
-
-			return displayNames.join('').trim();
-		}
 	},
 
 	// Format a list of strings

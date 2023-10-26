@@ -1,22 +1,17 @@
 import { customElement, property, query } from 'lit/decorators.js';
-import { LitElement, html, TemplateResult, PropertyValues } from 'lit';
-import { styleMap } from 'lit/directives/style-map.js';
+import { LitElement, html, TemplateResult } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { when } from 'lit/directives/when.js';
 import { repeat } from 'lit/directives/repeat.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { cssify } from '../../utils/css';
-import global, { GlobalStatus } from '../../utils/global';
+import { GlobalStatus } from '../../utils/global';
 import { globalEventGroups, windowEventGroups, GlobalStatusChangeEvent } from '../../utils/global-events';
 import timing from '../../utils/timing';
 import styles from './ui-root.scss';
 import UIRouter, { RouteChangeEvent, RouteTitleChangeEvent } from './ui-router';
-import EmojiPicker, { EmojiItemData, EmojiSelectEvent } from '../overlay/emoji-picker';
 import { AlertOption } from '../overlay/alert-panel';
 import { ActionSheetItem } from '../overlay/action-sheet';
-import { showAlert } from '../../ui/helpers';
-import SearchPanel from '../overlay/search-panel';
-import * as api from '../../utils/api';
 import RegisterPanel from '../overlay/register-panel';
 import config from '../../config';
 import { HookFetch } from '../../utils/fetch-hook';
@@ -29,12 +24,6 @@ import { Breadcrumb } from '../common/navbar';
 export const MIN_SWIPE_THRESHOLD = 10;
 const TRANSITION_LENGTH = timing.milliseconds(200); // Match with consts.scss/$transition-length
 
-interface EmojiPickerData {
-	contextElement: HTMLElement;
-	cb: (item: EmojiItemData) => void;
-	active: boolean;
-}
-
 export interface AlertPanelData {
 	title: string;
 	details: TemplateResult;
@@ -46,21 +35,6 @@ export interface AlertPanelData {
 interface ActionSheetData {
 	contextElement: HTMLElement;
 	options: ActionSheetItem[];
-	active: boolean;
-}
-
-// Enables which item to search for in the search panel
-interface SearchPanelFilter {
-	identities?: boolean;
-	games?: boolean;
-	chats?: boolean;
-	groups?: boolean;
-}
-
-// Options for showing the search panel (with `helpers.showSearchPanel`).
-export interface SearchPanelData {
-	filter: SearchPanelFilter;
-	selectionCb?: (item: api.identity.IdentityHandle | api.group.GroupHandle) => void;
 	active: boolean;
 }
 
@@ -102,21 +76,12 @@ export default class UIRoot extends LitElement {
 	@query('ui-router')
 	router: UIRouter;
 
-	@query('emoji-picker')
-	emojiPicker: EmojiPicker;
-
-	@query('search-panel')
-	searchPanel: SearchPanel;
-
 	@query('register-panel')
 	registerPanel: RegisterPanel;
 
 	// === DATA ==
 	@property({ type: Number })
 	globalStatus: GlobalStatus = GlobalStatus.Loading;
-
-	@property({ type: Object })
-	emojiPickerData: EmojiPickerData = { contextElement: null, cb: null, active: false };
 
 	@property({ type: Object })
 	alertPanelData: AlertPanelData = { title: '', details: null, options: [], active: false };
@@ -136,9 +101,6 @@ export default class UIRoot extends LitElement {
 		orientation: Orientation.TopLeft,
 		active: false
 	};
-
-	@property({ type: Object })
-	searchPanelData: SearchPanelData = { filter: null, active: false };
 
 	@property({ type: Object })
 	dropDownListData: DropDownListData<any> = {
@@ -228,15 +190,6 @@ export default class UIRoot extends LitElement {
 	}
 
 	// === STATE MANAGEMENT ===
-	public openEmojiPicker(data: EmojiPickerData) {
-		this.emojiPickerData = data;
-	}
-
-	public closeEmojiPicker() {
-		this.emojiPickerData.active = false;
-		this.requestUpdate('emojiPickerData');
-	}
-
 	public showAlertPanel(data?: AlertPanelData) {
 		this.alertPanelData = data;
 	}
@@ -314,8 +267,7 @@ export default class UIRoot extends LitElement {
 		this.windowSize.height = window.innerHeight;
 		this.requestUpdate('windowSize');
 
-		// Turn off the emoji picker, tooltip, and context menu on resize
-		this.closeEmojiPicker();
+		// Turn off the tooltip and context menu on resize
 		this.hideContextMenu();
 		this.hideActionSheet();
 		this.hideTooltip();
@@ -329,20 +281,8 @@ export default class UIRoot extends LitElement {
 				this.hideContextMenu();
 			} else if (this.alertPanelData.active) {
 				this.hideAlertPanel();
-			} else if (this.searchPanelData.active) {
-				this.closeSearchPanel();
 			}
 		}
-	}
-
-	onEmojiSelect(event: EmojiSelectEvent) {
-		if (!this.emojiPickerData) return;
-
-		// Call callback
-		this.emojiPickerData.cb(event.item);
-
-		// Hide picker
-		this.emojiPickerData.active = false;
 	}
 
 	onRouteChange(event: RouteChangeEvent) {
@@ -361,30 +301,6 @@ export default class UIRoot extends LitElement {
 		}, TRANSITION_LENGTH);
 	}
 
-	openSearchPanel(data: SearchPanelData) {
-		this.searchPanelData = data;
-
-		this.updateComplete.then(async () => {
-			// Waiting for this makes sure that the body's scroll height is updated before setting scroll
-			// position
-			await this.getUpdateComplete();
-
-			this.searchPanel.focusInput();
-		});
-	}
-
-	closeSearchPanel() {
-		this.searchPanelData.active = false;
-		this.requestUpdate('searchPanelData');
-
-		// Clear after animation is complete
-		setTimeout(() => {
-			if (this.searchPanel) {
-				this.searchPanel.clearSearch();
-			}
-		}, timing.milliseconds(300));
-	}
-
 	openRegisterPanel() {
 		this.registerPanelActive = true;
 
@@ -399,11 +315,6 @@ export default class UIRoot extends LitElement {
 
 	closeRegisterPanel() {
 		this.registerPanelActive = false;
-
-		// Clear after animation is complete
-		setTimeout(() => {
-			if (this.searchPanel) this.registerPanel.resetRegister();
-		}, timing.milliseconds(300));
 	}
 
 	// Manage loading status
@@ -555,28 +466,6 @@ export default class UIRoot extends LitElement {
 			</div>
 
 			<nav-bar .routeTitle=${this.routeTitle} .breadcrumbs=${this.breadcrumb}></nav-bar>
-
-			<!-- Interactable Overlays -->
-			<overlay-positioning
-				.active=${this.emojiPickerData.active}
-				.contextElement=${this.emojiPickerData.contextElement}
-				.orientation=${Orientation.BottomCenter}
-				@close=${this.closeEmojiPicker.bind(this)}
-				scale-animation
-				offset-y="-5"
-			>
-				<emoji-picker @select=${this.onEmojiSelect.bind(this)}></emoji-picker>
-			</overlay-positioning>
-
-			<!-- Search overlay -->
-			<drop-down-modal
-				.active=${this.searchPanelData.active}
-				@close=${this.closeSearchPanel.bind(this)}
-			>
-				<modal-body slot="body">
-					<search-panel .options=${this.searchPanelData}></search-panel>
-				</modal-body>
-			</drop-down-modal>
 
 			<!-- Register overlay -->
 			<drop-down-modal .active=${this.registerPanelActive} @close=${this.closeRegisterPanel.bind(this)}>

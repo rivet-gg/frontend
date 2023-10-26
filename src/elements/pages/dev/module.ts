@@ -1,14 +1,6 @@
 import './device-link';
-import './game-billing';
-import './game-builds';
-import './game-kv';
-import './game-lobbies';
-import './game-logs';
-import './game-namespace';
-import './game-sites';
-import './game-summary';
-import './game-tokens';
-import './game-version-draft';
-import './game-version';
-import './game';
-import './games';
+
+import './game/module';
+import './group/module';
+import './user/module';
+import './namespace/module';

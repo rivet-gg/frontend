@@ -12,17 +12,23 @@ import { GameFull } from '@rivet-gg/cloud';
 import assets from '../../data/assets';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { CloudGameCache, GroupProfileCache } from '../../data/cache';
+import { globalEventGroups, IdentityChangeEvent } from '../../utils/global-events';
+import clsx from 'clsx';
 
 export type Breadcrumb =
 	| { type: 'Home' }
 	| { type: 'Group'; groupId: string; title?: string }
+	| { type: 'GroupSettings'; groupId: string; title?: string }
+	| { type: 'GameSettings'; gameId: string; title?: string }
 	| { type: 'Game'; gameId: string; title?: string }
+	| { type: 'Namespace'; gameId: string; namespaceId: string; title?: string }
 	| { type: 'Custom'; title?: string };
 
 interface CrumbDisplay {
 	name: string;
 	url?: string;
 	img?: { type: string; infoObj: any };
+	component?: TemplateResult;
 }
 
 @customElement('nav-bar')
@@ -43,6 +49,20 @@ export default class NavBar extends LitElement {
 	groupStream: api.RepeatingRequest<api.group.GetGroupProfileCommandOutput> = null;
 	gameStream?: api.RepeatingRequest<cloud.GetGameByIdCommandOutput>;
 
+	/// === EVENTS ===
+	handleIdentityChange: (e: IdentityChangeEvent) => void;
+
+	connectedCallback() {
+		super.connectedCallback();
+
+		this.handleIdentityChange = this.onIdentityChange.bind(this);
+		globalEventGroups.add('identity-change', this.handleIdentityChange);
+	}
+
+	onIdentityChange() {
+		this.requestUpdate();
+	}
+
 	updated(changedProperties: PropertyValues) {
 		super.updated(changedProperties);
 
@@ -54,6 +74,8 @@ export default class NavBar extends LitElement {
 
 	disconnectedCallback() {
 		super.disconnectedCallback();
+
+		globalEventGroups.remove('identity-change', this.handleIdentityChange);
 
 		if (this.groupStream) this.groupStream.cancel();
 		if (this.gameStream) this.gameStream.cancel();
@@ -86,7 +108,7 @@ export default class NavBar extends LitElement {
 						this.displaycrumbs = [
 							{
 								name: summary.displayName,
-								url: routes.groupSettings.build({ id: summary.groupId }),
+								url: routes.groupOverview.build({ id: summary.groupId }),
 								img: { type: 'Group', infoObj: summary }
 							}
 						];
@@ -111,12 +133,11 @@ export default class NavBar extends LitElement {
 							this.displaycrumbs = [
 								{
 									name: groupData.displayName,
-									url: routes.groupSettings.build({ id: groupData.groupId }),
+									url: routes.groupOverview.build({ id: groupData.groupId }),
 									img: { type: 'Group', infoObj: groupData }
 								},
 								{
 									name: gameData.displayName,
-									url: routes.devGame.build({ gameId: gameData.gameId }),
 									img: { type: 'Game', infoObj: gameData }
 								}
 							];
@@ -124,6 +145,114 @@ export default class NavBar extends LitElement {
 								this.displaycrumbs.push({
 									name: gameTitle
 								});
+
+							this.requestUpdate('displaycrumbs');
+						});
+					});
+
+					break;
+				case 'Namespace':
+					// Not the displayName of the current namespace
+					let namespaceTitle = crumb.title;
+					let namespaceId = crumb.namespaceId;
+
+					this.gameStream = await CloudGameCache.watch(crumb.gameId, async res => {
+						let gameData = res.game;
+
+						let currentNamespace = gameData.namespaces.find(ns => ns.namespaceId === namespaceId);
+
+						this.groupStream = await GroupProfileCache.watch(res.game.developerGroupId, res => {
+							let groupData = res.group;
+
+							// TODO --> Update namespace-dropdown with a drop-down-list to standardize
+							this.displaycrumbs = [
+								{
+									name: groupData.displayName,
+									url: routes.groupOverview.build({ id: groupData.groupId }),
+									img: { type: 'Group', infoObj: groupData }
+								},
+								{
+									name: gameData.displayName,
+									url: routes.devGameOverview.build({ gameId: gameData.gameId }),
+									img: { type: 'Game', infoObj: gameData }
+								},
+								{
+									name: namespaceTitle,
+									component: html`<namespace-dropdown
+										.game=${gameData}
+										.currentNamespace=${currentNamespace}
+									></namespace-dropdown>`
+								}
+							];
+
+							if (namespaceTitle !== 'Namespace' && namespaceTitle !== 'Overview') {
+								this.displaycrumbs.push({
+									name: namespaceTitle
+								});
+							}
+
+							this.requestUpdate('displaycrumbs');
+						});
+					});
+
+					break;
+				case 'GroupSettings':
+					let groupSettingsCurrentTab = crumb.title.charAt(0).toUpperCase() + crumb.title.slice(1);
+
+					this.groupStream = await GroupProfileCache.watch(crumb.groupId, res => {
+						let groupData = res.group;
+
+						this.displaycrumbs = [
+							{
+								name: groupData.displayName,
+								url: routes.groupOverview.build({ id: groupData.groupId }),
+								img: { type: 'Group', infoObj: groupData }
+							},
+							{
+								name: 'Group Settings'
+							}
+						];
+
+						if (['General', 'Members', 'Billing'].includes(groupSettingsCurrentTab)) {
+							this.displaycrumbs.push({
+								name: groupSettingsCurrentTab
+							});
+						}
+
+						this.requestUpdate('displaycrumbs');
+					});
+
+					break;
+				case 'GameSettings':
+					let gameSettingsCurrentTab = crumb.title.charAt(0).toUpperCase() + crumb.title.slice(1);
+
+					this.gameStream = await CloudGameCache.watch(crumb.gameId, async res => {
+						let gameData = res.game;
+
+						this.groupStream = await GroupProfileCache.watch(res.game.developerGroupId, res => {
+							let groupData = res.group;
+
+							this.displaycrumbs = [
+								{
+									name: groupData.displayName,
+									url: routes.groupOverview.build({ id: groupData.groupId }),
+									img: { type: 'Group', infoObj: groupData }
+								},
+								{
+									name: gameData.displayName,
+									url: routes.devGameOverview.build({ gameId: gameData.gameId }),
+									img: { type: 'Game', infoObj: gameData }
+								},
+								{
+									name: 'Game Settings'
+								}
+							];
+
+							if (['General', 'Tokens', 'Billing'].includes(gameSettingsCurrentTab)) {
+								this.displaycrumbs.push({
+									name: gameSettingsCurrentTab
+								});
+							}
 
 							this.requestUpdate('displaycrumbs');
 						});
@@ -168,6 +297,23 @@ export default class NavBar extends LitElement {
 		`;
 	}
 
+	renderChevron(): TemplateResult {
+		return html`
+			<svg
+				class="h-5 w-5 flex-shrink-0 text-gray-200"
+				viewBox="0 0 20 20"
+				fill="currentColor"
+				aria-hidden="true"
+			>
+				<path
+					fill-rule="evenodd"
+					d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z"
+					clip-rule="evenodd"
+				/>
+			</svg>
+		`;
+	}
+
 	renderCrumbImage(crumb: CrumbDisplay): TemplateResult {
 		if (typeof crumb.img === 'undefined') return html``;
 
@@ -183,33 +329,35 @@ export default class NavBar extends LitElement {
 
 	renderBreadCrumb(): TemplateResult {
 		return html`${this.displaycrumbs.map((crumb: CrumbDisplay | undefined) =>
-			when(
-				typeof crumb !== 'undefined' && crumb.name !== 'Home',
-				() => html`
+			when(typeof crumb !== 'undefined' && crumb.name !== 'Home', () => {
+				if (typeof crumb.component !== 'undefined') {
+					return html`
+						<li class="group">
+							<div class="flex items-center">
+								${this.renderChevron()}
+								<div class="px-3.5 py-1.5">${crumb.component}</div>
+							</div>
+						</li>
+					`;
+				}
+
+				return html`
 					<li class="group">
 						<div class="flex items-center">
-							<svg
-								class="h-5 w-5 flex-shrink-0 text-gray-200"
-								viewBox="0 0 20 20"
-								fill="currentColor"
-								aria-hidden="true"
-							>
-								<path
-									fill-rule="evenodd"
-									d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z"
-									clip-rule="evenodd"
-								/>
-							</svg>
+							${this.renderChevron()}
 							<a
 								href=${ifDefined(crumb.url)}
-								class="text-slate-200 hover:bg-slate-200/5 hover:text-white flex font-display text-md items-center rounded-md gap-3 pl-3.5 pr-3.5 py-1.5 transition"
+								class=${clsx(
+									crumb.url ? 'hover:bg-slate-200/5 hover:text-white' : '',
+									'text-slate-200 group-last:hover:bg-transparent group-last:hover:text-slate-200 flex font-display text-md items-center rounded-md gap-3 pl-3.5 pr-3.5 py-1.5 transition'
+								)}
 							>
 								${this.renderCrumbImage(crumb)} ${crumb.name}
 							</a>
 						</div>
 					</li>
-				`
-			)
+				`;
+			})
 		)}`;
 	}
 
@@ -218,7 +366,6 @@ export default class NavBar extends LitElement {
 			<nav
 				class="gap-10 px-6 lg:z-30 pointer-events-auto fixed inset-x-0 top-0 z-50 flex flex-col transition md:divide-white/15 backdrop-blur  bg-zinc-900/[.8]"
 			>
-				<!-- TODO - standardize logo size with main page -->
 				<div class="h-14 flex items-center justify-between ">
 					<div class="absolute inset-x-0 top-full h-px transition bg-[#29292c]"></div>
 
@@ -226,12 +373,10 @@ export default class NavBar extends LitElement {
 						<div class="sm:hidden absolute left-2">
 							<identity-avatar
 								class="my-auto block w-7 h-7"
-								hide-status
 								shadow
 								.identity=${global.currentIdentity}
 							></identity-avatar>
 						</div>
-
 						<a aria-label="Home" class="my-auto" href=${routes.home.build({})}>
 							<div class="h-6">
 								<e-svg
@@ -273,7 +418,6 @@ export default class NavBar extends LitElement {
 						></identity-name>
 						<identity-avatar
 							class="block w-6 h-6 m-2"
-							hide-status
 							.identity=${global.currentIdentity}
 						></identity-avatar>
 

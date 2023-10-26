@@ -11,7 +11,7 @@ for api in auth chat cloud group identity kv party portal; do
 
 	echo
 	echo "> Copying $path"
-	(cp -r ../backend-ee/gen/svc/api-$api/smithy/typescript/ $path || cp -r ../backend-ee/gen/svc/api-$api/openapi/typescript/ $path)
+	(cp -r ../../rivet/gen/svc/api-$api/smithy/typescript/ $path || cp -r ../../rivet/gen/svc/api-$api/openapi/typescript/ $path)
 done
 
 ./scripts/build-libs.sh

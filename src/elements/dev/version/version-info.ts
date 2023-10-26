@@ -1,26 +1,26 @@
 import { LitElement, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
+import { Rivet } from '@rivet-gg/api-internal';
 import { cssify } from '../../../utils/css';
 import styles from './version-info.scss';
-import * as cloud from '@rivet-gg/api-internal/api/resources/cloud';
 import { when } from 'lit/directives/when.js';
 import { ToggleSwitchEvent } from '../../common/toggle-switch';
 import CheckBox from '../check-box';
 import { TraversableErrors, VALIDATION_ERRORS } from '../../../utils/traversable-errors';
-import { UpdateConfigEvent } from '../../pages/dev/game-version-draft';
+import { UpdateConfigEvent } from '../../pages/dev/game/pages/game-version-draft';
 
 @customElement('dev-version-info')
 export default class DevVersionInfo extends LitElement {
 	static styles = cssify(styles);
 
 	@property({ type: Object })
-	game: cloud.GameFull;
+	game: Rivet.cloud.GameFull;
 
 	@property({ type: Object })
-	config: cloud.version.Config;
+	config: Rivet.cloud.version.Config;
 
 	@property({ type: Object })
-	tiers: cloud.RegionTier[] = [];
+	tiers: Rivet.cloud.RegionTier[] = [];
 
 	@property({ type: Boolean })
 	editing: boolean;
@@ -62,11 +62,11 @@ export default class DevVersionInfo extends LitElement {
 					docker: {
 						image: undefined,
 						args: [],
-						networkMode: cloud.version.matchmaker.NetworkMode.Bridge,
+						networkMode: Rivet.cloud.version.matchmaker.NetworkMode.Bridge,
 						ports: {
 							default: {
 								port: 80,
-								protocol: cloud.version.matchmaker.PortProtocol.Https
+								protocol: Rivet.cloud.version.matchmaker.PortProtocol.Https
 							}
 						},
 						env: {

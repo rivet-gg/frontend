@@ -3,7 +3,7 @@
 // Provide default env if env variable is not defined. Any uses of `ENV.ABC` will be
 // overridden because of the WebPack `DefinePlugin`, so these act as defaults.
 
-const BASE_URL = localStorage.BASE_URL || ENV_BASE_URL;
+const RIVET_API_ENDPOINT = localStorage.RIVET_API_ENDPOINT || ENV_RIVET_API_ENDPOINT;
 
 const config = {
 	RIVET_NAMESPACE: ENV_RIVET_NAMESPACE,
@@ -13,22 +13,22 @@ const config = {
 	GIT_COMMIT: ENV_GIT_COMMIT,
 	GIT_BRANCH: ENV_GIT_BRANCH,
 
-	BASE_URL: BASE_URL as string,
+	ORIGIN_API: RIVET_API_ENDPOINT as string,
 	ASSETS_URL: ENV_ASSETS_URL as string,
 
-	MEDIA_URL: modifyBaseUrl(BASE_URL, 'media.'),
+	MEDIA_URL: RIVET_API_ENDPOINT + '/media',
 
-	API_AUTH_URL: modifyBaseUrl(BASE_URL, 'auth.api.', '/v1'),
-	API_PORTAL_URL: modifyBaseUrl(BASE_URL, 'portal.api.', '/v1'),
-	API_IDENTITY_URL: modifyBaseUrl(BASE_URL, 'identity.api.', '/v1'),
-	API_GROUP_URL: modifyBaseUrl(BASE_URL, 'group.api.', '/v1'),
-	API_CHAT_URL: modifyBaseUrl(BASE_URL, 'chat.api.', '/v1'),
-	API_CLOUD_URL: modifyBaseUrl(BASE_URL, 'cloud.api.', '/v1'),
-	API_KV_URL: modifyBaseUrl(BASE_URL, 'kv.api.', '/v1'),
-	API_PARTY_URL: modifyBaseUrl(BASE_URL, 'party.api.', '/v1'),
+	API_AUTH_URL: modifyBaseUrl(RIVET_API_ENDPOINT, 'auth.', '/v1'),
+	API_PORTAL_URL: modifyBaseUrl(RIVET_API_ENDPOINT, 'portal.', '/v1'),
+	API_IDENTITY_URL: modifyBaseUrl(RIVET_API_ENDPOINT, 'identity.', '/v1'),
+	API_GROUP_URL: modifyBaseUrl(RIVET_API_ENDPOINT, 'group.', '/v1'),
+	API_CHAT_URL: modifyBaseUrl(RIVET_API_ENDPOINT, 'chat.', '/v1'),
+	API_CLOUD_URL: modifyBaseUrl(RIVET_API_ENDPOINT, 'cloud.', '/v1'),
+	API_KV_URL: modifyBaseUrl(RIVET_API_ENDPOINT, 'kv.', '/v1'),
+	API_PARTY_URL: modifyBaseUrl(RIVET_API_ENDPOINT, 'party.', '/v1'),
 
-	COMMUNITY_URL: 'https://discord.gg/MskhvCXPEh',
-	DOCUMENTATION_URL: 'https://docs.rivet.gg',
+	COMMUNITY_URL: 'https://discord.com/invite/aXYfyNxYVn',
+	DOCUMENTATION_URL: 'https://rivet.gg/docs',
 
 	THUMBNAIL_MEDIA_SIZE: { width: 640, height: 480 },
 	LARGE_BANNER_SIZE: { width: 768, height: 432 },

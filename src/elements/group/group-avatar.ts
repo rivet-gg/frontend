@@ -63,7 +63,7 @@ export default class GroupAvatar extends LitElement {
 			return html`<a
 				id="group-avatar"
 				class=${classMap(classes)}
-				href=${routes.groupSettings.build(groupRouteData(this.group))}
+				href=${routes.groupOverview.build(groupRouteData(this.group))}
 				>${body}</a
 			>`;
 		else return html`<div id="group-avatar" class=${classMap(classes)}>${body}</div>`;

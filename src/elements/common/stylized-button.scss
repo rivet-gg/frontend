@@ -1,5 +1,6 @@
 @use '../shared/common';
 @use '../shared/consts';
+@use '../shared/utils';
 
 :host {
 	display: block;
@@ -41,8 +42,11 @@
 
 	cursor: pointer;
 	overflow: hidden;
-	transition: color consts.$transition-length, background-color consts.$transition-length,
-		transform consts.$transition-length, box-shadow consts.$transition-length;
+	transition:
+		color consts.$transition-length,
+		background-color consts.$transition-length,
+		transform consts.$transition-length,
+		box-shadow consts.$transition-length;
 
 	e-svg {
 		--fill: #{$icon-color};
@@ -139,7 +143,38 @@
 			opacity: 0;
 
 			transform: translate(-5px, 0);
-			transition: opacity consts.$transition-length, transform consts.$transition-length;
+			transition:
+				opacity consts.$transition-length,
+				transform consts.$transition-length;
+		}
+	}
+
+	&.dashed-border-button {
+		$border-width: 3px;
+		$border-radius: 10px;
+
+		overflow: hidden;
+		display: flex;
+		position: relative;
+		padding: $border-width;
+		border-radius: $border-radius;
+
+		background-image: utils.dashed-border(
+			rgba(255, 255, 255, 0.12),
+			$border-radius,
+			$border-width,
+			$dash-array: (5, 11),
+			$dash-offset: 2px
+		);
+
+		&:hover {
+			background-image: utils.dashed-border(
+				rgba(255, 255, 255, 0.15),
+				$border-radius,
+				$border-width,
+				$dash-array: (5, 11),
+				$dash-offset: 2px
+			);
 		}
 	}
 }

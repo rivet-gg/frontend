@@ -6,10 +6,7 @@ import { repeat } from 'lit/directives/repeat.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { tooltip } from '../../ui/helpers';
 import cloud from '@rivet-gg/cloud';
-import { formatLobbyStatus } from '../pages/dev/game-logs';
-import { getRegionEmoji } from '../../utils/emoji';
-import logging from '../../utils/logging';
-import UIRouter from '../root/ui-router';
+import { formatLobbyStatus } from '../pages/dev/game/pages/game-logs';
 import routes from '../../routes';
 
 @customElement('dev-game-logs-sidebar')
@@ -77,23 +74,14 @@ export default class DevGameLogsSidebar extends LitElement {
 			failed: lobby.status.stopped !== undefined && lobby.status.stopped.failed
 		});
 
-		// Get lobby region emoji
-		let regionData = this.game.availableRegions.find(r => r.regionId == lobby.regionId);
-		if (!regionData) {
-			logging.warn('missing region data', lobby);
-			return null;
-		}
-		let regionIcon = getRegionEmoji(regionData.universalRegion);
-
 		return html`<a
 			class=${classes}
 			href=${routes.devLogLobby.build(
-				{ gameId: this.game.gameId, lobbyId: lobby.lobbyId },
+				{ gameId: this.game.gameId, lobbyId: lobby.lobbyId, namespaceId: this.namespaceId },
 				{ namespaceId: this.namespaceId }
 			)}
 		>
 			<div class="lobby-title">
-				<e-svg class="region-icon" preserve src=${regionIcon}></e-svg>
 				<h3>${lobby.lobbyGroupNameId}</h3>
 			</div>
 			<div

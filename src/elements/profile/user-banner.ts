@@ -105,7 +105,7 @@ export default class UserBanner extends LitElement {
 								<h2>Looks like you're logged in as a guest</h2>
 								<p>
 									Registering with Rivet gives you access to <b>joining groups</b>,
-									<b>editing your profile</b>, <b>adding friends</b>, and much more.
+									<b>editing your profile</b>, and much more.
 								</p>
 								<div id="guest-actions">
 									<stylized-button .trigger=${() => UIRoot.shared.openRegisterPanel()}
