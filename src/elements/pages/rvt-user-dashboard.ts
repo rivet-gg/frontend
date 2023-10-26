@@ -66,7 +66,7 @@ export default class RvtUserDashboard extends LitElement {
 					<div class="text-center p-4 pb-8 self-center">
 						<e-svg class="w-16 h-auto" src="logo/logo-gradient-white" preserve></e-svg>
 						<h1 class="text-5xl mt-2 mb-8">Welcome to Rivet!</h1>
-						<h2 class="text-lg">Rivet is still in private beta.</h2>
+						<p class="text-lg">Rivet is still in private beta.</p>
 						<p class="my-2">Join the waitlist to get early access.</p>
 						<div class="flex justify-center my-8">
 							<stylized-button href="https://b8v8449klvp.typeform.com/rivet" target="_blank">
@@ -80,7 +80,7 @@ export default class RvtUserDashboard extends LitElement {
 								<div
 									class="w-full flex m-auto pb-5 text-left items-center justify-center gap-4"
 								>
-									<h2 class="text-md">Have access and just got logged out?</h2>
+									<p class="text-md">Have access and just got logged out?</p>
 									<stylized-button .trigger="${this.onLoginButtonClick.bind(this)}">
 										Login
 									</stylized-button>

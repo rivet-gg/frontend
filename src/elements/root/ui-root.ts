@@ -383,7 +383,6 @@ export default class UIRoot extends LitElement {
 				${this.renderBasicOverlays()}
 			`;
 		} else {
-			console.log(this.globalStatus);
 			switch (this.globalStatus) {
 				// Loading
 				case GlobalStatus.Loading:
@@ -464,6 +463,8 @@ export default class UIRoot extends LitElement {
 					@title-change="${this.onTitleChange.bind(this)}"
 				></ui-router>
 			</div>
+
+			<nav-bar .routeTitle="${this.routeTitle}" .breadcrumbs="${this.breadcrumb}"></nav-bar>
 
 			<!-- Register overlay -->
 			<drop-down-modal

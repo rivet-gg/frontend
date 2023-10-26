@@ -3,7 +3,6 @@ import { customElement, property, query } from 'lit/decorators.js';
 import { cssify } from '../../utils/css';
 import styles from './identity-name.scss';
 import routes from '../../routes';
-import { identityRouteData } from '../../data/identity';
 import * as api from '../../utils/api';
 
 import { styleMap } from 'lit/directives/style-map.js';
