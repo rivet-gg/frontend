@@ -36,9 +36,6 @@ export default class NavBar extends LitElement {
 	// Required since Tailwind styles get applied within 'cssify'
 	static styles = cssify(styles);
 
-	@property({ type: Object })
-	identity: api.identity.IdentityProfile | undefined;
-
 	@property({ type: String })
 	routeTitle: string = '';
 

@@ -5,7 +5,6 @@ import { cssify } from '../../utils/css';
 import styles from './identity-tile.scss';
 import routes from '../../routes';
 
-import { identityRouteData } from '../../data/identity';
 import utils from '../../utils/utils';
 import { showIdentityContextMenu } from '../../ui/helpers';
 import * as api from '../../utils/api';

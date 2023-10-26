@@ -1,0 +1,12 @@
+{
+	"compilerOptions": {
+		"experimentalDecorators": true,
+		"lib": ["es2019", "dom", "dom.iterable"],
+		"target": "es6",
+		"esModuleInterop": true,
+		"moduleResolution": "node",
+		"downlevelIteration": true
+	},
+	"include": ["src/"],
+	"exclude": ["node_modules/", "**/*.spec.ts"]
+}

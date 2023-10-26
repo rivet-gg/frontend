@@ -30,7 +30,7 @@ This will open `http://localhost:5080` in your browser. By default, this will co
 To configure the hub to connect to your own server (for example, `mydomain.com`), update the `.env` file in this folder to include the following:
 
 ```
-RIVET_API_ENDPOINT=https://mydomain.com
+RIVET_API_ENDPOINT=https://api.mydomain.com
 ```
 
 ### Backend configuration
