@@ -1,7 +1,8 @@
 $first-navigation-delay: 140ms;
 $first-navigation-duration: 500ms;
 $first-navigation-animation: ease-in-out;
-$first-navigation-params: $first-navigation-duration $first-navigation-animation $first-navigation-delay 1 forwards;
+$first-navigation-params: $first-navigation-duration $first-navigation-animation $first-navigation-delay 1
+	forwards;
 
 @mixin slideInFromBottom($params) {
 	transform: scale(0.95) translateY(100px);
