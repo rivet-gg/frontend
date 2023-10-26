@@ -2130,7 +2130,6 @@
     "@aws-sdk/util-user-agent-node" "3.80.0"
     "@aws-sdk/util-utf8-browser" "3.55.0"
     "@aws-sdk/util-utf8-node" "3.55.0"
-    "@rivet-gg/common" "https://github.com/rivet-gg/rivet-sdk-js#4f439a15506de88c24c0e08ae3e5fe05cb0c60a0"
     tslib "^2.3.1"
 
 "@rivet-gg/chat@file:gen/api-chat":
@@ -2165,7 +2164,6 @@
     "@aws-sdk/util-user-agent-node" "3.80.0"
     "@aws-sdk/util-utf8-browser" "3.55.0"
     "@aws-sdk/util-utf8-node" "3.55.0"
-    "@rivet-gg/common" "https://github.com/rivet-gg/rivet-sdk-js#4f439a15506de88c24c0e08ae3e5fe05cb0c60a0"
     tslib "^2.3.1"
 
 "@rivet-gg/cloud@file:gen/api-cloud":
@@ -2200,15 +2198,6 @@
     "@aws-sdk/util-user-agent-node" "3.80.0"
     "@aws-sdk/util-utf8-browser" "3.55.0"
     "@aws-sdk/util-utf8-node" "3.55.0"
-    "@rivet-gg/common" "https://github.com/rivet-gg/rivet-sdk-js#4f439a15506de88c24c0e08ae3e5fe05cb0c60a0"
-    tslib "^2.3.1"
-
-"@rivet-gg/common@https://github.com/rivet-gg/rivet-sdk-js#4f439a15506de88c24c0e08ae3e5fe05cb0c60a0":
-  version "0.1.0"
-  resolved "git+ssh://git@github.com/rivet-gg/rivet-sdk-js.git#4f439a15506de88c24c0e08ae3e5fe05cb0c60a0"
-  integrity sha512-itN3X/QvE7cpGa2LzveUS+/nsLMU6gVw8CLfDiMCruNSeiufkalPdnHMGpkpcy0UaI2sN1qAY34EIII4yftyhw==
-  dependencies:
-    node-fetch "^2.6.7"
     tslib "^2.3.1"
 
 "@rivet-gg/group@file:gen/api-group":
@@ -2243,7 +2232,6 @@
     "@aws-sdk/util-user-agent-node" "3.80.0"
     "@aws-sdk/util-utf8-browser" "3.55.0"
     "@aws-sdk/util-utf8-node" "3.55.0"
-    "@rivet-gg/common" "https://github.com/rivet-gg/rivet-sdk-js#4f439a15506de88c24c0e08ae3e5fe05cb0c60a0"
     tslib "^2.3.1"
 
 "@rivet-gg/identity@file:gen/api-identity":
@@ -2278,7 +2266,6 @@
     "@aws-sdk/util-user-agent-node" "3.80.0"
     "@aws-sdk/util-utf8-browser" "3.55.0"
     "@aws-sdk/util-utf8-node" "3.55.0"
-    "@rivet-gg/common" "https://github.com/rivet-gg/rivet-sdk-js#4f439a15506de88c24c0e08ae3e5fe05cb0c60a0"
     tslib "^2.3.1"
 
 "@rivet-gg/kv@file:gen/api-kv":
@@ -2313,7 +2300,6 @@
     "@aws-sdk/util-user-agent-node" "3.80.0"
     "@aws-sdk/util-utf8-browser" "3.55.0"
     "@aws-sdk/util-utf8-node" "3.55.0"
-    "@rivet-gg/common" "https://github.com/rivet-gg/rivet-sdk-js#4f439a15506de88c24c0e08ae3e5fe05cb0c60a0"
     tslib "^2.3.1"
 
 "@rivet-gg/party@file:gen/api-party":
@@ -2348,7 +2334,6 @@
     "@aws-sdk/util-user-agent-node" "3.80.0"
     "@aws-sdk/util-utf8-browser" "3.55.0"
     "@aws-sdk/util-utf8-node" "3.55.0"
-    "@rivet-gg/common" "https://github.com/rivet-gg/rivet-sdk-js#4f439a15506de88c24c0e08ae3e5fe05cb0c60a0"
     tslib "^2.3.1"
 
 "@rivet-gg/portal@file:gen/api-portal":
@@ -2383,7 +2368,6 @@
     "@aws-sdk/util-user-agent-node" "3.80.0"
     "@aws-sdk/util-utf8-browser" "3.55.0"
     "@aws-sdk/util-utf8-node" "3.55.0"
-    "@rivet-gg/common" "https://github.com/rivet-gg/rivet-sdk-js#4f439a15506de88c24c0e08ae3e5fe05cb0c60a0"
     tslib "^2.3.1"
 
 "@rollup/plugin-babel@^5.2.0":
@@ -6587,7 +6571,7 @@ no-case@^3.0.4:
     lower-case "^2.0.2"
     tslib "^2.0.3"
 
-node-fetch@2.6.7, node-fetch@^2.6.7:
+node-fetch@2.6.7:
   version "2.6.7"
   resolved "https://registry.npmjs.org/node-fetch/-/node-fetch-2.6.7.tgz"
   integrity sha512-ZjMPFEfVx5j+y2yF35Kzx5sF7kDzxuDj6ziH4FFbOp87zKDZNx8yExJIb05OGF4Nlt9IHFIMBkRl41VdvcNdbQ==
