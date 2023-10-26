@@ -376,14 +376,13 @@ export default class UIRoot extends LitElement {
 			let token = window.location.pathname.split('/')[2];
 			content = html`
 				<page-link-game
-					.token=${token}
-					.initStage=${ifDefined(this.deferredLinkGameStage)}
-					@deferred-stage=${(e: DeferredStageEvent) => (this.deferredLinkGameStage = e.stage)}
+					.token="${token}"
+					.initStage="${ifDefined(this.deferredLinkGameStage)}"
+					@deferred-stage="${(e: DeferredStageEvent) => (this.deferredLinkGameStage = e.stage)}"
 				></page-link-game>
 				${this.renderBasicOverlays()}
 			`;
 		} else {
-			console.log(this.globalStatus);
 			switch (this.globalStatus) {
 				// Loading
 				case GlobalStatus.Loading:
@@ -454,38 +453,41 @@ export default class UIRoot extends LitElement {
 			<!-- Page Body -->
 			<div id="content-holder" class="min-h-screen flex pt-14 box-border">
 				<ui-router
-					@change=${this.onRouteChange.bind(this)}
-					@title-change=${this.onTitleChange.bind(this)}
+					@change="${this.onRouteChange.bind(this)}"
+					@title-change="${this.onTitleChange.bind(this)}"
 				></ui-router>
 			</div>
 
-			<nav-bar .routeTitle=${this.routeTitle} .breadcrumbs=${this.breadcrumb}></nav-bar>
+			<nav-bar .routeTitle="${this.routeTitle}" .breadcrumbs="${this.breadcrumb}"></nav-bar>
 
 			<!-- Register overlay -->
-			<drop-down-modal .active=${this.registerPanelActive} @close=${this.closeRegisterPanel.bind(this)}>
+			<drop-down-modal
+				.active="${this.registerPanelActive}"
+				@close="${this.closeRegisterPanel.bind(this)}"
+			>
 				<modal-body slot="body">
-					<register-panel light @close=${this.closeRegisterPanel.bind(this)}></register-panel>
+					<register-panel light @close="${this.closeRegisterPanel.bind(this)}"></register-panel>
 				</modal-body>
 			</drop-down-modal>
 
 			<overlay-positioning
-				.active=${this.dropDownListData.active}
-				.contextElement=${this.dropDownListData.contextElement}
-				.orientation=${this.dropDownListData.orientation}
-				.alignment=${Alignment.Corner}
-				.fadeAnimation=${false}
-				@close=${this.closeDropDownList.bind(this)}
+				.active="${this.dropDownListData.active}"
+				.contextElement="${this.dropDownListData.contextElement}"
+				.orientation="${this.dropDownListData.orientation}"
+				.alignment="${Alignment.Corner}"
+				.fadeAnimation="${false}"
+				@close="${this.closeDropDownList.bind(this)}"
 			>
 				<drop-down-list
 					overlay
-					.selection=${this.dropDownListData.selection}
-					.options=${this.dropDownListData.options}
-					?fixed=${this.dropDownListData.fixed}
-					.light=${this.dropDownListData.light}
-					.bgColor=${this.dropDownListData.bgColor}
-					.highlightColor=${this.dropDownListData.highlightColor}
-					@select=${this.dropDownListData.selectionCb}
-					@close=${this.closeDropDownList.bind(this)}
+					.selection="${this.dropDownListData.selection}"
+					.options="${this.dropDownListData.options}"
+					?fixed="${this.dropDownListData.fixed}"
+					.light="${this.dropDownListData.light}"
+					.bgColor="${this.dropDownListData.bgColor}"
+					.highlightColor="${this.dropDownListData.highlightColor}"
+					@select="${this.dropDownListData.selectionCb}"
+					@close="${this.closeDropDownList.bind(this)}"
 				></drop-down-list>
 			</overlay-positioning>
 
@@ -496,29 +498,29 @@ export default class UIRoot extends LitElement {
 	renderBasicOverlays() {
 		return html`<!-- Alert overlay -->
 			<drop-down-modal
-				.active=${this.alertPanelData.active}
-				.no-dim-close=${this.alertPanelData && this.alertPanelData.noDimClose}
-				@close=${this.hideAlertPanel.bind(this)}
+				.active="${this.alertPanelData.active}"
+				.no-dim-close="${this.alertPanelData && this.alertPanelData.noDimClose}"
+				@close="${this.hideAlertPanel.bind(this)}"
 			>
 				<modal-body slot="body">
 					<alert-panel
-						.data=${this.alertPanelData}
-						@select=${this.hideAlertPanel.bind(this)}
+						.data="${this.alertPanelData}"
+						@select="${this.hideAlertPanel.bind(this)}"
 					></alert-panel>
 				</modal-body>
 			</drop-down-modal>
 
 			<overlay-positioning
-				.active=${this.actionSheetData.active}
-				.contextElement=${this.actionSheetData.contextElement}
-				.orientation=${Orientation.TopCenter}
+				.active="${this.actionSheetData.active}"
+				.contextElement="${this.actionSheetData.contextElement}"
+				.orientation="${Orientation.TopCenter}"
 				scale-animation
 				offset-y="5"
-				@close=${this.hideActionSheet.bind(this)}
+				@close="${this.hideActionSheet.bind(this)}"
 			>
 				<action-sheet
-					.options=${this.actionSheetData.options}
-					@select=${this.hideActionSheet.bind(this)}
+					.options="${this.actionSheetData.options}"
+					@select="${this.hideActionSheet.bind(this)}"
 				></action-sheet>
 			</overlay-positioning>
 
@@ -527,10 +529,10 @@ export default class UIRoot extends LitElement {
 
 			<!-- Tooltip -->
 			<overlay-positioning
-				.active=${this.tooltipData.active}
-				.contextElement=${this.tooltipData.contextElement}
-				.orientation=${Orientation.TopCenter}
-				@close=${this.hideTooltip.bind(this)}
+				.active="${this.tooltipData.active}"
+				.contextElement="${this.tooltipData.contextElement}"
+				.orientation="${Orientation.TopCenter}"
+				@close="${this.hideTooltip.bind(this)}"
 				no-pointer
 				scale-animation
 				offset-y="5"
@@ -541,12 +543,12 @@ export default class UIRoot extends LitElement {
 			<!-- Context menu -->
 			<overlay-positioning
 				manual
-				.active=${this.contextMenuData.active}
-				.anchorX=${this.contextMenuData.x}
-				.anchorY=${this.contextMenuData.y}
-				.contextElement=${this.contextMenuData.contextElement}
-				.orientation=${this.contextMenuData.orientation}
-				@close=${this.hideContextMenu.bind(this)}
+				.active="${this.contextMenuData.active}"
+				.anchorX="${this.contextMenuData.x}"
+				.anchorY="${this.contextMenuData.y}"
+				.contextElement="${this.contextMenuData.contextElement}"
+				.orientation="${this.contextMenuData.orientation}"
+				@close="${this.hideContextMenu.bind(this)}"
 			>
 				${this.contextMenuData.content}
 			</overlay-positioning>`;
