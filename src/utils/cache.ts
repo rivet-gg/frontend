@@ -9,7 +9,7 @@ interface CacheWrapper<T> {
 	data: T;
 
 	ts: number;
-	// version: string;
+	version: string;
 }
 
 export interface LocalStorageChange {
@@ -144,7 +144,11 @@ export async function readCache<T>(keyPath: string[]): Promise<T> {
 		let wrapper = data;
 
 		// Cache expired or outdated (used to use blobs)
-		if (wrapper instanceof Blob || Date.now() - (wrapper.ts as number) >= CACHE_LIFETIME) {
+		if (
+			wrapper instanceof Blob ||
+			Date.now() - wrapper.ts >= CACHE_LIFETIME ||
+			wrapper.version != config.GIT_COMMIT
+		) {
 			logging.debug('Cache expired', key);
 			deleteIDB(db, key);
 
@@ -165,7 +169,8 @@ export async function writeCache<T>(keyPath: string[], payload: T) {
 	// Add timestamp and version properties
 	let cacheWrapper: CacheWrapper<T> = {
 		data: payload,
-		ts: Date.now()
+		ts: Date.now(),
+		version: config.GIT_COMMIT
 	};
 
 	// Gracefully get DB
