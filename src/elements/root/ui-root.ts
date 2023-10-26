@@ -391,7 +391,7 @@ export default class UIRoot extends LitElement {
 					break;
 				case GlobalStatus.Consenting:
 					this.hideLoading();
-					content = html` <rvt-dashboard></rvt-dashboard>`;
+					content = html` <rvt-user-dashboard></rvt-user-dashboard>`;
 					break;
 				case GlobalStatus.Connected:
 				case GlobalStatus.Reconnecting:
