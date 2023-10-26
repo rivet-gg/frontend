@@ -110,7 +110,7 @@ export default class DevGameSettingsGeneral extends LitElement {
 						<e-svg slot="icon" src="regular/file-arrow-up"></e-svg>
 						<div slot="content">
 							<p class="file-input-title">Upload Game Banner</p>
-							<p class="file-input-subtitle">Recommended size 512x512 px</p>
+							<p class="file-input-subtitle">Recommended size 2048x1024 px</p>
 						</div>
 					</file-uploader>
 				</div>
