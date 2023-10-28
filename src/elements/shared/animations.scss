@@ -1,6 +1,6 @@
 $first-navigation-delay: 140ms;
 $first-navigation-duration: 500ms;
-$first-navigation-animation: ease-in-out;
+$first-navigation-animation: cubic-bezier(0.27, 1.37, 0.87, 1);
 $first-navigation-params: $first-navigation-duration $first-navigation-animation $first-navigation-delay 1
 	forwards;
 
