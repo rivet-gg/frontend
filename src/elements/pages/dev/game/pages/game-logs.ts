@@ -22,7 +22,6 @@ import { globalEventGroups } from '../../../../../utils/global-events';
 enum MetricType {
 	Cpu,
 	Memory,
-	MemoryMax
 }
 
 interface MetricPoint {
@@ -638,7 +637,7 @@ export default class DevGameLogs extends LitElement {
 		if (!metrics) return null;
 
 		let maxMemory =
-			Math.max(metrics.allocatedMemory, Math.max(...metrics.memory), Math.max(...metrics.memoryMax)) ||
+			Math.max(metrics.allocatedMemory, Math.max(...metrics.memory)) ||
 			1;
 		let timestamps = [...Array(metrics.cpu.length)].map((_, i) => {
 			return new Date(Date.now() - (metrics.cpu.length - i) * timing.seconds(15));
@@ -661,12 +660,6 @@ export default class DevGameLogs extends LitElement {
 				type: MetricType.Memory,
 				label: `MEM ${numbro(d).format('0.0 ib')}`
 			})),
-			...metrics.memoryMax.map((d, i) => ({
-				x: timestamps[i],
-				y: d / maxMemory,
-				type: MetricType.MemoryMax,
-				label: `PEAK ${numbro(d).format('0.0 ib')}`
-			}))
 		] as MetricPoint[];
 
 		let memoryChartConfig = {
@@ -684,7 +677,6 @@ export default class DevGameLogs extends LitElement {
 
 		let latestCPULabel = numbro(metrics.cpu[metrics.cpu.length - 1] / 100).format('0.0%');
 		let latestMemoryLabel = numbro(metrics.memory[metrics.memory.length - 1]).format('0.0 ib');
-		let latestMemoryMaxLabel = numbro(metrics.memoryMax[metrics.memoryMax.length - 1]).format('0.0 ib');
 		let allocatedMemoryLabel = numbro(metrics.allocatedMemory).format('0.0 ib');
 
 		return html`<div id="metrics" class="bordered-area">
@@ -700,13 +692,6 @@ export default class DevGameLogs extends LitElement {
 							<div class="key memory">
 								<div class="color"></div>
 								<span>Memory <b>${latestMemoryLabel}</b> / ${allocatedMemoryLabel}</span>
-							</div>
-							<div class="key memory-max">
-								<div class="color"></div>
-								<span
-									>Memory Peak <b>${latestMemoryMaxLabel}</b> /
-									${allocatedMemoryLabel}</span
-								>
 							</div>
 						</div>
 					</div>
