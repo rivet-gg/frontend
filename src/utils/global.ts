@@ -11,7 +11,7 @@ import PushNotifications from './push-notifications';
 import { BroadcastEvent, BroadcastEventKind } from '../data/broadcast';
 import { ls } from './cache';
 import { BroadcastSystem } from './broadcast';
-import { RivetClient } from '@rivet-gg/api-internal';
+import { Rivet, RivetClient } from '@rivet-gg/api-internal';
 import { Fetcher, fetcher } from '@rivet-gg/api-internal/core';
 import { HttpRequest } from '@aws-sdk/protocol-http';
 import { HttpHandlerOptions } from '@aws-sdk/types';
@@ -28,7 +28,7 @@ export enum WindowSize {
 
 export enum GlobalStatus {
 	// Loading
-	Authenticating,
+	Bootstrapping,
 	Loading,
 	Reconnecting,
 
@@ -38,7 +38,8 @@ export enum GlobalStatus {
 	Connected,
 
 	// Failures
-	AuthFailed
+	AuthFailed,
+	BootstrapFailed,
 }
 
 export class GlobalState {
@@ -78,6 +79,9 @@ export class GlobalState {
 	troubleConnecting = false;
 	isInitiated = false;
 	liveBlockingBypass: number = null;
+
+	bootstrapFailed: boolean = false;
+	bootstrapData: Rivet.cloud.BootstrapResponse;
 
 	identityStream: api.RepeatingRequest<api.identity.GetIdentitySelfProfileCommandOutput>;
 	eventStream: api.RepeatingRequest<api.identity.WatchEventsCommandOutput>;
@@ -194,13 +198,6 @@ export class GlobalState {
 			})
 		};
 
-		// Start live client
-		this.authManager
-			.fetchToken()
-			.then(() => this.setupLive())
-			.catch(err => {
-				logging.error('Error initiating live', err);
-			});
 
 		this.auth = new api.auth.AuthService({
 			endpoint: config.ORIGIN_API + '/auth',
@@ -208,7 +205,6 @@ export class GlobalState {
 			requestHandler: refreshMiddleware({ credentials: 'include' })
 		});
 
-		// Build cloud instance
 		this.cloud = new cloud.CloudService({
 			endpoint: config.ORIGIN_API + '/cloud',
 			tls: true,
@@ -217,6 +213,8 @@ export class GlobalState {
 		});
 
 		ls.setGlobalListener(this.onSettingChange.bind(this));
+
+		this.bootstrap();
 
 		// Establish push notifications
 		this.pushNotifications = new PushNotifications();
@@ -257,6 +255,29 @@ export class GlobalState {
 
 		// Complete promise
 		if (this.consentResolve !== undefined) this.consentResolve();
+	}
+
+	/// Fetches configuration information from the servers & creates the intiital auth token.
+	bootstrap(noCache: boolean = false) {
+		// Reset bootstrap state
+		this.bootstrapFailed = false;
+		this.bootstrapData = undefined;
+
+		// This will automatically create & test the initial auth token.
+		logging.event('Bootstrapping');
+		this.api.cloud.bootstrap().then(res => {
+			logging.event('Bootstrapping success');
+
+			this.bootstrapFailed = false;
+			this.bootstrapData = res;
+			this.updateStatus();
+			this.setupLive(noCache);
+		}).catch(err => {
+			logging.error('Error bootstrapping', err);
+			this.bootstrapFailed = true;
+			this.bootstrapData = undefined;
+		});
+
 	}
 
 	async setupLive(noCache = false) {
@@ -330,12 +351,7 @@ export class GlobalState {
 				// Attempt to reconnect in a few seconds
 				setTimeout(
 					() => {
-						this.authManager
-							.fetchToken()
-							.then(() => this.setupLive(true))
-							.catch(err => {
-								logging.error('Error initiating live', err);
-							});
+						this.bootstrap(true);
 					},
 					this.setupLiveAttempts <= 3 ? timing.seconds(1) : timing.seconds(5)
 				);
@@ -380,7 +396,11 @@ export class GlobalState {
 			status = GlobalStatus.Consenting;
 		} else if (this.authManager !== undefined) {
 			if (this.authManager.authenticationFailed) status = GlobalStatus.AuthFailed;
-			else if (this.authManager.token === undefined) status = GlobalStatus.Authenticating;
+			if (this.bootstrapFailed) status = GlobalStatus.BootstrapFailed;
+			else if (this.bootstrapData) status = GlobalStatus.Bootstrapping;
+			else if (!this.bootstrapData) {
+				status = GlobalStatus.Bootstrapping;
+			}
 			else if (this.isInitiated) {
 				if (this.troubleConnecting) status = GlobalStatus.Reconnecting;
 				else status = GlobalStatus.Connected;

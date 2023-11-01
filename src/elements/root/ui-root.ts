@@ -20,6 +20,7 @@ import StylizedButton from '../common/stylized-button';
 import { Orientation, Alignment } from '../common/overlay-positioning';
 import { DropDownSelectEvent, DropDownSelection } from '../dev/drop-down-list';
 import { Breadcrumb } from '../common/navbar';
+import global from '../../utils/global';
 
 export const MIN_SWIPE_THRESHOLD = 10;
 const TRANSITION_LENGTH = timing.milliseconds(200); // Match with consts.scss/$transition-length
@@ -347,7 +348,7 @@ export default class UIRoot extends LitElement {
 		}
 
 		this.turnstileWidgetId = turnstile.render(element, {
-			sitekey: config.IS_PROD ? '0x4AAAAAAABeRY1vaJVtjfBV' : '1x00000000000000000000AA',
+			sitekey: global.bootstrapData.captcha.turnstile.siteKey,
 			callback: cb,
 			'error-callback': errCb
 		});
@@ -388,7 +389,7 @@ export default class UIRoot extends LitElement {
 			switch (this.globalStatus) {
 				// Loading
 				case GlobalStatus.Loading:
-				case GlobalStatus.Authenticating:
+				case GlobalStatus.Bootstrapping:
 					this.showLoading();
 					break;
 
