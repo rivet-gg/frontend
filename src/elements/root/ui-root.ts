@@ -1,12 +1,12 @@
 import { customElement, property, query } from 'lit/decorators.js';
-import { LitElement, html, TemplateResult } from 'lit';
+import { html, LitElement, TemplateResult } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { when } from 'lit/directives/when.js';
 import { repeat } from 'lit/directives/repeat.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { cssify } from '../../utils/css';
-import { GlobalStatus } from '../../utils/global';
-import { globalEventGroups, windowEventGroups, GlobalStatusChangeEvent } from '../../utils/global-events';
+import global, { GlobalStatus } from '../../utils/global';
+import { globalEventGroups, GlobalStatusChangeEvent, windowEventGroups } from '../../utils/global-events';
 import timing from '../../utils/timing';
 import styles from './ui-root.scss';
 import UIRouter, { RouteChangeEvent, RouteTitleChangeEvent } from './ui-router';
@@ -17,10 +17,9 @@ import config from '../../config';
 import { HookFetch } from '../../utils/fetch-hook';
 import { DeferredStageEvent, Stage } from '../pages/link-game';
 import StylizedButton from '../common/stylized-button';
-import { Orientation, Alignment } from '../common/overlay-positioning';
+import { Alignment, Orientation } from '../common/overlay-positioning';
 import { DropDownSelectEvent, DropDownSelection } from '../dev/drop-down-list';
 import { Breadcrumb } from '../common/navbar';
-import global from '../../utils/global';
 
 export const MIN_SWIPE_THRESHOLD = 10;
 const TRANSITION_LENGTH = timing.milliseconds(200); // Match with consts.scss/$transition-length
@@ -415,7 +414,7 @@ export default class UIRoot extends LitElement {
 
 		return html`
 			<!-- Debug -->
-			${when(!config.DEBUG, () => this.renderDebug())}
+			${when(config.DEBUG, () => this.renderDebug())}
 
 			<!-- Content -->
 			${content}
