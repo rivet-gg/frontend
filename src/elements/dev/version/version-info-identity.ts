@@ -90,8 +90,7 @@ export default class VersionInfoIdentity extends LitElement {
 		}
 
 		// Prepare the upload
-		let createRes = await global.cloud.prepareCustomAvatarUpload({
-			gameId: this.game.gameId,
+		let createRes = await global.api.cloud.games.avatars.prepareCustomAvatarUpload(this.game.gameId, {
 			path: imageFile.prepared.path,
 			mime: imageFile.prepared.contentType,
 			contentLength: imageFile.prepared.contentLength

@@ -20,6 +20,7 @@ import StylizedButton from '../common/stylized-button';
 import { Orientation, Alignment } from '../common/overlay-positioning';
 import { DropDownSelectEvent, DropDownSelection } from '../dev/drop-down-list';
 import { Breadcrumb } from '../common/navbar';
+import global from '../../utils/global';
 
 export const MIN_SWIPE_THRESHOLD = 10;
 const TRANSITION_LENGTH = timing.milliseconds(200); // Match with consts.scss/$transition-length
@@ -151,7 +152,7 @@ export default class UIRoot extends LitElement {
 		UIRoot.shared = this;
 
 		// Hook in to fetch events
-		if (!config.IS_PROD) {
+		if (config.DEBUG) {
 			new HookFetch(inFlight => (this.inFlightRequests = inFlight));
 		}
 	}
@@ -346,8 +347,9 @@ export default class UIRoot extends LitElement {
 			document.body.append(element);
 		}
 
+		console.log('site key', global.bootstrapData.captcha.turnstile.siteKey);
 		this.turnstileWidgetId = turnstile.render(element, {
-			sitekey: config.IS_PROD ? '0x4AAAAAAABeRY1vaJVtjfBV' : '1x00000000000000000000AA',
+			sitekey: global.bootstrapData.captcha.turnstile.siteKey,
 			callback: cb,
 			'error-callback': errCb
 		});
@@ -388,7 +390,7 @@ export default class UIRoot extends LitElement {
 			switch (this.globalStatus) {
 				// Loading
 				case GlobalStatus.Loading:
-				case GlobalStatus.Authenticating:
+				case GlobalStatus.Bootstrapping:
 					this.showLoading();
 					break;
 
@@ -413,7 +415,7 @@ export default class UIRoot extends LitElement {
 
 		return html`
 			<!-- Debug -->
-			${when(!config.IS_PROD, () => this.renderDebug())}
+			${when(!config.DEBUG, () => this.renderDebug())}
 
 			<!-- Content -->
 			${content}
