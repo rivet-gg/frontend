@@ -21,7 +21,7 @@ import { globalEventGroups } from '../../../../../utils/global-events';
 
 enum MetricType {
 	Cpu,
-	Memory,
+	Memory
 }
 
 interface MetricPoint {
@@ -636,9 +636,7 @@ export default class DevGameLogs extends LitElement {
 		let metrics = this.lobbyData?.metrics;
 		if (!metrics) return null;
 
-		let maxMemory =
-			Math.max(metrics.allocatedMemory, Math.max(...metrics.memory)) ||
-			1;
+		let maxMemory = Math.max(metrics.allocatedMemory, Math.max(...metrics.memory)) || 1;
 		let timestamps = [...Array(metrics.cpu.length)].map((_, i) => {
 			return new Date(Date.now() - (metrics.cpu.length - i) * timing.seconds(15));
 		});
@@ -659,7 +657,7 @@ export default class DevGameLogs extends LitElement {
 				y: d / maxMemory,
 				type: MetricType.Memory,
 				label: `MEM ${numbro(d).format('0.0 ib')}`
-			})),
+			}))
 		] as MetricPoint[];
 
 		let memoryChartConfig = {
