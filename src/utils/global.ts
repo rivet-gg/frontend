@@ -351,6 +351,7 @@ export class GlobalState {
 				// Attempt to reconnect in a few seconds
 				setTimeout(
 					() => {
+						// This calls `setupLive` on success
 						this.bootstrap(true);
 					},
 					this.setupLiveAttempts <= 3 ? timing.seconds(1) : timing.seconds(5)

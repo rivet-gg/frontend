@@ -14,7 +14,7 @@ import { showAlert } from '../../ui/helpers';
 
 export interface FileInput {
 	path: string;
-	prepared: Rivet.cloud.UploadPrepareFile;
+	prepared: Rivet.upload.PrepareFile;
 	fileHandle: File;
 }
 
@@ -167,6 +167,7 @@ export default class FileUploader extends LitElement {
 					prepared: {
 						path,
 						contentType: file.type,
+						byteOffset: 0,
 						contentLength: file.size
 					},
 					fileHandle: file
@@ -183,6 +184,7 @@ export default class FileUploader extends LitElement {
 						prepared: {
 							path,
 							contentType: file.type,
+							byteOffset: 0,
 							contentLength: file.size
 						},
 						fileHandle: file

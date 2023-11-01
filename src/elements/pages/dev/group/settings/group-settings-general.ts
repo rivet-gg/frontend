@@ -327,7 +327,7 @@ export default class GroupSettingsGeneral extends LitElement {
 		}
 
 		// Prepare the upload
-		let createRes = await global.live.group.prepareGroupAvatarUpload({
+		let createRes = await global.api.group.prepareAvatarUpload({
 			path: imageFile.prepared.path,
 			mime: imageFile.prepared.contentType,
 			contentLength: imageFile.prepared.contentLength
