@@ -443,6 +443,6 @@ export class GlobalState {
 
 export const global = new GlobalState();
 
-if (!config.IS_PROD) (window as any).rivet = global;
+if (config.DEBUG) (window as any).rivet = global;
 
 export default global;

@@ -152,7 +152,7 @@ export default class UIRoot extends LitElement {
 		UIRoot.shared = this;
 
 		// Hook in to fetch events
-		if (!config.IS_PROD) {
+		if (config.DEBUG) {
 			new HookFetch(inFlight => (this.inFlightRequests = inFlight));
 		}
 	}
@@ -414,7 +414,7 @@ export default class UIRoot extends LitElement {
 
 		return html`
 			<!-- Debug -->
-			${when(!config.IS_PROD, () => this.renderDebug())}
+			${when(!config.DEBUG, () => this.renderDebug())}
 
 			<!-- Content -->
 			${content}
