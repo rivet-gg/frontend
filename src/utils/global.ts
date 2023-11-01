@@ -7,7 +7,6 @@ import { windowEventGroups, globalEventGroups } from './global-events';
 import * as api from './api';
 import * as cloud from '@rivet-gg/cloud';
 import { RootCache } from '../data/cache';
-import PushNotifications from './push-notifications';
 import { BroadcastEvent, BroadcastEventKind } from '../data/broadcast';
 import { ls } from './cache';
 import { BroadcastSystem } from './broadcast';
@@ -62,9 +61,6 @@ export class GlobalState {
 	};
 	auth: api.auth.AuthService;
 	cloud: cloud.CloudService;
-
-	// Push notifications client.
-	pushNotifications: PushNotifications;
 
 	/// Data for the current signed in identity.
 	currentIdentity: api.identity.IdentityProfile;
@@ -217,9 +213,6 @@ export class GlobalState {
 		});
 
 		ls.setGlobalListener(this.onSettingChange.bind(this));
-
-		// Establish push notifications
-		this.pushNotifications = new PushNotifications();
 
 		// Set initial status
 		this.updateStatus();
