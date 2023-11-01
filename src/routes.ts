@@ -10,6 +10,9 @@ import { Breadcrumb } from './elements/common/navbar';
 import { GameSettingsRootConfig } from './elements/pages/dev/game/settings/game-settings';
 import { GroupSettingsRootConfig } from './elements/pages/dev/group/settings/group-settings';
 
+const tailwindConfig = require('../tailwind.config.js');
+const tailwind_palette = tailwindConfig.theme.extend.colors;
+
 export type RenderResult = RenderResultTemplate | RenderResultRedirect;
 
 export interface RenderResultTemplate {
@@ -464,10 +467,20 @@ export namespace responses {
 			breadcrumb: {
 				type: 'Custom'
 			},
-			template: html`<invalid-page-state>
-				<h1 slot="title">404</h1>
-				<h2 slot="subtitle">This page isn't available or it doesn't exist. Sorry!</h2>
-			</invalid-page-state>`
+			template: html`
+				<div class="text-center fixed w-full h-32 m-auto left-0 right-0 top-0 bottom-0">
+					<h1 class="text-red-500 font-bold text-8xl pr-2">404</h1>
+					<h4 class="pb-4 font-semibold">Page Not Found</h4>
+						<stylized-button 
+							class="mx-auto"
+							right-icon="solid/arrow-right"
+							color=${tailwind_palette['raised-bg']}
+							border-color=${tailwind_palette['raised-bg-border-color']}
+							border-width=".75px"
+							href=${routes.home.build({})}
+						>Go Home</stylized-button>
+				</div>
+			`
 		};
 	}
 
