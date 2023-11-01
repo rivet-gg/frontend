@@ -28,10 +28,10 @@ export enum WindowSize {
 
 export enum GlobalStatus {
 	// Loading
-	Loading,  // Waiting for script to start
-	Bootstrapping,  // Waiting for bootstrap to finish
-	Connecting,  // Waiting for live to connect
-	Reconnecting,  // Waiting for live to reconnect
+	Loading, // Waiting for script to start
+	Bootstrapping, // Waiting for bootstrap to finish
+	Connecting, // Waiting for live to connect
+	Reconnecting, // Waiting for live to reconnect
 
 	// Interactive
 	Consenting,
@@ -40,7 +40,7 @@ export enum GlobalStatus {
 
 	// Failures
 	AuthFailed,
-	BootstrapFailed,
+	BootstrapFailed
 }
 
 export class GlobalState {
@@ -199,7 +199,6 @@ export class GlobalState {
 			})
 		};
 
-
 		this.auth = new api.auth.AuthService({
 			endpoint: config.ORIGIN_API + '/auth',
 			// Force the credentials to be included, since we need to be able to modify cookies here
@@ -266,19 +265,21 @@ export class GlobalState {
 
 		// This will automatically create & test the initial auth token.
 		logging.event('Bootstrapping');
-		this.api.cloud.bootstrap().then(res => {
-			logging.event('Bootstrapp success');
+		this.api.cloud
+			.bootstrap()
+			.then(res => {
+				logging.event('Bootstrapp success');
 
-			this.bootstrapFailed = false;
-			this.bootstrapData = res;
-			this.updateStatus();
-			this.setupLive(noCache);
-		}).catch(err => {
-			logging.error('Error bootstrapping', err);
-			this.bootstrapFailed = true;
-			this.bootstrapData = undefined;
-		});
-
+				this.bootstrapFailed = false;
+				this.bootstrapData = res;
+				this.updateStatus();
+				this.setupLive(noCache);
+			})
+			.catch(err => {
+				logging.error('Error bootstrapping', err);
+				this.bootstrapFailed = true;
+				this.bootstrapData = undefined;
+			});
 	}
 
 	async setupLive(noCache = false) {
@@ -396,17 +397,14 @@ export class GlobalState {
 		let status: GlobalStatus;
 		if (!settings.didConsent) {
 			status = GlobalStatus.Consenting;
-		} 
-		else if (!this.authManager) status = GlobalStatus.Loading;
+		} else if (!this.authManager) status = GlobalStatus.Loading;
 		else if (this.authManager.authenticationFailed) status = GlobalStatus.AuthFailed;
 		else if (this.bootstrapFailed) status = GlobalStatus.BootstrapFailed;
 		else if (!this.bootstrapData) {
 			status = GlobalStatus.Bootstrapping;
-		}
-		else if (!this.liveInitiated) {
+		} else if (!this.liveInitiated) {
 			status = GlobalStatus.Connecting;
-		}
-		else {
+		} else {
 			if (this.troubleConnecting) status = GlobalStatus.Reconnecting;
 			else status = GlobalStatus.Connected;
 		}

@@ -347,6 +347,7 @@ export default class UIRoot extends LitElement {
 			document.body.append(element);
 		}
 
+		console.log('site key', global.bootstrapData.captcha.turnstile.siteKey);
 		this.turnstileWidgetId = turnstile.render(element, {
 			sitekey: global.bootstrapData.captcha.turnstile.siteKey,
 			callback: cb,
