@@ -28,9 +28,10 @@ export enum WindowSize {
 
 export enum GlobalStatus {
 	// Loading
-	Bootstrapping,
-	Loading,
-	Reconnecting,
+	Loading,  // Waiting for script to start
+	Bootstrapping,  // Waiting for bootstrap to finish
+	Connecting,  // Waiting for live to connect
+	Reconnecting,  // Waiting for live to reconnect
 
 	// Interactive
 	Consenting,
@@ -77,7 +78,7 @@ export class GlobalState {
 	setupLiveAttempts = 0;
 
 	troubleConnecting = false;
-	isInitiated = false;
+	liveInitiated = false;
 	liveBlockingBypass: number = null;
 
 	bootstrapFailed: boolean = false;
@@ -96,12 +97,12 @@ export class GlobalState {
 		// Load cache
 		if (await this.loadCache()) {
 			logging.event('Cache quick start');
-			this.isInitiated = true;
+			this.liveInitiated = true;
 		}
 
 		this.broadcast.addEventListener('message', this.handleBroadcastMessages.bind(this));
 
-		// Create auth client. This will automatically fetch a token
+		// Create auth client. This will automatically fetch a token.
 		this.authManager = new AuthManager();
 
 		// Create API middleware, automatically refreshes the api token on expiration
@@ -266,7 +267,7 @@ export class GlobalState {
 		// This will automatically create & test the initial auth token.
 		logging.event('Bootstrapping');
 		this.api.cloud.bootstrap().then(res => {
-			logging.event('Bootstrapping success');
+			logging.event('Bootstrapp success');
 
 			this.bootstrapFailed = false;
 			this.bootstrapData = res;
@@ -321,7 +322,7 @@ export class GlobalState {
 				this.updateCache(res.watch);
 
 				// Update global state
-				this.isInitiated = true;
+				this.liveInitiated = true;
 				this.updateStatus();
 				this.setupLiveAttempts = 0;
 
@@ -395,18 +396,21 @@ export class GlobalState {
 		let status: GlobalStatus;
 		if (!settings.didConsent) {
 			status = GlobalStatus.Consenting;
-		} else if (this.authManager !== undefined) {
-			if (this.authManager.authenticationFailed) status = GlobalStatus.AuthFailed;
-			if (this.bootstrapFailed) status = GlobalStatus.BootstrapFailed;
-			else if (this.bootstrapData) status = GlobalStatus.Bootstrapping;
-			else if (!this.bootstrapData) {
-				status = GlobalStatus.Bootstrapping;
-			}
-			else if (this.isInitiated) {
-				if (this.troubleConnecting) status = GlobalStatus.Reconnecting;
-				else status = GlobalStatus.Connected;
-			}
-		} else status = GlobalStatus.Loading;
+		} 
+		else if (!this.authManager) status = GlobalStatus.Loading;
+		else if (this.authManager.authenticationFailed) status = GlobalStatus.AuthFailed;
+		else if (this.bootstrapFailed) status = GlobalStatus.BootstrapFailed;
+		else if (!this.bootstrapData) {
+			status = GlobalStatus.Bootstrapping;
+		}
+		else if (!this.liveInitiated) {
+			status = GlobalStatus.Connecting;
+		}
+		else {
+			if (this.troubleConnecting) status = GlobalStatus.Reconnecting;
+			else status = GlobalStatus.Connected;
+		}
+		console.log('status', status);
 
 		// Dispatch event
 		if (status !== this.status) {
