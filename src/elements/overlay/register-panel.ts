@@ -134,9 +134,11 @@ export default class RegisterPanel extends LitElement {
 		try {
 			let res = await global.auth.startEmailVerification({
 				email: this.email.trim(),
-				captcha: captchaToken ? {
-					turnstile: { clientResponse: captchaToken }
-				} : null,
+				captcha: captchaToken
+					? {
+							turnstile: { clientResponse: captchaToken }
+					  }
+					: null,
 				gameId: this.gameId
 			});
 
