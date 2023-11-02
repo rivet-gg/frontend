@@ -1,12 +1,12 @@
 import { customElement, property, query } from 'lit/decorators.js';
-import { LitElement, html, TemplateResult } from 'lit';
+import { html, LitElement, TemplateResult } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { when } from 'lit/directives/when.js';
 import { repeat } from 'lit/directives/repeat.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { cssify } from '../../utils/css';
-import { GlobalStatus } from '../../utils/global';
-import { globalEventGroups, windowEventGroups, GlobalStatusChangeEvent } from '../../utils/global-events';
+import global, { GlobalStatus } from '../../utils/global';
+import { globalEventGroups, GlobalStatusChangeEvent, windowEventGroups } from '../../utils/global-events';
 import timing from '../../utils/timing';
 import styles from './ui-root.scss';
 import UIRouter, { RouteChangeEvent, RouteTitleChangeEvent } from './ui-router';
@@ -17,7 +17,7 @@ import config from '../../config';
 import { HookFetch } from '../../utils/fetch-hook';
 import { DeferredStageEvent, Stage } from '../pages/link-game';
 import StylizedButton from '../common/stylized-button';
-import { Orientation, Alignment } from '../common/overlay-positioning';
+import { Alignment, Orientation } from '../common/overlay-positioning';
 import { DropDownSelectEvent, DropDownSelection } from '../dev/drop-down-list';
 import { Breadcrumb } from '../common/navbar';
 
@@ -151,7 +151,7 @@ export default class UIRoot extends LitElement {
 		UIRoot.shared = this;
 
 		// Hook in to fetch events
-		if (!config.IS_PROD) {
+		if (config.DEBUG) {
 			new HookFetch(inFlight => (this.inFlightRequests = inFlight));
 		}
 	}
@@ -346,8 +346,9 @@ export default class UIRoot extends LitElement {
 			document.body.append(element);
 		}
 
+		console.log('site key', global.bootstrapData.captcha.turnstile.siteKey);
 		this.turnstileWidgetId = turnstile.render(element, {
-			sitekey: config.IS_PROD ? '0x4AAAAAAABeRY1vaJVtjfBV' : '1x00000000000000000000AA',
+			sitekey: global.bootstrapData.captcha.turnstile.siteKey,
 			callback: cb,
 			'error-callback': errCb
 		});
@@ -388,7 +389,7 @@ export default class UIRoot extends LitElement {
 			switch (this.globalStatus) {
 				// Loading
 				case GlobalStatus.Loading:
-				case GlobalStatus.Authenticating:
+				case GlobalStatus.Bootstrapping:
 					this.showLoading();
 					break;
 
@@ -413,7 +414,7 @@ export default class UIRoot extends LitElement {
 
 		return html`
 			<!-- Debug -->
-			${when(!config.IS_PROD, () => this.renderDebug())}
+			${when(config.DEBUG, () => this.renderDebug())}
 
 			<!-- Content -->
 			${content}

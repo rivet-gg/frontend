@@ -361,7 +361,7 @@ export default class IdentityProfileEdit extends LitElement {
 		}
 
 		// Prepare the upload
-		let createRes = await global.live.identity.prepareIdentityAvatarUpload({
+		let createRes = await global.api.identity.prepareAvatarUpload({
 			path: imageFile.prepared.path,
 			mime: imageFile.prepared.contentType,
 			contentLength: imageFile.prepared.contentLength

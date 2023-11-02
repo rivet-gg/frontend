@@ -66,8 +66,7 @@ export default class CdnSites extends LitElement {
 
 		// Prepare the upload
 		let displayName = folderName.slice(0, 24) || 'Folder Upload';
-		let createRes = await global.cloud.createGameCdnSite({
-			gameId: this.game.gameId,
+		let createRes = await global.api.cloud.games.cdn.createGameCdnSite(this.game.gameId, {
 			files: uploadFiles,
 			displayName
 		});
@@ -75,7 +74,7 @@ export default class CdnSites extends LitElement {
 		return {
 			uploadId: createRes.uploadId,
 			files: createRes.presignedRequests.map(presignedRequest => ({
-				presignedRequest,
+				presignedRequest: presignedRequest,
 				input: fileRegister.get(presignedRequest.path)
 			})),
 			ctx: { entryId: createRes.siteId }

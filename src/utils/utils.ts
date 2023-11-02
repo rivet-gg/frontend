@@ -542,6 +542,6 @@ const utils = {
 	}
 };
 
-if (!config.IS_PROD) (window as any).utils = utils;
+if (config.DEBUG) (window as any).utils = utils;
 
 export default utils;
