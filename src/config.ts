@@ -7,7 +7,7 @@ const RIVET_API_ENDPOINT = localStorage.RIVET_API_ENDPOINT || ENV_RIVET_API_ENDP
 
 const config = {
 	RIVET_NAMESPACE: ENV_RIVET_NAMESPACE,
-	IS_PROD: ENV_RIVET_NAMESPACE == 'prod',
+	DEBUG: localStorage.RIVET_DEBUG || ENV_RIVET_NAMESPACE != 'prod',
 	ALLOW_PAGE_CACHE: window.localStorage.getItem('rivet:disable-page-cache') == null,
 
 	GIT_COMMIT: ENV_GIT_COMMIT,
@@ -39,7 +39,7 @@ const config = {
 	enableNotifications: 'serviceWorker' in navigator && 'Notification' in window
 };
 
-if (!config.IS_PROD) console.log('Config', config);
+if (config.DEBUG) console.log('Config', config);
 
 function modifyBaseUrl(urlRaw: string, prefix: string, path: string = ''): string {
 	let url = new URL(urlRaw);

@@ -10,6 +10,9 @@ import { Breadcrumb } from './elements/common/navbar';
 import { GameSettingsRootConfig } from './elements/pages/dev/game/settings/game-settings';
 import { GroupSettingsRootConfig } from './elements/pages/dev/group/settings/group-settings';
 
+const tailwindConfig = require('../tailwind.config.js');
+const tailwind_palette = tailwindConfig.theme.extend.colors;
+
 export type RenderResult = RenderResultTemplate | RenderResultRedirect;
 
 export interface RenderResultTemplate {
@@ -89,7 +92,7 @@ namespace routes {
 		path: '/developer/:path*',
 		render({ path }, search) {
 			return {
-				redirect: `${window.location.origin} /${path}${
+				redirect: `${window.location.origin}/${path}${
 					search ? `?${new URLSearchParams(search).toString()}` : ''
 				}`
 			};
@@ -151,7 +154,7 @@ namespace routes {
 					groupId,
 					title: 'Analytics'
 				},
-				template: html` <page-analytics-overview .groupId="${groupId}"></page-analytics-overview>`
+				template: html`<page-analytics-overview .groupId=${groupId}></page-analytics-overview>`
 			};
 		}
 	});
@@ -162,7 +165,7 @@ namespace routes {
 			return {
 				title: 'Group Invite',
 				breadcrumb: { type: 'Custom' },
-				template: html` <page-group-invite .code="${code}"></page-group-invite>`
+				template: html`<page-group-invite .code=${code}></page-group-invite>`
 			};
 		}
 	});
@@ -173,7 +176,7 @@ namespace routes {
 			return {
 				title: `Settings`,
 				breadcrumb: { type: 'Custom' },
-				template: html` <page-settings .tabId="${tab}"></page-settings>`
+				template: html`<page-settings .tabId=${tab}></page-settings>`
 			};
 		}
 	});
@@ -184,7 +187,7 @@ namespace routes {
 			return {
 				title: `Link account`,
 				breadcrumb: { type: 'Custom' },
-				template: html` <page-link-game .token="${token}"></page-link-game>`
+				template: html`<page-link-game .token=${token}></page-link-game>`
 			};
 		}
 	});
@@ -198,14 +201,14 @@ namespace routes {
 			return {
 				title: 'Link Device',
 				breadcrumb: { type: 'Custom' },
-				template: html` <page-dev-device-link .deviceLinkToken="${token}"></page-dev-device-link>`
+				template: html`<page-dev-device-link .deviceLinkToken=${token}></page-dev-device-link>`
 			};
 		}
 	});
 
 	// Reuse the same template in order to preserve the same `page-dev-game` instance.
 	function renderPageDevGame(gameId: string, namespaceId: string, config: DevGameRootConfig) {
-		return html` <page-dev-game
+		return html`<page-dev-game
 			.gameId="${gameId}"
 			.namespaceId="${namespaceId}"
 			.config="${config}"
@@ -221,7 +224,7 @@ namespace routes {
 			return {
 				title: 'Game',
 				breadcrumb: { type: 'Game', gameId, title: 'Overview' },
-				template: html` <game-overview .gameId="${gameId}"></game-overview> `
+				template: html`<game-overview .gameId="${gameId}"></game-overview> `
 			};
 		}
 	});
@@ -237,7 +240,7 @@ namespace routes {
 	});
 
 	function renderPageDevGameSettings(gameId: string, config: GameSettingsRootConfig) {
-		return html` <page-dev-game-settings
+		return html`<page-dev-game-settings
 			.gameId="${gameId}"
 			.config="${config}"
 		></page-dev-game-settings>`;
@@ -449,7 +452,7 @@ export namespace responses {
 				type: 'Custom'
 			},
 
-			template: html` <page-error message="Forbidden"></page-error>`
+			template: html`<page-error message="Forbidden"></page-error>`
 		};
 	}
 
@@ -459,7 +462,7 @@ export namespace responses {
 			breadcrumb: {
 				type: 'Custom'
 			},
-			template: html` <page-error message="Bad Request"></page-error>`
+			template: html`<page-error message="Bad Request"></page-error>`
 		};
 	}
 
@@ -469,10 +472,20 @@ export namespace responses {
 			breadcrumb: {
 				type: 'Custom'
 			},
-			template: html` <invalid-page-state>
-				<h1 slot="title">404</h1>
-				<h2 slot="subtitle">This page isn't available or it doesn't exist. Sorry!</h2>
-			</invalid-page-state>`
+			template: html`
+				<div class="text-center fixed w-full h-32 m-auto left-0 right-0 top-0 bottom-0">
+					<h1 class="text-red-500 font-bold text-8xl pr-2">404</h1>
+					<h4 class="pb-4 font-semibold">Page Not Found</h4>
+						<stylized-button 
+							class="mx-auto"
+							right-icon="solid/arrow-right"
+							color=${tailwind_palette['raised-bg']}
+							border-color=${tailwind_palette['raised-bg-border-color']}
+							border-width=".75px"
+							href=${routes.home.build({})}
+						>Go Home</stylized-button>
+				</div>
+			`
 		};
 	}
 

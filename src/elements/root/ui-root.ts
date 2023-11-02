@@ -1,7 +1,7 @@
 import { customElement, property, query } from 'lit/decorators.js';
 import { html, LitElement, TemplateResult } from 'lit';
 import { cssify } from '../../utils/css';
-import { GlobalStatus } from '../../utils/global';
+import global, { GlobalStatus } from '../../utils/global';
 import { globalEventGroups, GlobalStatusChangeEvent, windowEventGroups } from '../../utils/global-events';
 import timing from '../../utils/timing';
 import styles from './ui-root.scss';
@@ -151,7 +151,7 @@ export default class UIRoot extends LitElement {
 		UIRoot.shared = this;
 
 		// Hook in to fetch events
-		if (!config.IS_PROD) {
+		if (config.DEBUG) {
 			new HookFetch(inFlight => (this.inFlightRequests = inFlight));
 		}
 	}
@@ -345,8 +345,9 @@ export default class UIRoot extends LitElement {
 			document.body.append(element);
 		}
 
+		console.log('site key', global.bootstrapData.captcha.turnstile.siteKey);
 		this.turnstileWidgetId = turnstile.render(element, {
-			sitekey: config.IS_PROD ? '0x4AAAAAAABeRY1vaJVtjfBV' : '1x00000000000000000000AA',
+			sitekey: global.bootstrapData.captcha.turnstile.siteKey,
 			callback: cb,
 			'error-callback': errCb
 		});
@@ -386,7 +387,7 @@ export default class UIRoot extends LitElement {
 			switch (this.globalStatus) {
 				// Loading
 				case GlobalStatus.Loading:
-				case GlobalStatus.Authenticating:
+				case GlobalStatus.Bootstrapping:
 					this.showLoading();
 					break;
 				case GlobalStatus.Consenting:
@@ -409,7 +410,7 @@ export default class UIRoot extends LitElement {
 
 		return html`
 			<!-- Debug -->
-			${when(!config.IS_PROD, () => this.renderDebug())}
+			${when(config.DEBUG, () => this.renderDebug())}
 
 			<!-- Content -->
 			${content}

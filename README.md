@@ -17,7 +17,7 @@ Run the following command:
 yarn start
 ```
 
-This will open `http://localhost:5080` in your browser. By default, this will connect to Rivet's staging servers (https://staging.gameinc.io).
+This will open `http://localhost:5080` in your browser. By default, this will connect to Rivet's staging servers (https://staging2.gameinc.io).
 
 ## Developing with self-hosted backend
 
@@ -51,7 +51,7 @@ If you are running your own cluster for development, consider updating the CORS 
 
 ## CORS
 
-`staging.gameinc.io` CORS is specially configured to have the following origin regex:
+`staging2.gameinc.io` CORS is specially configured to have the following origin regex:
 
 ```regex
 ^https?://(hub\\.rivet\\.gg|[^\\.]+\\.rivet-hub\\.pages\\.dev|localhost:\\d+|192\\.168\\.\\d+\\.\\d+:\\d+|0\\.0\\.0\\.0\\.:\\d+)$

@@ -29,15 +29,13 @@ export default class DevGameSettingsGeneral extends LitElement {
 		// Prepare the upload
 		let createRes;
 		if (type == UploadType.Logo) {
-			createRes = await global.cloud.gameLogoUploadPrepare({
-				gameId: this.game.gameId,
+			createRes = await global.api.cloud.games.games.gameLogoUploadPrepare(this.game.gameId, {
 				path: imageFile.prepared.path,
 				mime: imageFile.prepared.contentType,
 				contentLength: imageFile.prepared.contentLength
 			});
 		} else if (type == UploadType.Banner) {
-			createRes = await global.cloud.gameBannerUploadPrepare({
-				gameId: this.game.gameId,
+			createRes = await global.api.cloud.games.games.gameBannerUploadPrepare(this.game.gameId, {
 				path: imageFile.prepared.path,
 				mime: imageFile.prepared.contentType,
 				contentLength: imageFile.prepared.contentLength
