@@ -116,7 +116,7 @@ export function showActionSheet(anchor: HTMLElement, options: ActionSheetItem[])
 
 logging.errorCb = (title: string, ...data: any[]) => {
 	// Debug alert panel
-	if (!config.IS_PROD) {
-		// showAlert(`Internal Error: ${title}`, html`${data.join(' ~~~ ')}`);
+	if (config.DEBUG) {
+		showAlert(`Internal Error: ${title}`, html`${data.join(' ~~~ ')}`);
 	}
 };

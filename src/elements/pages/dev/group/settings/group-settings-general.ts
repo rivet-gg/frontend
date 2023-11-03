@@ -267,7 +267,7 @@ export default class GroupSettingsGeneral extends LitElement {
 						${this.group ? this.validDisplayNameValue : null}
 					</div> -->
 
-					<div id="uploader-overlay" class="w-full h-24 pb-8">
+					<div id="uploader-overlay" class="w-full pb-8">
 						<h1 class="text-lg pb-2">Upload Group Image</h1>
 						<file-uploader
 							pause
@@ -278,7 +278,13 @@ export default class GroupSettingsGeneral extends LitElement {
 							.prepareUpload=${this.prepareUpload.bind(this)}
 							.completeUpload=${this.completeUpload.bind(this)}
 							.failedUpload=${this.failedUpload.bind(this)}
-						></file-uploader>
+						>
+							<e-svg slot="icon" src="regular/file-arrow-up"></e-svg>
+							<div slot="content">
+								<p class="file-input-title">Upload Group Logo</p>
+								<p class="file-input-subtitle">Recommended size 512x512 px</p>
+							</div>						
+						</file-uploader>
 					</div>
 				</div>
 
@@ -327,7 +333,7 @@ export default class GroupSettingsGeneral extends LitElement {
 		}
 
 		// Prepare the upload
-		let createRes = await global.live.group.prepareGroupAvatarUpload({
+		let createRes = await global.api.group.prepareAvatarUpload({
 			path: imageFile.prepared.path,
 			mime: imageFile.prepared.contentType,
 			contentLength: imageFile.prepared.contentLength

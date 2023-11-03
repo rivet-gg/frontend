@@ -7,11 +7,10 @@ import { windowEventGroups, globalEventGroups } from './global-events';
 import * as api from './api';
 import * as cloud from '@rivet-gg/cloud';
 import { RootCache } from '../data/cache';
-import PushNotifications from './push-notifications';
 import { BroadcastEvent, BroadcastEventKind } from '../data/broadcast';
 import { ls } from './cache';
 import { BroadcastSystem } from './broadcast';
-import { RivetClient } from '@rivet-gg/api-internal';
+import { Rivet, RivetClient } from '@rivet-gg/api-internal';
 import { Fetcher, fetcher } from '@rivet-gg/api-internal/core';
 import { HttpRequest } from '@aws-sdk/protocol-http';
 import { HttpHandlerOptions } from '@aws-sdk/types';
@@ -28,9 +27,10 @@ export enum WindowSize {
 
 export enum GlobalStatus {
 	// Loading
-	Authenticating,
-	Loading,
-	Reconnecting,
+	Loading, // Waiting for script to start
+	Bootstrapping, // Waiting for bootstrap to finish
+	Connecting, // Waiting for live to connect
+	Reconnecting, // Waiting for live to reconnect
 
 	// Interactive
 	Consenting,
@@ -38,7 +38,8 @@ export enum GlobalStatus {
 	Connected,
 
 	// Failures
-	AuthFailed
+	AuthFailed,
+	BootstrapFailed
 }
 
 export class GlobalState {
@@ -63,9 +64,6 @@ export class GlobalState {
 	auth: api.auth.AuthService;
 	cloud: cloud.CloudService;
 
-	// Push notifications client.
-	pushNotifications: PushNotifications;
-
 	/// Data for the current signed in identity.
 	currentIdentity: api.identity.IdentityProfile;
 
@@ -76,8 +74,11 @@ export class GlobalState {
 	setupLiveAttempts = 0;
 
 	troubleConnecting = false;
-	isInitiated = false;
+	liveInitiated = false;
 	liveBlockingBypass: number = null;
+
+	bootstrapFailed: boolean = false;
+	bootstrapData: Rivet.cloud.BootstrapResponse;
 
 	identityStream: api.RepeatingRequest<api.identity.GetIdentitySelfProfileCommandOutput>;
 	eventStream: api.RepeatingRequest<api.identity.WatchEventsCommandOutput>;
@@ -92,12 +93,12 @@ export class GlobalState {
 		// Load cache
 		if (await this.loadCache()) {
 			logging.event('Cache quick start');
-			this.isInitiated = true;
+			this.liveInitiated = true;
 		}
 
 		this.broadcast.addEventListener('message', this.handleBroadcastMessages.bind(this));
 
-		// Create auth client. This will automatically fetch a token
+		// Create auth client. This will automatically fetch a token.
 		this.authManager = new AuthManager();
 
 		// Create API middleware, automatically refreshes the api token on expiration
@@ -194,21 +195,12 @@ export class GlobalState {
 			})
 		};
 
-		// Start live client
-		this.authManager
-			.fetchToken()
-			.then(() => this.setupLive())
-			.catch(err => {
-				logging.error('Error initiating live', err);
-			});
-
 		this.auth = new api.auth.AuthService({
 			endpoint: config.ORIGIN_API + '/auth',
 			// Force the credentials to be included, since we need to be able to modify cookies here
 			requestHandler: refreshMiddleware({ credentials: 'include' })
 		});
 
-		// Build cloud instance
 		this.cloud = new cloud.CloudService({
 			endpoint: config.ORIGIN_API + '/cloud',
 			tls: true,
@@ -217,6 +209,8 @@ export class GlobalState {
 		});
 
 		ls.setGlobalListener(this.onSettingChange.bind(this));
+
+		this.bootstrap();
 
 		// Establish push notifications
 		this.pushNotifications = new PushNotifications();
@@ -257,6 +251,31 @@ export class GlobalState {
 
 		// Complete promise
 		if (this.consentResolve !== undefined) this.consentResolve();
+	}
+
+	/// Fetches configuration information from the servers & creates the intiital auth token.
+	bootstrap(noCache: boolean = false) {
+		// Reset bootstrap state
+		this.bootstrapFailed = false;
+		this.bootstrapData = undefined;
+
+		// This will automatically create & test the initial auth token.
+		logging.event('Bootstrapping');
+		this.api.cloud
+			.bootstrap()
+			.then(res => {
+				logging.event('Bootstrapp success');
+
+				this.bootstrapFailed = false;
+				this.bootstrapData = res;
+				this.updateStatus();
+				this.setupLive(noCache);
+			})
+			.catch(err => {
+				logging.error('Error bootstrapping', err);
+				this.bootstrapFailed = true;
+				this.bootstrapData = undefined;
+			});
 	}
 
 	async setupLive(noCache = false) {
@@ -300,7 +319,7 @@ export class GlobalState {
 				this.updateCache(res.watch);
 
 				// Update global state
-				this.isInitiated = true;
+				this.liveInitiated = true;
 				this.updateStatus();
 				this.setupLiveAttempts = 0;
 
@@ -330,12 +349,8 @@ export class GlobalState {
 				// Attempt to reconnect in a few seconds
 				setTimeout(
 					() => {
-						this.authManager
-							.fetchToken()
-							.then(() => this.setupLive(true))
-							.catch(err => {
-								logging.error('Error initiating live', err);
-							});
+						// This calls `setupLive` on success
+						this.bootstrap(true);
 					},
 					this.setupLiveAttempts <= 3 ? timing.seconds(1) : timing.seconds(5)
 				);
@@ -378,14 +393,18 @@ export class GlobalState {
 		let status: GlobalStatus;
 		if (!settings.didConsent) {
 			status = GlobalStatus.Consenting;
-		} else if (this.authManager !== undefined) {
-			if (this.authManager.authenticationFailed) status = GlobalStatus.AuthFailed;
-			else if (this.authManager.token === undefined) status = GlobalStatus.Authenticating;
-			else if (this.isInitiated) {
-				if (this.troubleConnecting) status = GlobalStatus.Reconnecting;
-				else status = GlobalStatus.Connected;
-			}
-		} else status = GlobalStatus.Loading;
+		} else if (!this.authManager) status = GlobalStatus.Loading;
+		else if (this.authManager.authenticationFailed) status = GlobalStatus.AuthFailed;
+		else if (this.bootstrapFailed) status = GlobalStatus.BootstrapFailed;
+		else if (!this.bootstrapData) {
+			status = GlobalStatus.Bootstrapping;
+		} else if (!this.liveInitiated) {
+			status = GlobalStatus.Connecting;
+		} else {
+			if (this.troubleConnecting) status = GlobalStatus.Reconnecting;
+			else status = GlobalStatus.Connected;
+		}
+		console.log('status', status);
 
 		// Dispatch event
 		if (status !== this.status) {
@@ -418,6 +437,6 @@ export class GlobalState {
 
 export const global = new GlobalState();
 
-if (!config.IS_PROD) (window as any).rivet = global;
+if (config.DEBUG) (window as any).rivet = global;
 
 export default global;

@@ -35,7 +35,6 @@ interface SettingsPageData {
 interface SettingsData {
 	thirdPartyData: boolean;
 	collectData: boolean;
-	pushNotifications: boolean;
 }
 
 @customElement('page-settings')
@@ -69,7 +68,6 @@ export default class SettingsPage extends LitElement {
 			{
 				thirdPartyData: ls.getBoolean('third-party-data', true),
 				collectData: ls.getBoolean('collect-data', true),
-				pushNotifications: ls.getBoolean('push-notifications', false)
 			}
 		);
 
@@ -170,13 +168,6 @@ export default class SettingsPage extends LitElement {
 			this.settings.collectData = value;
 
 			ls.setBoolean(key, value);
-		} else if (key == 'push-notifications') {
-			this.settings.pushNotifications = value;
-
-			ls.setBoolean(key, value);
-
-			if (value) global.pushNotifications.enable();
-			else global.pushNotifications.disable();
 		} else if (key == 'toggle-deletion') {
 			if (value) {
 				global.live.identity.markDeletion({}).catch((err: Error) => (this.loadError = err));
@@ -194,8 +185,6 @@ export default class SettingsPage extends LitElement {
 			this.settings.thirdPartyData = event.value.value;
 		} else if (event.value.id == 'collect-data') {
 			this.settings.collectData = event.value.value;
-		} else if (event.value.id == 'push-notifications') {
-			this.settings.pushNotifications = event.value.value;
 		}
 
 		this.requestUpdate('settings');
