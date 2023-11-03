@@ -148,7 +148,7 @@ export class GlobalState {
 		logging.net('Connecting to live...', config.ORIGIN_API + '/portal');
 		this.api = new RivetClient({
 			environment: config.ORIGIN_API,
-			token: async () => (await _global.authManager.fetchToken(true)).token,
+			token: async () => (await _global.authManager.fetchToken()).token,
 			fetcher: async args => {
 				let response = await fetcher(args);
 
