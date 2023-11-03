@@ -101,7 +101,7 @@ export default class RegisterPanel extends LitElement {
 	emailKeyPress(event: KeyboardEvent) {
 		// Enter is pressed
 		if (this.emailError == null && event.key == 'Enter') {
-			this.requestCaptcha();
+			this.startEmailVerificatoin();
 			this.emailInput.blur();
 		}
 	}
@@ -121,35 +121,24 @@ export default class RegisterPanel extends LitElement {
 		if (this.codeError == null && event.key == 'Enter') this.completeEmailVerification();
 	}
 
-	async requestCaptcha() {
-		return new Promise<void>(res => {
-			UIRoot.shared.openCaptcha(
-				async token => {
-					// Artificial wait time
-					await wait(timing.seconds(1));
+	async startEmailVerificatoin() {
+		// Wait for captcha
+		let captchaToken = null;
+		if (global.bootstrapData.captcha.turnstile) {
+			captchaToken = await UIRoot.shared.promptCaptcha();
+		}
 
-					UIRoot.shared.closeCaptcha();
-					this.startEmailVerification(token);
-					res();
-				},
-				err => {
-					this.loadError = err;
-					res();
-				}
-			);
-		});
-	}
-
-	async startEmailVerification(clientResponse: string) {
 		this.wait = true;
 		this.codeError = null;
 
 		try {
 			let res = await global.auth.startEmailVerification({
 				email: this.email.trim(),
-				captcha: {
-					turnstile: { clientResponse }
-				},
+				captcha: captchaToken
+					? {
+							turnstile: { clientResponse: captchaToken }
+					  }
+					: null,
 				gameId: this.gameId
 			});
 
@@ -325,7 +314,7 @@ export default class RegisterPanel extends LitElement {
 								  >`}
 							<stylized-button
 								?disabled=${this.emailError != null}
-								.trigger=${this.requestCaptcha.bind(this)}
+								.trigger=${this.startEmailVerificatoin.bind(this)}
 								>Continue</stylized-button
 							>
 						</div>

@@ -326,31 +326,38 @@ export default class UIRoot extends LitElement {
 		document.getElementById('loading').classList.remove('hidden');
 	}
 
-	openCaptcha(cb: (token: string) => void, errCb?: (err: Error) => void) {
-		let element: HTMLElement = document.body.querySelector('#turnstile');
+	promptCaptcha(): Promise<string> {
+		return new Promise((resolve, reject) => {
+			let element: HTMLElement = document.body.querySelector('#turnstile');
 
-		if (element) {
-			element.style.removeProperty('display');
-		} else {
-			element = document.createElement('div');
-			element.setAttribute('id', 'turnstile');
-			element.addEventListener('click', e => {
-				if (e.target === e.currentTarget) this.closeCaptcha();
+			if (element) {
+				element.style.removeProperty('display');
+			} else {
+				element = document.createElement('div');
+				element.setAttribute('id', 'turnstile');
+				element.addEventListener('click', e => {
+					if (e.target === e.currentTarget) this.closeCaptcha();
+				});
+
+				let cancel = new StylizedButton();
+				cancel.addEventListener('click', this.closeCaptcha.bind(this));
+				cancel.append(document.createTextNode('Cancel'));
+				element.append(cancel);
+
+				document.body.append(element);
+			}
+
+			this.turnstileWidgetId = turnstile.render(element, {
+				sitekey: global.bootstrapData.captcha.turnstile.siteKey,
+				callback: (token: string) => {
+					this.closeCaptcha();
+					resolve(token);
+				},
+				'error-callback': err => {
+					this.closeCaptcha();
+					reject(err);
+				}
 			});
-
-			let cancel = new StylizedButton();
-			cancel.addEventListener('click', this.closeCaptcha.bind(this));
-			cancel.append(document.createTextNode('Cancel'));
-			element.append(cancel);
-
-			document.body.append(element);
-		}
-
-		console.log('site key', global.bootstrapData.captcha.turnstile.siteKey);
-		this.turnstileWidgetId = turnstile.render(element, {
-			sitekey: global.bootstrapData.captcha.turnstile.siteKey,
-			callback: cb,
-			'error-callback': errCb
 		});
 	}
 
