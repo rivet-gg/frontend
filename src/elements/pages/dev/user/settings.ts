@@ -67,7 +67,7 @@ export default class SettingsPage extends LitElement {
 			{},
 			{
 				thirdPartyData: ls.getBoolean('third-party-data', true),
-				collectData: ls.getBoolean('collect-data', true),
+				collectData: ls.getBoolean('collect-data', true)
 			}
 		);
 
