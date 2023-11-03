@@ -1,10 +1,10 @@
 $first-navigation-delay: 140ms;
 $first-navigation-duration: 500ms;
-$first-navigation-animation: cubic-bezier(0.27, 1.37, 0.87, 1);
-$first-navigation-params: $first-navigation-duration $first-navigation-animation $first-navigation-delay 1
+$first-navigation-easing: cubic-bezier(0.27, 1.37, 0.87, 1);
+$first-navigation-params: $first-navigation-duration $first-navigation-easing $first-navigation-delay 1
 	forwards;
 
-@mixin slideInFromBottom($params) {
+@mixin initialSlideInFromBottom($params) {
 	transform: scale(0.95) translateY(100px);
 	opacity: 0.1;
 	animation: $params slideInFromBottom;

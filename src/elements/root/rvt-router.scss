@@ -1,0 +1,41 @@
+@use '../shared/common';
+@use '../shared/consts';
+@use '../shared/animations';
+
+:host {
+	flex-grow: 1;
+	position: relative;
+
+	.page {
+		position: absolute;
+		inset: 0;
+		opacity: 0;
+
+		&.old {
+			display: none;
+		}
+
+		&.new,
+		&.back {
+			animation: animations.$first-navigation-duration animations.$first-navigation-easing forwards
+				showNewView;
+			z-index: 1;
+		}
+	}
+}
+
+// These are specific animations for this particular view, so they are not in the shared animations file
+@keyframes showNewView {
+	0% {
+		position: absolute;
+		inset: 0;
+		opacity: 0;
+		display: none;
+	}
+	100% {
+		position: relative;
+		inset: 0;
+		opacity: 1;
+		display: block;
+	}
+}

@@ -1,4 +1,4 @@
-import { LitElement, html } from 'lit';
+import { html, LitElement } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
 import { cssify } from '../../utils/css';
 import styles from './register-panel.scss';
@@ -11,7 +11,7 @@ import TextInput from '../dev/text-input';
 import { clearCache } from '../../utils/cache';
 import * as api from '../../utils/api';
 import * as broadcast from '../../data/broadcast';
-import UIRoot from '../root/ui-root';
+import RvtRoot from '../root/rvt-root';
 import { globalEventGroups, IdentityChangeEvent } from '../../utils/global-events';
 
 export const VALIDATE_EMAIL =
@@ -31,25 +31,25 @@ export default class RegisterPanel extends LitElement {
 	verificationId: string = null;
 
 	@property({ type: String })
-	emailError: string = '';
+	emailError = '';
 
 	@property({ type: String })
 	codeError = '';
 
 	@property({ type: String })
-	loadingMessage: string = '';
+	loadingMessage = '';
 
 	@property({ type: Boolean })
 	isCompleting = false;
 
 	@property({ type: Boolean })
-	codeAreaActive: boolean = false;
+	codeAreaActive = false;
 
 	@property({ type: Boolean })
 	wait = false;
 
 	@property({ type: Boolean, attribute: 'light' })
-	light: boolean = false;
+	light = false;
 
 	@property({ type: String, attribute: 'title' })
 	title: string;
@@ -58,7 +58,7 @@ export default class RegisterPanel extends LitElement {
 	description: string;
 
 	@property({ type: Boolean, attribute: 'no-back' })
-	noBackButton: boolean = false;
+	noBackButton = false;
 
 	// Used for customizing the email
 	@property({ type: String })
@@ -123,12 +123,12 @@ export default class RegisterPanel extends LitElement {
 
 	async requestCaptcha() {
 		return new Promise<void>(res => {
-			UIRoot.shared.openCaptcha(
+			RvtRoot.shared.openCaptcha(
 				async token => {
 					// Artificial wait time
 					await wait(timing.seconds(1));
 
-					UIRoot.shared.closeCaptcha();
+					RvtRoot.shared.closeCaptcha();
 					this.startEmailVerification(token);
 					res();
 				},

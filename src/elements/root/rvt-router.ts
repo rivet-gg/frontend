@@ -5,7 +5,7 @@ import timing from '../../utils/timing';
 import { windowEventGroups } from '../../utils/global-events';
 import logging from '../../utils/logging';
 import { classMap } from 'lit/directives/class-map.js';
-import styles from './ui-router.scss';
+import styles from './rvt-router.scss';
 import routes, {
 	RenderResult,
 	RenderResultRedirect,
@@ -15,9 +15,7 @@ import routes, {
 } from '../../routes';
 
 import * as uuid from 'uuid';
-import { Breadcrumb } from '../common/navbar';
-
-const PAGE_ANIMATION_DURATION = timing.milliseconds(250);
+import { Breadcrumb } from '../common/rvt-nav';
 
 interface PageState {
 	scrollTop: number;
@@ -62,11 +60,11 @@ export class RouteTitleChangeEvent extends Event {
 	}
 }
 
-@customElement('ui-router')
-export default class UIRouter extends LitElement {
+@customElement('rvt-router')
+export default class RvtRouter extends LitElement {
 	static styles = cssify(styles);
 
-	static shared: UIRouter;
+	static shared: RvtRouter;
 
 	@property({ type: Array })
 	history: RemovablePage[] = [];
@@ -123,7 +121,7 @@ export default class UIRouter extends LitElement {
 		super();
 
 		// Set singleton
-		UIRouter.shared = this;
+		RvtRouter.shared = this;
 
 		// Parse the path url
 		let url = routes.home.build({});
@@ -312,6 +310,11 @@ export default class UIRouter extends LitElement {
 					this.history[i].old = true;
 					this.history[i].new = false;
 					this.history[i].state = this.buildPageState();
+					if (this.history.length > 0) {
+						if (!this.removePage(this.history[i])) {
+							logging.error(`Failed to remove page "${this.history[i].src}"`);
+						}
+					}
 					break;
 				}
 			}
@@ -432,14 +435,9 @@ export default class UIRouter extends LitElement {
 						page.new = false;
 						page.state.scrollTop = document.body.scrollTop;
 
-						// Remove current page from history after animation is over
-						page.removalTimeout = window.setTimeout(() => {
-							if (!this.removePage(page)) {
-								logging.error(`Failed to remove page "${page.src}"`);
-							}
-
-							this.requestUpdate('history');
-						}, PAGE_ANIMATION_DURATION);
+						if (!this.removePage(page)) {
+							logging.error(`Failed to remove page "${page.src}"`);
+						}
 					}
 					// Navigate to previous page
 					else if (page.old) {
@@ -532,8 +530,6 @@ export default class UIRouter extends LitElement {
 	render() {
 		// Clone the page history list so it will not be mutated
 		let pageList = [...this.history];
-		// Count how many back animation pages there are (used for animation purposes)
-		let backedPages = this.getBackedPages();
 
 		let newestPage = pageList[pageList.length - 1];
 
@@ -548,20 +544,6 @@ export default class UIRouter extends LitElement {
 			first: pageList.length == 1
 		});
 
-		let lastPageClasses;
-		let lastPage = pageList[pageList.length - 2];
-		if (lastPage) {
-			lastPageClasses = classMap({
-				page: true,
-				old: lastPage.old,
-				new: lastPage.new,
-				back: lastPage.back
-			});
-		}
-
-		return html`
-			<div class="${classes} h-full">${newestPage.renderResult.template}</div>
-			<div class="${lastPageClasses || ''} h-full">${lastPage?.renderResult.template}</div>
-		`;
+		return html`<div class="${classes} h-full">${newestPage.renderResult.template}</div> `;
 	}
 }

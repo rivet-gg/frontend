@@ -4,8 +4,8 @@ import { cssify } from '../../utils/css';
 import global, { GlobalStatus } from '../../utils/global';
 import { globalEventGroups, GlobalStatusChangeEvent, windowEventGroups } from '../../utils/global-events';
 import timing from '../../utils/timing';
-import styles from './ui-root.scss';
-import UIRouter, { RouteChangeEvent, RouteTitleChangeEvent } from './ui-router';
+import styles from './rvt-root.scss';
+import RvtRouter, { RouteChangeEvent, RouteTitleChangeEvent } from './rvt-router';
 import { AlertOption } from '../overlay/alert-panel';
 import { ActionSheetItem } from '../overlay/action-sheet';
 import RegisterPanel from '../overlay/register-panel';
@@ -15,7 +15,7 @@ import { DeferredStageEvent, Stage } from '../pages/link-game';
 import StylizedButton from '../common/stylized-button';
 import { Alignment, Orientation } from '../common/overlay-positioning';
 import { DropDownSelectEvent, DropDownSelection } from '../dev/drop-down-list';
-import { Breadcrumb } from '../common/navbar';
+import { Breadcrumb } from '../common/rvt-nav';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { when } from 'lit/directives/when.js';
 import { repeat } from 'lit/directives/repeat.js';
@@ -66,15 +66,15 @@ interface DropDownListData<T> {
 	highlightColor: string;
 }
 
-@customElement('ui-root')
-export default class UIRoot extends LitElement {
+@customElement('rvt-root')
+export default class RvtRoot extends LitElement {
 	static styles = cssify(styles);
 
-	static shared: UIRoot;
+	static shared: RvtRoot;
 
 	// === COMPONENTS ===
-	@query('ui-router')
-	router: UIRouter;
+	@query('rvt-router')
+	router: RvtRouter;
 
 	@query('register-panel')
 	registerPanel: RegisterPanel;
@@ -147,8 +147,8 @@ export default class UIRoot extends LitElement {
 		super();
 
 		// Set singleton
-		if (UIRoot.shared != null) throw new Error('UIRoot.shared has already been set.');
-		UIRoot.shared = this;
+		if (RvtRoot.shared != null) throw new Error('UIRoot.shared has already been set.');
+		RvtRoot.shared = this;
 
 		// Hook in to fetch events
 		if (config.DEBUG) {
@@ -425,6 +425,7 @@ export default class UIRoot extends LitElement {
 		}, new Map<string, number>());
 		let inFlightHostCountsSorted = [...inFlightHostCounts].sort((a, b) => b[1] - a[1]);
 
+		console.log(this.inFlightRequests);
 		return html`
 			<div id="debug">
 				<div id="build-info">
@@ -451,21 +452,20 @@ export default class UIRoot extends LitElement {
 
 	renderContent() {
 		return html`
-			<nav-bar
+			<rvt-nav
+				class="z-50 relative"
 				id="nav-bar"
 				.routeTitle="${this.routeTitle}"
 				.breadcrumbs="${this.breadcrumb}"
-			></nav-bar>
+			></rvt-nav>
 
 			<!-- Page Body -->
 			<div id="content-holder" class="min-h-screen flex pt-14 box-border">
-				<ui-router
+				<rvt-router
 					@change="${this.onRouteChange.bind(this)}"
 					@title-change="${this.onTitleChange.bind(this)}"
-				></ui-router>
+				></rvt-router>
 			</div>
-
-			<nav-bar .routeTitle="${this.routeTitle}" .breadcrumbs="${this.breadcrumb}"></nav-bar>
 
 			<!-- Register overlay -->
 			<drop-down-modal

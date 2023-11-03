@@ -7,8 +7,8 @@ import { when } from 'lit/directives/when.js';
 import { globalEventGroups, IdentityChangeEvent } from '../../utils/global-events';
 import { isDeveloper } from '../../utils/identity';
 import routes from '../../routes';
-import UIRouter from '../root/ui-router';
-import UIRoot from '../root/ui-root';
+import RvtRouter from '../root/rvt-router';
+import RvtRoot from '../root/rvt-root';
 
 @customElement('rvt-user-dashboard')
 export default class RvtUserDashboard extends LitElement {
@@ -35,7 +35,7 @@ export default class RvtUserDashboard extends LitElement {
 
 	onIdentityChange() {
 		if (isDeveloper(global.currentIdentity)) {
-			UIRouter.shared.navigate(routes.home.build({}), {
+			RvtRouter.shared.navigate(routes.home.build({}), {
 				replaceHistory: true,
 				forceSamePage: true
 			});
@@ -46,7 +46,7 @@ export default class RvtUserDashboard extends LitElement {
 
 	onLoginButtonClick() {
 		global.grantConsent();
-		UIRoot.shared.openRegisterPanel();
+		RvtRoot.shared.openRegisterPanel();
 	}
 
 	render() {

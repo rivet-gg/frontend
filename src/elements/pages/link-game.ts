@@ -1,4 +1,4 @@
-import { LitElement, html, PropertyValues } from 'lit';
+import { html, LitElement, PropertyValues } from 'lit';
 import config from '../../config';
 import { customElement, property } from 'lit/decorators.js';
 import { cssify } from '../../utils/css';
@@ -13,7 +13,7 @@ import { showAlert, tooltip } from '../../ui/helpers';
 import assets from '../../data/assets';
 import { GameLinkStatus } from '@rivet-gg/identity';
 
-// Sent to the ui-root so that we can advance the linking page's stage even if it is removed from DOM
+// Sent to the rvt-root so that we can advance the linking page's stage even if it is removed from DOM
 // intermittently
 export class DeferredStageEvent extends Event {
 	constructor(public stage: Stage) {
@@ -37,7 +37,7 @@ export default class LinkGamePage extends LitElement {
 	token: string;
 
 	@property({ type: Boolean })
-	isLoading: boolean = true;
+	isLoading = true;
 
 	@property({ type: Object })
 	gameLinkData: api.identity.GetGameLinkCommandOutput;
