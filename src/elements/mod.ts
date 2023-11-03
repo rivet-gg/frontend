@@ -1,6 +1,5 @@
 import './common/copy-area';
 import './common/date-display';
-import './common/date-display';
 import './common/embedded-svg';
 import './common/file-upload-list';
 import './common/file-uploader';
@@ -63,3 +62,4 @@ import './profile/user-banner';
 import './root/ui-root';
 import './root/ui-router';
 import './tiles/group-handle-tile';
+import './shared/mod';

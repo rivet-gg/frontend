@@ -7,6 +7,13 @@
 	width: max-content; // Fit the content
 }
 
+::slotted(rvt-spinner) {
+	fill: var(--icon-color, var(--color));
+	width: var(--icon-size, 1em);
+	height: var(--icon-size, 1em);
+	margin-right: 0.5em;
+}
+
 @mixin stylized-button($height, $padding, $icon-margin, $font-size) {
 	$color: var(--color);
 	$icon-color: var(--icon-color, var(--color));

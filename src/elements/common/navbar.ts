@@ -2,13 +2,12 @@ import { html, LitElement, PropertyValues, TemplateResult } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { cssify } from '../../utils/css';
 import global from '../../utils/global';
-import cloud from '@rivet-gg/cloud';
+import cloud, { GameFull } from '@rivet-gg/cloud';
 import styles from './navbar.scss';
 import routes from '../../routes';
 import * as api from '../../utils/api';
 import { when } from 'lit/directives/when.js';
 import logging from '../../utils/logging';
-import { GameFull } from '@rivet-gg/cloud';
 import assets from '../../data/assets';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { CloudGameCache, GroupProfileCache } from '../../data/cache';
@@ -37,7 +36,7 @@ export default class NavBar extends LitElement {
 	static styles = cssify(styles);
 
 	@property({ type: String })
-	routeTitle: string = '';
+	routeTitle = '';
 
 	@property({ type: Object })
 	breadcrumbs: Breadcrumb = undefined;

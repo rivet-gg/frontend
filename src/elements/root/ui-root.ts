@@ -383,29 +383,11 @@ export default class UIRoot extends LitElement {
 				></page-link-game>
 				${this.renderBasicOverlays()}
 			`;
+		} else if (this.globalStatus === GlobalStatus.AuthFailed) {
+			this.showLoading();
 		} else {
-			switch (this.globalStatus) {
-				// Loading
-				case GlobalStatus.Loading:
-				case GlobalStatus.Bootstrapping:
-					this.showLoading();
-					break;
-				case GlobalStatus.Consenting:
-					this.hideLoading();
-					content = html` <rvt-user-dashboard></rvt-user-dashboard>`;
-					break;
-				case GlobalStatus.Connected:
-				case GlobalStatus.Reconnecting:
-					// Continue as normal
-					this.hideLoading();
-					content = this.renderContent();
-					break;
-
-				// Failures
-				case GlobalStatus.AuthFailed:
-					this.showLoading();
-					break;
-			}
+			this.hideLoading();
+			content = this.renderContent();
 		}
 
 		return html`
@@ -451,6 +433,15 @@ export default class UIRoot extends LitElement {
 
 	renderContent() {
 		return html`
+			${when(
+				global.status === GlobalStatus.Connected,
+				() =>
+					html`<nav-bar
+						.routeTitle="${this.routeTitle}"
+						.breadcrumbs="${this.breadcrumb}"
+					></nav-bar>`
+			)}
+
 			<!-- Page Body -->
 			<div id="content-holder" class="min-h-screen flex pt-14 box-border">
 				<ui-router
@@ -459,40 +450,45 @@ export default class UIRoot extends LitElement {
 				></ui-router>
 			</div>
 
-			<nav-bar .routeTitle="${this.routeTitle}" .breadcrumbs="${this.breadcrumb}"></nav-bar>
-
 			<!-- Register overlay -->
-			<drop-down-modal
-				.active="${this.registerPanelActive}"
-				@close="${this.closeRegisterPanel.bind(this)}"
-			>
-				<modal-body slot="body">
-					<register-panel light @close="${this.closeRegisterPanel.bind(this)}"></register-panel>
-				</modal-body>
-			</drop-down-modal>
+			${when(
+				global.currentIdentity,
+				() =>
+					html`<drop-down-modal
+							.active="${this.registerPanelActive}"
+							@close="${this.closeRegisterPanel.bind(this)}"
+						>
+							<modal-body slot="body">
+								<register-panel
+									light
+									@close="${this.closeRegisterPanel.bind(this)}"
+								></register-panel>
+							</modal-body>
+						</drop-down-modal>
 
-			<overlay-positioning
-				.active="${this.dropDownListData.active}"
-				.contextElement="${this.dropDownListData.contextElement}"
-				.orientation="${this.dropDownListData.orientation}"
-				.alignment="${Alignment.Corner}"
-				.fadeAnimation="${false}"
-				@close="${this.closeDropDownList.bind(this)}"
-			>
-				<drop-down-list
-					overlay
-					.selection="${this.dropDownListData.selection}"
-					.options="${this.dropDownListData.options}"
-					?fixed="${this.dropDownListData.fixed}"
-					.light="${this.dropDownListData.light}"
-					.bgColor="${this.dropDownListData.bgColor}"
-					.highlightColor="${this.dropDownListData.highlightColor}"
-					@select="${this.dropDownListData.selectionCb}"
-					@close="${this.closeDropDownList.bind(this)}"
-				></drop-down-list>
-			</overlay-positioning>
+						<overlay-positioning
+							.active="${this.dropDownListData.active}"
+							.contextElement="${this.dropDownListData.contextElement}"
+							.orientation="${this.dropDownListData.orientation}"
+							.alignment="${Alignment.Corner}"
+							.fadeAnimation="${false}"
+							@close="${this.closeDropDownList.bind(this)}"
+						>
+							<drop-down-list
+								overlay
+								.selection="${this.dropDownListData.selection}"
+								.options="${this.dropDownListData.options}"
+								?fixed="${this.dropDownListData.fixed}"
+								.light="${this.dropDownListData.light}"
+								.bgColor="${this.dropDownListData.bgColor}"
+								.highlightColor="${this.dropDownListData.highlightColor}"
+								@select="${this.dropDownListData.selectionCb}"
+								@close="${this.closeDropDownList.bind(this)}"
+							></drop-down-list>
+						</overlay-positioning>
 
-			${this.renderBasicOverlays()}
+						${this.renderBasicOverlays()}`
+			)}
 		`;
 	}
 
