@@ -246,6 +246,8 @@ export default class LinkGamePage extends LitElement {
 					this.gameLinkData.status == GameLinkStatus.COMPLETE ? Stage.Complete : Stage.Start
 				)}
 				.gameId=${this.gameLinkData.game.gameId}
+				.active=${true}
+				autofocus
 			></register-panel>
 			${global.currentIdentity.isRegistered
 				? html`<div class="actions">
