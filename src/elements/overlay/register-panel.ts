@@ -1,4 +1,4 @@
-import { LitElement, html } from 'lit';
+import { LitElement, PropertyValueMap, PropertyValues, html } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
 import { cssify } from '../../utils/css';
 import styles from './register-panel.scss';
@@ -21,6 +21,9 @@ export const VALIDATE_EMAIL =
 export default class RegisterPanel extends LitElement {
 	static styles = cssify(styles);
 
+	@property({ type: Boolean })
+	active = false;
+
 	@property({ type: String })
 	email = '';
 
@@ -31,25 +34,25 @@ export default class RegisterPanel extends LitElement {
 	verificationId: string = null;
 
 	@property({ type: String })
-	emailError: string = '';
+	emailError = '';
 
 	@property({ type: String })
 	codeError = '';
 
 	@property({ type: String })
-	loadingMessage: string = '';
+	loadingMessage = '';
 
 	@property({ type: Boolean })
 	isCompleting = false;
 
 	@property({ type: Boolean })
-	codeAreaActive: boolean = false;
+	codeAreaActive = false;
 
 	@property({ type: Boolean })
 	wait = false;
 
 	@property({ type: Boolean, attribute: 'light' })
-	light: boolean = false;
+	light = false;
 
 	@property({ type: String, attribute: 'title' })
 	title: string;
@@ -58,7 +61,7 @@ export default class RegisterPanel extends LitElement {
 	description: string;
 
 	@property({ type: Boolean, attribute: 'no-back' })
-	noBackButton: boolean = false;
+	noBackButton = false;
 
 	// Used for customizing the email
 	@property({ type: String })
@@ -81,6 +84,14 @@ export default class RegisterPanel extends LitElement {
 
 		this.handleIdentityChange = this.onIdentityChange.bind(this);
 		globalEventGroups.add('identity-change', this.handleIdentityChange);
+	}
+
+	updated(changedProperties: PropertyValues) {
+		super.updated(changedProperties);
+
+		if (this.active && this.autofocus) {
+			this.emailInput.focus();
+		}
 	}
 
 	onIdentityChange() {

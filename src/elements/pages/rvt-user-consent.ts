@@ -3,9 +3,6 @@ import { customElement } from 'lit/decorators.js';
 import { cssify } from '../../utils/css';
 import { GlobalStatus } from '../../utils/global';
 import { globalEventGroups, GlobalStatusChangeEvent } from '../../utils/global-events';
-import { when } from 'lit/directives/when.js';
-
-const BUSY_STATUSES = [GlobalStatus.Loading, GlobalStatus.Bootstrapping, GlobalStatus.Connecting];
 
 @customElement('rvt-user-consent')
 export class RvtUserConsent extends LitElement {
@@ -52,22 +49,13 @@ export class RvtUserConsent extends LitElement {
 				<div class="w-3/4 border-b-white/10 border-b-[1px] h-px mx-auto my-4"></div>
 				<div class="w-full flex m-auto pb-5 text-left items-center justify-center gap-4">
 					<p class="text-md">Have access and just got logged out?</p>
-					<stylized-button
-						.trigger="${this.dispatchLogin.bind(this)}"
-						.loading="${BUSY_STATUSES.includes(this.status)}"
-					>
-						${
-							// TODO: move this to stylized-button once confirmed
-							when(BUSY_STATUSES.includes(this.status), () => html`<rvt-spinner></rvt-spinner>`)
-						}
-						Login
-					</stylized-button>
+					<stylized-button .trigger="${this.dispatchLogin.bind(this)}"> Login </stylized-button>
 				</div>
 				<p class="text-gray-400 text-xs">
-					By clicking Login, you agree to the Rivet
-					<a class="link" href="https://rivet.gg/terms" target="_blank"> Terms of Service </a>
+					By using the app, you agree to the Rivet
+					<a class="link" href="https://rivet.gg/terms" target="_blank">Terms of Service</a>
 					and
-					<a class="link" href="https://rivet.gg/privacy" target="_blank"> Privacy Policy </a>.
+					<a class="link" href="https://rivet.gg/privacy" target="_blank">Privacy Policy</a>.
 				</p>
 			</div>
 		`;

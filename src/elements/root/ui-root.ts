@@ -175,6 +175,7 @@ export default class UIRoot extends LitElement {
 		// Handle key down
 		this.handleKeyDown = this.onKeyDown.bind(this);
 		windowEventGroups.add('keydown', this.handleKeyDown);
+		global.grantConsent();
 	}
 
 	disconnectedCallback() {
@@ -302,14 +303,6 @@ export default class UIRoot extends LitElement {
 
 	openRegisterPanel() {
 		this.registerPanelActive = true;
-
-		this.updateComplete.then(async () => {
-			// Waiting for this makes sure that the body's scroll height is updated before setting scroll
-			// position
-			await this.getUpdateComplete();
-
-			this.registerPanel.focusInput();
-		});
 	}
 
 	closeRegisterPanel() {
@@ -345,7 +338,6 @@ export default class UIRoot extends LitElement {
 			document.body.append(element);
 		}
 
-		console.log('site key', global.bootstrapData.captcha.turnstile.siteKey);
 		this.turnstileWidgetId = turnstile.render(element, {
 			sitekey: global.bootstrapData.captcha.turnstile.siteKey,
 			callback: cb,
@@ -385,7 +377,7 @@ export default class UIRoot extends LitElement {
 			`;
 		} else if (this.globalStatus === GlobalStatus.AuthFailed) {
 			this.showLoading();
-		} else {
+		} else if (this.globalStatus === GlobalStatus.Connected) {
 			this.hideLoading();
 			content = this.renderContent();
 		}
@@ -460,8 +452,10 @@ export default class UIRoot extends LitElement {
 						>
 							<modal-body slot="body">
 								<register-panel
+									.active="${this.registerPanelActive}"
 									light
 									@close="${this.closeRegisterPanel.bind(this)}"
+									autofocus
 								></register-panel>
 							</modal-body>
 						</drop-down-modal>

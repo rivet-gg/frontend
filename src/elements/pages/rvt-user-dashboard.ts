@@ -44,7 +44,6 @@ export default class RvtUserDashboard extends LitElement {
 	}
 
 	onLoginButtonClick() {
-		global.grantConsent();
 		UIRoot.shared.openRegisterPanel();
 	}
 
