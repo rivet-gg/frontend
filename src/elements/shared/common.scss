@@ -66,3 +66,9 @@ code {
 		font-weight: 400;
 	}
 }
+
+// expose tailwind css variables
+:host {
+	--rvt-color-raised-bg: theme(colors.raised-bg);
+	--rvt-color-raised-bg-border-color: theme(colors.raised-bg-border-color);
+}

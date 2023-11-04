@@ -5,7 +5,7 @@ import { classMap } from 'lit/directives/class-map.js';
 import { when } from 'lit/directives/when.js';
 import { choose } from 'lit/directives/choose.js';
 import { cssify } from '../../../../utils/css';
-import styles from './game-namespace.scss';
+import styles from './rvt-namespace-settings.scss';
 import routes, { responses } from '../../../../routes';
 import global from '../../../../utils/global';
 import * as cloud from '@rivet-gg/cloud';
@@ -42,8 +42,8 @@ const LOBBY_COUNT_MAX = 32768 - 1;
 
 const CDN_AUTH_USER_MAX = 32;
 
-@customElement('page-dev-game-namespace')
-export default class DevGameNamespace extends LitElement {
+@customElement('rvt-namespace-settings')
+export default class RvtNamespaceSettings extends LitElement {
 	static styles = cssify(styles);
 
 	@property({ type: Object })
@@ -733,20 +733,13 @@ export default class DevGameNamespace extends LitElement {
 		}
 
 		return html`
-			<div id="base">
-				<div id="subheader">
-					${when(
-						this.version.config.cdn,
-						() =>
-							html`<stylized-button
-								id="visit-button"
-								right-icon="solid/arrow-right"
-								.href=${visitUrl}
-								>Visit</stylized-button
-							>`
-					)}
-					<span>Name ID: <b>${this.namespace.nameId}</b></span>
-				</div>
+			<div id="base" class="flex flex-col px-16 pt-6 text-slate-300 flex-wrap overflow-x-scroll">
+				<rvt-namespace-header
+					.game=${this.game}
+					.namespace=${this.namespace}
+					.version=${this.version}
+					class="mb-6"
+				></rvt-namespace-header>
 				<h1>Version</h1>
 				<a
 					id="version"

@@ -135,6 +135,8 @@ module.exports = async function () {
 								sourceMap: false
 							}
 						},
+						// allows to use tailwind utilities in scss files
+						'postcss-loader',
 						{
 							loader: 'sass-loader',
 							options: {

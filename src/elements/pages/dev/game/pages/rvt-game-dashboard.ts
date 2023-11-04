@@ -107,10 +107,10 @@ export default class DevGame extends LitElement {
 		}));
 
 		if (this.config.summary) {
-			body = html`<page-dev-namespace-summary
+			body = html`<rvt-namespace-summary
 				.game=${this.game}
 				.namespaceId=${this.namespaceId}
-			></page-dev-namespace-summary>`;
+			></rvt-namespace-summary>`;
 
 			UIRouter.shared.updateTitle(this.game.displayName);
 
@@ -131,8 +131,8 @@ export default class DevGame extends LitElement {
 
 			pageId = 'versionSummary';
 		} else if (this.config.versionSettings) {
-			body = html`<page-dev-game-namespace .game=${this.game} .namespaceId=${this.namespaceId}>
-			</page-dev-game-namespace>`;
+			body = html`<rvt-namespace-settings .game=${this.game} .namespaceId=${this.namespaceId}>
+			</rvt-namespace-settings>`;
 
 			UIRouter.shared.updateTitle(`${this.game.displayName} – Settings`);
 			pageId = 'namespaceSettings';
