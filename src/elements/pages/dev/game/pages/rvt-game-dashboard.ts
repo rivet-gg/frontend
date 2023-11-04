@@ -130,6 +130,27 @@ export default class DevGame extends LitElement {
 			UIRouter.shared.updateTitle(`${this.game.displayName} – Versions`);
 
 			pageId = 'versionSummary';
+		} else if (this.config.version) {
+			body = html`<page-dev-game-version
+				.game=${this.game}
+				.versionId=${this.config.version.versionId}
+			></page-dev-game-version>`;
+
+			let version = this.game.versions.find(v => v.versionId == this.config.version.versionId);
+			let versionName = version ? version.displayName : 'Unknown version';
+
+			UIRouter.shared.updateTitle(`${this.game.displayName} – ${versionName}`);
+		} else if (this.config.namespace) {
+			body = html`<page-dev-game-namespace
+				.game=${this.game}
+				.namespaceId=${this.config.namespace.namespaceId}
+			></page-dev-game-namespace>`;
+
+			let namespaceName = this.game.namespaces.find(
+				n => n.namespaceId == this.config.namespace.namespaceId
+			).displayName;
+
+			UIRouter.shared.updateTitle(`${this.game.displayName} – ${namespaceName}`);
 		} else if (this.config.versionSettings) {
 			body = html`<rvt-namespace-settings .game=${this.game} .namespaceId=${this.namespaceId}>
 			</rvt-namespace-settings>`;
