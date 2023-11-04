@@ -1,15 +1,13 @@
 import { LitElement, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { cssify } from '../../utils/css';
-import styles from './dev-game-sidebar.scss';
+import styles from './rvt-game-dashboard-sidebar.scss';
 import routes from '../../routes';
 import * as cloud from '@rivet-gg/cloud';
-import global from '../../utils/global';
-import { Debounce } from '../../utils/timing';
 import { TraversableErrors, VALIDATION_ERRORS } from '../../utils/traversable-errors';
 
-@customElement('dev-game-sidebar')
-export default class DevGameSidebar extends LitElement {
+@customElement('rvt-game-dashboard-sidebar')
+export default class RvtGameDashboardSidebar extends LitElement {
 	static styles = cssify(styles);
 
 	@property({ type: Array })
@@ -20,6 +18,9 @@ export default class DevGameSidebar extends LitElement {
 
 	@property({ type: String })
 	namespaceId: string;
+
+	@property({ type: String })
+	versionId: string;
 
 	// Used when selecting a namespace for logs, lobbies, etc
 	@property({ type: String })
@@ -37,9 +38,6 @@ export default class DevGameSidebar extends LitElement {
 	@property({ type: Number })
 	createTs: number = Date.now();
 
-	// === DEBOUNCE INFO ===
-	validateNamespaceDebounce: Debounce<() => ReturnType<typeof global.cloud.validateGameNamespace>>;
-
 	constructor() {
 		super();
 	}
@@ -51,9 +49,6 @@ export default class DevGameSidebar extends LitElement {
 	}
 
 	renderContent() {
-		let gameIdStr = this.gameId;
-		let draft;
-
 		return html`
 			<rvt-sidebar-group title="General">
 				<rvt-sidebar-button
@@ -62,15 +57,9 @@ export default class DevGameSidebar extends LitElement {
 						gameId: this.game.gameId,
 						namespaceId: this.namespaceId
 					})}
-					icon="regular/square-info"
+					icon="solid/square-info"
 					>Overview</rvt-sidebar-button
 				>
-				<!-- <stylized-button
-					?current=${this.pageId == 'billing'}
-					href=${routes.devBilling.build({ gameId: this.game.gameId })}
-					icon="solid/square-dollar"
-					>Billing</stylized-button
-				> -->
 
 				<rvt-sidebar-button
 					?current=${this.pageId == 'tokens'}
@@ -88,7 +77,7 @@ export default class DevGameSidebar extends LitElement {
 						gameId: this.game.gameId,
 						namespaceId: this.namespaceId
 					})}
-					icon="light/server"
+					icon="solid/server"
 					>Lobbies</rvt-sidebar-button
 				>
 
@@ -111,6 +100,17 @@ export default class DevGameSidebar extends LitElement {
 					icon="solid/table-list"
 					>KV</rvt-sidebar-button
 				>
+
+				<rvt-sidebar-button
+					?current=${this.pageId == 'namespaceSettings'}
+					href=${routes.devVersionSettings.build({
+						gameId: this.game.gameId,
+						namespaceId: this.namespaceId
+					})}
+					icon="solid/gear"
+				>
+					Settings
+				</rvt-sidebar-button>
 
 				<!-- <rvt-sidebar-button href="https://rivet.gg/modules" icon="solid/cubes"
 					>Modules</rvt-sidebar-button

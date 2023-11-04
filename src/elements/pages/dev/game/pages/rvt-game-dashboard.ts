@@ -14,12 +14,15 @@ export interface DevGameRootConfig {
 	summary?: true;
 	billing?: true;
 	versionSummary?: true;
+	versionSettings?: true;
 	version?: {
 		versionId: string;
 	};
+	versions?: true;
 	namespace?: {
 		namespaceId: string;
 	};
+	settings?: true;
 	versionDraft?: true;
 	tokens?: true;
 	sites?: true;
@@ -31,15 +34,9 @@ export interface DevGameRootConfig {
 	kv?: true;
 }
 
-@customElement('page-dev-game')
+@customElement('rvt-game-dashboard')
 export default class DevGame extends LitElement {
 	static styles = cssify(styles);
-
-	// @query('#ns-display-name-input')
-	// namespaceDisplayName: HTMLInputElement;
-
-	// @query('#ns-name-id-input')
-	// namespaceNameId: HTMLInputElement;
 
 	@property({ type: String })
 	gameId: string;
@@ -49,9 +46,6 @@ export default class DevGame extends LitElement {
 
 	@property({ type: Object })
 	config: DevGameRootConfig = { summary: true };
-
-	// @property({ type: Object })
-	// namespaceSelection: DropDownSelection<string> = null;
 
 	@property({ type: Object })
 	game: cloud.GameFull = null;
@@ -127,17 +121,6 @@ export default class DevGame extends LitElement {
 			UIRouter.shared.updateTitle(`${this.game.displayName} – Billing`);
 
 			pageId = 'billing';
-		} else if (this.config.namespace) {
-			body = html`<page-dev-game-namespace
-				.game=${this.game}
-				.namespaceId=${this.config.namespace.namespaceId}
-			></page-dev-game-namespace>`;
-
-			let namespaceName = this.game.namespaces.find(
-				n => n.namespaceId == this.config.namespace.namespaceId
-			).displayName;
-
-			UIRouter.shared.updateTitle(`${this.game.displayName} – ${namespaceName}`);
 		} else if (this.config.versionSummary) {
 			body = html`<page-dev-namespace-version
 				.game=${this.game}
@@ -145,16 +128,14 @@ export default class DevGame extends LitElement {
 			></page-dev-namespace-version>`;
 
 			UIRouter.shared.updateTitle(`${this.game.displayName} – Versions`);
-		} else if (this.config.version) {
-			body = html`<page-dev-game-version
-				.game=${this.game}
-				.versionId=${this.config.version.versionId}
-			></page-dev-game-version>`;
 
-			let version = this.game.versions.find(v => v.versionId == this.config.version.versionId);
-			let versionName = version ? version.displayName : 'Unknown version';
+			pageId = 'versionSummary';
+		} else if (this.config.versionSettings) {
+			body = html`<page-dev-game-namespace .game=${this.game} .namespaceId=${this.namespaceId}>
+			</page-dev-game-namespace>`;
 
-			UIRouter.shared.updateTitle(`${this.game.displayName} – ${versionName}`);
+			UIRouter.shared.updateTitle(`${this.game.displayName} – Settings`);
+			pageId = 'namespaceSettings';
 		} else if (this.config.versionDraft) {
 			body = html`<page-dev-game-version-draft .game=${this.game}></page-dev-game-version-draft>`;
 
@@ -203,13 +184,13 @@ export default class DevGame extends LitElement {
 
 	renderSidebar(pageId: string) {
 		return html`<div id="tabs" slot="sidebar">
-			<dev-game-sidebar
+			<rvt-game-dashboard-sidebar
 				.game=${this.game}
 				.gameId=${this.gameId}
 				.namespaceId=${this.namespaceId}
 				.versionId=${this.config.version ? this.config.version.versionId : null}
 				.pageId=${pageId}
-			></dev-game-sidebar>
+			></rvt-game-dashboard-sidebar>
 		</div>`;
 	}
 

@@ -408,7 +408,6 @@ export class GlobalState {
 			if (this.troubleConnecting) status = GlobalStatus.Reconnecting;
 			else status = GlobalStatus.Connected;
 		}
-		console.log('status', status);
 
 		// Dispatch event
 		if (status !== this.status) {
