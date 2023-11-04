@@ -432,7 +432,6 @@ export default class RvtRoot extends LitElement {
 		}, new Map<string, number>());
 		let inFlightHostCountsSorted = [...inFlightHostCounts].sort((a, b) => b[1] - a[1]);
 
-		console.log(this.inFlightRequests);
 		return html`
 			<div id="debug">
 				<div id="build-info">

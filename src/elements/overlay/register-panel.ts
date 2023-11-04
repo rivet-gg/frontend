@@ -1,3 +1,4 @@
+/* eslint-disable no-mixed-spaces-and-tabs */
 import { html, LitElement } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
 import { cssify } from '../../utils/css';
@@ -6,7 +7,6 @@ import global from '../../utils/global';
 import { classMap } from 'lit/directives/class-map.js';
 import { responses } from '../../routes';
 import logging from '../../utils/logging';
-import { default as timing, wait } from '../../utils/timing';
 import TextInput from '../dev/text-input';
 import { clearCache } from '../../utils/cache';
 import * as api from '../../utils/api';
@@ -101,7 +101,7 @@ export default class RegisterPanel extends LitElement {
 	emailKeyPress(event: KeyboardEvent) {
 		// Enter is pressed
 		if (this.emailError == null && event.key == 'Enter') {
-			this.startEmailVerificatoin();
+			this.startEmailVerification();
 			this.emailInput.blur();
 		}
 	}
@@ -121,26 +121,7 @@ export default class RegisterPanel extends LitElement {
 		if (this.codeError == null && event.key == 'Enter') this.completeEmailVerification();
 	}
 
-	async requestCaptcha() {
-		return new Promise<void>(res => {
-			RvtRoot.shared.openCaptcha(
-				async token => {
-					// Artificial wait time
-					await wait(timing.seconds(1));
-
-					RvtRoot.shared.closeCaptcha();
-					this.startEmailVerification(token);
-					res();
-				},
-				err => {
-					this.loadError = err;
-					res();
-				}
-			);
-		});
-	}
-
-	async startEmailVerificatoin() {
+	async startEmailVerification() {
 		// Wait for captcha
 		let captchaToken = null;
 		if (global.bootstrapData.captcha.turnstile) {
@@ -332,7 +313,7 @@ export default class RegisterPanel extends LitElement {
 								  >`}
 							<stylized-button
 								?disabled=${this.emailError != null}
-								.trigger=${this.startEmailVerificatoin.bind(this)}
+								.trigger=${this.startEmailVerification.bind(this)}
 								>Continue</stylized-button
 							>
 						</div>
