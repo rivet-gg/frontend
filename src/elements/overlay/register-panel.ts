@@ -101,7 +101,7 @@ export default class RegisterPanel extends LitElement {
 	emailKeyPress(event: KeyboardEvent) {
 		// Enter is pressed
 		if (this.emailError == null && event.key == 'Enter') {
-			this.requestCaptcha();
+			this.startEmailVerificatoin();
 			this.emailInput.blur();
 		}
 	}
@@ -140,16 +140,23 @@ export default class RegisterPanel extends LitElement {
 		});
 	}
 
-	async startEmailVerification(clientResponse: string) {
+	async startEmailVerificatoin() {
+		// Wait for captcha
+		let captchaToken = null;
+		if (global.bootstrapData.captcha.turnstile) {
+			captchaToken = await RvtRoot.shared.promptCaptcha();
+		}
 		this.wait = true;
 		this.codeError = null;
 
 		try {
 			let res = await global.auth.startEmailVerification({
 				email: this.email.trim(),
-				captcha: {
-					turnstile: { clientResponse }
-				},
+				captcha: captchaToken
+					? {
+							turnstile: { clientResponse: captchaToken }
+					  }
+					: null,
 				gameId: this.gameId
 			});
 
@@ -325,7 +332,7 @@ export default class RegisterPanel extends LitElement {
 								  >`}
 							<stylized-button
 								?disabled=${this.emailError != null}
-								.trigger=${this.requestCaptcha.bind(this)}
+								.trigger=${this.startEmailVerificatoin.bind(this)}
 								>Continue</stylized-button
 							>
 						</div>
