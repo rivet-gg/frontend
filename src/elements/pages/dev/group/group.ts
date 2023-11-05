@@ -23,6 +23,7 @@ import { InputUpdateEvent } from '../../../dev/text-input';
 import { ColorExtractor } from '../../../../utils/colors';
 import { repeat } from 'lit/directives/repeat.js';
 import { TraversableErrors, VALIDATION_ERRORS } from '../../../../utils/traversable-errors';
+import { RepeatingRequest } from '../../../../utils/repeating-request';
 
 enum CreateInviteState {
 	Create,
@@ -115,8 +116,8 @@ export default class GroupPage extends LitElement {
 	validateGameDebounce: Debounce<() => ReturnType<typeof global.cloud.validateGame>>;
 
 	// === EVENT HANDLERS ===
-	groupStream?: api.RepeatingRequest<api.group.GetGroupProfileCommandOutput>;
-	gameStream?: api.RepeatingRequest<cloud.GetGamesCommandOutput>;
+	groupStream?: RepeatingRequest<api.group.GetGroupProfileCommandOutput>;
+	gamesStream?: RepeatingRequest<cloud.GetGamesCommandOutput>;
 
 	constructor() {
 		super();
@@ -153,7 +154,7 @@ export default class GroupPage extends LitElement {
 		super.disconnectedCallback();
 
 		if (this.groupStream) this.groupStream.cancel();
-		if (this.gameStream) this.gameStream.cancel();
+		if (this.gamesStream) this.gamesStream.cancel();
 	}
 
 	updated(changedProperties: PropertyValues) {
@@ -179,15 +180,15 @@ export default class GroupPage extends LitElement {
 	}
 
 	async fetchGames() {
-		if (this.gameStream) this.gameStream.cancel();
+		if (this.gamesStream) this.gamesStream.cancel();
 
 		// Fetch events
-		this.gameStream = await CloudDashboardCache.watch(data => {
+		this.gamesStream = CloudDashboardCache.watch('GroupPage.gamesStream', data => {
 			data.games.sort((a, b) => a.displayName.localeCompare(b.displayName));
 			this.games = data.games.filter(a => a.developerGroupId == this.groupId);
 		});
 
-		this.gameStream.onError(err => {
+		this.gamesStream.onError(err => {
 			logging.error('Request error', err);
 
 			// Only set `loadError` on initiation
@@ -200,7 +201,7 @@ export default class GroupPage extends LitElement {
 		let firstFetch = !this.profile;
 
 		if (this.groupStream) this.groupStream.cancel();
-		this.groupStream = await GroupProfileCache.watch(this.groupId, res => {
+		this.groupStream = GroupProfileCache.watch('GroupPage.groupStream', this.groupId, res => {
 			let firstFetch = !this.profile;
 
 			this.profile = res.group;

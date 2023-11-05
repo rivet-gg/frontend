@@ -9,6 +9,7 @@ import UIRouter from '../../../../root/ui-router';
 import { CloudGameCache } from '../../../../../data/cache';
 import logging from '../../../../../utils/logging';
 import { globalEventGroups } from '../../../../../utils/global-events';
+import { RepeatingRequest } from '../../../../../utils/repeating-request';
 
 export interface DevGameRootConfig {
 	summary?: true;
@@ -59,7 +60,7 @@ export default class DevGame extends LitElement {
 	@property({ type: Object })
 	loadError?: any;
 
-	gameStream?: api.RepeatingRequest<cloud.GetGameByIdCommandOutput>;
+	gameStream?: RepeatingRequest<cloud.GetGameByIdCommandOutput>;
 
 	updated(changedProperties: PropertyValues) {
 		// Request data if category set
@@ -83,7 +84,7 @@ export default class DevGame extends LitElement {
 		if (this.gameStream) this.gameStream.cancel();
 
 		// Fetch events
-		this.gameStream = await CloudGameCache.watch(this.gameId, res => {
+		this.gameStream = CloudGameCache.watch('DevGame.gameStream', this.gameId, res => {
 			this.game = res.game;
 
 			// Sort game versions by timestamp descending
