@@ -9,7 +9,6 @@ export default class RvtKitchenSink extends LitElement {
 	render() {
 		return html`<div class="flex flex-col space-y-4 p-8">
 			<!-- TODO: Create typography component -->
-
 			<h2 class="text-xl mb-4">Buttons</h1>
 			<div class="grid md:grid-cols-2 gap-4">
 				<rvt-section>
