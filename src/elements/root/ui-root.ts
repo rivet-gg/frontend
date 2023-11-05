@@ -20,6 +20,7 @@ import StylizedButton from '../common/stylized-button';
 import { Alignment, Orientation } from '../common/overlay-positioning';
 import { DropDownSelectEvent, DropDownSelection } from '../dev/drop-down-list';
 import { Breadcrumb } from '../common/navbar';
+import { RepeatingRequest } from '../../utils/repeating-request';
 
 export const MIN_SWIPE_THRESHOLD = 10;
 const TRANSITION_LENGTH = timing.milliseconds(200); // Match with consts.scss/$transition-length
@@ -142,6 +143,8 @@ export default class UIRoot extends LitElement {
 	// === DEBUG ===
 	@property({ type: Object })
 	inFlightRequests!: Map<number, URL>;
+	@property({ type: Object })
+	activeRepeatingRequests = new Map<number, RepeatingRequest<any>>();
 
 	constructor() {
 		super();
@@ -429,12 +432,8 @@ export default class UIRoot extends LitElement {
 	}
 
 	renderDebug() {
-		let inFlightHostCounts = [...this.inFlightRequests.values()].reduce((prev, curr) => {
-			let key = curr.host;
-			prev.set(key, (prev.get(key) ?? 0) + 1);
-			return prev;
-		}, new Map<string, number>());
-		let inFlightHostCountsSorted = [...inFlightHostCounts].sort((a, b) => b[1] - a[1]);
+		let activeRepeatingRequests = [...this.activeRepeatingRequests.values()];
+		activeRepeatingRequests.sort((a, b) => b.createTimestamp - a.createTimestamp);
 
 		return html`
 			<div id="debug">
@@ -446,11 +445,14 @@ export default class UIRoot extends LitElement {
 				<div id="in-flight-requests">
 					<ul>
 						${repeat(
-							inFlightHostCountsSorted,
-							x => x[0],
+							activeRepeatingRequests,
+							x => x.id,
 							x => {
-								return html`<li class="${classMap({ error: x[1] > 3 })}">
-									${x[0]}: <span>${x[1]}</span>
+						  const date = new Date(x.createTimestamp);
+
+
+								return html`<li>
+									${x.name} – ${date.toLocaleTimeString()}
 								</li>`;
 							}
 						)}
@@ -459,6 +461,38 @@ export default class UIRoot extends LitElement {
 			</div>
 		`;
 	}
+
+	// renderDebug() {
+	// 	let inFlightHostCounts = [...this.inFlightRequests.values()].reduce((prev, curr) => {
+	// 		let key = curr.host;
+	// 		prev.set(key, (prev.get(key) ?? 0) + 1);
+	// 		return prev;
+	// 	}, new Map<string, number>());
+	// 	let inFlightHostCountsSorted = [...inFlightHostCounts].sort((a, b) => b[1] - a[1]);
+
+	// 	return html`
+	// 		<div id="debug">
+	// 			<div id="build-info">
+	// 				${config.RIVET_NAMESPACE ?? 'unknown'} &mdash; ${config.GIT_BRANCH} &mdash;
+	// 				${config.GIT_COMMIT.substring(0, 8)}
+	// 			</div>
+
+	// 			<div id="in-flight-requests">
+	// 				<ul>
+	// 					${repeat(
+	// 						inFlightHostCountsSorted,
+	// 						x => x[0],
+	// 						x => {
+	// 							return html`<li class="${classMap({ error: x[1] > 3 })}">
+	// 								${x[0]}: <span>${x[1]}</span>
+	// 							</li>`;
+	// 						}
+	// 					)}
+	// 				</ul>
+	// 			</div>
+	// 		</div>
+	// 	`;
+	// }
 
 	renderContent() {
 		return html`
