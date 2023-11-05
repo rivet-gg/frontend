@@ -16,6 +16,7 @@ import global from '../../../../../utils/global';
 import { InputUpdateEvent } from '../../../../dev/text-input';
 import { TraversableErrors, VALIDATION_ERRORS } from '../../../../../utils/traversable-errors';
 import timing, { Debounce } from '../../../../../utils/timing';
+import { RepeatingRequest } from '../../../../../utils/repeating-request';
 
 @customElement('game-overview')
 export default class DevGameOverview extends LitElement {
@@ -51,7 +52,7 @@ export default class DevGameOverview extends LitElement {
 	@property({ type: Object })
 	loadError?: any;
 
-	gameStream?: api.RepeatingRequest<cloud.GetGameByIdCommandOutput>;
+	gameStream?: RepeatingRequest<cloud.GetGameByIdCommandOutput>;
 
 	// === DEBOUNCE INFO ===
 	validateNamespaceDebounce: Debounce<() => ReturnType<typeof global.cloud.validateGameNamespace>>;
@@ -115,7 +116,7 @@ export default class DevGameOverview extends LitElement {
 		}
 
 		try {
-			this.gameStream = await CloudGameCache.watch(this.gameId, async res => {
+			this.gameStream = await CloudGameCache.watch("DevGameOverview.gameStream", this.gameId, async res => {
 				let gameData = res.game;
 				if (gameData) {
 					this.game = gameData;

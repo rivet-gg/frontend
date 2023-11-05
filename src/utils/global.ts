@@ -16,6 +16,7 @@ import { Fetcher, fetcher } from '@rivet-gg/api-internal/core';
 import { HttpRequest } from '@aws-sdk/protocol-http';
 import { HttpHandlerOptions } from '@aws-sdk/types';
 import { FailedResponse } from '@rivet-gg/api-internal/types/core/fetcher/APIResponse';
+import { RepeatingRequest } from './repeating-request';
 
 // Keep in sync with mobile widths in consts.css
 export enum WindowSize {
@@ -84,8 +85,8 @@ export class GlobalState {
 	bootstrapFailed: boolean = false;
 	bootstrapData: Rivet.cloud.BootstrapResponse;
 
-	identityStream: api.RepeatingRequest<api.identity.GetIdentitySelfProfileCommandOutput>;
-	eventStream: api.RepeatingRequest<api.identity.WatchEventsCommandOutput>;
+	identityStream: RepeatingRequest<api.identity.GetIdentitySelfProfileCommandOutput>;
+	eventStream: RepeatingRequest<api.identity.WatchEventsCommandOutput>;
 
 	// Mobile information
 	windowSize: number = WindowSize.Large;
@@ -305,7 +306,8 @@ export class GlobalState {
 
 			// Load the current identity data
 			if (this.identityStream) this.identityStream.cancel();
-			this.identityStream = new api.RepeatingRequest(
+			this.identityStream = new RepeatingRequest(
+				"GlobalState.identityStream",
 				async (abortSignal, watchIndex) => {
 					return await this.live.identity.getIdentitySelfProfile(
 						{ watchIndex },

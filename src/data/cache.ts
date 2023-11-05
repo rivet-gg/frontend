@@ -3,6 +3,7 @@ import * as cloud from '@rivet-gg/cloud';
 import global from '../utils/global';
 import { readCache, writeCache } from '../utils/cache';
 import { HttpHandlerOptions } from '@aws-sdk/types';
+import { RepeatingRequest, RepeatingRequestOptions } from '../utils/repeating-request';
 
 export namespace RootCache {
 	interface Payload {
@@ -19,41 +20,6 @@ export namespace RootCache {
 	}
 }
 
-export namespace IdentityProfileCache {
-	type Payload = api.identity.GetIdentityProfileCommandOutput;
-
-	export async function get(identityId: string): Promise<Payload> {
-		return await readCache(['identities', identityId]);
-	}
-
-	export async function set(identityId: string, payload: Payload) {
-		await writeCache(['identities', identityId], payload);
-	}
-
-	// Watches an identity endpoint while automatically taking care of reading/writing cache
-	export async function watch(
-		identityId: string,
-		cb: (data: Payload) => void,
-		reqOpts?: api.RepeatingRequestOptions
-	) {
-		return await abstractWatch<
-			api.identity.GetIdentityProfileCommandInput,
-			api.identity.GetIdentityProfileCommandOutput,
-			Payload
-		>(
-			global.live.identity.getIdentityProfile.bind(global.live.identity),
-			{ identityId },
-			IdentityProfileCache.get.bind(IdentityProfileCache, identityId),
-			res => {
-				cb(res);
-				IdentityProfileCache.set(identityId, res);
-			},
-			cb,
-			reqOpts
-		);
-	}
-}
-
 export namespace GroupProfileCache {
 	type Payload = api.group.GetGroupProfileCommandOutput;
 
@@ -66,15 +32,17 @@ export namespace GroupProfileCache {
 	}
 
 	export async function watch(
+		name: string,
 		groupId: string,
 		cb: (data: Payload) => void,
-		reqOpts?: api.RepeatingRequestOptions
-	): Promise<api.RepeatingRequest<api.group.GetGroupProfileCommandOutput>> {
+		reqOpts?: RepeatingRequestOptions
+	): Promise<RepeatingRequest<api.group.GetGroupProfileCommandOutput>> {
 		return await abstractWatch<
 			api.group.GetGroupProfileCommandInput,
 			api.group.GetGroupProfileCommandOutput,
 			Payload
 		>(
+				name,
 			global.live.group.getGroupProfile.bind(global.live.group),
 			{ groupId },
 			GroupProfileCache.get.bind(GroupProfileCache, groupId),
@@ -100,11 +68,13 @@ export namespace CloudGameCache {
 	}
 
 	export async function watch(
+		name: string,
 		gameId: string,
 		cb: (data: Payload) => void,
-		reqOpts?: api.RepeatingRequestOptions
-	): Promise<api.RepeatingRequest<cloud.GetGameByIdCommandOutput>> {
+		reqOpts?: RepeatingRequestOptions
+	): Promise<RepeatingRequest<cloud.GetGameByIdCommandOutput>> {
 		return await abstractWatch<cloud.GetGameByIdCommandInput, cloud.GetGameByIdCommandOutput, Payload>(
+			name,
 			global.cloud.getGameById.bind(global.cloud),
 			{ gameId },
 			CloudGameCache.get.bind(CloudGameCache, gameId),
@@ -130,10 +100,12 @@ export namespace CloudDashboardCache {
 	}
 
 	export async function watch(
+		name: string,
 		cb: (data: Payload) => void,
-		reqOpts?: api.RepeatingRequestOptions
-	): Promise<api.RepeatingRequest<cloud.GetGamesCommandOutput>> {
+		reqOpts?: RepeatingRequestOptions
+	): Promise<RepeatingRequest<cloud.GetGamesCommandOutput>> {
 		return await abstractWatch<cloud.GetGamesCommandInput, cloud.GetGamesCommandOutput, Payload>(
+			name,
 			global.cloud.getGames.bind(global.cloud),
 			{},
 			CloudDashboardCache.get.bind(CloudDashboardCache),
@@ -147,45 +119,16 @@ export namespace CloudDashboardCache {
 	}
 }
 
-export namespace ActivitiesCache {
-	type Payload = api.identity.ListActivitiesCommandOutput;
-
-	export async function get(): Promise<Payload> {
-		return await readCache(['activities']);
-	}
-
-	export async function set(payload: Payload) {
-		await writeCache(['activities'], payload);
-	}
-
-	export async function watch(cb: (data: Payload) => void, reqOpts?: api.RepeatingRequestOptions) {
-		return await abstractWatch<
-			api.identity.ListActivitiesCommandInput,
-			api.identity.ListActivitiesCommandOutput,
-			Payload
-		>(
-			global.live.identity.listActivities.bind(global.live.identity),
-			{},
-			ActivitiesCache.get.bind(ActivitiesCache),
-			res => {
-				cb(res);
-				ActivitiesCache.set(res);
-			},
-			cb,
-			reqOpts
-		);
-	}
-}
-
 // Watches a given endpoint in conjunction with a given cache
 async function abstractWatch<T, U, V>(
+	name: string,
 	request: (input: T, overrides?: HttpHandlerOptions) => Promise<U>,
 	commandArgs: T,
 	cache: (...args: any[]) => Promise<V>,
 	resCb: (res: U) => void,
 	cacheCb: (cache: V) => void,
-	reqOpts?: api.RepeatingRequestOptions
-): Promise<api.RepeatingRequest<U>> {
+	reqOpts?: RepeatingRequestOptions
+): Promise<RepeatingRequest<U>> {
 	// Fetch cache
 	let cacheRes = await cache();
 
@@ -193,7 +136,8 @@ async function abstractWatch<T, U, V>(
 	if (cacheRes) cacheCb(cacheRes);
 
 	// Start repeating request
-	let req = new api.RepeatingRequest(
+	let req = new RepeatingRequest(
+		name,
 		async (abortSignal, watchIndex) =>
 			await request(Object.assign(commandArgs, { watchIndex }), { abortSignal }),
 		cacheRes

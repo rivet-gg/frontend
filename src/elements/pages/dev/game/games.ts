@@ -26,6 +26,7 @@ import { CloudDashboardCache } from '../../../../data/cache';
 import logging from '../../../../utils/logging';
 import { GroupCreateEvent } from '../../../modals/create-group';
 import { globalEventGroups } from '../../../../utils/global-events';
+import { RepeatingRequest } from '../../../../utils/repeating-request';
 
 @customElement('page-dev-games')
 export default class DevGames extends LitElement {
@@ -67,7 +68,7 @@ export default class DevGames extends LitElement {
 	@property({ type: Boolean })
 	gameIsValid = false;
 
-	gamesStream?: api.RepeatingRequest<cloud.GetGamesCommandOutput>;
+	gamesStream?: RepeatingRequest<cloud.GetGamesCommandOutput>;
 
 	// === DEBOUNCE INFO ===
 	validateGameDebounce: Debounce<() => ReturnType<typeof global.cloud.validateGame>>;
@@ -121,6 +122,7 @@ export default class DevGames extends LitElement {
 
 		// Fetch events
 		this.gamesStream = await CloudDashboardCache.watch(
+			"DevGames.gamesStream",
 			data => {
 				data.games.sort((a, b) => a.displayName.localeCompare(b.displayName));
 				data.groups.sort((a, b) =>

@@ -23,6 +23,7 @@ import { InputUpdateEvent } from '../../../dev/text-input';
 import { ColorExtractor } from '../../../../utils/colors';
 import { repeat } from 'lit/directives/repeat.js';
 import { TraversableErrors, VALIDATION_ERRORS } from '../../../../utils/traversable-errors';
+import { RepeatingRequest } from '../../../../utils/repeating-request';
 
 enum CreateInviteState {
 	Create,
@@ -115,8 +116,8 @@ export default class GroupPage extends LitElement {
 	validateGameDebounce: Debounce<() => ReturnType<typeof global.cloud.validateGame>>;
 
 	// === EVENT HANDLERS ===
-	groupStream?: api.RepeatingRequest<api.group.GetGroupProfileCommandOutput>;
-	gameStream?: api.RepeatingRequest<cloud.GetGamesCommandOutput>;
+	groupStream?: RepeatingRequest<api.group.GetGroupProfileCommandOutput>;
+	gameStream?: RepeatingRequest<cloud.GetGamesCommandOutput>;
 
 	constructor() {
 		super();
@@ -182,7 +183,7 @@ export default class GroupPage extends LitElement {
 		if (this.gameStream) this.gameStream.cancel();
 
 		// Fetch events
-		this.gameStream = await CloudDashboardCache.watch(data => {
+		this.gameStream = await CloudDashboardCache.watch("GroupPage.gameStream", data => {
 			data.games.sort((a, b) => a.displayName.localeCompare(b.displayName));
 			this.games = data.games.filter(a => a.developerGroupId == this.groupId);
 		});
@@ -200,7 +201,7 @@ export default class GroupPage extends LitElement {
 		let firstFetch = !this.profile;
 
 		if (this.groupStream) this.groupStream.cancel();
-		this.groupStream = await GroupProfileCache.watch(this.groupId, res => {
+		this.groupStream = await GroupProfileCache.watch("GroupPage.groupStream", this.groupId, res => {
 			let firstFetch = !this.profile;
 
 			this.profile = res.group;
