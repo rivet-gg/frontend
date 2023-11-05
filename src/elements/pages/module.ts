@@ -7,3 +7,4 @@ import './error';
 import './invalid-page-state';
 import './link-game';
 import './rvt-user-dashboard';
+import './rvt-kitchen-sink';

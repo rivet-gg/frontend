@@ -10,6 +10,12 @@ module.exports = {
 			pixel: ['Silkscreen', 'ui-sans-serif', 'system-ui']
 		},
 		extend: {
+			boxShadow: {
+				['foldup-lg']: 'var(--tw-shadow-color) 0px 6px 0px 0px',
+				['foldup-md']: 'var(--tw-shadow-color) 0px 4px 0px 0px',
+				['foldup-sm']: 'var(--tw-shadow-color) 0px 2px 0px 0px',
+				['foldup-none']: 'var(--tw-shadow-color) 0px 0px 0px 0px'
+			},
 			screens: {
 				mdLg: '1100px'
 			},
