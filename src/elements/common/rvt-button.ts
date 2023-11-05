@@ -38,7 +38,7 @@ export default class RvtButton extends LitElement {
 		return {
 			primary:
 				'align-middle bg-violet-500 mb-1 will-change-transform text-shite font-bold min-w-30 shadow-foldup-md border-b border-violet-400 shadow-violet-600 transition-all hover:shadow-foldup-lg hover:-translate-y-0.5 active:shadow-foldup-none active:translate-y-1 active:border-transparent',
-			secondary: 'bg-white hover:bg-gray-100 text-gray-800 border border-gray-400 font-bold'
+			secondary: ''
 		};
 	}
 
