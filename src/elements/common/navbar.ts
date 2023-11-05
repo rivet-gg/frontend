@@ -103,7 +103,7 @@ export default class NavBar extends LitElement {
 					break;
 				case 'Group':
 					let groupTitle = crumb.title;
-					this.groupStream = await GroupProfileCache.watch("NavBar.Group.groupStream", crumb.groupId, res => {
+					this.groupStream = GroupProfileCache.watch("NavBar.Group.groupStream", crumb.groupId, res => {
 						let summary = res.group;
 
 						this.displaycrumbs = [
@@ -125,10 +125,10 @@ export default class NavBar extends LitElement {
 				case 'Game':
 					// Fetch events
 					let gameTitle = crumb.title;
-					this.gameStream = await CloudGameCache.watch("NavBar.Game.gameStream", crumb.gameId, async res => {
+					this.gameStream = CloudGameCache.watch("NavBar.Game.gameStream", crumb.gameId, async res => {
 						let gameData = res.game;
 
-						this.groupStream = await GroupProfileCache.watch("NavBar.Game.groupStream", res.game.developerGroupId, res => {
+						this.groupStream = GroupProfileCache.watch("NavBar.Game.groupStream", res.game.developerGroupId, res => {
 							let groupData = res.group;
 
 							this.displaycrumbs = [
@@ -157,12 +157,12 @@ export default class NavBar extends LitElement {
 					let namespaceTitle = crumb.title;
 					let namespaceId = crumb.namespaceId;
 
-					this.gameStream = await CloudGameCache.watch("NavBar.Namespace.gameStream", crumb.gameId, async res => {
+					this.gameStream = CloudGameCache.watch("NavBar.Namespace.gameStream", crumb.gameId, async res => {
 						let gameData = res.game;
 
 						let currentNamespace = gameData.namespaces.find(ns => ns.namespaceId === namespaceId);
 
-						this.groupStream = await GroupProfileCache.watch("NavBar.Namespace.groupStream", res.game.developerGroupId, res => {
+						this.groupStream = GroupProfileCache.watch("NavBar.Namespace.groupStream", res.game.developerGroupId, res => {
 							let groupData = res.group;
 
 							// TODO --> Update namespace-dropdown with a drop-down-list to standardize
@@ -200,7 +200,7 @@ export default class NavBar extends LitElement {
 				case 'GroupSettings':
 					let groupSettingsCurrentTab = crumb.title.charAt(0).toUpperCase() + crumb.title.slice(1);
 
-					this.groupStream = await GroupProfileCache.watch("NavBar.GroupSettings.groupStream", crumb.groupId, res => {
+					this.groupStream = GroupProfileCache.watch("NavBar.GroupSettings.groupStream", crumb.groupId, res => {
 						let groupData = res.group;
 
 						this.displaycrumbs = [
@@ -227,10 +227,10 @@ export default class NavBar extends LitElement {
 				case 'GameSettings':
 					let gameSettingsCurrentTab = crumb.title.charAt(0).toUpperCase() + crumb.title.slice(1);
 
-					this.gameStream = await CloudGameCache.watch("NavBar.GameSettings.gameStream", crumb.gameId, async res => {
+					this.gameStream = CloudGameCache.watch("NavBar.GameSettings.gameStream", crumb.gameId, async res => {
 						let gameData = res.game;
 
-						this.groupStream = await GroupProfileCache.watch("NavBar.GameSettings.groupStream", res.game.developerGroupId, res => {
+						this.groupStream = GroupProfileCache.watch("NavBar.GameSettings.groupStream", res.game.developerGroupId, res => {
 							let groupData = res.group;
 
 							this.displaycrumbs = [

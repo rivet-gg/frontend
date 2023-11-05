@@ -140,8 +140,11 @@ function abstractWatch<T, U, V>(
 
 	// Fetch cache and start the request async
 	cache().then(cacheRes => {
+		// Check req has not been cancelled in race condition
+		if (req.cancelled) return;
+
 		// Return cached information to callback
-		cacheCb(cacheRes);
+		if (cacheRes) cacheCb(cacheRes);
 
 		req.setOpts(
 			cacheRes

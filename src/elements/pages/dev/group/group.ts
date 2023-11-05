@@ -117,7 +117,7 @@ export default class GroupPage extends LitElement {
 
 	// === EVENT HANDLERS ===
 	groupStream?: RepeatingRequest<api.group.GetGroupProfileCommandOutput>;
-	gameStream?: RepeatingRequest<cloud.GetGamesCommandOutput>;
+	gamesStream?: RepeatingRequest<cloud.GetGamesCommandOutput>;
 
 	constructor() {
 		super();
@@ -154,7 +154,7 @@ export default class GroupPage extends LitElement {
 		super.disconnectedCallback();
 
 		if (this.groupStream) this.groupStream.cancel();
-		if (this.gameStream) this.gameStream.cancel();
+		if (this.gamesStream) this.gamesStream.cancel();
 	}
 
 	updated(changedProperties: PropertyValues) {
@@ -180,15 +180,15 @@ export default class GroupPage extends LitElement {
 	}
 
 	async fetchGames() {
-		if (this.gameStream) this.gameStream.cancel();
+		if (this.gamesStream) this.gamesStream.cancel();
 
 		// Fetch events
-		this.gameStream = await CloudDashboardCache.watch("GroupPage.gameStream", data => {
+		this.gamesStream = CloudDashboardCache.watch("GroupPage.gamesStream", data => {
 			data.games.sort((a, b) => a.displayName.localeCompare(b.displayName));
 			this.games = data.games.filter(a => a.developerGroupId == this.groupId);
 		});
 
-		this.gameStream.onError(err => {
+		this.gamesStream.onError(err => {
 			logging.error('Request error', err);
 
 			// Only set `loadError` on initiation
@@ -201,7 +201,7 @@ export default class GroupPage extends LitElement {
 		let firstFetch = !this.profile;
 
 		if (this.groupStream) this.groupStream.cancel();
-		this.groupStream = await GroupProfileCache.watch("GroupPage.groupStream", this.groupId, res => {
+		this.groupStream = GroupProfileCache.watch("GroupPage.groupStream", this.groupId, res => {
 			let firstFetch = !this.profile;
 
 			this.profile = res.group;

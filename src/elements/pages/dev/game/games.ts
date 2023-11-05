@@ -121,7 +121,7 @@ export default class DevGames extends LitElement {
 		if (this.gamesStream) this.gamesStream.cancel();
 
 		// Fetch events
-		this.gamesStream = await CloudDashboardCache.watch(
+		this.gamesStream = CloudDashboardCache.watch(
 			"DevGames.gamesStream",
 			data => {
 				data.games.sort((a, b) => a.displayName.localeCompare(b.displayName));

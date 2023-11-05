@@ -91,11 +91,6 @@ export default class DevGameOverview extends LitElement {
 		});
 	}
 
-	async firstUpdated(changedProperties: PropertyValues) {
-		super.firstUpdated(changedProperties);
-		this.fetchData();
-	}
-
 	updated(changedProperties: PropertyValues) {
 		super.updated(changedProperties);
 
@@ -116,7 +111,7 @@ export default class DevGameOverview extends LitElement {
 		}
 
 		try {
-			this.gameStream = await CloudGameCache.watch("DevGameOverview.gameStream", this.gameId, async res => {
+			this.gameStream = CloudGameCache.watch("DevGameOverview.gameStream", this.gameId, async res => {
 				let gameData = res.game;
 				if (gameData) {
 					this.game = gameData;

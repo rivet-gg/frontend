@@ -124,7 +124,7 @@ export default class GroupSettings extends LitElement {
 		if (this.groupStream) this.groupStream.cancel();
 
 		// Fetch events
-		this.groupStream = await GroupProfileCache.watch("GroupSettings.groupStream", this.groupId, res => {
+		this.groupStream = GroupProfileCache.watch("GroupSettings.groupStream", this.groupId, res => {
 			this.group = res.group;
 		});
 

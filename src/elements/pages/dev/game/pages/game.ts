@@ -84,7 +84,7 @@ export default class DevGame extends LitElement {
 		if (this.gameStream) this.gameStream.cancel();
 
 		// Fetch events
-		this.gameStream = await CloudGameCache.watch("DevGame.gameStream", this.gameId, res => {
+		this.gameStream = CloudGameCache.watch("DevGame.gameStream", this.gameId, res => {
 			this.game = res.game;
 
 			// Sort game versions by timestamp descending

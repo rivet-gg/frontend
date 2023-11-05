@@ -203,7 +203,7 @@ export default class DevGameBilling extends LitElement {
 	async fetchGroup() {
 		// Fetch events
 		if (this.groupStream) this.groupStream.cancel();
-		this.groupStream = await GroupProfileCache.watch("DevGameBilling.groupStream", this.game.developerGroupId, res => {
+		this.groupStream = GroupProfileCache.watch("DevGameBilling.groupStream", this.game.developerGroupId, res => {
 			this.group = res.group;
 		});
 

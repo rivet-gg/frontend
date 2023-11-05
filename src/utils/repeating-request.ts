@@ -27,10 +27,11 @@ export class RepeatingRequest<T> {
 	public id: number;
 	public createTimestamp: number;
 	private cb: (abortSignal: __AbortSignal, watchIndex: string) => Promise<T>;
-	private active: boolean = true;
+	public active: boolean = false;
+	public cancelled: boolean = false;
 	private watchIndex: string = null;
 	private opts: RepeatingRequestOptions;
-	private abortController: AbortController = new AbortController();
+	private abortController: AbortController;
 
 	private messageHandlers: ((message: T) => void)[] = [];
 	private errorHandlers: ErrorHandler[] = [];
@@ -51,7 +52,7 @@ export class RepeatingRequest<T> {
 		UIRoot.shared.activeRepeatingRequests.set(this.id, this);
 
 		// Start repeating request loop
-		if (!this.opts.pauseOnCreation) this.repeat();
+		if (!this.opts.pauseOnCreation) this.start();
 	}
 
 	setOpts(opts: RepeatingRequestOptions) {
@@ -112,6 +113,7 @@ export class RepeatingRequest<T> {
 	cancel() {
 		this.abortController.abort();
 		this.active = false;
+		this.cancelled = true;
 		UIRoot.shared.activeRepeatingRequests.delete(this.id);
 	}
 
