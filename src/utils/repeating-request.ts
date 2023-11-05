@@ -53,13 +53,16 @@ export class RepeatingRequest<T> {
 	}
 
 	setOpts(opts: RepeatingRequestOptions) {
-		this.opts = Object.assign({
-			cancelOnError: true,
-			cancelOnNoWatchIndex: true,
-			noWatchIndexDelay: 2000,
-			watchIndex: undefined,
-			pauseOnCreation: false
-		}, opts);
+		this.opts = Object.assign(
+			{
+				cancelOnError: true,
+				cancelOnNoWatchIndex: true,
+				noWatchIndexDelay: 2000,
+				watchIndex: undefined,
+				pauseOnCreation: false
+			},
+			opts
+		);
 
 		// Set anchor before starting request loop
 		if (this.opts.watchIndex !== undefined && this.opts.watchIndex !== null)
@@ -113,7 +116,7 @@ export class RepeatingRequest<T> {
 		this.cancelled = true;
 
 		UIRoot.shared.activeRepeatingRequests.delete(this.id);
-		UIRoot.shared.requestUpdate("activeRepeatingRequests");
+		UIRoot.shared.requestUpdate('activeRepeatingRequests');
 	}
 
 	start() {
@@ -123,7 +126,7 @@ export class RepeatingRequest<T> {
 			this.repeat();
 
 			UIRoot.shared.activeRepeatingRequests.set(this.id, this);
-			UIRoot.shared.requestUpdate("activeRepeatingRequests");
+			UIRoot.shared.requestUpdate('activeRepeatingRequests');
 		}
 	}
 

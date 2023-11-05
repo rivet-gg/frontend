@@ -111,7 +111,7 @@ export default class DevGameOverview extends LitElement {
 		}
 
 		try {
-			this.gameStream = CloudGameCache.watch("DevGameOverview.gameStream", this.gameId, async res => {
+			this.gameStream = CloudGameCache.watch('DevGameOverview.gameStream', this.gameId, async res => {
 				let gameData = res.game;
 				if (gameData) {
 					this.game = gameData;

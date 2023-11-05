@@ -307,7 +307,7 @@ export class GlobalState {
 			// Load the current identity data
 			if (this.identityStream) this.identityStream.cancel();
 			this.identityStream = new RepeatingRequest(
-				"GlobalState.identityStream",
+				'GlobalState.identityStream',
 				async (abortSignal, watchIndex) => {
 					return await this.live.identity.getIdentitySelfProfile(
 						{ watchIndex },

@@ -287,7 +287,7 @@ export default class DevGameKv extends LitElement {
 
 		if (this.watchStream) this.watchStream.cancel();
 		this.watchStream = new RepeatingRequest(
-			"DevGameKv.watchStream",
+			'DevGameKv.watchStream',
 			async (abortSignal, watchIndex) => {
 				return await global.api.kv.get(
 					{

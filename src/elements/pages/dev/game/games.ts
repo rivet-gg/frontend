@@ -122,7 +122,7 @@ export default class DevGames extends LitElement {
 
 		// Fetch events
 		this.gamesStream = CloudDashboardCache.watch(
-			"DevGames.gamesStream",
+			'DevGames.gamesStream',
 			data => {
 				data.games.sort((a, b) => a.displayName.localeCompare(b.displayName));
 				data.groups.sort((a, b) =>

@@ -448,12 +448,9 @@ export default class UIRoot extends LitElement {
 							activeRepeatingRequests,
 							x => x.id,
 							x => {
-						  const date = new Date(x.createTimestamp);
+								const date = new Date(x.createTimestamp);
 
-
-								return html`<li>
-									${x.name} – ${date.toLocaleTimeString()}
-								</li>`;
+								return html`<li>${x.name} – ${date.toLocaleTimeString()}</li>`;
 							}
 						)}
 					</ul>

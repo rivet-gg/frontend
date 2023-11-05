@@ -286,14 +286,12 @@ export default class DevGameLogs extends LitElement {
 	async streamLogs(lobbyId: string, logStreamType: cloud.LogStream) {
 		this.isLoadingLogs = true;
 
-		this.logStream = new RepeatingRequest("DevGameLogs.logStream", async (abortSignal, watchIndex) => {
+		this.logStream = new RepeatingRequest('DevGameLogs.logStream', async (abortSignal, watchIndex) => {
 			// TODO: Missing abort signal
-			return await global.api.cloud.games.matchmaker.getLobbyLogs(this.game.gameId, lobbyId,
-				{
-					stream: logStreamType,
-					watchIndex
-				},
-			);
+			return await global.api.cloud.games.matchmaker.getLobbyLogs(this.game.gameId, lobbyId, {
+				stream: logStreamType,
+				watchIndex
+			});
 		});
 
 		this.logStream.onMessage(res => {
