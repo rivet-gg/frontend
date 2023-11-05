@@ -31,18 +31,18 @@ export namespace GroupProfileCache {
 		await writeCache(['groups', groupId], payload);
 	}
 
-	export async function watch(
+	export function watch(
 		name: string,
 		groupId: string,
 		cb: (data: Payload) => void,
 		reqOpts?: RepeatingRequestOptions
-	): Promise<RepeatingRequest<api.group.GetGroupProfileCommandOutput>> {
-		return await abstractWatch<
+	): RepeatingRequest<api.group.GetGroupProfileCommandOutput> {
+		return abstractWatch<
 			api.group.GetGroupProfileCommandInput,
 			api.group.GetGroupProfileCommandOutput,
 			Payload
 		>(
-				name,
+			name,
 			global.live.group.getGroupProfile.bind(global.live.group),
 			{ groupId },
 			GroupProfileCache.get.bind(GroupProfileCache, groupId),
@@ -67,13 +67,13 @@ export namespace CloudGameCache {
 		await writeCache(['cloud-games', gameId], payload);
 	}
 
-	export async function watch(
+	export function watch(
 		name: string,
 		gameId: string,
 		cb: (data: Payload) => void,
 		reqOpts?: RepeatingRequestOptions
-	): Promise<RepeatingRequest<cloud.GetGameByIdCommandOutput>> {
-		return await abstractWatch<cloud.GetGameByIdCommandInput, cloud.GetGameByIdCommandOutput, Payload>(
+	): RepeatingRequest<cloud.GetGameByIdCommandOutput> {
+		return abstractWatch<cloud.GetGameByIdCommandInput, cloud.GetGameByIdCommandOutput, Payload>(
 			name,
 			global.cloud.getGameById.bind(global.cloud),
 			{ gameId },
@@ -99,12 +99,12 @@ export namespace CloudDashboardCache {
 		await writeCache(['cloud-games'], payload);
 	}
 
-	export async function watch(
+	export function watch(
 		name: string,
 		cb: (data: Payload) => void,
 		reqOpts?: RepeatingRequestOptions
-	): Promise<RepeatingRequest<cloud.GetGamesCommandOutput>> {
-		return await abstractWatch<cloud.GetGamesCommandInput, cloud.GetGamesCommandOutput, Payload>(
+	): RepeatingRequest<cloud.GetGamesCommandOutput> {
+		return abstractWatch<cloud.GetGamesCommandInput, cloud.GetGamesCommandOutput, Payload>(
 			name,
 			global.cloud.getGames.bind(global.cloud),
 			{},
@@ -120,7 +120,7 @@ export namespace CloudDashboardCache {
 }
 
 // Watches a given endpoint in conjunction with a given cache
-async function abstractWatch<T, U, V>(
+function abstractWatch<T, U, V>(
 	name: string,
 	request: (input: T, overrides?: HttpHandlerOptions) => Promise<U>,
 	commandArgs: T,
@@ -128,26 +128,33 @@ async function abstractWatch<T, U, V>(
 	resCb: (res: U) => void,
 	cacheCb: (cache: V) => void,
 	reqOpts?: RepeatingRequestOptions
-): Promise<RepeatingRequest<U>> {
-	// Fetch cache
-	let cacheRes = await cache();
-
-	// Return cached information to callback
-	if (cacheRes) cacheCb(cacheRes);
-
-	// Start repeating request
+): RepeatingRequest<U> {
+	// Create a paused repeating request
 	let req = new RepeatingRequest(
 		name,
 		async (abortSignal, watchIndex) =>
 			await request(Object.assign(commandArgs, { watchIndex }), { abortSignal }),
-		cacheRes
-			? Object.assign(
-					{ watchIndex: reqOpts?.watchIndex === null ? null : (cacheRes as any)?.watch },
-					reqOpts ?? {}
-			  )
-			: reqOpts
+		{ pauseOnCreation: true }
 	);
 	req.onMessage(resCb);
+
+	// Fetch cache and start the request async
+	cache().then(cacheRes => {
+		// Return cached information to callback
+		cacheCb(cacheRes);
+
+		req.setOpts(
+			cacheRes
+				? Object.assign(
+						{ watchIndex: reqOpts?.watchIndex === null ? null : (cacheRes as any)?.watch },
+						reqOpts ?? {}
+				  )
+				: reqOpts
+		);
+
+		// Start repeating request
+		req.start();
+	});
 
 	return req;
 }

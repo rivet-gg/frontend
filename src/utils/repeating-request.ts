@@ -1,5 +1,6 @@
 import { AbortSignal as __AbortSignal } from '@aws-sdk/types';
 import { AbortController as __AbortController } from '@aws-sdk/abort-controller';
+import UIRoot from '../elements/root/ui-root';
 
 export type ErrorHandler = (e: Error | Response) => void;
 
@@ -21,6 +22,10 @@ export interface RepeatingRequestOptions {
 }
 
 export class RepeatingRequest<T> {
+	private static idCounter = 0;
+
+	public id: number;
+	public createTimestamp: number;
 	private cb: (abortSignal: __AbortSignal, watchIndex: string) => Promise<T>;
 	private active: boolean = true;
 	private watchIndex: string = null;
@@ -37,24 +42,30 @@ export class RepeatingRequest<T> {
 		cb: (abortSignal: __AbortSignal, watchIndex: string) => Promise<T>,
 		opts?: RepeatingRequestOptions
 	) {
+		this.id = RepeatingRequest.idCounter++;
+		this.createTimestamp = Date.now();
 		this.cb = cb;
+		this.setOpts(opts ?? {});
 
-		this.opts = Object.assign(
-			{
-				cancelOnError: true,
-				cancelOnNoWatchIndex: true,
-				noWatchIndexDelay: 2000,
-				watchIndex: undefined,
-				pauseOnCreation: false
-			} as RepeatingRequestOptions,
-			opts
-		);
+		// Record request
+		UIRoot.shared.activeRepeatingRequests.set(this.id, this);
+
+		// Start repeating request loop
+		if (!this.opts.pauseOnCreation) this.repeat();
+	}
+
+	setOpts(opts: RepeatingRequestOptions) {
+		this.opts = Object.assign({
+			cancelOnError: true,
+			cancelOnNoWatchIndex: true,
+			noWatchIndexDelay: 2000,
+			watchIndex: undefined,
+			pauseOnCreation: false
+		}, opts);
 
 		// Set anchor before starting request loop
 		if (this.opts.watchIndex !== undefined && this.opts.watchIndex !== null)
 			this.parseWatchResponse(this.opts.watchIndex);
-
-		if (!this.opts.pauseOnCreation) this.repeat();
 	}
 
 	// Repeat request forever until cancelled
@@ -101,6 +112,7 @@ export class RepeatingRequest<T> {
 	cancel() {
 		this.abortController.abort();
 		this.active = false;
+		UIRoot.shared.activeRepeatingRequests.delete(this.id);
 	}
 
 	start() {
