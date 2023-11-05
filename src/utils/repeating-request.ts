@@ -48,9 +48,6 @@ export class RepeatingRequest<T> {
 		this.cb = cb;
 		this.setOpts(opts ?? {});
 
-		// Record request
-		UIRoot.shared.activeRepeatingRequests.set(this.id, this);
-
 		// Start repeating request loop
 		if (!this.opts.pauseOnCreation) this.start();
 	}
@@ -114,7 +111,9 @@ export class RepeatingRequest<T> {
 		this.abortController.abort();
 		this.active = false;
 		this.cancelled = true;
+
 		UIRoot.shared.activeRepeatingRequests.delete(this.id);
+		UIRoot.shared.requestUpdate("activeRepeatingRequests");
 	}
 
 	start() {
@@ -122,6 +121,9 @@ export class RepeatingRequest<T> {
 			this.abortController = new AbortController();
 			this.active = true;
 			this.repeat();
+
+			UIRoot.shared.activeRepeatingRequests.set(this.id, this);
+			UIRoot.shared.requestUpdate("activeRepeatingRequests");
 		}
 	}
 
@@ -131,10 +133,12 @@ export class RepeatingRequest<T> {
 	}
 
 	private handleMessage(message: T) {
+		if (!this.active) return;
 		this.messageHandlers.forEach(cb => cb(message));
 	}
 
 	private handleErrors(e: Error) {
+		if (!this.active) return;
 		this.errorHandlers.forEach(cb => cb(e));
 
 		if (this.errorHandlers.length == 0) console.error('Unhandled repeating request error', e);

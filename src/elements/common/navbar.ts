@@ -83,6 +83,8 @@ export default class NavBar extends LitElement {
 	}
 
 	async fetchData() {
+		// TODO: Prevent creating redundant streams every time we change tabs if needed. For now, this is mitigated by aggressively caching responses, but it does create unneeded watch requests.
+
 		if (this.groupStream) {
 			this.groupStream.cancel();
 			this.groupStream = null;
