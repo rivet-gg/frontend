@@ -1,15 +1,11 @@
 import { customElement, property, query } from 'lit/decorators.js';
 import { html, LitElement, TemplateResult } from 'lit';
-import { classMap } from 'lit/directives/class-map.js';
-import { when } from 'lit/directives/when.js';
-import { repeat } from 'lit/directives/repeat.js';
-import { ifDefined } from 'lit/directives/if-defined.js';
 import { cssify } from '../../utils/css';
 import global, { GlobalStatus } from '../../utils/global';
 import { globalEventGroups, GlobalStatusChangeEvent, windowEventGroups } from '../../utils/global-events';
 import timing from '../../utils/timing';
-import styles from './ui-root.scss';
-import UIRouter, { RouteChangeEvent, RouteTitleChangeEvent } from './ui-router';
+import styles from './rvt-root.scss';
+import RvtRouter, { RouteChangeEvent, RouteTitleChangeEvent } from './rvt-router';
 import { AlertOption } from '../overlay/alert-panel';
 import { ActionSheetItem } from '../overlay/action-sheet';
 import RegisterPanel from '../overlay/register-panel';
@@ -19,7 +15,11 @@ import { DeferredStageEvent, Stage } from '../pages/link-game';
 import StylizedButton from '../common/stylized-button';
 import { Alignment, Orientation } from '../common/overlay-positioning';
 import { DropDownSelectEvent, DropDownSelection } from '../dev/drop-down-list';
-import { Breadcrumb } from '../common/navbar';
+import { Breadcrumb } from '../common/rvt-nav';
+import { ifDefined } from 'lit/directives/if-defined.js';
+import { when } from 'lit/directives/when.js';
+import { repeat } from 'lit/directives/repeat.js';
+import { classMap } from 'lit/directives/class-map.js';
 
 export const MIN_SWIPE_THRESHOLD = 10;
 const TRANSITION_LENGTH = timing.milliseconds(200); // Match with consts.scss/$transition-length
@@ -66,15 +66,15 @@ interface DropDownListData<T> {
 	highlightColor: string;
 }
 
-@customElement('ui-root')
-export default class UIRoot extends LitElement {
+@customElement('rvt-root')
+export default class RvtRoot extends LitElement {
 	static styles = cssify(styles);
 
-	static shared: UIRoot;
+	static shared: RvtRoot;
 
 	// === COMPONENTS ===
-	@query('ui-router')
-	router: UIRouter;
+	@query('rvt-router')
+	router: RvtRouter;
 
 	@query('register-panel')
 	registerPanel: RegisterPanel;
@@ -147,8 +147,8 @@ export default class UIRoot extends LitElement {
 		super();
 
 		// Set singleton
-		if (UIRoot.shared != null) throw new Error('UIRoot.shared has already been set.');
-		UIRoot.shared = this;
+		if (RvtRoot.shared != null) throw new Error('UIRoot.shared has already been set.');
+		RvtRoot.shared = this;
 
 		// Hook in to fetch events
 		if (config.DEBUG) {
@@ -163,7 +163,6 @@ export default class UIRoot extends LitElement {
 	// === LIFECYCLE ===
 	connectedCallback() {
 		super.connectedCallback();
-
 		// Handle status change
 		this.handleStatusChange = this.onStatusChange.bind(this);
 		globalEventGroups.add('status-change', this.handleStatusChange);
@@ -373,7 +372,6 @@ export default class UIRoot extends LitElement {
 	// === RENDER ===
 	render() {
 		let content = null;
-
 		// NOTE: Game link page has own flow
 		if (
 			window.location.pathname.startsWith('/link/') &&
@@ -386,9 +384,9 @@ export default class UIRoot extends LitElement {
 			let token = window.location.pathname.split('/')[2];
 			content = html`
 				<page-link-game
-					.token=${token}
-					.initStage=${ifDefined(this.deferredLinkGameStage)}
-					@deferred-stage=${(e: DeferredStageEvent) => (this.deferredLinkGameStage = e.stage)}
+					.token="${token}"
+					.initStage="${ifDefined(this.deferredLinkGameStage)}"
+					@deferred-stage="${(e: DeferredStageEvent) => (this.deferredLinkGameStage = e.stage)}"
 				></page-link-game>
 				${this.renderBasicOverlays()}
 			`;
@@ -399,11 +397,9 @@ export default class UIRoot extends LitElement {
 				case GlobalStatus.Bootstrapping:
 					this.showLoading();
 					break;
-
-				// Interactive
 				case GlobalStatus.Consenting:
 					this.hideLoading();
-					content = html`<page-consent></page-consent>`;
+					content = html` <rvt-user-dashboard></rvt-user-dashboard>`;
 					break;
 				case GlobalStatus.Connected:
 				case GlobalStatus.Reconnecting:
@@ -449,7 +445,7 @@ export default class UIRoot extends LitElement {
 							inFlightHostCountsSorted,
 							x => x[0],
 							x => {
-								return html`<li class="${classMap({ error: x[1] > 3 })}">
+								return html` <li class="${classMap({ error: x[1] > 3 })}">
 									${x[0]}: <span>${x[1]}</span>
 								</li>`;
 							}
@@ -462,44 +458,49 @@ export default class UIRoot extends LitElement {
 
 	renderContent() {
 		return html`
-			<!-- Offset for navbar -->
-			<div class="pt-14"></div>
+			<rvt-nav
+				class="z-50 relative"
+				id="nav-bar"
+				.routeTitle="${this.routeTitle}"
+				.breadcrumbs="${this.breadcrumb}"
+			></rvt-nav>
 
 			<!-- Page Body -->
-			<div id="content-holder">
-				<ui-router
-					@change=${this.onRouteChange.bind(this)}
-					@title-change=${this.onTitleChange.bind(this)}
-				></ui-router>
+			<div id="content-holder" class="min-h-screen flex pt-14 box-border">
+				<rvt-router
+					@change="${this.onRouteChange.bind(this)}"
+					@title-change="${this.onTitleChange.bind(this)}"
+				></rvt-router>
 			</div>
 
-			<nav-bar .routeTitle=${this.routeTitle} .breadcrumbs=${this.breadcrumb}></nav-bar>
-
 			<!-- Register overlay -->
-			<drop-down-modal .active=${this.registerPanelActive} @close=${this.closeRegisterPanel.bind(this)}>
+			<drop-down-modal
+				.active="${this.registerPanelActive}"
+				@close="${this.closeRegisterPanel.bind(this)}"
+			>
 				<modal-body slot="body">
-					<register-panel light @close=${this.closeRegisterPanel.bind(this)}></register-panel>
+					<register-panel light @close="${this.closeRegisterPanel.bind(this)}"></register-panel>
 				</modal-body>
 			</drop-down-modal>
 
 			<overlay-positioning
-				.active=${this.dropDownListData.active}
-				.contextElement=${this.dropDownListData.contextElement}
-				.orientation=${this.dropDownListData.orientation}
-				.alignment=${Alignment.Corner}
-				.fadeAnimation=${false}
-				@close=${this.closeDropDownList.bind(this)}
+				.active="${this.dropDownListData.active}"
+				.contextElement="${this.dropDownListData.contextElement}"
+				.orientation="${this.dropDownListData.orientation}"
+				.alignment="${Alignment.Corner}"
+				.fadeAnimation="${false}"
+				@close="${this.closeDropDownList.bind(this)}"
 			>
 				<drop-down-list
 					overlay
-					.selection=${this.dropDownListData.selection}
-					.options=${this.dropDownListData.options}
-					?fixed=${this.dropDownListData.fixed}
-					.light=${this.dropDownListData.light}
-					.bgColor=${this.dropDownListData.bgColor}
-					.highlightColor=${this.dropDownListData.highlightColor}
-					@select=${this.dropDownListData.selectionCb}
-					@close=${this.closeDropDownList.bind(this)}
+					.selection="${this.dropDownListData.selection}"
+					.options="${this.dropDownListData.options}"
+					?fixed="${this.dropDownListData.fixed}"
+					.light="${this.dropDownListData.light}"
+					.bgColor="${this.dropDownListData.bgColor}"
+					.highlightColor="${this.dropDownListData.highlightColor}"
+					@select="${this.dropDownListData.selectionCb}"
+					@close="${this.closeDropDownList.bind(this)}"
 				></drop-down-list>
 			</overlay-positioning>
 
@@ -510,29 +511,29 @@ export default class UIRoot extends LitElement {
 	renderBasicOverlays() {
 		return html`<!-- Alert overlay -->
 			<drop-down-modal
-				.active=${this.alertPanelData.active}
-				.no-dim-close=${this.alertPanelData && this.alertPanelData.noDimClose}
-				@close=${this.hideAlertPanel.bind(this)}
+				.active="${this.alertPanelData.active}"
+				.no-dim-close="${this.alertPanelData && this.alertPanelData.noDimClose}"
+				@close="${this.hideAlertPanel.bind(this)}"
 			>
 				<modal-body slot="body">
 					<alert-panel
-						.data=${this.alertPanelData}
-						@select=${this.hideAlertPanel.bind(this)}
+						.data="${this.alertPanelData}"
+						@select="${this.hideAlertPanel.bind(this)}"
 					></alert-panel>
 				</modal-body>
 			</drop-down-modal>
 
 			<overlay-positioning
-				.active=${this.actionSheetData.active}
-				.contextElement=${this.actionSheetData.contextElement}
-				.orientation=${Orientation.TopCenter}
+				.active="${this.actionSheetData.active}"
+				.contextElement="${this.actionSheetData.contextElement}"
+				.orientation="${Orientation.TopCenter}"
 				scale-animation
 				offset-y="5"
-				@close=${this.hideActionSheet.bind(this)}
+				@close="${this.hideActionSheet.bind(this)}"
 			>
 				<action-sheet
-					.options=${this.actionSheetData.options}
-					@select=${this.hideActionSheet.bind(this)}
+					.options="${this.actionSheetData.options}"
+					@select="${this.hideActionSheet.bind(this)}"
 				></action-sheet>
 			</overlay-positioning>
 
@@ -541,10 +542,10 @@ export default class UIRoot extends LitElement {
 
 			<!-- Tooltip -->
 			<overlay-positioning
-				.active=${this.tooltipData.active}
-				.contextElement=${this.tooltipData.contextElement}
-				.orientation=${Orientation.TopCenter}
-				@close=${this.hideTooltip.bind(this)}
+				.active="${this.tooltipData.active}"
+				.contextElement="${this.tooltipData.contextElement}"
+				.orientation="${Orientation.TopCenter}"
+				@close="${this.hideTooltip.bind(this)}"
 				no-pointer
 				scale-animation
 				offset-y="5"
@@ -555,12 +556,12 @@ export default class UIRoot extends LitElement {
 			<!-- Context menu -->
 			<overlay-positioning
 				manual
-				.active=${this.contextMenuData.active}
-				.anchorX=${this.contextMenuData.x}
-				.anchorY=${this.contextMenuData.y}
-				.contextElement=${this.contextMenuData.contextElement}
-				.orientation=${this.contextMenuData.orientation}
-				@close=${this.hideContextMenu.bind(this)}
+				.active="${this.contextMenuData.active}"
+				.anchorX="${this.contextMenuData.x}"
+				.anchorY="${this.contextMenuData.y}"
+				.contextElement="${this.contextMenuData.contextElement}"
+				.orientation="${this.contextMenuData.orientation}"
+				@close="${this.hideContextMenu.bind(this)}"
 			>
 				${this.contextMenuData.content}
 			</overlay-positioning>`;

@@ -31,17 +31,6 @@
 	// min-height: 100vh;
 	// left: consts.$sidebar-width;
 	// top: 0px;
-
-	ui-router {
-		box-sizing: border-box;
-		position: relative;
-		min-height: 100%;
-	}
-
-	&.mobile {
-		left: 0;
-		width: 100%;
-	}
 }
 
 // === MEDIA HOLDER ===

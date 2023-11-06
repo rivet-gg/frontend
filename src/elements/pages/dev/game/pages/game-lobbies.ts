@@ -1,4 +1,4 @@
-import { LitElement, html, PropertyValues } from 'lit';
+import { html, LitElement, PropertyValues } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import styles from './game-lobbies.scss';
@@ -12,8 +12,7 @@ import utils from '../../../../../utils/utils';
 import { DropDownSelectEvent, DropDownSelection } from '../../../../dev/drop-down-list';
 import { showLobbyContextMenu, tooltip } from '../../../../../ui/helpers';
 import timing from '../../../../../utils/timing';
-import UIRoot from '../../../../root/ui-root';
-import UIRouter from '../../../../root/ui-router';
+import RvtRouter from '../../../../root/rvt-router';
 
 @customElement('page-dev-game-lobbies')
 export default class DevGameLobbies extends LitElement {
@@ -200,7 +199,7 @@ export default class DevGameLobbies extends LitElement {
 	}
 
 	onClickLobby(lobbyId: string) {
-		UIRouter.shared.navigate(
+		RvtRouter.shared.navigate(
 			routes.devLogLobby.build(
 				{ gameId: this.game.gameId, lobbyId, namespaceId: this.namespaceId },
 				{ namespaceId: this.namespaceId }

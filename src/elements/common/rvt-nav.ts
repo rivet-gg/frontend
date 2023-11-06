@@ -2,13 +2,11 @@ import { html, LitElement, PropertyValues, TemplateResult } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { cssify } from '../../utils/css';
 import global from '../../utils/global';
-import cloud from '@rivet-gg/cloud';
-import styles from './navbar.scss';
+import cloud, { GameFull } from '@rivet-gg/cloud';
 import routes from '../../routes';
 import * as api from '../../utils/api';
 import { when } from 'lit/directives/when.js';
 import logging from '../../utils/logging';
-import { GameFull } from '@rivet-gg/cloud';
 import assets from '../../data/assets';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { CloudGameCache, GroupProfileCache } from '../../data/cache';
@@ -31,13 +29,13 @@ interface CrumbDisplay {
 	component?: TemplateResult;
 }
 
-@customElement('nav-bar')
-export default class NavBar extends LitElement {
+@customElement('rvt-nav')
+export default class RvtNav extends LitElement {
 	// Required since Tailwind styles get applied within 'cssify'
-	static styles = cssify(styles);
+	static styles = cssify();
 
 	@property({ type: String })
-	routeTitle: string = '';
+	routeTitle = '';
 
 	@property({ type: Object })
 	breadcrumbs: Breadcrumb = undefined;
@@ -364,7 +362,7 @@ export default class NavBar extends LitElement {
 	render() {
 		return html`
 			<nav
-				class="gap-10 px-6 lg:z-30 pointer-events-auto fixed inset-x-0 top-0 z-50 flex flex-col transition md:divide-white/15 backdrop-blur  bg-zinc-900/[.8]"
+				class="gap-10 px-6 lg:z-30 pointer-events-auto fixed inset-x-0 top-0 flex flex-col transition md:divide-white/15 backdrop-blur  bg-zinc-900/[.8]"
 			>
 				<div class="h-14 flex items-center justify-between ">
 					<div class="absolute inset-x-0 top-full h-px transition bg-[#29292c]"></div>

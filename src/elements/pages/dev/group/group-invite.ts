@@ -1,4 +1,4 @@
-import { LitElement, html } from 'lit';
+import { html, LitElement } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import routes, { responses } from '../../../../routes';
 import { cssify } from '../../../../utils/css';
@@ -8,7 +8,7 @@ import { when } from 'lit/directives/when.js';
 import * as api from '../../../../utils/api';
 
 import global from '../../../../utils/global';
-import UIRouter from '../../../root/ui-router';
+import RvtRouter from '../../../root/rvt-router';
 import timing, { Debounce } from '../../../../utils/timing';
 
 @customElement('page-group-invite')
@@ -68,11 +68,11 @@ export default class GroupInvitePage extends LitElement {
 			this.isConsuming = true;
 			let res = await global.live.group.consumeGroupInvite({ groupInviteCode: this.code });
 
-			UIRouter.shared.navigate(routes.groupOverview.build({ id: res.groupId }));
+			RvtRouter.shared.navigate(routes.groupOverview.build({ id: res.groupId }));
 		} catch (err) {
 			if (err.code.startsWith('GROUP')) {
 				if (err.code == 'GROUP_ALREADY_MEMBER') {
-					UIRouter.shared.navigate(routes.groupOverview.build({ id: err.metadata.group_id }), {
+					RvtRouter.shared.navigate(routes.groupOverview.build({ id: err.metadata.group_id }), {
 						replaceHistory: true
 					});
 				} else this.codeError = err.message;

@@ -1,14 +1,17 @@
-import { LitElement, html } from 'lit';
+import { html, LitElement } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { cssify } from '../../utils/css';
 import styles from './dev-only.scss';
 
 import global from '../../utils/global';
 import routes, { responses } from '../../routes';
-import UIRouter from '../root/ui-router';
+import RvtRouter from '../root/rvt-router';
 import { globalEventGroups, IdentityChangeEvent } from '../../utils/global-events';
 import { isDeveloper } from '../../utils/identity';
 
+/**
+ * @deprecated
+ */
 @customElement('page-dev-only')
 export default class PageDevOnly extends LitElement {
 	static styles = cssify(styles);
@@ -34,7 +37,7 @@ export default class PageDevOnly extends LitElement {
 
 	onIdentityChange() {
 		if (isDeveloper(global.currentIdentity)) {
-			UIRouter.shared.navigate(routes.home.build({}), {
+			RvtRouter.shared.navigate(routes.home.build({}), {
 				replaceHistory: true,
 				forceSamePage: true
 			});

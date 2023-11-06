@@ -1,15 +1,15 @@
-import { LitElement, PropertyValues, TemplateResult, html } from 'lit';
+import { html, LitElement, PropertyValues, TemplateResult } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import styles from './game-overview.scss';
 import { cssify } from '../../../../../utils/css';
-import cloud, { GameFull, NamespaceSummary } from '@rivet-gg/cloud';
+import cloud from '@rivet-gg/cloud';
 import * as api from '../../../../../utils/api';
 import logging from '../../../../../utils/logging';
 import { CloudGameCache } from '../../../../../data/cache';
 import { when } from 'lit/directives/when.js';
 import { repeat } from 'lit/directives/repeat.js';
 import { showAlert } from '../../../../../ui/helpers';
-import UIRouter from '../../../../root/ui-router';
+import RvtRouter from '../../../../root/rvt-router';
 import routes from '../../../../../routes';
 import utils from '../../../../../utils/utils';
 import global from '../../../../../utils/global';
@@ -241,7 +241,7 @@ export default class DevGameOverview extends LitElement {
 
 			this.namespaceModalClose();
 
-			UIRouter.shared.navigate(
+			RvtRouter.shared.navigate(
 				routes.devNamespace.build({
 					gameId: this.game.gameId,
 					namespaceId: res.namespaceId
@@ -275,9 +275,7 @@ export default class DevGameOverview extends LitElement {
 						game.namespaces,
 						ns => ns.namespaceId,
 						ns => {
-							const namespaceVersion = this.game.versions.find(
-								v => v.versionId == ns.versionId
-							);
+							let namespaceVersion = this.game.versions.find(v => v.versionId == ns.versionId);
 							return html`
 								<game-namespace-tile
 									.gameId=${this.game.gameId}

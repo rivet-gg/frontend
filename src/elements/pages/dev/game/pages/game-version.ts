@@ -1,4 +1,4 @@
-import { LitElement, html, PropertyValues } from 'lit';
+import { html, LitElement, PropertyValues } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { repeat } from 'lit/directives/repeat.js';
 import { cssify } from '../../../../../utils/css';
@@ -8,7 +8,7 @@ import global from '../../../../../utils/global';
 import { Rivet } from '@rivet-gg/api-internal';
 import { showAlert } from '../../../../../ui/helpers';
 import settings from '../../../../../utils/settings';
-import UIRouter from '../../../../root/ui-router';
+import RvtRouter from '../../../../root/rvt-router';
 import { DropDownSelectEvent } from '../../../../dev/drop-down-list';
 import { globalEventGroups } from '../../../../../utils/global-events';
 import { Orientation } from '../../../../common/overlay-positioning';
@@ -164,7 +164,7 @@ export default class DevGameNamespace extends LitElement {
 		);
 
 		// Switch to draft view
-		UIRouter.shared.navigate(
+		RvtRouter.shared.navigate(
 			routes.devVersion.build({
 				gameId: this.game.gameId,
 				versionId: this.versionId,

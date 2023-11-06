@@ -1,4 +1,4 @@
-import { LitElement, TemplateResult, html } from 'lit';
+import { html, LitElement, TemplateResult } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
 import { cssify } from '../../utils/css';
 import styles from './user-banner.scss';
@@ -6,7 +6,7 @@ import global from '../../utils/global';
 import assets from '../../data/assets';
 import { responses } from '../../routes';
 import { when } from 'lit/directives/when.js';
-import UIRoot from '../root/ui-root';
+import RvtRoot from '../root/rvt-root';
 
 interface Splash {
 	render: (name: string) => TemplateResult;
@@ -108,7 +108,7 @@ export default class UserBanner extends LitElement {
 									<b>editing your profile</b>, and much more.
 								</p>
 								<div id="guest-actions">
-									<stylized-button .trigger=${() => UIRoot.shared.openRegisterPanel()}
+									<stylized-button .trigger=${() => RvtRoot.shared.openRegisterPanel()}
 										>Register Now</stylized-button
 									>
 								</div>
