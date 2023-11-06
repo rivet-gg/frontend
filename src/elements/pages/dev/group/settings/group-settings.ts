@@ -9,6 +9,7 @@ import { GroupProfileCache } from '../../../../../data/cache';
 import logging from '../../../../../utils/logging';
 import { globalEventGroups } from '../../../../../utils/global-events';
 import { map } from 'lit/directives/map.js';
+import { RepeatingRequest } from '../../../../../utils/repeating-request';
 
 interface TabGroup {
 	title: string;
@@ -52,7 +53,7 @@ export default class GroupSettings extends LitElement {
 	@property({ type: Object })
 	config: GroupSettingsRootConfig;
 
-	groupStream: api.RepeatingRequest<api.group.GetGroupProfileCommandOutput> = null;
+	groupStream: RepeatingRequest<api.group.GetGroupProfileCommandOutput> = null;
 
 	constructor() {
 		super();
@@ -123,7 +124,7 @@ export default class GroupSettings extends LitElement {
 		if (this.groupStream) this.groupStream.cancel();
 
 		// Fetch events
-		this.groupStream = await GroupProfileCache.watch(this.groupId, res => {
+		this.groupStream = GroupProfileCache.watch('GroupSettings.groupStream', this.groupId, res => {
 			this.group = res.group;
 		});
 

@@ -19,6 +19,7 @@ import moment from 'moment';
 import { Orientation } from '../../../../common/overlay-positioning';
 import numbro from 'numbro';
 import { GroupProfileCache } from '../../../../../data/cache';
+import { RepeatingRequest } from '../../../../../utils/repeating-request';
 
 enum DateRange {
 	Today,
@@ -84,7 +85,7 @@ export default class DevGameBilling extends LitElement {
 	isUpdating = false;
 
 	// === EVENT HANDLERS ===
-	groupStream?: api.RepeatingRequest<api.group.GetGroupProfileCommandOutput>;
+	groupStream?: RepeatingRequest<api.group.GetGroupProfileCommandOutput>;
 
 	_oldGameId: string = null;
 
@@ -202,9 +203,13 @@ export default class DevGameBilling extends LitElement {
 	async fetchGroup() {
 		// Fetch events
 		if (this.groupStream) this.groupStream.cancel();
-		this.groupStream = await GroupProfileCache.watch(this.game.developerGroupId, res => {
-			this.group = res.group;
-		});
+		this.groupStream = GroupProfileCache.watch(
+			'DevGameBilling.groupStream',
+			this.game.developerGroupId,
+			res => {
+				this.group = res.group;
+			}
+		);
 
 		this.groupStream.onError(err => {
 			logging.error('Request error', err);

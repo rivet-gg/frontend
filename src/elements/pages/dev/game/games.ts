@@ -21,6 +21,7 @@ import { CloudDashboardCache } from '../../../../data/cache';
 import logging from '../../../../utils/logging';
 import { GroupCreateEvent } from '../../../modals/create-group';
 import { globalEventGroups } from '../../../../utils/global-events';
+import { RepeatingRequest } from '../../../../utils/repeating-request';
 
 const tailwindConfig = require('../../../../../tailwind.config.js');
 const tailwind_palette = tailwindConfig.theme.extend.colors;
@@ -65,7 +66,7 @@ export default class DevGames extends LitElement {
 	@property({ type: Boolean })
 	gameIsValid = false;
 
-	gamesStream?: api.RepeatingRequest<cloud.GetGamesCommandOutput>;
+	gamesStream?: RepeatingRequest<cloud.GetGamesCommandOutput>;
 
 	// === DEBOUNCE INFO ===
 	validateGameDebounce: Debounce<() => ReturnType<typeof global.cloud.validateGame>>;
@@ -118,7 +119,8 @@ export default class DevGames extends LitElement {
 		if (this.gamesStream) this.gamesStream.cancel();
 
 		// Fetch events
-		this.gamesStream = await CloudDashboardCache.watch(
+		this.gamesStream = CloudDashboardCache.watch(
+			'DevGames.gamesStream',
 			data => {
 				data.games.sort((a, b) => a.displayName.localeCompare(b.displayName));
 				data.groups.sort((a, b) =>

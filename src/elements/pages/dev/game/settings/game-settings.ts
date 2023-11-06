@@ -9,6 +9,7 @@ import { CloudGameCache } from '../../../../../data/cache';
 import logging from '../../../../../utils/logging';
 import { globalEventGroups } from '../../../../../utils/global-events';
 import { map } from 'lit/directives/map.js';
+import { RepeatingRequest } from '../../../../../utils/repeating-request';
 
 interface TabGroup {
 	title: string;
@@ -52,7 +53,7 @@ export default class DevGameSettings extends LitElement {
 	@property({ type: Object })
 	config: GameSettingsRootConfig;
 
-	gameStream?: api.RepeatingRequest<cloud.GetGameByIdCommandOutput>;
+	gameStream?: RepeatingRequest<cloud.GetGameByIdCommandOutput>;
 
 	constructor() {
 		super();
@@ -123,7 +124,7 @@ export default class DevGameSettings extends LitElement {
 		if (this.gameStream) this.gameStream.cancel();
 
 		// Fetch events
-		this.gameStream = await CloudGameCache.watch(this.gameId, res => {
+		this.gameStream = CloudGameCache.watch('DevGameSettings.gameStream', this.gameId, res => {
 			this.game = res.game;
 
 			// Sort game versions by timestamp descending

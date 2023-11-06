@@ -12,6 +12,7 @@ import { ifDefined } from 'lit/directives/if-defined.js';
 import { CloudGameCache, GroupProfileCache } from '../../data/cache';
 import { globalEventGroups, IdentityChangeEvent } from '../../utils/global-events';
 import clsx from 'clsx';
+import { RepeatingRequest } from '../../utils/repeating-request';
 
 export type Breadcrumb =
 	| { type: 'Home' }
@@ -44,8 +45,8 @@ export default class RvtNav extends LitElement {
 	displaycrumbs: CrumbDisplay[] = [];
 
 	// Data streams
-	groupStream: api.RepeatingRequest<api.group.GetGroupProfileCommandOutput> = null;
-	gameStream?: api.RepeatingRequest<cloud.GetGameByIdCommandOutput>;
+	groupStream: RepeatingRequest<api.group.GetGroupProfileCommandOutput> = null;
+	gameStream?: RepeatingRequest<cloud.GetGameByIdCommandOutput>;
 
 	/// === EVENTS ===
 	handleIdentityChange: (e: IdentityChangeEvent) => void;
@@ -80,6 +81,8 @@ export default class RvtNav extends LitElement {
 	}
 
 	async fetchData() {
+		// TODO: Prevent creating redundant streams every time we change tabs if needed. For now, this is mitigated by aggressively caching responses, but it does create unneeded watch requests.
+
 		if (this.groupStream) {
 			this.groupStream.cancel();
 			this.groupStream = null;
@@ -100,53 +103,65 @@ export default class RvtNav extends LitElement {
 					break;
 				case 'Group':
 					let groupTitle = crumb.title;
-					this.groupStream = await GroupProfileCache.watch(crumb.groupId, res => {
-						let summary = res.group;
+					this.groupStream = GroupProfileCache.watch(
+						'NavBar.Group.groupStream',
+						crumb.groupId,
+						res => {
+							let summary = res.group;
 
-						this.displaycrumbs = [
-							{
-								name: summary.displayName,
-								url: routes.groupOverview.build({ id: summary.groupId }),
-								img: { type: 'Group', infoObj: summary }
-							}
-						];
-						if (groupTitle)
-							this.displaycrumbs.push({
-								name: groupTitle
-							});
+							this.displaycrumbs = [
+								{
+									name: summary.displayName,
+									url: routes.groupOverview.build({ id: summary.groupId }),
+									img: { type: 'Group', infoObj: summary }
+								}
+							];
+							if (groupTitle)
+								this.displaycrumbs.push({
+									name: groupTitle
+								});
 
-						this.requestUpdate('displaycrumbs');
-					});
+							this.requestUpdate('displaycrumbs');
+						}
+					);
 
 					break;
 				case 'Game':
 					// Fetch events
 					let gameTitle = crumb.title;
-					this.gameStream = await CloudGameCache.watch(crumb.gameId, async res => {
-						let gameData = res.game;
+					this.gameStream = CloudGameCache.watch(
+						'NavBar.Game.gameStream',
+						crumb.gameId,
+						async res => {
+							let gameData = res.game;
 
-						this.groupStream = await GroupProfileCache.watch(res.game.developerGroupId, res => {
-							let groupData = res.group;
+							this.groupStream = GroupProfileCache.watch(
+								'NavBar.Game.groupStream',
+								res.game.developerGroupId,
+								res => {
+									let groupData = res.group;
 
-							this.displaycrumbs = [
-								{
-									name: groupData.displayName,
-									url: routes.groupOverview.build({ id: groupData.groupId }),
-									img: { type: 'Group', infoObj: groupData }
-								},
-								{
-									name: gameData.displayName,
-									img: { type: 'Game', infoObj: gameData }
+									this.displaycrumbs = [
+										{
+											name: groupData.displayName,
+											url: routes.groupOverview.build({ id: groupData.groupId }),
+											img: { type: 'Group', infoObj: groupData }
+										},
+										{
+											name: gameData.displayName,
+											img: { type: 'Game', infoObj: gameData }
+										}
+									];
+									if (gameTitle)
+										this.displaycrumbs.push({
+											name: gameTitle
+										});
+
+									this.requestUpdate('displaycrumbs');
 								}
-							];
-							if (gameTitle)
-								this.displaycrumbs.push({
-									name: gameTitle
-								});
-
-							this.requestUpdate('displaycrumbs');
-						});
-					});
+							);
+						}
+					);
 
 					break;
 				case 'Namespace':
@@ -154,80 +169,63 @@ export default class RvtNav extends LitElement {
 					let namespaceTitle = crumb.title;
 					let namespaceId = crumb.namespaceId;
 
-					this.gameStream = await CloudGameCache.watch(crumb.gameId, async res => {
-						let gameData = res.game;
+					this.gameStream = CloudGameCache.watch(
+						'NavBar.Namespace.gameStream',
+						crumb.gameId,
+						async res => {
+							let gameData = res.game;
 
-						let currentNamespace = gameData.namespaces.find(ns => ns.namespaceId === namespaceId);
+							let currentNamespace = gameData.namespaces.find(
+								ns => ns.namespaceId === namespaceId
+							);
 
-						this.groupStream = await GroupProfileCache.watch(res.game.developerGroupId, res => {
-							let groupData = res.group;
+							this.groupStream = GroupProfileCache.watch(
+								'NavBar.Namespace.groupStream',
+								res.game.developerGroupId,
+								res => {
+									let groupData = res.group;
 
-							// TODO --> Update namespace-dropdown with a drop-down-list to standardize
-							this.displaycrumbs = [
-								{
-									name: groupData.displayName,
-									url: routes.groupOverview.build({ id: groupData.groupId }),
-									img: { type: 'Group', infoObj: groupData }
-								},
-								{
-									name: gameData.displayName,
-									url: routes.devGameOverview.build({ gameId: gameData.gameId }),
-									img: { type: 'Game', infoObj: gameData }
-								},
-								{
-									name: namespaceTitle,
-									component: html`<namespace-dropdown
-										.game=${gameData}
-										.currentNamespace=${currentNamespace}
-									></namespace-dropdown>`
+									// TODO --> Update namespace-dropdown with a drop-down-list to standardize
+									this.displaycrumbs = [
+										{
+											name: groupData.displayName,
+											url: routes.groupOverview.build({ id: groupData.groupId }),
+											img: { type: 'Group', infoObj: groupData }
+										},
+										{
+											name: gameData.displayName,
+											url: routes.devGameOverview.build({ gameId: gameData.gameId }),
+											img: { type: 'Game', infoObj: gameData }
+										},
+										{
+											name: namespaceTitle,
+											component: html`<namespace-dropdown
+												.game=${gameData}
+												.currentNamespace=${currentNamespace}
+											></namespace-dropdown>`
+										}
+									];
+
+									if (namespaceTitle !== 'Namespace' && namespaceTitle !== 'Overview') {
+										this.displaycrumbs.push({
+											name: namespaceTitle
+										});
+									}
+
+									this.requestUpdate('displaycrumbs');
 								}
-							];
-
-							if (namespaceTitle !== 'Namespace' && namespaceTitle !== 'Overview') {
-								this.displaycrumbs.push({
-									name: namespaceTitle
-								});
-							}
-
-							this.requestUpdate('displaycrumbs');
-						});
-					});
+							);
+						}
+					);
 
 					break;
 				case 'GroupSettings':
 					let groupSettingsCurrentTab = crumb.title.charAt(0).toUpperCase() + crumb.title.slice(1);
 
-					this.groupStream = await GroupProfileCache.watch(crumb.groupId, res => {
-						let groupData = res.group;
-
-						this.displaycrumbs = [
-							{
-								name: groupData.displayName,
-								url: routes.groupOverview.build({ id: groupData.groupId }),
-								img: { type: 'Group', infoObj: groupData }
-							},
-							{
-								name: 'Group Settings'
-							}
-						];
-
-						if (['General', 'Members', 'Billing'].includes(groupSettingsCurrentTab)) {
-							this.displaycrumbs.push({
-								name: groupSettingsCurrentTab
-							});
-						}
-
-						this.requestUpdate('displaycrumbs');
-					});
-
-					break;
-				case 'GameSettings':
-					let gameSettingsCurrentTab = crumb.title.charAt(0).toUpperCase() + crumb.title.slice(1);
-
-					this.gameStream = await CloudGameCache.watch(crumb.gameId, async res => {
-						let gameData = res.game;
-
-						this.groupStream = await GroupProfileCache.watch(res.game.developerGroupId, res => {
+					this.groupStream = GroupProfileCache.watch(
+						'NavBar.GroupSettings.groupStream',
+						crumb.groupId,
+						res => {
 							let groupData = res.group;
 
 							this.displaycrumbs = [
@@ -237,24 +235,63 @@ export default class RvtNav extends LitElement {
 									img: { type: 'Group', infoObj: groupData }
 								},
 								{
-									name: gameData.displayName,
-									url: routes.devGameOverview.build({ gameId: gameData.gameId }),
-									img: { type: 'Game', infoObj: gameData }
-								},
-								{
-									name: 'Game Settings'
+									name: 'Group Settings'
 								}
 							];
 
-							if (['General', 'Tokens', 'Billing'].includes(gameSettingsCurrentTab)) {
+							if (['General', 'Members', 'Billing'].includes(groupSettingsCurrentTab)) {
 								this.displaycrumbs.push({
-									name: gameSettingsCurrentTab
+									name: groupSettingsCurrentTab
 								});
 							}
 
 							this.requestUpdate('displaycrumbs');
-						});
-					});
+						}
+					);
+
+					break;
+				case 'GameSettings':
+					let gameSettingsCurrentTab = crumb.title.charAt(0).toUpperCase() + crumb.title.slice(1);
+
+					this.gameStream = CloudGameCache.watch(
+						'NavBar.GameSettings.gameStream',
+						crumb.gameId,
+						async res => {
+							let gameData = res.game;
+
+							this.groupStream = GroupProfileCache.watch(
+								'NavBar.GameSettings.groupStream',
+								res.game.developerGroupId,
+								res => {
+									let groupData = res.group;
+
+									this.displaycrumbs = [
+										{
+											name: groupData.displayName,
+											url: routes.groupOverview.build({ id: groupData.groupId }),
+											img: { type: 'Group', infoObj: groupData }
+										},
+										{
+											name: gameData.displayName,
+											url: routes.devGameOverview.build({ gameId: gameData.gameId }),
+											img: { type: 'Game', infoObj: gameData }
+										},
+										{
+											name: 'Game Settings'
+										}
+									];
+
+									if (['General', 'Tokens', 'Billing'].includes(gameSettingsCurrentTab)) {
+										this.displaycrumbs.push({
+											name: gameSettingsCurrentTab
+										});
+									}
+
+									this.requestUpdate('displaycrumbs');
+								}
+							);
+						}
+					);
 
 					break;
 				case 'Custom':
