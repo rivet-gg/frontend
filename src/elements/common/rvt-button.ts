@@ -1,19 +1,11 @@
 import { LitElement, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { ifDefined } from 'lit/directives/if-defined.js';
-import { styleMap } from 'lit/directives/style-map.js';
-import { classMap } from 'lit/directives/class-map.js';
 import { cssify } from '../../utils/css';
-import logging from '../../utils/logging';
-import { globalEventGroups } from '../../utils/global-events';
 import { when } from 'lit/directives/when.js';
 
 @customElement('rvt-button')
 export default class RvtButton extends LitElement {
 	static styles = cssify();
-
-	@property({ type: String })
-	href?: string;
 
 	@property({ type: String })
 	type?: 'button' | 'submit' | 'a' = 'button';
@@ -22,19 +14,49 @@ export default class RvtButton extends LitElement {
 	variant?: keyof RvtButton['variantClasses'] = 'primary';
 
 	@property({ type: String })
-	size?: keyof RvtButton['sizeClasses'] = 'medium';
+	size?: keyof RvtButton['sizeClasses'] = 'md';
 
-	@property({ type: String })
-	target?: string;
+	@property({ type: Boolean })
+	disabled?: boolean = false;
 
-	// Icon
+	@property({ type: Boolean })
+	loading?: boolean = false;
+
+	// #region icons
 	@property({ type: String })
 	icon?: string;
 
 	@property({ type: String, attribute: 'icon-right' })
 	iconRight?: string;
+	// #endregion
+
+	// #region anchor props
+	@property({ type: String })
+	href?: HTMLAnchorElement['href'];
+
+	@property({ type: String })
+	target?: HTMLAnchorElement['target'];
+
+	@property({ type: String })
+	rel?: HTMLAnchorElement['rel'];
+	// #endregion
+
+	private get stateClasses() {
+		let active = `active:shadow-foldup-none active:translate-y-1 active:border-transparent`;
+		let hover = `hover:shadow-foldup-lg hover:-translate-y-0.5`;
+
+		if (this.disabled) {
+			return 'cursor-not-allowed shadow-foldup-none pb-3 mb-1 mt-1 border-transparent';
+		}
+		if (this.loading) {
+			return 'cursor-wait';
+		}
+		return `${active} ${hover}`;
+	}
 
 	private get variantClasses() {
+		let common = `inline-block align-middle shadow-foldup-md border-b mb-1 will-change-transform font-bold min-w-30 transition-all ${this.stateClasses}`;
+
 		return {
 			primary:
 				'align-middle bg-violet-500 mb-1 will-change-transform text-shite font-bold min-w-30 shadow-foldup-md border-b border-violet-400 shadow-violet-600 transition-all hover:shadow-foldup-lg hover:-translate-y-0.5 active:shadow-foldup-none active:translate-y-1 active:border-transparent',
@@ -44,28 +66,85 @@ export default class RvtButton extends LitElement {
 
 	private get sizeClasses() {
 		return {
-			small: '',
-			medium: 'px-4 py-2 text-sm rounded-md',
-			large: ''
+			sm: 'px-2 py-1 text-xs rounded-md',
+			md: 'px-4 py-2 text-sm rounded-md',
+			lg: 'px-6 py-4 text-base rounded-md'
 		};
 	}
 
-	render() {
-		// TODO: dynamic type
-		let type = this.type === 'a' ? 'a' : 'button';
-		let classes = [this.variantClasses[this.variant], this.sizeClasses[this.size]].join(' ');
+	private get iconSizeClasses() {
+		return {
+			sm: 'h-2.5 w-2.5',
+			md: 'h-5 w-5"',
+			lg: 'h-6 w-6'
+		};
+	}
 
-		return html`<button type=${this.type} class=${classes}>
+	private forwardClick() {
+		this.dispatchEvent(
+			new CustomEvent('click', {
+				bubbles: true,
+				composed: true
+			})
+		);
+	}
+
+	private renderContent() {
+		return html`
 			<slot name="prefix">
-				${when(this.icon, () => html`<e-svg class="-ml-0.5 h-5 w-5" .src=${this.icon}></e-svg>`)}
+				${when(
+					this.loading,
+					() =>
+						html`<e-svg
+							class="animate-spin ${this.iconSizeClasses[this.size]}"
+							src="regular/spinner-third"
+						></e-svg>`,
+					() =>
+						when(
+							this.icon,
+							() =>
+								html`<e-svg
+									class="${this.iconSizeClasses[this.size]}"
+									.src=${this.icon}
+								></e-svg>`
+						)
+				)}
 			</slot>
 			<slot></slot>
 			<slot name="suffix">
 				${when(
 					this.iconRight,
-					() => html`<e-svg class="-mr-0.5 h-5 w-5" .src=${this.iconRight}></e-svg>`
+					() =>
+						html`<e-svg
+							class="${this.iconSizeClasses[this.size]}"
+							.src=${this.iconRight}
+						></e-svg>`
 				)}
 			</slot>
+		`;
+	}
+
+	render() {
+		let classes = [this.variantClasses[this.variant], this.sizeClasses[this.size]].join(' ');
+
+		if (this.type === 'a') {
+			return html` <a
+				@click=${this.forwardClick}
+				href=${this.href}
+				target=${this.target}
+				rel=${this.rel}
+				class=${classes}
+			>
+				${this.renderContent()}
+			</a>`;
+		}
+		return html`<button
+			?disabled=${this.disabled}
+			@click=${this.forwardClick}
+			type=${this.type}
+			class=${classes}
+		>
+			${this.renderContent()}
 		</button>`;
 	}
 }
