@@ -1,4 +1,4 @@
-import { LitElement, PropertyValues, TemplateResult, html } from 'lit';
+import { html, LitElement, TemplateResult } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { cssify } from '../../../../utils/css';
 import styles from './namespace-version.scss';
@@ -11,7 +11,7 @@ import utils from '../../../../utils/utils';
 import { when } from 'lit/directives/when.js';
 import { showAlert, tooltip } from '../../../../ui/helpers';
 import clsx from 'clsx';
-import UIRouter from '../../../root/ui-router';
+import RvtRouter from '../../../root/rvt-router';
 
 enum displayVersion {
 	PRODUCTION = 'PRODUCTION',
@@ -142,7 +142,7 @@ export default class DevNamespaceVersion extends LitElement {
 	}
 
 	getActiveNamespaceList(version: cloud.VersionSummary): {
-		namespaceList: String;
+		namespaceList: string;
 		versionIsActive: boolean;
 	} {
 		let activeVersions = new Map<string, string[]>();
@@ -272,7 +272,7 @@ export default class DevNamespaceVersion extends LitElement {
 	}
 
 	navigateBack() {
-		UIRouter.shared.navBack();
+		RvtRouter.shared.navBack();
 	}
 
 	render() {

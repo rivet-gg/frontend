@@ -14,6 +14,7 @@ import logging from '../../../../../utils/logging';
 import { globalEventGroups } from '../../../../../utils/global-events';
 import { Rivet } from '@rivet-gg/api-internal';
 import { when } from 'lit/directives/when.js';
+import { RepeatingRequest } from '../../../../../utils/repeating-request';
 
 type OutputKind = { value?: any; list?: Rivet.kv.Entry[] };
 
@@ -72,7 +73,7 @@ export default class DevGameKv extends LitElement {
 
 	reqCounter = 0;
 
-	watchStream: api.RepeatingRequest<Rivet.kv.GetResponse>;
+	watchStream: RepeatingRequest<Rivet.kv.GetResponse>;
 
 	viewKeyDebounce: Debounce<
 		() => Promise<{
@@ -285,7 +286,8 @@ export default class DevGameKv extends LitElement {
 		let ctxKey = key;
 
 		if (this.watchStream) this.watchStream.cancel();
-		this.watchStream = new api.RepeatingRequest(
+		this.watchStream = new RepeatingRequest(
+			'DevGameKv.watchStream',
 			async (abortSignal, watchIndex) => {
 				return await global.api.kv.get(
 					{

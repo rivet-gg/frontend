@@ -3,10 +3,10 @@ import * as pathToRegexp from 'path-to-regexp';
 import global from './utils/global';
 import utils from './utils/utils';
 import { DevGameRootConfig } from './elements/pages/dev/game/pages/game';
-import UIRoot from './elements/root/ui-root';
+import RvtRoot from './elements/root/rvt-root';
 import { RivetError } from '@rivet-gg/api-internal';
 import { isDeveloper } from './utils/identity';
-import { Breadcrumb } from './elements/common/navbar';
+import { Breadcrumb } from './elements/common/rvt-nav';
 import { GameSettingsRootConfig } from './elements/pages/dev/game/settings/game-settings';
 import { GroupSettingsRootConfig } from './elements/pages/dev/group/settings/group-settings';
 
@@ -92,7 +92,7 @@ namespace routes {
 		path: '/developer/:path*',
 		render({ path }, search) {
 			return {
-				redirect: `${window.location.origin} /${path}${
+				redirect: `${window.location.origin}/${path}${
 					search ? `?${new URLSearchParams(search).toString()}` : ''
 				}`
 			};
@@ -154,7 +154,7 @@ namespace routes {
 					groupId,
 					title: 'Analytics'
 				},
-				template: html` <page-analytics-overview .groupId="${groupId}"></page-analytics-overview>`
+				template: html`<page-analytics-overview .groupId=${groupId}></page-analytics-overview>`
 			};
 		}
 	});
@@ -165,7 +165,7 @@ namespace routes {
 			return {
 				title: 'Group Invite',
 				breadcrumb: { type: 'Custom' },
-				template: html` <page-group-invite .code="${code}"></page-group-invite>`
+				template: html`<page-group-invite .code=${code}></page-group-invite>`
 			};
 		}
 	});
@@ -176,7 +176,7 @@ namespace routes {
 			return {
 				title: `Settings`,
 				breadcrumb: { type: 'Custom' },
-				template: html` <page-settings .tabId="${tab}"></page-settings>`
+				template: html`<page-settings .tabId=${tab}></page-settings>`
 			};
 		}
 	});
@@ -187,7 +187,7 @@ namespace routes {
 			return {
 				title: `Link account`,
 				breadcrumb: { type: 'Custom' },
-				template: html` <page-link-game .token="${token}"></page-link-game>`
+				template: html`<page-link-game .token=${token}></page-link-game>`
 			};
 		}
 	});
@@ -201,14 +201,14 @@ namespace routes {
 			return {
 				title: 'Link Device',
 				breadcrumb: { type: 'Custom' },
-				template: html` <page-dev-device-link .deviceLinkToken="${token}"></page-dev-device-link>`
+				template: html`<page-dev-device-link .deviceLinkToken=${token}></page-dev-device-link>`
 			};
 		}
 	});
 
 	// Reuse the same template in order to preserve the same `page-dev-game` instance.
 	function renderPageDevGame(gameId: string, namespaceId: string, config: DevGameRootConfig) {
-		return html` <page-dev-game
+		return html`<page-dev-game
 			.gameId="${gameId}"
 			.namespaceId="${namespaceId}"
 			.config="${config}"
@@ -224,7 +224,7 @@ namespace routes {
 			return {
 				title: 'Game',
 				breadcrumb: { type: 'Game', gameId, title: 'Overview' },
-				template: html` <game-overview .gameId="${gameId}"></game-overview> `
+				template: html`<game-overview .gameId="${gameId}"></game-overview> `
 			};
 		}
 	});
@@ -240,7 +240,7 @@ namespace routes {
 	});
 
 	function renderPageDevGameSettings(gameId: string, config: GameSettingsRootConfig) {
-		return html` <page-dev-game-settings
+		return html`<page-dev-game-settings
 			.gameId="${gameId}"
 			.config="${config}"
 		></page-dev-game-settings>`;
@@ -452,7 +452,7 @@ export namespace responses {
 				type: 'Custom'
 			},
 
-			template: html` <page-error message="Forbidden"></page-error>`
+			template: html`<page-error message="Forbidden"></page-error>`
 		};
 	}
 
@@ -462,7 +462,7 @@ export namespace responses {
 			breadcrumb: {
 				type: 'Custom'
 			},
-			template: html` <page-error message="Bad Request"></page-error>`
+			template: html`<page-error message="Bad Request"></page-error>`
 		};
 	}
 
@@ -518,7 +518,7 @@ export namespace responses {
 					This page isn't available for guest accounts. Register to save your account.
 				</h2>
 				<div slot="actions">
-					<stylized-button .trigger="${() => UIRoot.shared.openRegisterPanel()}"
+					<stylized-button .trigger="${() => RvtRoot.shared.openRegisterPanel()}"
 						>Register Now
 					</stylized-button>
 				</div>

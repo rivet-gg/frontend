@@ -1,14 +1,15 @@
 import { customElement, property } from 'lit/decorators.js';
-import { LitElement, html, PropertyValues, TemplateResult } from 'lit';
+import { html, LitElement, PropertyValues, TemplateResult } from 'lit';
 import { cssify } from '../../../../../utils/css';
 import routes, { responses } from '../../../../../routes';
 import cloud from '@rivet-gg/cloud';
 import * as api from '../../../../../utils/api';
-import UIRouter from '../../../../root/ui-router';
+import RvtRouter from '../../../../root/rvt-router';
 import { CloudGameCache } from '../../../../../data/cache';
 import logging from '../../../../../utils/logging';
 import { globalEventGroups } from '../../../../../utils/global-events';
 import { map } from 'lit/directives/map.js';
+import { RepeatingRequest } from '../../../../../utils/repeating-request';
 
 interface TabGroup {
 	title: string;
@@ -52,7 +53,7 @@ export default class DevGameSettings extends LitElement {
 	@property({ type: Object })
 	config: GameSettingsRootConfig;
 
-	gameStream?: api.RepeatingRequest<cloud.GetGameByIdCommandOutput>;
+	gameStream?: RepeatingRequest<cloud.GetGameByIdCommandOutput>;
 
 	constructor() {
 		super();
@@ -109,7 +110,7 @@ export default class DevGameSettings extends LitElement {
 				.flatMap(x => x.items)
 				.find(p => p.hasOwnProperty('id') && p.id == this.tabId);
 
-			if (currentTab) UIRouter.shared.updateTitle(currentTab.title);
+			if (currentTab) RvtRouter.shared.updateTitle(currentTab.title);
 		}
 
 		if (changedProperties.has('config')) {
@@ -123,7 +124,7 @@ export default class DevGameSettings extends LitElement {
 		if (this.gameStream) this.gameStream.cancel();
 
 		// Fetch events
-		this.gameStream = await CloudGameCache.watch(this.gameId, res => {
+		this.gameStream = CloudGameCache.watch('DevGameSettings.gameStream', this.gameId, res => {
 			this.game = res.game;
 
 			// Sort game versions by timestamp descending
@@ -142,7 +143,7 @@ export default class DevGameSettings extends LitElement {
 		// Navigate to the correct tab; this will update this view automatically
 		let url = routes.devGameSettings.build({ gameId: this.gameId, tab: tabId });
 
-		UIRouter.shared.navigate(url, {
+		RvtRouter.shared.navigate(url, {
 			replaceHistory: true
 		});
 	}
@@ -157,15 +158,15 @@ export default class DevGameSettings extends LitElement {
 		if (this.config.general) {
 			body = html`<page-dev-game-settings-general .game=${this.game}></page-dev-game-settings-general>`;
 
-			UIRouter.shared.updateTitle('General');
+			RvtRouter.shared.updateTitle('General');
 		} else if (this.config.billing) {
 			body = html`<page-dev-game-settings-billing .game=${this.game}></page-dev-game-settings-billing>`;
 
-			UIRouter.shared.updateTitle(`${this.game.displayName} - Billing`);
+			RvtRouter.shared.updateTitle(`${this.game.displayName} - Billing`);
 		} else if (this.config.tokens) {
 			body = html`<page-dev-game-settings-tokens .game=${this.game}></page-dev-game-settings-tokens>`;
 
-			UIRouter.shared.updateTitle(`${this.game.displayName} – Tokens`);
+			RvtRouter.shared.updateTitle(`${this.game.displayName} – Tokens`);
 		}
 
 		return html`

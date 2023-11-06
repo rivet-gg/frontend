@@ -10,9 +10,6 @@ import * as kv from '@rivet-gg/kv';
 import * as auth from '@rivet-gg/auth';
 import * as party from '@rivet-gg/party';
 
-export type RepeatingRequest<T> = portal.common.RepeatingRequest<T>;
-export type RepeatingRequestOptions = portal.common.RepeatingRequestOptions;
-export const RepeatingRequest = portal.common.RepeatingRequest;
 export const requestHandlerMiddleware = portal.common.middleware.requestHandlerMiddleware;
 
 export { portal, identity, group, auth, chat, kv, party };

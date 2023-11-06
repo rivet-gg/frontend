@@ -1,4 +1,4 @@
-import { LitElement, html, PropertyValues } from 'lit';
+import { html, LitElement, PropertyValues } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { when } from 'lit/directives/when.js';
@@ -15,9 +15,11 @@ import * as api from '../../../../../utils/api';
 import * as d3 from 'd3';
 import numbro from 'numbro';
 import { ChartConfig } from '../../../../profile/graph-view';
-import UIRouter from '../../../../root/ui-router';
+import RvtRouter from '../../../../root/rvt-router';
 import logging from '../../../../../utils/logging';
 import { globalEventGroups } from '../../../../../utils/global-events';
+import { RepeatingRequest } from '../../../../../utils/repeating-request';
+import { Rivet } from '@rivet-gg/api-internal';
 
 enum MetricType {
 	Cpu,
@@ -81,13 +83,13 @@ export default class DevGameLogs extends LitElement {
 	logStreamType: cloud.LogStream = cloud.LogStream.STD_OUT;
 
 	@property({ type: Boolean })
-	isLogEmpty: boolean = true;
+	isLogEmpty = true;
 
 	@property({ type: Boolean })
-	isFollowingLogs: boolean = true;
+	isFollowingLogs = true;
 
 	@property({ type: Boolean })
-	isExportingLogs: boolean = false;
+	isExportingLogs = false;
 
 	@property({ type: String })
 	downloadLogsUrl?: string;
@@ -100,9 +102,9 @@ export default class DevGameLogs extends LitElement {
 	@query('#log-content')
 	logContent?: HTMLElement;
 
-	logStream?: api.RepeatingRequest<cloud.GetLobbyLogsOutput>;
+	logStream?: RepeatingRequest<Rivet.cloud.games.matchmaker.GetLobbyLogsResponse>;
 
-	hasInitiated: boolean = false;
+	hasInitiated = false;
 
 	updated(changedProperties: PropertyValues) {
 		super.updated(changedProperties);
@@ -197,14 +199,14 @@ export default class DevGameLogs extends LitElement {
 	/// is up to date.
 	changeLobbySelection(lobbyId?: string) {
 		if (lobbyId) {
-			UIRouter.shared.navigate(
+			RvtRouter.shared.navigate(
 				routes.devLogLobby.build(
 					{ gameId: this.game.gameId, lobbyId: lobbyId, namespaceId: this.namespaceId },
 					{ namespaceId: this.namespaceId }
 				)
 			);
 		} else {
-			UIRouter.shared.navigate(
+			RvtRouter.shared.navigate(
 				routes.devLogs.build(
 					{ gameId: this.game.gameId, namespaceId: this.namespaceId },
 					{ namespaceId: this.namespaceId }
@@ -284,16 +286,12 @@ export default class DevGameLogs extends LitElement {
 	async streamLogs(lobbyId: string, logStreamType: cloud.LogStream) {
 		this.isLoadingLogs = true;
 
-		this.logStream = new api.RepeatingRequest(async (abortSignal, watchIndex) => {
-			return await global.cloud.getLobbyLogs(
-				{
-					gameId: this.game.gameId,
-					lobbyId: lobbyId,
-					stream: logStreamType,
-					watchIndex
-				},
-				{ abortSignal }
-			);
+		this.logStream = new RepeatingRequest('DevGameLogs.logStream', async (abortSignal, watchIndex) => {
+			// TODO: Missing abort signal
+			return await global.api.cloud.games.matchmaker.getLobbyLogs(this.game.gameId, lobbyId, {
+				stream: logStreamType,
+				watchIndex
+			});
 		});
 
 		this.logStream.onMessage(res => {
@@ -710,7 +708,7 @@ export default class DevGameLogs extends LitElement {
 
 export function formatLobbyStatus(status: cloud.LogsLobbyStatus, startTs: Date) {
 	return status.running !== undefined
-		? !!startTs
+		? startTs
 			? 'Running'
 			: 'Not Started'
 		: status.stopped

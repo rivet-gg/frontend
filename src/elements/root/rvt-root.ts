@@ -1,15 +1,11 @@
 import { customElement, property, query } from 'lit/decorators.js';
 import { html, LitElement, TemplateResult } from 'lit';
-import { classMap } from 'lit/directives/class-map.js';
-import { when } from 'lit/directives/when.js';
-import { repeat } from 'lit/directives/repeat.js';
-import { ifDefined } from 'lit/directives/if-defined.js';
 import { cssify } from '../../utils/css';
 import global, { GlobalStatus } from '../../utils/global';
 import { globalEventGroups, GlobalStatusChangeEvent, windowEventGroups } from '../../utils/global-events';
 import timing from '../../utils/timing';
-import styles from './ui-root.scss';
-import UIRouter, { RouteChangeEvent, RouteTitleChangeEvent } from './ui-router';
+import styles from './rvt-root.scss';
+import RvtRouter, { RouteChangeEvent, RouteTitleChangeEvent } from './rvt-router';
 import { AlertOption } from '../overlay/alert-panel';
 import { ActionSheetItem } from '../overlay/action-sheet';
 import RegisterPanel from '../overlay/register-panel';
@@ -19,7 +15,10 @@ import { DeferredStageEvent, Stage } from '../pages/link-game';
 import StylizedButton from '../common/stylized-button';
 import { Alignment, Orientation } from '../common/overlay-positioning';
 import { DropDownSelectEvent, DropDownSelection } from '../dev/drop-down-list';
-import { Breadcrumb } from '../common/navbar';
+import { Breadcrumb } from '../common/rvt-nav';
+import { RepeatingRequest } from '../../utils/repeating-request';
+import { ifDefined } from 'lit/directives/if-defined';
+import { repeat } from 'lit/directives/repeat';
 
 export const MIN_SWIPE_THRESHOLD = 10;
 const TRANSITION_LENGTH = timing.milliseconds(200); // Match with consts.scss/$transition-length
@@ -66,15 +65,15 @@ interface DropDownListData<T> {
 	highlightColor: string;
 }
 
-@customElement('ui-root')
-export default class UIRoot extends LitElement {
+@customElement('rvt-root')
+export default class RvtRoot extends LitElement {
 	static styles = cssify(styles);
 
-	static shared: UIRoot;
+	static shared: RvtRoot;
 
 	// === COMPONENTS ===
-	@query('ui-router')
-	router: UIRouter;
+	@query('rvt-router')
+	router: RvtRouter;
 
 	@query('register-panel')
 	registerPanel: RegisterPanel;
@@ -142,13 +141,15 @@ export default class UIRoot extends LitElement {
 	// === DEBUG ===
 	@property({ type: Object })
 	inFlightRequests!: Map<number, URL>;
+	@property({ type: Object })
+	activeRepeatingRequests = new Map<number, RepeatingRequest<any>>();
 
 	constructor() {
 		super();
 
 		// Set singleton
-		if (UIRoot.shared != null) throw new Error('UIRoot.shared has already been set.');
-		UIRoot.shared = this;
+		if (RvtRoot.shared != null) throw new Error('UIRoot.shared has already been set.');
+		RvtRoot.shared = this;
 
 		// Hook in to fetch events
 		if (config.DEBUG) {
@@ -318,16 +319,37 @@ export default class UIRoot extends LitElement {
 		document.getElementById('loading').classList.remove('hidden');
 	}
 
-	openCaptcha(cb: (token: string) => void, errCb?: (err: Error) => void) {
-		let element: HTMLElement = document.body.querySelector('#turnstile');
+	promptCaptcha(): Promise<string> {
+		return new Promise((resolve, reject) => {
+			let element: HTMLElement = document.body.querySelector('#turnstile');
 
-		if (element) {
-			element.style.removeProperty('display');
-		} else {
-			element = document.createElement('div');
-			element.setAttribute('id', 'turnstile');
-			element.addEventListener('click', e => {
-				if (e.target === e.currentTarget) this.closeCaptcha();
+			if (element) {
+				element.style.removeProperty('display');
+			} else {
+				element = document.createElement('div');
+				element.setAttribute('id', 'turnstile');
+				element.addEventListener('click', e => {
+					if (e.target === e.currentTarget) this.closeCaptcha();
+				});
+
+				let cancel = new StylizedButton();
+				cancel.addEventListener('click', this.closeCaptcha.bind(this));
+				cancel.append(document.createTextNode('Cancel'));
+				element.append(cancel);
+
+				document.body.append(element);
+			}
+
+			this.turnstileWidgetId = turnstile.render(element, {
+				sitekey: global.bootstrapData.captcha.turnstile.siteKey,
+				callback: (token: string) => {
+					this.closeCaptcha();
+					resolve(token);
+				},
+				'error-callback': err => {
+					this.closeCaptcha();
+					reject(err);
+				}
 			});
 
 			let cancel = new StylizedButton();
@@ -337,12 +359,6 @@ export default class UIRoot extends LitElement {
 
 			document.body.append(element);
 		}
-
-		this.turnstileWidgetId = turnstile.render(element, {
-			sitekey: global.bootstrapData.captcha.turnstile.siteKey,
-			callback: cb,
-			'error-callback': errCb
-		});
 	}
 
 	closeCaptcha() {
@@ -392,12 +408,8 @@ export default class UIRoot extends LitElement {
 	}
 
 	renderDebug() {
-		let inFlightHostCounts = [...this.inFlightRequests.values()].reduce((prev, curr) => {
-			let key = curr.host;
-			prev.set(key, (prev.get(key) ?? 0) + 1);
-			return prev;
-		}, new Map<string, number>());
-		let inFlightHostCountsSorted = [...inFlightHostCounts].sort((a, b) => b[1] - a[1]);
+		let activeRepeatingRequests = [...this.activeRepeatingRequests.values()];
+		activeRepeatingRequests.sort((a, b) => b.createTimestamp - a.createTimestamp);
 
 		return html`
 			<div id="debug">
@@ -409,12 +421,12 @@ export default class UIRoot extends LitElement {
 				<div id="in-flight-requests">
 					<ul>
 						${repeat(
-							inFlightHostCountsSorted,
-							x => x[0],
+							activeRepeatingRequests,
+							x => x.id,
 							x => {
-								return html` <li class="${classMap({ error: x[1] > 3 })}">
-									${x[0]}: <span>${x[1]}</span>
-								</li>`;
+								const date = new Date(x.createTimestamp);
+
+								return html`<li>${x.name} – ${date.toLocaleTimeString()}</li>`;
 							}
 						)}
 					</ul>
@@ -422,6 +434,38 @@ export default class UIRoot extends LitElement {
 			</div>
 		`;
 	}
+
+	// renderDebug() {
+	// 	let inFlightHostCounts = [...this.inFlightRequests.values()].reduce((prev, curr) => {
+	// 		let key = curr.host;
+	// 		prev.set(key, (prev.get(key) ?? 0) + 1);
+	// 		return prev;
+	// 	}, new Map<string, number>());
+	// 	let inFlightHostCountsSorted = [...inFlightHostCounts].sort((a, b) => b[1] - a[1]);
+
+	// 	return html`
+	// 		<div id="debug">
+	// 			<div id="build-info">
+	// 				${config.RIVET_NAMESPACE ?? 'unknown'} &mdash; ${config.GIT_BRANCH} &mdash;
+	// 				${config.GIT_COMMIT.substring(0, 8)}
+	// 			</div>
+
+	// 			<div id="in-flight-requests">
+	// 				<ul>
+	// 					${repeat(
+	// 						inFlightHostCountsSorted,
+	// 						x => x[0],
+	// 						x => {
+	// 							return html`<li class="${classMap({ error: x[1] > 3 })}">
+	// 								${x[0]}: <span>${x[1]}</span>
+	// 							</li>`;
+	// 						}
+	// 					)}
+	// 				</ul>
+	// 			</div>
+	// 		</div>
+	// 	`;
+	// }
 
 	renderContent() {
 		return html`
@@ -436,10 +480,10 @@ export default class UIRoot extends LitElement {
 
 			<!-- Page Body -->
 			<div id="content-holder" class="min-h-screen flex pt-14 box-border">
-				<ui-router
+				<rvt-router
 					@change="${this.onRouteChange.bind(this)}"
 					@title-change="${this.onTitleChange.bind(this)}"
-				></ui-router>
+				></rvt-router>
 			</div>
 
 			<!-- Register overlay -->

@@ -1,4 +1,5 @@
-import { LitElement, PropertyValueMap, PropertyValues, html } from 'lit';
+/* eslint-disable no-mixed-spaces-and-tabs */
+import { html, LitElement, PropertyValues } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
 import { cssify } from '../../utils/css';
 import styles from './register-panel.scss';
@@ -6,12 +7,11 @@ import global from '../../utils/global';
 import { classMap } from 'lit/directives/class-map.js';
 import { responses } from '../../routes';
 import logging from '../../utils/logging';
-import { default as timing, wait } from '../../utils/timing';
 import TextInput from '../dev/text-input';
 import { clearCache } from '../../utils/cache';
 import * as api from '../../utils/api';
 import * as broadcast from '../../data/broadcast';
-import UIRoot from '../root/ui-root';
+import RvtRoot from '../root/rvt-root';
 import { globalEventGroups, IdentityChangeEvent } from '../../utils/global-events';
 
 export const VALIDATE_EMAIL =
@@ -112,7 +112,7 @@ export default class RegisterPanel extends LitElement {
 	emailKeyPress(event: KeyboardEvent) {
 		// Enter is pressed
 		if (this.emailError == null && event.key == 'Enter') {
-			this.requestCaptcha();
+			this.startEmailVerification();
 			this.emailInput.blur();
 		}
 	}
@@ -132,35 +132,23 @@ export default class RegisterPanel extends LitElement {
 		if (this.codeError == null && event.key == 'Enter') this.completeEmailVerification();
 	}
 
-	async requestCaptcha() {
-		return new Promise<void>(res => {
-			UIRoot.shared.openCaptcha(
-				async token => {
-					// Artificial wait time
-					await wait(timing.seconds(1));
-
-					UIRoot.shared.closeCaptcha();
-					this.startEmailVerification(token);
-					res();
-				},
-				err => {
-					this.loadError = err;
-					res();
-				}
-			);
-		});
-	}
-
-	async startEmailVerification(clientResponse: string) {
+	async startEmailVerification() {
+		// Wait for captcha
+		let captchaToken = null;
+		if (global.bootstrapData.captcha.turnstile) {
+			captchaToken = await RvtRoot.shared.promptCaptcha();
+		}
 		this.wait = true;
 		this.codeError = null;
 
 		try {
 			let res = await global.auth.startEmailVerification({
 				email: this.email.trim(),
-				captcha: {
-					turnstile: { clientResponse }
-				},
+				captcha: captchaToken
+					? {
+							turnstile: { clientResponse: captchaToken }
+					  }
+					: null,
 				gameId: this.gameId
 			});
 
@@ -336,7 +324,7 @@ export default class RegisterPanel extends LitElement {
 								  >`}
 							<stylized-button
 								?disabled=${this.emailError != null}
-								.trigger=${this.requestCaptcha.bind(this)}
+								.trigger=${this.startEmailVerification.bind(this)}
 								>Continue</stylized-button
 							>
 						</div>

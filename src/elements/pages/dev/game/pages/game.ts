@@ -1,14 +1,15 @@
-import { customElement, property, query } from 'lit/decorators.js';
-import { LitElement, html, PropertyValues, TemplateResult } from 'lit';
+import { customElement, property } from 'lit/decorators.js';
+import { html, LitElement, PropertyValues, TemplateResult } from 'lit';
 import { cssify } from '../../../../../utils/css';
 import styles from './game.scss';
 import { responses } from '../../../../../routes';
 import cloud from '@rivet-gg/cloud';
 import * as api from '../../../../../utils/api';
-import UIRouter from '../../../../root/ui-router';
+import RvtRouter from '../../../../root/rvt-router';
 import { CloudGameCache } from '../../../../../data/cache';
 import logging from '../../../../../utils/logging';
 import { globalEventGroups } from '../../../../../utils/global-events';
+import { RepeatingRequest } from '../../../../../utils/repeating-request';
 
 export interface DevGameRootConfig {
 	summary?: true;
@@ -59,7 +60,7 @@ export default class DevGame extends LitElement {
 	@property({ type: Object })
 	loadError?: any;
 
-	gameStream?: api.RepeatingRequest<cloud.GetGameByIdCommandOutput>;
+	gameStream?: RepeatingRequest<cloud.GetGameByIdCommandOutput>;
 
 	updated(changedProperties: PropertyValues) {
 		// Request data if category set
@@ -83,7 +84,7 @@ export default class DevGame extends LitElement {
 		if (this.gameStream) this.gameStream.cancel();
 
 		// Fetch events
-		this.gameStream = await CloudGameCache.watch(this.gameId, res => {
+		this.gameStream = CloudGameCache.watch('DevGame.gameStream', this.gameId, res => {
 			this.game = res.game;
 
 			// Sort game versions by timestamp descending
@@ -118,13 +119,13 @@ export default class DevGame extends LitElement {
 				.namespaceId=${this.namespaceId}
 			></page-dev-namespace-summary>`;
 
-			UIRouter.shared.updateTitle(this.game.displayName);
+			RvtRouter.shared.updateTitle(this.game.displayName);
 
 			pageId = 'summary';
 		} else if (this.config.billing) {
 			body = html`<page-dev-game-billing .game=${this.game}></page-dev-game-billing>`;
 
-			UIRouter.shared.updateTitle(`${this.game.displayName} – Billing`);
+			RvtRouter.shared.updateTitle(`${this.game.displayName} – Billing`);
 
 			pageId = 'billing';
 		} else if (this.config.namespace) {
@@ -137,14 +138,14 @@ export default class DevGame extends LitElement {
 				n => n.namespaceId == this.config.namespace.namespaceId
 			).displayName;
 
-			UIRouter.shared.updateTitle(`${this.game.displayName} – ${namespaceName}`);
+			RvtRouter.shared.updateTitle(`${this.game.displayName} – ${namespaceName}`);
 		} else if (this.config.versionSummary) {
 			body = html`<page-dev-namespace-version
 				.game=${this.game}
 				.namespaceId=${this.namespaceId}
 			></page-dev-namespace-version>`;
 
-			UIRouter.shared.updateTitle(`${this.game.displayName} – Versions`);
+			RvtRouter.shared.updateTitle(`${this.game.displayName} – Versions`);
 		} else if (this.config.version) {
 			body = html`<page-dev-game-version
 				.game=${this.game}
@@ -154,11 +155,11 @@ export default class DevGame extends LitElement {
 			let version = this.game.versions.find(v => v.versionId == this.config.version.versionId);
 			let versionName = version ? version.displayName : 'Unknown version';
 
-			UIRouter.shared.updateTitle(`${this.game.displayName} – ${versionName}`);
+			RvtRouter.shared.updateTitle(`${this.game.displayName} – ${versionName}`);
 		} else if (this.config.versionDraft) {
 			body = html`<page-dev-game-version-draft .game=${this.game}></page-dev-game-version-draft>`;
 
-			UIRouter.shared.updateTitle(`${this.game.displayName} – Version Draft`);
+			RvtRouter.shared.updateTitle(`${this.game.displayName} – Version Draft`);
 
 			pageId = 'draft';
 		} else if (this.config.tokens) {
@@ -167,7 +168,7 @@ export default class DevGame extends LitElement {
 				.namespaceId=${this.namespaceId}
 			></page-dev-game-tokens>`;
 
-			UIRouter.shared.updateTitle(`${this.game.displayName} – Tokens`);
+			RvtRouter.shared.updateTitle(`${this.game.displayName} – Tokens`);
 
 			pageId = 'tokens';
 		} else if (this.config.logs) {
@@ -178,21 +179,21 @@ export default class DevGame extends LitElement {
 			>
 			</page-dev-game-logs>`;
 
-			UIRouter.shared.updateTitle(`${this.game.displayName} – Logs`);
+			RvtRouter.shared.updateTitle(`${this.game.displayName} – Logs`);
 
 			pageId = 'logs';
 		} else if (this.config.lobbies) {
 			body = html`<page-dev-game-lobbies .game=${this.game} .namespaceId=${this.namespaceId}>
 			</page-dev-game-lobbies>`;
 
-			UIRouter.shared.updateTitle(`${this.game.displayName} – Lobbies`);
+			RvtRouter.shared.updateTitle(`${this.game.displayName} – Lobbies`);
 
 			pageId = 'lobbies';
 		} else if (this.config.kv) {
 			body = html`<page-dev-game-kv .game=${this.game} .namespaceId=${this.namespaceId}>
 			</page-dev-game-kv>`;
 
-			UIRouter.shared.updateTitle(`${this.game.displayName} – KV`);
+			RvtRouter.shared.updateTitle(`${this.game.displayName} – KV`);
 			pageId = 'kv';
 		}
 

@@ -1,4 +1,4 @@
-import { LitElement, html } from 'lit';
+import { html, LitElement } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { cssify } from '../../utils/css';
 import styles from './identity-notification.scss';
@@ -6,8 +6,7 @@ import { classMap } from 'lit/directives/class-map.js';
 
 import { styleMap } from 'lit/directives/style-map.js';
 import utils, { SwipeDirection } from '../../utils/utils';
-import { MIN_SWIPE_THRESHOLD } from '../root/ui-root';
-import * as api from '../../utils/api';
+import { MIN_SWIPE_THRESHOLD } from '../root/rvt-root';
 
 type TriggerResult = Promise<any> | void;
 

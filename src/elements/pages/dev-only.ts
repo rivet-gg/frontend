@@ -5,7 +5,7 @@ import styles from './dev-only.scss';
 
 import global from '../../utils/global';
 import routes, { responses } from '../../routes';
-import UIRouter from '../root/ui-router';
+import RvtRouter from '../root/rvt-router';
 import { globalEventGroups, IdentityChangeEvent } from '../../utils/global-events';
 import { isDeveloper } from '../../utils/identity';
 
@@ -37,7 +37,7 @@ export default class PageDevOnly extends LitElement {
 
 	onIdentityChange() {
 		if (isDeveloper(global.currentIdentity)) {
-			UIRouter.shared.navigate(routes.home.build({}), {
+			RvtRouter.shared.navigate(routes.home.build({}), {
 				replaceHistory: true,
 				forceSamePage: true
 			});

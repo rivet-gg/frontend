@@ -1,21 +1,22 @@
-import { LitElement, PropertyValues, TemplateResult, html } from 'lit';
+import { html, LitElement, PropertyValues, TemplateResult } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import styles from './game-overview.scss';
 import { cssify } from '../../../../../utils/css';
-import cloud, { GameFull, NamespaceSummary } from '@rivet-gg/cloud';
+import cloud from '@rivet-gg/cloud';
 import * as api from '../../../../../utils/api';
 import logging from '../../../../../utils/logging';
 import { CloudGameCache } from '../../../../../data/cache';
 import { when } from 'lit/directives/when.js';
 import { repeat } from 'lit/directives/repeat.js';
 import { showAlert } from '../../../../../ui/helpers';
-import UIRouter from '../../../../root/ui-router';
+import RvtRouter from '../../../../root/rvt-router';
 import routes from '../../../../../routes';
 import utils from '../../../../../utils/utils';
 import global from '../../../../../utils/global';
 import { InputUpdateEvent } from '../../../../dev/text-input';
 import { TraversableErrors, VALIDATION_ERRORS } from '../../../../../utils/traversable-errors';
 import timing, { Debounce } from '../../../../../utils/timing';
+import { RepeatingRequest } from '../../../../../utils/repeating-request';
 
 @customElement('game-overview')
 export default class DevGameOverview extends LitElement {
@@ -51,7 +52,7 @@ export default class DevGameOverview extends LitElement {
 	@property({ type: Object })
 	loadError?: any;
 
-	gameStream?: api.RepeatingRequest<cloud.GetGameByIdCommandOutput>;
+	gameStream?: RepeatingRequest<cloud.GetGameByIdCommandOutput>;
 
 	// === DEBOUNCE INFO ===
 	validateNamespaceDebounce: Debounce<() => ReturnType<typeof global.cloud.validateGameNamespace>>;
@@ -90,11 +91,6 @@ export default class DevGameOverview extends LitElement {
 		});
 	}
 
-	async firstUpdated(changedProperties: PropertyValues) {
-		super.firstUpdated(changedProperties);
-		this.fetchData();
-	}
-
 	updated(changedProperties: PropertyValues) {
 		super.updated(changedProperties);
 
@@ -115,7 +111,7 @@ export default class DevGameOverview extends LitElement {
 		}
 
 		try {
-			this.gameStream = await CloudGameCache.watch(this.gameId, async res => {
+			this.gameStream = CloudGameCache.watch('DevGameOverview.gameStream', this.gameId, async res => {
 				let gameData = res.game;
 				if (gameData) {
 					this.game = gameData;
@@ -241,7 +237,7 @@ export default class DevGameOverview extends LitElement {
 
 			this.namespaceModalClose();
 
-			UIRouter.shared.navigate(
+			RvtRouter.shared.navigate(
 				routes.devNamespace.build({
 					gameId: this.game.gameId,
 					namespaceId: res.namespaceId
@@ -275,9 +271,7 @@ export default class DevGameOverview extends LitElement {
 						game.namespaces,
 						ns => ns.namespaceId,
 						ns => {
-							const namespaceVersion = this.game.versions.find(
-								v => v.versionId == ns.versionId
-							);
+							let namespaceVersion = this.game.versions.find(v => v.versionId == ns.versionId);
 							return html`
 								<game-namespace-tile
 									.gameId=${this.game.gameId}

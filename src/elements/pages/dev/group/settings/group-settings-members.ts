@@ -22,6 +22,7 @@ import utils from '../../../../../utils/utils';
 import { InputUpdateEvent } from '../../../../dev/text-input';
 import clsx from 'clsx';
 import { IdentityHandle } from '@rivet-gg/identity';
+import { RepeatingRequest } from '../../../../../utils/repeating-request';
 
 enum CreateInviteState {
 	Create,
@@ -112,9 +113,9 @@ export default class GroupSettingsMembers extends LitElement {
 
 	inviteCodeCopyResultTimeout: number = null;
 
-	groupBansStream?: api.RepeatingRequest<api.group.GetGroupBansCommandOutput>;
-	joinRequestsStream?: api.RepeatingRequest<api.group.GetGroupJoinRequestsCommandOutput>;
-	membersStream?: api.RepeatingRequest<api.group.GetGroupMembersCommandOutput> = null;
+	groupBansStream?: RepeatingRequest<api.group.GetGroupBansCommandOutput>;
+	joinRequestsStream?: RepeatingRequest<api.group.GetGroupJoinRequestsCommandOutput>;
+	membersStream?: RepeatingRequest<api.group.GetGroupMembersCommandOutput> = null;
 
 	updated(changedProperties: PropertyValues) {
 		super.updated(changedProperties);
@@ -375,12 +376,15 @@ export default class GroupSettingsMembers extends LitElement {
 		if (!this.group) this.groupMembers = [];
 
 		if (this.membersStream) this.membersStream.cancel();
-		this.membersStream = new api.RepeatingRequest(async (abortSignal, watchIndex) => {
-			return await global.live.group.getGroupMembers(
-				{ groupId: this.group.groupId, count: 32, watchIndex },
-				{ abortSignal }
-			);
-		});
+		this.membersStream = new RepeatingRequest(
+			'GroupSettingsMembers.membersStream',
+			async (abortSignal, watchIndex) => {
+				return await global.live.group.getGroupMembers(
+					{ groupId: this.group.groupId, count: 32, watchIndex },
+					{ abortSignal }
+				);
+			}
+		);
 
 		this.membersStream.onMessage(res => {
 			this.groupMembers = res.members.sort((a, b) =>
@@ -398,15 +402,18 @@ export default class GroupSettingsMembers extends LitElement {
 		if (this.groupBansStream) this.groupBansStream.cancel();
 
 		if (global.currentIdentity.identityId != this.group.ownerIdentityId) return;
-		this.groupBansStream = new api.RepeatingRequest(async (abortSignal, watchIndex) => {
-			return await global.live.group.getGroupBans(
-				{
-					groupId: this.group.groupId,
-					watchIndex
-				},
-				{ abortSignal }
-			);
-		});
+		this.groupBansStream = new RepeatingRequest(
+			'GroupSettingsMembers.groupBansStream',
+			async (abortSignal, watchIndex) => {
+				return await global.live.group.getGroupBans(
+					{
+						groupId: this.group.groupId,
+						watchIndex
+					},
+					{ abortSignal }
+				);
+			}
+		);
 
 		this.groupBansStream.onMessage(res => {
 			this.bannedIdentities = res.bannedIdentities;
@@ -422,12 +429,15 @@ export default class GroupSettingsMembers extends LitElement {
 		if (this.joinRequestsStream) this.joinRequestsStream.cancel();
 
 		if (global.currentIdentity.identityId != this.group.ownerIdentityId) return;
-		this.joinRequestsStream = new api.RepeatingRequest(async (abortSignal, watchIndex) => {
-			return await global.live.group.getGroupJoinRequests(
-				{ groupId: this.group.groupId, watchIndex },
-				{ abortSignal }
-			);
-		});
+		this.joinRequestsStream = new RepeatingRequest(
+			'GroupSettingsMembers.joinRequestsStream',
+			async (abortSignal, watchIndex) => {
+				return await global.live.group.getGroupJoinRequests(
+					{ groupId: this.group.groupId, watchIndex },
+					{ abortSignal }
+				);
+			}
+		);
 
 		this.joinRequestsStream.onMessage(res => {
 			this.joinRequests = res.joinRequests;
