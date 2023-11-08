@@ -359,7 +359,7 @@ export default class RvtRoot extends LitElement {
 			element.append(cancel);
 
 			document.body.append(element);
-		}
+		});
 	}
 
 	closeCaptcha() {
