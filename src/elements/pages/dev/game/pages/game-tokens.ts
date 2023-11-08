@@ -1,6 +1,5 @@
 import { LitElement, html } from 'lit';
 import { customElement, property, queryAll } from 'lit/decorators.js';
-import { repeat } from 'lit/directives/repeat.js';
 import styles from './game-tokens.scss';
 import * as cloud from '@rivet-gg/cloud';
 import { responses } from '../../../../../routes';
@@ -274,7 +273,7 @@ export default class DevGameTokens extends LitElement {
 	}
 
 	renderNamespace(namespace: cloud.NamespaceSummary) {
-		const tokens = [
+		let tokens = [
 			{
 				name: 'Public Namespace Token',
 				url: 'https://rivet.gg/docs/general/concepts/handling-game-tokens#public-namespace-tokens',

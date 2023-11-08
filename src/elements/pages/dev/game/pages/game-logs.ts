@@ -10,7 +10,6 @@ import { cssify } from '../../../../../utils/css';
 import utils from '../../../../../utils/utils';
 import timing from '../../../../../utils/timing';
 import { formatExitCodeMessage } from '../../../../../utils/error-signals';
-import * as api from '../../../../../utils/api';
 
 import * as d3 from 'd3';
 import numbro from 'numbro';

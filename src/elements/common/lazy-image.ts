@@ -1,5 +1,5 @@
 import { LitElement, html, PropertyValues } from 'lit';
-import { customElement, property, query } from 'lit/decorators.js';
+import { customElement, property } from 'lit/decorators.js';
 import { cssify } from '../../utils/css';
 import styles from './lazy-image.scss';
 import { styleMap } from 'lit/directives/style-map.js';
@@ -23,7 +23,7 @@ export default class LazyImage extends LitElement {
 	//tick in order to ensure we don't block page loads with this image
 	//request.
 	@property({ type: Boolean })
-	isLoaded: boolean = false;
+	isLoaded = false;
 
 	@property({ type: String, attribute: 'bg-size' })
 	bgSize: string = null;

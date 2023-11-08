@@ -8,7 +8,6 @@ import styles from './games.scss';
 import routes, { responses } from '../../../../routes';
 import global from '../../../../utils/global';
 import cloud from '@rivet-gg/cloud';
-import * as api from '../../../../utils/api';
 import utils from '../../../../utils/utils';
 import { showAlert } from '../../../../ui/helpers';
 import { DropDownSelectEvent, DropDownSelection } from '../../../dev/drop-down-list';

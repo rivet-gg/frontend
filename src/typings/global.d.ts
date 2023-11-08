@@ -36,7 +36,7 @@ declare global {
 		msExitFullscreen(): Promise<void>;
 	}
 
-	module Turnstile {
+	namespace Turnstile {
 		type WidgetId = string;
 
 		enum Theme {

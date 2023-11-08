@@ -8,7 +8,6 @@ import { cssify } from '../../../../utils/css';
 import styles from './game-namespace.scss';
 import routes, { responses } from '../../../../routes';
 import global from '../../../../utils/global';
-import { Rivet } from '@rivet-gg/api-internal';
 import * as cloud from '@rivet-gg/cloud';
 import utils from '../../../../utils/utils';
 import { DropDownSelectEvent, DropDownSelection } from '../../../dev/drop-down-list';
@@ -122,10 +121,10 @@ export default class DevGameNamespace extends LitElement {
 	customDomainInput: TextInput;
 
 	@property({ type: Boolean })
-	tooManyPendingHostnames: boolean = false;
+	tooManyPendingHostnames = false;
 
 	@property({ type: Boolean })
-	hostnameTaken: boolean = false;
+	hostnameTaken = false;
 
 	@property({ type: Boolean })
 	customHostnameModalActive = false;

@@ -3,7 +3,6 @@ import { html, LitElement, PropertyValues, TemplateResult } from 'lit';
 import { cssify } from '../../../../../utils/css';
 import routes, { responses } from '../../../../../routes';
 import cloud from '@rivet-gg/cloud';
-import * as api from '../../../../../utils/api';
 import RvtRouter from '../../../../root/rvt-router';
 import { CloudGameCache } from '../../../../../data/cache';
 import logging from '../../../../../utils/logging';

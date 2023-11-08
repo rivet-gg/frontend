@@ -1,4 +1,4 @@
-import { LitElement, html, PropertyValues } from 'lit';
+import { LitElement, html } from 'lit';
 import { customElement, property, queryAll } from 'lit/decorators.js';
 import { cssify } from '../../../utils/css';
 import styles from './version-info-custom-header.scss';
