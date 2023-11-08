@@ -40,11 +40,11 @@ export interface ThrottleResult<T> {
 export class Debounce<T extends (...args: any[]) => any = () => void> {
 	delay: number;
 	timeoutID: number = null;
-	reqCounter: number = 0;
-	successReqCounter: number = 0;
+	reqCounter = 0;
+	successReqCounter = 0;
 
 	// When true, only triggers `completeCb` if it is the most recent completion of the call `cb`
-	chronological: boolean = true;
+	chronological = true;
 
 	cb: T;
 	// Used only when `chronological` is true

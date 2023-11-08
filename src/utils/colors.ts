@@ -3,7 +3,6 @@
 
 import Vibrant from 'node-vibrant';
 import { Palette } from 'node-vibrant/lib/color';
-import { Callback } from 'node-vibrant/lib/typing';
 
 // replaced by Webpack.
 export const COLORS: { [color: string]: string } = SHARED_COLORS;

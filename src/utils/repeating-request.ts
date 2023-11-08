@@ -1,6 +1,5 @@
 import { AbortSignal as __AbortSignal } from '@aws-sdk/types';
-import { AbortController as __AbortController } from '@aws-sdk/abort-controller';
-import UIRoot from '../elements/root/ui-root';
+import RvtRoot from '../elements/root/rvt-root';
 
 export type ErrorHandler = (e: Error | Response) => void;
 
@@ -27,8 +26,8 @@ export class RepeatingRequest<T> {
 	public id: number;
 	public createTimestamp: number;
 	private cb: (abortSignal: __AbortSignal, watchIndex: string) => Promise<T>;
-	public active: boolean = false;
-	public cancelled: boolean = false;
+	public active = false;
+	public cancelled = false;
 	private watchIndex: string = null;
 	private opts: RepeatingRequestOptions;
 	private abortController: AbortController;
@@ -36,7 +35,7 @@ export class RepeatingRequest<T> {
 	private messageHandlers: ((message: T) => void)[] = [];
 	private errorHandlers: ErrorHandler[] = [];
 
-	private delay: number = 0;
+	private delay = 0;
 
 	constructor(
 		public name: string,
@@ -115,8 +114,8 @@ export class RepeatingRequest<T> {
 		this.active = false;
 		this.cancelled = true;
 
-		UIRoot.shared.activeRepeatingRequests.delete(this.id);
-		UIRoot.shared.requestUpdate('activeRepeatingRequests');
+		RvtRoot.shared.activeRepeatingRequests.delete(this.id);
+		RvtRoot.shared.requestUpdate('activeRepeatingRequests');
 	}
 
 	start() {
@@ -125,8 +124,8 @@ export class RepeatingRequest<T> {
 			this.active = true;
 			this.repeat();
 
-			UIRoot.shared.activeRepeatingRequests.set(this.id, this);
-			UIRoot.shared.requestUpdate('activeRepeatingRequests');
+			RvtRoot.shared.activeRepeatingRequests.set(this.id, this);
+			RvtRoot.shared.requestUpdate('activeRepeatingRequests');
 		}
 	}
 

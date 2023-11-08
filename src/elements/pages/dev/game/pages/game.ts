@@ -4,7 +4,6 @@ import { cssify } from '../../../../../utils/css';
 import styles from './game.scss';
 import { responses } from '../../../../../routes';
 import cloud from '@rivet-gg/cloud';
-import * as api from '../../../../../utils/api';
 import RvtRouter from '../../../../root/rvt-router';
 import { CloudGameCache } from '../../../../../data/cache';
 import logging from '../../../../../utils/logging';

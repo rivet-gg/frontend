@@ -41,7 +41,7 @@ const config = {
 
 if (config.DEBUG) console.log('Config', config);
 
-function modifyBaseUrl(urlRaw: string, prefix: string, path: string = ''): string {
+function modifyBaseUrl(urlRaw: string, prefix: string, path = ''): string {
 	let url = new URL(urlRaw);
 	url.hostname = prefix + url.hostname;
 	url.pathname = path;

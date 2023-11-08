@@ -18,7 +18,8 @@ import { DropDownSelectEvent, DropDownSelection } from '../dev/drop-down-list';
 import { Breadcrumb } from '../common/rvt-nav';
 import { RepeatingRequest } from '../../utils/repeating-request';
 import { ifDefined } from 'lit/directives/if-defined';
-import { repeat } from 'lit/directives/repeat';
+import { repeat } from 'lit/directives/repeat.js';
+import { when } from 'lit/directives/when.js';
 
 export const MIN_SWIPE_THRESHOLD = 10;
 const TRANSITION_LENGTH = timing.milliseconds(200); // Match with consts.scss/$transition-length
@@ -442,7 +443,7 @@ export default class RvtRoot extends LitElement {
 							activeRepeatingRequests,
 							x => x.id,
 							x => {
-								const date = new Date(x.createTimestamp);
+								let date = new Date(x.createTimestamp);
 
 								return html`<li>${x.name} – ${date.toLocaleTimeString()}</li>`;
 							}

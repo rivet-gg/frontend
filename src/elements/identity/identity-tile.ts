@@ -3,9 +3,7 @@ import { customElement, property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { cssify } from '../../utils/css';
 import styles from './identity-tile.scss';
-import routes from '../../routes';
 
-import utils from '../../utils/utils';
 import { showIdentityContextMenu } from '../../ui/helpers';
 import * as api from '../../utils/api';
 

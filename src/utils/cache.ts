@@ -1,9 +1,7 @@
 import logging from '../utils/logging';
 import timing from '../utils/timing';
-import * as api from '../utils/api';
 import config from '../config';
 import { Deferred } from '../utils/utils';
-import * as protobuf from 'protobufjs';
 
 interface CacheWrapper<T> {
 	data: T;

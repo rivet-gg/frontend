@@ -14,7 +14,6 @@ import logging from '../../utils/logging';
 import { repeat } from 'lit/directives/repeat.js';
 import * as uuid from 'uuid';
 import { GlobalStatus } from '../../utils/global';
-import * as api from '../../utils/api';
 import { showAlert } from '../../ui/helpers';
 
 const TICK_RATE = timing.seconds(1);

@@ -3,7 +3,6 @@ import { customElement, property } from 'lit/decorators.js';
 import styles from './game-overview.scss';
 import { cssify } from '../../../../../utils/css';
 import cloud from '@rivet-gg/cloud';
-import * as api from '../../../../../utils/api';
 import logging from '../../../../../utils/logging';
 import { CloudGameCache } from '../../../../../data/cache';
 import { when } from 'lit/directives/when.js';
