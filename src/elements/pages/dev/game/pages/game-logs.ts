@@ -18,6 +18,8 @@ import { ChartConfig } from '../../../../profile/graph-view';
 import UIRouter from '../../../../root/ui-router';
 import logging from '../../../../../utils/logging';
 import { globalEventGroups } from '../../../../../utils/global-events';
+import { RepeatingRequest } from '../../../../../utils/repeating-request';
+import { Rivet } from '@rivet-gg/api-internal';
 
 enum MetricType {
 	Cpu,
@@ -100,7 +102,7 @@ export default class DevGameLogs extends LitElement {
 	@query('#log-content')
 	logContent?: HTMLElement;
 
-	logStream?: api.RepeatingRequest<cloud.GetLobbyLogsOutput>;
+	logStream?: RepeatingRequest<Rivet.cloud.games.matchmaker.GetLobbyLogsResponse>;
 
 	hasInitiated: boolean = false;
 
@@ -284,16 +286,12 @@ export default class DevGameLogs extends LitElement {
 	async streamLogs(lobbyId: string, logStreamType: cloud.LogStream) {
 		this.isLoadingLogs = true;
 
-		this.logStream = new api.RepeatingRequest(async (abortSignal, watchIndex) => {
-			return await global.cloud.getLobbyLogs(
-				{
-					gameId: this.game.gameId,
-					lobbyId: lobbyId,
-					stream: logStreamType,
-					watchIndex
-				},
-				{ abortSignal }
-			);
+		this.logStream = new RepeatingRequest('DevGameLogs.logStream', async (abortSignal, watchIndex) => {
+			// TODO: Missing abort signal
+			return await global.api.cloud.games.matchmaker.getLobbyLogs(this.game.gameId, lobbyId, {
+				stream: logStreamType,
+				watchIndex
+			});
 		});
 
 		this.logStream.onMessage(res => {
