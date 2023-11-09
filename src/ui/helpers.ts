@@ -1,5 +1,5 @@
 import { html, TemplateResult } from 'lit';
-import UIRoot from '../elements/root/ui-root';
+import RvtRoot from '../elements/root/rvt-root';
 import { AlertOption } from '../elements/overlay/alert-panel';
 import { ActionSheetItem } from '../elements/overlay/action-sheet';
 import * as api from '../utils/api';
@@ -14,11 +14,11 @@ export function tooltip(text: string): (e: Event) => void {
 		let element = event.currentTarget as HTMLElement;
 
 		// Show tooltip
-		UIRoot.shared.showTooltip(element, text);
+		RvtRoot.shared.showTooltip(element, text);
 
 		// Add hide event; we register click, since that may cause the tooltip to disappear on an action
 		let hideTooltip = () => {
-			UIRoot.shared.hideTooltip();
+			RvtRoot.shared.hideTooltip();
 
 			element.removeEventListener('mouseleave', hideTooltip);
 			element.removeEventListener('click', hideTooltip);
@@ -77,7 +77,7 @@ function abstractContextMenu(cb: () => TemplateResult): (e: MouseEvent) => void 
 		let element = event.currentTarget as HTMLElement;
 
 		// Show contextmenu
-		UIRoot.shared.showContextMenu(element, event.clientX, event.clientY, cb());
+		RvtRoot.shared.showContextMenu(element, event.clientX, event.clientY, cb());
 
 		// Stop default context menu from being enabled
 		event.preventDefault();
@@ -103,11 +103,11 @@ export function showAlert(
 	options: AlertOption[] = [{ label: 'Dismiss' }]
 ) {
 	// Show alert
-	UIRoot.shared.showAlertPanel({ title, details, options, active: true });
+	RvtRoot.shared.showAlertPanel({ title, details, options, active: true });
 }
 
 export function showActionSheet(anchor: HTMLElement, options: ActionSheetItem[]) {
-	UIRoot.shared.showActionSheet({
+	RvtRoot.shared.showActionSheet({
 		contextElement: anchor,
 		options,
 		active: true

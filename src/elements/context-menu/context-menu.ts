@@ -1,4 +1,4 @@
-import { LitElement, html, PropertyValues } from 'lit';
+import { html, LitElement, PropertyValues } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { when } from 'lit/directives/when.js';
@@ -11,7 +11,7 @@ import global from '../../utils/global';
 import logging from '../../utils/logging';
 import routes from '../../routes';
 import { globalEventGroups } from '../../utils/global-events';
-import UIRoot from '../root/ui-root';
+import RvtRoot from '../root/rvt-root';
 import utils from '../../utils/utils';
 
 export interface Context {
@@ -54,7 +54,7 @@ export default class ContextMenu extends LitElement {
 	@property({ type: Object })
 	identitySummary: api.identity.IdentitySummary = null;
 
-	isFetching: boolean = false;
+	isFetching = false;
 
 	@property({ type: Boolean, attribute: 'wide' })
 	wide = false;
@@ -176,7 +176,7 @@ export default class ContextMenu extends LitElement {
 	}
 
 	onActionClick() {
-		UIRoot.shared.hideContextMenu();
+		RvtRoot.shared.hideContextMenu();
 	}
 
 	render() {

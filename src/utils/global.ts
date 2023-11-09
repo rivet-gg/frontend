@@ -1,13 +1,12 @@
 import logging from './logging';
 import config from '../config';
-import { AuthManager, Token } from './auth';
+import { AuthManager } from './auth';
 import settings, { SettingChange } from './settings';
 import timing from './timing';
-import { windowEventGroups, globalEventGroups } from './global-events';
+import { globalEventGroups, windowEventGroups } from './global-events';
 import * as api from './api';
 import * as cloud from '@rivet-gg/cloud';
 import { RootCache } from '../data/cache';
-import PushNotifications from './push-notifications';
 import { BroadcastEvent, BroadcastEventKind } from '../data/broadcast';
 import { ls } from './cache';
 import { BroadcastSystem } from './broadcast';
@@ -66,9 +65,6 @@ export class GlobalState {
 	auth: api.auth.AuthService;
 	cloud: cloud.CloudService;
 
-	// Push notifications client.
-	pushNotifications: PushNotifications;
-
 	/// Data for the current signed in identity.
 	currentIdentity: api.identity.IdentityProfile;
 
@@ -82,7 +78,7 @@ export class GlobalState {
 	liveInitiated = false;
 	liveBlockingBypass: number = null;
 
-	bootstrapFailed: boolean = false;
+	bootstrapFailed = false;
 	bootstrapData: Rivet.cloud.BootstrapResponse;
 
 	identityStream: RepeatingRequest<api.identity.GetIdentitySelfProfileCommandOutput>;
@@ -217,9 +213,6 @@ export class GlobalState {
 
 		this.bootstrap();
 
-		// Establish push notifications
-		this.pushNotifications = new PushNotifications();
-
 		// Set initial status
 		this.updateStatus();
 
@@ -259,7 +252,7 @@ export class GlobalState {
 	}
 
 	/// Fetches configuration information from the servers & creates the intiital auth token.
-	bootstrap(noCache: boolean = false) {
+	bootstrap(noCache = false) {
 		// Reset bootstrap state
 		this.bootstrapFailed = false;
 		this.bootstrapData = undefined;

@@ -29,7 +29,7 @@ export class Token {
 }
 
 // TODO: Delay changing global status when refreshing token by 1-3 seconds so there is no state change
-// that causes the <ui-router> to be unloaded and then reloaded again
+// that causes the <rvt-router> to be unloaded and then reloaded again
 export class AuthManager {
 	public token?: Token;
 	public authenticationFailed = false;

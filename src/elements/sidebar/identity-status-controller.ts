@@ -1,18 +1,11 @@
-import { LitElement, html, PropertyValues } from 'lit';
-import { customElement, property, query } from 'lit/decorators.js';
-import { repeat } from 'lit/directives/repeat.js';
+import { LitElement, html } from 'lit';
+import { customElement } from 'lit/decorators.js';
 import { cssify } from '../../utils/css';
 import styles from './identity-status-controller.scss';
 import { showActionSheet, showIdentityContextMenu, tooltip } from '../../ui/helpers';
 import global from '../../utils/global';
 import routes from '../../routes';
-import { padAccountNumber } from '../../data/identity';
-import * as api from '../../utils/api';
-import logging from '../../utils/logging';
 import { globalEventGroups, IdentityChangeEvent } from '../../utils/global-events';
-import TextInput from '../dev/text-input';
-import timing from '../../utils/timing';
-import assets from '../../data/assets';
 
 @customElement('identity-status-controller')
 export default class IdentityStatusController extends LitElement {

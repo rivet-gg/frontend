@@ -28,7 +28,7 @@ export default class DevGameSettingsTokens extends LitElement {
 	activeNamespaceId: string;
 
 	@property({ type: String })
-	selectedNamespace: string = '';
+	selectedNamespace = '';
 
 	@property({ type: Array })
 	tokens: Token[] = [

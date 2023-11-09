@@ -65,10 +65,10 @@ export default class FileUploadList extends LitElement {
 
 	// Allows to select multiple items
 	@property({ type: Boolean, attribute: 'multi' })
-	multi: boolean = false;
+	multi = false;
 
 	@property({ type: Number, attribute: 'max-selected' })
-	maxSelected: number = 5;
+	maxSelected = 5;
 
 	// === STATE ===
 	@property({ type: String })

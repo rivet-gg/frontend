@@ -1,15 +1,11 @@
-import { LitElement, html, PropertyValues } from 'lit';
-import { customElement, property, query } from 'lit/decorators.js';
-import { repeat } from 'lit/directives/repeat.js';
+import { html, LitElement, PropertyValues } from 'lit';
+import { customElement, property } from 'lit/decorators.js';
 import { cssify } from '../../utils/css';
-import global from '../../utils/global';
 import timing from '../../utils/timing';
-import { windowEventGroups, bodyEventGroups } from '../../utils/global-events';
+import { windowEventGroups } from '../../utils/global-events';
 import logging from '../../utils/logging';
 import { classMap } from 'lit/directives/class-map.js';
-import { styleMap } from 'lit/directives/style-map.js';
-import styles from './ui-router.scss';
-import UIRoot, { MIN_SWIPE_THRESHOLD } from './ui-root';
+import styles from './rvt-router.scss';
 import routes, {
 	RenderResult,
 	RenderResultRedirect,
@@ -19,9 +15,7 @@ import routes, {
 } from '../../routes';
 
 import * as uuid from 'uuid';
-import { Breadcrumb } from '../common/navbar';
-
-const PAGE_ANIMATION_DURATION = timing.milliseconds(250);
+import { Breadcrumb } from '../common/rvt-nav';
 
 interface PageState {
 	scrollTop: number;
@@ -66,11 +60,11 @@ export class RouteTitleChangeEvent extends Event {
 	}
 }
 
-@customElement('ui-router')
-export default class UIRouter extends LitElement {
+@customElement('rvt-router')
+export default class RvtRouter extends LitElement {
 	static styles = cssify(styles);
 
-	static shared: UIRouter;
+	static shared: RvtRouter;
 
 	@property({ type: Array })
 	history: RemovablePage[] = [];
@@ -89,6 +83,7 @@ export default class UIRouter extends LitElement {
 	handleScroll: (e: Event) => void;
 
 	/*=== Navigation State ===*/
+
 	/// Returns the full URL for the current page.
 	get fullPath(): string {
 		return location.href;
@@ -126,7 +121,7 @@ export default class UIRouter extends LitElement {
 		super();
 
 		// Set singleton
-		UIRouter.shared = this;
+		RvtRouter.shared = this;
 
 		// Parse the path url
 		let url = routes.home.build({});
@@ -315,6 +310,11 @@ export default class UIRouter extends LitElement {
 					this.history[i].old = true;
 					this.history[i].new = false;
 					this.history[i].state = this.buildPageState();
+					if (this.history.length > 0) {
+						if (!this.removePage(this.history[i])) {
+							logging.error(`Failed to remove page "${this.history[i].src}"`);
+						}
+					}
 					break;
 				}
 			}
@@ -435,14 +435,9 @@ export default class UIRouter extends LitElement {
 						page.new = false;
 						page.state.scrollTop = document.body.scrollTop;
 
-						// Remove current page from history after animation is over
-						page.removalTimeout = window.setTimeout(() => {
-							if (!this.removePage(page)) {
-								logging.error(`Failed to remove page "${page.src}"`);
-							}
-
-							this.requestUpdate('history');
-						}, PAGE_ANIMATION_DURATION);
+						if (!this.removePage(page)) {
+							logging.error(`Failed to remove page "${page.src}"`);
+						}
 					}
 					// Navigate to previous page
 					else if (page.old) {
@@ -535,32 +530,20 @@ export default class UIRouter extends LitElement {
 	render() {
 		// Clone the page history list so it will not be mutated
 		let pageList = [...this.history];
-		// Count how many back animation pages there are (used for animation purposes)
-		let backedPages = this.getBackedPages();
 
 		let newestPage = pageList[pageList.length - 1];
 
-		if (!newestPage) return html`<div id="base"></div>`;
+		if (!newestPage) return html``;
 
 		// Create class map
 		let classes = classMap({
 			page: true,
 			old: newestPage.old,
 			new: newestPage.new,
-			back: newestPage.back
+			back: newestPage.back,
+			first: pageList.length == 1
 		});
 
-		// Position old pages in the proper y-pos based on scroll
-		let scrollStyle = styleMap({
-			transform: newestPage.old ? `translateY(${-newestPage.state.scrollTop + this.scrollTop}px)` : null
-		});
-
-		// Two divs are used here because you cannot animate separate transform properties in
-		// css separately
-		return html`<div id="base">
-			<div class=${classes}>
-				<div class="y-scroll" style=${scrollStyle}>${newestPage.renderResult.template}</div>
-			</div>
-		</div>`;
+		return html`<div class="${classes} h-full">${newestPage.renderResult.template}</div> `;
 	}
 }

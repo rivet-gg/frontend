@@ -1,19 +1,19 @@
 import { customElement, property, query } from 'lit/decorators.js';
-import { LitElement, html, TemplateResult, PropertyValues } from 'lit';
+import { html, LitElement, PropertyValues, TemplateResult } from 'lit';
 import { repeat } from 'lit/directives/repeat.js';
 import { when } from 'lit/directives/when.js';
 import styles from './settings.scss';
 import { cssify } from '../../../../utils/css';
-import { tooltip, showAlert } from '../../../../ui/helpers';
+import { showAlert, tooltip } from '../../../../ui/helpers';
 import { globalEventGroups, SettingChangeEvent } from '../../../../utils/global-events';
-import UIRouter from '../../../root/ui-router';
+import RvtRouter from '../../../root/rvt-router';
 import global from '../../../../utils/global';
 import routes, { responses } from '../../../../routes';
 
 import { OAUTH_PROVIDERS } from '../../../../utils/utils';
 import logging from '../../../../utils/logging';
 import { ToggleSwitchEvent } from '../../../common/toggle-switch';
-import UIRoot from '../../../root/ui-root';
+import RvtRoot from '../../../root/rvt-root';
 import { ls } from '../../../../utils/cache';
 import { map } from 'lit/directives/map.js';
 
@@ -35,7 +35,6 @@ interface SettingsPageData {
 interface SettingsData {
 	thirdPartyData: boolean;
 	collectData: boolean;
-	pushNotifications: boolean;
 }
 
 @customElement('page-settings')
@@ -68,8 +67,7 @@ export default class SettingsPage extends LitElement {
 			{},
 			{
 				thirdPartyData: ls.getBoolean('third-party-data', true),
-				collectData: ls.getBoolean('collect-data', true),
-				pushNotifications: ls.getBoolean('push-notifications', false)
+				collectData: ls.getBoolean('collect-data', true)
 			}
 		);
 
@@ -147,7 +145,7 @@ export default class SettingsPage extends LitElement {
 				.flatMap(x => x.items)
 				.find(p => p.hasOwnProperty('id') && p.id == this.tabId);
 
-			if (currentTab) UIRouter.shared.updateTitle(currentTab.title);
+			if (currentTab) RvtRouter.shared.updateTitle(currentTab.title);
 		}
 	}
 
@@ -155,7 +153,7 @@ export default class SettingsPage extends LitElement {
 		// Navigate to the correct tab; this will update this view automatically
 		let url = routes.settings.build({ tab: tabId });
 
-		UIRouter.shared.navigate(url, {
+		RvtRouter.shared.navigate(url, {
 			replaceHistory: true
 		});
 	}
@@ -170,13 +168,6 @@ export default class SettingsPage extends LitElement {
 			this.settings.collectData = value;
 
 			ls.setBoolean(key, value);
-		} else if (key == 'push-notifications') {
-			this.settings.pushNotifications = value;
-
-			ls.setBoolean(key, value);
-
-			if (value) global.pushNotifications.enable();
-			else global.pushNotifications.disable();
 		} else if (key == 'toggle-deletion') {
 			if (value) {
 				global.live.identity.markDeletion({}).catch((err: Error) => (this.loadError = err));
@@ -194,8 +185,6 @@ export default class SettingsPage extends LitElement {
 			this.settings.thirdPartyData = event.value.value;
 		} else if (event.value.id == 'collect-data') {
 			this.settings.collectData = event.value.value;
-		} else if (event.value.id == 'push-notifications') {
-			this.settings.pushNotifications = event.value.value;
 		}
 
 		this.requestUpdate('settings');
@@ -211,7 +200,7 @@ export default class SettingsPage extends LitElement {
 				[
 					{
 						label: 'Register now',
-						cb: () => UIRoot.shared.openRegisterPanel()
+						cb: () => RvtRoot.shared.openRegisterPanel()
 					},
 					{
 						label: 'Dismiss'
@@ -296,7 +285,7 @@ export default class SettingsPage extends LitElement {
 									icon="solid/envelope"
 									color="#404040"
 									text="#eeeeee"
-									.trigger=${() => UIRoot.shared.openRegisterPanel()}
+									.trigger=${() => RvtRoot.shared.openRegisterPanel()}
 									>${isRegistered ? 'View registration' : 'Link email'}</stylized-button
 								>
 						  `}
@@ -394,7 +383,7 @@ export default class SettingsPage extends LitElement {
 							>Log out</stylized-button
 					  >`
 					: html`<p>Logged in as guest.</p>
-							<stylized-button .trigger=${() => UIRoot.shared.openRegisterPanel()}
+							<stylized-button .trigger=${() => RvtRoot.shared.openRegisterPanel()}
 								>Register Now</stylized-button
 							> `}
 			</div>

@@ -6,6 +6,12 @@
 $tile-margin: 8px;
 $tile-border-radius: 20px;
 
+:host {
+	display: flex;
+	justify-content: center;
+	min-height: 100%;
+}
+
 #base {
 	padding: 0 20px 27px 20px;
 
@@ -70,10 +76,6 @@ $tile-border-radius: 20px;
 		}
 
 		#banner-content {
-			display: flex;
-			flex-direction: row;
-			align-items: space-between;
-
 			display: flex;
 			flex-direction: row;
 			align-items: flex-end;

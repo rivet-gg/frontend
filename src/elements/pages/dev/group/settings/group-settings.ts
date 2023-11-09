@@ -1,10 +1,10 @@
 import { customElement, property } from 'lit/decorators.js';
-import { LitElement, html, PropertyValues, TemplateResult } from 'lit';
+import { html, LitElement, PropertyValues, TemplateResult } from 'lit';
 import { cssify } from '../../../../../utils/css';
 import routes, { responses } from '../../../../../routes';
 import group from '@rivet-gg/group';
 import * as api from '../../../../../utils/api';
-import UIRouter from '../../../../root/ui-router';
+import RvtRouter from '../../../../root/rvt-router';
 import { GroupProfileCache } from '../../../../../data/cache';
 import logging from '../../../../../utils/logging';
 import { globalEventGroups } from '../../../../../utils/global-events';
@@ -110,7 +110,7 @@ export default class GroupSettings extends LitElement {
 				.flatMap(x => x.items)
 				.find(p => p.hasOwnProperty('id') && p.id == this.tabId);
 
-			if (currentTab) UIRouter.shared.updateTitle(currentTab.title);
+			if (currentTab) RvtRouter.shared.updateTitle(currentTab.title);
 		}
 
 		if (changedProperties.has('config')) {
@@ -140,7 +140,7 @@ export default class GroupSettings extends LitElement {
 		// Navigate to the correct tab; this will update this view automatically
 		let url = routes.groupSettings.build({ groupId: this.groupId, tab: tabId });
 
-		UIRouter.shared.navigate(url, {
+		RvtRouter.shared.navigate(url, {
 			replaceHistory: true
 		});
 	}
@@ -159,15 +159,15 @@ export default class GroupSettings extends LitElement {
 		if (this.config.general) {
 			body = html`<page-group-settings-general .group=${this.group}></page-group-settings-general>`;
 
-			UIRouter.shared.updateTitle('General');
+			RvtRouter.shared.updateTitle('General');
 		} else if (this.config.billing) {
 			body = html`<page-group-settings-billing .group=${this.group}></page-group-settings-billing>`;
 
-			UIRouter.shared.updateTitle(`${this.group.displayName} - Billing`);
+			RvtRouter.shared.updateTitle(`${this.group.displayName} - Billing`);
 		} else if (this.config.members) {
 			body = html`<page-group-settings-members .group=${this.group}></page-group-settings-members>`;
 
-			UIRouter.shared.updateTitle(`${this.group.displayName} – Members`);
+			RvtRouter.shared.updateTitle(`${this.group.displayName} – Members`);
 		}
 
 		return html`

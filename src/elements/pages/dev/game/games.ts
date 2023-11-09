@@ -1,4 +1,4 @@
-import { LitElement, html, PropertyValues } from 'lit';
+import { html, LitElement, PropertyValues } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { repeat } from 'lit/directives/repeat.js';
 import { styleMap } from 'lit/directives/style-map.js';
@@ -8,18 +8,12 @@ import styles from './games.scss';
 import routes, { responses } from '../../../../routes';
 import global from '../../../../utils/global';
 import cloud from '@rivet-gg/cloud';
-import * as api from '../../../../utils/api';
 import utils from '../../../../utils/utils';
 import { showAlert } from '../../../../ui/helpers';
 import { DropDownSelectEvent, DropDownSelection } from '../../../dev/drop-down-list';
 import { TraversableErrors, VALIDATION_ERRORS } from '../../../../utils/traversable-errors';
 import timing, { Debounce } from '../../../../utils/timing';
-import UIRouter from '../../../root/ui-router';
-
-const tailwindConfig = require('../../../../../tailwind.config.js');
-const tailwind_palette = tailwindConfig.theme.extend.colors;
-
-import config from '../../../../config';
+import RvtRouter from '../../../root/rvt-router';
 import { InputUpdateEvent } from '../../../dev/text-input';
 import assets from '../../../../data/assets';
 import { CloudDashboardCache } from '../../../../data/cache';
@@ -27,6 +21,9 @@ import logging from '../../../../utils/logging';
 import { GroupCreateEvent } from '../../../modals/create-group';
 import { globalEventGroups } from '../../../../utils/global-events';
 import { RepeatingRequest } from '../../../../utils/repeating-request';
+
+const tailwindConfig = require('../../../../../tailwind.config.js');
+const tailwind_palette = tailwindConfig.theme.extend.colors;
 
 @customElement('page-dev-games')
 export default class DevGames extends LitElement {
@@ -117,7 +114,7 @@ export default class DevGames extends LitElement {
 		if (this.gamesStream) this.gamesStream.cancel();
 	}
 
-	async fetchData(forceRestart: boolean = false) {
+	async fetchData(forceRestart = false) {
 		if (this.gamesStream) this.gamesStream.cancel();
 
 		// Fetch events
@@ -195,7 +192,7 @@ export default class DevGames extends LitElement {
 			this.gameModalClose();
 
 			// Open new game page
-			UIRouter.shared.navigate(routes.devGame.build({ gameId: res.gameId }));
+			RvtRouter.shared.navigate(routes.devGame.build({ gameId: res.gameId }));
 		} catch (err) {
 			this.loadError = err;
 			this.isCreatingGame = false;

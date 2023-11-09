@@ -1,2 +1,1 @@
-import './consent';
 import './settings';

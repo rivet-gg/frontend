@@ -1,4 +1,5 @@
-import { LitElement, html } from 'lit';
+/* eslint-disable no-mixed-spaces-and-tabs */
+import { html, LitElement } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
 import { cssify } from '../../utils/css';
 import styles from './register-panel.scss';
@@ -6,12 +7,11 @@ import global from '../../utils/global';
 import { classMap } from 'lit/directives/class-map.js';
 import { responses } from '../../routes';
 import logging from '../../utils/logging';
-import { default as timing, wait } from '../../utils/timing';
 import TextInput from '../dev/text-input';
 import { clearCache } from '../../utils/cache';
 import * as api from '../../utils/api';
 import * as broadcast from '../../data/broadcast';
-import UIRoot from '../root/ui-root';
+import RvtRoot from '../root/rvt-root';
 import { globalEventGroups, IdentityChangeEvent } from '../../utils/global-events';
 
 export const VALIDATE_EMAIL =
@@ -31,25 +31,25 @@ export default class RegisterPanel extends LitElement {
 	verificationId: string = null;
 
 	@property({ type: String })
-	emailError: string = '';
+	emailError = '';
 
 	@property({ type: String })
 	codeError = '';
 
 	@property({ type: String })
-	loadingMessage: string = '';
+	loadingMessage = '';
 
 	@property({ type: Boolean })
 	isCompleting = false;
 
 	@property({ type: Boolean })
-	codeAreaActive: boolean = false;
+	codeAreaActive = false;
 
 	@property({ type: Boolean })
 	wait = false;
 
 	@property({ type: Boolean, attribute: 'light' })
-	light: boolean = false;
+	light = false;
 
 	@property({ type: String, attribute: 'title' })
 	title: string;
@@ -58,7 +58,7 @@ export default class RegisterPanel extends LitElement {
 	description: string;
 
 	@property({ type: Boolean, attribute: 'no-back' })
-	noBackButton: boolean = false;
+	noBackButton = false;
 
 	// Used for customizing the email
 	@property({ type: String })
@@ -101,7 +101,7 @@ export default class RegisterPanel extends LitElement {
 	emailKeyPress(event: KeyboardEvent) {
 		// Enter is pressed
 		if (this.emailError == null && event.key == 'Enter') {
-			this.startEmailVerificatoin();
+			this.startEmailVerification();
 			this.emailInput.blur();
 		}
 	}
@@ -121,13 +121,12 @@ export default class RegisterPanel extends LitElement {
 		if (this.codeError == null && event.key == 'Enter') this.completeEmailVerification();
 	}
 
-	async startEmailVerificatoin() {
+	async startEmailVerification() {
 		// Wait for captcha
 		let captchaToken = null;
 		if (global.bootstrapData.captcha.turnstile) {
-			captchaToken = await UIRoot.shared.promptCaptcha();
+			captchaToken = await RvtRoot.shared.promptCaptcha();
 		}
-
 		this.wait = true;
 		this.codeError = null;
 
@@ -314,7 +313,7 @@ export default class RegisterPanel extends LitElement {
 								  >`}
 							<stylized-button
 								?disabled=${this.emailError != null}
-								.trigger=${this.startEmailVerificatoin.bind(this)}
+								.trigger=${this.startEmailVerification.bind(this)}
 								>Continue</stylized-button
 							>
 						</div>

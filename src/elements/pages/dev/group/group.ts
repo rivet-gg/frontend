@@ -1,4 +1,4 @@
-import { customElement, property, query } from 'lit/decorators.js';
+import { customElement, property } from 'lit/decorators.js';
 import { html, LitElement, PropertyValues } from 'lit';
 import { when } from 'lit/directives/when.js';
 import { styleMap } from 'lit/directives/style-map.js';
@@ -8,15 +8,14 @@ import routes, { responses } from '../../../../routes';
 import global from '../../../../utils/global';
 import cloud from '@rivet-gg/cloud';
 import { globalEventGroups } from '../../../../utils/global-events';
-import { showAlert } from '../../../../ui/helpers';
-import UIRouter from '../../../root/ui-router';
+import RvtRouter from '../../../root/rvt-router';
 
 import assets from '../../../../data/assets';
 import * as api from '../../../../utils/api';
 
 import { CloudDashboardCache, GroupProfileCache } from '../../../../data/cache';
 import logging from '../../../../utils/logging';
-import { DropDownSelectEvent, DropDownSelection } from '../../../dev/drop-down-list';
+import { DropDownSelection } from '../../../dev/drop-down-list';
 import timing, { Debounce } from '../../../../utils/timing';
 import utils from '../../../../utils/utils';
 import { InputUpdateEvent } from '../../../dev/text-input';
@@ -198,8 +197,6 @@ export default class GroupPage extends LitElement {
 	}
 
 	async fetchGroup() {
-		let firstFetch = !this.profile;
-
 		if (this.groupStream) this.groupStream.cancel();
 		this.groupStream = GroupProfileCache.watch('GroupPage.groupStream', this.groupId, res => {
 			let firstFetch = !this.profile;
@@ -209,7 +206,7 @@ export default class GroupPage extends LitElement {
 			if (firstFetch) this.fetchColor();
 
 			// Update the title
-			UIRouter.shared.updateTitle(this.profile.displayName);
+			RvtRouter.shared.updateTitle(this.profile.displayName);
 		});
 
 		this.groupStream.onError(err => {
@@ -263,7 +260,7 @@ export default class GroupPage extends LitElement {
 			this.gameModalClose();
 
 			// Open new game page
-			UIRouter.shared.navigate(routes.devGame.build({ gameId: res.gameId }));
+			RvtRouter.shared.navigate(routes.devGame.build({ gameId: res.gameId }));
 		} catch (err) {
 			this.loadError = err;
 			this.isCreatingGame = false;
@@ -400,7 +397,7 @@ export default class GroupPage extends LitElement {
 
 	buildBackButton() {
 		// If back navigation is possible, use function rather than link
-		if (UIRouter.shared.canGoBack) {
+		if (RvtRouter.shared.canGoBack) {
 			return html` <stylized-button
 				icon="solid/play"
 				.trigger=${this.navigateBack.bind(this)}
@@ -417,6 +414,6 @@ export default class GroupPage extends LitElement {
 	}
 
 	navigateBack() {
-		UIRouter.shared.navBack();
+		RvtRouter.shared.navBack();
 	}
 }
