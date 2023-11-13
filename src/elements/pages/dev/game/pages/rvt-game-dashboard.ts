@@ -1,4 +1,3 @@
-
 import { customElement, property } from 'lit/decorators.js';
 import { html, LitElement, PropertyValues, TemplateResult } from 'lit';
 import { cssify } from '../../../../../utils/css';
