@@ -10,9 +10,6 @@ import { GameSettingsRootConfig } from './elements/pages/dev/game/settings/game-
 import { GroupSettingsRootConfig } from './elements/pages/dev/group/settings/group-settings';
 import { DevGameRootConfig } from './elements/pages/dev/game/pages/rvt-game-dashboard';
 
-const tailwindConfig = require('../tailwind.config.js');
-const tailwind_palette = tailwindConfig.theme.extend.colors;
-
 export type RenderResult = RenderResultTemplate | RenderResultRedirect;
 
 export interface RenderResultTemplate {
@@ -498,8 +495,8 @@ export namespace responses {
 					<stylized-button
 						class="mx-auto"
 						right-icon="solid/arrow-right"
-						color=${tailwind_palette['raised-bg']}
-						border-color=${tailwind_palette['raised-bg-border-color']}
+						color="var(--rvt-color-raised-bg)"
+						border-color="var(--rvt-color-raised-bg-border-color)"
 						border-width=".75px"
 						href=${routes.home.build({})}
 						>Go Home</stylized-button
