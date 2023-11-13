@@ -1,13 +1,12 @@
 import {
-	LitElement,
-	html,
 	customElement,
+	html,
+	LitElement,
 	property,
-	query,
-	css,
 	PropertyValues,
-	TemplateResult,
-	queryAll
+	query,
+	queryAll,
+	TemplateResult
 } from 'lit-element';
 import { cssify } from '../../utils/css';
 import styles from './drop-down-list.scss';
@@ -16,7 +15,7 @@ import { classMap } from 'lit-html/directives/class-map.js';
 import { when } from 'lit-html/directives/when.js';
 import { repeat } from 'lit-html/directives/repeat.js';
 import { Orientation } from '../common/overlay-positioning';
-import UIRoot from '../root/ui-root';
+import RvtRoot from '../root/rvt-root';
 
 // TODO: Implement arrow key movement and enter key to complete
 
@@ -86,13 +85,13 @@ export default class DropDownList<T> extends LitElement {
 
 	recentClick: number = performance.now();
 	@property({ type: Number })
-	filterSelection: number = 0;
+	filterSelection = 0;
 	@property({ type: String })
-	filterString: string = '';
+	filterString = '';
 
 	// === GET HEIGHT OF SELECTION ===
 	@property({ type: Number })
-	maxHeight: number = 0;
+	maxHeight = 0;
 
 	updated(changedProperties: PropertyValues) {
 		super.updated(changedProperties);
@@ -115,7 +114,7 @@ export default class DropDownList<T> extends LitElement {
 		} else {
 			let style = window.getComputedStyle(this.shadowRoot.host as HTMLElement);
 
-			UIRoot.shared.openDropDownList({
+			RvtRoot.shared.openDropDownList({
 				contextElement: this,
 				active: true,
 				fixed: this.isFixed,

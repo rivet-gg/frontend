@@ -1,4 +1,4 @@
-import { LitElement, PropertyValues, TemplateResult, html } from 'lit';
+import { LitElement, TemplateResult, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import * as group from '@rivet-gg/group';
 import { cssify } from '../../../../utils/css';

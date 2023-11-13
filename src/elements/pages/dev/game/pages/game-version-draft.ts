@@ -1,4 +1,4 @@
-import { LitElement, html, PropertyValues } from 'lit';
+import { html, LitElement, PropertyValues } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { repeat } from 'lit/directives/repeat.js';
 import { classMap } from 'lit/directives/class-map.js';
@@ -8,7 +8,7 @@ import { Rivet } from '@rivet-gg/api-internal';
 import settings from '../../../../../utils/settings';
 import logging from '../../../../../utils/logging';
 import global from '../../../../../utils/global';
-import UIRouter from '../../../../root/ui-router';
+import RvtRouter from '../../../../root/rvt-router';
 import routes from '../../../../../routes';
 import { showAlert } from '../../../../../ui/helpers';
 import { TraversableErrors, VALIDATION_ERRORS } from '../../../../../utils/traversable-errors';
@@ -308,7 +308,7 @@ export default class DevGameNamespace extends LitElement {
 			}
 
 			// Redirect to version page
-			UIRouter.shared.navigate(
+			RvtRouter.shared.navigate(
 				routes.devVersion.build({
 					gameId: this.game.gameId,
 					versionId,

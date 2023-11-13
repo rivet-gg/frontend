@@ -13,7 +13,7 @@ export default class ErrorList extends LitElement {
 	errors: string[] = [];
 
 	@property({ type: Boolean })
-	warning: boolean = false;
+	warning = false;
 
 	render() {
 		return html`

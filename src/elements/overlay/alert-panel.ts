@@ -1,8 +1,8 @@
-import { LitElement, html } from 'lit';
+import { html, LitElement } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { cssify } from '../../utils/css';
 import styles from './alert-panel.scss';
-import { AlertPanelData } from '../root/ui-root';
+import { AlertPanelData } from '../root/rvt-root';
 
 export class SelectOptionEvent extends Event {
 	constructor(public index: number) {

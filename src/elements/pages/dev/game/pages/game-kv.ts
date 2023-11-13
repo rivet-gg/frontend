@@ -3,7 +3,6 @@ import { customElement, property, query } from 'lit/decorators.js';
 import styles from './game-kv.scss';
 import global from '../../../../../utils/global';
 import cloud from '@rivet-gg/cloud';
-import * as api from '../../../../../utils/api';
 import { responses } from '../../../../../routes';
 import { cssify } from '../../../../../utils/css';
 import { classMap } from 'lit/directives/class-map.js';
@@ -36,7 +35,7 @@ export default class DevGameKv extends LitElement {
 
 	/// Key that is currently being shown.
 	@property({ type: String })
-	currentKey: string = '';
+	currentKey = '';
 
 	/// Output for the `currentKey`.
 	@property({ type: Object })
@@ -52,7 +51,7 @@ export default class DevGameKv extends LitElement {
 
 	/// If the input JSON is different than the output.
 	@property({ type: Boolean })
-	inputJsonChanged: boolean = false;
+	inputJsonChanged = false;
 
 	/// If the value is currently being sent to the server or deleted.
 	@property({ type: Boolean })

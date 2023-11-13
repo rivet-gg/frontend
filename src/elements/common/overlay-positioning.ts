@@ -37,33 +37,33 @@ export default class OverlayPositioning extends LitElement {
 	static styles = cssify(styles);
 
 	@property({ type: Boolean })
-	active: boolean = true;
+	active = true;
 
 	@property({ type: Boolean })
-	open: boolean = false;
+	open = false;
 
 	@property({ type: Boolean })
-	closing: boolean = false;
+	closing = false;
 
 	// Whether or not the close element dims the screen
 	@property({ type: Boolean, attribute: 'dim' })
-	dim: boolean = false;
+	dim = false;
 
 	// Allows manually setting the anchor values
 	@property({ type: Boolean, attribute: 'manual' })
-	manual: boolean = false;
+	manual = false;
 
 	// Used by tooltip to prevent pointer events on the overlay
 	@property({ type: Boolean, attribute: 'no-pointer' })
-	noPointer: boolean = false;
+	noPointer = false;
 
 	// Enables the scale animation
 	@property({ type: Boolean, attribute: 'scale-animation' })
-	scaleAnimation: boolean = false;
+	scaleAnimation = false;
 
 	// Disables the fade animation
 	@property({ type: Boolean, attribute: 'fade-animation' })
-	fadeAnimation: boolean = true;
+	fadeAnimation = true;
 
 	@property({ type: Number })
 	orientation: Orientation = Orientation.TopLeft;
@@ -85,9 +85,9 @@ export default class OverlayPositioning extends LitElement {
 	// These values are added to the anchor values. Should only be used when the anchor is implicitly
 	// fetched from the context element (with `manual` as false).
 	@property({ type: Number, attribute: 'offset-x' })
-	offsetX: number = 0;
+	offsetX = 0;
 	@property({ type: Number, attribute: 'offset-y' })
-	offsetY: number = 0;
+	offsetY = 0;
 
 	@query('#close')
 	closeElement: HTMLElement;
@@ -96,15 +96,15 @@ export default class OverlayPositioning extends LitElement {
 	slotObserver: ResizeObserver;
 
 	@property({ type: Number })
-	observedWidth: number = 0;
+	observedWidth = 0;
 	@property({ type: Number })
-	observedHeight: number = 0;
+	observedHeight = 0;
 
-	screenWidth: number = 0;
-	screenHeight: number = 0;
+	screenWidth = 0;
+	screenHeight = 0;
 
-	overflowX: number = 0;
-	overflowY: number = 0;
+	overflowX = 0;
+	overflowY = 0;
 
 	// Amount of time to stay rendered after the close event is triggered
 	@property({ type: Number })

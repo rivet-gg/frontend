@@ -6,4 +6,4 @@ import './dev-only';
 import './error';
 import './invalid-page-state';
 import './link-game';
-import './dev-dash';
+import './rvt-user-dashboard';

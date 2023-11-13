@@ -1,6 +1,5 @@
 import { LitElement, TemplateResult, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import * as api from '../../../../utils/api';
 import * as cloud from '@rivet-gg/cloud';
 import { cssify } from '../../../../utils/css';
 import assets from '../../../../data/assets';
