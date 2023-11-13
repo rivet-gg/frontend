@@ -106,7 +106,6 @@ export default class DevGame extends LitElement {
 			value: n.namespaceId
 		}));
 
-
 		let namespaceName = this.game.namespaces.find(
 			n => n.namespaceId == this.config.namespace.namespaceId
 		).displayName;
