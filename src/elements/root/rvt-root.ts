@@ -471,12 +471,12 @@ export default class RvtRoot extends LitElement {
 	renderContent() {
 		return html`
 			${when(
-				global.status === GlobalStatus.Connected,
+				this.globalStatus === GlobalStatus.Connected,
 				() =>
-					html`<nav-bar
+					html`<rvt-nav
 						.routeTitle="${this.routeTitle}"
 						.breadcrumbs="${this.breadcrumb}"
-					></nav-bar>`
+					></rvt-nav>`
 			)}
 
 			<!-- Page Body -->
