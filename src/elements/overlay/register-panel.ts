@@ -21,9 +21,6 @@ export const VALIDATE_EMAIL =
 export default class RegisterPanel extends LitElement {
 	static styles = cssify(styles);
 
-	@property({ type: Boolean })
-	active = false;
-
 	@property({ type: String })
 	email = '';
 
@@ -84,14 +81,6 @@ export default class RegisterPanel extends LitElement {
 
 		this.handleIdentityChange = this.onIdentityChange.bind(this);
 		globalEventGroups.add('identity-change', this.handleIdentityChange);
-	}
-
-	updated(changedProperties: PropertyValues) {
-		super.updated(changedProperties);
-
-		if (this.active && this.autofocus) {
-			this.emailInput.focus();
-		}
 	}
 
 	onIdentityChange() {
