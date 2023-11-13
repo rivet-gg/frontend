@@ -58,9 +58,7 @@ export class GlobalState {
 		portal: api.portal.PortalService;
 		identity: api.identity.IdentityService;
 		group: api.group.GroupService;
-		chat: api.chat.ChatService;
 		kv: api.kv.KvService;
-		party: api.party.PartyService;
 	};
 	auth: api.auth.AuthService;
 	cloud: cloud.CloudService;
@@ -182,16 +180,8 @@ export class GlobalState {
 				endpoint: config.ORIGIN_API + '/group',
 				requestHandler: refreshMiddleware()
 			}),
-			chat: new api.chat.ChatService({
-				endpoint: config.ORIGIN_API + '/chat',
-				requestHandler: refreshMiddleware()
-			}),
 			kv: new api.kv.KvService({
 				endpoint: config.ORIGIN_API + '/kv',
-				requestHandler: refreshMiddleware()
-			}),
-			party: new api.party.PartyService({
-				endpoint: config.ORIGIN_API + '/party',
 				requestHandler: refreshMiddleware()
 			})
 		};

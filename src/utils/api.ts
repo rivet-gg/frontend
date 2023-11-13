@@ -5,11 +5,9 @@
 import * as portal from '@rivet-gg/portal';
 import * as identity from '@rivet-gg/identity';
 import * as group from '@rivet-gg/group';
-import * as chat from '@rivet-gg/chat';
 import * as kv from '@rivet-gg/kv';
 import * as auth from '@rivet-gg/auth';
-import * as party from '@rivet-gg/party';
 
 export const requestHandlerMiddleware = portal.common.middleware.requestHandlerMiddleware;
 
-export { portal, identity, group, auth, chat, kv, party };
+export { portal, identity, group, auth, kv };
