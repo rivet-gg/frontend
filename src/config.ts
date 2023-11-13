@@ -22,10 +22,8 @@ const config = {
 	API_PORTAL_URL: modifyBaseUrl(RIVET_API_ENDPOINT, 'portal.', '/v1'),
 	API_IDENTITY_URL: modifyBaseUrl(RIVET_API_ENDPOINT, 'identity.', '/v1'),
 	API_GROUP_URL: modifyBaseUrl(RIVET_API_ENDPOINT, 'group.', '/v1'),
-	API_CHAT_URL: modifyBaseUrl(RIVET_API_ENDPOINT, 'chat.', '/v1'),
 	API_CLOUD_URL: modifyBaseUrl(RIVET_API_ENDPOINT, 'cloud.', '/v1'),
 	API_KV_URL: modifyBaseUrl(RIVET_API_ENDPOINT, 'kv.', '/v1'),
-	API_PARTY_URL: modifyBaseUrl(RIVET_API_ENDPOINT, 'party.', '/v1'),
 
 	COMMUNITY_URL: 'https://discord.com/invite/aXYfyNxYVn',
 	DOCUMENTATION_URL: 'https://rivet.gg/docs',
