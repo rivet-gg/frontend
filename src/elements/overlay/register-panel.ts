@@ -1,5 +1,5 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
-import { html, LitElement, PropertyValues } from 'lit';
+import { html, LitElement } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
 import { cssify } from '../../utils/css';
 import styles from './register-panel.scss';
@@ -20,9 +20,6 @@ export const VALIDATE_EMAIL =
 @customElement('register-panel')
 export default class RegisterPanel extends LitElement {
 	static styles = cssify(styles);
-
-	@property({ type: Boolean })
-	active = false;
 
 	@property({ type: String })
 	email = '';
@@ -84,14 +81,6 @@ export default class RegisterPanel extends LitElement {
 
 		this.handleIdentityChange = this.onIdentityChange.bind(this);
 		globalEventGroups.add('identity-change', this.handleIdentityChange);
-	}
-
-	updated(changedProperties: PropertyValues) {
-		super.updated(changedProperties);
-
-		if (this.active && this.autofocus) {
-			this.emailInput.focus();
-		}
 	}
 
 	onIdentityChange() {
