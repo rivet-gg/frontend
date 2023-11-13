@@ -183,7 +183,7 @@ export class GlobalState {
 			kv: new api.kv.KvService({
 				endpoint: config.ORIGIN_API + '/kv',
 				requestHandler: refreshMiddleware()
-			}),
+			})
 		};
 
 		this.auth = new api.auth.AuthService({
