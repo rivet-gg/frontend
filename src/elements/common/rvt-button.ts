@@ -16,6 +16,9 @@ export default class RvtButton extends LitElement {
 	@property({ type: String })
 	size?: keyof RvtButton['sizeClasses'] = 'md';
 
+	@property({ type: String })
+	elevation?: keyof RvtButton['elevationClasses'] = 'none';
+
 	@property({ type: Boolean })
 	disabled?: boolean = false;
 
@@ -42,8 +45,10 @@ export default class RvtButton extends LitElement {
 	// #endregion
 
 	private get stateClasses() {
-		let active = `active:shadow-foldup-none active:translate-y-1 active:border-transparent`;
-		let hover = `hover:shadow-foldup-lg hover:-translate-y-0.5`;
+		let active = `${
+			this.elevationClasses[this.elevation].active
+		} active:translate-y-1 active:border-transparent`;
+		let hover = `${this.elevationClasses[this.elevation].hover} hover:-translate-y-0.5`;
 
 		if (this.disabled) {
 			return 'cursor-not-allowed shadow-foldup-none pb-3 mb-1 mt-1 border-transparent';
@@ -55,11 +60,30 @@ export default class RvtButton extends LitElement {
 	}
 
 	private get variantClasses() {
-		let common = `inline-block align-middle shadow-foldup-md border-b mb-1 will-change-transform font-bold min-w-30 transition-all ${this.stateClasses}`;
+		let common = [
+			'inline-block align-middle  mb-1 will-change-transform font-bold min-w-30 transition-all',
+			this.elevationClasses[this.elevation].default,
+			this.stateClasses
+		].join(' ');
 
 		return {
 			primary: `${common} bg-violet-500 text-white font-bold border-violet-400 shadow-violet-600`,
-			secondary: `${common} bg-zinc-600 text-white font-bold border-zinc-500 shadow-zinc-700`
+			secondary: `${common} bg-zinc-700 text-white font-bold border-zinc-500 shadow-zinc-700`
+		};
+	}
+
+	private get elevationClasses() {
+		return {
+			md: {
+				active: 'active:shadow-foldup-none border-b',
+				hover: 'hover:shadow-foldup-lg border-b',
+				default: 'shadow-foldup-md border-b'
+			},
+			none: {
+				active: 'border',
+				hover: 'border',
+				default: ''
+			}
 		};
 	}
 
