@@ -10,4 +10,4 @@ import * as auth from '@rivet-gg/auth';
 
 export const requestHandlerMiddleware = portal.common.middleware.requestHandlerMiddleware;
 
-export { portal, identity, group, auth,  kv };
+export { portal, identity, group, auth, kv };
