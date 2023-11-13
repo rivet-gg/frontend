@@ -2,13 +2,13 @@ import { html, TemplateResult } from 'lit';
 import * as pathToRegexp from 'path-to-regexp';
 import global from './utils/global';
 import utils from './utils/utils';
-import { DevGameRootConfig } from './elements/pages/dev/game/pages/game';
 import RvtRoot from './elements/root/rvt-root';
 import { RivetError } from '@rivet-gg/api-internal';
 import { isDeveloper } from './utils/identity';
 import { Breadcrumb } from './elements/common/rvt-nav';
 import { GameSettingsRootConfig } from './elements/pages/dev/game/settings/game-settings';
 import { GroupSettingsRootConfig } from './elements/pages/dev/group/settings/group-settings';
+import { DevGameRootConfig } from './elements/pages/dev/game/pages/rvt-game-dashboard';
 
 const tailwindConfig = require('../tailwind.config.js');
 const tailwind_palette = tailwindConfig.theme.extend.colors;
