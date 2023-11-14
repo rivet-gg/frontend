@@ -5,16 +5,13 @@
 
 let apiEndpoint = localStorage.RIVET_API_ENDPOINT || ENV_RIVET_API_ENDPOINT;
 if (apiEndpoint == '__AUTO__') {
-	if (location.hostname.startsWith("hub.")) {
+	if (location.hostname.startsWith('hub.')) {
 		// Connect to the corresponding API endpoint
 		apiEndpoint = 'https://' + location.hostname.replace('hub.', 'api.');
 	} else {
 		// Default to staging servers for all other endpoints
 		apiEndpoint = 'https://api.staging2.gameinc.io';
 	}
-} else {
-	// 
-	apiEndpoint = apiEndpoint;
 }
 
 const config = {
