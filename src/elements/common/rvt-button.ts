@@ -45,7 +45,7 @@ export default class RvtButton extends LitElement {
 	// #endregion
 
 	private get stateClasses() {
-		let active = this.elevationClasses[this.elevation].active
+		let active = this.elevationClasses[this.elevation].active;
 		let hover = this.elevationClasses[this.elevation].hover;
 
 		if (this.disabled) {
