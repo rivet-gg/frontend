@@ -13,13 +13,13 @@ module.exports = {
 			flat: 'flat',
 			'3d': 'preserve-3d'
 		},
+		foldups: {
+			lg: 'var(--tw-shadow-color) 0px 6px 0px 0px',
+			md: 'var(--tw-shadow-color) 0px 4px 0px 0px',
+			sm: 'var(--tw-shadow-color) 0px 2px 0px 0px',
+			none: 'var(--tw-shadow-color) 0px 0px 0px 0px'
+		},
 		extend: {
-			boxShadow: {
-				['foldup-lg']: 'var(--tw-shadow-color) 0px 6px 0px 0px',
-				['foldup-md']: 'var(--tw-shadow-color) 0px 4px 0px 0px',
-				['foldup-sm']: 'var(--tw-shadow-color) 0px 2px 0px 0px',
-				['foldup-none']: 'var(--tw-shadow-color) 0px 0px 0px 0px'
-			},
 			screens: {
 				mdLg: '1100px'
 			},
@@ -97,6 +97,16 @@ module.exports = {
 				},
 				{ values: theme('transformStyle') }
 			);
-		})
+		}),
+		plugin(({ matchUtilities, theme }) => {
+			matchUtilities(
+				{
+					foldup: value => ({
+						boxShadow: value
+					})
+				},
+				{ values: theme('foldups') }
+			);
+		}),
 	]
 };
