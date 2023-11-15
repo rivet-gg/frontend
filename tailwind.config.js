@@ -9,13 +9,13 @@ module.exports = {
 			display: ['Cartridge', 'ui-sans-serif', 'system-ui'],
 			pixel: ['Silkscreen', 'ui-sans-serif', 'system-ui']
 		},
+		foldups: {
+			lg: 'var(--tw-shadow-color) 0px 6px 0px 0px',
+			md: 'var(--tw-shadow-color) 0px 4px 0px 0px',
+			sm: 'var(--tw-shadow-color) 0px 2px 0px 0px',
+			none: 'var(--tw-shadow-color) 0px 0px 0px 0px'
+		},
 		extend: {
-			boxShadow: {
-				['foldup-lg']: 'var(--tw-shadow-color) 0px 6px 0px 0px',
-				['foldup-md']: 'var(--tw-shadow-color) 0px 4px 0px 0px',
-				['foldup-sm']: 'var(--tw-shadow-color) 0px 2px 0px 0px',
-				['foldup-none']: 'var(--tw-shadow-color) 0px 0px 0px 0px'
-			},
 			screens: {
 				mdLg: '1100px'
 			},
@@ -41,6 +41,9 @@ module.exports = {
 			},
 			gridTemplateColumns: {
 				'sidebar-layout': '18rem calc(100vw - 18rem)'
+			},
+			aria: {
+				busy: 'busy'
 			}
 		}
 	},
@@ -53,6 +56,16 @@ module.exports = {
 				h2: { fontFamily: theme('fontFamily.display') },
 				h3: { fontFamily: theme('fontFamily.display') }
 			});
+		}),
+		plugin(({ matchUtilities, theme }) => {
+			matchUtilities(
+				{
+					foldup: value => ({
+						boxShadow: value
+					})
+				},
+				{ values: theme('foldups') }
+			);
 		})
 	]
 };
