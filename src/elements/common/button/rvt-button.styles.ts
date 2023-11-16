@@ -5,26 +5,15 @@ export const button = tv({
 		'inline-flex',
 		'gap-2',
 		'm',
+		'align-center',
 		'align-middle',
 		'will-change-transform',
 		'font-bold',
 		'min-w-30',
 		'transition-all',
-		'ease-linear',
 		'disabled:opacity-50',
 		'disabled:cursor-not-allowed',
-		'aria-busy:cursor-wait',
-
-		'relative',
-		'before:absolute',
-		'before:-bottom-1',
-		'before:right-0',
-		'before:left-0',
-		'before:h-2',
-		'before:bg-violet-600',
-		'before:rounded-b-md',
-		'before:-z-1',
-		'before:-translate-z-1'
+		'aria-busy:cursor-wait'
 	],
 	variants: {
 		variant: {
@@ -39,23 +28,36 @@ export const button = tv({
 		elevation: {
 			none: [''],
 			md: [
-				// 'foldup-md',
 				'border-b',
-				'transform-gpu',
+				'mb-1',
+				// bezel
+				'transform-style-3d',
+				'translate-z-1',
+				'relative',
+				'before:absolute',
+				'before:-bottom-1',
+				'before:inset-x-0',
+				'before:h-2',
+				'before:rounded-b-md',
+				'before:-translate-z-1',
+				'before:transition-transform',
+				'before:will-change-transform',
 				// active
-				// 'active:foldup-none',
-				'active:translate-y-1',
-				// hover
-				// 'hover:foldup-lg',
-				'hover:-translate-y-0.5',
+				'active:translate-y-[3px]', // (translate-y-1 (0.25rem = 4px) - border-b (1px) = 3px)
+				// active bezel
+				'active:before:-translate-y-1',
+				'active:before:-translate-z-px',
+				// loading
+				'aria-busy:translate-y-1',
+				// loading bezel
+				'aria-busy:before:-translate-y-1',
+				'aria-busy:before:-translate-z-px',
 				// disabled
-				// 'disabled:foldup-none',
-				// 'disabled:translate-y-0',
-				// 'disabled:mt-1',
-				// busy
-				// 'aria-busy:foldup-none',
-				'aria-busy:translate-y-0',
-				'aria-busy:mt-1'
+				'disabled:translate-y-1',
+				// disabled bezel
+				'disabled:before:-translate-y-1',
+				'disabled:before:-translate-z-px',
+				'disabled:before:opacity-0'
 			]
 		}
 	},
@@ -63,12 +65,24 @@ export const button = tv({
 		{
 			variant: 'primary',
 			elevation: 'md',
-			className: ['disabled:border-violet-400']
+			className: ['disabled:border-violet-400', 'before:bg-violet-600']
 		},
 		{
 			variant: 'primary',
 			elevation: 'none',
-			class: ['hover:bg-violet-400', 'disabled:bg-violet-500', 'aria-busy:bg-violet-500']
+			class: [
+				// hover
+				'hover:bg-violet-400',
+				// active
+				'active:bg-violet-600',
+				'active:scale-95',
+				// disabled
+				'disabled:bg-violet-500',
+				'disabled:scale-100',
+				// loading
+				'aria-busy:bg-violet-500',
+				'aria-busy:scale-100'
+			]
 		}
 	],
 	defaultVariants: {
