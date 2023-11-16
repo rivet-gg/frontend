@@ -53,4 +53,48 @@ export default class RvtUserDashboard extends LitElement {
 			</div>
 		`;
 	}
+
+	renderSplash() {
+		if (global.bootstrapData.cluster == Rivet.cloud.BootstrapCluster.Oss) {
+			return html`<h1 class="text-5xl mt-3.5 mb-8">Welcome to Rivet OSS!</h1>
+				<p class="text-lg">Login using the CLI with the command below:</p>
+				<code class="inline-block bg-white bg-opacity-10 px-7 py-3 pt-3.5 rounded-md my-6"
+					>bolt admin login</code
+				>
+				<p class="text-lg">
+					Or if you have email sending configured on your backend, use the login below.
+				</p>`;
+		} else {
+			return html`<h1 class="text-5xl mt-3.5 mb-8">Welcome to Rivet!</h1>
+				<p class="text-lg">Rivet is still in private beta.</p>
+				<p class="text-lg">Join the waitlist to get early access.</p>
+				<div class="flex justify-center my-8">
+					<stylized-button href="https://b8v8449klvp.typeform.com/rivet" target="_blank">
+						Beta Access Form
+					</stylized-button>
+				</div>`;
+		}
+	}
+
+	renderLogin() {
+		if (!global.currentIdentity?.isRegistered) {
+			return html`
+				<div class="w-3/4 border-b-white/10 border-b-[1px] h-px mx-auto my-4"></div>
+				<div class="w-full flex m-auto pb-5 text-left items-center justify-center gap-4">
+					<p class="text-md">Have access and just got logged out?</p>
+					<stylized-button .trigger="${this.onLoginButtonClick.bind(this)}">
+						Login
+					</stylized-button>
+				</div>
+				<p class="text-gray-400 text-xs">
+					By clicking Login, you agree to the Rivet
+					<a class="link" href="https://rivet.gg/terms" target="_blank"> Terms of Service </a>
+					and
+					<a class="link" href="https://rivet.gg/privacy" target="_blank"> Privacy Policy </a>.
+				</p>
+			`;
+		}
+
+		return null;
+	}
 }
