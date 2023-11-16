@@ -5,6 +5,7 @@ import styles from './rvt-user-dashboard.scss';
 import global from '../../utils/global';
 import { globalEventGroups, IdentityChangeEvent } from '../../utils/global-events';
 import { isDeveloper } from '../../utils/identity';
+import { Rivet } from '@rivet-gg/api-internal';
 import routes from '../../routes';
 import RvtRouter from '../root/rvt-router';
 

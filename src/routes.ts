@@ -72,6 +72,7 @@ export class Route<P extends RouteParameters = {}, S extends SearchParameters = 
 		this.pathKeys = [];
 		this.pathRegex = pathToRegexp.pathToRegexp(this.path, this.pathKeys);
 
+		// Append requireConsent as default middleware
 		this.middlewaresCreator = middlewares;
 	}
 
@@ -86,15 +87,7 @@ export class Route<P extends RouteParameters = {}, S extends SearchParameters = 
 	}
 }
 
-const middlewares = {
-	requireConsent: () => {
-		if (!globalSettings.didConsent) return responses.consentRequired();
-		return null;
-	},
-	requireRegister: () => {
-		if (!global.currentIdentity.isRegistered) return responses.registerRequired();
-		return null;
-	},
+const MIDDLEWARES = {
 	validateUuid:
 		<const T extends string>(param: T) =>
 		(params: Record<T, string>) => {
@@ -107,7 +100,6 @@ const middlewares = {
 namespace routes {
 	export let home = new Route({
 		path: '/',
-		middlewares: () => [middlewares.requireConsent, middlewares.requireRegister],
 		render() {
 			return {
 				title: 'Home',
@@ -143,7 +135,6 @@ namespace routes {
 
 	export let groupSettingsRedirect = new Route<{ groupId: string }>({
 		path: '/groups/:groupId/settings',
-		middlewares: () => [middlewares.requireConsent, middlewares.requireRegister],
 		render({ groupId }) {
 			return {
 				redirect: routes.groupSettings.build({ groupId, tab: 'general' })
@@ -153,7 +144,6 @@ namespace routes {
 
 	export let groupSettings = new Route<{ groupId: string; tab?: string }>({
 		path: '/groups/:groupId/settings/:tab?',
-		middlewares: () => [middlewares.requireConsent, middlewares.requireRegister],
 		render({ groupId, tab }) {
 			return {
 				title: 'Settings',
@@ -170,9 +160,7 @@ namespace routes {
 	export let groupOverview = new Route<{ id: string }>({
 		path: '/groups/:id',
 		middlewares: () => [
-			middlewares.requireConsent,
-			middlewares.requireRegister,
-			middlewares.validateUuid('id')
+			MIDDLEWARES.validateUuid('id')
 		],
 		render({ id }) {
 			return {
@@ -186,9 +174,7 @@ namespace routes {
 	export let analyticsOverview = new Route<{ groupId: string }>({
 		path: '/groups/:groupId/analytics',
 		middlewares: () => [
-			middlewares.requireConsent,
-			middlewares.requireRegister,
-			middlewares.validateUuid('groupId')
+			MIDDLEWARES.validateUuid('groupId')
 		],
 		render({ groupId }) {
 			return {
@@ -205,7 +191,6 @@ namespace routes {
 
 	export let groupInvite = new Route<{ code: string }>({
 		path: '/invite/:code?',
-		middlewares: () => [middlewares.requireConsent, middlewares.requireRegister],
 		render({ code }) {
 			return {
 				title: 'Group Invite',
@@ -217,7 +202,6 @@ namespace routes {
 
 	export let settings = new Route<{ tab?: string }>({
 		path: '/settings/:tab?',
-		middlewares: () => [middlewares.requireConsent, middlewares.requireRegister],
 		render({ tab }) {
 			return {
 				title: `Settings`,
@@ -229,7 +213,6 @@ namespace routes {
 
 	export let linkGame = new Route<{ token: string }>({
 		path: '/link/:token',
-		middlewares: () => [middlewares.requireConsent, middlewares.requireRegister],
 		render({ token }) {
 			return {
 				title: `Link account`,
@@ -241,7 +224,6 @@ namespace routes {
 
 	export let devDeviceLink = new Route<{ token: string }>({
 		path: '/devices/link/:token',
-		middlewares: () => [middlewares.requireConsent, middlewares.requireRegister],
 		render({ token }) {
 			return {
 				title: 'Link Device',
@@ -251,12 +233,21 @@ namespace routes {
 		}
 	});
 
+	export let accessTokenLink = new Route<{ token: string }>({
+		path: '/access-token/:token',
+		render({ token }) {
+			return {
+				title: `Access Token`,
+				breadcrumb: { type: 'Custom' },
+				template: html`<page-access-token .token=${token}></page-access-token>`
+			};
+		}
+	});
+
 	export let devGame = new Route<{ gameId: string }>({
 		path: '/games/:gameId',
 		middlewares: () => [
-			middlewares.requireConsent,
-			middlewares.requireRegister,
-			middlewares.validateUuid('gameId')
+			MIDDLEWARES.validateUuid('gameId')
 		],
 		render({ gameId }) {
 			return {
@@ -279,7 +270,6 @@ namespace routes {
 
 	export let devGameSettingsRedirect = new Route<{ gameId: string }>({
 		path: '/games/:gameId/settings',
-		middlewares: () => [middlewares.requireConsent, middlewares.requireRegister],
 		render({ gameId }) {
 			return {
 				redirect: routes.devGameSettings.build({ gameId, tab: 'general' })
@@ -289,7 +279,6 @@ namespace routes {
 
 	export let devGameSettings = new Route<{ gameId: string; tab?: string }>({
 		path: '/games/:gameId/settings/:tab?',
-		middlewares: () => [middlewares.requireConsent, middlewares.requireRegister],
 		render({ gameId, tab }) {
 			return {
 				title: 'Settings',
@@ -306,10 +295,8 @@ namespace routes {
 	export let devNamespace = new Route<{ gameId: string; namespaceId: string }>({
 		path: '/games/:gameId/namespaces/:namespaceId',
 		middlewares: () => [
-			middlewares.requireConsent,
-			middlewares.requireRegister,
-			middlewares.validateUuid('gameId'),
-			middlewares.validateUuid('namespaceId')
+			MIDDLEWARES.validateUuid('gameId'),
+			MIDDLEWARES.validateUuid('namespaceId')
 		],
 		render({ gameId, namespaceId }) {
 			return {
@@ -326,10 +313,8 @@ namespace routes {
 	export let devVersionSummary = new Route<{ gameId: string; namespaceId: string }>({
 		path: '/games/:gameId/namespaces/:namespaceId/versions',
 		middlewares: () => [
-			middlewares.requireConsent,
-			middlewares.requireRegister,
-			middlewares.validateUuid('gameId'),
-			middlewares.validateUuid('namespaceId')
+			MIDDLEWARES.validateUuid('gameId'),
+			MIDDLEWARES.validateUuid('namespaceId')
 		],
 		render({ gameId, namespaceId }) {
 			return {
@@ -343,11 +328,9 @@ namespace routes {
 	export let devVersion = new Route<{ gameId: string; namespaceId: string; versionId: string }>({
 		path: '/games/:gameId/namespaces/:namespaceId/versions/:versionId',
 		middlewares: () => [
-			middlewares.requireConsent,
-			middlewares.requireRegister,
-			middlewares.validateUuid('gameId'),
-			middlewares.validateUuid('namespaceId'),
-			middlewares.validateUuid('versionId')
+			MIDDLEWARES.validateUuid('gameId'),
+			MIDDLEWARES.validateUuid('namespaceId'),
+			MIDDLEWARES.validateUuid('versionId')
 		],
 		render({ gameId, namespaceId, versionId }) {
 			return {
@@ -364,8 +347,6 @@ namespace routes {
 	export let devVersionSettings = new Route<{ gameId: string; namespaceId: string }>({
 		path: '/games/:gameId/namespaces/:namespaceId/settings',
 		render({ gameId, namespaceId }) {
-			if (!global.currentIdentity.isRegistered) return responses.registerRequired();
-
 			if (!utils.validateUuid(gameId) || !utils.validateUuid(namespaceId)) return responses.notFound();
 
 			return {
@@ -382,9 +363,7 @@ namespace routes {
 	export let devVersionDraft = new Route<{ gameId: string }>({
 		path: '/games/:gameId/version-draft',
 		middlewares: () => [
-			middlewares.requireConsent,
-			middlewares.requireRegister,
-			middlewares.validateUuid('gameId')
+			MIDDLEWARES.validateUuid('gameId')
 		],
 		render({ gameId }) {
 			return {
@@ -398,10 +377,8 @@ namespace routes {
 	export let devTokens = new Route<{ gameId: string; namespaceId: string }>({
 		path: '/games/:gameId/namespaces/:namespaceId/api',
 		middlewares: () => [
-			middlewares.requireConsent,
-			middlewares.requireRegister,
-			middlewares.validateUuid('gameId'),
-			middlewares.validateUuid('namespaceId')
+			MIDDLEWARES.validateUuid('gameId'),
+			MIDDLEWARES.validateUuid('namespaceId')
 		],
 		render({ gameId, namespaceId }) {
 			return {
@@ -415,10 +392,8 @@ namespace routes {
 	export let devLogs = new Route<{ gameId: string; namespaceId: string }>({
 		path: '/games/:gameId/namespaces/:namespaceId/logs',
 		middlewares: () => [
-			middlewares.requireConsent,
-			middlewares.requireRegister,
-			middlewares.validateUuid('gameId'),
-			middlewares.validateUuid('namespaceId')
+			MIDDLEWARES.validateUuid('gameId'),
+			MIDDLEWARES.validateUuid('namespaceId')
 		],
 		render({ gameId, namespaceId }) {
 			return {
@@ -432,11 +407,9 @@ namespace routes {
 	export let devLogLobby = new Route<{ gameId: string; namespaceId: string; lobbyId: string }>({
 		path: '/games/:gameId/namespaces/:namespaceId/logs/:lobbyId',
 		middlewares: () => [
-			middlewares.requireConsent,
-			middlewares.requireRegister,
-			middlewares.validateUuid('gameId'),
-			middlewares.validateUuid('namespaceId'),
-			middlewares.validateUuid('lobbyId')
+			MIDDLEWARES.validateUuid('gameId'),
+			MIDDLEWARES.validateUuid('namespaceId'),
+			MIDDLEWARES.validateUuid('lobbyId')
 		],
 		render({ gameId, namespaceId, lobbyId }) {
 			return {
@@ -454,10 +427,8 @@ namespace routes {
 	export let devLobbies = new Route<{ gameId: string; namespaceId: string }>({
 		path: '/games/:gameId/namespaces/:namespaceId/lobbies',
 		middlewares: () => [
-			middlewares.requireConsent,
-			middlewares.requireRegister,
-			middlewares.validateUuid('gameId'),
-			middlewares.validateUuid('namespaceId')
+			MIDDLEWARES.validateUuid('gameId'),
+			MIDDLEWARES.validateUuid('namespaceId')
 		],
 		render({ gameId, namespaceId }) {
 			return {
@@ -471,10 +442,8 @@ namespace routes {
 	export let devKv = new Route<{ gameId: string; namespaceId: string }>({
 		path: '/games/:gameId/namespaces/:namespaceId/kv',
 		middlewares: () => [
-			middlewares.requireConsent,
-			middlewares.requireRegister,
-			middlewares.validateUuid('gameId'),
-			middlewares.validateUuid('namespaceId')
+			MIDDLEWARES.validateUuid('gameId'),
+			MIDDLEWARES.validateUuid('namespaceId')
 		],
 		render({ gameId, namespaceId }) {
 			return {
@@ -488,9 +457,7 @@ namespace routes {
 	export let devBilling = new Route<{ gameId: string }>({
 		path: '/games/:gameId/billing',
 		middlewares: () => [
-			middlewares.requireConsent,
-			middlewares.requireRegister,
-			middlewares.validateUuid('gameId')
+			MIDDLEWARES.validateUuid('gameId')
 		],
 		render({ gameId }) {
 			return {
@@ -518,9 +485,7 @@ namespace routes {
 	export let devBuilds = new Route<{ gameId: string }>({
 		path: '/games/:gameId/builds',
 		middlewares: () => [
-			middlewares.requireConsent,
-			middlewares.requireRegister,
-			middlewares.validateUuid('gameId')
+			MIDDLEWARES.validateUuid('gameId')
 		],
 		render({ gameId }) {
 			// TODO:
@@ -595,26 +560,6 @@ export namespace responses {
 					<stylized-button href=${routes.home.build({})}>Go Home</stylized-button>
 				</div>
 			</invalid-page-state>`
-		};
-	}
-
-	export function registerRequired(): RenderResult {
-		// `rvt-user-consent` serves two purposes - granting a consent and registering/loging in a user
-		return responses.consentRequired();
-	}
-
-	export function consentRequired(): RenderResult {
-		return {
-			title: 'Welcome!',
-			breadcrumb: {
-				type: 'Custom'
-			},
-			template: html`<div class="flex justify-center min-h-full w-full">
-				<rvt-user-consent
-					class="self-center"
-					@login=${RvtRoot.shared.onLoginButtonClick}
-				></rvt-user-consent>
-			</div>`
 		};
 	}
 
