@@ -1,18 +1,23 @@
-import { LitElement, PropertyValues, TemplateResult } from 'lit';
+import { LitElement, PropertyValues, html, TemplateResult } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
+import { when } from 'lit/directives/when.js';
 import { cssify } from '../../utils/css';
 import global from '../../utils/global';
-import routes from '../../routes';
-import logging from '../../utils/logging';
-import { globalEventGroups } from '../../utils/global-events';
-import RvtRouter from '../root/rvt-router';
+import { responses } from '../../routes';
+import styles from './access-token.scss';
 
 @customElement('page-access-token')
 export default class AccessTokenLink extends LitElement {
-	// static styles = cssify(styles);
+	static styles = cssify(styles);
 
 	@property({ type: String })
 	token: string;
+
+	@property({ type: Object })
+	loadError?: any;
+
+	@property({ type: Boolean })
+	finished: boolean = false;
 
 	firstUpdated(changedProperties: PropertyValues) {
 		super.firstUpdated(changedProperties);
@@ -26,15 +31,21 @@ export default class AccessTokenLink extends LitElement {
 				accessToken: this.token
 			});
 		} catch (err) {
-			logging.error('Request Error', err);
-			globalEventGroups.dispatch('error', err);
+			this.loadError = err;
 		}
-
-		// Navigate to home
-		RvtRouter.shared.navigate(routes.home.build({}), { replaceHistory: true });
 	}
 
-	render(): TemplateResult {
-		return null;
+	render() {
+		if (this.loadError) return responses.renderError(this.loadError);
+
+		return html`<div id="base">
+			${when(
+				this.finished,
+				() =>
+					html`<h2><e-svg src="solid/circle-check"></e-svg>Login succeeded</h2>
+						<p>No further action is required. You may now return to the home page</p>`,
+				() => html`<loading-wheel></loading-wheel>`
+			)}
+		</div>`;
 	}
 }

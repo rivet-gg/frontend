@@ -1,0 +1,28 @@
+@use '../shared/common';
+
+#base {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+
+	h2 {
+		font-size: 35px;
+		margin: 0 0 5px 0;
+		color: #ececec;
+
+		e-svg {
+			width: 1.1em;
+			height: 1.1em;
+			margin-right: 0.3em;
+			vertical-align: -0.2em;
+		}
+	}
+
+	p {
+		margin: 0 0 20px 0;
+		font-weight: 600;
+		color: #ececec;
+	}
+}
