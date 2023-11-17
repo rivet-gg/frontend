@@ -38,12 +38,16 @@ export default class AccessTokenLink extends LitElement {
 	render() {
 		if (this.loadError) return responses.renderError(this.loadError);
 
-		return html`<div id="base">
+		return html`<div id="base" class="flex flex-col items-center justify-center h-full">
 			${when(
 				this.finished,
 				() =>
-					html`<h2><e-svg src="solid/circle-check"></e-svg>Login succeeded</h2>
-						<p>No further action is required. You may now return to the home page</p>`,
+					html`<h2 class="text-4xl text-[#ececec] m-0 mb-2">
+							<e-svg src="solid/circle-check"></e-svg>Login succeeded
+						</h2>
+						<p class="m-0 font-semibold text-[#ececec]">
+							No further action is required. You may now return to the home page
+						</p>`,
 				() => html`<loading-wheel></loading-wheel>`
 			)}
 		</div>`;

@@ -75,26 +75,4 @@ export default class RvtUserDashboard extends LitElement {
 				</div>`;
 		}
 	}
-
-	renderLogin() {
-		if (!global.currentIdentity?.isRegistered) {
-			return html`
-				<div class="w-3/4 border-b-white/10 border-b-[1px] h-px mx-auto my-4"></div>
-				<div class="w-full flex m-auto pb-5 text-left items-center justify-center gap-4">
-					<p class="text-md">Have access and just got logged out?</p>
-					<stylized-button .trigger="${this.onLoginButtonClick.bind(this)}">
-						Login
-					</stylized-button>
-				</div>
-				<p class="text-gray-400 text-xs">
-					By clicking Login, you agree to the Rivet
-					<a class="link" href="https://rivet.gg/terms" target="_blank"> Terms of Service </a>
-					and
-					<a class="link" href="https://rivet.gg/privacy" target="_blank"> Privacy Policy </a>.
-				</p>
-			`;
-		}
-
-		return null;
-	}
 }
