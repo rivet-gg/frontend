@@ -107,6 +107,7 @@ namespace routes {
 	export let groupSettingsRedirect = new Route<{ groupId: string }>({
 		path: '/groups/:groupId/settings',
 		render({ groupId }) {
+			if (!global.currentIdentity.isRegistered) return responses.registerRequired();
 			return {
 				redirect: routes.groupSettings.build({ groupId, tab: 'general' })
 			};
@@ -116,6 +117,7 @@ namespace routes {
 	export let groupSettings = new Route<{ groupId: string; tab?: string }>({
 		path: '/groups/:groupId/settings/:tab?',
 		render({ groupId, tab }) {
+			if (!global.currentIdentity.isRegistered) return responses.registerRequired();
 			return {
 				title: 'Settings',
 				breadcrumb: { type: 'GroupSettings', groupId: groupId, title: tab },
@@ -132,6 +134,7 @@ namespace routes {
 		path: '/groups/:id',
 		render({ id }) {
 			if (!utils.validateUuid(id)) return responses.notFound();
+			if (!global.currentIdentity.isRegistered) return responses.registerRequired();
 
 			return {
 				title: 'Group',
@@ -249,6 +252,7 @@ namespace routes {
 	export let devGameSettingsRedirect = new Route<{ gameId: string }>({
 		path: '/games/:gameId/settings',
 		render({ gameId }) {
+			if (!global.currentIdentity.isRegistered) return responses.registerRequired();
 			return {
 				redirect: routes.devGameSettings.build({ gameId, tab: 'general' })
 			};
@@ -258,6 +262,7 @@ namespace routes {
 	export let devGameSettings = new Route<{ gameId: string; tab?: string }>({
 		path: '/games/:gameId/settings/:tab?',
 		render({ gameId, tab }) {
+			if (!global.currentIdentity.isRegistered) return responses.registerRequired();
 			return {
 				title: 'Settings',
 				breadcrumb: { type: 'GameSettings', gameId: gameId, title: tab },

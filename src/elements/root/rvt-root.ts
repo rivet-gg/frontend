@@ -352,13 +352,6 @@ export default class RvtRoot extends LitElement {
 					reject(err);
 				}
 			});
-
-			let cancel = new StylizedButton();
-			cancel.addEventListener('click', this.closeCaptcha.bind(this));
-			cancel.append(document.createTextNode('Cancel'));
-			element.append(cancel);
-
-			document.body.append(element);
 		});
 	}
 

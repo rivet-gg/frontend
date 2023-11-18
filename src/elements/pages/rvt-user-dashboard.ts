@@ -57,7 +57,7 @@ export default class RvtUserDashboard extends LitElement {
 				<div class="max-w-contentwidth w-full mx-auto">
 					<user-banner></user-banner>
 					<div class="">
-						<page-user-games></page-user-games>
+						<rvt-user-games></rvt-user-games>
 					</div>
 				</div>
 			`;
