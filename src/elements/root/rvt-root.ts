@@ -178,6 +178,7 @@ export default class RvtRoot extends LitElement {
 		// Handle key down
 		this.handleKeyDown = this.onKeyDown.bind(this);
 		windowEventGroups.add('keydown', this.handleKeyDown);
+		global.grantConsent();
 	}
 
 	disconnectedCallback() {
