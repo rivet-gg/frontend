@@ -147,6 +147,7 @@ namespace routes {
 		path: '/groups/:groupId/settings',
 		middlewares: () => [middlewares.requireConsent, middlewares.requireRegister],
 		render({ groupId }) {
+			if (!global.currentIdentity.isRegistered) return responses.registerRequired();
 			return {
 				redirect: routes.groupSettings.build({ groupId, tab: 'general' })
 			};
@@ -157,6 +158,7 @@ namespace routes {
 		path: '/groups/:groupId/settings/:tab?',
 		middlewares: () => [middlewares.requireConsent, middlewares.requireRegister],
 		render({ groupId, tab }) {
+			if (!global.currentIdentity.isRegistered) return responses.registerRequired();
 			return {
 				title: 'Settings',
 				breadcrumb: { type: 'GroupSettings', groupId: groupId, title: tab },
@@ -283,6 +285,7 @@ namespace routes {
 		path: '/games/:gameId/settings',
 		middlewares: () => [middlewares.requireConsent, middlewares.requireRegister],
 		render({ gameId }) {
+			if (!global.currentIdentity.isRegistered) return responses.registerRequired();
 			return {
 				redirect: routes.devGameSettings.build({ gameId, tab: 'general' })
 			};
@@ -293,6 +296,7 @@ namespace routes {
 		path: '/games/:gameId/settings/:tab?',
 		middlewares: () => [middlewares.requireConsent, middlewares.requireRegister],
 		render({ gameId, tab }) {
+			if (!global.currentIdentity.isRegistered) return responses.registerRequired();
 			return {
 				title: 'Settings',
 				breadcrumb: { type: 'GameSettings', gameId: gameId, title: tab },
