@@ -17,6 +17,7 @@ import { Alignment, Orientation } from '../common/overlay-positioning';
 import { DropDownSelectEvent, DropDownSelection } from '../dev/drop-down-list';
 import { Breadcrumb } from '../common/rvt-nav';
 import { RepeatingRequest } from '../../utils/repeating-request';
+import settings from '../../utils/settings';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { repeat } from 'lit/directives/repeat.js';
 import { when } from 'lit/directives/when.js';
@@ -177,7 +178,6 @@ export default class RvtRoot extends LitElement {
 		// Handle key down
 		this.handleKeyDown = this.onKeyDown.bind(this);
 		windowEventGroups.add('keydown', this.handleKeyDown);
-		global.grantConsent();
 	}
 
 	disconnectedCallback() {
@@ -367,6 +367,7 @@ export default class RvtRoot extends LitElement {
 	// === RENDER ===
 	render() {
 		let content = null;
+
 		// NOTE: Game link page has own flow
 		if (
 			window.location.pathname.startsWith('/link/') &&
@@ -387,7 +388,10 @@ export default class RvtRoot extends LitElement {
 			`;
 		} else if (this.globalStatus === GlobalStatus.AuthFailed) {
 			this.showLoading();
-		} else if (this.globalStatus === GlobalStatus.Connected) {
+		} else if (
+			global.consentResolve ||
+			(settings.didConsent && this.globalStatus === GlobalStatus.Connected)
+		) {
 			this.hideLoading();
 			content = this.renderContent();
 		}
@@ -427,6 +431,11 @@ export default class RvtRoot extends LitElement {
 				</div>
 			</div>
 		`;
+	}
+
+	onLoginButtonClick() {
+		global.grantConsent();
+		RvtRoot.shared.openRegisterPanel();
 	}
 
 	// renderDebug() {

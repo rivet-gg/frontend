@@ -13,6 +13,7 @@ import { CloudGameCache, GroupProfileCache } from '../../data/cache';
 import { globalEventGroups, IdentityChangeEvent } from '../../utils/global-events';
 import clsx from 'clsx';
 import { RepeatingRequest } from '../../utils/repeating-request';
+import styles from './rvt-nav.scss';
 
 export type Breadcrumb =
 	| { type: 'Home' }
@@ -33,7 +34,7 @@ interface CrumbDisplay {
 @customElement('rvt-nav')
 export default class RvtNav extends LitElement {
 	// Required since Tailwind styles get applied within 'cssify'
-	static styles = cssify();
+	static styles = cssify(styles);
 
 	@property({ type: String })
 	routeTitle = '';
@@ -399,7 +400,7 @@ export default class RvtNav extends LitElement {
 	render() {
 		return html`
 			<nav
-				class="gap-10 px-6 lg:z-30 pointer-events-auto fixed inset-x-0 top-0 flex flex-col transition md:divide-white/15 backdrop-blur  bg-zinc-900/[.8]"
+				class="gap-10 px-6 lg:z-30 pointer-events-auto flex flex-col transition md:divide-white/15 backdrop-blur  bg-zinc-900/[.8]"
 			>
 				<div class="h-14 flex items-center justify-between ">
 					<div class="absolute inset-x-0 top-full h-px transition bg-[#29292c]"></div>

@@ -7,7 +7,6 @@ import { globalEventGroups, IdentityChangeEvent } from '../../utils/global-event
 import { isDeveloper } from '../../utils/identity';
 import routes from '../../routes';
 import RvtRouter from '../root/rvt-router';
-import RvtRoot from '../root/rvt-root';
 
 @customElement('rvt-user-dashboard')
 export default class RvtUserDashboard extends LitElement {
@@ -43,26 +42,14 @@ export default class RvtUserDashboard extends LitElement {
 		}
 	}
 
-	onLoginButtonClick() {
-		global.grantConsent();
-		RvtRoot.shared.openRegisterPanel();
-	}
-
 	render() {
-		let identity = global.currentIdentity;
-		let isDeveloper = identity?.groups.some(group => group.group.isDeveloper);
-
-		if (identity?.isRegistered && isDeveloper) {
-			return html`
-				<div class="max-w-contentwidth w-full mx-auto">
-					<user-banner></user-banner>
-					<div class="">
-						<rvt-user-games></rvt-user-games>
-					</div>
+		return html`
+			<div class="max-w-contentwidth w-full mx-auto">
+				<user-banner></user-banner>
+				<div>
+					<rvt-user-games></rvt-user-games>
 				</div>
-			`;
-		}
-
-		return html`<rvt-user-consent class="self-center" @login="${this.onLoginButtonClick}" />`;
+			</div>
+		`;
 	}
 }

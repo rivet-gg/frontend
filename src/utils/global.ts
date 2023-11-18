@@ -252,7 +252,7 @@ export class GlobalState {
 		this.api.cloud
 			.bootstrap()
 			.then(res => {
-				logging.event('Bootstrapp success');
+				logging.event('Bootstrap success');
 
 				this.bootstrapFailed = false;
 				this.bootstrapData = res;

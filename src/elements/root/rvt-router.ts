@@ -485,7 +485,7 @@ export default class RvtRouter extends LitElement {
 		this.navigate(this.fullPath, {});
 	}
 
-	resolveRoute(pathname: string, search: URLSearchParams): RenderResult {
+	resolveRoute(pathname: string, searchParams: URLSearchParams): RenderResult {
 		// Attempt to match the path; default to 404 if not found
 		for (let route of routesArray) {
 			// Attempt to match the route
@@ -499,8 +499,15 @@ export default class RvtRouter extends LitElement {
 				params[key.name] = result[i] != undefined ? decodeURIComponent(result[i]) : undefined;
 			}
 
+			let search = Object.fromEntries(searchParams.entries());
+			// return early if one of the middlewares returns a result
+			for (let middleware of route.middlewaresCreator()) {
+				let result = middleware(params, search);
+				if (result) return result;
+			}
+
 			// Return the result
-			return route.render(params, Object.fromEntries(search.entries()));
+			return route.render(params, search);
 		}
 
 		// Return 404
