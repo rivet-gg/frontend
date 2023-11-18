@@ -17,8 +17,8 @@ export const button = tv({
 	],
 	variants: {
 		variant: {
-			primary: 'bg-violet-500 text-white border-violet-400 shadow-violet-600',
-			secondary: 'bg-zinc-700 text-white border-zinc-500 shadow-zinc-700'
+			primary: 'bg-violet-500 text-white border-violet-400',
+			secondary: 'bg-zinc-700 text-white border-zinc-600'
 		},
 		size: {
 			sm: 'px-2 py-1 text-xs rounded-md',
@@ -68,6 +68,11 @@ export const button = tv({
 			className: ['disabled:border-violet-400', 'before:bg-violet-600']
 		},
 		{
+			variant: 'secondary',
+			elevation: 'md',
+			className: ['disabled:border-zinc-500', 'before:bg-zinc-900']
+		},
+		{
 			variant: 'primary',
 			elevation: 'none',
 			class: [
@@ -81,6 +86,23 @@ export const button = tv({
 				'disabled:scale-100',
 				// loading
 				'aria-busy:bg-violet-500',
+				'aria-busy:scale-100'
+			]
+		},
+		{
+			variant: 'secondary',
+			elevation: 'none',
+			class: [
+				// hover
+				'hover:bg-zinc-600',
+				// active
+				'active:bg-zinc-700',
+				'active:scale-95',
+				// disabled
+				'disabled:bg-zinc-600',
+				'disabled:scale-100',
+				// loading
+				'aria-busy:bg-zinc-600',
 				'aria-busy:scale-100'
 			]
 		}
