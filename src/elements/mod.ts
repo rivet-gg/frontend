@@ -1,4 +1,4 @@
-import './common/copy-area';
+import './common/rvt-copy-area';
 import './common/date-display';
 import './common/embedded-svg';
 import './common/file-upload-list';
@@ -13,6 +13,7 @@ import './common/rvt-nav';
 import './common/overlay-positioning';
 import './common/stylized-button';
 import './common/toggle-switch';
+import './common/rvt-protocol-dropdown';
 import './context-menu/context-action';
 import './context-menu/context-menu';
 import './dev/builds';
