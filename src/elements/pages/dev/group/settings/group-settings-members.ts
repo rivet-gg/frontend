@@ -11,12 +11,7 @@ import logging from '../../../../../utils/logging';
 import { globalEventGroups } from '../../../../../utils/global-events';
 import timing from '../../../../../utils/timing';
 import { repeat } from 'lit/directives/repeat.js';
-import {
-	showAlert,
-	showBannedIdentityContextMenu,
-	showJoinRequestContextMenu,
-	tooltip
-} from '../../../../../ui/helpers';
+import { showAlert, showBannedIdentityContextMenu, tooltip } from '../../../../../ui/helpers';
 import { DropDownSelectEvent, DropDownSelection } from '../../../../dev/drop-down-list';
 import utils from '../../../../../utils/utils';
 import { InputUpdateEvent } from '../../../../dev/text-input';
@@ -468,25 +463,7 @@ export default class GroupSettingsMembers extends LitElement {
 	renderActions(isOwner: boolean): TemplateResult {
 		let actions = [];
 
-		if (!this.group.isCurrentIdentityMember) {
-			if (this.group.publicity === api.portal.GroupPublicity.OPEN) {
-				if (this.group.isCurrentIdentityRequestingJoin) {
-					actions.push(html`
-						<stylized-button id="apply-button" disabled>Application pending</stylized-button>
-					`);
-				} else {
-					actions.push(
-						html`<stylized-button id="apply-button" .trigger=${this.applyForGroup.bind(this)}
-							>Apply</stylized-button
-						>`
-					);
-				}
-			} else {
-				actions.push(
-					html`<stylized-button id="apply-button" disabled>Applications closed</stylized-button>`
-				);
-			}
-		} else {
+		if (this.group.isCurrentIdentityMember) {
 			actions.push(
 				html`<stylized-button .trigger=${this.openCreateInviteModal.bind(this)}
 					>Create invite</stylized-button
@@ -504,57 +481,6 @@ export default class GroupSettingsMembers extends LitElement {
 		return html`
 			<div class="flex flex-col space-y-2 md:border-l-2 border-context-menu px-2 pl-8 ml-2">
 				${actions.map(action => html` <div class="action mx-auto w-full">${action}</div> `)}
-			</div>
-		`;
-	}
-
-	renderJoinRequests(isOwner: boolean): TemplateResult {
-		if (!isOwner) return null;
-
-		return html`
-			<div>
-				<h1 class="text-2xl pb-2 pt-4 mt-4 border-t-2 border-context-menu">Join Requests</h1>
-
-				<div id="join-requests w-80">
-					${this.joinRequests.length
-						? repeat(
-								this.group ? this.joinRequests : [],
-								jr => jr.identity.identityId,
-								jr =>
-									html`<identity-tile
-										.identity=${jr.identity}
-										no-context-menu
-										@contextmenu=${showJoinRequestContextMenu({
-											identity: jr.identity,
-											groupId: this.group.groupId
-										})}
-									>
-										<div slot="right" class="pr-1 space-x-2">
-											<e-svg
-												class="ban w-5 h-5"
-												src="solid/xmark"
-												@mouseenter=${tooltip('Deny')}
-												@click=${this.resolveJoinRequest.bind(
-													this,
-													jr.identity.identityId,
-													false
-												)}
-											></e-svg>
-											<e-svg
-												class="accept w-5 h-5"
-												src="solid/check"
-												@mouseenter=${tooltip('Accept')}
-												@click=${this.resolveJoinRequest.bind(
-													this,
-													jr.identity.identityId,
-													true
-												)}
-											></e-svg>
-										</div>
-									</identity-tile>`
-						  )
-						: html`<p class="text-md text-muted-text">No join requests.</p>`}
-				</div>
 			</div>
 		`;
 	}
@@ -751,7 +677,6 @@ export default class GroupSettingsMembers extends LitElement {
 											`;
 										})}
 									</ol>
-									${this.renderJoinRequests(isOwner)} ${this.renderBans(isOwner)}
 								</div>
 						  `
 						: html` <h3>Loading...</h3> `}
