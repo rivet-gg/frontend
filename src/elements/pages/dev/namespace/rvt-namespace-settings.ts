@@ -734,50 +734,7 @@ export default class RvtNamespaceSettings extends LitElement {
 
 		return html`
 			<div id="base" class="flex flex-col px-16 pt-6 text-slate-300 flex-wrap overflow-x-scroll">
-				<rvt-namespace-header
-					.game=${this.game}
-					.namespace=${this.namespace}
-					.version=${this.version}
-					class="mb-6"
-				></rvt-namespace-header>
-				<h1>Version</h1>
-				<a
-					id="version"
-					href=${routes.devVersion.build({
-						gameId: this.game.gameId,
-						versionId: this.namespace.versionId,
-						namespaceId: this.namespace.namespaceId
-					})}
-				>
-					<h3>${currentVersionName}</h3>
-					<e-svg src="solid/arrow-right"></e-svg>
-				</a>
-				${this.renderVersionHistory()}
-				<div id="version-select">
-					<h2>Deploy version</h2>
-					<drop-down-list
-						.selection=${version}
-						.options=${versionOptions}
-						.orientation=${Orientation.TopRight}
-						@select=${async (event: DropDownSelectEvent<string>) => {
-							await this.updateVersion(event.selection.value);
-						}}
-					></drop-down-list>
-				</div>
-
-				<h1>Overview</h1>
-
 				${this.renderMatchmakerSettings()} ${this.renderCdnSettings(visitHost)}
-
-				<h1>Tokens</h1>
-				<div id="tokens">
-					<stylized-button .trigger=${this.createPublicToken.bind(this)}
-						>Create Public Token</stylized-button
-					>
-					<stylized-button .trigger=${this.openDevTokenModal.bind(this)}
-						>Create Development Token</stylized-button
-					>
-				</div>
 			</div>
 
 			${this.renderCreateCustomHostnameModal()} ${this.renderCreateDevTokenModal()}
