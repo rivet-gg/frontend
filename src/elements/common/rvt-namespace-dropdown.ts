@@ -1,13 +1,13 @@
 import { html, LitElement, TemplateResult } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { cssify } from '../../utils/css';
-import styles from './namespace-dropdown.scss';
+import styles from './rvt-namespace-dropdown.scss';
 import { Rivet } from '@rivet-gg/api-internal';
-import routes from '../../routes';
 import clsx from 'clsx';
+import RvtRouter from '../root/rvt-router';
 
-@customElement('namespace-dropdown')
-export default class RichEmbed extends LitElement {
+@customElement('rvt-namespace-dropdown')
+export default class RvtNamespaceDropdown extends LitElement {
 	static styles = cssify(styles);
 
 	@property({ type: Object })
@@ -27,8 +27,8 @@ export default class RichEmbed extends LitElement {
 	renderNamespaceListEntry(namespace: Rivet.cloud.NamespaceSummary, isCurrent: boolean): TemplateResult {
 		return html`
 			<a
-				class="pt-3 last:pb-3 transition-all first:border-t-[1px] border-zinc-800 first:aria-expanded:border-zinc-600/80 group text-sm text-gray-200 hover:text-white flex flex-row place-content-around"
-				href=${routes.devNamespace.build({
+				class="pt-3 last:pb-3 transition-all first:border-t border-zinc-800 first:aria-expanded:border-zinc-600/80 group text-sm text-gray-200 hover:text-white flex flex-row place-content-around"
+				href=${RvtRouter.shared.currentPage.route.build({
 					gameId: this.game.gameId,
 					namespaceId: namespace.namespaceId
 				})}
@@ -37,9 +37,7 @@ export default class RichEmbed extends LitElement {
 				<div class=${clsx(isCurrent ? 'font-bold text-white' : '', 'mr-auto')}>
 					${namespace.displayName}
 				</div>
-				<!-- ${isCurrent
-					? html` <e-svg src="regular/check" class="mb-[2px] h-full" preserve></e-svg> `
-					: html``} -->
+				${isCurrent ? html` <e-svg src="regular/check" class="mb-1 h-full" preserve></e-svg>` : null}
 			</a>
 		`;
 	}
