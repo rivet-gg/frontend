@@ -199,10 +199,10 @@ export default class RvtNav extends LitElement {
 										},
 										{
 											name: namespaceTitle,
-											component: html`<namespace-dropdown
+											component: html`<rvt-namespace-dropdown
 												.game=${gameData}
 												.currentNamespace=${currentNamespace}
-											></namespace-dropdown>`
+											></rvt-namespace-dropdown>`
 										}
 									];
 

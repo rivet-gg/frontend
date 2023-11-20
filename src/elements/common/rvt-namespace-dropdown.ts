@@ -37,7 +37,6 @@ export default class RvtNamespaceDropdown extends LitElement {
 				<div class=${clsx(isCurrent ? 'font-bold text-white' : '', 'mr-auto')}>
 					${namespace.displayName}
 				</div>
-				${isCurrent ? html` <e-svg src="regular/check" class="mb-1 h-full" preserve></e-svg>` : null}
 			</a>
 		`;
 	}
