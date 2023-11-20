@@ -206,11 +206,11 @@ namespace routes {
 
 	// Reuse the same template in order to preserve the same `page-dev-game` instance.
 	function renderPageDevGame(gameId: string, namespaceId: string, config: DevGameRootConfig) {
-		return html`<page-dev-game
+		return html`<rvt-game-dashboard
 			.gameId="${gameId}"
 			.namespaceId="${namespaceId}"
 			.config="${config}"
-		></page-dev-game>`;
+		></rvt-game-dashboard>`;
 	}
 
 	export let devGame = new Route<{ gameId: string }>({
@@ -329,7 +329,8 @@ namespace routes {
 				title: 'Game Version Settings',
 				breadcrumb: { type: 'Namespace', gameId, namespaceId, title: 'Settings' },
 				template: renderPageDevGame(gameId, namespaceId, {
-					versionSettings: true
+					versionSettings: true,
+					namespaceId
 				})
 			};
 		}

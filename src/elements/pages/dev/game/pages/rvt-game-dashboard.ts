@@ -100,15 +100,9 @@ export default class DevGame extends LitElement {
 
 		let pageId = null; // Used for sidebar with pages that don't have a specific ID
 
-		// Namespace options for certain pages
-		let namespaceOptions = this.game.namespaces.map(n => ({
-			label: n.displayName,
-			value: n.namespaceId
-		}));
-
 		let namespaceName = this.game.namespaces.find(
-			n => n.namespaceId == this.config.namespace.namespaceId
-		).displayName;
+			n => n.namespaceId == this.config.namespace?.namespaceId || this.config.namespaceId
+		)?.displayName;
 
 		if (this.config.summary) {
 			body = html`<rvt-namespace-summary
