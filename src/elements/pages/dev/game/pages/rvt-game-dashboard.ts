@@ -14,12 +14,15 @@ export interface DevGameRootConfig {
 	summary?: true;
 	billing?: true;
 	versionSummary?: true;
+	versionSettings?: true;
 	version?: {
 		versionId: string;
 	};
+	versions?: true;
 	namespace?: {
 		namespaceId: string;
 	};
+	settings?: true;
 	versionDraft?: true;
 	tokens?: true;
 	sites?: true;
@@ -31,15 +34,9 @@ export interface DevGameRootConfig {
 	kv?: true;
 }
 
-@customElement('page-dev-game')
+@customElement('rvt-game-dashboard')
 export default class DevGame extends LitElement {
 	static styles = cssify(styles);
-
-	// @query('#ns-display-name-input')
-	// namespaceDisplayName: HTMLInputElement;
-
-	// @query('#ns-name-id-input')
-	// namespaceNameId: HTMLInputElement;
 
 	@property({ type: String })
 	gameId: string;
@@ -49,9 +46,6 @@ export default class DevGame extends LitElement {
 
 	@property({ type: Object })
 	config: DevGameRootConfig = { summary: true };
-
-	// @property({ type: Object })
-	// namespaceSelection: DropDownSelection<string> = null;
 
 	@property({ type: Object })
 	game: cloud.GameFull = null;
@@ -106,17 +100,15 @@ export default class DevGame extends LitElement {
 
 		let pageId = null; // Used for sidebar with pages that don't have a specific ID
 
-		// Namespace options for certain pages
-		let namespaceOptions = this.game.namespaces.map(n => ({
-			label: n.displayName,
-			value: n.namespaceId
-		}));
+		let namespaceName = this.game.namespaces.find(
+			n => n.namespaceId == this.config.namespace?.namespaceId || this.config.namespaceId
+		)?.displayName;
 
 		if (this.config.summary) {
-			body = html`<page-dev-namespace-summary
+			body = html`<rvt-namespace-summary
 				.game=${this.game}
 				.namespaceId=${this.namespaceId}
-			></page-dev-namespace-summary>`;
+			></rvt-namespace-summary>`;
 
 			RvtRouter.shared.updateTitle(this.game.displayName);
 
@@ -133,10 +125,11 @@ export default class DevGame extends LitElement {
 				.namespaceId=${this.config.namespace.namespaceId}
 			></page-dev-game-namespace>`;
 
-			let namespaceName = this.game.namespaces.find(
-				n => n.namespaceId == this.config.namespace.namespaceId
-			).displayName;
-
+			RvtRouter.shared.updateTitle(`${this.game.displayName} – ${namespaceName}`);
+		} else if (this.config.versionSettings) {
+			body = html`<rvt-namespace-settings .game=${this.game} .namespaceId=${this.namespaceId}>
+			</rvt-namespace-settings>`;
+			pageId = 'namespaceSettings';
 			RvtRouter.shared.updateTitle(`${this.game.displayName} – ${namespaceName}`);
 		} else if (this.config.versionSummary) {
 			body = html`<page-dev-namespace-version
@@ -203,13 +196,13 @@ export default class DevGame extends LitElement {
 
 	renderSidebar(pageId: string) {
 		return html`<div id="tabs" slot="sidebar">
-			<dev-game-sidebar
+			<rvt-game-dashboard-sidebar
 				.game=${this.game}
 				.gameId=${this.gameId}
 				.namespaceId=${this.namespaceId}
 				.versionId=${this.config.version ? this.config.version.versionId : null}
 				.pageId=${pageId}
-			></dev-game-sidebar>
+			></rvt-game-dashboard-sidebar>
 		</div>`;
 	}
 

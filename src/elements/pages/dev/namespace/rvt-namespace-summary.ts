@@ -1,21 +1,17 @@
-import { LitElement, PropertyValues, TemplateResult, html } from 'lit';
+import { LitElement, PropertyValues, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { cssify } from '../../../../utils/css';
-import styles from './namespace-summary.scss';
+import styles from './rvt-namespace-summary.scss';
 import * as cloud from '@rivet-gg/cloud';
 import { globalEventGroups } from '../../../../utils/global-events';
 import logging from '../../../../utils/logging';
 import global from '../../../../utils/global';
 import { when } from 'lit/directives/when.js';
-import utils from '../../../../utils/utils';
 import routes from '../../../../routes';
 import { showAlert } from '../../../../ui/helpers';
 
-const tailwindConfig = require('../../../../../tailwind.config.js');
-const tailwind_palette = tailwindConfig.theme.extend.colors;
-
-@customElement('page-dev-namespace-summary')
-export default class DevNamespaceSummary extends LitElement {
+@customElement('rvt-namespace-summary')
+export default class RvtNameSpaceSummary extends LitElement {
 	static styles = cssify(styles);
 
 	@property({ type: Object })
@@ -149,40 +145,6 @@ export default class DevNamespaceSummary extends LitElement {
 		);
 	}
 
-	renderVisitButton(): TemplateResult {
-		let visitHost: string;
-		let visitUrl: string;
-		if (this.namespace.nameId == 'prod') {
-			visitHost = `${this.game.nameId}.rivet.game`;
-			visitUrl = `https://${visitHost}/`;
-		} else {
-			visitHost = `${this.game.nameId}--${this.namespace.nameId}.rivet.game`;
-			visitUrl = `https://${visitHost}/`;
-		}
-
-		// when(
-		// 	this.version.config.cdn,
-		// 	() =>
-		// 		html`<stylized-button
-		// 			id="visit-button"
-		// 			right-icon="solid/arrow-right"
-		// 			.href=${visitUrl}
-		// 			>Visit</stylized-button
-		// 		>`
-		// )
-
-		// TODO -> left align button
-		return html`<stylized-button
-			color=${tailwind_palette['raised-bg']}
-			border-color=${tailwind_palette['raised-bg-border-color']}
-			border-width=".75px"
-			id="visit-button"
-			.href=${visitUrl}
-		>
-			Visit
-		</stylized-button>`;
-	}
-
 	renderModules() {
 		return html`
 			<div class="pt-8">
@@ -206,48 +168,19 @@ export default class DevNamespaceSummary extends LitElement {
 			${when(
 				this.namespace,
 				() => html`
-					<div class="flex flex-col px-16 pt-6 text-slate-300 flex-wrap overflow-x-scroll">
-						<div class="flex flex-row place-content-end">
-							<div>
-								<div class="flex flex-row space-x-3 mr-2">
-									<h3 class="text-3xl text-white">${this.namespace.displayName}</h3>
-									<div
-										class="rounded-lg px-2 py-1 my-auto text-xs text-white/60 bg-raised-bg"
-									>
-										Name ID: ${this.namespace.nameId}
-									</div>
-								</div>
-								<div class="flex flex-col font-normal text-md">
-									<h4 class="text-white/60 pr-4">
-										Version: ${this.getNamespaceVersion(this.namespace).displayName}
-									</h4>
-									<h4 class="text-white/60">
-										${utils.formatDateShort(
-											this.getNamespaceVersion(this.namespace).createTs
-										)}
-									</h4>
-								</div>
-							</div>
-							<div class="flex flex-col space-y-2 ml-auto">
-								${this.renderVisitButton()}
-								<!-- <stylized-button
-									class="w-full"
-									color=${tailwind_palette['raised-bg']}
-									border-color=${tailwind_palette['raised-bg-border-color']}
-									border-width=".75px"
-									.trigger=${this.showDeployVersionSteps.bind(this)}
-								>
-									New Version
-								</stylized-button> -->
-							</div>
-						</div>
-
+					<div class="flex flex-col px-16 pt-6 flex-wrap overflow-x-scroll">
+						<rvt-namespace-header
+							.game=${this.game}
+							.namespace=${this.namespace}
+							.version=${this.version}
+						></rvt-namespace-header>
 						<div class="pt-6">
 							<stylized-button
 								class="mt-auto"
-								color=${tailwind_palette['raised-bg']}
-								border-color=${tailwind_palette['raised-bg-border-color']}
+								color="var(--rvt-color-raised-bg)"
+								border-color="var(--rvt-color-raised-bg-border-color)"
 								border-width=".75px"
+								icon="solid/code-compare"
 								href=${routes.devVersionSummary.build({
 									gameId: this.game.gameId,
 									namespaceId: this.namespaceId

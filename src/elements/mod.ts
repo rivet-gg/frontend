@@ -20,7 +20,7 @@ import './dev/cdn-sites';
 import './dev/check-box';
 import './dev/dashed-button';
 import './dev/dev-game-logs-sidebar';
-import './dev/dev-game-sidebar';
+import './dev/rvt-game-dashboard-sidebar';
 import './dev/dev-game-tile';
 import './dev/drop-down-list';
 import './dev/error-list';

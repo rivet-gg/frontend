@@ -2,16 +2,13 @@ import { html, TemplateResult } from 'lit';
 import * as pathToRegexp from 'path-to-regexp';
 import global from './utils/global';
 import utils from './utils/utils';
-import { DevGameRootConfig } from './elements/pages/dev/game/pages/game';
 import RvtRoot from './elements/root/rvt-root';
 import { RivetError } from '@rivet-gg/api-internal';
 import { isDeveloper } from './utils/identity';
 import { Breadcrumb } from './elements/common/rvt-nav';
 import { GameSettingsRootConfig } from './elements/pages/dev/game/settings/game-settings';
 import { GroupSettingsRootConfig } from './elements/pages/dev/group/settings/group-settings';
-
-const tailwindConfig = require('../tailwind.config.js');
-const tailwind_palette = tailwindConfig.theme.extend.colors;
+import { DevGameRootConfig } from './elements/pages/dev/game/pages/rvt-game-dashboard';
 
 export type RenderResult = RenderResultTemplate | RenderResultRedirect;
 
@@ -63,6 +60,7 @@ class Route<P extends RouteParameters, S extends SearchParameters = {}> {
 	}
 }
 
+// eslint-disable-next-line @typescript-eslint/no-namespace
 namespace routes {
 	export let home = new Route<{}>({
 		path: '/',
@@ -208,11 +206,11 @@ namespace routes {
 
 	// Reuse the same template in order to preserve the same `page-dev-game` instance.
 	function renderPageDevGame(gameId: string, namespaceId: string, config: DevGameRootConfig) {
-		return html`<page-dev-game
+		return html`<rvt-game-dashboard
 			.gameId="${gameId}"
 			.namespaceId="${namespaceId}"
 			.config="${config}"
-		></page-dev-game>`;
+		></rvt-game-dashboard>`;
 	}
 
 	export let devGame = new Route<{ gameId: string }>({
@@ -315,6 +313,24 @@ namespace routes {
 				template: renderPageDevGame(gameId, namespaceId, {
 					namespace: { namespaceId },
 					version: { versionId }
+				})
+			};
+		}
+	});
+
+	export let devVersionSettings = new Route<{ gameId: string; namespaceId: string }>({
+		path: '/games/:gameId/namespaces/:namespaceId/settings',
+		render({ gameId, namespaceId }) {
+			if (!global.currentIdentity.isRegistered) return responses.registerRequired();
+
+			if (!utils.validateUuid(gameId) || !utils.validateUuid(namespaceId)) return responses.notFound();
+
+			return {
+				title: 'Game Version Settings',
+				breadcrumb: { type: 'Namespace', gameId, namespaceId, title: 'Settings' },
+				template: renderPageDevGame(gameId, namespaceId, {
+					versionSettings: true,
+					namespaceId
 				})
 			};
 		}
@@ -444,6 +460,7 @@ namespace routes {
 	});
 }
 
+// eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace responses {
 	export function forbidden(): RenderResult {
 		return {
@@ -479,8 +496,8 @@ export namespace responses {
 					<stylized-button
 						class="mx-auto"
 						right-icon="solid/arrow-right"
-						color=${tailwind_palette['raised-bg']}
-						border-color=${tailwind_palette['raised-bg-border-color']}
+						color="var(--rvt-color-raised-bg)"
+						border-color="var(--rvt-color-raised-bg-border-color)"
 						border-width=".75px"
 						href=${routes.home.build({})}
 						>Go Home</stylized-button
