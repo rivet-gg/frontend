@@ -12,7 +12,7 @@ import FileUploader, {
 	PrepareResponse
 } from '../../../../common/file-uploader';
 import logging from '../../../../../utils/logging';
-import { DropDownSelectEvent, DropDownSelection } from '../../../../dev/drop-down-list';
+import { DropDownSelectEvent } from '../../../../dev/drop-down-list';
 import { TraversableErrors, VALIDATION_ERRORS } from '../../../../../utils/traversable-errors';
 import TextInput, { InputUpdateEvent } from '../../../../dev/text-input';
 import { ColorExtractor } from '../../../../../utils/colors';
@@ -26,16 +26,6 @@ import utils from '../../../../../utils/utils';
 
 const MAX_GROUPNAME_LENGTH = 24;
 const MAX_BIO_LENGTH = 200;
-const PUBLICITY_OPTIONS: DropDownSelection<api.group.GroupPublicity>[] = [
-	{
-		label: 'Open',
-		value: api.group.GroupPublicity.OPEN
-	},
-	{
-		label: 'Closed',
-		value: api.group.GroupPublicity.CLOSED
-	}
-];
 
 @customElement('page-group-settings-general')
 export default class GroupSettingsGeneral extends LitElement {
@@ -53,8 +43,6 @@ export default class GroupSettingsGeneral extends LitElement {
 	bioValue = '';
 	@property({ type: String })
 	avatarUrlValue: string = null;
-	@property({ type: Number })
-	publicityValue: api.group.GroupPublicity = null;
 
 	// Used in preview display
 	validDisplayNameValue: string = null;
@@ -103,14 +91,14 @@ export default class GroupSettingsGeneral extends LitElement {
 				let displayName =
 					this.displayNameValue == this.group.displayName ? null : this.displayNameValue;
 				let bio = this.bioValue == this.group.bio ? null : this.bioValue;
-				let publicity = this.publicityValue == this.group.publicity ? null : this.publicityValue;
 
 				this.hasChanges = true;
 
 				// Don't send validation request if no new values are given
 				if (this.noChanges(displayName, bio)) {
-					this.groupIsValid = publicity != null;
-					this.hasChanges = publicity != null;
+					// FIXME
+					this.groupIsValid = true;
+					this.hasChanges = true;
 					this.validationErrors.load([]);
 
 					this.validDisplayNameValue = this.group.displayName;
@@ -122,8 +110,7 @@ export default class GroupSettingsGeneral extends LitElement {
 
 				return await global.live.group.validateGroupProfile({
 					displayName,
-					bio,
-					publicity
+					bio
 				});
 			},
 			completeCb: res => {
@@ -181,12 +168,6 @@ export default class GroupSettingsGeneral extends LitElement {
 		this.validateProfileDebounce.trigger();
 	}
 
-	selectPublicity(event: DropDownSelectEvent<api.group.GroupPublicity>) {
-		this.publicityValue = event.selection.value;
-
-		this.validateProfileDebounce.trigger();
-	}
-
 	render() {
 		if (this.loadError) return responses.renderError(this.loadError);
 
@@ -196,8 +177,6 @@ export default class GroupSettingsGeneral extends LitElement {
 		let uploadOverlayStyles = classMap({
 			active: this.isUploading
 		});
-
-		let publicity = this.group ? PUBLICITY_OPTIONS.find(a => a.value == this.publicityValue) : null;
 
 		let bgUrl = assets.asset('/profile-bg/02. Egg Sour.png');
 		let bgStyles = styleMap({
@@ -308,17 +287,6 @@ export default class GroupSettingsGeneral extends LitElement {
 				</span>`
 						: null
 				}
-
-				<div id="publicity-area" class="py-4">
-					<h2 class="text-lg pb-2">Update Publicity</h2>
-					<div class="w-min">
-						<drop-down-list
-							.selection=${publicity}
-							.options=${PUBLICITY_OPTIONS}
-							@select=${this.selectPublicity.bind(this)}
-						></drop-down-list>
-					</div>
-				</div>
 			</div>
 		`;
 	}
@@ -394,7 +362,6 @@ export default class GroupSettingsGeneral extends LitElement {
 					groupId: this.group.groupId,
 					displayName:
 						this.displayNameValue == this.group.displayName ? null : this.displayNameValue,
-					publicity: this.publicityValue == this.group.publicity ? null : this.publicityValue,
 					bio: this.bioValue == this.group.bio ? null : this.bioValue
 				});
 			}
@@ -419,7 +386,6 @@ export default class GroupSettingsGeneral extends LitElement {
 
 	reset() {
 		this.displayNameValue = this.group.displayName;
-		this.publicityValue = this.group.publicity as api.group.GroupPublicity;
 		this.bioValue = this.group.bio;
 		this.avatarUrlValue = this.group.avatarUrl;
 
