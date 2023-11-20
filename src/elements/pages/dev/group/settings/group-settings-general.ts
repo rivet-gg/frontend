@@ -4,7 +4,6 @@ import { cssify } from '../../../../../utils/css';
 import group from '@rivet-gg/group';
 import global from '../../../../../utils/global';
 import { responses } from '../../../../../routes';
-import * as api from '../../../../../utils/api';
 import fileSize from '../../../../../utils/files';
 import FileUploader, {
 	FileInput,
@@ -12,7 +11,6 @@ import FileUploader, {
 	PrepareResponse
 } from '../../../../common/file-uploader';
 import logging from '../../../../../utils/logging';
-import { DropDownSelectEvent } from '../../../../dev/drop-down-list';
 import { TraversableErrors, VALIDATION_ERRORS } from '../../../../../utils/traversable-errors';
 import TextInput, { InputUpdateEvent } from '../../../../dev/text-input';
 import { ColorExtractor } from '../../../../../utils/colors';
