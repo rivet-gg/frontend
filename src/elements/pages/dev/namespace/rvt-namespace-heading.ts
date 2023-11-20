@@ -20,13 +20,13 @@ export default class RvtNamespaceHeading extends LitElement {
 
 	render() {
 		return html`
-			<div class="flex flex-row space-x-3 mr-2">
+			<div class="flex flex-row mb-2 gap-3">
 				<h3 class="text-3xl text-white">${this.namespace.displayName}</h3>
 				<div class="rounded-lg px-2 py-1 my-auto text-xs text-white/60 bg-raised-bg">
 					Name ID: ${this.namespace.nameId}
 				</div>
 			</div>
-			<div class="flex flex-col font-normal text-md">
+			<div class="flex flex-col font-normal gap-1 text-md">
 				<h4 class="text-white/60 pr-4">
 					Version: ${this.getNamespaceVersion(this.namespace).displayName}
 				</h4>
