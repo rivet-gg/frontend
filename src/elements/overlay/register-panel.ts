@@ -293,6 +293,7 @@ export default class RegisterPanel extends LitElement {
 						<div id="input-area">
 							<h3>Email</h3>
 							<text-input
+								version="v2"
 								id="email-input"
 								.light=${this.light}
 								?disabled=${isRegistered}

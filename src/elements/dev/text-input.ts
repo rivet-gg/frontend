@@ -24,6 +24,9 @@ export class InputChangeEvent extends Event {
 export default class TextInput extends LitElement {
 	static styles = cssify(styles);
 
+	@property({ type: String })
+	version = 'v1';
+
 	@property({ type: Boolean })
 	area = false;
 
@@ -56,6 +59,9 @@ export default class TextInput extends LitElement {
 
 	@property({ type: Number })
 	maxlength = 32;
+
+	@property({ type: Boolean })
+	readonly = false;
 
 	@property({ type: Number })
 	min: number = I32_MIN;
@@ -211,6 +217,23 @@ export default class TextInput extends LitElement {
 				</div>
 			`;
 		} else {
+			if (this.light) {
+				// TODO: use tailwind variants
+				return html`
+					<input
+						class="w-full ring-1 ring-zinc-400 ring-inset border-none focus:ring-2 focus:border-none focus:ring-inset focus:ring-main-accent hover:ring-2 hover:ring-inset hover:ring-main-accent rounded-md"
+						type=${this.password ? 'password' : 'text'}
+						.placeholder=${this.placeholder}
+						.spellcheck=${this.spellcheck}
+						.value=${this.value || this.init}
+						.maxLength=${this.maxlength}
+						?readonly=${this.readonly}
+						?disabled=${this.isDisabled}
+						@input=${this.onInput.bind(this)}
+						@change=${this.onChange.bind(this)}
+					/>
+				`;
+			}
 			return html`
 				<div id="base" class=${classes}>
 					<input
@@ -219,6 +242,7 @@ export default class TextInput extends LitElement {
 						.spellcheck=${this.spellcheck}
 						.value=${this.value || this.init}
 						.maxLength=${this.maxlength}
+						?readonly=${this.readonly}
 						?disabled=${this.isDisabled}
 						@input=${this.onInput.bind(this)}
 						@change=${this.onChange.bind(this)}
