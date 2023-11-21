@@ -71,4 +71,7 @@ code {
 :host {
 	--rvt-color-raised-bg: theme(colors.raised-bg);
 	--rvt-color-raised-bg-border-color: theme(colors.raised-bg-border-color);
+	// used for a legacy variant systems like in the icon-button
+	--rvt-zinc-400: theme('colors.zinc.400');
+	--rvt-zinc-600: theme('colors.zinc.600');
 }

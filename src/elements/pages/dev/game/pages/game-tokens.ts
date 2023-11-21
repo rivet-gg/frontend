@@ -117,14 +117,12 @@ export default class DevGameTokens extends LitElement {
 
 			showAlert(
 				'Namespace Public Token Creation',
-				html` <span
-						>Copy this token to your clipboard. You will not be able to access this token
-						again.</span
-					>
-					<br />
-					<copy-area light confidential>
-						<code class="no-ligatures thick">${createRes.token}</code>
-					</copy-area>`
+				html`
+					<span>
+						Copy this token to your clipboard. You will not be able to access this token again.
+					</span>
+					<rvt-copy-area confidential value=${createRes.token}></rvt-copy-area>
+				`
 			);
 		} catch (err) {
 			logging.error('Failed to create public token', err);
@@ -149,9 +147,7 @@ export default class DevGameTokens extends LitElement {
 						again.</span
 					>
 					<br />
-					<copy-area light confidential>
-						<code class="no-ligatures thick">${createRes.token}</code>
-					</copy-area>
+					<rvt-copy-area confidential value=${createRes.token}></rvt-copy-area>
 					<br />
 					<stylized-button
 						@click=${this.downloadEnvFile.bind(this, createRes.token)}
