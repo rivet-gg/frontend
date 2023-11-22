@@ -16,8 +16,8 @@ export default class DevGameBanner extends LitElement {
 		return html`
 			<lazy-img
 				class="mx-auto w-28 h-28"
-				bg-size=${game ? (game.logoUrl ? 'contain' : 'cover') : 'cover'}
-				src=${game.logoUrl ?? assets.asset('/games/blank/logo.png')}
+				bg-size="contain"
+				src=${game.logoUrl ?? assets.asset('/games/blank/blankgame.svg')}
 			></lazy-img>
 		`;
 	}

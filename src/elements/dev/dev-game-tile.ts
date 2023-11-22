@@ -10,10 +10,10 @@ import * as api from '../../utils/api';
 
 const GRADIENTS = [
 	// "bg-gradient-to-br from-green-300 to-purple-400",
-	'bg-[conic-gradient(at_top_right,_var(--tw-gradient-stops))] from-teal-200 via-violet-600 to-blue-900',
-	'bg-gradient-to-b from-pink-400 to-pink-600',
-	'bg-gradient-to-br from-purple-500 via-violet-700 to-teal-900',
-	'bg-gradient-to-bl from-pink-500 via-pink-600 to-red-400'
+	'bg-gradient-to-b from-pink-400 via-pink-500 to-pink-600',
+	'bg-gradient-to-br from-pink-400 to-pink-700',
+	'bg-gradient-to-b from-red-500 to-rose-600',
+	'bg-gradient-to-bl from-rose-500 to-pink-600'
 ];
 
 @customElement('dev-game-tile')
@@ -36,8 +36,8 @@ export default class DevGameTile extends LitElement {
 						? html`<lazy-img id="bg" src=${this.game.bannerUrl} bg-size="cover"></lazy-img>`
 						: null}
 					<lazy-img
-						id="icon"
-						src=${this.game.logoUrl ?? assets.asset('/games/blank/logo.png')}
+						class="h-20 w-4/5 pb-5"
+						src=${this.game.logoUrl ?? assets.asset('/games/blank/blankgame.svg')}
 						bg-size="contain"
 					></lazy-img>
 					<h2>

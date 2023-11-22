@@ -21,6 +21,7 @@ import logging from '../../../../utils/logging';
 import { GroupCreateEvent } from '../../../modals/create-group';
 import { globalEventGroups } from '../../../../utils/global-events';
 import { RepeatingRequest } from '../../../../utils/repeating-request';
+import clsx from 'clsx';
 
 const tailwindConfig = require('../../../../../tailwind.config.js');
 const tailwind_palette = tailwindConfig.theme.extend.colors;
@@ -379,12 +380,19 @@ export default class RvtUserGames extends LitElement {
 							html`<div class="games-list grid grid-cols-4 gap-4">
 								<div
 									id="create-game"
-									class="dashed-border-button"
+									class=${clsx(
+										'dashed-border-button cursor-pointer',
+										this.gameModalActive ? '' : 'hover:bg-button-bg-hover-color'
+									)}
 									@click=${this.openGameModal.bind(this, group.groupId)}
 								>
-									<div id="create-game-content">
-										<lazy-img src=${assets.asset('/games/blank/logo.png')}></lazy-img>
-										Create a new game
+									<div class="relative flex flex-col place-content-center m-auto">
+										<lazy-img
+											class="h-24 w-4/5 m-auto mb-6"
+											src=${assets.asset('/games/blank/newgame.svg')}
+											bg-size="contain"
+										></lazy-img>
+										<h4 class="font-semibold text-lg text-center">Create a game</h4>
 									</div>
 								</div>
 								${repeat(

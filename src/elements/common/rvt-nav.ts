@@ -327,8 +327,8 @@ export default class RvtNav extends LitElement {
 		return html`
 			<lazy-img
 				class="w-6 h-6"
-				bg-size=${game.logoUrl ? 'contain' : 'cover'}
-				src=${game.logoUrl ?? assets.asset('/games/blank/logo.png')}
+				bg-size="contain"
+				src=${game.logoUrl ?? assets.asset('/games/blank/blankgame.svg')}
 			></lazy-img>
 		`;
 	}
