@@ -2,7 +2,7 @@ import logging from './logging';
 import config from '../config';
 import { AuthManager } from './auth';
 import settings, { SettingChange } from './settings';
-import timing from './timing';
+import timing, { wait } from './timing';
 import { globalEventGroups, windowEventGroups } from './global-events';
 import * as api from './api';
 import * as cloud from '@rivet-gg/cloud';
@@ -242,7 +242,7 @@ export class GlobalState {
 	}
 
 	/// Fetches configuration information from the servers & creates the intiital auth token.
-	bootstrap(noCache = false) {
+	async bootstrap(noCache = false) {
 		// Reset bootstrap state
 		this.bootstrapFailed = false;
 		this.bootstrapData = undefined;
@@ -254,16 +254,27 @@ export class GlobalState {
 			.then(res => {
 				logging.event('Bootstrap success');
 
+		let retry = 1;
+
+		while (retry <= 3) {
+			try {
+				let response = await this.api.cloud.bootstrap();
+				logging.event('Bootstrapp success');
 				this.bootstrapFailed = false;
-				this.bootstrapData = res;
+				this.bootstrapData = response;
 				this.updateStatus();
 				this.setupLive(noCache);
-			})
-			.catch(err => {
-				logging.error('Error bootstrapping', err);
-				this.bootstrapFailed = true;
-				this.bootstrapData = undefined;
-			});
+				return;
+			} catch (err) {
+				logging.error(`Bootstrapping failed ${retry} `, err);
+				await wait(timing.milliseconds(750 * retry));
+				retry++;
+			}
+		}
+		logging.error('Bootstrapping failed after retries');
+		this.bootstrapFailed = true;
+		this.bootstrapData = undefined;
+		this.updateStatus();
 	}
 
 	async setupLive(noCache = false) {

@@ -26,7 +26,7 @@ export const MIN_SWIPE_THRESHOLD = 10;
 const TRANSITION_LENGTH = timing.milliseconds(200); // Match with consts.scss/$transition-length
 
 export interface AlertPanelData {
-	title: string;
+	title: string | TemplateResult;
 	details: TemplateResult;
 	options: AlertOption[];
 	noDimClose?: boolean; // Disable closing the alert panel by clicking outside of the modal
@@ -534,8 +534,8 @@ export default class RvtRoot extends LitElement {
 		`;
 	}
 
-	renderBasicOverlays() {
-		return html`<!-- Alert overlay -->
+	renderAlertPanel() {
+		return html`
 			<drop-down-modal
 				.active="${this.alertPanelData.active}"
 				.no-dim-close="${this.alertPanelData && this.alertPanelData.noDimClose}"
@@ -548,7 +548,12 @@ export default class RvtRoot extends LitElement {
 					></alert-panel>
 				</modal-body>
 			</drop-down-modal>
+		`;
+	}
 
+	renderBasicOverlays() {
+		return html`<!-- Alert overlay -->
+			${this.renderAlertPanel()}
 			<overlay-positioning
 				.active="${this.actionSheetData.active}"
 				.contextElement="${this.actionSheetData.contextElement}"
