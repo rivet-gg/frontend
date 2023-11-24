@@ -259,30 +259,33 @@ export default class RvtUserGames extends LitElement {
 
 	renderBody() {
 		return html`
-			${this.data.groups.length
-				? html`<div id="groups-list">
-						${repeat(
-							this.data.groups,
-							g => g.groupId,
-							g => this.renderGroup(g)
-						)}
-				  </div>`
-				: null}
-			${when(
-				global.currentIdentity.isRegistered && global.currentIdentity.isAdmin,
-				() =>
-					html` <div
-						class="dashed-border-button flex justify-center items-center hover:cursor-pointer w-full h-32 place-content-center text-[#d1d1d1]  hover:text-white hover:bg-button-bg-hover-color"
-						@click=${this.openGroupModal.bind(this)}
-						@mouseenter=${() => (this.createGroupHovered = true)}
-						@mouseleave=${() => (this.createGroupHovered = false)}
-					>
-						<div class="font-bold text-lg pb-0.5 pr-2">
-							<e-svg src="solid/plus"></e-svg>
-						</div>
-						<div class="font-bold text-lg text-center">New Developer Group</div>
+			<div class="max-w-contentwidth px-[10px] md:px-5 lg:px-0">
+				${this.data.groups.length
+					? html`<div id="groups-list">
+							${repeat(
+								this.data.groups,
+								g => g.groupId,
+								g => this.renderGroup(g)
+							)}
 					</div>`
-			)}
+					: null}
+				${when(
+					global.currentIdentity.isRegistered && global.currentIdentity.isAdmin,
+					() =>
+						html` <div
+							class="dashed-border-button flex justify-center items-center hover:cursor-pointer w-full h-32 place-content-center text-[#d1d1d1]  hover:text-white hover:bg-button-bg-hover-color"
+							@click=${this.openGroupModal.bind(this)}
+							@mouseenter=${() => (this.createGroupHovered = true)}
+							@mouseleave=${() => (this.createGroupHovered = false)}
+						>
+							<div class="font-bold text-lg pb-0.5 pr-2">
+								<e-svg src="solid/plus"></e-svg>
+							</div>
+							<div class="font-bold text-lg text-center">New Developer Group</div>
+						</div>`
+				)}
+				
+			</div>
 		`;
 	}
 
