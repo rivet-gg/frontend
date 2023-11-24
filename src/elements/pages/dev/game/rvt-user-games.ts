@@ -267,7 +267,7 @@ export default class RvtUserGames extends LitElement {
 								g => g.groupId,
 								g => this.renderGroup(g)
 							)}
-					</div>`
+					  </div>`
 					: null}
 				${when(
 					global.currentIdentity.isRegistered && global.currentIdentity.isAdmin,
@@ -284,7 +284,6 @@ export default class RvtUserGames extends LitElement {
 							<div class="font-bold text-lg text-center">New Developer Group</div>
 						</div>`
 				)}
-				
 			</div>
 		`;
 	}

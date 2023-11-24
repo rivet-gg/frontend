@@ -56,7 +56,7 @@ export default class UserBanner extends LitElement {
 								</div>
 							</div>
 						</div>`
-					)}
+				)}
 				</div>
 			</div> `;
 	}
