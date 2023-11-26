@@ -1,28 +1,19 @@
 import { LitElement, html } from 'lit';
 import { customElement, property, queryAll } from 'lit/decorators.js';
+import { repeat } from 'lit/directives/repeat.js';
 import styles from './game-tokens.scss';
 import * as cloud from '@rivet-gg/cloud';
+import { Rivet } from '@rivet-gg/api-internal';
 import { responses } from '../../../../../routes';
 import { cssify } from '../../../../../utils/css';
 import global from '../../../../../utils/global';
 import { showAlert } from '../../../../../ui/helpers';
 import logging from '../../../../../utils/logging';
 import utils from '../../../../../utils/utils';
-import { DropDownSelectEvent, DropDownSelection } from '../../../../dev/drop-down-list';
+import { DropDownSelectEvent } from '../../../../dev/drop-down-list';
 import { TraversableErrors, VALIDATION_ERRORS } from '../../../../../utils/traversable-errors';
 import timing, { Debounce } from '../../../../../utils/timing';
 import { map } from 'lit/directives/map.js';
-
-const PORT_PROTOCOLS: DropDownSelection<cloud.ProxyProtocol>[] = [
-	{
-		label: 'HTTP',
-		value: cloud.ProxyProtocol.HTTP
-	},
-	{
-		label: 'HTTPS',
-		value: cloud.ProxyProtocol.HTTPS
-	}
-];
 
 interface Token {
 	name: string;
@@ -361,14 +352,10 @@ export default class DevGameTokens extends LitElement {
 														></text-input>
 													</td>
 													<td>
-														<drop-down-list
-															light
-															.selection=${PORT_PROTOCOLS.find(
-																pr => pr.value == (p.proxyProtocol as string)
-															)}
-															.options=${PORT_PROTOCOLS}
+														<rvt-protocol-dropdown
+															.selection=${p.proxyProtocol}
 															@select=${this.updatePortProtocol.bind(this, i)}
-														></drop-down-list>
+														></rvt-protocol-dropdown>
 													</td>
 													<td>
 														<icon-button
