@@ -27,7 +27,7 @@ type RouteRender<P, S> = (params: P, search: S) => RenderResult;
 type RouteParameters = { [key: string]: string };
 type SearchParameters = { [key: string]: string };
 
-class Route<P extends RouteParameters, S extends SearchParameters = {}> {
+export class Route<P extends RouteParameters, S extends SearchParameters = {}> {
 	path: string;
 	render: RouteRender<P, S>;
 

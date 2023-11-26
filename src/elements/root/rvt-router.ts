@@ -6,16 +6,24 @@ import { windowEventGroups } from '../../utils/global-events';
 import logging from '../../utils/logging';
 import { classMap } from 'lit/directives/class-map.js';
 import styles from './rvt-router.scss';
-import routes, {
+import {
 	RenderResult,
 	RenderResultRedirect,
 	RenderResultTemplate,
 	responses,
+	Route,
 	routesArray
 } from '../../routes';
 
 import * as uuid from 'uuid';
 import { Breadcrumb } from '../common/rvt-nav';
+
+interface ResolvedRoute {
+	route: Route<any> | null;
+	renderResult: RenderResult;
+	params: Record<string, string>;
+	searchParams: Record<string, string>;
+}
 
 interface PageState {
 	scrollTop: number;
@@ -36,6 +44,7 @@ interface NavigateOpts {
 // Page object that is stored in the history buffer
 interface RemovablePage {
 	id: string;
+	route: Route<any>;
 	src: string;
 	old: boolean;
 	new: boolean;
@@ -84,6 +93,10 @@ export default class RvtRouter extends LitElement {
 
 	/*=== Navigation State ===*/
 
+	get currentPage(): RemovablePage {
+		return this.history[this.history.length - 1];
+	}
+
 	/// Returns the full URL for the current page.
 	get fullPath(): string {
 		return location.href;
@@ -121,14 +134,8 @@ export default class RvtRouter extends LitElement {
 		super();
 
 		// Set singleton
+		// Use context?
 		RvtRouter.shared = this;
-
-		// Parse the path url
-		let url = routes.home.build({});
-		let parsed = new URL(url);
-
-		// Resolve the route
-		let renderResult = this.resolveRoute(parsed.pathname, parsed.searchParams) as RenderResultTemplate;
 	}
 
 	firstUpdated(changedProperties: PropertyValues) {
@@ -275,7 +282,7 @@ export default class RvtRouter extends LitElement {
 		}
 
 		// Resolve the route
-		let renderResult = this.resolveRoute(parsed.pathname, parsed.searchParams);
+		let { renderResult, route } = this.resolveRoute(parsed.pathname, parsed.searchParams);
 		let newest = this.newestPage;
 		// Handle redirect if needed and don't do anything else; if doesn't match, then cast to a template
 		if ((renderResult as RenderResultRedirect).redirect) {
@@ -320,7 +327,8 @@ export default class RvtRouter extends LitElement {
 			}
 
 			let newPage: RemovablePage = {
-				renderResult: renderResult,
+				route,
+				renderResult,
 				src: url,
 				old: false,
 				new: false,
@@ -485,7 +493,9 @@ export default class RvtRouter extends LitElement {
 		this.navigate(this.fullPath, {});
 	}
 
-	resolveRoute(pathname: string, search: URLSearchParams): RenderResult {
+	resolveRoute(pathname: string, search: URLSearchParams): ResolvedRoute {
+		let searchParams = Object.fromEntries(search.entries());
+
 		// Attempt to match the path; default to 404 if not found
 		for (let route of routesArray) {
 			// Attempt to match the route
@@ -500,11 +510,21 @@ export default class RvtRouter extends LitElement {
 			}
 
 			// Return the result
-			return route.render(params, Object.fromEntries(search.entries()));
+			return {
+				route: route,
+				params,
+				searchParams,
+				renderResult: route.render(params, searchParams)
+			};
 		}
 
 		// Return 404
-		return responses.notFound();
+		return {
+			searchParams,
+			route: null,
+			params: {},
+			renderResult: responses.notFound()
+		};
 	}
 
 	buildPageState(): PageState {
