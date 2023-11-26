@@ -29,6 +29,9 @@ module.exports = {
 			},
 			translate: {
 				'.05': '.05rem'
+			},
+			gridTemplateColumns: {
+				'sidebar-layout': '18rem calc(100vw - 18rem)'
 			}
 		}
 	},
