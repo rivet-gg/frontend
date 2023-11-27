@@ -34,11 +34,27 @@ export default class RvtCopyArea extends LitElement {
 	}
 
 	async toggleHidden() {
-		this.hidden = !this.hidden;
+		if (this.hidden) {
+			return this.show();
+		}
+
+		return this.hide();
+	}
+
+	private async show() {
+		this.hidden = false;
 		await this.updateComplete;
-		if (!this.hidden) {
-			this.input.focus();
-			this.input.select();
+		this.input.focus();
+		this.input.select();
+	}
+
+	private async hide() {
+		this.hidden = true;
+	}
+
+	private handleMouseEnter(e: MouseEvent) {
+		if (this.hidden) {
+			return tooltip('Click to reveal')(e);
 		}
 	}
 
@@ -48,23 +64,19 @@ export default class RvtCopyArea extends LitElement {
 				class="flex flex-row items-center ml-auto my-auto ring-1 ring-zinc-400 ring-inset focus-within:ring-2 focus-within:ring-inset focus-within:ring-main-accent hover:ring-2 hover:ring-inset hover:ring-main-accent rounded-md"
 			>
 				<input
+					@mouseenter=${this.handleMouseEnter.bind(this)}
+					@click=${this.show.bind(this)}
 					type="text"
 					value=${this.hidden ? PLACEHOLDER : this.value}
 					readonly
 					class="flex-1 border-none shadow-none ring-0 bg-transparent focus:ring-0 focus:shadow-none focus:border-none"
 				/>
 				<icon-button
-					src="solid/eye"
-					color="var(--rvt-zinc-400)"
-					highlight-color="var(--rvt-zinc-600)"
-					small
-					.trigger=${this.toggleHidden.bind(this)}
-				></icon-button>
-				<icon-button
 					src="solid/copy"
 					color="var(--rvt-zinc-400)"
 					highlight-color="var(--rvt-zinc-600)"
 					small
+					@mouseenter=${tooltip('Copy')}
 					.trigger=${this.copyText.bind(this)}
 					class="mr-2"
 				></icon-button>
