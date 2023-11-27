@@ -248,17 +248,10 @@ export class GlobalState {
 		this.bootstrapFailed = false;
 		this.bootstrapData = undefined;
 
-		// This will automatically create & test the initial auth token.
-		logging.event('Bootstrapping');
-		this.api.cloud
-			.bootstrap()
-			.then(res => {
-				logging.event('Bootstrap success');
-
 		let retry = 1;
-
 		while (retry <= 3) {
 			try {
+				logging.event('Bootstrapping');
 				let response = await this.api.cloud.bootstrap();
 				logging.event('Bootstrapp success');
 				this.bootstrapFailed = false;

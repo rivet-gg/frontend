@@ -312,7 +312,7 @@ export default class RvtUserGames extends LitElement {
 		</div>`;
 	}
 
-	renderGroup(group: Rivet.group.Summary) {
+	renderGroup(group: Rivet.group.Handle) {
 		return when(
 			group.isDeveloper,
 			() =>
