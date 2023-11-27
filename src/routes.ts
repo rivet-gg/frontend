@@ -10,9 +10,6 @@ import { GroupSettingsRootConfig } from './elements/pages/dev/group/settings/gro
 import globalSettings from './utils/settings';
 import { DevGameRootConfig } from './elements/pages/dev/game/pages/rvt-game-dashboard';
 
-const tailwindConfig = require('../tailwind.config.js');
-const tailwind_palette = tailwindConfig.theme.extend.colors;
-
 export type RenderResult = RenderResultTemplate | RenderResultRedirect;
 
 export interface RenderResultTemplate {
