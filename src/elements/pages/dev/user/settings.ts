@@ -214,16 +214,20 @@ export default class SettingsPage extends LitElement {
 	}
 
 	confirmAccountDeletion() {
-		showAlert('Are you sure?', html`After 30 days this action will be irreversible.`, [
-			{
-				label: 'Yes, delete my account',
-				destructive: true,
-				cb: () => this.settingChanged('toggle-deletion', true)
-			},
-			{
-				label: 'No, keep my account'
-			}
-		]);
+		showAlert(
+			'Schedule account deletion?',
+			html`After 30 days, your account will be permanently deleted.`,
+			[
+				{
+					label: 'Cancel'
+				},
+				{
+					label: 'Schedule Deletion',
+					destructive: true,
+					cb: () => this.settingChanged('toggle-deletion', true)
+				}
+			]
+		);
 	}
 
 	editModalClose() {
