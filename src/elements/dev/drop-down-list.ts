@@ -21,7 +21,7 @@ import RvtRoot from '../root/rvt-root';
 
 export class DropDownSelectEvent<T> extends Event {
 	constructor(public selection: DropDownSelection<T>) {
-		super('select');
+		super('select', { bubbles: true, composed: true });
 	}
 }
 

@@ -6,4 +6,4 @@ import './game-overview';
 import './game-tokens';
 import './game-version-draft';
 
-import './game';
+import './rvt-game-dashboard';

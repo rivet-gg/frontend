@@ -5,7 +5,7 @@ import { classMap } from 'lit/directives/class-map.js';
 import { when } from 'lit/directives/when.js';
 import { choose } from 'lit/directives/choose.js';
 import { cssify } from '../../../../utils/css';
-import styles from './game-namespace.scss';
+import styles from './rvt-namespace-settings.scss';
 import routes, { responses } from '../../../../routes';
 import global from '../../../../utils/global';
 import * as cloud from '@rivet-gg/cloud';
@@ -42,8 +42,8 @@ const LOBBY_COUNT_MAX = 32768 - 1;
 
 const CDN_AUTH_USER_MAX = 32;
 
-@customElement('page-dev-game-namespace')
-export default class DevGameNamespace extends LitElement {
+@customElement('rvt-namespace-settings')
+export default class RvtNamespaceSettings extends LitElement {
 	static styles = cssify(styles);
 
 	@property({ type: Object })
@@ -733,58 +733,8 @@ export default class DevGameNamespace extends LitElement {
 		}
 
 		return html`
-			<div id="base">
-				<div id="subheader">
-					${when(
-						this.version.config.cdn,
-						() =>
-							html`<stylized-button
-								id="visit-button"
-								right-icon="solid/arrow-right"
-								.href=${visitUrl}
-								>Visit</stylized-button
-							>`
-					)}
-					<span>Name ID: <b>${this.namespace.nameId}</b></span>
-				</div>
-				<h1>Version</h1>
-				<a
-					id="version"
-					href=${routes.devVersion.build({
-						gameId: this.game.gameId,
-						versionId: this.namespace.versionId,
-						namespaceId: this.namespace.namespaceId
-					})}
-				>
-					<h3>${currentVersionName}</h3>
-					<e-svg src="solid/arrow-right"></e-svg>
-				</a>
-				${this.renderVersionHistory()}
-				<div id="version-select">
-					<h2>Deploy version</h2>
-					<drop-down-list
-						.selection=${version}
-						.options=${versionOptions}
-						.orientation=${Orientation.TopRight}
-						@select=${async (event: DropDownSelectEvent<string>) => {
-							await this.updateVersion(event.selection.value);
-						}}
-					></drop-down-list>
-				</div>
-
-				<h1>Overview</h1>
-
+			<div id="base" class="flex flex-col px-16 pt-6 text-slate-300 flex-wrap overflow-x-scroll">
 				${this.renderMatchmakerSettings()} ${this.renderCdnSettings(visitHost)}
-
-				<h1>Tokens</h1>
-				<div id="tokens">
-					<stylized-button .trigger=${this.createPublicToken.bind(this)}
-						>Create Public Token</stylized-button
-					>
-					<stylized-button .trigger=${this.openDevTokenModal.bind(this)}
-						>Create Development Token</stylized-button
-					>
-				</div>
 			</div>
 
 			${this.renderCreateCustomHostnameModal()} ${this.renderCreateDevTokenModal()}

@@ -2,13 +2,13 @@ import { html, TemplateResult } from 'lit';
 import * as pathToRegexp from 'path-to-regexp';
 import global from './utils/global';
 import utils from './utils/utils';
-import { DevGameRootConfig } from './elements/pages/dev/game/pages/game';
 import RvtRoot from './elements/root/rvt-root';
 import { RivetError } from '@rivet-gg/api-internal';
 import { Breadcrumb } from './elements/common/rvt-nav';
 import { GameSettingsRootConfig } from './elements/pages/dev/game/settings/game-settings';
 import { GroupSettingsRootConfig } from './elements/pages/dev/group/settings/group-settings';
 import globalSettings from './utils/settings';
+import { DevGameRootConfig } from './elements/pages/dev/game/pages/rvt-game-dashboard';
 
 const tailwindConfig = require('../tailwind.config.js');
 const tailwind_palette = tailwindConfig.theme.extend.colors;
@@ -43,7 +43,7 @@ type AnyParametiredMiddleware = ParametiredMiddleware<any[], any, any>;
 
 type MiddlewaresCreator<P extends RouteParameters, S extends SearchParameters> = () => Middleware<P, S>[];
 
-class Route<P extends RouteParameters = {}, S extends SearchParameters = {}> {
+export class Route<P extends RouteParameters = {}, S extends SearchParameters = {}> {
 	path: string;
 	render: RouteRender<P, S>;
 
@@ -363,6 +363,24 @@ namespace routes {
 		}
 	});
 
+	export let devVersionSettings = new Route<{ gameId: string; namespaceId: string }>({
+		path: '/games/:gameId/namespaces/:namespaceId/settings',
+		render({ gameId, namespaceId }) {
+			if (!global.currentIdentity.isRegistered) return responses.registerRequired();
+
+			if (!utils.validateUuid(gameId) || !utils.validateUuid(namespaceId)) return responses.notFound();
+
+			return {
+				title: 'Game Version Settings',
+				breadcrumb: { type: 'Namespace', gameId, namespaceId, title: 'Settings' },
+				template: responses.game(gameId, namespaceId, {
+					versionSettings: true,
+					namespaceId
+				})
+			};
+		}
+	});
+
 	export let devVersionDraft = new Route<{ gameId: string }>({
 		path: '/games/:gameId/version-draft',
 		middlewares: () => [
@@ -541,8 +559,8 @@ export namespace responses {
 					<stylized-button
 						class="mx-auto"
 						right-icon="solid/arrow-right"
-						color=${tailwind_palette['raised-bg']}
-						border-color=${tailwind_palette['raised-bg-border-color']}
+						color="var(--rvt-color-raised-bg)"
+						border-color="var(--rvt-color-raised-bg-border-color)"
 						border-width=".75px"
 						href=${routes.home.build({})}
 						>Go Home</stylized-button
@@ -640,11 +658,11 @@ export namespace responses {
 	}
 
 	export function game(gameId: string, namespaceId: string, config: DevGameRootConfig) {
-		return html`<page-dev-game
+		return html`<rvt-game-dashboard
 			.gameId="${gameId}"
 			.namespaceId="${namespaceId}"
 			.config="${config}"
-		></page-dev-game>`;
+		></prvt-game-dashboard>`;
 	}
 
 	export function groupSettings(groupId: string, config?: GroupSettingsRootConfig) {

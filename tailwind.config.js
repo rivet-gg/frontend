@@ -32,6 +32,9 @@ module.exports = {
 			},
 			zIndex: {
 				navigation: '1000'
+			},
+			gridTemplateColumns: {
+				'sidebar-layout': '18rem calc(100vw - 18rem)'
 			}
 		}
 	},

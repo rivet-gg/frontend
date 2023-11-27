@@ -11,16 +11,16 @@ export default class Layout extends LitElement {
 
 	render() {
 		return html`
-			<div>
+			<div class="grid md:grid-cols-sidebar-layout">
 				<!-- Sidebar -->
-				<div class="fixed flex w-72 flex-col border-white/10 border-r top-14 max-sm:top-0 bottom-0">
+				<div class="flex flex-col border-white/10 border-r">
 					<div class="min-h-full overflow-y-auto px-6 py-5 w-full h-full">
 						<slot name="sidebar"></slot>
 					</div>
 				</div>
 
 				<!-- Main -->
-				<main class="w-full pl-72">
+				<main class="w-full">
 					<slot name="body"></slot>
 				</main>
 			</div>

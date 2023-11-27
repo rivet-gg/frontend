@@ -178,7 +178,7 @@ export default class DevGameOverview extends LitElement {
 			<modal-body slot="body">
 				<h1>Create your new namespace</h1>
 				<div class="input-group">
-					<h2>Namespace Name</h2>
+					<h2>Name</h2>
 					<text-input
 						id="namespace-display-name-input"
 						light
@@ -192,7 +192,7 @@ export default class DevGameOverview extends LitElement {
 								<e-svg src="regular/circle-exclamation"></e-svg> ${displayNameErrors[0]}</li>
 							</span>`
 						: null}
-					<h2>Namespace Name ID</h2>
+					<h2>Name ID</h2>
 					<text-input
 						light
 						.filter=${(v: string) => v.replace(/[\s\-]+/g, '-').toLowerCase()}
