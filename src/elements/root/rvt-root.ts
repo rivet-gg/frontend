@@ -387,14 +387,52 @@ export default class RvtRoot extends LitElement {
 				></page-link-game>
 				${this.renderBasicOverlays()}
 			`;
-		} else if (this.globalStatus === GlobalStatus.AuthFailed) {
-			this.showLoading();
-		} else if (
-			global.consentResolve ||
-			(settings.didConsent && this.globalStatus === GlobalStatus.Connected)
-		) {
-			this.hideLoading();
-			content = this.renderContent();
+		} else {
+			switch (this.globalStatus) {
+				// Loading
+				case GlobalStatus.Loading:
+				case GlobalStatus.Bootstrapping:
+					this.showLoading();
+					break;
+				case GlobalStatus.Consenting:
+					this.hideLoading();
+					content = html` <rvt-user-dashboard></rvt-user-dashboard>`;
+					break;
+				case GlobalStatus.Connected:
+				case GlobalStatus.Reconnecting:
+					// Continue as normal
+					this.hideLoading();
+					content = this.renderContent();
+					break;
+
+				// Failures
+				case GlobalStatus.AuthFailed:
+					this.showLoading();
+					break;
+				case GlobalStatus.BootstrapFailed:
+					this.showAlertPanel({
+						title: html`
+							<e-svg class="text-5xl w-full text-center mb-2" src="solid/bomb"></e-svg>
+							<p>Watch out! Sorry... that's on us.</p>
+						`,
+						active: true,
+						details: html`
+							<p>Failed to load the hub. Please reload the page.</p>
+							<div class="mt-2">
+								<p>In case this error persists, share with us this info:</p>
+								<code
+									class="mt-1 no-ligatures thick text-left w-3/4 inline-block select-text"
+								>
+									${global.bootstrapError?.stack || global.bootstrapError}
+								</code>
+							</div>
+						`,
+						options: [{ label: 'Reload', cb: () => window.location.reload() }]
+					});
+					this.hideLoading();
+					content = this.renderAlertPanel();
+					break;
+			}
 		}
 
 		return html`

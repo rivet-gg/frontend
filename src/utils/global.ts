@@ -78,6 +78,7 @@ export class GlobalState {
 
 	bootstrapFailed = false;
 	bootstrapData: Rivet.cloud.BootstrapResponse;
+	bootstrapError?: Error;
 
 	identityStream: RepeatingRequest<api.identity.GetIdentitySelfProfileCommandOutput>;
 	eventStream: RepeatingRequest<api.identity.WatchEventsCommandOutput>;
@@ -268,6 +269,7 @@ export class GlobalState {
 			} catch (err) {
 				logging.error(`Bootstrapping failed ${retry} `, err);
 				await wait(timing.milliseconds(750 * retry));
+				this.bootstrapError = err;
 				retry++;
 			}
 		}
