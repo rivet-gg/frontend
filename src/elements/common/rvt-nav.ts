@@ -400,7 +400,7 @@ export default class RvtNav extends LitElement {
 	render() {
 		return html`
 			<nav
-				class="gap-10 px-6 lg:z-30 pointer-events-auto flex flex-col transition md:divide-white/15 backdrop-blur  bg-zinc-900/[.8]"
+				class="gap-10 px-6 lg:z-30 pointer-events-auto flex flex-col transition md:divide-white/15 backdrop-blur bg-zinc-900/[.8]"
 			>
 				<div class="h-14 flex items-center justify-between ">
 					<div class="absolute inset-x-0 top-full h-px transition bg-[#29292c]"></div>

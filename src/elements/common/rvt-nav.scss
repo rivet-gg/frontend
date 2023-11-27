@@ -5,5 +5,5 @@
 // styling nav in rvt-nav results in the rvt-nav having 0 height as the nav has fixed positioning.
 // styling directly rvt-nav results in the rvt-nav having the correct height.
 :host {
-	@apply fixed inset-x-0 top-0;
+	@apply fixed inset-x-0 top-0 z-navigation;
 }

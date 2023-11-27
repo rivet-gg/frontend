@@ -29,6 +29,9 @@ module.exports = {
 			},
 			translate: {
 				'.05': '.05rem'
+			},
+			zIndex: {
+				navigation: '1000'
 			}
 		}
 	},
