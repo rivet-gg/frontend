@@ -13,6 +13,7 @@ import { DropDownSelectEvent, DropDownSelection } from '../../../../dev/drop-dow
 import { showLobbyContextMenu, tooltip } from '../../../../../ui/helpers';
 import timing from '../../../../../utils/timing';
 import RvtRouter from '../../../../root/rvt-router';
+import { getRegionEmoji } from '../../../../../utils/emoji';
 
 @customElement('page-dev-game-lobbies')
 export default class DevGameLobbies extends LitElement {
@@ -356,7 +357,7 @@ export default class DevGameLobbies extends LitElement {
 					${repeat(
 						lobbies,
 						l => l.lobbyId,
-						(l, i) => this.renderLobby(l, i, statusRequired)
+						lobby => this.renderLobby(lobby, statusRequired)
 					)}
 				</table>
 			</div>
@@ -375,7 +376,7 @@ export default class DevGameLobbies extends LitElement {
 		</div>`;
 	}
 
-	renderLobby(l: cloud.AnalyticsLobbySummary, i: number, statusRequired: boolean) {
+	renderLobby(l: cloud.AnalyticsLobbySummary, statusRequired: boolean) {
 		let regionData = this.game.availableRegions.find(r => r.regionId == l.regionId);
 
 		let unregisteredCount = l.totalPlayerCount - l.registeredPlayerCount;
@@ -389,6 +390,7 @@ export default class DevGameLobbies extends LitElement {
 		let destroying = this.destroyingLobbies.indexOf(l.lobbyId) != -1;
 
 		let tooltipText = `${regionData.regionDisplayName}`;
+		let regionIcon = getRegionEmoji(regionData.universalRegion);
 
 		return html` <tr
 			class=${classMap({ 'lobby-row': true, destroying })}
@@ -399,6 +401,14 @@ export default class DevGameLobbies extends LitElement {
 				visitLogsCb: this.visitLogs.bind(this, l.lobbyId)
 			})}
 		>
+			<td>
+				<e-svg
+					class="region-icon"
+					preserve
+					src=${regionIcon}
+					@mouseenter=${tooltip(tooltipText)}
+				></e-svg>
+			</td>
 			${!l.isReady
 				? html`<td>
 						<e-svg
