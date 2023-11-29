@@ -7,6 +7,7 @@ import cloud from '@rivet-gg/cloud';
 import numbro from 'numbro';
 import assets from '../../data/assets';
 import * as api from '../../utils/api';
+import clsx from 'clsx';
 
 const GRADIENTS = [
 	// "bg-gradient-to-br from-green-300 to-purple-400",
@@ -31,7 +32,7 @@ export default class DevGameTile extends LitElement {
 	render() {
 		return html`
 			<a id="base" href=${routes.devGame.build({ gameId: this.game.gameId })}>
-				<div id="info" class=${this.cardGradient}>
+				<div id="info" class=${clsx(!this.game.bannerUrl && this.cardGradient)}>
 					${this.game.bannerUrl
 						? html`<lazy-img id="bg" src=${this.game.bannerUrl} bg-size="cover"></lazy-img>`
 						: null}
