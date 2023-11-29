@@ -382,7 +382,7 @@ export default class RvtUserGames extends LitElement {
 									id="create-game"
 									class=${clsx(
 										'dashed-border-button cursor-pointer',
-										this.gameModalActive ? '' : 'hover:bg-button-bg-hover-color'
+										!this.gameModalActive && 'hover:bg-button-bg-hover-color'
 									)}
 									@click=${this.openGameModal.bind(this, group.groupId)}
 								>
