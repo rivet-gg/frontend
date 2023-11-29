@@ -41,9 +41,6 @@ export default class RvtUserGames extends LitElement {
 
 	devGroupOptions: DropDownSelection<string>[] = [];
 
-	@property({ type: Boolean })
-	createGroupHovered = false;
-
 	// === GAME COMPONENTS ===
 	@property({ type: Boolean })
 	gameModalActive = false;
@@ -272,17 +269,15 @@ export default class RvtUserGames extends LitElement {
 				${when(
 					global.currentIdentity.isRegistered && global.currentIdentity.isAdmin,
 					() =>
-						html` <div
+						html` <button
 							class="dashed-border-button flex justify-center items-center hover:cursor-pointer w-full h-32 place-content-center text-[#d1d1d1]  hover:text-white hover:bg-button-bg-hover-color"
 							@click=${this.openGroupModal.bind(this)}
-							@mouseenter=${() => (this.createGroupHovered = true)}
-							@mouseleave=${() => (this.createGroupHovered = false)}
 						>
 							<div class="font-bold text-lg pb-0.5 pr-2">
 								<e-svg src="solid/plus"></e-svg>
 							</div>
 							<div class="font-bold text-lg text-center">New Developer Group</div>
-						</div>`
+						</button>`
 				)}
 			</div>
 		`;
