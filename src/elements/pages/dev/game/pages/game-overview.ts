@@ -301,7 +301,7 @@ export default class DevGameOverview extends LitElement {
 
 	render() {
 		return html`
-			<div class="mx-auto max-w-contentwidth px-[10px] md:px-5 lg:px-0 pb-8">
+			<div class="mx-auto max-w-contentwidth px-3 md:px-5 lg:px-0 pb-8">
 				<game-banner .game=${this.game}></game-banner>
 				<div class="flex flex-row w-full space-x-8 max-md:px-4 ">
 					${when(this.game, () => this.renderAnalytics(this.game))}

@@ -259,7 +259,7 @@ export default class RvtUserGames extends LitElement {
 
 	renderBody() {
 		return html`
-			<div class="max-w-contentwidth px-[10px] md:px-5 lg:px-0">
+			<div class="max-w-contentwidth px-3 md:px-5 lg:px-0">
 				${this.data.groups.length
 					? html`<div id="groups-list">
 							${repeat(

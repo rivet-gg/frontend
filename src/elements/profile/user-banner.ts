@@ -21,8 +21,8 @@ export default class UserBanner extends LitElement {
 		if (this.loadError) return responses.renderError(this.loadError);
 
 		return html`
-			<div class="mx-auto max-w-contentwidth px-[10px] md:px-5 lg:px-0 pb-8">
-				<div class="relative my-[20px] md:my-[40px] bg-gradient-to-r from-pink-800 to-orange-600 h-[18.2rem] rounded-[20px]">
+			<div class="mx-auto max-w-contentwidth px-3 md:px-5 lg:px-0">
+				<div class="relative my-5 md:my-10 bg-gradient-to-r from-pink-800 to-orange-600 h-72 rounded-2xl">
 					<div class="absolute flex flex-row bottom-10 left-10">
 						<identity-avatar 
 							class="block w-20 h-20 sm:w-24 sm:h-24"
