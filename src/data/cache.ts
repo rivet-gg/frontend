@@ -1,4 +1,5 @@
 import * as api from '../utils/api';
+import { Rivet } from '@rivet-gg/api-internal';
 import * as cloud from '@rivet-gg/cloud';
 import global from '../utils/global';
 import { readCache, writeCache } from '../utils/cache';
@@ -89,7 +90,7 @@ export namespace CloudGameCache {
 }
 
 export namespace CloudDashboardCache {
-	export type Payload = cloud.GetGamesCommandOutput;
+	export type Payload = Rivet.cloud.games.GetGamesResponse;
 
 	export async function get(): Promise<Payload> {
 		return await readCache(['cloud-games']);
@@ -103,10 +104,10 @@ export namespace CloudDashboardCache {
 		name: string,
 		cb: (data: Payload) => void,
 		reqOpts?: RepeatingRequestOptions
-	): RepeatingRequest<cloud.GetGamesCommandOutput> {
-		return abstractWatch<cloud.GetGamesCommandInput, cloud.GetGamesCommandOutput, Payload>(
+	): RepeatingRequest<Rivet.cloud.games.GetGamesResponse> {
+		return abstractWatch<Rivet.cloud.games.GetGamesRequest, Rivet.cloud.games.GetGamesResponse, Payload>(
 			name,
-			global.cloud.getGames.bind(global.cloud),
+			global.api.cloud.games.games.getGames.bind(global.api.cloud.games.games),
 			{},
 			CloudDashboardCache.get.bind(CloudDashboardCache),
 			res => {
