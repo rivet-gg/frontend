@@ -86,10 +86,10 @@ export class RepeatingRequest<T> {
 				// In this system, an abort isn't erroneous behavior
 				if (e instanceof DOMException && e.name == 'AbortError') return;
 
+				this.handleErrors(e);
+
 				// Cancels on error by default
 				if (this.opts.cancelOnError) this.cancel();
-
-				this.handleErrors(e);
 			}
 		}
 	}

@@ -7,7 +7,7 @@ import { cssify } from '../../../../utils/css';
 import styles from './games.scss';
 import routes, { responses } from '../../../../routes';
 import global from '../../../../utils/global';
-import cloud from '@rivet-gg/cloud';
+import { Rivet } from '@rivet-gg/api-internal';
 import utils from '../../../../utils/utils';
 import { showAlert } from '../../../../ui/helpers';
 import { DropDownSelectEvent, DropDownSelection } from '../../../dev/drop-down-list';
@@ -65,7 +65,7 @@ export default class DevGames extends LitElement {
 	@property({ type: Boolean })
 	gameIsValid = false;
 
-	gamesStream?: RepeatingRequest<cloud.GetGamesCommandOutput>;
+	gamesStream?: RepeatingRequest<CloudDashboardCache.Payload>;
 
 	// === DEBOUNCE INFO ===
 	validateGameDebounce: Debounce<() => ReturnType<typeof global.cloud.validateGame>>;
@@ -314,9 +314,7 @@ export default class DevGames extends LitElement {
 		</div>`;
 	}
 
-	renderGroup(group: cloud.GroupSummary) {
-		let isOwner = global.currentIdentity.identityId == group.ownerIdentityId;
-
+	renderGroup(group: Rivet.group.Summary) {
 		return when(
 			group.isDeveloper,
 			() =>
@@ -393,13 +391,13 @@ export default class DevGames extends LitElement {
 									</div>
 								</div>
 								${repeat(
-									this.data.games.filter(g => g.developerGroupId == group.groupId),
+									this.data.games.filter(g => g.developer.groupId == group.groupId),
 									g => g.gameId,
 									g =>
 										html`<dev-game-tile
 											.game=${g}
 											.group=${this.data.groups.find(
-												gr => gr.groupId == g.developerGroupId
+												gr => gr.groupId == g.developer.groupId
 											)}
 										></dev-game-tile>`
 								)}

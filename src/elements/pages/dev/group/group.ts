@@ -7,6 +7,7 @@ import styles from './group.scss';
 import routes, { responses } from '../../../../routes';
 import global from '../../../../utils/global';
 import cloud from '@rivet-gg/cloud';
+import { Rivet } from '@rivet-gg/api-internal';
 import { globalEventGroups } from '../../../../utils/global-events';
 import RvtRouter from '../../../root/rvt-router';
 
@@ -83,7 +84,7 @@ export default class GroupPage extends LitElement {
 	gameNameId?: string;
 
 	@property({ type: Array })
-	games?: cloud.GameSummary[] = null;
+	games?: Rivet.game.Summary[] = null;
 
 	@property({ type: Object })
 	loadError?: any;
@@ -116,7 +117,7 @@ export default class GroupPage extends LitElement {
 
 	// === EVENT HANDLERS ===
 	groupStream?: RepeatingRequest<api.group.GetGroupProfileCommandOutput>;
-	gamesStream?: RepeatingRequest<cloud.GetGamesCommandOutput>;
+	gamesStream?: RepeatingRequest<Rivet.cloud.games.GetGamesResponse>;
 
 	constructor() {
 		super();
@@ -184,7 +185,7 @@ export default class GroupPage extends LitElement {
 		// Fetch events
 		this.gamesStream = CloudDashboardCache.watch('GroupPage.gamesStream', data => {
 			data.games.sort((a, b) => a.displayName.localeCompare(b.displayName));
-			this.games = data.games.filter(a => a.developerGroupId == this.groupId);
+			this.games = data.games.filter(a => a.developer.groupId == this.groupId);
 		});
 
 		this.gamesStream.onError(err => {

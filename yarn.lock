@@ -2088,10 +2088,10 @@
   resolved "https://registry.npmjs.org/@protobufjs/utf8/-/utf8-1.1.0.tgz"
   integrity sha512-Vvn3zZrhQZkkBE8LSuW3em98c0FwgO4nxzv6OdSxPKJIEKY2bGbHn+mhGIPerzI4twdxaP8/0+06HBpwf345Lw==
 
-"@rivet-gg/api-internal@0.0.1-eb2accf":
-  version "0.0.1-eb2accf"
-  resolved "https://registry.yarnpkg.com/@rivet-gg/api-internal/-/api-internal-0.0.1-eb2accf.tgz#7614b499e587ad8bb79e07356ceb046170450acc"
-  integrity sha512-C6OBhnpvCsFwnkKZ/97HmS9FZlMtVExZPZZ6mYe7RLeUnCWg3fVEAKrbt0kdSIun1vH71QFJMfGDj0ae4ZAIZg==
+"@rivet-gg/api-internal@0.0.1-e0c46a3":
+  version "0.0.1-e0c46a3"
+  resolved "https://registry.yarnpkg.com/@rivet-gg/api-internal/-/api-internal-0.0.1-e0c46a3.tgz#a9e196ad511383ee366e921f1e93806654d2fa0e"
+  integrity sha512-O1kdk87lAZkgdpE/06zTiVlbtcPX5kFhFlFtQigufTLNpVJmjsXSmsl1QXQPPbwXTRp+0SivJ2x7LKt55OPszg==
   dependencies:
     "@types/url-join" "4.0.1"
     axios "0.27.2"
@@ -2130,7 +2130,7 @@
     "@aws-sdk/util-user-agent-node" "3.80.0"
     "@aws-sdk/util-utf8-browser" "3.55.0"
     "@aws-sdk/util-utf8-node" "3.55.0"
-    "@rivet-gg/common" "file:../../../usr/local/share/.cache/yarn/v6/npm-@rivet-gg-auth-0.0.1-11627fa7-952c-456a-bf9b-01ec08de7ddc-1698908021496/node_modules/lib/rivet-sdk-js"
+    "@rivet-gg/common" "file:../../../usr/local/share/.cache/yarn/v6/npm-@rivet-gg-auth-0.0.1-121c6053-a0a9-4215-ba99-aa05308e5138-1701457318009/node_modules/lib/rivet-sdk-js"
     tslib "^2.3.1"
 
 "@rivet-gg/chat@file:gen/api-chat":
@@ -2165,7 +2165,7 @@
     "@aws-sdk/util-user-agent-node" "3.80.0"
     "@aws-sdk/util-utf8-browser" "3.55.0"
     "@aws-sdk/util-utf8-node" "3.55.0"
-    "@rivet-gg/common" "file:../../../usr/local/share/.cache/yarn/v6/npm-@rivet-gg-chat-0.0.7-5243a449-4820-47d8-940a-99f72d4b38f6-1698908021536/node_modules/lib/rivet-sdk-js"
+    "@rivet-gg/common" "file:../../../usr/local/share/.cache/yarn/v6/npm-@rivet-gg-chat-0.0.7-84c81eaf-266a-4177-99d0-362ec323e23f-1701457318053/node_modules/lib/rivet-sdk-js"
     tslib "^2.3.1"
 
 "@rivet-gg/cloud@file:gen/api-cloud":
@@ -2200,7 +2200,7 @@
     "@aws-sdk/util-user-agent-node" "3.80.0"
     "@aws-sdk/util-utf8-browser" "3.55.0"
     "@aws-sdk/util-utf8-node" "3.55.0"
-    "@rivet-gg/common" "file:../../../usr/local/share/.cache/yarn/v6/npm-@rivet-gg-cloud-0.0.1-4e9c7d5d-fcff-4df2-8c81-df67dd45abbd-1698908021543/node_modules/lib/rivet-sdk-js"
+    "@rivet-gg/common" "file:../../../usr/local/share/.cache/yarn/v6/npm-@rivet-gg-cloud-0.0.1-b9f04003-b618-4c72-b04f-7dc22986046f-1701457318058/node_modules/lib/rivet-sdk-js"
     tslib "^2.3.1"
 
 "@rivet-gg/common@file:lib/rivet-sdk-js":
@@ -2241,7 +2241,7 @@
     "@aws-sdk/util-user-agent-node" "3.80.0"
     "@aws-sdk/util-utf8-browser" "3.55.0"
     "@aws-sdk/util-utf8-node" "3.55.0"
-    "@rivet-gg/common" "file:../../../usr/local/share/.cache/yarn/v6/npm-@rivet-gg-group-0.0.7-1a9cde87-01b2-41d2-bad1-292bc1ad48cb-1698908021549/node_modules/lib/rivet-sdk-js"
+    "@rivet-gg/common" "file:../../../usr/local/share/.cache/yarn/v6/npm-@rivet-gg-group-0.0.7-8f919585-8ac5-4425-8a45-bc39750b8da0-1701457318062/node_modules/lib/rivet-sdk-js"
     tslib "^2.3.1"
 
 "@rivet-gg/identity@file:gen/api-identity":
@@ -2276,7 +2276,7 @@
     "@aws-sdk/util-user-agent-node" "3.80.0"
     "@aws-sdk/util-utf8-browser" "3.55.0"
     "@aws-sdk/util-utf8-node" "3.55.0"
-    "@rivet-gg/common" "file:../../../usr/local/share/.cache/yarn/v6/npm-@rivet-gg-identity-0.0.14-5719a5c0-38d2-414e-b250-4422b1103421-1698908021554/node_modules/lib/rivet-sdk-js"
+    "@rivet-gg/common" "file:../../../usr/local/share/.cache/yarn/v6/npm-@rivet-gg-identity-0.0.14-75706623-dda7-4dc1-a5b1-c78fc6629b00-1701457318067/node_modules/lib/rivet-sdk-js"
     tslib "^2.3.1"
 
 "@rivet-gg/kv@file:gen/api-kv":
@@ -2311,7 +2311,7 @@
     "@aws-sdk/util-user-agent-node" "3.80.0"
     "@aws-sdk/util-utf8-browser" "3.55.0"
     "@aws-sdk/util-utf8-node" "3.55.0"
-    "@rivet-gg/common" "file:../../../usr/local/share/.cache/yarn/v6/npm-@rivet-gg-kv-0.0.8-56a8af72-3234-441e-a212-1e4dfc23b995-1698908021560/node_modules/lib/rivet-sdk-js"
+    "@rivet-gg/common" "file:../../../usr/local/share/.cache/yarn/v6/npm-@rivet-gg-kv-0.0.8-3ba76417-1f21-4d99-a666-5822b2922a90-1701457318071/node_modules/lib/rivet-sdk-js"
     tslib "^2.3.1"
 
 "@rivet-gg/party@file:gen/api-party":
@@ -2346,7 +2346,7 @@
     "@aws-sdk/util-user-agent-node" "3.80.0"
     "@aws-sdk/util-utf8-browser" "3.55.0"
     "@aws-sdk/util-utf8-node" "3.55.0"
-    "@rivet-gg/common" "file:../../../usr/local/share/.cache/yarn/v6/npm-@rivet-gg-party-0.0.7-d6786f77-51ea-499d-a943-dc92a9084cfe-1698908021566/node_modules/lib/rivet-sdk-js"
+    "@rivet-gg/common" "file:../../../usr/local/share/.cache/yarn/v6/npm-@rivet-gg-party-0.0.7-5383f8ec-0856-4adb-9721-11afe189126b-1701457318075/node_modules/lib/rivet-sdk-js"
     tslib "^2.3.1"
 
 "@rivet-gg/portal@file:gen/api-portal":
@@ -2381,7 +2381,7 @@
     "@aws-sdk/util-user-agent-node" "3.80.0"
     "@aws-sdk/util-utf8-browser" "3.55.0"
     "@aws-sdk/util-utf8-node" "3.55.0"
-    "@rivet-gg/common" "file:../../../usr/local/share/.cache/yarn/v6/npm-@rivet-gg-portal-0.0.1-18bce561-e15b-48d7-b846-fb81ebeabfb3-1698908021572/node_modules/lib/rivet-sdk-js"
+    "@rivet-gg/common" "file:../../../usr/local/share/.cache/yarn/v6/npm-@rivet-gg-portal-0.0.1-0d8663e9-9cca-4543-ae16-7f44bf68a8af-1701457318078/node_modules/lib/rivet-sdk-js"
     tslib "^2.3.1"
 
 "@rollup/plugin-babel@^5.2.0":
