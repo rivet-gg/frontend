@@ -9,6 +9,7 @@ import { CloudGameCache } from '../../../../../data/cache';
 import logging from '../../../../../utils/logging';
 import { globalEventGroups } from '../../../../../utils/global-events';
 import { RepeatingRequest } from '../../../../../utils/repeating-request';
+import { Rivet } from '@rivet-gg/api-internal';
 
 export interface DevGameRootConfig {
 	summary?: true;
@@ -48,12 +49,12 @@ export default class DevGame extends LitElement {
 	config: DevGameRootConfig = { summary: true };
 
 	@property({ type: Object })
-	game: cloud.GameFull = null;
+	game: Rivet.cloud.GameFull = null;
 
 	@property({ type: Object })
 	loadError?: any;
 
-	gameStream?: RepeatingRequest<cloud.GetGameByIdCommandOutput>;
+	gameStream?: RepeatingRequest<Rivet.cloud.games.games.GetGameByIdResponse>;
 
 	updated(changedProperties: PropertyValues) {
 		// Request data if category set
