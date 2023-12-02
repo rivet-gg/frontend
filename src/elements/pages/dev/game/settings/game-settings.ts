@@ -9,6 +9,7 @@ import logging from '../../../../../utils/logging';
 import { globalEventGroups } from '../../../../../utils/global-events';
 import { map } from 'lit/directives/map.js';
 import { RepeatingRequest } from '../../../../../utils/repeating-request';
+import { Rivet } from '@rivet-gg/api-internal';
 
 interface TabGroup {
 	title: string;
@@ -42,7 +43,7 @@ export default class DevGameSettings extends LitElement {
 	gameId: string;
 
 	@property({ type: Object })
-	game: cloud.GameFull = null;
+	game: Rivet.cloud.GameFull = null;
 
 	tabs: TabGroup[];
 
@@ -52,7 +53,7 @@ export default class DevGameSettings extends LitElement {
 	@property({ type: Object })
 	config: GameSettingsRootConfig;
 
-	gameStream?: RepeatingRequest<cloud.GetGameByIdCommandOutput>;
+	gameStream?: RepeatingRequest<Rivet.cloud.games.games.GetGameByIdResponse>;
 
 	constructor() {
 		super();

@@ -1,6 +1,5 @@
 import * as api from '../utils/api';
 import { Rivet } from '@rivet-gg/api-internal';
-import * as cloud from '@rivet-gg/cloud';
 import global from '../utils/global';
 import { readCache, writeCache } from '../utils/cache';
 import { HttpHandlerOptions } from '@aws-sdk/types';
@@ -39,13 +38,13 @@ export namespace GroupProfileCache {
 		reqOpts?: RepeatingRequestOptions
 	): RepeatingRequest<api.group.GetGroupProfileCommandOutput> {
 		return abstractWatch<
-			api.group.GetGroupProfileCommandInput,
+			[api.group.GetGroupProfileCommandInput],
 			api.group.GetGroupProfileCommandOutput,
 			Payload
 		>(
 			name,
 			global.live.group.getGroupProfile.bind(global.live.group),
-			{ groupId },
+			[{ groupId }],
 			GroupProfileCache.get.bind(GroupProfileCache, groupId),
 			res => {
 				cb(res);
@@ -58,7 +57,7 @@ export namespace GroupProfileCache {
 }
 
 export namespace CloudGameCache {
-	type Payload = cloud.GetGameByIdCommandOutput;
+	type Payload = Rivet.cloud.games.games.GetGameByIdResponse;
 
 	export async function get(gameId: string): Promise<Payload> {
 		return await readCache(['cloud-games', gameId]);
@@ -73,11 +72,11 @@ export namespace CloudGameCache {
 		gameId: string,
 		cb: (data: Payload) => void,
 		reqOpts?: RepeatingRequestOptions
-	): RepeatingRequest<cloud.GetGameByIdCommandOutput> {
-		return abstractWatch<cloud.GetGameByIdCommandInput, cloud.GetGameByIdCommandOutput, Payload>(
+	): RepeatingRequest<Rivet.cloud.games.games.GetGameByIdResponse> {
+		return abstractWatch<[string, {}], Rivet.cloud.games.games.GetGameByIdResponse, Payload>(
 			name,
-			global.cloud.getGameById.bind(global.cloud),
-			{ gameId },
+			global.api.cloud.games.games.getGameById.bind(global.api.cloud.games.games),
+			[gameId, {}],
 			CloudGameCache.get.bind(CloudGameCache, gameId),
 			res => {
 				cb(res);
@@ -105,10 +104,14 @@ export namespace CloudDashboardCache {
 		cb: (data: Payload) => void,
 		reqOpts?: RepeatingRequestOptions
 	): RepeatingRequest<Rivet.cloud.games.GetGamesResponse> {
-		return abstractWatch<Rivet.cloud.games.GetGamesRequest, Rivet.cloud.games.GetGamesResponse, Payload>(
+		return abstractWatch<
+			[Rivet.cloud.games.GetGamesRequest],
+			Rivet.cloud.games.GetGamesResponse,
+			Payload
+		>(
 			name,
 			global.api.cloud.games.games.getGames.bind(global.api.cloud.games.games),
-			{},
+			[{}],
 			CloudDashboardCache.get.bind(CloudDashboardCache),
 			res => {
 				cb(res);
@@ -121,9 +124,9 @@ export namespace CloudDashboardCache {
 }
 
 // Watches a given endpoint in conjunction with a given cache
-function abstractWatch<T, U, V>(
+function abstractWatch<T extends [...any[], { watchIndex?: string }], U, V>(
 	name: string,
-	request: (input: T, overrides?: HttpHandlerOptions) => Promise<U>,
+	request: (...input: [...T, HttpHandlerOptions]) => Promise<U>,
 	commandArgs: T,
 	cache: (...args: any[]) => Promise<V>,
 	resCb: (res: U) => void,
@@ -133,8 +136,13 @@ function abstractWatch<T, U, V>(
 	// Create a paused repeating request
 	let req = new RepeatingRequest(
 		name,
-		async (abortSignal, watchIndex) =>
-			await request(Object.assign(commandArgs, { watchIndex }), { abortSignal }),
+		async (abortSignal, watchIndex) => {
+			let newArgs: T = [...commandArgs];
+			newArgs[newArgs.length - 1] = Object.assign({}, commandArgs[commandArgs.length - 1], {
+				watchIndex
+			});
+			return await request(...newArgs, { abortSignal });
+		},
 		{ pauseOnCreation: true }
 	);
 	req.onMessage(resCb);
