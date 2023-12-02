@@ -104,7 +104,11 @@ export namespace CloudDashboardCache {
 		cb: (data: Payload) => void,
 		reqOpts?: RepeatingRequestOptions
 	): RepeatingRequest<Rivet.cloud.games.GetGamesResponse> {
-		return abstractWatch<[Rivet.cloud.games.GetGamesRequest], Rivet.cloud.games.GetGamesResponse, Payload>(
+		return abstractWatch<
+			[Rivet.cloud.games.GetGamesRequest],
+			Rivet.cloud.games.GetGamesResponse,
+			Payload
+		>(
 			name,
 			global.api.cloud.games.games.getGames.bind(global.api.cloud.games.games),
 			[{}],
@@ -134,9 +138,12 @@ function abstractWatch<T extends [...any[], { watchIndex?: string }], U, V>(
 		name,
 		async (abortSignal, watchIndex) => {
 			let newArgs: T = [...commandArgs];
-			newArgs[newArgs.length - 1] = Object.assign({}, commandArgs[commandArgs.length - 1], { watchIndex });
-			return await request(...newArgs, { abortSignal })
-		}, { pauseOnCreation: true }
+			newArgs[newArgs.length - 1] = Object.assign({}, commandArgs[commandArgs.length - 1], {
+				watchIndex
+			});
+			return await request(...newArgs, { abortSignal });
+		},
+		{ pauseOnCreation: true }
 	);
 	req.onMessage(resCb);
 
