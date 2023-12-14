@@ -34,7 +34,7 @@ export default class DevGames extends LitElement {
 	loadError?: any;
 
 	@property({ type: Array })
-	games?: Rivet.cloud.games.GameSummary[];
+	games?: Rivet.game.Summary[];
 
 	@property({ type: Object })
 	gameSelection: DropDownSelection<string> = null;

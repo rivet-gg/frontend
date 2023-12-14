@@ -16,6 +16,7 @@ import { InputUpdateEvent } from '../../../../dev/text-input';
 import { TraversableErrors, VALIDATION_ERRORS } from '../../../../../utils/traversable-errors';
 import timing, { Debounce } from '../../../../../utils/timing';
 import { RepeatingRequest } from '../../../../../utils/repeating-request';
+import { Rivet } from '@rivet-gg/api-internal';
 
 @customElement('game-overview')
 export default class DevGameOverview extends LitElement {
@@ -25,7 +26,7 @@ export default class DevGameOverview extends LitElement {
 	gameId: string;
 
 	@property({ type: Object })
-	game: cloud.GameFull = null;
+	game: Rivet.cloud.GameFull = null;
 
 	// === NAMESPACE COMPONENTS ===
 	@property({ type: Boolean })
@@ -51,7 +52,7 @@ export default class DevGameOverview extends LitElement {
 	@property({ type: Object })
 	loadError?: any;
 
-	gameStream?: RepeatingRequest<cloud.GetGameByIdCommandOutput>;
+	gameStream?: RepeatingRequest<Rivet.cloud.games.games.GetGameByIdResponse>;
 
 	// === DEBOUNCE INFO ===
 	validateNamespaceDebounce: Debounce<() => ReturnType<typeof global.cloud.validateGameNamespace>>;
@@ -248,7 +249,7 @@ export default class DevGameOverview extends LitElement {
 		}
 	}
 
-	renderNamespaceList(game: cloud.GameFull): TemplateResult {
+	renderNamespaceList(game: Rivet.cloud.GameFull): TemplateResult {
 		if (!game.namespaces) return html`<h1>No namespaces found</h1>`;
 		return html`
 			<div class="ml-auto w-1/2">
@@ -285,7 +286,7 @@ export default class DevGameOverview extends LitElement {
 		`;
 	}
 
-	renderAnalytics(game: cloud.GameFull): TemplateResult {
+	renderAnalytics(game: Rivet.cloud.GameFull): TemplateResult {
 		return html`
 			<div class="w-1/2 ">
 				<h1 class="text-xl pb-4">Analytics</h1>

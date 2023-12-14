@@ -2,7 +2,6 @@ import { html, LitElement, PropertyValues, TemplateResult } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { cssify } from '../../utils/css';
 import global from '../../utils/global';
-import cloud, { GameFull } from '@rivet-gg/cloud';
 import routes from '../../routes';
 import * as api from '../../utils/api';
 import { when } from 'lit/directives/when.js';
@@ -14,6 +13,7 @@ import { globalEventGroups, IdentityChangeEvent } from '../../utils/global-event
 import clsx from 'clsx';
 import { RepeatingRequest } from '../../utils/repeating-request';
 import styles from './rvt-nav.scss';
+import { Rivet } from '@rivet-gg/api-internal';
 
 export type Breadcrumb =
 	| { type: 'Home' }
@@ -47,7 +47,7 @@ export default class RvtNav extends LitElement {
 
 	// Data streams
 	groupStream: RepeatingRequest<api.group.GetGroupProfileCommandOutput> = null;
-	gameStream?: RepeatingRequest<cloud.GetGameByIdCommandOutput>;
+	gameStream?: RepeatingRequest<Rivet.cloud.games.games.GetGameByIdResponse>;
 
 	/// === EVENTS ===
 	handleIdentityChange: (e: IdentityChangeEvent) => void;
@@ -323,7 +323,7 @@ export default class RvtNav extends LitElement {
 		></group-avatar>`;
 	}
 
-	renderGameAvatar(game: GameFull): TemplateResult {
+	renderGameAvatar(game: Rivet.cloud.GameFull): TemplateResult {
 		return html`
 			<lazy-img
 				class="w-6 h-6"
