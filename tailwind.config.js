@@ -1,4 +1,16 @@
 const plugin = require('tailwindcss/plugin');
+const tailwindPalettes = require('./src/styles/pallete/tailwind.json');
+
+const palettesMap = tailwindPalettes.reduce((acc, curr) => {
+	acc[curr.paletteName] = curr;
+	return acc;
+}, {});
+
+const converPalletteToTailwind = palette =>
+	palette.swatches.reduce((acc, curr) => {
+		acc[curr.name] = `#${curr.color}`;
+		return acc;
+	}, {});
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -32,7 +44,12 @@ module.exports = {
 				'context-menu': '#262626',
 				'raised-hover': '#FFFFFF27',
 				'muted-text': '#737373',
-				'main-accent': '#7f56d9'
+				'main-accent': '#7f56d9',
+				violet: converPalletteToTailwind(palettesMap['Violet']),
+				zinc: converPalletteToTailwind(palettesMap['Zinc'])
+			},
+			scale: {
+				98: '.98'
 			},
 			maxWidth: {
 				contentwidth: '1100px'
@@ -107,6 +124,6 @@ module.exports = {
 				},
 				{ values: theme('foldups') }
 			);
-		}),
+		})
 	]
 };

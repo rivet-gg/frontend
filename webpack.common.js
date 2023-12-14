@@ -163,6 +163,10 @@ module.exports = async function () {
 				{
 					test: /\.hbs$/,
 					loader: 'handlebars-loader'
+				},
+				{
+					test: /\.json$/,
+					type: 'json'
 				}
 			]
 		},

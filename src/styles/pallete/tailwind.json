@@ -1,0 +1,116 @@
+[
+	{
+		"paletteName": "Violet",
+		"swatches": [
+			{
+				"name": "50",
+				"color": "F5F3FF"
+			},
+			{
+				"name": "100",
+				"color": "EDE9FE"
+			},
+			{
+				"name": "200",
+				"color": "DDD6FE"
+			},
+			{
+				"name": "300",
+				"color": "C4B5FD"
+			},
+			{
+				"name": "400",
+				"color": "A78BFA"
+			},
+			{
+				"name": "450",
+				"color": "936CF8"
+			},
+			{
+				"name": "500",
+				"color": "8B5CF6"
+			},
+			{
+				"name": "550",
+				"color": "834DF3"
+			},
+			{
+				"name": "600",
+				"color": "7C3AED"
+			},
+			{
+				"name": "700",
+				"color": "6D28D9"
+			},
+			{
+				"name": "800",
+				"color": "5B21B6"
+			},
+			{
+				"name": "900",
+				"color": "4C1D95"
+			},
+			{
+				"name": "950",
+				"color": "2E1065"
+			}
+		]
+	},
+	{
+		"paletteName": "Zinc",
+		"swatches": [
+			{
+				"name": "50",
+				"color": "FAFAFA"
+			},
+			{
+				"name": "100",
+				"color": "F4F4F5"
+			},
+			{
+				"name": "200",
+				"color": "E4E4E7"
+			},
+			{
+				"name": "300",
+				"color": "D4D4D8"
+			},
+			{
+				"name": "400",
+				"color": "A1A1AA"
+			},
+			{
+				"name": "500",
+				"color": "71717A"
+			},
+			{
+				"name": "600",
+				"color": "52525B"
+			},
+			{
+				"name": "650",
+				"color": "47474F"
+			},
+			{
+				"name": "700",
+				"color": "3F3F46"
+			},
+			{
+				"name": "750",
+				"color": "343439"
+			},
+			{
+				"name": "800",
+				"color": "27272A"
+			},
+			{
+				"name": "900",
+				"color": "18181B"
+			},
+			{
+				"name": "950",
+				"color": "09090B"
+			}
+		]
+	}
+]
