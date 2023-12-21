@@ -16,4 +16,4 @@ jobs:
 
       - name: Check licenses
         run: |
-          npx license-checker --onlyAllow 'Apache-2.0; BSD-2-Clause; BSD-3-Clause; ISC; MIT; MPL-2.0; CC0-1.0; CC-BY-4.0; Python-2.0; Unlicense; 0BSD; UNLICENSED; UNKNOWN'
+          npx license-checker --onlyAllow 'Apache-2.0; BSD-2-Clause; BSD-3-Clause; ISC; MIT; MPL-2.0; CC0-1.0; CC-BY-4.0; Python-2.0; Unlicense; BlueOak-1.0.0; 0BSD; UNLICENSED; UNKNOWN'
