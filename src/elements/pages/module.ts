@@ -1,7 +1,7 @@
 import './analytics/module';
 import './billing/module';
 import './dev/module';
-
+import './rvt-user-consent';
 import './dev-only';
 import './error';
 import './invalid-page-state';

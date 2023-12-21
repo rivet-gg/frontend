@@ -4,7 +4,7 @@ import { repeat } from 'lit/directives/repeat.js';
 import { styleMap } from 'lit/directives/style-map.js';
 import { when } from 'lit/directives/when.js';
 import { cssify } from '../../../../utils/css';
-import styles from './games.scss';
+import styles from './rvt-user-games.scss';
 import routes, { responses } from '../../../../routes';
 import global from '../../../../utils/global';
 import { Rivet } from '@rivet-gg/api-internal';
@@ -25,8 +25,8 @@ import { RepeatingRequest } from '../../../../utils/repeating-request';
 const tailwindConfig = require('../../../../../tailwind.config.js');
 const tailwind_palette = tailwindConfig.theme.extend.colors;
 
-@customElement('page-dev-games')
-export default class DevGames extends LitElement {
+@customElement('rvt-user-games')
+export default class RvtUserGames extends LitElement {
 	static styles = cssify(styles);
 
 	@property({ type: Object })
@@ -119,7 +119,7 @@ export default class DevGames extends LitElement {
 
 		// Fetch events
 		this.gamesStream = CloudDashboardCache.watch(
-			'DevGames.gamesStream',
+			'UserGames.gamesStream',
 			data => {
 				data.games.sort((a, b) => a.displayName.localeCompare(b.displayName));
 				data.groups.sort((a, b) =>

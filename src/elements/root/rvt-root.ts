@@ -17,6 +17,7 @@ import { Alignment, Orientation } from '../common/overlay-positioning';
 import { DropDownSelectEvent, DropDownSelection } from '../dev/drop-down-list';
 import { Breadcrumb } from '../common/rvt-nav';
 import { RepeatingRequest } from '../../utils/repeating-request';
+import settings from '../../utils/settings';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { repeat } from 'lit/directives/repeat.js';
 import { when } from 'lit/directives/when.js';
@@ -304,14 +305,6 @@ export default class RvtRoot extends LitElement {
 
 	openRegisterPanel() {
 		this.registerPanelActive = true;
-
-		this.updateComplete.then(async () => {
-			// Waiting for this makes sure that the body's scroll height is updated before setting scroll
-			// position
-			await this.getUpdateComplete();
-
-			this.registerPanel.focusInput();
-		});
 	}
 
 	closeRegisterPanel() {
@@ -374,6 +367,7 @@ export default class RvtRoot extends LitElement {
 	// === RENDER ===
 	render() {
 		let content = null;
+
 		// NOTE: Game link page has own flow
 		if (
 			window.location.pathname.startsWith('/link/') &&
@@ -392,29 +386,14 @@ export default class RvtRoot extends LitElement {
 				></page-link-game>
 				${this.renderBasicOverlays()}
 			`;
-		} else {
-			switch (this.globalStatus) {
-				// Loading
-				case GlobalStatus.Loading:
-				case GlobalStatus.Bootstrapping:
-					this.showLoading();
-					break;
-				case GlobalStatus.Consenting:
-					this.hideLoading();
-					content = html` <rvt-user-dashboard></rvt-user-dashboard>`;
-					break;
-				case GlobalStatus.Connected:
-				case GlobalStatus.Reconnecting:
-					// Continue as normal
-					this.hideLoading();
-					content = this.renderContent();
-					break;
-
-				// Failures
-				case GlobalStatus.AuthFailed:
-					this.showLoading();
-					break;
-			}
+		} else if (this.globalStatus === GlobalStatus.AuthFailed) {
+			this.showLoading();
+		} else if (
+			global.consentResolve ||
+			(settings.didConsent && this.globalStatus === GlobalStatus.Connected)
+		) {
+			this.hideLoading();
+			content = this.renderContent();
 		}
 
 		return html`
@@ -454,6 +433,11 @@ export default class RvtRoot extends LitElement {
 		`;
 	}
 
+	onLoginButtonClick() {
+		global.grantConsent();
+		RvtRoot.shared.openRegisterPanel();
+	}
+
 	// renderDebug() {
 	// 	let inFlightHostCounts = [...this.inFlightRequests.values()].reduce((prev, curr) => {
 	// 		let key = curr.host;
@@ -488,12 +472,14 @@ export default class RvtRoot extends LitElement {
 
 	renderContent() {
 		return html`
-			<rvt-nav
-				class="z-50 relative"
-				id="nav-bar"
-				.routeTitle="${this.routeTitle}"
-				.breadcrumbs="${this.breadcrumb}"
-			></rvt-nav>
+			${when(
+				this.globalStatus === GlobalStatus.Connected,
+				() =>
+					html`<rvt-nav
+						.routeTitle="${this.routeTitle}"
+						.breadcrumbs="${this.breadcrumb}"
+					></rvt-nav>`
+			)}
 
 			<!-- Page Body -->
 			<div id="content-holder" class="min-h-screen flex pt-14 box-border">
@@ -504,37 +490,46 @@ export default class RvtRoot extends LitElement {
 			</div>
 
 			<!-- Register overlay -->
-			<drop-down-modal
-				.active="${this.registerPanelActive}"
-				@close="${this.closeRegisterPanel.bind(this)}"
-			>
-				<modal-body slot="body">
-					<register-panel light @close="${this.closeRegisterPanel.bind(this)}"></register-panel>
-				</modal-body>
-			</drop-down-modal>
+			${when(
+				global.currentIdentity,
+				() =>
+					html`<drop-down-modal
+							.active="${this.registerPanelActive}"
+							@close="${this.closeRegisterPanel.bind(this)}"
+						>
+							<modal-body slot="body">
+								<register-panel
+									.active="${this.registerPanelActive}"
+									light
+									@close="${this.closeRegisterPanel.bind(this)}"
+									autofocus
+								></register-panel>
+							</modal-body>
+						</drop-down-modal>
 
-			<overlay-positioning
-				.active="${this.dropDownListData.active}"
-				.contextElement="${this.dropDownListData.contextElement}"
-				.orientation="${this.dropDownListData.orientation}"
-				.alignment="${Alignment.Corner}"
-				.fadeAnimation="${false}"
-				@close="${this.closeDropDownList.bind(this)}"
-			>
-				<drop-down-list
-					overlay
-					.selection="${this.dropDownListData.selection}"
-					.options="${this.dropDownListData.options}"
-					?fixed="${this.dropDownListData.fixed}"
-					.light="${this.dropDownListData.light}"
-					.bgColor="${this.dropDownListData.bgColor}"
-					.highlightColor="${this.dropDownListData.highlightColor}"
-					@select="${this.dropDownListData.selectionCb}"
-					@close="${this.closeDropDownList.bind(this)}"
-				></drop-down-list>
-			</overlay-positioning>
+						<overlay-positioning
+							.active="${this.dropDownListData.active}"
+							.contextElement="${this.dropDownListData.contextElement}"
+							.orientation="${this.dropDownListData.orientation}"
+							.alignment="${Alignment.Corner}"
+							.fadeAnimation="${false}"
+							@close="${this.closeDropDownList.bind(this)}"
+						>
+							<drop-down-list
+								overlay
+								.selection="${this.dropDownListData.selection}"
+								.options="${this.dropDownListData.options}"
+								?fixed="${this.dropDownListData.fixed}"
+								.light="${this.dropDownListData.light}"
+								.bgColor="${this.dropDownListData.bgColor}"
+								.highlightColor="${this.dropDownListData.highlightColor}"
+								@select="${this.dropDownListData.selectionCb}"
+								@close="${this.closeDropDownList.bind(this)}"
+							></drop-down-list>
+						</overlay-positioning>
 
-			${this.renderBasicOverlays()}
+						${this.renderBasicOverlays()}`
+			)}
 		`;
 	}
 

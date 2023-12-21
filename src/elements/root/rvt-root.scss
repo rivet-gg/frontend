@@ -245,3 +245,16 @@ search-panel {
 		right: 0;
 	}
 }
+
+:host rvt-nav {
+	animation: slide-down 0.3s consts.$animation-timing-juicy;
+}
+
+@keyframes slide-down {
+	0% {
+		transform: translateY(-100%);
+	}
+	100% {
+		transform: translateY(0);
+	}
+}

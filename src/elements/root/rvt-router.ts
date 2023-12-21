@@ -495,7 +495,6 @@ export default class RvtRouter extends LitElement {
 
 	resolveRoute(pathname: string, search: URLSearchParams): ResolvedRoute {
 		let searchParams = Object.fromEntries(search.entries());
-
 		// Attempt to match the path; default to 404 if not found
 		for (let route of routesArray) {
 			// Attempt to match the route
@@ -507,6 +506,11 @@ export default class RvtRouter extends LitElement {
 			for (let i = 1; i < result.length; i++) {
 				let key = route.pathKeys[i - 1]; // Regex group starts at 1, while keys start at 0
 				params[key.name] = result[i] != undefined ? decodeURIComponent(result[i]) : undefined;
+			}
+			// return early if one of the middlewares returns a result
+			for (let middleware of route.middlewaresCreator()) {
+				let result = middleware(params, search);
+				if (result) return { route: route, params, searchParams, renderResult: result };
 			}
 
 			// Return the result

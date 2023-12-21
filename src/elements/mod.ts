@@ -63,3 +63,4 @@ import './profile/user-banner';
 import './root/rvt-root';
 import './root/rvt-router';
 import './tiles/group-handle-tile';
+import './shared/mod';

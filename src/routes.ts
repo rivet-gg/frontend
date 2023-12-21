@@ -4,10 +4,10 @@ import global from './utils/global';
 import utils from './utils/utils';
 import RvtRoot from './elements/root/rvt-root';
 import { RivetError } from '@rivet-gg/api-internal';
-import { isDeveloper } from './utils/identity';
 import { Breadcrumb } from './elements/common/rvt-nav';
 import { GameSettingsRootConfig } from './elements/pages/dev/game/settings/game-settings';
 import { GroupSettingsRootConfig } from './elements/pages/dev/group/settings/group-settings';
+import globalSettings from './utils/settings';
 import { DevGameRootConfig } from './elements/pages/dev/game/pages/rvt-game-dashboard';
 
 export type RenderResult = RenderResultTemplate | RenderResultRedirect;
@@ -27,16 +27,39 @@ type RouteRender<P, S> = (params: P, search: S) => RenderResult;
 type RouteParameters = { [key: string]: string };
 type SearchParameters = { [key: string]: string };
 
-export class Route<P extends RouteParameters, S extends SearchParameters = {}> {
+type Middleware<P extends RouteParameters, S extends SearchParameters> = (
+	params: P,
+	search: S
+) => null | RenderResult;
+
+type AnyMiddleware = Middleware<any, any>;
+type ParametiredMiddleware<Args extends any[], P extends RouteParameters, S extends SearchParameters> = (
+	...args: Args
+) => Middleware<P, S>;
+type AnyParametiredMiddleware = ParametiredMiddleware<any[], any, any>;
+
+type MiddlewaresCreator<P extends RouteParameters, S extends SearchParameters> = () => Middleware<P, S>[];
+
+export class Route<P extends RouteParameters = {}, S extends SearchParameters = {}> {
 	path: string;
 	render: RouteRender<P, S>;
 
 	pathFunction: pathToRegexp.PathFunction<P>;
 
+	middlewaresCreator?: MiddlewaresCreator<P, S>;
+
 	pathKeys: pathToRegexp.Key[];
 	pathRegex: RegExp;
 
-	constructor({ path, render }: { path: string; render: RouteRender<P, S> }) {
+	constructor({
+		path,
+		render,
+		middlewares
+	}: {
+		path: string;
+		render: RouteRender<P, S>;
+		middlewares?: MiddlewaresCreator<P, S>;
+	}) {
 		// Save the properties
 		this.path = path;
 		this.render = render;
@@ -47,6 +70,8 @@ export class Route<P extends RouteParameters, S extends SearchParameters = {}> {
 		// Convert the path to regex
 		this.pathKeys = [];
 		this.pathRegex = pathToRegexp.pathToRegexp(this.path, this.pathKeys);
+
+		this.middlewaresCreator = middlewares;
 	}
 
 	build(params: P, search?: S): string {
@@ -60,10 +85,28 @@ export class Route<P extends RouteParameters, S extends SearchParameters = {}> {
 	}
 }
 
+const middlewares = {
+	requireConsent: () => {
+		if (!globalSettings.didConsent) return responses.consentRequired();
+		return null;
+	},
+	requireRegister: () => {
+		if (!global.currentIdentity.isRegistered) return responses.registerRequired();
+		return null;
+	},
+	validateUuid:
+		<const T extends string>(param: T) =>
+		(params: Record<T, string>) => {
+			if (!utils.validateUuid(params[param])) return responses.notFound();
+			return null;
+		}
+} satisfies Record<string, AnyMiddleware | AnyParametiredMiddleware>;
+
 // eslint-disable-next-line @typescript-eslint/no-namespace
 namespace routes {
-	export let home = new Route<{}>({
+	export let home = new Route({
 		path: '/',
+		middlewares: () => [middlewares.requireConsent, middlewares.requireRegister],
 		render() {
 			return {
 				title: 'Home',
@@ -76,7 +119,7 @@ namespace routes {
 	});
 
 	// Link removed
-	export let homeRedirect = new Route<{}>({
+	export let homeRedirect = new Route({
 		path: '/home',
 		render() {
 			return {
@@ -97,13 +140,9 @@ namespace routes {
 		}
 	});
 
-	// Reuse the same template in order to preserve the same `page-group-settings` instance.
-	function renderPageGroupSettings(groupId: string, config?: GroupSettingsRootConfig) {
-		return html` <page-group-settings .groupId="${groupId}" .config="${config}"></page-group-settings>`;
-	}
-
 	export let groupSettingsRedirect = new Route<{ groupId: string }>({
 		path: '/groups/:groupId/settings',
+		middlewares: () => [middlewares.requireConsent, middlewares.requireRegister],
 		render({ groupId }) {
 			return {
 				redirect: routes.groupSettings.build({ groupId, tab: 'general' })
@@ -113,11 +152,12 @@ namespace routes {
 
 	export let groupSettings = new Route<{ groupId: string; tab?: string }>({
 		path: '/groups/:groupId/settings/:tab?',
+		middlewares: () => [middlewares.requireConsent, middlewares.requireRegister],
 		render({ groupId, tab }) {
 			return {
 				title: 'Settings',
 				breadcrumb: { type: 'GroupSettings', groupId: groupId, title: tab },
-				template: renderPageGroupSettings(groupId, {
+				template: responses.groupSettings(groupId, {
 					general: tab.toLowerCase() === 'general' || tab === undefined,
 					members: tab.toLowerCase() === 'members',
 					billing: tab.toLowerCase() === 'billing'
@@ -128,9 +168,12 @@ namespace routes {
 
 	export let groupOverview = new Route<{ id: string }>({
 		path: '/groups/:id',
+		middlewares: () => [
+			middlewares.requireConsent,
+			middlewares.requireRegister,
+			middlewares.validateUuid('id')
+		],
 		render({ id }) {
-			if (!utils.validateUuid(id)) return responses.notFound();
-
 			return {
 				title: 'Group',
 				breadcrumb: { type: 'Group', groupId: id },
@@ -141,10 +184,12 @@ namespace routes {
 
 	export let analyticsOverview = new Route<{ groupId: string }>({
 		path: '/groups/:groupId/analytics',
+		middlewares: () => [
+			middlewares.requireConsent,
+			middlewares.requireRegister,
+			middlewares.validateUuid('groupId')
+		],
 		render({ groupId }) {
-			if (!global.currentIdentity.isRegistered) return responses.registerRequired();
-			if (!utils.validateUuid(groupId)) return responses.notFound();
-
 			return {
 				title: `Analytics`,
 				breadcrumb: {
@@ -159,6 +204,7 @@ namespace routes {
 
 	export let groupInvite = new Route<{ code: string }>({
 		path: '/invite/:code?',
+		middlewares: () => [middlewares.requireConsent, middlewares.requireRegister],
 		render({ code }) {
 			return {
 				title: 'Group Invite',
@@ -170,6 +216,7 @@ namespace routes {
 
 	export let settings = new Route<{ tab?: string }>({
 		path: '/settings/:tab?',
+		middlewares: () => [middlewares.requireConsent, middlewares.requireRegister],
 		render({ tab }) {
 			return {
 				title: `Settings`,
@@ -181,6 +228,7 @@ namespace routes {
 
 	export let linkGame = new Route<{ token: string }>({
 		path: '/link/:token',
+		middlewares: () => [middlewares.requireConsent, middlewares.requireRegister],
 		render({ token }) {
 			return {
 				title: `Link account`,
@@ -192,10 +240,8 @@ namespace routes {
 
 	export let devDeviceLink = new Route<{ token: string }>({
 		path: '/devices/link/:token',
+		middlewares: () => [middlewares.requireConsent, middlewares.requireRegister],
 		render({ token }) {
-			if (!global.currentIdentity.isRegistered) return responses.registerRequired();
-			if (!isDeveloper(global.currentIdentity)) return responses.developerOnly();
-
 			return {
 				title: 'Link Device',
 				breadcrumb: { type: 'Custom' },
@@ -204,21 +250,14 @@ namespace routes {
 		}
 	});
 
-	// Reuse the same template in order to preserve the same `page-dev-game` instance.
-	function renderPageDevGame(gameId: string, namespaceId: string, config: DevGameRootConfig) {
-		return html`<rvt-game-dashboard
-			.gameId="${gameId}"
-			.namespaceId="${namespaceId}"
-			.config="${config}"
-		></rvt-game-dashboard>`;
-	}
-
 	export let devGame = new Route<{ gameId: string }>({
 		path: '/games/:gameId',
+		middlewares: () => [
+			middlewares.requireConsent,
+			middlewares.requireRegister,
+			middlewares.validateUuid('gameId')
+		],
 		render({ gameId }) {
-			if (!global.currentIdentity.isRegistered) return responses.registerRequired();
-			if (!utils.validateUuid(gameId)) return responses.notFound();
-
 			return {
 				title: 'Game',
 				breadcrumb: { type: 'Game', gameId, title: 'Overview' },
@@ -237,15 +276,9 @@ namespace routes {
 		}
 	});
 
-	function renderPageDevGameSettings(gameId: string, config: GameSettingsRootConfig) {
-		return html`<page-dev-game-settings
-			.gameId="${gameId}"
-			.config="${config}"
-		></page-dev-game-settings>`;
-	}
-
 	export let devGameSettingsRedirect = new Route<{ gameId: string }>({
 		path: '/games/:gameId/settings',
+		middlewares: () => [middlewares.requireConsent, middlewares.requireRegister],
 		render({ gameId }) {
 			return {
 				redirect: routes.devGameSettings.build({ gameId, tab: 'general' })
@@ -255,11 +288,12 @@ namespace routes {
 
 	export let devGameSettings = new Route<{ gameId: string; tab?: string }>({
 		path: '/games/:gameId/settings/:tab?',
+		middlewares: () => [middlewares.requireConsent, middlewares.requireRegister],
 		render({ gameId, tab }) {
 			return {
 				title: 'Settings',
 				breadcrumb: { type: 'GameSettings', gameId: gameId, title: tab },
-				template: renderPageDevGameSettings(gameId, {
+				template: responses.gameSettings(gameId, {
 					general: tab === 'general',
 					tokens: tab === 'tokens',
 					billing: tab === 'billing'
@@ -270,15 +304,17 @@ namespace routes {
 
 	export let devNamespace = new Route<{ gameId: string; namespaceId: string }>({
 		path: '/games/:gameId/namespaces/:namespaceId',
+		middlewares: () => [
+			middlewares.requireConsent,
+			middlewares.requireRegister,
+			middlewares.validateUuid('gameId'),
+			middlewares.validateUuid('namespaceId')
+		],
 		render({ gameId, namespaceId }) {
-			if (!global.currentIdentity.isRegistered) return responses.registerRequired();
-
-			if (!utils.validateUuid(gameId) || !utils.validateUuid(namespaceId)) return responses.notFound();
-
 			return {
 				title: 'Game Namespace',
 				breadcrumb: { type: 'Namespace', gameId, namespaceId, title: 'Overview' },
-				template: renderPageDevGame(gameId, namespaceId, {
+				template: responses.game(gameId, namespaceId, {
 					summary: true,
 					namespace: { namespaceId }
 				})
@@ -288,29 +324,35 @@ namespace routes {
 
 	export let devVersionSummary = new Route<{ gameId: string; namespaceId: string }>({
 		path: '/games/:gameId/namespaces/:namespaceId/versions',
+		middlewares: () => [
+			middlewares.requireConsent,
+			middlewares.requireRegister,
+			middlewares.validateUuid('gameId'),
+			middlewares.validateUuid('namespaceId')
+		],
 		render({ gameId, namespaceId }) {
-			if (!global.currentIdentity.isRegistered) return responses.registerRequired();
-			if (!utils.validateUuid(gameId)) return responses.notFound();
-
 			return {
 				title: 'Namespace Versions',
 				breadcrumb: { type: 'Namespace', gameId, namespaceId, title: 'Version' },
-				template: renderPageDevGame(gameId, namespaceId, { versionSummary: true })
+				template: responses.game(gameId, namespaceId, { versionSummary: true })
 			};
 		}
 	});
 
 	export let devVersion = new Route<{ gameId: string; namespaceId: string; versionId: string }>({
 		path: '/games/:gameId/namespaces/:namespaceId/versions/:versionId',
+		middlewares: () => [
+			middlewares.requireConsent,
+			middlewares.requireRegister,
+			middlewares.validateUuid('gameId'),
+			middlewares.validateUuid('namespaceId'),
+			middlewares.validateUuid('versionId')
+		],
 		render({ gameId, namespaceId, versionId }) {
-			if (!global.currentIdentity.isRegistered) return responses.registerRequired();
-
-			if (!utils.validateUuid(gameId) || !utils.validateUuid(versionId)) return responses.notFound();
-
 			return {
 				title: 'Game Version',
 				breadcrumb: { type: 'Namespace', gameId, namespaceId, title: 'Version' },
-				template: renderPageDevGame(gameId, namespaceId, {
+				template: responses.game(gameId, namespaceId, {
 					namespace: { namespaceId },
 					version: { versionId }
 				})
@@ -328,7 +370,7 @@ namespace routes {
 			return {
 				title: 'Game Version Settings',
 				breadcrumb: { type: 'Namespace', gameId, namespaceId, title: 'Settings' },
-				template: renderPageDevGame(gameId, namespaceId, {
+				template: responses.game(gameId, namespaceId, {
 					versionSettings: true,
 					namespaceId
 				})
@@ -338,58 +380,68 @@ namespace routes {
 
 	export let devVersionDraft = new Route<{ gameId: string }>({
 		path: '/games/:gameId/version-draft',
+		middlewares: () => [
+			middlewares.requireConsent,
+			middlewares.requireRegister,
+			middlewares.validateUuid('gameId')
+		],
 		render({ gameId }) {
-			if (!global.currentIdentity.isRegistered) return responses.registerRequired();
-			if (!utils.validateUuid(gameId)) return responses.notFound();
-
 			return {
 				title: 'Game Version Draft',
 				breadcrumb: { type: 'Game', gameId, title: 'Version Draft' },
-				template: renderPageDevGame(gameId, null, { versionDraft: true })
+				template: responses.game(gameId, null, { versionDraft: true })
 			};
 		}
 	});
 
 	export let devTokens = new Route<{ gameId: string; namespaceId: string }>({
 		path: '/games/:gameId/namespaces/:namespaceId/api',
+		middlewares: () => [
+			middlewares.requireConsent,
+			middlewares.requireRegister,
+			middlewares.validateUuid('gameId'),
+			middlewares.validateUuid('namespaceId')
+		],
 		render({ gameId, namespaceId }) {
-			if (!global.currentIdentity.isRegistered) return responses.registerRequired();
-			if (!utils.validateUuid(gameId)) return responses.notFound();
-
 			return {
 				title: 'Namespace Tokens',
 				breadcrumb: { type: 'Namespace', gameId, namespaceId, title: 'Tokens' },
-				template: renderPageDevGame(gameId, namespaceId, { tokens: true, namespaceId })
+				template: responses.game(gameId, namespaceId, { tokens: true, namespaceId })
 			};
 		}
 	});
 
 	export let devLogs = new Route<{ gameId: string; namespaceId: string }>({
 		path: '/games/:gameId/namespaces/:namespaceId/logs',
+		middlewares: () => [
+			middlewares.requireConsent,
+			middlewares.requireRegister,
+			middlewares.validateUuid('gameId'),
+			middlewares.validateUuid('namespaceId')
+		],
 		render({ gameId, namespaceId }) {
-			if (!global.currentIdentity.isRegistered) return responses.registerRequired();
-			if (!utils.validateUuid(gameId)) return responses.notFound();
-			if (namespaceId && !utils.validateUuid(namespaceId)) return responses.notFound();
-
 			return {
 				title: 'Game Logs',
 				breadcrumb: { type: 'Namespace', gameId, namespaceId, title: 'Logs' },
-				template: renderPageDevGame(gameId, namespaceId, { logs: true, namespaceId })
+				template: responses.game(gameId, namespaceId, { logs: true, namespaceId })
 			};
 		}
 	});
 
 	export let devLogLobby = new Route<{ gameId: string; namespaceId: string; lobbyId: string }>({
 		path: '/games/:gameId/namespaces/:namespaceId/logs/:lobbyId',
+		middlewares: () => [
+			middlewares.requireConsent,
+			middlewares.requireRegister,
+			middlewares.validateUuid('gameId'),
+			middlewares.validateUuid('namespaceId'),
+			middlewares.validateUuid('lobbyId')
+		],
 		render({ gameId, namespaceId, lobbyId }) {
-			if (!global.currentIdentity.isRegistered) return responses.registerRequired();
-			if (!utils.validateUuid(gameId)) return responses.notFound();
-			if (!utils.validateUuid(lobbyId)) return responses.notFound();
-
 			return {
 				title: 'Game Logs',
 				breadcrumb: { type: 'Namespace', gameId, namespaceId, title: 'Lobby Logs' },
-				template: renderPageDevGame(gameId, namespaceId, {
+				template: responses.game(gameId, namespaceId, {
 					logs: true,
 					namespaceId,
 					logsLobbyId: lobbyId
@@ -400,61 +452,69 @@ namespace routes {
 
 	export let devLobbies = new Route<{ gameId: string; namespaceId: string }>({
 		path: '/games/:gameId/namespaces/:namespaceId/lobbies',
+		middlewares: () => [
+			middlewares.requireConsent,
+			middlewares.requireRegister,
+			middlewares.validateUuid('gameId'),
+			middlewares.validateUuid('namespaceId')
+		],
 		render({ gameId, namespaceId }) {
-			if (!global.currentIdentity.isRegistered) return responses.registerRequired();
-			if (!utils.validateUuid(gameId)) return responses.notFound();
-			if (namespaceId && !utils.validateUuid(namespaceId)) return responses.notFound();
-
 			return {
 				title: 'Game Lobbies',
 				breadcrumb: { type: 'Namespace', gameId, namespaceId, title: 'Lobbies' },
-				template: renderPageDevGame(gameId, namespaceId, { lobbies: true, namespaceId })
+				template: responses.game(gameId, namespaceId, { lobbies: true, namespaceId })
 			};
 		}
 	});
 
 	export let devKv = new Route<{ gameId: string; namespaceId: string }>({
 		path: '/games/:gameId/namespaces/:namespaceId/kv',
+		middlewares: () => [
+			middlewares.requireConsent,
+			middlewares.requireRegister,
+			middlewares.validateUuid('gameId'),
+			middlewares.validateUuid('namespaceId')
+		],
 		render({ gameId, namespaceId }) {
-			if (!global.currentIdentity.isRegistered) return responses.registerRequired();
-			if (!utils.validateUuid(gameId)) return responses.notFound();
-			if (namespaceId && !utils.validateUuid(namespaceId)) return responses.notFound();
-
 			return {
 				title: 'Game KV',
 				breadcrumb: { type: 'Namespace', gameId, namespaceId, title: 'KV' },
-				template: renderPageDevGame(gameId, namespaceId, { kv: true, namespaceId })
+				template: responses.game(gameId, namespaceId, { kv: true, namespaceId })
 			};
 		}
 	});
 
 	export let devBilling = new Route<{ gameId: string }>({
 		path: '/games/:gameId/billing',
+		middlewares: () => [
+			middlewares.requireConsent,
+			middlewares.requireRegister,
+			middlewares.validateUuid('gameId')
+		],
 		render({ gameId }) {
-			if (!global.currentIdentity.isRegistered) return responses.registerRequired();
-			if (!utils.validateUuid(gameId)) return responses.notFound();
-
 			return {
 				title: 'Game Billing',
 				breadcrumb: { type: 'Game', gameId, title: 'Billing' },
-				template: renderPageDevGame(gameId, null, { sites: true })
+				template: responses.game(gameId, null, { sites: true })
 			};
 		}
 	});
 
 	export let devBuilds = new Route<{ gameId: string }>({
 		path: '/games/:gameId/builds',
+		middlewares: () => [
+			middlewares.requireConsent,
+			middlewares.requireRegister,
+			middlewares.validateUuid('gameId')
+		],
 		render({ gameId }) {
 			// TODO:
 			return responses.notFound();
 
-			if (!global.currentIdentity.isRegistered) return responses.registerRequired();
-			if (!utils.validateUuid(gameId)) return responses.notFound();
-
 			return {
 				title: 'Game Builds',
 				breadcrumb: { type: 'Game', gameId, title: 'Builds' },
-				template: renderPageDevGame(gameId, null, { builds: true })
+				template: responses.game(gameId, null, { builds: true })
 			};
 		}
 	});
@@ -524,22 +584,22 @@ export namespace responses {
 	}
 
 	export function registerRequired(): RenderResult {
+		// `rvt-user-consent` serves two purposes - granting a consent and registering/loging in a user
+		return responses.consentRequired();
+	}
+
+	export function consentRequired(): RenderResult {
 		return {
-			title: 'Register Required',
+			title: 'Welcome!',
 			breadcrumb: {
 				type: 'Custom'
 			},
-			template: html` <invalid-page-state>
-				<h1 slot="title">Registered Only</h1>
-				<h2 slot="subtitle">
-					This page isn't available for guest accounts. Register to save your account.
-				</h2>
-				<div slot="actions">
-					<stylized-button .trigger="${() => RvtRoot.shared.openRegisterPanel()}"
-						>Register Now
-					</stylized-button>
-				</div>
-			</invalid-page-state>`
+			template: html`<div class="flex justify-center min-h-full w-full">
+				<rvt-user-consent
+					class="self-center"
+					@login=${RvtRoot.shared.onLoginButtonClick}
+				></rvt-user-consent>
+			</div>`
 		};
 	}
 
@@ -585,6 +645,25 @@ export namespace responses {
 		} else errorMessage = 'Error';
 
 		return html` <page-error .message="${errorMessage}" .expand="${!notFullHeight}"></page-error>`;
+	}
+
+	export function gameSettings(gameId: string, config: GameSettingsRootConfig) {
+		return html`<page-dev-game-settings
+			.gameId="${gameId}"
+			.config="${config}"
+		></page-dev-game-settings>`;
+	}
+
+	export function game(gameId: string, namespaceId: string, config: DevGameRootConfig) {
+		return html`<rvt-game-dashboard
+			.gameId="${gameId}"
+			.namespaceId="${namespaceId}"
+			.config="${config}"
+		></prvt-game-dashboard>`;
+	}
+
+	export function groupSettings(groupId: string, config?: GroupSettingsRootConfig) {
+		return html` <page-group-settings .groupId="${groupId}" .config="${config}"></page-group-settings>`;
 	}
 }
 

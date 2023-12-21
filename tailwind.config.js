@@ -30,6 +30,9 @@ module.exports = {
 			translate: {
 				'.05': '.05rem'
 			},
+			zIndex: {
+				navigation: '4'
+			},
 			gridTemplateColumns: {
 				'sidebar-layout': '18rem calc(100vw - 18rem)'
 			}
