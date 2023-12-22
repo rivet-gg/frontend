@@ -1,4 +1,16 @@
 const plugin = require('tailwindcss/plugin');
+const tailwindPalettes = require('./src/styles/pallete/tailwind.json');
+
+const palettesMap = tailwindPalettes.reduce((acc, curr) => {
+	acc[curr.paletteName] = curr;
+	return acc;
+}, {});
+
+const converPalletteToTailwind = palette =>
+	palette.swatches.reduce((acc, curr) => {
+		acc[curr.name] = `#${curr.color}`;
+		return acc;
+	}, {});
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -13,6 +25,12 @@ module.exports = {
 			flat: 'flat',
 			'3d': 'preserve-3d'
 		},
+		foldups: {
+			lg: 'var(--tw-shadow-color) 0px 6px 0px 0px',
+			md: 'var(--tw-shadow-color) 0px 4px 0px 0px',
+			sm: 'var(--tw-shadow-color) 0px 2px 0px 0px',
+			none: 'var(--tw-shadow-color) 0px 0px 0px 0px'
+		},
 		extend: {
 			screens: {
 				mdLg: '1100px'
@@ -26,7 +44,12 @@ module.exports = {
 				'context-menu': '#262626',
 				'raised-hover': '#FFFFFF27',
 				'muted-text': '#737373',
-				'main-accent': '#7f56d9'
+				'main-accent': '#7f56d9',
+				violet: converPalletteToTailwind(palettesMap['Violet']),
+				zinc: converPalletteToTailwind(palettesMap['Zinc'])
+			},
+			scale: {
+				98: '.98'
 			},
 			maxWidth: {
 				contentwidth: '1100px'
@@ -90,6 +113,16 @@ module.exports = {
 					})
 				},
 				{ values: theme('transformStyle') }
+			);
+		}),
+		plugin(({ matchUtilities, theme }) => {
+			matchUtilities(
+				{
+					foldup: value => ({
+						boxShadow: value
+					})
+				},
+				{ values: theme('foldups') }
 			);
 		})
 	]
