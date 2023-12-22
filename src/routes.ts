@@ -9,6 +9,7 @@ import { GameSettingsRootConfig } from './elements/pages/dev/game/settings/game-
 import { GroupSettingsRootConfig } from './elements/pages/dev/group/settings/group-settings';
 import globalSettings from './utils/settings';
 import { DevGameRootConfig } from './elements/pages/dev/game/pages/rvt-game-dashboard';
+import config from './config';
 
 export type RenderResult = RenderResultTemplate | RenderResultRedirect;
 
@@ -496,6 +497,20 @@ namespace routes {
 				title: 'Game Billing',
 				breadcrumb: { type: 'Game', gameId, title: 'Billing' },
 				template: responses.game(gameId, null, { sites: true })
+			};
+		}
+	});
+
+	export let kitchenSink = new Route({
+		path: '/kitchen-sink',
+		render() {
+			if (!config.DEBUG) {
+				return responses.notFound();
+			}
+			return {
+				title: 'Kitchen Sink',
+				breadcrumb: { type: 'Custom' },
+				template: html` <rvt-kitchen-sink></rvt-kichen-sink>`
 			};
 		}
 	});

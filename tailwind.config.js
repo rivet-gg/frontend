@@ -9,6 +9,10 @@ module.exports = {
 			display: ['Cartridge', 'ui-sans-serif', 'system-ui'],
 			pixel: ['Silkscreen', 'ui-sans-serif', 'system-ui']
 		},
+		transformStyle: {
+			flat: 'flat',
+			'3d': 'preserve-3d'
+		},
 		extend: {
 			screens: {
 				mdLg: '1100px'
@@ -35,6 +39,9 @@ module.exports = {
 			},
 			gridTemplateColumns: {
 				'sidebar-layout': '18rem calc(100vw - 18rem)'
+			},
+			aria: {
+				busy: 'busy'
 			}
 		}
 	},
@@ -47,6 +54,43 @@ module.exports = {
 				h2: { fontFamily: theme('fontFamily.display') },
 				h3: { fontFamily: theme('fontFamily.display') }
 			});
+		}),
+		/**
+		 * Adds translate-z utilities.
+		 * Accepts negative values, responds to responsive styles, modify possible values in 'transform' theme key.
+		 * @see {@link https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function/translateZ}
+		 * @example
+		 * <div class="translate-z-10"></div>
+		 * <div class="-translate-z-1"></div>
+		 */
+		plugin(({ matchUtilities, theme }) => {
+			matchUtilities(
+				{
+					'translate-z': value => ({
+						'--tw-translate-z': value,
+						transform: ` translate3d(var(--tw-translate-x), var(--tw-translate-y), var(--tw-translate-z)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))`
+					})
+				},
+				{ values: theme('translate'), supportsNegativeValues: true }
+			);
+		}),
+		/**
+		 * Adds transform-style utilities.
+		 * Modify possible values in 'transformStyle' theme key.
+		 * @see {@link https://developer.mozilla.org/en-US/docs/Web/CSS/transform-style|MDN}
+		 * @example
+		 * <div class="transform-style-none"></div>
+		 * <div class="transform-style-3d"></div>
+		 */
+		plugin(({ matchUtilities, theme }) => {
+			matchUtilities(
+				{
+					'transform-style': value => ({
+						'transform-style': value
+					})
+				},
+				{ values: theme('transformStyle') }
+			);
 		})
 	]
 };
