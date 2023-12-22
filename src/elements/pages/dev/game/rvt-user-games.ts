@@ -268,7 +268,8 @@ export default class RvtUserGames extends LitElement {
 					  </div>`
 					: null}
 				${when(
-					global.currentIdentity.isRegistered && global.currentIdentity.isAdmin,
+					// Allow creating new group if user is admin or registered on a public cluster
+					global.currentIdentity.isAdmin || (global.bootstrapData.cluster == Rivet.cloud.BootstrapCluster.Enterprise&& global.currentIdentity.isRegistered),
 					() =>
 						html` <button
 							class="dashed-border-button flex justify-center items-center hover:cursor-pointer w-full h-32 place-content-center text-white/80  hover:text-white hover:bg-button-bg-hover-color"

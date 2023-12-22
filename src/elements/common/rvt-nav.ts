@@ -1,7 +1,7 @@
 import { html, LitElement, PropertyValues, TemplateResult } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { cssify } from '../../utils/css';
-import global from '../../utils/global';
+import global, { GlobalStatus } from '../../utils/global';
 import routes from '../../routes';
 import * as api from '../../utils/api';
 import { when } from 'lit/directives/when.js';
@@ -403,16 +403,11 @@ export default class RvtNav extends LitElement {
 				class="gap-10 px-6 lg:z-30 pointer-events-auto flex flex-col transition md:divide-white/15 backdrop-blur bg-zinc-900/[.8]"
 			>
 				<div class="h-14 flex items-center justify-between ">
+					<!-- Background -->
 					<div class="absolute inset-x-0 top-full h-px transition bg-[#29292c]"></div>
 
 					<div class="flex flex-row align-middle my-auto max-sm:mx-auto">
-						<div class="sm:hidden absolute left-2">
-							<identity-avatar
-								class="my-auto block w-7 h-7"
-								shadow
-								.identity=${global.currentIdentity}
-							></identity-avatar>
-						</div>
+						<!-- Logo -->
 						<a aria-label="Home" class="my-auto" href=${routes.home.build({})}>
 							<div class="h-6">
 								<e-svg
@@ -423,18 +418,7 @@ export default class RvtNav extends LitElement {
 							</div>
 						</a>
 
-						<div
-							class="sm:hidden absolute right-2 flex place-content-center my-auto opacity-75 transition hover:opacity-100"
-						>
-							<icon-button
-								src="regular/gear"
-								class="my-auto"
-								small
-								color="#ececec80"
-								href=${routes.settings.build({})}
-							></icon-button>
-						</div>
-
+						<!-- Breadcrumb -->
 						<div class="hidden my-auto sm:ml-6 sm:block">
 							<div class="flex my-auto" aria-label="Breadcrumb">
 								<ol role="list" class="flex items-center">
@@ -444,26 +428,48 @@ export default class RvtNav extends LitElement {
 						</div>
 					</div>
 
-					<div
-						class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0 space-x-4 max-sm:invisible my-auto"
-					>
-						<identity-name
-							class="my-auto text-sm"
-							.identity=${global.currentIdentity}
-							no-link
-						></identity-name>
-						<identity-avatar
-							class="block w-6 h-6 m-2"
-							.identity=${global.currentIdentity}
-						></identity-avatar>
+					${when(global.status == GlobalStatus.Connected, () =>  html`
+						<!-- Avatar -->
+						<div class="sm:hidden absolute left-2">
+							<identity-avatar
+								class="my-auto block w-7 h-7"
+								shadow
+								.identity=${global.currentIdentity}
+							></identity-avatar>
+						</div>
+						<div
+							class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0 space-x-4 max-sm:invisible my-auto"
+						>
+							<identity-name
+								class="my-auto text-sm"
+								.identity=${global.currentIdentity}
+								no-link
+							></identity-name>
+							<identity-avatar
+								class="block w-6 h-6 m-2"
+								.identity=${global.currentIdentity}
+							></identity-avatar>
 
-						<icon-button
-							src="regular/gear"
-							small
-							color="#ececec80"
-							href=${routes.settings.build({})}
-						></icon-button>
-					</div>
+							<icon-button
+								src="regular/gear"
+								small
+								color="#ececec80"
+								href=${routes.settings.build({})}
+							></icon-button>
+						</div>
+
+						<!-- Settings -->
+						<div class="sm:hidden absolute right-2 flex place-content-center my-auto opacity-75 transition hover:opacity-100">
+							<icon-button
+								src="regular/gear"
+								class="my-auto"
+								small
+								color="#ececec80"
+								href=${routes.settings.build({})}
+							></icon-button>
+						</div>
+						`
+					)}
 				</div>
 			</nav>
 		`;

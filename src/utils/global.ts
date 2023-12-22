@@ -30,11 +30,12 @@ export enum GlobalStatus {
 	// Loading
 	Loading, // Waiting for script to start
 	Bootstrapping, // Waiting for bootstrap to finish
-	Connecting, // Waiting for live to connect
+	Connecting, // Waiting for live to connect (i.e. currentIdentity not accessible)
 	Reconnecting, // Waiting for live to reconnect
 
 	// Interactive
-	Consenting,
+	Consenting,  // Waiting for user to click consent button
+	Unregistered,  // User is not registered
 	LinkingGame,
 	Connected,
 
@@ -70,8 +71,11 @@ export class GlobalState {
 
 	broadcast: BroadcastSystem = new BroadcastSystem(true);
 
-	setupLiveAttempts = 0;
+	// If the consent button was just clicked and we want to stay on the login
+	// screen without showing the loading screen again
+	suppressLoadingAnimationDuringConsent = false;
 
+	setupLiveAttempts = 0;
 	troubleConnecting = false;
 	liveInitiated = false;
 	liveBlockingBypass: number = null;
@@ -87,6 +91,17 @@ export class GlobalState {
 	windowSize: number = WindowSize.Large;
 
 	async init() {
+		await this.bootstrap();
+
+		// IMPORTANT: If on the /access-token/ page, automatically consent to continue loading. This is only
+		// done on OSS.
+		if (
+			window.location.pathname.startsWith('/access-token/') &&
+			this.bootstrapData.cluster == Rivet.cloud.BootstrapCluster.Oss
+		) {
+			global.grantConsent();
+		}
+
 		// Request consent before doing anything else
 		await this.requestConsent();
 
@@ -161,8 +176,6 @@ export class GlobalState {
 
 					// Retry request after refreshing auth
 					return await fetcher(args);
-				} else {
-					return response;
 				}
 
 				return response;
@@ -202,7 +215,7 @@ export class GlobalState {
 
 		ls.setGlobalListener(this.onSettingChange.bind(this));
 
-		this.bootstrap();
+		this.setupLive();
 
 		// Set initial status
 		this.updateStatus();
@@ -242,8 +255,8 @@ export class GlobalState {
 		if (this.consentResolve !== undefined) this.consentResolve();
 	}
 
-	/// Fetches configuration information from the servers & creates the intiital auth token.
-	async bootstrap(noCache = false) {
+	/// Fetches configuration information from the servers & creates the initial auth token.
+	async bootstrap() {
 		// Reset bootstrap state
 		this.bootstrapFailed = false;
 		this.bootstrapData = undefined;
@@ -251,13 +264,20 @@ export class GlobalState {
 		let retry = 1;
 		while (retry <= 3) {
 			try {
+				// Initial bootstrap occurs before the api is fully created, make fallback
+				let api =
+					this.api ??
+					new RivetClient({
+						environment: config.ORIGIN_API
+					});
+
 				logging.event('Bootstrapping');
-				let response = await this.api.cloud.bootstrap();
-				logging.event('Bootstrapp success');
+				let response = await api.cloud.bootstrap();
+				logging.event('Bootstrapp success', response);
 				this.bootstrapFailed = false;
 				this.bootstrapData = response;
 				this.updateStatus();
-				this.setupLive(noCache);
+
 				return;
 			} catch (err) {
 				logging.error(`Bootstrapping failed ${retry} `, err);
@@ -266,12 +286,14 @@ export class GlobalState {
 				retry++;
 			}
 		}
+
 		logging.error('Bootstrapping failed after retries');
 		this.bootstrapFailed = true;
 		this.bootstrapData = undefined;
 		this.updateStatus();
 	}
 
+	/// Watches realtime data for the current identity
 	async setupLive(noCache = false) {
 		let hasResolved = false;
 
@@ -344,8 +366,7 @@ export class GlobalState {
 				// Attempt to reconnect in a few seconds
 				setTimeout(
 					() => {
-						// This calls `setupLive` on success
-						this.bootstrap(true);
+						this.setupLive(true);
 					},
 					this.setupLiveAttempts <= 3 ? timing.seconds(1) : timing.seconds(5)
 				);
@@ -386,19 +407,16 @@ export class GlobalState {
 	updateStatus() {
 		// Derive the status
 		let status: GlobalStatus;
-		if (!settings.didConsent) {
-			status = GlobalStatus.Consenting;
-		} else if (!this.authManager) status = GlobalStatus.Loading;
+		if (this.bootstrapFailed) status = GlobalStatus.BootstrapFailed;
+		else if (!this.bootstrapData) status = GlobalStatus.Bootstrapping;
+		else if (!settings.didConsent) status = GlobalStatus.Consenting;
+		else if ((!this.authManager || !this.liveInitiated) && this.suppressLoadingAnimationDuringConsent) status = GlobalStatus.Consenting;
+		else if (!this.authManager) status = GlobalStatus.Loading;
 		else if (this.authManager.authenticationFailed) status = GlobalStatus.AuthFailed;
-		else if (this.bootstrapFailed) status = GlobalStatus.BootstrapFailed;
-		else if (!this.bootstrapData) {
-			status = GlobalStatus.Bootstrapping;
-		} else if (!this.liveInitiated) {
-			status = GlobalStatus.Connecting;
-		} else {
-			if (this.troubleConnecting) status = GlobalStatus.Reconnecting;
-			else status = GlobalStatus.Connected;
-		}
+		else if (!this.liveInitiated) status = GlobalStatus.Connecting;
+		else if (global.currentIdentity && (!global.currentIdentity.isRegistered || !global.currentIdentity.isAdmin)) status = GlobalStatus.Unregistered;
+		else if (this.troubleConnecting) status = GlobalStatus.Reconnecting;
+		else status = GlobalStatus.Connected;
 
 		// Dispatch event
 		if (status !== this.status) {

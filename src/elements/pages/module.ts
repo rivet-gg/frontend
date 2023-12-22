@@ -6,5 +6,6 @@ import './dev-only';
 import './error';
 import './invalid-page-state';
 import './link-game';
+import './access-token';
 import './rvt-user-dashboard';
 import './rvt-kitchen-sink';

@@ -319,9 +319,7 @@ export default class RegisterPanel extends LitElement {
 							>
 						</div>
 						${this.emailError != null ? html`<p id="error">${this.emailError}</p>` : null}
-						<p class="muted">
-							All of the data on your current guest account will be transferred automatically.
-						</p>`}
+						`}
 		</div>`;
 	}
 

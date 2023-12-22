@@ -508,9 +508,11 @@ export default class RvtRouter extends LitElement {
 				params[key.name] = result[i] != undefined ? decodeURIComponent(result[i]) : undefined;
 			}
 			// return early if one of the middlewares returns a result
-			for (let middleware of route.middlewaresCreator()) {
-				let result = middleware(params, search);
-				if (result) return { route: route, params, searchParams, renderResult: result };
+			if (route.middlewaresCreator) {
+				for (let middleware of route.middlewaresCreator()) {
+					let result = middleware(params, search);
+					if (result) return { route: route, params, searchParams, renderResult: result };
+				}
 			}
 
 			// Return the result
