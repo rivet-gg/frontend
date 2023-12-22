@@ -6,7 +6,7 @@ import timing, { wait } from './timing';
 import { globalEventGroups, windowEventGroups } from './global-events';
 import * as api from './api';
 import * as cloud from '@rivet-gg/cloud';
-import { RootCache } from '../data/cache';
+import { CurrentIdentityCache, BootstrapCache } from '../data/cache';
 import { BroadcastEvent, BroadcastEventKind } from '../data/broadcast';
 import { ls } from './cache';
 import { BroadcastSystem } from './broadcast';
@@ -45,9 +45,6 @@ export enum GlobalStatus {
 }
 
 export class GlobalState {
-	// Consent.
-	consentResolve?: () => void;
-
 	// Authentication client.
 	authManager: AuthManager;
 
@@ -64,25 +61,29 @@ export class GlobalState {
 	auth: api.auth.AuthService;
 	cloud: cloud.CloudService;
 
-	/// Data for the current signed in identity.
-	currentIdentity: api.identity.IdentityProfile;
+	broadcast: BroadcastSystem = new BroadcastSystem(true);
+
 
 	status: GlobalStatus = GlobalStatus.Loading;
 
-	broadcast: BroadcastSystem = new BroadcastSystem(true);
+	bootstrapFailed = false;
+	bootstrapData: Rivet.cloud.BootstrapResponse;
+	bootstrapError?: Error;
 
-	// If the consent button was just clicked and we want to stay on the login
-	// screen without showing the loading screen again
-	suppressLoadingAnimationDuringConsent = false;
+	didSetupApi = false;
 
 	setupLiveAttempts = 0;
 	troubleConnecting = false;
 	liveInitiated = false;
 	liveBlockingBypass: number = null;
 
-	bootstrapFailed = false;
-	bootstrapData: Rivet.cloud.BootstrapResponse;
-	bootstrapError?: Error;
+	// If the consent button was just clicked and we want to stay on the login
+	// screen without showing the loading screen again
+	suppressLoadingAnimationDuringConsent = false;
+
+	/// Data for the current signed in identity.
+	currentIdentity: api.identity.IdentityProfile;
+	currentIdentityWatch: api.identity.WatchResponse;
 
 	identityStream: RepeatingRequest<api.identity.GetIdentitySelfProfileCommandOutput>;
 	eventStream: RepeatingRequest<api.identity.WatchEventsCommandOutput>;
@@ -90,7 +91,12 @@ export class GlobalState {
 	// Mobile information
 	windowSize: number = WindowSize.Large;
 
+	/// Effectively the constructor. Called on page load.
 	async init() {
+		// Load cache
+		await this.loadCache()
+
+		// Bootstrap
 		await this.bootstrap();
 
 		// IMPORTANT: If on the /access-token/ page, automatically consent to continue loading. This is only
@@ -102,16 +108,53 @@ export class GlobalState {
 			global.grantConsent();
 		}
 
-		// Request consent before doing anything else
-		await this.requestConsent();
+		// Set initial status to trigger initial UI update
+		this.updateStatus();
 
-		// Load cache
-		if (await this.loadCache()) {
-			logging.event('Cache quick start');
-			this.liveInitiated = true;
+		// Handle evens from all instances of the hub
+		this.broadcast.addEventListener('message', this.handleBroadcastMessages.bind(this));
+
+		// Handle resize
+		windowEventGroups.add('resize', this.onResize.bind(this), timing.milliseconds(100));
+		this.onResize();
+
+		// Setup API if already consented. If not, will be triggered on grantConsent.
+		if (settings.didConsent) {
+			this.setupApi();
+		}
+	}
+
+	async loadCache() {
+		// Bootstrap
+		let bootstrap = await BootstrapCache.get();
+		if (bootstrap) {
+			this.bootstrapData = bootstrap;
 		}
 
-		this.broadcast.addEventListener('message', this.handleBroadcastMessages.bind(this));
+		// Current identity
+		let currentIdentity = await CurrentIdentityCache.get();
+		if (currentIdentity) {
+			logging.event('Current identity cache loaded');
+			this.currentIdentity = currentIdentity.profile;
+			this.currentIdentityWatch = currentIdentity.watch;
+		}
+	}
+
+	public grantConsent() {
+		// Update state
+		settings.didConsent = true;
+		this.updateStatus();
+		this.setupApi();
+	}
+
+	async setupApi() {
+		if (!settings.didConsent) throw new Error('Cannot setup API without consent');
+
+		if (this.didSetupApi) {
+			logging.warn('API already setup');
+			return;
+		}
+		this.didSetupApi = true;
 
 		// Create auth client. This will automatically fetch a token.
 		this.authManager = new AuthManager();
@@ -156,7 +199,7 @@ export class GlobalState {
 		};
 
 		// Create live instance.
-		logging.net('Connecting to live...', config.ORIGIN_API + '/portal');
+		logging.net('Connecting to live...', config.ORIGIN_API);
 		this.api = new RivetClient({
 			environment: config.ORIGIN_API,
 			token: async () => (await _global.authManager.fetchToken()).token,
@@ -219,44 +262,15 @@ export class GlobalState {
 
 		// Set initial status
 		this.updateStatus();
-
-		// Establish resize event handler
-		windowEventGroups.add('resize', this.onResize.bind(this), timing.milliseconds(100));
-		this.onResize();
 	}
 
-	private async requestConsent(): Promise<void> {
-		// Check if already consented
-		if (settings.didConsent) {
-			return;
-		}
-
-		this.updateStatus();
-
-		// Wait for consent to finish
-		await new Promise(resolve => {
-			this.consentResolve = () => resolve(undefined);
-		});
-	}
-
-	async loadCache() {
-		let payload = await RootCache.get();
-		if (payload) this.currentIdentity = payload.identity;
-
-		return payload?.watch;
-	}
-
-	public grantConsent() {
-		// Update state
-		settings.didConsent = true;
-		this.updateStatus();
-
-		// Complete promise
-		if (this.consentResolve !== undefined) this.consentResolve();
-	}
-
-	/// Fetches configuration information from the servers & creates the initial auth token.
+	/// Fetches configuration information from the servers
+	///
+	/// This affects how the entire hub behaves and is required to be called before
+	/// the hub can be used
 	async bootstrap() {
+		if (this.bootstrapData) return;
+
 		// Reset bootstrap state
 		this.bootstrapFailed = false;
 		this.bootstrapData = undefined;
@@ -271,8 +285,11 @@ export class GlobalState {
 						environment: config.ORIGIN_API
 					});
 
+				// Bootstrap
 				logging.event('Bootstrapping');
 				let response = await api.cloud.bootstrap();
+
+				// Handle response
 				logging.event('Bootstrapp success', response);
 				this.bootstrapFailed = false;
 				this.bootstrapData = response;
@@ -298,7 +315,7 @@ export class GlobalState {
 		let hasResolved = false;
 
 		// Reload cache in case of cleared cache from auth
-		let watchIndex = noCache ? null : await this.loadCache();
+		let watchIndex = noCache ? null : this.currentIdentityWatch;
 
 		return new Promise<void>((resolve, reject) => {
 			// Due to the nature of our blocking requests, the code that sets `this.troubleConnecting`
@@ -333,7 +350,10 @@ export class GlobalState {
 			this.identityStream.onMessage(res => {
 				// Save new identity
 				this.currentIdentity = res.identity;
-				this.updateCache(res.watch);
+				CurrentIdentityCache.set({
+					profile: res.identity,
+					watch: res.watch
+				});
 
 				// Update global state
 				this.liveInitiated = true;
@@ -395,13 +415,6 @@ export class GlobalState {
 		if (event.kind == BroadcastEventKind.Refresh) {
 			window.location.reload();
 		}
-	}
-
-	updateCache(watch?: api.portal.WatchResponse) {
-		RootCache.set({
-			identity: this.currentIdentity,
-			watch
-		});
 	}
 
 	updateStatus() {
