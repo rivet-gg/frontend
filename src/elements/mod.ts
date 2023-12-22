@@ -1,4 +1,4 @@
-import './common/copy-area';
+import './common/rvt-copy-area';
 import './common/date-display';
 import './common/embedded-svg';
 import './common/file-upload-list';

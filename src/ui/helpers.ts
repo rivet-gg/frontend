@@ -7,9 +7,13 @@ import logging from '../utils/logging';
 import config from '../config';
 import { Context } from '../elements/context-menu/context-menu';
 
+interface TooltipOptions {
+	hideOnClick?: boolean;
+}
+
 /// Helper function that returns a closure that can be passed to `mouseenter` to show a tooltip when hovered and
 /// automatically binds the `mouseleave` event to hide the tooltip.
-export function tooltip(text: string): (e: Event) => void {
+export function tooltip(text: string, { hideOnClick = true }: TooltipOptions = {}): (e: Event) => void {
 	return (event: Event) => {
 		let element = event.currentTarget as HTMLElement;
 
@@ -21,10 +25,18 @@ export function tooltip(text: string): (e: Event) => void {
 			RvtRoot.shared.hideTooltip();
 
 			element.removeEventListener('mouseleave', hideTooltip);
-			element.removeEventListener('click', hideTooltip);
+
+			if (hideOnClick) {
+				element.removeEventListener('click', hideTooltip);
+			}
 		};
 		element.addEventListener('mouseleave', hideTooltip, { once: true });
-		element.addEventListener('click', hideTooltip, { once: true });
+
+		if (hideOnClick) {
+			element.addEventListener('click', hideTooltip, { once: true });
+		}
+
+		return hideTooltip;
 	};
 }
 

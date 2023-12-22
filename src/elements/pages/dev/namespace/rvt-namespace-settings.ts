@@ -293,9 +293,7 @@ export default class RvtNamespaceSettings extends LitElement {
 						again.</span
 					>
 					<br />
-					<copy-area light confidential>
-						<code class="no-ligatures">${createRes.token}</code>
-					</copy-area>`
+					<rvt-copy-area confidential value=${createRes.token}></rvt-copy-area>`
 			);
 		} catch (err) {
 			logging.error('error creating public token', err);
@@ -319,9 +317,7 @@ export default class RvtNamespaceSettings extends LitElement {
 						again.</span
 					>
 					<br />
-					<copy-area light confidential>
-						<code class="no-ligatures thick">${createRes.token}</code>
-					</copy-area>
+					<rvt-copy-area confidential value=${createRes.token}></rvt-copy-area>
 					<br />
 					<stylized-button
 						@click=${this.downloadEnvFile.bind(this, createRes.token)}

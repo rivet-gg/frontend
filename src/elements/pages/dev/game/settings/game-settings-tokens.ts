@@ -61,9 +61,7 @@ export default class DevGameSettingsTokens extends LitElement {
 					>Copy this token to your clipboard. You will not be able to access this token again.</span
 				>
 				<br />
-				<copy-area light confidential>
-					<code class="no-ligatures thick">${createRes.token}</code>
-				</copy-area>
+				<rvt-copy-area confidential value=${createRes.token}></rvt-copy-area>
 			`
 		);
 	}
