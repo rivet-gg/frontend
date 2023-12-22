@@ -5,18 +5,30 @@ import { readCache, writeCache } from '../utils/cache';
 import { HttpHandlerOptions } from '@aws-sdk/types';
 import { RepeatingRequest, RepeatingRequestOptions } from '../utils/repeating-request';
 
-export namespace RootCache {
+export namespace BootstrapCache {
+	type Payload = Rivet.cloud.BootstrapResponse;
+
+	export async function get(): Promise<Payload> {
+		return await readCache(['bootstrap']);
+	}
+
+	export function set(payload: Payload) {
+		writeCache(['bootstrap'], payload);
+	}
+}
+
+export namespace CurrentIdentityCache {
 	interface Payload {
-		identity: api.identity.IdentityProfile;
+		profile: api.identity.IdentityProfile;
 		watch: api.identity.WatchResponse;
 	}
 
 	export async function get(): Promise<Payload> {
-		return await readCache(['/']);
+		return await readCache(['current-identity']);
 	}
 
 	export function set(payload: Payload) {
-		writeCache(['/'], payload);
+		writeCache(['current-identity'], payload);
 	}
 }
 
