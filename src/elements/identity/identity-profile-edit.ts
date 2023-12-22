@@ -68,7 +68,9 @@ export default class IdentityProfileEdit extends LitElement {
 	colorExtractor: ColorExtractor = new ColorExtractor();
 
 	// === DEBOUNCE INFO ===
-	validateProfileDebounce: Debounce<() => ReturnType<typeof global.deprecatedApi.identity.validateIdentityProfile>>;
+	validateProfileDebounce: Debounce<
+		() => ReturnType<typeof global.deprecatedApi.identity.validateIdentityProfile>
+	>;
 
 	/// === EVENTS ===
 	handleIdentityChange: (e: IdentityChangeEvent) => void;

@@ -131,7 +131,7 @@ export default class RegisterPanel extends LitElement {
 		this.codeError = null;
 
 		try {
-			let res = await global.auth.startEmailVerification({
+			let res = await global.deprecatedApi.auth.startEmailVerification({
 				email: this.email.trim(),
 				captcha: captchaToken
 					? {
@@ -156,7 +156,7 @@ export default class RegisterPanel extends LitElement {
 		this.isCompleting = true;
 
 		try {
-			let res = await global.auth.completeEmailVerification({
+			let res = await global.deprecatedApi.auth.completeEmailVerification({
 				verificationId: this.verificationId,
 				code: this.code.trim()
 			});
@@ -318,8 +318,7 @@ export default class RegisterPanel extends LitElement {
 								>Continue</stylized-button
 							>
 						</div>
-						${this.emailError != null ? html`<p id="error">${this.emailError}</p>` : null}
-						`}
+						${this.emailError != null ? html`<p id="error">${this.emailError}</p>` : null} `}
 		</div>`;
 	}
 

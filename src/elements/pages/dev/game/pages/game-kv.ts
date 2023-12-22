@@ -170,13 +170,13 @@ export default class DevGameKv extends LitElement {
 		try {
 			let reqId = ++this.reqCounter;
 
-			let namespaceRes = await global.cloud.getGameNamespaceById({
+			let namespaceRes = await global.deprecatedApi.cloud.getGameNamespaceById({
 				gameId: this.game.gameId,
 				namespaceId: this.namespaceId
 			});
 
 			// Fetch full version config
-			let versionRes = await global.cloud.getGameVersionById({
+			let versionRes = await global.deprecatedApi.cloud.getGameVersionById({
 				gameId: this.game.gameId,
 				versionId: namespaceRes.namespace.versionId
 			});

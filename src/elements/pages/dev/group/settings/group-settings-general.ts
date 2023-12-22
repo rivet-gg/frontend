@@ -78,7 +78,9 @@ export default class GroupSettingsGeneral extends LitElement {
 	initiated = false;
 
 	// === DEBOUNCE INFO ===
-	validateProfileDebounce: Debounce<() => ReturnType<typeof global.deprecatedApi.group.validateGroupProfile>>;
+	validateProfileDebounce: Debounce<
+		() => ReturnType<typeof global.deprecatedApi.group.validateGroupProfile>
+	>;
 
 	constructor() {
 		super();

@@ -106,7 +106,7 @@ export default class FileUploadList extends LitElement {
 			await this.completeUpload(prepareRes);
 		} else {
 			// Complete cloud upload
-			await global.cloud.completeUpload({ uploadId: prepareRes.uploadId });
+			await global.deprecatedApi.cloud.completeUpload({ uploadId: prepareRes.uploadId });
 		}
 
 		// Update upload list

@@ -82,7 +82,7 @@ export default class DevGames extends LitElement {
 					? this.gameNameIdValue
 					: utils.convertStringToId(displayName);
 
-				return await global.cloud.validateGame({
+				return await global.deprecatedApi.cloud.validateGame({
 					nameId,
 					displayName
 				});

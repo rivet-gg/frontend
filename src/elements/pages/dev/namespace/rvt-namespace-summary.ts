@@ -66,7 +66,7 @@ export default class RvtNameSpaceSummary extends LitElement {
 
 	async updateVersion(versionId: string) {
 		try {
-			await global.cloud.updateGameNamespaceVersion({
+			await global.deprecatedApi.cloud.updateGameNamespaceVersion({
 				gameId: this.game.gameId,
 				namespaceId: this.namespace.namespaceId,
 				versionId
@@ -82,13 +82,13 @@ export default class RvtNameSpaceSummary extends LitElement {
 
 	async fetchData() {
 		try {
-			let namespaceRes = await global.cloud.getGameNamespaceById({
+			let namespaceRes = await global.deprecatedApi.cloud.getGameNamespaceById({
 				gameId: this.game.gameId,
 				namespaceId: this.namespaceId
 			});
 
 			let [versionRes] = await Promise.all([
-				global.cloud.getGameVersionById({
+				global.deprecatedApi.cloud.getGameVersionById({
 					gameId: this.game.gameId,
 					versionId: namespaceRes.namespace.versionId
 				})

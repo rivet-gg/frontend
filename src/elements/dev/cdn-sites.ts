@@ -27,7 +27,7 @@ export default class CdnSites extends LitElement {
 	uploadable = false;
 
 	async loadEntries() {
-		return (await global.cloud.listGameCdnSites({ gameId: this.game.gameId })).sites
+		return (await global.deprecatedApi.cloud.listGameCdnSites({ gameId: this.game.gameId })).sites
 			.filter(b => b.complete)
 			.map(
 				s =>

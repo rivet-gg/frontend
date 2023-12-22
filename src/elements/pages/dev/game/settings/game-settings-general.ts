@@ -55,12 +55,12 @@ export default class DevGameSettingsGeneral extends LitElement {
 
 	async completeUpload(type: UploadType, prepareRes: PrepareResponse) {
 		if (type == UploadType.Logo) {
-			await global.cloud.gameLogoUploadComplete({
+			await global.deprecatedApi.cloud.gameLogoUploadComplete({
 				gameId: this.game.gameId,
 				uploadId: prepareRes.uploadId
 			});
 		} else if (type == UploadType.Banner) {
-			await global.cloud.gameBannerUploadComplete({
+			await global.deprecatedApi.cloud.gameBannerUploadComplete({
 				gameId: this.game.gameId,
 				uploadId: prepareRes.uploadId
 			});

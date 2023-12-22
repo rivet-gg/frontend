@@ -46,7 +46,9 @@ export default class VersionInfoIdentity extends LitElement {
 	}
 
 	async loadEntries() {
-		return (await global.cloud.listGameCustomAvatars({ gameId: this.game.gameId })).customAvatars
+		return (
+			await global.deprecatedApi.cloud.listGameCustomAvatars({ gameId: this.game.gameId })
+		).customAvatars
 			.filter(b => b.complete)
 			.map(
 				s =>
@@ -109,7 +111,7 @@ export default class VersionInfoIdentity extends LitElement {
 	}
 
 	async completeUpload(prepareRes: PrepareResponse) {
-		await global.cloud.completeCustomAvatarUpload({
+		await global.deprecatedApi.cloud.completeCustomAvatarUpload({
 			gameId: this.game.gameId,
 			uploadId: prepareRes.uploadId
 		});

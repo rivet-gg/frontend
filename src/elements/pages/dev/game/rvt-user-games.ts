@@ -66,8 +66,8 @@ export default class RvtUserGames extends LitElement {
 	gamesStream?: RepeatingRequest<CloudDashboardCache.Payload>;
 
 	// === DEBOUNCE INFO ===
-	validateGameDebounce: Debounce<() => ReturnType<typeof global.cloud.validateGame>>;
-	validateGroupDebounce: Debounce<() => ReturnType<typeof global.cloud.validateGroup>>;
+	validateGameDebounce: Debounce<() => ReturnType<typeof global.deprecatedApi.cloud.validateGame>>;
+	validateGroupDebounce: Debounce<() => ReturnType<typeof global.deprecatedApi.cloud.validateGroup>>;
 
 	constructor() {
 		super();
@@ -80,7 +80,7 @@ export default class RvtUserGames extends LitElement {
 					? this.gameNameIdValue
 					: utils.convertStringToId(displayName);
 
-				return await global.cloud.validateGame({
+				return await global.deprecatedApi.cloud.validateGame({
 					nameId,
 					displayName
 				});
@@ -161,7 +161,7 @@ export default class RvtUserGames extends LitElement {
 	}
 
 	async convertGroup(groupId: string) {
-		await global.cloud.convertGroup({ groupId });
+		await global.deprecatedApi.cloud.convertGroup({ groupId });
 
 		this.fetchData(true);
 	}
@@ -180,7 +180,7 @@ export default class RvtUserGames extends LitElement {
 				? this.gameNameIdValue
 				: utils.convertStringToId(displayName);
 
-			let res = await global.cloud.createGame({
+			let res = await global.deprecatedApi.cloud.createGame({
 				nameId,
 				displayName,
 				developerGroupId: this.gameGroupSelection.value
@@ -269,7 +269,9 @@ export default class RvtUserGames extends LitElement {
 					: null}
 				${when(
 					// Allow creating new group if user is admin or registered on a public cluster
-					global.currentIdentity.isAdmin || (global.bootstrapData.cluster == Rivet.cloud.BootstrapCluster.Enterprise&& global.currentIdentity.isRegistered),
+					global.currentIdentity.isAdmin ||
+						(global.bootstrapData.cluster == Rivet.cloud.BootstrapCluster.Enterprise &&
+							global.currentIdentity.isRegistered),
 					() =>
 						html` <button
 							class="dashed-border-button flex justify-center items-center hover:cursor-pointer w-full h-32 place-content-center text-white/80  hover:text-white hover:bg-button-bg-hover-color"

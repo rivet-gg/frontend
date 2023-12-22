@@ -93,7 +93,7 @@ export default class DevGameBilling extends LitElement {
 		super();
 
 		// Fetch configs
-		global.cloud
+		global.deprecatedApi.cloud
 			.getRegionTiers({})
 			.then(res => (this.tiers = res.tiers))
 			.catch(err => globalEventGroups.dispatch('error', err));
@@ -138,7 +138,7 @@ export default class DevGameBilling extends LitElement {
 
 		try {
 			this.isUpdating = true;
-			let res = await global.cloud.getGameBilling({
+			let res = await global.deprecatedApi.cloud.getGameBilling({
 				gameId: this.game.gameId,
 				queryStart,
 				queryEnd
@@ -194,7 +194,7 @@ export default class DevGameBilling extends LitElement {
 	}
 
 	async fetchGameBillingPlans() {
-		global.cloud
+		global.deprecatedApi.cloud
 			.getGameBillingPlans({ gameId: this.game.gameId })
 			.then(res => (this.plans = res.plans))
 			.catch(err => globalEventGroups.dispatch('error', err));
@@ -231,7 +231,7 @@ export default class DevGameBilling extends LitElement {
 	async setPlan(plan: cloud.GameBillingPlanCode) {
 		if ((await this.confirmPlanChange(plan)).value) {
 			try {
-				await global.cloud.setGameBillingPlan({
+				await global.deprecatedApi.cloud.setGameBillingPlan({
 					gameId: this.game.gameId,
 					plan
 				});
@@ -371,7 +371,7 @@ export default class DevGameBilling extends LitElement {
 
 		try {
 			let { queryStart, queryEnd } = this.calcDateRange();
-			let res = await global.cloud.exportMatchmakerLobbyHistory({
+			let res = await global.deprecatedApi.cloud.exportMatchmakerLobbyHistory({
 				gameId: this.game.gameId,
 				queryStart,
 				queryEnd

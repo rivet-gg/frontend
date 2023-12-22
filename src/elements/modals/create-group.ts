@@ -41,7 +41,7 @@ export default class CreateGroupModal extends LitElement {
 	displayNameInput: HTMLInputElement;
 
 	// === DEBOUNCE INFO ===
-	validateGroupDebounce: Debounce<() => ReturnType<typeof global.cloud.validateGroup>>;
+	validateGroupDebounce: Debounce<() => ReturnType<typeof global.deprecatedApi.cloud.validateGroup>>;
 
 	constructor() {
 		super();
@@ -51,7 +51,7 @@ export default class CreateGroupModal extends LitElement {
 			cb: async () => {
 				let displayName = this.groupDisplayNameValue;
 
-				return await global.cloud.validateGroup({
+				return await global.deprecatedApi.cloud.validateGroup({
 					displayName
 				});
 			},

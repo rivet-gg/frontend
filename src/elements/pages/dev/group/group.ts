@@ -114,7 +114,7 @@ export default class GroupPage extends LitElement {
 	colorExtractor: ColorExtractor = new ColorExtractor();
 
 	// === DEBOUNCE INFO ===
-	validateGameDebounce: Debounce<() => ReturnType<typeof global.cloud.validateGame>>;
+	validateGameDebounce: Debounce<() => ReturnType<typeof global.deprecatedApi.cloud.validateGame>>;
 
 	// === EVENT HANDLERS ===
 	groupStream?: RepeatingRequest<api.group.GetGroupProfileCommandOutput>;
@@ -131,7 +131,7 @@ export default class GroupPage extends LitElement {
 					? this.gameNameIdValue
 					: utils.convertStringToId(displayName);
 
-				return await global.cloud.validateGame({
+				return await global.deprecatedApi.cloud.validateGame({
 					nameId,
 					displayName
 				});
@@ -252,7 +252,7 @@ export default class GroupPage extends LitElement {
 				? this.gameNameIdValue
 				: utils.convertStringToId(displayName);
 
-			let res = await global.cloud.createGame({
+			let res = await global.deprecatedApi.cloud.createGame({
 				nameId,
 				displayName,
 				developerGroupId: this.profile.groupId

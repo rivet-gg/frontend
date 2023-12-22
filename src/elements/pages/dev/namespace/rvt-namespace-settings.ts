@@ -110,10 +110,10 @@ export default class RvtNamespaceSettings extends LitElement {
 
 	// === DEBOUNCE INFO ===
 	validateDevTokenConfigDebounce: Debounce<
-		() => ReturnType<typeof global.cloud.validateGameNamespaceTokenDevelopment>
+		() => ReturnType<typeof global.deprecatedApi.cloud.validateGameNamespaceTokenDevelopment>
 	>;
 	validateMmConfigConfigDebounce: Debounce<
-		() => ReturnType<typeof global.cloud.validateGameNamespaceMatchmakerConfig>
+		() => ReturnType<typeof global.deprecatedApi.cloud.validateGameNamespaceMatchmakerConfig>
 	>;
 
 	// === CUSTOM DOMAIN INFO ===
@@ -154,7 +154,7 @@ export default class RvtNamespaceSettings extends LitElement {
 		this.validateDevTokenConfigDebounce = new Debounce({
 			delay: timing.milliseconds(500),
 			cb: async () => {
-				return await global.cloud.validateGameNamespaceTokenDevelopment({
+				return await global.deprecatedApi.cloud.validateGameNamespaceTokenDevelopment({
 					gameId: this.game.gameId,
 					namespaceId: this.namespaceId,
 					hostname: this.devTokenHostname,
@@ -178,7 +178,7 @@ export default class RvtNamespaceSettings extends LitElement {
 		this.validateMmConfigConfigDebounce = new Debounce({
 			delay: timing.milliseconds(500),
 			cb: async () => {
-				return await global.cloud.validateGameNamespaceMatchmakerConfig({
+				return await global.deprecatedApi.cloud.validateGameNamespaceMatchmakerConfig({
 					gameId: this.game.gameId,
 					namespaceId: this.namespace.namespaceId,
 					lobbyCountMax: this.lobbyCountMax,
@@ -196,7 +196,7 @@ export default class RvtNamespaceSettings extends LitElement {
 				// Automatically update values if valid
 				if (this.mmConfigAreValid) {
 					try {
-						await global.cloud.updateGameNamespaceMatchmakerConfig({
+						await global.deprecatedApi.cloud.updateGameNamespaceMatchmakerConfig({
 							gameId: this.game.gameId,
 							namespaceId: this.namespace.namespaceId,
 							lobbyCountMax: this.lobbyCountMax,
@@ -232,13 +232,13 @@ export default class RvtNamespaceSettings extends LitElement {
 
 	async fetchData() {
 		try {
-			let namespaceRes = await global.cloud.getGameNamespaceById({
+			let namespaceRes = await global.deprecatedApi.cloud.getGameNamespaceById({
 				gameId: this.game.gameId,
 				namespaceId: this.namespaceId
 			});
 
 			let [versionRes] = await Promise.all([
-				global.cloud.getGameVersionById({
+				global.deprecatedApi.cloud.getGameVersionById({
 					gameId: this.game.gameId,
 					versionId: namespaceRes.namespace.versionId
 				})
@@ -265,7 +265,7 @@ export default class RvtNamespaceSettings extends LitElement {
 
 	async updateVersion(versionId: string) {
 		try {
-			await global.cloud.updateGameNamespaceVersion({
+			await global.deprecatedApi.cloud.updateGameNamespaceVersion({
 				gameId: this.game.gameId,
 				namespaceId: this.namespace.namespaceId,
 				versionId
@@ -281,7 +281,7 @@ export default class RvtNamespaceSettings extends LitElement {
 
 	async createPublicToken() {
 		try {
-			let createRes = await global.cloud.createGameNamespaceTokenPublic({
+			let createRes = await global.deprecatedApi.cloud.createGameNamespaceTokenPublic({
 				gameId: this.game.gameId,
 				namespaceId: this.namespaceId
 			});
@@ -303,7 +303,7 @@ export default class RvtNamespaceSettings extends LitElement {
 
 	async createDevToken() {
 		try {
-			let createRes = await global.cloud.createGameNamespaceTokenDevelopment({
+			let createRes = await global.deprecatedApi.cloud.createGameNamespaceTokenDevelopment({
 				gameId: this.game.gameId,
 				namespaceId: this.namespaceId,
 				hostname: this.devTokenHostname,
@@ -375,7 +375,7 @@ export default class RvtNamespaceSettings extends LitElement {
 			this.hostnameTaken = false;
 			this.tooManyPendingHostnames = false;
 
-			await global.cloud.addNamespaceDomain({
+			await global.deprecatedApi.cloud.addNamespaceDomain({
 				gameId: this.game.gameId,
 				namespaceId: this.namespaceId,
 				domain
@@ -402,7 +402,7 @@ export default class RvtNamespaceSettings extends LitElement {
 			this.hostnameTaken = false;
 			this.tooManyPendingHostnames = false;
 
-			await global.cloud.removeNamespaceDomain({
+			await global.deprecatedApi.cloud.removeNamespaceDomain({
 				gameId: this.game.gameId,
 				namespaceId: this.namespaceId,
 				domain
@@ -431,7 +431,7 @@ export default class RvtNamespaceSettings extends LitElement {
 
 	async toggleEnableDomainPublicAuth(e: ToggleSwitchEvent) {
 		try {
-			await global.cloud.toggleNamespaceDomainPublicAuth({
+			await global.deprecatedApi.cloud.toggleNamespaceDomainPublicAuth({
 				gameId: this.game.gameId,
 				namespaceId: this.namespaceId,
 				enabled: e.value
@@ -480,7 +480,7 @@ export default class RvtNamespaceSettings extends LitElement {
 
 			// Remove old value, if it was valid
 			if (!isPassword && oldUsername.trim() && this.validateDomain(oldUsername) === null) {
-				await global.cloud.removeNamespaceCdnAuthUser({
+				await global.deprecatedApi.cloud.removeNamespaceCdnAuthUser({
 					gameId: this.game.gameId,
 					namespaceId: this.namespaceId,
 					user: oldUsername
@@ -493,7 +493,7 @@ export default class RvtNamespaceSettings extends LitElement {
 				this.validateAuthUserUsername(username) === null &&
 				this.validateAuthUserPassword(password) === null
 			) {
-				await global.cloud.updateNamespaceCdnAuthUser({
+				await global.deprecatedApi.cloud.updateNamespaceCdnAuthUser({
 					gameId: this.game.gameId,
 					namespaceId: this.namespaceId,
 					user: username,
@@ -586,7 +586,7 @@ export default class RvtNamespaceSettings extends LitElement {
 		try {
 			// Only send request if not empty
 			if (authUser.trim()) {
-				await global.cloud.removeNamespaceCdnAuthUser({
+				await global.deprecatedApi.cloud.removeNamespaceCdnAuthUser({
 					gameId: this.game.gameId,
 					namespaceId: this.namespaceId,
 					user: authUser
@@ -606,7 +606,7 @@ export default class RvtNamespaceSettings extends LitElement {
 	async toggleCdnBasicAuth(e: ToggleSwitchEvent) {
 		try {
 			let newAuthType = e.value ? cloud.CdnAuthType.BASIC : cloud.CdnAuthType.NONE;
-			await global.cloud.setNamespaceCdnAuthType({
+			await global.deprecatedApi.cloud.setNamespaceCdnAuthType({
 				gameId: this.game.gameId,
 				namespaceId: this.namespaceId,
 				authType: newAuthType

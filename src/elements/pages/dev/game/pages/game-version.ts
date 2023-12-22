@@ -103,7 +103,7 @@ export default class DevGameNamespace extends LitElement {
 	}
 
 	async deployToNamespace() {
-		await global.cloud.updateGameNamespaceVersion({
+		await global.deprecatedApi.cloud.updateGameNamespaceVersion({
 			gameId: this.game.gameId,
 			namespaceId: this.namespaceSelection,
 			versionId: this.version.versionId
