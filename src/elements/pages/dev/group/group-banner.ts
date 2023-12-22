@@ -25,7 +25,7 @@ export default class DevGroupBanner extends LitElement {
 
 	render() {
 		return html`
-			<div class="my-[20px] md:my-[40px] mx-auto bg-zinc-700 h-[18.2rem] rounded-[20px] relative">
+			<div class="my-5 md:my-10 mx-auto bg-zinc-700 h-72 rounded-2xl relative">
 				<div class="flex flex-col place-content-center m-auto h-full w-1/2 text-center">
 					${this.group
 						? html`
