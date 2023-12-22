@@ -17,6 +17,18 @@ import { HttpHandlerOptions } from '@aws-sdk/types';
 import { FailedResponse } from '@rivet-gg/api-internal/types/core/fetcher/APIResponse';
 import { RepeatingRequest } from './repeating-request';
 
+/*
+
+Global init steps:
+
+1. init
+2. bootstrap (will use BootstrapCache if exists)
+3. grantConsent (if has not already consented, will wait for UI action)
+4. setupApi
+5. setupLive (will use CurrentIdentityCache if exists)
+
+*/
+
 // Keep in sync with mobile widths in consts.css
 export enum WindowSize {
 	Small = 585,
@@ -34,8 +46,8 @@ export enum GlobalStatus {
 	Reconnecting, // Waiting for live to reconnect
 
 	// Interactive
-	Consenting,  // Waiting for user to click consent button
-	Unregistered,  // User is not registered
+	Consenting, // Waiting for user to click consent button
+	Unregistered, // User is not registered
 	LinkingGame,
 	Connected,
 
@@ -45,21 +57,18 @@ export enum GlobalStatus {
 }
 
 export class GlobalState {
-	// Authentication client.
-	authManager: AuthManager;
-
-	/// Apis
 	api: RivetClient = null;
 
-	// TODO: Implement authentication middleware that requests a token
 	deprecatedApi: {
+		auth: api.auth.AuthService;
+		cloud: cloud.CloudService;
 		portal: api.portal.PortalService;
 		identity: api.identity.IdentityService;
 		group: api.group.GroupService;
 		kv: api.kv.KvService;
 	};
-	auth: api.auth.AuthService;
-	cloud: cloud.CloudService;
+
+	authManager: AuthManager;
 
 	broadcast: BroadcastSystem = new BroadcastSystem(true);
 
@@ -73,8 +82,10 @@ export class GlobalState {
 
 	setupLiveAttempts = 0;
 	troubleConnecting = false;
-	liveInitiated = false;
 	liveBlockingBypass: number = null;
+	get liveInitiated() {
+		return !!this.currentIdentity;
+	}
 
 	// If the consent button was just clicked and we want to stay on the login
 	// screen without showing the loading screen again
@@ -93,7 +104,7 @@ export class GlobalState {
 	/// Effectively the constructor. Called on page load.
 	async init() {
 		// Load cache
-		await this.loadCache()
+		await this.loadCache();
 
 		// Bootstrap
 		await this.bootstrap();
@@ -224,6 +235,17 @@ export class GlobalState {
 			}
 		});
 		this.deprecatedApi = {
+			auth: new api.auth.AuthService({
+				endpoint: config.ORIGIN_API + '/auth',
+				// Force the credentials to be included, since we need to be able to modify cookies here
+				requestHandler: refreshMiddleware({ credentials: 'include' })
+			}),
+			cloud: new cloud.CloudService({
+				endpoint: config.ORIGIN_API + '/cloud',
+				tls: true,
+				maxAttempts: 0,
+				requestHandler: refreshMiddleware()
+			}),
 			portal: new api.portal.PortalService({
 				endpoint: config.ORIGIN_API + '/portal',
 				requestHandler: refreshMiddleware()
@@ -241,19 +263,6 @@ export class GlobalState {
 				requestHandler: refreshMiddleware()
 			})
 		};
-
-		this.auth = new api.auth.AuthService({
-			endpoint: config.ORIGIN_API + '/auth',
-			// Force the credentials to be included, since we need to be able to modify cookies here
-			requestHandler: refreshMiddleware({ credentials: 'include' })
-		});
-
-		this.cloud = new cloud.CloudService({
-			endpoint: config.ORIGIN_API + '/cloud',
-			tls: true,
-			maxAttempts: 0,
-			requestHandler: refreshMiddleware()
-		});
 
 		ls.setGlobalListener(this.onSettingChange.bind(this));
 
@@ -355,7 +364,6 @@ export class GlobalState {
 				});
 
 				// Update global state
-				this.liveInitiated = true;
 				this.updateStatus();
 				this.setupLiveAttempts = 0;
 
@@ -422,11 +430,16 @@ export class GlobalState {
 		if (this.bootstrapFailed) status = GlobalStatus.BootstrapFailed;
 		else if (!this.bootstrapData) status = GlobalStatus.Bootstrapping;
 		else if (!settings.didConsent) status = GlobalStatus.Consenting;
-		else if ((!this.authManager || !this.liveInitiated) && this.suppressLoadingAnimationDuringConsent) status = GlobalStatus.Consenting;
+		else if (this.suppressLoadingAnimationDuringConsent && (!this.authManager || !this.liveInitiated))
+			status = GlobalStatus.Consenting;
 		else if (!this.authManager) status = GlobalStatus.Loading;
 		else if (this.authManager.authenticationFailed) status = GlobalStatus.AuthFailed;
 		else if (!this.liveInitiated) status = GlobalStatus.Connecting;
-		else if (global.currentIdentity && (!global.currentIdentity.isRegistered || !global.currentIdentity.isAdmin)) status = GlobalStatus.Unregistered;
+		else if (
+			global.currentIdentity &&
+			(!global.currentIdentity.isRegistered || !global.currentIdentity.isAdmin)
+		)
+			status = GlobalStatus.Unregistered;
 		else if (this.troubleConnecting) status = GlobalStatus.Reconnecting;
 		else status = GlobalStatus.Connected;
 

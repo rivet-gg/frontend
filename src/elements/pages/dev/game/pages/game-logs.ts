@@ -170,7 +170,7 @@ export default class DevGameLogs extends LitElement {
 
 		try {
 			let namespaceId = this.namespaceId;
-			let data = await global.cloud.listNamespaceLobbies({
+			let data = await global.deprecatedApi.cloud.listNamespaceLobbies({
 				gameId: this.game.gameId,
 				namespaceId,
 				beforeCreateTs: lastLobby ? lastLobby.createTs : undefined
@@ -219,7 +219,7 @@ export default class DevGameLogs extends LitElement {
 
 		try {
 			console.log('fetch lobby', lobbyId);
-			this.lobbyData = await global.cloud.getNamespaceLobby({
+			this.lobbyData = await global.deprecatedApi.cloud.getNamespaceLobby({
 				gameId: this.game.gameId,
 				namespaceId: this.namespaceId,
 				lobbyId
@@ -258,7 +258,7 @@ export default class DevGameLogs extends LitElement {
 		console.log('fetch logs', lobbyId);
 
 		try {
-			let res = await global.cloud.getLobbyLogs({
+			let res = await global.deprecatedApi.cloud.getLobbyLogs({
 				gameId: this.game.gameId,
 				lobbyId: lobbyId,
 				stream: logStreamType
@@ -336,7 +336,7 @@ export default class DevGameLogs extends LitElement {
 		this.isExportingLogs = true;
 
 		try {
-			let res = await global.cloud.exportLobbyLogs({
+			let res = await global.deprecatedApi.cloud.exportLobbyLogs({
 				gameId: this.game.gameId,
 				lobbyId: this.lobbyId!,
 				stream: this.logStreamType

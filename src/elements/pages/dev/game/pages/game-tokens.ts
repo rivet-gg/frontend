@@ -67,7 +67,7 @@ export default class DevGameTokens extends LitElement {
 
 	// === DEBOUNCE INFO ===
 	validateConfigDebounce: Debounce<
-		() => ReturnType<typeof global.cloud.validateGameNamespaceTokenDevelopment>
+		() => ReturnType<typeof global.deprecatedApi.cloud.validateGameNamespaceTokenDevelopment>
 	>;
 
 	constructor() {
@@ -76,7 +76,7 @@ export default class DevGameTokens extends LitElement {
 		this.validateConfigDebounce = new Debounce({
 			delay: timing.milliseconds(500),
 			cb: async () => {
-				return await global.cloud.validateGameNamespaceTokenDevelopment({
+				return await global.deprecatedApi.cloud.validateGameNamespaceTokenDevelopment({
 					gameId: this.game.gameId,
 					namespaceId: this.activeNamespaceId,
 					hostname: this.devTokenHostname,
@@ -101,7 +101,7 @@ export default class DevGameTokens extends LitElement {
 
 	async createPublicToken(namespaceId: string) {
 		try {
-			let createRes = await global.cloud.createGameNamespaceTokenPublic({
+			let createRes = await global.deprecatedApi.cloud.createGameNamespaceTokenPublic({
 				gameId: this.game.gameId,
 				namespaceId
 			});
@@ -122,7 +122,7 @@ export default class DevGameTokens extends LitElement {
 
 	async createDevToken() {
 		try {
-			let createRes = await global.cloud.createGameNamespaceTokenDevelopment({
+			let createRes = await global.deprecatedApi.cloud.createGameNamespaceTokenDevelopment({
 				gameId: this.game.gameId,
 				namespaceId: this.activeNamespaceId,
 				hostname: this.devTokenHostname,

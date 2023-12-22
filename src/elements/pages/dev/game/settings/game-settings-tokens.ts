@@ -52,7 +52,7 @@ export default class DevGameSettingsTokens extends LitElement {
 	}
 
 	async createCloudToken() {
-		let createRes = await global.cloud.createCloudToken({ gameId: this.game.gameId });
+		let createRes = await global.deprecatedApi.cloud.createCloudToken({ gameId: this.game.gameId });
 
 		showAlert(
 			'Cloud Token Creation',

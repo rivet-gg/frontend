@@ -159,9 +159,7 @@ namespace routes {
 
 	export let groupOverview = new Route<{ id: string }>({
 		path: '/groups/:id',
-		middlewares: () => [
-			MIDDLEWARES.validateUuid('id')
-		],
+		middlewares: () => [MIDDLEWARES.validateUuid('id')],
 		render({ id }) {
 			return {
 				title: 'Group',
@@ -173,9 +171,7 @@ namespace routes {
 
 	export let analyticsOverview = new Route<{ groupId: string }>({
 		path: '/groups/:groupId/analytics',
-		middlewares: () => [
-			MIDDLEWARES.validateUuid('groupId')
-		],
+		middlewares: () => [MIDDLEWARES.validateUuid('groupId')],
 		render({ groupId }) {
 			return {
 				title: `Analytics`,
@@ -246,9 +242,7 @@ namespace routes {
 
 	export let devGame = new Route<{ gameId: string }>({
 		path: '/games/:gameId',
-		middlewares: () => [
-			MIDDLEWARES.validateUuid('gameId')
-		],
+		middlewares: () => [MIDDLEWARES.validateUuid('gameId')],
 		render({ gameId }) {
 			return {
 				title: 'Game',
@@ -294,10 +288,7 @@ namespace routes {
 
 	export let devNamespace = new Route<{ gameId: string; namespaceId: string }>({
 		path: '/games/:gameId/namespaces/:namespaceId',
-		middlewares: () => [
-			MIDDLEWARES.validateUuid('gameId'),
-			MIDDLEWARES.validateUuid('namespaceId')
-		],
+		middlewares: () => [MIDDLEWARES.validateUuid('gameId'), MIDDLEWARES.validateUuid('namespaceId')],
 		render({ gameId, namespaceId }) {
 			return {
 				title: 'Game Namespace',
@@ -312,10 +303,7 @@ namespace routes {
 
 	export let devVersionSummary = new Route<{ gameId: string; namespaceId: string }>({
 		path: '/games/:gameId/namespaces/:namespaceId/versions',
-		middlewares: () => [
-			MIDDLEWARES.validateUuid('gameId'),
-			MIDDLEWARES.validateUuid('namespaceId')
-		],
+		middlewares: () => [MIDDLEWARES.validateUuid('gameId'), MIDDLEWARES.validateUuid('namespaceId')],
 		render({ gameId, namespaceId }) {
 			return {
 				title: 'Namespace Versions',
@@ -362,9 +350,7 @@ namespace routes {
 
 	export let devVersionDraft = new Route<{ gameId: string }>({
 		path: '/games/:gameId/version-draft',
-		middlewares: () => [
-			MIDDLEWARES.validateUuid('gameId')
-		],
+		middlewares: () => [MIDDLEWARES.validateUuid('gameId')],
 		render({ gameId }) {
 			return {
 				title: 'Game Version Draft',
@@ -376,10 +362,7 @@ namespace routes {
 
 	export let devTokens = new Route<{ gameId: string; namespaceId: string }>({
 		path: '/games/:gameId/namespaces/:namespaceId/api',
-		middlewares: () => [
-			MIDDLEWARES.validateUuid('gameId'),
-			MIDDLEWARES.validateUuid('namespaceId')
-		],
+		middlewares: () => [MIDDLEWARES.validateUuid('gameId'), MIDDLEWARES.validateUuid('namespaceId')],
 		render({ gameId, namespaceId }) {
 			return {
 				title: 'Namespace Tokens',
@@ -391,10 +374,7 @@ namespace routes {
 
 	export let devLogs = new Route<{ gameId: string; namespaceId: string }>({
 		path: '/games/:gameId/namespaces/:namespaceId/logs',
-		middlewares: () => [
-			MIDDLEWARES.validateUuid('gameId'),
-			MIDDLEWARES.validateUuid('namespaceId')
-		],
+		middlewares: () => [MIDDLEWARES.validateUuid('gameId'), MIDDLEWARES.validateUuid('namespaceId')],
 		render({ gameId, namespaceId }) {
 			return {
 				title: 'Game Logs',
@@ -426,10 +406,7 @@ namespace routes {
 
 	export let devLobbies = new Route<{ gameId: string; namespaceId: string }>({
 		path: '/games/:gameId/namespaces/:namespaceId/lobbies',
-		middlewares: () => [
-			MIDDLEWARES.validateUuid('gameId'),
-			MIDDLEWARES.validateUuid('namespaceId')
-		],
+		middlewares: () => [MIDDLEWARES.validateUuid('gameId'), MIDDLEWARES.validateUuid('namespaceId')],
 		render({ gameId, namespaceId }) {
 			return {
 				title: 'Game Lobbies',
@@ -441,10 +418,7 @@ namespace routes {
 
 	export let devKv = new Route<{ gameId: string; namespaceId: string }>({
 		path: '/games/:gameId/namespaces/:namespaceId/kv',
-		middlewares: () => [
-			MIDDLEWARES.validateUuid('gameId'),
-			MIDDLEWARES.validateUuid('namespaceId')
-		],
+		middlewares: () => [MIDDLEWARES.validateUuid('gameId'), MIDDLEWARES.validateUuid('namespaceId')],
 		render({ gameId, namespaceId }) {
 			return {
 				title: 'Game KV',
@@ -456,9 +430,7 @@ namespace routes {
 
 	export let devBilling = new Route<{ gameId: string }>({
 		path: '/games/:gameId/billing',
-		middlewares: () => [
-			MIDDLEWARES.validateUuid('gameId')
-		],
+		middlewares: () => [MIDDLEWARES.validateUuid('gameId')],
 		render({ gameId }) {
 			return {
 				title: 'Game Billing',
@@ -484,9 +456,7 @@ namespace routes {
 
 	export let devBuilds = new Route<{ gameId: string }>({
 		path: '/games/:gameId/builds',
-		middlewares: () => [
-			MIDDLEWARES.validateUuid('gameId')
-		],
+		middlewares: () => [MIDDLEWARES.validateUuid('gameId')],
 		render({ gameId }) {
 			// TODO:
 			return responses.notFound();

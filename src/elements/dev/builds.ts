@@ -28,7 +28,7 @@ export default class DevBuilds extends LitElement {
 	uploadable = false;
 
 	async loadEntries() {
-		return (await global.cloud.listGameBuilds({ gameId: this.game.gameId })).builds
+		return (await global.deprecatedApi.cloud.listGameBuilds({ gameId: this.game.gameId })).builds
 			.filter(b => b.complete)
 			.map(
 				b =>
@@ -54,7 +54,7 @@ export default class DevBuilds extends LitElement {
 		// TEMPORARILY DISABLED
 		// // Prepare the upload
 		// let displayName = imageFile.path.slice(0, 24) || "Build Upload";
-		// let createRes = await global.cloud.createGameBuild(this.game.gameId, {
+		// let createRes = await global.deprecatedApi.cloud.createGameBuild(this.game.gameId, {
 		// 	imageFile: imageFile.prepared,
 		// 	displayName,
 		// 	imageTag: `asdasdas:bsdfsdfsdf`

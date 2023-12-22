@@ -55,7 +55,9 @@ export default class DevGameOverview extends LitElement {
 	gameStream?: RepeatingRequest<Rivet.cloud.games.games.GetGameByIdResponse>;
 
 	// === DEBOUNCE INFO ===
-	validateNamespaceDebounce: Debounce<() => ReturnType<typeof global.cloud.validateGameNamespace>>;
+	validateNamespaceDebounce: Debounce<
+		() => ReturnType<typeof global.deprecatedApi.cloud.validateGameNamespace>
+	>;
 
 	constructor() {
 		super();
@@ -68,7 +70,7 @@ export default class DevGameOverview extends LitElement {
 					? this.namespaceNameIdValue
 					: utils.convertStringToId(displayName);
 
-				return await global.cloud.validateGameNamespace({
+				return await global.deprecatedApi.cloud.validateGameNamespace({
 					gameId: this.game.gameId,
 					nameId,
 					displayName
@@ -228,7 +230,7 @@ export default class DevGameOverview extends LitElement {
 			: utils.convertStringToId(displayName);
 
 		try {
-			let res = await global.cloud.createGameNamespace({
+			let res = await global.deprecatedApi.cloud.createGameNamespace({
 				gameId: this.game.gameId,
 				versionId: this.game.versions[0].versionId,
 				nameId,

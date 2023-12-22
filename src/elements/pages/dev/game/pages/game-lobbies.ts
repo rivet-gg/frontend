@@ -102,11 +102,11 @@ export default class DevGameLobbies extends LitElement {
 			let reqId = this.reqCounter++;
 
 			let [namespaceRes, lobbiesRes] = await Promise.all([
-				await global.cloud.getGameNamespaceById({
+				await global.deprecatedApi.cloud.getGameNamespaceById({
 					gameId: this.game.gameId,
 					namespaceId: this.namespaceId
 				}),
-				await global.cloud.getNamespaceAnalyticsMatchmakerLive({
+				await global.deprecatedApi.cloud.getNamespaceAnalyticsMatchmakerLive({
 					gameId: this.game.gameId,
 					namespaceId: this.namespaceId
 				})
@@ -129,7 +129,7 @@ export default class DevGameLobbies extends LitElement {
 		this.isLoadingLobbies = true;
 
 		try {
-			let lobbiesRes = await global.cloud.getNamespaceAnalyticsMatchmakerLive({
+			let lobbiesRes = await global.deprecatedApi.cloud.getNamespaceAnalyticsMatchmakerLive({
 				gameId: this.game.gameId,
 				namespaceId: this.namespaceId
 			});
@@ -183,7 +183,7 @@ export default class DevGameLobbies extends LitElement {
 		this.destroyingLobbies.push(lobbyId);
 		this.requestUpdate('destroyingLobbies');
 		await new Promise(r => setTimeout(r, 1000));
-		await global.cloud.deleteMatchmakerLobby({ gameId: this.game.gameId, lobbyId });
+		await global.deprecatedApi.cloud.deleteMatchmakerLobby({ gameId: this.game.gameId, lobbyId });
 
 		// Manually splice the lobby. We don't need to completely refresh.
 		this.destroyingLobbies.splice(this.destroyingLobbies.indexOf(lobbyId), 1);

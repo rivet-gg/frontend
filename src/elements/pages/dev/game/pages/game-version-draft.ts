@@ -60,7 +60,7 @@ export default class DevGameNamespace extends LitElement {
 	versionIsValid = false;
 
 	// === DEBOUNCE INFO ===
-	validateConfigDebounce: Debounce<() => ReturnType<typeof global.cloud.validateGameVersion>>;
+	validateConfigDebounce: Debounce<() => ReturnType<typeof global.deprecatedApi.cloud.validateGameVersion>>;
 
 	constructor() {
 		super();
@@ -300,7 +300,7 @@ export default class DevGameNamespace extends LitElement {
 			for (let namespaceId of publishNamespaces.values()) {
 				logging.net('publishing namespace', namespaceId, versionId);
 
-				await global.cloud.updateGameNamespaceVersion({
+				await global.deprecatedApi.cloud.updateGameNamespaceVersion({
 					gameId: this.game.gameId,
 					namespaceId,
 					versionId

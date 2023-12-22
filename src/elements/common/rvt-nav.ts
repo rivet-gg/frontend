@@ -428,46 +428,50 @@ export default class RvtNav extends LitElement {
 						</div>
 					</div>
 
-					${when(global.status == GlobalStatus.Connected, () =>  html`
-						<!-- Avatar -->
-						<div class="sm:hidden absolute left-2">
-							<identity-avatar
-								class="my-auto block w-7 h-7"
-								shadow
-								.identity=${global.currentIdentity}
-							></identity-avatar>
-						</div>
-						<div
-							class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0 space-x-4 max-sm:invisible my-auto"
-						>
-							<identity-name
-								class="my-auto text-sm"
-								.identity=${global.currentIdentity}
-								no-link
-							></identity-name>
-							<identity-avatar
-								class="block w-6 h-6 m-2"
-								.identity=${global.currentIdentity}
-							></identity-avatar>
+					${when(
+						global.status == GlobalStatus.Connected,
+						() => html`
+							<!-- Avatar -->
+							<div class="sm:hidden absolute left-2">
+								<identity-avatar
+									class="my-auto block w-7 h-7"
+									shadow
+									.identity=${global.currentIdentity}
+								></identity-avatar>
+							</div>
+							<div
+								class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0 space-x-4 max-sm:invisible my-auto"
+							>
+								<identity-name
+									class="my-auto text-sm"
+									.identity=${global.currentIdentity}
+									no-link
+								></identity-name>
+								<identity-avatar
+									class="block w-6 h-6 m-2"
+									.identity=${global.currentIdentity}
+								></identity-avatar>
 
-							<icon-button
-								src="regular/gear"
-								small
-								color="#ececec80"
-								href=${routes.settings.build({})}
-							></icon-button>
-						</div>
+								<icon-button
+									src="regular/gear"
+									small
+									color="#ececec80"
+									href=${routes.settings.build({})}
+								></icon-button>
+							</div>
 
-						<!-- Settings -->
-						<div class="sm:hidden absolute right-2 flex place-content-center my-auto opacity-75 transition hover:opacity-100">
-							<icon-button
-								src="regular/gear"
-								class="my-auto"
-								small
-								color="#ececec80"
-								href=${routes.settings.build({})}
-							></icon-button>
-						</div>
+							<!-- Settings -->
+							<div
+								class="sm:hidden absolute right-2 flex place-content-center my-auto opacity-75 transition hover:opacity-100"
+							>
+								<icon-button
+									src="regular/gear"
+									class="my-auto"
+									small
+									color="#ececec80"
+									href=${routes.settings.build({})}
+								></icon-button>
+							</div>
 						`
 					)}
 				</div>
