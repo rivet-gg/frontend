@@ -303,6 +303,9 @@ export class GlobalState {
 				this.bootstrapData = response;
 				this.updateStatus();
 
+				// Update cache
+				BootstrapCache.set(response);
+
 				return;
 			} catch (err) {
 				logging.error(`Bootstrapping failed ${retry} `, err);
