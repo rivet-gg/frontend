@@ -41,7 +41,7 @@ const assets = {
 	 * @deprecated Use `game.logoUrl` instead
 	 */
 	gameLogoUrl(nameId: string): string {
-		return assets.asset(`/games/${nameId}/logo.png`);
+		return assets.asset(`/games/${nameId}/blankgame.svg`);
 	},
 
 	/**

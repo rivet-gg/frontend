@@ -17,8 +17,8 @@ export default class DevGroupBanner extends LitElement {
 		return html`
 			<lazy-img
 				class="mx-auto w-28 h-28"
-				bg-size=${group ? (group.avatarUrl ? 'contain' : 'cover') : 'cover'}
-				src=${group.avatarUrl ?? assets.asset('/games/blank/logo.png')}
+				bg-size="contain"
+				src=${group.avatarUrl ?? assets.asset('/games/blank/blankgame.svg')}
 			></lazy-img>
 		`;
 	}

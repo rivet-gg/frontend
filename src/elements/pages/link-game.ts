@@ -212,8 +212,8 @@ export default class LinkGamePage extends LitElement {
 	renderGameIcon() {
 		return html`<lazy-img
 			id="game-icon"
-			bg-size=${this.gameLinkData.game.logoUrl ? 'contain' : 'cover'}
-			src=${this.gameLinkData.game.logoUrl ?? assets.asset('/games/blank/logo.png')}
+			bg-size="contain"
+			src=${this.gameLinkData.game.logoUrl ?? assets.asset('/games/blank/blankgame.svg')}
 			@mouseenter=${tooltip(this.gameLinkData.game.displayName)}
 		></lazy-img>`;
 	}

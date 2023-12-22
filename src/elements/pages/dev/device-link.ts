@@ -134,8 +134,8 @@ export default class DevGames extends LitElement {
 					template: html`<div style=${handleStyles}>
 						<lazy-img
 							class="left-icon"
-							bg-size=${game.logoUrl ? 'contain' : 'cover'}
-							src=${game.logoUrl ?? assets.asset('/games/blank/logo.png')}
+							bg-size="contain"
+							src=${game.logoUrl ?? assets.asset('/games/blank/blankgame.svg')}
 						></lazy-img>
 						${game.displayName}
 					</div>`,
