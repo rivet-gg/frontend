@@ -218,7 +218,7 @@ export default class DevGameBilling extends LitElement {
 			else this.loadError = err;
 		});
 
-		global.live.group
+		global.deprecatedApi.group
 			.getGroupMembers({ groupId: this.game.developerGroupId })
 			.then(res => {
 				this.groupMembers = res.members;

@@ -79,7 +79,7 @@ export default class CreateGroupModal extends LitElement {
 		try {
 			let displayName = this.groupDisplayNameValue ?? '';
 
-			let groupRes = await global.live.group.createGroup({
+			let groupRes = await global.deprecatedApi.group.createGroup({
 				displayName
 			});
 

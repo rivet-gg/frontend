@@ -78,7 +78,7 @@ export default class GroupSettingsGeneral extends LitElement {
 	initiated = false;
 
 	// === DEBOUNCE INFO ===
-	validateProfileDebounce: Debounce<() => ReturnType<typeof global.live.group.validateGroupProfile>>;
+	validateProfileDebounce: Debounce<() => ReturnType<typeof global.deprecatedApi.group.validateGroupProfile>>;
 
 	constructor() {
 		super();
@@ -106,7 +106,7 @@ export default class GroupSettingsGeneral extends LitElement {
 					return null;
 				}
 
-				return await global.live.group.validateGroupProfile({
+				return await global.deprecatedApi.group.validateGroupProfile({
 					displayName,
 					bio
 				});
@@ -317,7 +317,7 @@ export default class GroupSettingsGeneral extends LitElement {
 	}
 
 	async completeUpload(prepareRes: PrepareResponse) {
-		await global.live.group.completeGroupAvatarUpload({
+		await global.deprecatedApi.group.completeGroupAvatarUpload({
 			groupId: this.group.groupId,
 			uploadId: prepareRes.uploadId
 		});
@@ -356,7 +356,7 @@ export default class GroupSettingsGeneral extends LitElement {
 			}
 
 			if (this.hasChanges) {
-				await global.live.group.updateGroupProfile({
+				await global.deprecatedApi.group.updateGroupProfile({
 					groupId: this.group.groupId,
 					displayName:
 						this.displayNameValue == this.group.displayName ? null : this.displayNameValue,

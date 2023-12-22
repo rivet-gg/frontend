@@ -173,9 +173,9 @@ export default class SettingsPage extends LitElement {
 			ls.setBoolean(key, value);
 		} else if (key == 'toggle-deletion') {
 			if (value) {
-				global.live.identity.markDeletion({}).catch((err: Error) => (this.loadError = err));
+				global.deprecatedApi.identity.markDeletion({}).catch((err: Error) => (this.loadError = err));
 			} else {
-				global.live.identity.unmarkDeletion({}).catch((err: Error) => (this.loadError = err));
+				global.deprecatedApi.identity.unmarkDeletion({}).catch((err: Error) => (this.loadError = err));
 			}
 		} else {
 			logging.warn('Unknown setting', key, '=', value);

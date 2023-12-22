@@ -83,7 +83,7 @@ export default class ContextMenu extends LitElement {
 		let identity = this.ctx.identity?.identity ?? this.ctx.groupMember.identity;
 		let ctxIdentityId = identity.identityId;
 		try {
-			let res = await global.live.identity.getIdentitySummaries({
+			let res = await global.deprecatedApi.identity.getIdentitySummaries({
 				identityIds: [ctxIdentityId]
 			});
 
@@ -104,7 +104,7 @@ export default class ContextMenu extends LitElement {
 		let identity = ctx.identity;
 
 		try {
-			await global.live.group.resolveGroupJoinRequest({
+			await global.deprecatedApi.group.resolveGroupJoinRequest({
 				groupId: ctx.groupId,
 				identityId: identity.identityId,
 				resolution
@@ -120,7 +120,7 @@ export default class ContextMenu extends LitElement {
 		let identity = ctx.identity;
 
 		try {
-			await global.live.group.kickGroupMember({
+			await global.deprecatedApi.group.kickGroupMember({
 				groupId: ctx.groupId,
 				identityId: identity.identityId
 			});
@@ -135,7 +135,7 @@ export default class ContextMenu extends LitElement {
 		let identity = ctx.identity;
 
 		try {
-			await global.live.group.banGroupIdentity({
+			await global.deprecatedApi.group.banGroupIdentity({
 				groupId: ctx.groupId,
 				identityId: identity.identityId
 			});
@@ -150,7 +150,7 @@ export default class ContextMenu extends LitElement {
 		let identity = ctx.identity;
 
 		try {
-			await global.live.group.unbanGroupIdentity({
+			await global.deprecatedApi.group.unbanGroupIdentity({
 				groupId: ctx.groupId,
 				identityId: identity.identityId
 			});

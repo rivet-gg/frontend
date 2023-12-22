@@ -52,7 +52,7 @@ export class GlobalState {
 	api: RivetClient = null;
 
 	// TODO: Implement authentication middleware that requests a token
-	live: {
+	deprecatedApi: {
 		portal: api.portal.PortalService;
 		identity: api.identity.IdentityService;
 		group: api.group.GroupService;
@@ -62,7 +62,6 @@ export class GlobalState {
 	cloud: cloud.CloudService;
 
 	broadcast: BroadcastSystem = new BroadcastSystem(true);
-
 
 	status: GlobalStatus = GlobalStatus.Loading;
 
@@ -224,7 +223,7 @@ export class GlobalState {
 				return response;
 			}
 		});
-		this.live = {
+		this.deprecatedApi = {
 			portal: new api.portal.PortalService({
 				endpoint: config.ORIGIN_API + '/portal',
 				requestHandler: refreshMiddleware()
@@ -337,7 +336,7 @@ export class GlobalState {
 			this.identityStream = new RepeatingRequest(
 				'GlobalState.identityStream',
 				async (abortSignal, watchIndex) => {
-					return await this.live.identity.getIdentitySelfProfile(
+					return await this.deprecatedApi.identity.getIdentitySelfProfile(
 						{ watchIndex },
 						{
 							abortSignal

@@ -133,7 +133,7 @@ export default class GroupSettingsMembers extends LitElement {
 
 	async applyForGroup() {
 		try {
-			await global.live.group.createGroupJoinRequest({ groupId: this.group.groupId });
+			await global.deprecatedApi.group.createGroupJoinRequest({ groupId: this.group.groupId });
 		} catch (err) {
 			if (err.code == 'GROUP_MEMBER_BANNED') {
 				showAlert(
@@ -155,7 +155,7 @@ export default class GroupSettingsMembers extends LitElement {
 				destructive: true,
 				cb: async () => {
 					// Leave group
-					await global.live.group.leaveGroup({ groupId: this.group.groupId });
+					await global.deprecatedApi.group.leaveGroup({ groupId: this.group.groupId });
 				}
 			}
 		]);
@@ -163,7 +163,7 @@ export default class GroupSettingsMembers extends LitElement {
 
 	async resolveJoinRequest(identityId: string, resolution: boolean) {
 		try {
-			await global.live.group.resolveGroupJoinRequest({
+			await global.deprecatedApi.group.resolveGroupJoinRequest({
 				groupId: this.group.groupId,
 				identityId,
 				resolution
@@ -175,7 +175,7 @@ export default class GroupSettingsMembers extends LitElement {
 
 	async transferGroupOwnership(transferIdent: IdentityHandle) {
 		try {
-			await global.live.group.transferGroupOwnership({
+			await global.deprecatedApi.group.transferGroupOwnership({
 				groupId: this.group.groupId,
 				newOwnerIdentityId: transferIdent.identityId
 			});
@@ -186,7 +186,7 @@ export default class GroupSettingsMembers extends LitElement {
 
 	async createGroupInvite() {
 		try {
-			let res = await global.live.group.createGroupInvite({
+			let res = await global.deprecatedApi.group.createGroupInvite({
 				groupId: this.group.groupId,
 				ttl: this.createInviteTTLSelection.value > 0 ? this.createInviteTTLSelection.value : null,
 				useCount: this.createInviteUseCountValue > 0 ? this.createInviteUseCountValue : null
@@ -201,7 +201,7 @@ export default class GroupSettingsMembers extends LitElement {
 
 	async kickMember(identityId: string) {
 		try {
-			await global.live.group.kickGroupMember({
+			await global.deprecatedApi.group.kickGroupMember({
 				groupId: this.group.groupId,
 				identityId
 			});
@@ -212,7 +212,7 @@ export default class GroupSettingsMembers extends LitElement {
 
 	async banIdentity(identityId: string) {
 		try {
-			await global.live.group.banGroupIdentity({
+			await global.deprecatedApi.group.banGroupIdentity({
 				groupId: this.group.groupId,
 				identityId
 			});
@@ -223,7 +223,7 @@ export default class GroupSettingsMembers extends LitElement {
 
 	async unbanIdentity(identityId: string) {
 		try {
-			await global.live.group.unbanGroupIdentity({
+			await global.deprecatedApi.group.unbanGroupIdentity({
 				groupId: this.group.groupId,
 				identityId
 			});
@@ -374,7 +374,7 @@ export default class GroupSettingsMembers extends LitElement {
 		this.membersStream = new RepeatingRequest(
 			'GroupSettingsMembers.membersStream',
 			async (abortSignal, watchIndex) => {
-				return await global.live.group.getGroupMembers(
+				return await global.deprecatedApi.group.getGroupMembers(
 					{ groupId: this.group.groupId, count: 32, watchIndex },
 					{ abortSignal }
 				);
@@ -400,7 +400,7 @@ export default class GroupSettingsMembers extends LitElement {
 		this.groupBansStream = new RepeatingRequest(
 			'GroupSettingsMembers.groupBansStream',
 			async (abortSignal, watchIndex) => {
-				return await global.live.group.getGroupBans(
+				return await global.deprecatedApi.group.getGroupBans(
 					{
 						groupId: this.group.groupId,
 						watchIndex
@@ -427,7 +427,7 @@ export default class GroupSettingsMembers extends LitElement {
 		this.joinRequestsStream = new RepeatingRequest(
 			'GroupSettingsMembers.joinRequestsStream',
 			async (abortSignal, watchIndex) => {
-				return await global.live.group.getGroupJoinRequests(
+				return await global.deprecatedApi.group.getGroupJoinRequests(
 					{ groupId: this.group.groupId, watchIndex },
 					{ abortSignal }
 				);
