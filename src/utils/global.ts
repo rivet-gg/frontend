@@ -437,7 +437,8 @@ export class GlobalState {
 		else if (!this.liveInitiated) status = GlobalStatus.Connecting;
 		else if (
 			global.currentIdentity &&
-			(!global.currentIdentity.isRegistered || !global.currentIdentity.isAdmin)
+			!global.currentIdentity.isRegistered &&
+			!global.currentIdentity.isAdmin
 		)
 			status = GlobalStatus.Unregistered;
 		else if (this.troubleConnecting) status = GlobalStatus.Reconnecting;
