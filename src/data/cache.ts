@@ -55,7 +55,7 @@ export namespace GroupProfileCache {
 			Payload
 		>(
 			name,
-			global.live.group.getGroupProfile.bind(global.live.group),
+			global.deprecatedApi.group.getGroupProfile.bind(global.deprecatedApi.group),
 			[{ groupId }],
 			GroupProfileCache.get.bind(GroupProfileCache, groupId),
 			res => {

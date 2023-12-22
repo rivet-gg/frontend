@@ -68,7 +68,7 @@ export default class IdentityProfileEdit extends LitElement {
 	colorExtractor: ColorExtractor = new ColorExtractor();
 
 	// === DEBOUNCE INFO ===
-	validateProfileDebounce: Debounce<() => ReturnType<typeof global.live.identity.validateIdentityProfile>>;
+	validateProfileDebounce: Debounce<() => ReturnType<typeof global.deprecatedApi.identity.validateIdentityProfile>>;
 
 	/// === EVENTS ===
 	handleIdentityChange: (e: IdentityChangeEvent) => void;
@@ -104,7 +104,7 @@ export default class IdentityProfileEdit extends LitElement {
 					return null;
 				}
 
-				return await global.live.identity.validateIdentityProfile({
+				return await global.deprecatedApi.identity.validateIdentityProfile({
 					displayName,
 					accountNumber,
 					bio
@@ -379,7 +379,7 @@ export default class IdentityProfileEdit extends LitElement {
 	}
 
 	async completeUpload(prepareRes: PrepareResponse) {
-		await global.live.identity.completeIdentityAvatarUpload({ uploadId: prepareRes.uploadId });
+		await global.deprecatedApi.identity.completeIdentityAvatarUpload({ uploadId: prepareRes.uploadId });
 
 		this.isUploading = false;
 	}
@@ -415,7 +415,7 @@ export default class IdentityProfileEdit extends LitElement {
 			}
 
 			if (this.hasChanges) {
-				await global.live.identity.updateIdentityProfile({
+				await global.deprecatedApi.identity.updateIdentityProfile({
 					displayName:
 						this.displayNameValue == global.currentIdentity.displayName
 							? null

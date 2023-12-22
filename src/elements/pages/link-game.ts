@@ -93,7 +93,7 @@ export default class LinkGamePage extends LitElement {
 
 	async completeGameLink() {
 		try {
-			await global.live.identity.completeGameLink({
+			await global.deprecatedApi.identity.completeGameLink({
 				identityLinkToken: this.token
 			});
 
@@ -105,7 +105,7 @@ export default class LinkGamePage extends LitElement {
 
 	async cancelGameLink() {
 		try {
-			await global.live.identity.cancelGameLink({
+			await global.deprecatedApi.identity.cancelGameLink({
 				identityLinkToken: this.token
 			});
 

@@ -39,7 +39,7 @@ export default class GroupInvitePage extends LitElement {
 		this.fetchDebounce = new Debounce({
 			delay: timing.milliseconds(500),
 			cb: async () => {
-				return await global.live.group.getGroupInvite({ groupInviteCode: this.code });
+				return await global.deprecatedApi.group.getGroupInvite({ groupInviteCode: this.code });
 			},
 			completeCb: res => {
 				this.group = res.group;
@@ -66,7 +66,7 @@ export default class GroupInvitePage extends LitElement {
 		try {
 			this.codeError = '';
 			this.isConsuming = true;
-			let res = await global.live.group.consumeGroupInvite({ groupInviteCode: this.code });
+			let res = await global.deprecatedApi.group.consumeGroupInvite({ groupInviteCode: this.code });
 
 			RvtRouter.shared.navigate(routes.groupOverview.build({ id: res.groupId }));
 		} catch (err) {

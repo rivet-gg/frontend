@@ -40,7 +40,7 @@ export default class IdentityStatusController extends LitElement {
 				icon: 'solid/circle',
 				color: 'status-online',
 				async cb() {
-					await global.live.identity.updateIdentityStatus({ status: 'online' });
+					await global.deprecatedApi.identity.updateIdentityStatus({ status: 'online' });
 				}
 			},
 			{
@@ -49,7 +49,7 @@ export default class IdentityStatusController extends LitElement {
 				icon: 'solid/circle-dot',
 				color: 'status-away',
 				async cb() {
-					await global.live.identity.updateIdentityStatus({ status: 'away' });
+					await global.deprecatedApi.identity.updateIdentityStatus({ status: 'away' });
 				}
 			},
 			{
@@ -58,7 +58,7 @@ export default class IdentityStatusController extends LitElement {
 				icon: 'regular/circle-dashed',
 				color: 'status-offline',
 				async cb() {
-					await global.live.identity.updateIdentityStatus({ status: 'offline' });
+					await global.deprecatedApi.identity.updateIdentityStatus({ status: 'offline' });
 				}
 			}
 		]);
