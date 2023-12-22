@@ -6,7 +6,7 @@ import styles from './toggle-switch.scss';
 
 export class ToggleSwitchEvent extends Event {
 	constructor(public value: boolean) {
-		super('toggle');
+		super('toggle', { cancelable: true });
 	}
 }
 
@@ -27,10 +27,11 @@ export default class ToggleSwitch extends LitElement {
 		if (this.stopImmediatePropagation) e.stopImmediatePropagation();
 		if (this.isDisabled) return;
 
-		this.value = !this.value;
-
 		let event = new ToggleSwitchEvent(this.value);
-		this.dispatchEvent(event);
+		let isDispatched = this.dispatchEvent(event);
+		if (isDispatched) {
+			this.value = !this.value;
+		}
 	}
 
 	render() {

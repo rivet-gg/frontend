@@ -16,6 +16,7 @@ import { ToggleSwitchEvent } from '../../../common/toggle-switch';
 import RvtRoot from '../../../root/rvt-root';
 import { ls } from '../../../../utils/cache';
 import { map } from 'lit/directives/map.js';
+import { IdentityObserver } from '../../../../controllers/identityObserver';
 
 interface TabGroup {
 	title: string;
@@ -40,6 +41,8 @@ interface SettingsData {
 @customElement('page-settings')
 export default class SettingsPage extends LitElement {
 	static styles = cssify(styles);
+
+	private identityObserver = new IdentityObserver(this);
 
 	@property({ type: String })
 	tabId?: string;
@@ -210,6 +213,23 @@ export default class SettingsPage extends LitElement {
 		}
 	}
 
+	confirmAccountDeletion() {
+		showAlert(
+			'Schedule account deletion?',
+			html`After 30 days, your account will be permanently deleted.`,
+			[
+				{
+					label: 'Cancel'
+				},
+				{
+					label: 'Schedule Deletion',
+					destructive: true,
+					cb: () => this.settingChanged('toggle-deletion', true)
+				}
+			]
+		);
+	}
+
 	editModalClose() {
 		this.editModalActive = false;
 	}
@@ -291,7 +311,7 @@ export default class SettingsPage extends LitElement {
 						  `}
 				</div>
 				${when(
-					global.currentIdentity.isRegistered,
+					this.identityObserver.identity.isRegistered,
 					() => html`
 						<div>
 							<h2 class="text-lg py-2">Toggle deletion</h2>
@@ -301,9 +321,14 @@ export default class SettingsPage extends LitElement {
 								<b>permanently deleted</b>.
 							</p>
 							<toggle-switch
-								?value=${global.currentIdentity.awaitingDeletion}
-								@toggle=${(e: ToggleSwitchEvent) =>
-									this.settingChanged('toggle-deletion', e.value)}
+								.value=${this.identityObserver.identity.awaitingDeletion}
+								@toggle=${(e: ToggleSwitchEvent) => {
+									if (!e.value) {
+										e.preventDefault();
+										return this.confirmAccountDeletion();
+									}
+									this.settingChanged('toggle-deletion', !e.value);
+								}}
 							></toggle-switch>
 						</div>
 					`
