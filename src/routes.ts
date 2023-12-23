@@ -589,7 +589,7 @@ export namespace responses {
 			.gameId="${gameId}"
 			.namespaceId="${namespaceId}"
 			.config="${config}"
-		></prvt-game-dashboard>`;
+		></rvt-game-dashboard>`;
 	}
 
 	export function groupSettings(groupId: string, config?: GroupSettingsRootConfig) {
