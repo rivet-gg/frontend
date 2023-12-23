@@ -56,6 +56,10 @@ export default class DevGame extends LitElement {
 
 	gameStream?: RepeatingRequest<Rivet.cloud.games.games.GetGameByIdResponse>;
 
+	get namespace() {
+		return this.game?.namespaces.find(x => x.namespaceId == this.namespaceId);
+	}
+
 	updated(changedProperties: PropertyValues) {
 		// Request data if category set
 		if (changedProperties.has('gameId')) {
@@ -96,6 +100,9 @@ export default class DevGame extends LitElement {
 	render() {
 		if (this.loadError) return responses.renderError(this.loadError);
 		if (this.game == null) return this.renderPlaceholder();
+
+		let namespace = this.namespace;
+		if (!namespace) return responses.renderError(new Error(`Namespace not found: ${this.namespaceId}`));
 
 		let body = null;
 
@@ -158,7 +165,7 @@ export default class DevGame extends LitElement {
 		} else if (this.config.tokens) {
 			body = html`<page-dev-game-tokens
 				.game=${this.game}
-				.namespaceId=${this.namespaceId}
+				.namespace=${namespace}
 			></page-dev-game-tokens>`;
 
 			RvtRouter.shared.updateTitle(`${this.game.displayName} – Tokens`);
