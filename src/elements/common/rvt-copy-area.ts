@@ -14,12 +14,14 @@ export default class RvtCopyArea extends LitElement {
 	@property({ type: String })
 	value: string;
 
+	/** If the input should be hidden as dots for secret data */
 	@property({ type: Boolean, attribute: 'confidential' })
 	isConfidential = false;
 
 	@query('input')
 	input: HTMLInputElement;
 
+	/** If the input is currently replaced with dots */
 	@state()
 	hidden = true;
 
@@ -67,9 +69,10 @@ export default class RvtCopyArea extends LitElement {
 					@mouseenter=${this.handleMouseEnter.bind(this)}
 					@click=${this.show.bind(this)}
 					type="text"
-					value=${this.hidden ? PLACEHOLDER : this.value}
+					value=${(this.hidden && this.isConfidential) ? PLACEHOLDER : this.value}
 					readonly
-					class="flex-1 border-none shadow-none ring-0 bg-transparent focus:ring-0 focus:shadow-none focus:border-none"
+					class="font-mono flex-1 border-none shadow-none ring-0 bg-transparent focus:ring-0 focus:shadow-none focus:border-none"
+
 				/>
 				<icon-button
 					src="solid/copy"
