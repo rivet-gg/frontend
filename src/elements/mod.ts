@@ -13,7 +13,6 @@ import './common/rvt-nav';
 import './common/overlay-positioning';
 import './common/stylized-button';
 import './common/toggle-switch';
-import './common/rvt-protocol-dropdown';
 import './common/button/rvt-button';
 import './common/rvt-section';
 import './context-menu/context-action';

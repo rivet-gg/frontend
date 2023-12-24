@@ -20,7 +20,7 @@ module.exports = {
 			sans: ['Open Sans', 'ui-sans-serif', 'system-ui'],
 			display: ['Cartridge', 'ui-sans-serif', 'system-ui'],
 			pixel: ['Silkscreen', 'ui-sans-serif', 'system-ui'],
-			mono: ['Fira Code', 'monospace'],
+			mono: ['Fira Code', 'monospace']
 		},
 		transformStyle: {
 			flat: 'flat',

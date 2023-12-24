@@ -69,10 +69,9 @@ export default class RvtCopyArea extends LitElement {
 					@mouseenter=${this.handleMouseEnter.bind(this)}
 					@click=${this.show.bind(this)}
 					type="text"
-					value=${(this.hidden && this.isConfidential) ? PLACEHOLDER : this.value}
+					value=${this.hidden && this.isConfidential ? PLACEHOLDER : this.value}
 					readonly
 					class="font-mono flex-1 border-none shadow-none ring-0 bg-transparent focus:ring-0 focus:shadow-none focus:border-none"
-
 				/>
 				<icon-button
 					src="solid/copy"
