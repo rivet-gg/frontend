@@ -1,4 +1,4 @@
-import './utils/start-posthog';
+import './utils/start-monitoring';
 
 import './elements/common/stylized-button';
 import './elements/common/lazy-image'; // TODO: Use raw img in static pages
