@@ -16,31 +16,21 @@ export default class DevGameBanner extends LitElement {
 	renderGameIcon(game: cloud.GameFull): TemplateResult {
 		return html`
 			<lazy-img
-<<<<<<< HEAD
-				class="mx-auto w-28 h-28"
-				bg-size="contain"
-				src=${game.logoUrl ?? assets.asset('/games/blank/blankgame.svg')}
-=======
 				class="mx-auto w-28 h-28 z-10"
 				bg-size=${game ? (game.logoUrl ? 'contain' : 'cover') : 'cover'}
 				src=${game.logoUrl ?? assets.asset('/games/blank/logo.png')}
->>>>>>> 4b8b0ea (Improve display of custom-uploaded images)
 			></lazy-img>
 		`;
 	}
 
 	render() {
 		return html`
-<<<<<<< HEAD
-			<div class="relative my-5 md:my-10 mx-auto bg-zinc-700 h-72 rounded-2xl">
-=======
 			<div
 				class=${clsx(
 					'relative my-[20px] md:my-[40px] mx-auto h-[18.2rem] rounded-[20px]',
 					this.game && this.game.bannerUrl ? 'bg-gray-900 overflow-hidden' : 'bg-zinc-700'
 				)}
 			>
->>>>>>> 4b8b0ea (Improve display of custom-uploaded images)
 				<div class="flex flex-col place-content-center m-auto h-full w-1/2 text-center">
 					${this.game
 						? html`
