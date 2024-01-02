@@ -1,27 +1,39 @@
 const U200D = String.fromCharCode(0x200d);
 const UFE0Fg = /\uFE0F/g;
 
-const REGION_EMOJI = [
-	'❓',
-	'🖥️', // 1
-	'🇳🇱',
-	'🇮🇳',
-	'🇩🇪',
-	'🇬🇧', // 5
-	'🇺🇸',
-	'🇺🇸',
-	'🇸🇬',
-	'🇨🇦',
-	'🇮🇳', // 10
-	'🇦🇺',
-	'🇺🇸',
-	'🇺🇸',
-	'❓',
-	'🇯🇵' // 15
-];
+const REGION_EMOJI: { [key: string]: string } = {
+	unknown: "❓",
+	local: "🏠",
+	amsterdam: "🇳🇱",
+	atlanta: "🇺🇸",
+	bangalore: "🇮🇳",
+	dallas: "🇺🇸",
+	frankfurt: "🇩🇪",
+	london: "🇬🇧",
+	mumbai: "🇮🇳",
+	newark: "🇺🇸",
+	new_york_city: "🇺🇸",
+	san_francisco: "🇺🇸",
+	singapore: "🇸🇬",
+	sydney: "🇦🇺",
+	tokyo: "🇯🇵",
+	toronto: "🇨🇦",
+	washington_dc: "🇺🇸",
+	chicago: "🇺🇸",
+	paris: "🇫🇷",
+	seattle: "🇺🇸",
+	sao_paulo: "🇧🇷",
+	stockholm: "🇸🇪",
+	chennai: "🇮🇳",
+	osaka: "🇯🇵",
+	milan: "🇮🇹",
+	miami: "🇺🇸",
+	jakarta: "🇮🇩",
+	los_angeles: "🇺🇸"
+};
 
-export function getRegionEmoji(regionId: number) {
-	let regionEmoji = REGION_EMOJI[regionId] ?? REGION_EMOJI[0];
+export function getRegionEmoji(regionId: string) {
+	let regionEmoji = REGION_EMOJI[regionId] ?? REGION_EMOJI.unknown;
 	return `emoji/${converEmojiToUriFriendlyString(regionEmoji)}`;
 }
 

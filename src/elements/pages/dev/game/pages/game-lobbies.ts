@@ -390,7 +390,7 @@ export default class DevGameLobbies extends LitElement {
 		let destroying = this.destroyingLobbies.indexOf(l.lobbyId) != -1;
 
 		let tooltipText = `${regionData.regionDisplayName}`;
-		let regionIcon = getRegionEmoji(regionData.universalRegion);
+		let regionIcon = getRegionEmoji(regionData.universalRegion as any);
 
 		return html` <tr
 			class=${classMap({ 'lobby-row': true, destroying })}
