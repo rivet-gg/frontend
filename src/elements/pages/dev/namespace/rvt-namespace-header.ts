@@ -29,8 +29,8 @@ export default class RvtNamespaceHeader extends LitElement {
 	}
 
 	renderVisitButton(): TemplateResult {
-		if (!this.version.config.cdn) {
-			return html``;
+		if (!this.version?.config.cdn) {
+			return null;
 		}
 
 		let visitHost: string;

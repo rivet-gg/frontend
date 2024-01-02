@@ -1,4 +1,4 @@
-import './utils/start-posthog';
+import './utils/start-monitoring';
 import './elements/mod';
 import numbro from 'numbro';
 import RvtRoot from './elements/root/rvt-root';

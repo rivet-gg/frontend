@@ -145,24 +145,6 @@ export default class RvtNameSpaceSummary extends LitElement {
 		);
 	}
 
-	renderModules() {
-		return html`
-			<div class="pt-8">
-				<h3 class="text-xl text-slate-100 pb-4">Configuration</h3>
-				<dev-version-info
-					.game=${this.game}
-					.tiers=${this.tiers}
-					.config=${this.version.config}
-				></dev-version-info>
-				<!-- <div class="flex place-content-center mx-auto pt-4">
-					<stylized-button
-					right-icon="solid/arrow-right"
-					> Add Module </stylized-button>
-				</div> -->
-			</div>
-		`;
-	}
-
 	render() {
 		return html`
 			${when(
@@ -189,10 +171,28 @@ export default class RvtNameSpaceSummary extends LitElement {
 							</stylized-button>
 						</div>
 
-						${this.renderModules()}
+						${when(this.version, this.renderModules.bind(this))}
 					</div>
 				`
 			)}
+		`;
+	}
+
+	renderModules() {
+		return html`
+			<div class="pt-8">
+				<h3 class="text-xl text-slate-100 pb-4">Configuration</h3>
+				<dev-version-info
+					.game=${this.game}
+					.tiers=${this.tiers}
+					.config=${this.version.config}
+				></dev-version-info>
+				<!-- <div class="flex place-content-center mx-auto pt-4">
+					<stylized-button
+					right-icon="solid/arrow-right"
+					> Add Module </stylized-button>
+				</div> -->
+			</div>
 		`;
 	}
 }
