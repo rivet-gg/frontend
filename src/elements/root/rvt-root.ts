@@ -281,7 +281,6 @@ export default class RvtRoot extends LitElement {
 	}
 
 	public showTooltip(contextElement: HTMLElement, text: string) {
-		console.log(contextElement, text);
 		this.tooltipData = {
 			contextElement,
 			text,
