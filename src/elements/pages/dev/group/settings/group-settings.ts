@@ -29,7 +29,6 @@ interface SettingsPageData {
 export interface GroupSettingsRootConfig {
 	general?: boolean;
 	members?: boolean;
-	billing?: boolean;
 }
 
 @customElement('page-group-settings')
@@ -72,11 +71,6 @@ export default class GroupSettings extends LitElement {
 						id: 'members',
 						icon: 'light/user-group',
 						title: 'Members'
-					},
-					{
-						id: 'billing',
-						icon: 'solid/dollar-sign',
-						title: 'Billing'
 					}
 				]
 			}
@@ -114,8 +108,7 @@ export default class GroupSettings extends LitElement {
 		}
 
 		if (changedProperties.has('config')) {
-			if (this.config.billing) this.tabId = 'billing';
-			else if (this.config.members) this.tabId = 'members';
+			if (this.config.members) this.tabId = 'members';
 			else this.tabId = 'general';
 		}
 	}
@@ -160,10 +153,6 @@ export default class GroupSettings extends LitElement {
 			body = html`<page-group-settings-general .group=${this.group}></page-group-settings-general>`;
 
 			RvtRouter.shared.updateTitle('General');
-		} else if (this.config.billing) {
-			body = html`<page-group-settings-billing .group=${this.group}></page-group-settings-billing>`;
-
-			RvtRouter.shared.updateTitle(`${this.group.displayName} - Billing`);
 		} else if (this.config.members) {
 			body = html`<page-group-settings-members .group=${this.group}></page-group-settings-members>`;
 

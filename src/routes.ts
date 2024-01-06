@@ -150,8 +150,7 @@ namespace routes {
 				breadcrumb: { type: 'GroupSettings', groupId: groupId, title: tab },
 				template: responses.groupSettings(groupId, {
 					general: tab.toLowerCase() === 'general' || tab === undefined,
-					members: tab.toLowerCase() === 'members',
-					billing: tab.toLowerCase() === 'billing'
+					members: tab.toLowerCase() === 'members'
 				})
 			};
 		}
