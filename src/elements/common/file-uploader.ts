@@ -7,7 +7,7 @@ import timing from '../../utils/timing';
 import { classMap } from 'lit/directives/class-map.js';
 import { styleMap } from 'lit/directives/style-map.js';
 import { bodyEventGroups } from '../../utils/global-events';
-import { Rivet } from '@rivet-gg/api-internal';
+import { Rivet } from '@rivet-gg/api';
 import logging from '../../utils/logging';
 import utils, { Deferred } from '../../utils/utils';
 import { showAlert } from '../../ui/helpers';

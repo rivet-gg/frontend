@@ -9,7 +9,7 @@ import logging from '../../../../../utils/logging';
 import { globalEventGroups } from '../../../../../utils/global-events';
 import { map } from 'lit/directives/map.js';
 import { RepeatingRequest } from '../../../../../utils/repeating-request';
-import { Rivet } from '@rivet-gg/api-internal';
+import { Rivet } from '@rivet-gg/api';
 
 interface TabGroup {
 	title: string;

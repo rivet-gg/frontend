@@ -18,7 +18,7 @@ import RvtRouter from '../../../../root/rvt-router';
 import logging from '../../../../../utils/logging';
 import { globalEventGroups } from '../../../../../utils/global-events';
 import { RepeatingRequest } from '../../../../../utils/repeating-request';
-import { Rivet } from '@rivet-gg/api-internal';
+import { Rivet } from '@rivet-gg/api';
 
 enum MetricType {
 	Cpu,

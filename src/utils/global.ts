@@ -10,11 +10,9 @@ import { CurrentIdentityCache, BootstrapCache } from '../data/cache';
 import { BroadcastEvent, BroadcastEventKind } from '../data/broadcast';
 import { ls } from './cache';
 import { BroadcastSystem } from './broadcast';
-import { Rivet, RivetClient } from '@rivet-gg/api-internal';
-import { Fetcher, fetcher } from '@rivet-gg/api-internal/core';
+import { Rivet, RivetClient, fetcher, apiResponse } from '@rivet-gg/api';
 import { HttpRequest } from '@aws-sdk/protocol-http';
 import { HttpHandlerOptions } from '@aws-sdk/types';
-import { FailedResponse } from '@rivet-gg/api-internal/types/core/fetcher/APIResponse';
 import { RepeatingRequest } from './repeating-request';
 
 /*
@@ -213,11 +211,12 @@ export class GlobalState {
 		this.api = new RivetClient({
 			environment: config.ORIGIN_API,
 			token: async () => (await _global.authManager.fetchToken()).token,
+			// TODO:
 			fetcher: async args => {
-				let response = await fetcher(args);
+				let response = await fetcher.fetcher<any>(args);
 
 				// Check for auth expired error
-				let error = (response as FailedResponse<Fetcher.Error>).error;
+				let error = (response as apiResponse.FailedResponse<fetcher.Fetcher.Error>).error;
 				if (
 					error &&
 					error.reason == 'status-code' &&
@@ -228,7 +227,7 @@ export class GlobalState {
 					await _global.authManager.fetchToken(true);
 
 					// Retry request after refreshing auth
-					return await fetcher(args);
+					return await fetcher.fetcher<any>(args);
 				}
 
 				return response;

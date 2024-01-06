@@ -16,7 +16,7 @@ import { InputUpdateEvent } from '../../../../dev/text-input';
 import { TraversableErrors, VALIDATION_ERRORS } from '../../../../../utils/traversable-errors';
 import timing, { Debounce } from '../../../../../utils/timing';
 import { RepeatingRequest } from '../../../../../utils/repeating-request';
-import { Rivet } from '@rivet-gg/api-internal';
+import { Rivet } from '@rivet-gg/api';
 
 @customElement('game-overview')
 export default class DevGameOverview extends LitElement {

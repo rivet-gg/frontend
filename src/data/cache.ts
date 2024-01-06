@@ -1,8 +1,7 @@
 import * as api from '../utils/api';
-import { Rivet } from '@rivet-gg/api-internal';
+import { Rivet } from '@rivet-gg/api';
 import global from '../utils/global';
 import { readCache, writeCache } from '../utils/cache';
-import { HttpHandlerOptions } from '@aws-sdk/types';
 import { RepeatingRequest, RepeatingRequestOptions } from '../utils/repeating-request';
 
 export namespace BootstrapCache {
@@ -138,7 +137,7 @@ export namespace CloudDashboardCache {
 // Watches a given endpoint in conjunction with a given cache
 function abstractWatch<T extends [...any[], { watchIndex?: string }], U, V>(
 	name: string,
-	request: (...input: [...T, HttpHandlerOptions]) => Promise<U>,
+	request: (...input: [...T, any]) => Promise<U>,
 	commandArgs: T,
 	cache: (...args: any[]) => Promise<V>,
 	resCb: (res: U) => void,

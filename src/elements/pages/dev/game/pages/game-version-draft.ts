@@ -4,7 +4,7 @@ import { repeat } from 'lit/directives/repeat.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { cssify } from '../../../../../utils/css';
 import styles from './game-version-draft.scss';
-import { Rivet } from '@rivet-gg/api-internal';
+import { Rivet } from '@rivet-gg/api';
 import settings from '../../../../../utils/settings';
 import logging from '../../../../../utils/logging';
 import global from '../../../../../utils/global';

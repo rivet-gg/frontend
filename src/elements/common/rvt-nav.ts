@@ -13,7 +13,7 @@ import { globalEventGroups, IdentityChangeEvent } from '../../utils/global-event
 import clsx from 'clsx';
 import { RepeatingRequest } from '../../utils/repeating-request';
 import styles from './rvt-nav.scss';
-import { Rivet } from '@rivet-gg/api-internal';
+import { Rivet } from '@rivet-gg/api';
 
 export type Breadcrumb =
 	| { type: 'Home' }

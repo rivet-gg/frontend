@@ -5,7 +5,7 @@ import { cssify } from '../../../../../utils/css';
 import styles from './game-version.scss';
 import routes, { responses } from '../../../../../routes';
 import global from '../../../../../utils/global';
-import { Rivet } from '@rivet-gg/api-internal';
+import { Rivet } from '@rivet-gg/api';
 import { showAlert } from '../../../../../ui/helpers';
 import settings from '../../../../../utils/settings';
 import RvtRouter from '../../../../root/rvt-router';

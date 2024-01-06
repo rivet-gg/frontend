@@ -9,7 +9,7 @@ import { CloudGameCache } from '../../../../../data/cache';
 import logging from '../../../../../utils/logging';
 import { globalEventGroups } from '../../../../../utils/global-events';
 import { RepeatingRequest } from '../../../../../utils/repeating-request';
-import { Rivet } from '@rivet-gg/api-internal';
+import { Rivet } from '@rivet-gg/api';
 
 export interface DevGameRootConfig {
 	summary?: true;

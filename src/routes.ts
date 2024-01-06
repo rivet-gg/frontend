@@ -3,7 +3,7 @@ import * as pathToRegexp from 'path-to-regexp';
 import global from './utils/global';
 import utils from './utils/utils';
 import RvtRoot from './elements/root/rvt-root';
-import { RivetError } from '@rivet-gg/api-internal';
+import { RivetError } from '@rivet-gg/api';
 import { Breadcrumb } from './elements/common/rvt-nav';
 import { GameSettingsRootConfig } from './elements/pages/dev/game/settings/game-settings';
 import { GroupSettingsRootConfig } from './elements/pages/dev/group/settings/group-settings';

@@ -2,7 +2,7 @@ import { html, LitElement, TemplateResult } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { cssify } from '../../utils/css';
 import styles from './rvt-namespace-dropdown.scss';
-import { Rivet } from '@rivet-gg/api-internal';
+import { Rivet } from '@rivet-gg/api';
 import clsx from 'clsx';
 import RvtRouter from '../root/rvt-router';
 

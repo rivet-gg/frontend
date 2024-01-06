@@ -7,7 +7,7 @@ import styles from './group.scss';
 import routes, { responses } from '../../../../routes';
 import global from '../../../../utils/global';
 import cloud from '@rivet-gg/cloud';
-import { Rivet } from '@rivet-gg/api-internal';
+import { Rivet } from '@rivet-gg/api';
 import { globalEventGroups } from '../../../../utils/global-events';
 import RvtRouter from '../../../root/rvt-router';
 

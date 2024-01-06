@@ -5,7 +5,7 @@ import { styleMap } from 'lit/directives/style-map.js';
 import { cssify } from '../../../utils/css';
 import styles from './device-link.scss';
 import global from '../../../utils/global';
-import { Rivet } from '@rivet-gg/api-internal';
+import { Rivet } from '@rivet-gg/api';
 import { DropDownSelectEvent, DropDownSelection } from '../../dev/drop-down-list';
 import { responses } from '../../../routes';
 import assets from '../../../data/assets';

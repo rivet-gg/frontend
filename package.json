@@ -12,7 +12,8 @@
 		"format": "npx prettier --write --cache .",
 		"format:check": "npx prettier --check .",
 		"lint": "eslint src/",
-		"lint:fix": "eslint --fix src/"
+		"lint:fix": "eslint --fix src/",
+		"preinstall": "du vendor/rivet-gg-api-ee.tgz"
 	},
 	"repository": {
 		"type": "git",
@@ -25,7 +26,8 @@
 	"devDependencies": {
 		"@aws-sdk/abort-controller": "3.78.0",
 		"@aws-sdk/protocol-http": "3.78.0",
-		"@rivet-gg/api-internal": "0.0.1-c63067c",
+		"@rivet-gg/api": "https://github.com/rivet-gg/rivet/raw/3f21d8318fd8369dd129b59ac41107f537895b81/sdks/typescript/archive.tgz",
+		"@rivet-gg/api-ee": "file:vendor/rivet-gg-api-ee.tgz",
 		"@rivet-gg/auth": "file:gen/api-auth",
 		"@rivet-gg/chat": "file:gen/api-chat",
 		"@rivet-gg/cloud": "file:gen/api-cloud",

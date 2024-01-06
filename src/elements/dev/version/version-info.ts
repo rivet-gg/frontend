@@ -1,6 +1,6 @@
 import { LitElement, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { Rivet } from '@rivet-gg/api-internal';
+import { Rivet } from '@rivet-gg/api';
 import { cssify } from '../../../utils/css';
 import styles from './version-info.scss';
 import { when } from 'lit/directives/when.js';

@@ -1,6 +1,6 @@
 // DEPRECATED
 //
-// Use @rivet-gg/api-internal instead
+// Use @rivet-gg/api instead
 
 import * as portal from '@rivet-gg/portal';
 import * as identity from '@rivet-gg/identity';

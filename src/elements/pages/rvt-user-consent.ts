@@ -6,7 +6,7 @@ import { cssify } from '../../utils/css';
 import { GlobalStatus } from '../../utils/global';
 import { globalEventGroups, GlobalStatusChangeEvent } from '../../utils/global-events';
 import global from '../../utils/global';
-import { Rivet } from '@rivet-gg/api-internal';
+import { Rivet } from '@rivet-gg/api';
 
 @customElement('rvt-user-consent')
 export class RvtUserConsent extends LitElement {

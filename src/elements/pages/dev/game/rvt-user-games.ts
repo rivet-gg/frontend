@@ -7,7 +7,7 @@ import { cssify } from '../../../../utils/css';
 import styles from './rvt-user-games.scss';
 import routes, { responses } from '../../../../routes';
 import global from '../../../../utils/global';
-import { Rivet } from '@rivet-gg/api-internal';
+import { Rivet } from '@rivet-gg/api';
 import utils from '../../../../utils/utils';
 import { showAlert } from '../../../../ui/helpers';
 import { DropDownSelectEvent, DropDownSelection } from '../../../dev/drop-down-list';

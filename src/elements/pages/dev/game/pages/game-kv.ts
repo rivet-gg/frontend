@@ -11,7 +11,7 @@ import { repeat } from 'lit/directives/repeat.js';
 import timing, { Debounce } from '../../../../../utils/timing';
 import logging from '../../../../../utils/logging';
 import { globalEventGroups } from '../../../../../utils/global-events';
-import { Rivet } from '@rivet-gg/api-internal';
+import { Rivet } from '@rivet-gg/api';
 import { when } from 'lit/directives/when.js';
 import { RepeatingRequest } from '../../../../../utils/repeating-request';
 

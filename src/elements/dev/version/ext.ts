@@ -1,4 +1,4 @@
-import { Rivet } from '@rivet-gg/api-internal';
+import { Rivet } from '@rivet-gg/api';
 
 export interface MatchmakerConfigExt {
 	config: Rivet.cloud.version.matchmaker.Config;
