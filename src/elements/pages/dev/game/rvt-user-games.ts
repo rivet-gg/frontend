@@ -160,14 +160,8 @@ export default class RvtUserGames extends LitElement {
 		this.createGroupModalActive = true;
 	}
 
-	async convertGroup(groupId: string) {
-		await global.deprecatedApi.cloud.convertGroup({ groupId });
-
-		this.fetchData(true);
-	}
-
 	async createGroupComplete(event: GroupCreateEvent) {
-		await this.convertGroup(event.groupId);
+		this.fetchData(true);
 		this.createGroupModalActive = false;
 	}
 
