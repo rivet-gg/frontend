@@ -69,68 +69,8 @@ interface DropDownListData<T> {
 
 const ERROR_MESSAGES = [
 	{
-		title: 'Our servers are on strike',
-		body: "Rivet's engineers just ditched their hot dates to play hero"
-	},
-	{
-		title: 'Our servers are playing hide and seek',
-		body: "Rivet's engineers just ghosted their Netflix binge to seek it out"
-	},
-	{
-		title: 'Our servers went rogue',
-		body: "Rivet's engineers are sobbing over canceled vacation plans to deal with it"
-	},
-	{
-		title: 'Our servers are throwing a tantrum',
-		body: "Rivet's engineers are now missing their dog's birthday party to fix this mess"
-	},
-	{
-		title: 'Our servers are in a mood',
-		body: "Rivet's engineers just had to put down their tacos and rush to the rescue"
-	},
-	{
-		title: 'Our servers got stage fright',
-		body: "Rivet's engineers are ditching karaoke night to give it a pep talk"
-	},
-	{
-		title: 'Our servers are being drama queens',
-		body: "Rivet's engineers are skipping their spa day to calm it down"
-	},
-	{
-		title: 'Our servers are playing dead',
-		body: "Rivet's engineers just bailed on their yoga retreat to perform CPR"
-	},
-	{
-		title: 'Our servers got cold feet',
-		body: "Rivet's engineers are now missing their chance at TV fame to sort this out"
-	},
-	{
-		title: 'Our servers went AWOL',
-		body: "Rivet's engineers are ditching their movie premiere to play detective"
-	},
-	{
-		title: 'Our servers are lost in space',
-		body: "Rivet's engineers just skipped their Mars ticket to bring it back to Earth"
-	},
-	{
-		title: 'Our servers are in la-la land',
-		body: "Rivet's engineers are missing their gaming tournament to snap it back to reality"
-	},
-	{
-		title: 'Our servers are doing a vanishing act',
-		body: "Rivet's engineers just nixed their magic show to find it"
-	},
-	{
-		title: 'Our servers are on a lunch break',
-		body: "Rivet's engineers are skipping their sushi date to feed it some code"
-	},
-	{
-		title: 'Our servers caught a cold',
-		body: "Rivet's engineers are missing their hot spring trip to nurse it back to health"
-	},
-	{
-		title: 'Our servers are throwing a fit',
-		body: "Rivet's engineers are now bailing on their cooking class to simmer it down"
+		title: 'Unknown Error',
+		body: "This error has been reported to Rivet's developers. Please try again later."
 	}
 ];
 
