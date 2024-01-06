@@ -11,6 +11,7 @@ import { BroadcastEvent, BroadcastEventKind } from '../data/broadcast';
 import { ls } from './cache';
 import { BroadcastSystem } from './broadcast';
 import { Rivet, RivetClient, fetcher, apiResponse } from '@rivet-gg/api';
+import { Rivet as RivetEe, RivetClient as RivetEeClient } from '@rivet-gg/api-ee';
 import { HttpRequest } from '@aws-sdk/protocol-http';
 import { HttpHandlerOptions } from '@aws-sdk/types';
 import { RepeatingRequest } from './repeating-request';
@@ -56,6 +57,7 @@ export enum GlobalStatus {
 
 export class GlobalState {
 	api: RivetClient = null;
+	apiEe: RivetEeClient = null;
 
 	deprecatedApi: {
 		auth: api.auth.AuthService;
@@ -208,11 +210,7 @@ export class GlobalState {
 
 		// Create live instance.
 		logging.net('Connecting to live...', config.ORIGIN_API);
-		this.api = new RivetClient({
-			environment: config.ORIGIN_API,
-			token: async () => (await _global.authManager.fetchToken()).token,
-			// TODO:
-			fetcher: async args => {
+		let fernFetcher = async (args: fetcher.Fetcher.Args) => {
 				this.modifyFernArgs(args);
 
 				// Make initial request
@@ -234,7 +232,16 @@ export class GlobalState {
 				}
 
 				return response;
-			}
+			};
+		this.api = new RivetClient({
+			environment: config.ORIGIN_API,
+			token: async () => (await _global.authManager.fetchToken()).token,
+			fetcher: fernFetcher,
+		});
+		this.apiEe = new RivetEeClient({
+			environment: config.ORIGIN_API,
+			token: async () => (await _global.authManager.fetchToken()).token,
+			fetcher: fernFetcher,
 		});
 		this.deprecatedApi = {
 			auth: new api.auth.AuthService({

@@ -576,6 +576,10 @@ export namespace responses {
 		return html` <page-error .message="${errorMessage}" .expand="${!notFullHeight}"></page-error>`;
 	}
 
+	export function renderEeOnly(): TemplateResult {
+		return html`Enterprise only`;
+	}
+
 	export function gameSettings(gameId: string, config: GameSettingsRootConfig) {
 		return html`<page-dev-game-settings
 			.gameId="${gameId}"

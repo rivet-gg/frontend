@@ -10,6 +10,7 @@ import { globalEventGroups } from '../../../../../utils/global-events';
 import { map } from 'lit/directives/map.js';
 import { RepeatingRequest } from '../../../../../utils/repeating-request';
 import { Rivet } from '@rivet-gg/api';
+import global from '../../../../../utils/global';
 
 interface TabGroup {
 	title: string;
@@ -73,14 +74,17 @@ export default class DevGameSettings extends LitElement {
 						icon: 'solid/key',
 						title: 'Tokens'
 					},
-					{
-						id: 'billing',
-						icon: 'solid/dollar-sign',
-						title: 'Billing'
-					}
 				]
 			}
 		];
+
+		if (global.bootstrapData.cluster == Rivet.cloud.BootstrapCluster.Enterprise) {
+			this.tabs[0].items.push({
+				id: 'billing',
+				icon: 'solid/dollar-sign',
+				title: 'Billing'
+			});
+		}
 	}
 
 	connectedCallback() {
