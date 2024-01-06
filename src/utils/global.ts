@@ -213,6 +213,9 @@ export class GlobalState {
 			token: async () => (await _global.authManager.fetchToken()).token,
 			// TODO:
 			fetcher: async args => {
+				this.modifyFernArgs(args);
+
+				// Make initial request
 				let response = await fetcher.fetcher<any>(args);
 
 				// Check for auth expired error
@@ -289,7 +292,11 @@ export class GlobalState {
 				let api =
 					this.api ??
 					new RivetClient({
-						environment: config.ORIGIN_API
+						environment: config.ORIGIN_API,
+						fetcher: async args => {
+							this.modifyFernArgs(args);
+							return await fetcher.fetcher<any>(args);
+						}
 					});
 
 				// Bootstrap
@@ -472,6 +479,16 @@ export class GlobalState {
 
 		// Dispatch resize event
 		if (this.windowSize != oldSize) globalEventGroups.dispatch('resize', this.windowSize);
+	}
+
+	/**
+	 * Modifies the Fern arguments to remove headers that are not whitelisted in our CORS policy.
+	 */
+	modifyFernArgs(args: fetcher.Fetcher.Args) {
+		// Remove headers starting with `x-fern-` since this is not white listed in our CORS policy
+		for (let key in args.headers) {
+			if (key.toLowerCase().startsWith('x-fern-')) delete args.headers[key];
+		}
 	}
 }
 
