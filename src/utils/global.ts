@@ -211,37 +211,37 @@ export class GlobalState {
 		// Create live instance.
 		logging.net('Connecting to live...', config.ORIGIN_API);
 		let fernFetcher = async (args: fetcher.Fetcher.Args) => {
-				this.modifyFernArgs(args);
+			this.modifyFernArgs(args);
 
-				// Make initial request
-				let response = await fetcher.fetcher<any>(args);
+			// Make initial request
+			let response = await fetcher.fetcher<any>(args);
 
-				// Check for auth expired error
-				let error = (response as apiResponse.FailedResponse<fetcher.Fetcher.Error>).error;
-				if (
-					error &&
-					error.reason == 'status-code' &&
-					(error.body as any).code == 'CLAIMS_ENTITLEMENT_EXPIRED'
-				) {
-					logging.debug('Auth expired, refreshing token from middleware');
+			// Check for auth expired error
+			let error = (response as apiResponse.FailedResponse<fetcher.Fetcher.Error>).error;
+			if (
+				error &&
+				error.reason == 'status-code' &&
+				(error.body as any).code == 'CLAIMS_ENTITLEMENT_EXPIRED'
+			) {
+				logging.debug('Auth expired, refreshing token from middleware');
 
-					await _global.authManager.fetchToken(true);
+				await _global.authManager.fetchToken(true);
 
-					// Retry request after refreshing auth
-					return await fetcher.fetcher<any>(args);
-				}
+				// Retry request after refreshing auth
+				return await fetcher.fetcher<any>(args);
+			}
 
-				return response;
-			};
+			return response;
+		};
 		this.api = new RivetClient({
 			environment: config.ORIGIN_API,
 			token: async () => (await _global.authManager.fetchToken()).token,
-			fetcher: fernFetcher,
+			fetcher: fernFetcher
 		});
 		this.apiEe = new RivetEeClient({
 			environment: config.ORIGIN_API,
 			token: async () => (await _global.authManager.fetchToken()).token,
-			fetcher: fernFetcher,
+			fetcher: fernFetcher
 		});
 		this.deprecatedApi = {
 			auth: new api.auth.AuthService({

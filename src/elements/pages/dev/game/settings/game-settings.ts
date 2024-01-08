@@ -73,7 +73,7 @@ export default class DevGameSettings extends LitElement {
 						id: 'tokens',
 						icon: 'solid/key',
 						title: 'Tokens'
-					},
+					}
 				]
 			}
 		];

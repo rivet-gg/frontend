@@ -61,7 +61,7 @@ export default class DevGameSettingsBilling extends LitElement {
 	}
 
 	resetData() {
-		this.billingGroup = null;;
+		this.billingGroup = null;
 		this.gamePlan = null;
 		this.gamePlanConfig = null;
 		this.loadError = null;
@@ -76,11 +76,10 @@ export default class DevGameSettingsBilling extends LitElement {
 		this.billingGroupStream = new RepeatingRequest(
 			'DevGameSettingsBilling.billingGroupStream',
 			async (abortSignal, watchIndex) => {
-				return await global.apiEe.ee.cloud.groups.billing.get(
-					this.game.developerGroupId,
-					{ watchIndex },
-				);
-			},
+				return await global.apiEe.ee.cloud.groups.billing.get(this.game.developerGroupId, {
+					watchIndex
+				});
+			}
 		);
 
 		this.billingGroupStream.onMessage(res => {
@@ -104,7 +103,7 @@ export default class DevGameSettingsBilling extends LitElement {
 			this.gamePlanConfig = {
 				dynamicServersCapacity: this.gamePlan.dynamicServersCapacity.map(region => ({
 					regionId: region.region.regionId,
-					cores: region.cores,
+					cores: region.cores
 				}))
 			};
 		} catch (err) {
@@ -113,64 +112,104 @@ export default class DevGameSettingsBilling extends LitElement {
 	}
 
 	async openBillingPortal(intent: RivetEe.ee.cloud.groups.billing.StripePortalSessionIntent) {
-		let portal = await global.apiEe.ee.cloud.groups.billing.createStripePortalSession(this.game.developerGroupId, {
-			intent,
-		});
+		let portal = await global.apiEe.ee.cloud.groups.billing.createStripePortalSession(
+			this.game.developerGroupId,
+			{
+				intent
+			}
+		);
 		open(portal.stripeSessionUrl, '_blank');
 	}
 
 	render() {
 		if (!this.billingGroup) return this.renderPlaceholder();
 		if (this.loadError) return responses.renderError(this.loadError, true);
-		if (global.bootstrapData.cluster != Rivet.cloud.BootstrapCluster.Enterprise) return responses.renderEeOnly();
-
+		if (global.bootstrapData.cluster != Rivet.cloud.BootstrapCluster.Enterprise)
+			return responses.renderEeOnly();
 
 		return html`
 			<h1>Billing</h1>
 
-			${this.renderPaymentMethod()}
-
-			${this.renderInvoices()}
-
-			${this.renderDynamicServersCapacity()}
-
-
+			${this.renderPaymentMethod()} ${this.renderInvoices()} ${this.renderDynamicServersCapacity()}
 		`;
 	}
 
 	renderInvoices() {
 		return html`
 			<h2>Invoices</h2>
-			<rvt-button @click=${this.openBillingPortal.bind(this, RivetEe.ee.cloud.groups.billing.StripePortalSessionIntent.General)}>View</rvt-button>
+			<rvt-button
+				@click=${this.openBillingPortal.bind(
+					this,
+					RivetEe.ee.cloud.groups.billing.StripePortalSessionIntent.General
+				)}
+				>View</rvt-button
+			>
 		`;
-
 	}
 
 	renderPaymentMethod() {
 		// Payment method alerts
 		let paymentMethodAlerts: PaymentMethodAlert[] = [];
 		if (this.billingGroup.paymentMethodAttachedTs) {
-			if (this.billingGroup.paymentMethodValidTs) paymentMethodAlerts.push({ status: "success", date: this.billingGroup.paymentMethodValidTs, message: "Payment method valid" })
-			else paymentMethodAlerts.push({ status: "error", date: this.billingGroup.paymentMethodAttachedTs, message: "Payment method invalid" });
+			if (this.billingGroup.paymentMethodValidTs)
+				paymentMethodAlerts.push({
+					status: 'success',
+					date: this.billingGroup.paymentMethodValidTs,
+					message: 'Payment method valid'
+				});
+			else
+				paymentMethodAlerts.push({
+					status: 'error',
+					date: this.billingGroup.paymentMethodAttachedTs,
+					message: 'Payment method invalid'
+				});
 		} else {
-			paymentMethodAlerts.push({ status: "error", date: null, message: "No payment method attached" })
+			paymentMethodAlerts.push({ status: 'error', date: null, message: 'No payment method attached' });
 		}
-		if (this.billingGroup.paymentFailedTs) paymentMethodAlerts.push({ status: "error", date: this.billingGroup.paymentFailedTs, message: "Payment failed" });
+		if (this.billingGroup.paymentFailedTs)
+			paymentMethodAlerts.push({
+				status: 'error',
+				date: this.billingGroup.paymentFailedTs,
+				message: 'Payment failed'
+			});
 
 		return html`
 			<h2>Payment Method</h2>
 			<div>
-				${map(paymentMethodAlerts, alert => html`
-					<div class=${clsx('flex flex-row gap-2', alert.status == 'error' ? 'text-red-500' : 'text-white')}>
-						<div class='font-bold'>${alert.message}</div>
-						${alert.date && html`<div class='italic'>${utils.formatDateLong(alert.date)}</div>`}
-					</div>
-				`)}
+				${map(
+					paymentMethodAlerts,
+					alert => html`
+						<div
+							class=${clsx(
+								'flex flex-row gap-2',
+								alert.status == 'error' ? 'text-red-500' : 'text-white'
+							)}
+						>
+							<div class="font-bold">${alert.message}</div>
+							${alert.date &&
+							html`<div class="italic">${utils.formatDateLong(alert.date)}</div>`}
+						</div>
+					`
+				)}
 			</div>
 			${when(
 				this.billingGroup.paymentMethodAttachedTs,
-				() => html`<rvt-button @click=${this.openBillingPortal.bind(this, RivetEe.ee.cloud.groups.billing.StripePortalSessionIntent.General)}>Manage</rvt-button>`,
-				() => html`<rvt-button @click=${this.openBillingPortal.bind(this, RivetEe.ee.cloud.groups.billing.StripePortalSessionIntent.PaymentMethodUpdate)}>Add Payment Method</rvt-button>`,
+				() =>
+					html`<rvt-button
+						@click=${this.openBillingPortal.bind(
+							this,
+							RivetEe.ee.cloud.groups.billing.StripePortalSessionIntent.General
+						)}
+						>Manage</rvt-button
+					>`,
+				() =>
+					html`<rvt-button
+						@click=${this.openBillingPortal.bind(
+							this,
+							RivetEe.ee.cloud.groups.billing.StripePortalSessionIntent.PaymentMethodUpdate
+						)}
+						>Add Payment Method</rvt-button
+					>`
 			)}
 		`;
 	}
@@ -184,10 +223,20 @@ export default class DevGameSettingsBilling extends LitElement {
 		}
 
 		// Calculate total core count
-		let totalCores = this.gamePlanConfig.dynamicServersCapacity.reduce((total, region) => total + region.cores, 0);
+		let totalCores = this.gamePlanConfig.dynamicServersCapacity.reduce(
+			(total, region) => total + region.cores,
+			0
+		);
 
 		// Determine if config has changed
-		let isChanged = this.gamePlan.dynamicServersCapacity.findIndex(region => region.cores != this.gamePlanConfig.dynamicServersCapacity.find(config => config.regionId == region.region.regionId).cores) >= 0;
+		let isChanged =
+			this.gamePlan.dynamicServersCapacity.findIndex(
+				region =>
+					region.cores !=
+					this.gamePlanConfig.dynamicServersCapacity.find(
+						config => config.regionId == region.region.regionId
+					).cores
+			) >= 0;
 
 		return html`
 			<h2>Dynamic Servers Capacity</h2>
@@ -201,40 +250,64 @@ export default class DevGameSettingsBilling extends LitElement {
 					this.gamePlan.dynamicServersCapacity,
 					region => region.region.regionId,
 					region => {
-						let config = this.gamePlanConfig.dynamicServersCapacity.find(config => config.regionId == region.region.regionId);
+						let config = this.gamePlanConfig.dynamicServersCapacity.find(
+							config => config.regionId == region.region.regionId
+						);
 						let regionIcon = getRegionEmoji(region.region.universalRegion);
 						return html`
 							<div>
-
-								<e-svg class='w-6 h-6 mr-1' preserve src=${regionIcon}></e-svg>
+								<e-svg class="w-6 h-6 mr-1" preserve src=${regionIcon}></e-svg>
 								${region.region.regionDisplayName}
 							</div>
-							<text-input class="w-24" number min="0" max="32768" placeholder="0" .init=${config.cores} @change=${this.handleDynamicServersRegionInput.bind(this, region.region.regionId)} />
-						`
+							<text-input
+								class="w-24"
+								number
+								min="0"
+								max="32768"
+								placeholder="0"
+								.init=${config.cores}
+								@change=${this.handleDynamicServersRegionInput.bind(
+									this,
+									region.region.regionId
+								)}
+							/>
+						`;
 					}
 				)}
 			</div>
 
 			<div>
-				<span class='font-bold'>Total: </span> ${totalCores} cores &times; $26.00 USD = $${(totalCores * 26).toFixed(2)} USD
+				<span class="font-bold">Total: </span> ${totalCores} cores &times; $26.00 USD =
+				$${(totalCores * 26).toFixed(2)} USD
 			</div>
 
-			<rvt-button @click=${this.applyGamePlan.bind(this)} ?disabled=${!isChanged} ?loading=${this.gamePlanUpdating}>Apply</rvt-button>
+			<rvt-button
+				@click=${this.applyGamePlan.bind(this)}
+				?disabled=${!isChanged}
+				?loading=${this.gamePlanUpdating}
+				>Apply</rvt-button
+			>
 
-			<div>If you are downgrading, your new plan will take effect at the end of your current billing period. If you are upgrading, you will be billed immediately for the prorated amount.</div>
-		`
+			<div>
+				If you are downgrading, your new plan will take effect at the end of your current billing
+				period. If you are upgrading, you will be billed immediately for the prorated amount.
+			</div>
+		`;
 	}
 
 	handleDynamicServersRegionInput(regionId: string, e: InputChangeEvent) {
-		this.gamePlanConfig.dynamicServersCapacity.find(config => config.regionId == regionId).cores = parseInt(e.value);
-		this.requestUpdate("gamePlanConfig");
+		this.gamePlanConfig.dynamicServersCapacity.find(config => config.regionId == regionId).cores =
+			parseInt(e.value);
+		this.requestUpdate('gamePlanConfig');
 	}
 
 	async applyGamePlan() {
 		try {
 			this.gamePlanUpdating = true;
 
-			await global.apiEe.ee.cloud.games.billing.updatePlan(this.game.gameId, { plan: this.gamePlanConfig });
+			await global.apiEe.ee.cloud.games.billing.updatePlan(this.game.gameId, {
+				plan: this.gamePlanConfig
+			});
 
 			let gameRes = await global.apiEe.ee.cloud.games.billing.get(this.game.gameId);
 			this.gamePlan = gameRes.plan;

@@ -6,7 +6,7 @@
 	"license": "Apache-2.0",
 	"scripts": {
 		"build": "webpack-cli --config webpack.dev.js",
-		"build:prod": "git clean -dxf && yarn install && npx webpack-cli --config webpack.prod.js",
+		"build:prod": "npx webpack-cli --config webpack.prod.js",
 		"start": "yarn install && yarn run serve",
 		"serve": "webpack-cli serve --config webpack.dev.js",
 		"format": "npx prettier --write --cache .",
@@ -98,5 +98,6 @@
 		"clsx": "^2.0.0",
 		"postcss-loader": "^7.3.3",
 		"tailwind-variants": "^0.1.18"
-	}
+	},
+	"packageManager": "yarn@4.0.2"
 }
