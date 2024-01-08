@@ -13,7 +13,7 @@
 		"format:check": "npx prettier --check .",
 		"lint": "eslint src/",
 		"lint:fix": "eslint --fix src/",
-		"preinstall": "du vendor/rivet-gg-api-ee.tgz"
+		"preinstall": "sha256sum vendor/rivet-gg-api-ee.tgz; yarn cache clean"
 	},
 	"repository": {
 		"type": "git",

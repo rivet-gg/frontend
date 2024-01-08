@@ -1,0 +1,95 @@
+@use '../../shared/common';
+@use '../../shared/utils';
+@use '../../shared/consts';
+
+#base {
+	display: flex;
+	flex-direction: column;
+	padding: 0 15px 40px 0;
+	color: #ececec;
+
+	#actions {
+		display: flex;
+		flex-flow: row wrap;
+		gap: 12px;
+
+		margin-bottom: 32px;
+
+		.action-group {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			align-self: flex-start;
+
+			background: $raised-bg;
+			box-shadow: 0 3px 12px rgba(0, 0, 0, 0.2);
+			border-radius: 6px;
+			padding: 7px 7px 7px 15px;
+
+			.pair {
+				display: flex;
+				flex-direction: row;
+				align-items: center;
+
+				&:not(:last-child) {
+					margin-right: 15px;
+				}
+
+				h2 {
+					font-size: 16px;
+					font-weight: 600;
+					margin: 0 10px 0 0;
+				}
+
+				drop-down-list {
+					--bg-color: #3a3a3a;
+					--highlight-color: #3f3f3f;
+				}
+			}
+
+			& > * {
+				&:not(:last-child) {
+					margin-right: 10px;
+				}
+			}
+		}
+
+		loading-wheel {
+			--size: 20px;
+		}
+	}
+
+	#body {
+		display: flex;
+		flex-direction: column;
+		overflow: hidden;
+
+		.charts {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			gap: 32px;
+
+			analytics-chart {
+				&.hidden {
+					display: none;
+				}
+			}
+		}
+	}
+}
+
+@media only screen and (max-width: 1400px) {
+	#base {
+		#body {
+			.charts {
+				grid-template-columns: 1fr;
+			}
+		}
+	}
+}
+
+@media only screen and (max-width: consts.$mobile-width-threshold) {
+	#base {
+		padding: 12px 18px 30px 18px;
+	}
+}
