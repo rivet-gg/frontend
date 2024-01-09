@@ -9,7 +9,7 @@ export default class ModalBody extends LitElement {
 
 	render() {
 		return html`
-			<div id="base">
+			<div id="base" class="retro-elevated">
 				<slot></slot>
 			</div>
 		`;

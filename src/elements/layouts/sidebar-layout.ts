@@ -11,7 +11,7 @@ export default class Layout extends LitElement {
 
 	render() {
 		return html`
-			<div class="grid md:grid-cols-sidebar-layout">
+			<div class="grid lg:grid-cols-sidebar-layout min-h-full">
 				<!-- Sidebar -->
 				<div class="flex flex-col border-white/10 border-r">
 					<div class="min-h-full overflow-y-auto px-6 py-5 w-full h-full">
@@ -62,7 +62,7 @@ export class Group extends LitElement {
 			<li>
 				${when(
 					this.title,
-					() => html`<div class="text-lg leading-6 text-gray-400 font-display">${this.title}</div>`
+					() => html`<div class="text-lg leading-6 text-white font-display">${this.title}</div>`
 				)}
 				<ul role="list" class="-mx-2 mt-2 space-y-1">
 					<slot></slot>

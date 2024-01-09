@@ -189,31 +189,34 @@ export default class DevGameOverview extends LitElement {
 						maxlength="24"
 						@input=${this.namespaceDisplayNameInput.bind(this)}
 					></text-input>
-					${displayNameErrors.length > 0
-						? html`
+					${
+						displayNameErrors.length > 0
+							? html`
 							<span id="create-namespace-error">
 								<e-svg src="regular/circle-exclamation"></e-svg> ${displayNameErrors[0]}</li>
 							</span>`
-						: null}
+							: null
+					}
 					<h2>Name ID</h2>
 					<text-input
 						light
 						.filter=${(v: string) => v.replace(/[\s\-]+/g, '-').toLowerCase()}
-						placeholder=${displayName
-							? utils.convertStringToId(displayName)
-							: 'Enter a name id...'}
+						placeholder=${displayName ? utils.convertStringToId(displayName) : 'Enter a name id...'}
 						maxlength="16"
 						@input=${this.namespaceNameIdInput.bind(this)}
 					></text-input>
-					${nameIdErrors.length > 0
-						? html`
+					${
+						nameIdErrors.length > 0
+							? html`
 							<span id="create-namespace-error">
 								<e-svg src="regular/circle-exclamation"></e-svg> ${nameIdErrors[0]}</li>
 							</span>`
-						: null}
+							: null
+					}
 				</div>
-				<stylized-button
-					.trigger=${this.createNamespace.bind(this)}
+				<rvt-button
+					class="mt-4"
+					@click=${this.createNamespace.bind(this)}
 					?disabled=${!this.namespaceIsValid}
 					?loading=${this.isCreatingNamespace}
 					>Create</stylized-button
@@ -257,17 +260,15 @@ export default class DevGameOverview extends LitElement {
 			<div class="ml-auto w-1/2">
 				<h3 class="text-xl">Namespaces</h3>
 				<div class="flex flex-col space-y-2 pt-4">
-					<stylized-button
+					<button
 						icon="regular/plus"
-						centered
-						large
-						dashed
+						size="large"
 						color="transparent"
-						.trigger=${this.openNamespaceModal.bind(this)}
-						class="w-full pb-1"
+						@click=${this.openNamespaceModal.bind(this)}
+						class="dashed-border-button transition-all flex justify-center items-center hover:cursor-pointer w-full place-content-center text-white hover:bg-button-bg-hover-color"
 					>
-						New Namespace
-					</stylized-button>
+						<e-svg src="regular/plus" class="mr-2"></e-svg> New Namespace
+					</button>
 
 					${repeat(
 						game.namespaces,

@@ -150,25 +150,21 @@ export default class RvtNameSpaceSummary extends LitElement {
 			${when(
 				this.namespace,
 				() => html`
-					<div class="flex flex-col px-16 pt-6 flex-wrap overflow-x-scroll">
+					<div class="flex flex-col flex-wrap">
 						<rvt-namespace-header
 							.game=${this.game}
 							.namespace=${this.namespace}
 							.version=${this.version}
 						></rvt-namespace-header>
 						<div class="pt-6">
-							<stylized-button
-								class="mt-auto"
-								color="var(--rvt-color-raised-bg)"
-								border-color="var(--rvt-color-raised-bg-border-color)"
-								border-width=".75px"
+							<rvt-button
 								icon="solid/code-compare"
 								href=${routes.devVersionSummary.build({
 									gameId: this.game.gameId,
 									namespaceId: this.namespaceId
 								})}
 								>Manage Versions
-							</stylized-button>
+							</rvt-button>
 						</div>
 
 						${when(this.version, this.renderModules.bind(this))}
@@ -187,11 +183,6 @@ export default class RvtNameSpaceSummary extends LitElement {
 					.tiers=${this.tiers}
 					.config=${this.version.config}
 				></dev-version-info>
-				<!-- <div class="flex place-content-center mx-auto pt-4">
-					<stylized-button
-					right-icon="solid/arrow-right"
-					> Add Module </stylized-button>
-				</div> -->
 			</div>
 		`;
 	}

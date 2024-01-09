@@ -9,12 +9,13 @@ import assets from '../../data/assets';
 import * as api from '../../utils/api';
 import clsx from 'clsx';
 
-const GRADIENTS = [
-	// "bg-gradient-to-br from-green-300 to-purple-400",
-	'bg-gradient-to-b from-pink-400 via-pink-500 to-pink-600',
-	'bg-gradient-to-br from-pink-400 to-pink-700',
-	'bg-gradient-to-b from-red-500 to-rose-600',
-	'bg-gradient-to-bl from-rose-500 to-pink-600'
+const COLORS = [
+	'bg-red-700 hover:bg-red-600',
+	'bg-orange-700 hover:bg-orange-600',
+	'bg-yellow-700 hover:bg-yellow-600',
+	'bg-green-700 hover:bg-green-600',
+	'bg-blue-700 hover:bg-blue-600',
+	'bg-purple-700 hover:bg-purple-600'
 ];
 
 @customElement('dev-game-tile')
@@ -27,15 +28,27 @@ export default class DevGameTile extends LitElement {
 	@property({ type: Object })
 	group: api.group.GroupProfile;
 
-	cardGradient = GRADIENTS[Math.floor(Math.random() * GRADIENTS.length)];
+	private bgColor = COLORS[Math.floor(Math.random() * COLORS.length)];
 
 	render() {
 		return html`
-			<a id="base" href=${routes.devGame.build({ gameId: this.game.gameId })}>
-				<div id="info" class=${clsx(!this.game.bannerUrl && this.cardGradient)}>
-					${this.game.bannerUrl
-						? html`<lazy-img id="bg" src=${this.game.bannerUrl} bg-size="cover"></lazy-img>`
-						: null}
+			<a
+				id="base"
+				href=${routes.devGame.build({ gameId: this.game.gameId })}
+				class=${clsx(
+					!this.game.bannerUrl && this.bgColor,
+					'bg-game-tile bg-cover bg-center transition-all'
+				)}
+			>
+				${this.game.bannerUrl
+					? html`<lazy-img
+							id="bg"
+							class="transition-all"
+							src=${this.game.bannerUrl}
+							bg-size="cover"
+					  ></lazy-img>`
+					: null}
+				<div id="info">
 					<lazy-img
 						class="h-20 w-4/5 pb-5"
 						src=${this.game.logoUrl ?? assets.asset('/games/blank/blankgame.svg')}

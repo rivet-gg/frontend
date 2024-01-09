@@ -38,7 +38,6 @@
 		width: 30px;
 		height: 30px;
 		margin-right: 7px;
-		--border-radius: 2px;
 
 		&:last-child {
 			flex: 1 1 auto;
@@ -104,7 +103,6 @@
 	width: 100%;
 	margin-bottom: 8px;
 
-	border-radius: 5px;
 	text-align: left;
 	background-color: $raised-bg;
 
@@ -226,7 +224,6 @@ dashed-button {
 	[slot='body'] {
 		h1 {
 			margin-bottom: 0;
-			color: black;
 
 			text-align: center;
 			font-size: 18px;
@@ -242,7 +239,6 @@ dashed-button {
 
 			h2 {
 				margin: 14px 0 2px 0;
-				color: black;
 
 				font-size: 10px;
 				font-weight: bold;

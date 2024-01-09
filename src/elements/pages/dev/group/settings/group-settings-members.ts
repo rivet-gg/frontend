@@ -272,11 +272,11 @@ export default class GroupSettingsMembers extends LitElement {
 								</div>
 							</div>
 
-							<stylized-button
-								.trigger=${this.createGroupInvite.bind(this)}
+							<rvt-button
+								@click=${this.createGroupInvite.bind(this)}
 								?disabled=${this.createInviteTTLSelection == null ||
 								this.createInviteUseCountValue == null}
-								>Create</stylized-button
+								>Create</rvt-button
 							>`
 					: html`<h4 class="text-2xl font-bold pb-2">Group Invite Code</h4>
 							<div id="result">
@@ -291,27 +291,30 @@ export default class GroupSettingsMembers extends LitElement {
 										href=${routes.groupInvite.build({ code: this.inviteCode })}
 										>${routes.groupInvite.build({ code: this.inviteCode })}</a
 									>
-									<icon-button
+									<rvt-button
 										id="copy-button"
 										class="pb-1"
-										color=${'#252525'}
-										highlight-color=${'#18181b'}
-										src="solid/copy"
-										.trigger=${this.copyInviteCode.bind(this)}
+										icon="solid/copy"
+										@click=${this.copyInviteCode.bind(this)}
 									></icon-button>
 
-									${this.inviteCodeCopyResult
-										? html`<div id="copy-result" class="absolute -right-2.5 -bottom-2">
-												${this.inviteCodeCopyResult}
-										  </div>`
-										: null}
+									${
+										this.inviteCodeCopyResult
+											? html`<div
+													id="copy-result"
+													class="absolute -right-2.5 -bottom-2"
+											  >
+													${this.inviteCodeCopyResult}
+											  </div>`
+											: null
+									}
 								</div>
 							</div>
 							<p class="pt-1 pb-4">
 								Share this code or link to allow people to join your group.
 							</p>
-							<stylized-button .trigger=${this.createInviteModalClose.bind(this)}
-								>Dismiss</stylized-button
+							<rvt-button @click=${this.createInviteModalClose.bind(this)}
+								>Dismiss</rvt-button
 							>`}
 			</modal-body>
 		</drop-down-modal>`;
@@ -465,24 +468,18 @@ export default class GroupSettingsMembers extends LitElement {
 
 		if (this.group.isCurrentIdentityMember) {
 			actions.push(
-				html`<stylized-button .trigger=${this.openCreateInviteModal.bind(this)}
-					>Create invite</stylized-button
-				>`
+				html`<rvt-button @click=${this.openCreateInviteModal.bind(this)}>Create invite</rvt-button>`
 			);
 			if (!isOwner) {
 				actions.push(
-					html`<stylized-button color="#d93636" .trigger=${this.leaveGroup.bind(this)}
-						>Leave Group</stylized-button
+					html`<rvt-button variant="danger" @click=${this.leaveGroup.bind(this)}
+						>Leave Group</rvt-button
 					>`
 				);
 			}
 		}
 
-		return html`
-			<div class="flex flex-col space-y-2 md:border-l-2 border-context-menu px-2 pl-8 ml-2">
-				${actions.map(action => html` <div class="action mx-auto w-full">${action}</div> `)}
-			</div>
-		`;
+		return html`<div class="space-x-4">${actions}</div>`;
 	}
 
 	renderBans(isOwner: boolean) {
@@ -491,7 +488,7 @@ export default class GroupSettingsMembers extends LitElement {
 		return html`
 			<h1 class="text-2xl pb-2 pt-4 mt-4 border-t-2 border-context-menu">Banned Users</h1>
 
-			<div id="bans w-80">
+			<div id="bans">
 				${this.bannedIdentities.length
 					? repeat(
 							this.bannedIdentities,
@@ -589,100 +586,98 @@ export default class GroupSettingsMembers extends LitElement {
 
 		return html`
 			<div class="w-full flex flex-col md:flex-row place-content-between">
-				<div class="w-3/4">
-					${this.groupMembers
-						? html`
-								<div>
-									<h3 class="text-2xl pb-2">Group Members</h3>
-									<ol class="flex flex-col pb-4e">
-										${map(this.groupMembers, member => {
-											let ident = member.identity;
-											return html`
-												<!-- ${ident.identityId !== this.group.ownerIdentityId
-													? html`<div
-															class="my-1 py-px border-t-[1px] border-context-menu "
-													  ></div>`
-													: null} -->
-												<li
-													class=${clsx(
-														'group px-2 rounded-xl flex flex-row place-content-between space-x-3 py-3 ',
-														ident.identityId === this.group.ownerIdentityId
-															? 'order-[-100]'
-															: '',
-														this.group.ownerIdentityId ===
-															global.currentIdentity.identityId &&
-															ident.identityId !==
-																global.currentIdentity.identityId
-															? 'hover:bg-raised-bg'
-															: ''
-													)}
-												>
-													<div class="flex flex-row">
-														${ident.identityId == this.group.ownerIdentityId
-															? html`<div class="my-auto pb-1">
-																	<e-svg
-																		class="owner"
-																		src="solid/crown"
-																		@mouseenter=${tooltip('Owner')}
-																	></e-svg>
-															  </div>`
-															: html`<div class="my-auto pb-1">
-																	<e-svg
-																		src="solid/user"
-																		@mouseenter=${tooltip('Member')}
-																	></e-svg>
-															  </div>`}
-														<identity-avatar
-															class="block w-10 h-10 pl-2 my-auto"
-															.identity=${ident}
-														>
-														</identity-avatar>
-														<h4 class="my-auto pl-4">${ident.displayName}</h4>
-													</div>
-													${isOwner &&
-													ident.identityId !== global.currentIdentity.identityId &&
-													ident.identityId !== this.group.ownerIdentityId
-														? html`
-																<div
-																	class="invisible group-hover:visible my-auto pr-1"
-																>
-																	<e-svg
-																		class="ban w-5 h-5"
-																		src="solid/xmark"
-																		@mouseenter=${tooltip('Ban')}
-																		@click=${this.confirmBanModal.bind(
-																			this,
-																			ident
-																		)}
-																	></e-svg>
-																	${ident.isRegistered
-																		? html`
-																				<e-svg
-																					class="pl-1 w-5 h-5"
-																					src="solid/arrow-right"
-																					@mouseenter=${tooltip(
-																						'Transfer Ownership'
-																					)}
-																					@click=${this.transferOwnershipModal.bind(
-																						this,
-																						ident
-																					)}
-																				></e-svg>
-																		  `
-																		: null}
-																</div>
-														  `
-														: null}
-												</li>
-											`;
-										})}
-									</ol>
+				${this.groupMembers
+					? html`
+							<div class="w-full">
+								<div class="mb-2 flex justify-between">
+									<h3 class="text-2xl">Group Members</h3>
+									${this.renderActions(isOwner)}
 								</div>
-						  `
-						: html` <h3>Loading...</h3> `}
-				</div>
-
-				${this.renderActions(isOwner)}
+								<ol class="flex flex-col pb-4e">
+									${map(this.groupMembers, member => {
+										let ident = member.identity;
+										return html`
+											<!-- ${ident.identityId !== this.group.ownerIdentityId
+												? html`<div
+														class="my-1 py-px border-t-[1px] border-context-menu "
+												  ></div>`
+												: null} -->
+											<li
+												class=${clsx(
+													'group px-2 rounded-xl flex flex-row place-content-between space-x-3 py-3 ',
+													ident.identityId === this.group.ownerIdentityId
+														? 'order-[-100]'
+														: '',
+													this.group.ownerIdentityId ===
+														global.currentIdentity.identityId &&
+														ident.identityId !== global.currentIdentity.identityId
+														? 'hover:bg-raised-bg'
+														: ''
+												)}
+											>
+												<div class="flex flex-row">
+													${ident.identityId == this.group.ownerIdentityId
+														? html`<div class="my-auto pb-1">
+																<e-svg
+																	class="owner"
+																	src="solid/crown"
+																	@mouseenter=${tooltip('Owner')}
+																></e-svg>
+														  </div>`
+														: html`<div class="my-auto pb-1">
+																<e-svg
+																	src="solid/user"
+																	@mouseenter=${tooltip('Member')}
+																></e-svg>
+														  </div>`}
+													<identity-avatar
+														class="block w-10 h-10 pl-2 my-auto"
+														.identity=${ident}
+													>
+													</identity-avatar>
+													<h4 class="my-auto pl-4">${ident.displayName}</h4>
+												</div>
+												${isOwner &&
+												ident.identityId !== global.currentIdentity.identityId &&
+												ident.identityId !== this.group.ownerIdentityId
+													? html`
+															<div
+																class="invisible group-hover:visible my-auto pr-1"
+															>
+																<e-svg
+																	class="ban w-5 h-5"
+																	src="solid/xmark"
+																	@mouseenter=${tooltip('Ban')}
+																	@click=${this.confirmBanModal.bind(
+																		this,
+																		ident
+																	)}
+																></e-svg>
+																${ident.isRegistered
+																	? html`
+																			<e-svg
+																				class="pl-1 w-5 h-5"
+																				src="solid/arrow-right"
+																				@mouseenter=${tooltip(
+																					'Transfer Ownership'
+																				)}
+																				@click=${this.transferOwnershipModal.bind(
+																					this,
+																					ident
+																				)}
+																			></e-svg>
+																	  `
+																	: null}
+															</div>
+													  `
+													: null}
+											</li>
+										`;
+									})}
+								</ol>
+							</div>
+					  `
+					: html` <h3>Loading...</h3> `}
 			</div>
 			${this.renderCreateInviteModal()}
 		`;

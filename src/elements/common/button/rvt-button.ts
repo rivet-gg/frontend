@@ -2,7 +2,7 @@ import { LitElement, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { cssify } from '../../../utils/css';
 import { when } from 'lit/directives/when.js';
-import { ButtonVariant, ButtonSize, ButtonElevation, icon, button } from './rvt-button.styles';
+import { ButtonVariant, ButtonSize, icon, button } from './rvt-button.styles';
 
 @customElement('rvt-button')
 export default class RvtButton extends LitElement {
@@ -16,9 +16,6 @@ export default class RvtButton extends LitElement {
 
 	@property({ type: String })
 	size?: ButtonSize = 'md';
-
-	@property({ type: String })
-	elevation?: ButtonElevation = 'none';
 
 	@property({ type: Boolean })
 	disabled?: boolean = false;
@@ -45,17 +42,8 @@ export default class RvtButton extends LitElement {
 	rel?: HTMLAnchorElement['rel'];
 	// #endregion
 
-	private forwardClick() {
-		this.dispatchEvent(
-			new CustomEvent('click', {
-				bubbles: true,
-				composed: true
-			})
-		);
-	}
-
 	private renderContent() {
-		let classes = icon({ size: this.size });
+		let classes = icon({ variant: this.variant, size: this.size });
 		return html`
 			<slot name="prefix">
 				${when(
@@ -71,22 +59,23 @@ export default class RvtButton extends LitElement {
 		`;
 	}
 
+	private handleClick(e: MouseEvent) {
+		if (this.loading || this.disabled) {
+			e.preventDefault();
+			return;
+		}
+	}
+
 	render() {
-		let classes = button({ variant: this.variant, size: this.size, elevation: this.elevation });
-		if (this.type === 'a') {
-			return html` <a
-				@click=${this.forwardClick}
-				href=${this.href}
-				target=${this.target}
-				rel=${this.rel}
-				class=${classes}
-			>
+		let classes = button({ variant: this.variant, size: this.size });
+		if (this.type === 'a' || this.href) {
+			return html` <a href=${this.href} target=${this.target} rel=${this.rel} class=${classes}>
 				${this.renderContent()}
 			</a>`;
 		}
 		return html`<button
-			?disabled=${this.disabled}
-			@click=${this.forwardClick}
+			@click=${this.handleClick.bind(this)}
+			?disabled=${this.disabled || this.loading}
 			type=${this.type}
 			class=${classes}
 			?aria-disabled=${this.disabled}

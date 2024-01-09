@@ -52,7 +52,8 @@ export default class ServiceCard extends LitElement {
 	render() {
 		let classObj: any = {
 			collapsed: this.collapsed,
-			[this.domain ?? 'services']: true
+			[this.domain ?? 'services']: true,
+			'border-2 border-zinc-900 bg-raised-bg p-5': true
 		};
 
 		let classes = classMap(classObj);

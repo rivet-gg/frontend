@@ -64,12 +64,12 @@ export default class GroupSettings extends LitElement {
 				items: [
 					{
 						id: 'general',
-						icon: 'regular/square-info',
+						icon: 'solid/square-info',
 						title: 'General'
 					},
 					{
 						id: 'members',
-						icon: 'light/user-group',
+						icon: 'solid/user-group',
 						title: 'Members'
 					}
 				]

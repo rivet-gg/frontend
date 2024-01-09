@@ -64,12 +64,9 @@ export class RvtUserConsent extends LitElement {
 								<p class="text-lg">Rivet is still in private beta.</p>
 								<p class="text-lg">Join the waitlist to get early access.</p>
 								<div class="flex justify-center my-8">
-									<stylized-button
-										href="https://b8v8449klvp.typeform.com/rivet"
-										target="_blank"
-									>
+									<rvt-button href="https://b8v8449klvp.typeform.com/rivet" target="_blank">
 										Beta Access Form
-									</stylized-button>
+									</rvt-button>
 								</div>`
 					]
 				])}
@@ -79,17 +76,16 @@ export class RvtUserConsent extends LitElement {
 						<div class="w-3/4 border-b-white/10 border-b-[1px] h-px mx-auto my-4"></div>
 						<div class="w-full flex m-auto pb-5 text-left items-center justify-center gap-4">
 							<p class="text-md">Have access and just got logged out?</p>
-							<stylized-button .trigger="${this.dispatchLogin.bind(this)}"
-								>${when(
-									![
-										GlobalStatus.Consenting,
-										GlobalStatus.Unregistered,
-										GlobalStatus.Connected
-									].includes(this.status),
-									() => html`<rvt-spinner></rvt-spinner>`
-								)}
+							<rvt-button
+								@click="${this.dispatchLogin.bind(this)}"
+								.loading=${![
+									GlobalStatus.Consenting,
+									GlobalStatus.Unregistered,
+									GlobalStatus.Connected
+								].includes(this.status)}
+							>
 								Login
-							</stylized-button>
+							</rvt-button>
 						</div>
 						<p class="text-gray-400 text-xs">
 							By clicking Login, you agree to the Rivet
@@ -97,8 +93,7 @@ export class RvtUserConsent extends LitElement {
 								Terms of Service
 							</a>
 							and
-							<a class="link" href="https://rivet.gg/privacy" target="_blank">
-								Privacy Policy </a
+							<a class="link" href="https://rivet.gg/privacy" target="_blank"> Privacy Policy</a
 							>.
 						</p>
 					`

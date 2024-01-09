@@ -65,9 +65,9 @@ export default class DevGameTokens extends LitElement {
 				description:
 					'Public tokens are used from the game client. These are safe to share with the public.',
 				render: () => {
-					return html`<stylized-button @click=${this.createPublicToken.bind(this)}>
+					return html`<rvt-button @click=${this.createPublicToken.bind(this)}>
 						Generate
-					</stylized-button>`;
+					</rvt-button>`;
 				}
 			},
 			{
@@ -89,7 +89,7 @@ export default class DevGameTokens extends LitElement {
 
 		return html`
 			<h1 class="text-2xl pb-2">Tokens</h1>
-			<div class="flex flex-col max-w-5xl mx-auto space-y-4">
+			<div class="flex flex-col mx-auto gap-4 lg:grid lg:grid-cols-2">
 				${map(tokens, token => this.renderTokenBlock(token))}
 			</div>
 		`;
@@ -100,7 +100,7 @@ export default class DevGameTokens extends LitElement {
 			<div class="flex flex-col border-2 border-zinc-900 bg-raised-bg rounded-lg p-5">
 				<div class="flex flex-row w-full">
 					<h2 class="flex-1 text-xl my-auto">${token.name}</h2>
-					<stylized-button class="my-auto" .href=${token.url}>Docs</stylized-button>
+					<rvt-button class="my-auto" href=${token.url}>Docs</rvt-button>
 				</div>
 				<p class="mt-2">${token.description}</p>
 				<div class="mt-4">${token.render()}</div>

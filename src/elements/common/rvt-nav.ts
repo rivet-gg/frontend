@@ -400,12 +400,9 @@ export default class RvtNav extends LitElement {
 	render() {
 		return html`
 			<nav
-				class="gap-10 px-6 lg:z-30 pointer-events-auto flex flex-col transition md:divide-white/15 backdrop-blur bg-zinc-900/[.8]"
+				class="gap-10 px-6 lg:z-30 pointer-events-auto flex flex-col transition md:divide-white/15 backdrop-blur bg-charcole-950 border-b border-white/10"
 			>
-				<div class="h-14 flex items-center justify-between ">
-					<!-- Background -->
-					<div class="absolute inset-x-0 top-full h-px transition bg-[#29292c]"></div>
-
+				<div class="h-14 flex items-center justify-between">
 					<div class="flex flex-row align-middle my-auto max-sm:mx-auto">
 						<!-- Logo -->
 						<a aria-label="Home" class="my-auto" href=${routes.home.build({})}>
@@ -453,7 +450,7 @@ export default class RvtNav extends LitElement {
 								></identity-avatar>
 
 								<icon-button
-									src="regular/gear"
+									src="solid/gear"
 									small
 									color="#ececec80"
 									href=${routes.settings.build({})}

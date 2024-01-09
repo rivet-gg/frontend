@@ -278,11 +278,11 @@ export default class RegisterPanel extends LitElement {
 								>Email: ${identity.email.email}</span
 							>
 						</p>
-						<stylized-button
-							icon="regular/arrow-right-from-bracket"
-							color="#db3939"
-							.trigger=${this.logout.bind(this)}
-							>Log out</stylized-button
+						<rvt-button
+							icon="solid/arrow-right-from-bracket"
+							variant="danger"
+							@click=${this.logout.bind(this)}
+							>Log out</rvt-button
 						>
 				  </div>`
 				: html`<p>
@@ -304,18 +304,18 @@ export default class RegisterPanel extends LitElement {
 							></text-input>
 						</div>
 
-						<div class="actions">
+						<div class="actions space-x-2">
 							${this.noBackButton
 								? null
-								: html`<stylized-button
-										color="gray"
-										.trigger=${this.closeRegisterPanel.bind(this)}
-										>Back</stylized-button
+								: html`<rvt-button
+										variant="secondary"
+										@click=${this.closeRegisterPanel.bind(this)}
+										>Back</rvt-button
 								  >`}
-							<stylized-button
+							<rvt-button
 								?disabled=${this.emailError != null}
-								.trigger=${this.startEmailVerification.bind(this)}
-								>Continue</stylized-button
+								@click=${this.startEmailVerification.bind(this)}
+								>Continue</rvt-button
 							>
 						</div>
 						${this.emailError != null ? html`<p id="error">${this.emailError}</p>` : null} `}
@@ -341,13 +341,13 @@ export default class RegisterPanel extends LitElement {
 			>
 			</text-input>
 			${this.codeError != null ? html`<p id="error">${this.codeError}</p>` : null}
-			<div class="actions">
-				<stylized-button color="gray" .trigger=${this.codeAreaClose.bind(this)}>Back</stylized-button>
-				<stylized-button
-					.trigger=${this.completeEmailVerification.bind(this)}
+			<div class="actions space-x-2">
+				<rvt-button variant="secondary" @click=${this.codeAreaClose.bind(this)}>Back</rvt-button>
+				<rvt-button
+					@click=${this.completeEmailVerification.bind(this)}
 					?disabled=${this.codeError != null}
 					?loading=${this.isCompleting}
-					>Continue</stylized-button
+					>Continue</rvt-button
 				>
 			</div>
 		</div>`;
