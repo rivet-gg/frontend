@@ -15,7 +15,7 @@
 		flex: 0 0 auto;
 		margin: 0 0.35em 0 00;
 		font-size: 44px;
-		--fill: var(--icon-fill, #03b3ff);
+		--fill: theme('colors.main-accent');
 	}
 
 	::slotted(h1) {

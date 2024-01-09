@@ -19,6 +19,7 @@ import { Rivet } from '@rivet-gg/api';
 import { Rivet as RivetEe } from '@rivet-gg/api-ee';
 import Chart from './chart';
 import { RepeatingRequest } from '../../../utils/repeating-request';
+import { dataSetToVariant } from './utilities';
 
 enum DateRange {
 	Min10 = timing.minutes(10),
@@ -321,93 +322,68 @@ export default class AnalyticsOverview extends LitElement {
 		if (this.loadError) return responses.renderError(this.loadError);
 
 		return html`
-			<div id="base">
-				<page-header>
-					<e-svg src="regular/square-poll-vertical"></e-svg>
-					<h1>Analytics</h1>
-				</page-header>
+			<div class="mx-auto max-w-contentwidth px-3 md:px-5 lg:px-0 pb-8">
+				<div id="base">
+					<page-header>
+						<e-svg src="regular/square-poll-vertical"></e-svg>
+						<h1>Analytics</h1>
+					</page-header>
 
-				<div id="actions">
-					<div class="action-group">
-						<div class="pair">
-							<h2>View</h2>
-							<drop-down-list
-								.selection=${this.category}
-								.options=${CATEGORIES}
-								@select=${this.updateCategory.bind(this)}
-							></drop-down-list>
-						</div>
-						<div class="pair">
-							<h2>Range</h2>
-							<drop-down-list
-								.selection=${this.dateSelection}
-								.options=${this.dateOptions}
-								.orientation=${Orientation.TopRight}
-								@select=${this.updateDateRange.bind(this)}
-							></drop-down-list>
-						</div>
-					</div>
-					<div class="action-group">
-						<div class="pair">
-							<h2>Game</h2>
-							<drop-down-list
-								.selection=${this.gameSelection}
-								.options=${this.gameOptions}
-								.orientation=${Orientation.TopRight}
-								@select=${this.updateGame.bind(this)}
-							></drop-down-list>
-						</div>
-						${when(this.namespaceOptions.length, () => {
-							return html`<div class="pair">
-								<h2>Namespace</h2>
+					<div id="actions">
+						<div class="action-group">
+							<div class="pair">
+								<h2>View</h2>
 								<drop-down-list
-									.selection=${this.namespaceSelection}
-									.options=${this.namespaceOptions}
-									.orientation=${Orientation.TopRight}
-									@select=${this.updateNamespace.bind(this)}
+									.selection=${this.category}
+									.options=${CATEGORIES}
+									@select=${this.updateCategory.bind(this)}
 								></drop-down-list>
-							</div>`;
-						})}
+							</div>
+							<div class="pair">
+								<h2>Range</h2>
+								<drop-down-list
+									.selection=${this.dateSelection}
+									.options=${this.dateOptions}
+									.orientation=${Orientation.TopRight}
+									@select=${this.updateDateRange.bind(this)}
+								></drop-down-list>
+							</div>
+						</div>
+						<div class="action-group">
+							<div class="pair">
+								<h2>Game</h2>
+								<drop-down-list
+									.selection=${this.gameSelection}
+									.options=${this.gameOptions}
+									.orientation=${Orientation.TopRight}
+									@select=${this.updateGame.bind(this)}
+								></drop-down-list>
+							</div>
+							${when(this.namespaceOptions.length, () => {
+								return html`<div class="pair">
+									<h2>Namespace</h2>
+									<drop-down-list
+										.selection=${this.namespaceSelection}
+										.options=${this.namespaceOptions}
+										.orientation=${Orientation.TopRight}
+										@select=${this.updateNamespace.bind(this)}
+									></drop-down-list>
+								</div>`;
+							})}
+						</div>
+						${when(this.isLoading, () => html`<loading-wheel custom></loading-wheel>`)}
 					</div>
-					${when(this.isLoading, () => html`<loading-wheel custom></loading-wheel>`)}
-				</div>
-				<div id="body">
-					<div class="charts">
-						${repeat(
-							this.charts,
-							([k, _]) => k,
-							([_, v]) => v
-						)}
+					<div id="body">
+						<div class="charts">
+							${repeat(
+								this.charts,
+								([k, _]) => k,
+								([_, v]) => v
+							)}
+						</div>
 					</div>
 				</div>
 			</div>
 		`;
 	}
-}
-
-function dataSetToVariant(dataSet: RivetEe.ee.cloud.NamespaceAnalyticsDataSet) {
-	if (dataSet.matchmakerOverview) return RivetEe.ee.cloud.AnalyticsVariantQuery.MatchmakerOverview;
-	else if (dataSet.playerCount) return RivetEe.ee.cloud.AnalyticsVariantQuery.PlayerCount;
-	else if (dataSet.playerCountByRegion) return RivetEe.ee.cloud.AnalyticsVariantQuery.PlayerCountByRegion;
-	else if (dataSet.playerCountByGameMode)
-		return RivetEe.ee.cloud.AnalyticsVariantQuery.PlayerCountByGameMode;
-	else if (dataSet.lobbyCount) return RivetEe.ee.cloud.AnalyticsVariantQuery.LobbyCount;
-	else if (dataSet.lobbyCountByRegion) return RivetEe.ee.cloud.AnalyticsVariantQuery.LobbyCountByRegion;
-	else if (dataSet.lobbyCountByGameMode) return RivetEe.ee.cloud.AnalyticsVariantQuery.LobbyCountByGameMode;
-	else if (dataSet.avgPlayDuration) return RivetEe.ee.cloud.AnalyticsVariantQuery.AvgPlayDuration;
-	else if (dataSet.avgPlayDurationByGameMode)
-		return RivetEe.ee.cloud.AnalyticsVariantQuery.AvgPlayDurationByGameMode;
-	else if (dataSet.avgPlayDurationByRegion)
-		return RivetEe.ee.cloud.AnalyticsVariantQuery.AvgPlayDurationByRegion;
-	else if (dataSet.newPlayersPerSecond) return RivetEe.ee.cloud.AnalyticsVariantQuery.NewPlayersPerSecond;
-	else if (dataSet.newLobbiesPerSecond) return RivetEe.ee.cloud.AnalyticsVariantQuery.NewLobbiesPerSecond;
-	else if (dataSet.destroyedLobbiesByFailure)
-		return RivetEe.ee.cloud.AnalyticsVariantQuery.DestroyedLobbiesByFailure;
-	else if (dataSet.destroyedLobbiesByExitCode)
-		return RivetEe.ee.cloud.AnalyticsVariantQuery.DestroyedLobbiesByExitCode;
-	else if (dataSet.failedLobbies) return RivetEe.ee.cloud.AnalyticsVariantQuery.FailedLobbies;
-	else if (dataSet.lobbyReadyTime) return RivetEe.ee.cloud.AnalyticsVariantQuery.LobbyReadyTime;
-
-	logging.warn('unhandled dataset variant', dataSet);
-	return null;
 }

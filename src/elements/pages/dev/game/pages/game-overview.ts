@@ -292,11 +292,7 @@ export default class DevGameOverview extends LitElement {
 		return html`
 			<div class="w-1/2 ">
 				<h1 class="text-xl pb-4">Analytics</h1>
-				<div
-					class="flex flex-row space-x-4 w-full h-80 bg-zinc-600/30 place-content-center rounded-lg bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-fuchsia-600/25 via-fuchsia-900/40 to-fuchsia-700/75"
-				>
-					<h4 class="m-auto italic text-gray-300 text-lg">Coming Soon...</h4>
-				</div>
+				<rvt-game-analytics .game=${game}></rvt-game-analytics>
 			</div>
 		`;
 	}

@@ -34,6 +34,9 @@ export default class Chart extends LitElement {
 	@property({ type: Object })
 	renderer: () => TemplateResult = this.defaultRenderer;
 
+	lineChartOptions: ChartOptions<'line'> = LINE_CHART_OPTIONS;
+	barChartOptions: ChartOptions<'bar'> = BAR_CHART_OPTIONS;
+
 	updated(changedProperties: PropertyValues) {
 		super.updated(changedProperties);
 
@@ -66,14 +69,17 @@ export default class Chart extends LitElement {
 		}
 	}
 
-	createOrUpdateChart(chartCb: (datasets: any[], shadowRoot: ShadowRoot) => ChartJs) {
+	createOrUpdateChart<Options extends ChartOptions>(
+		chartCb: (datasets: any[], shadowRoot: ShadowRoot, options: Options) => ChartJs,
+		options: Options
+	) {
 		// Update chart in-place instead of creating a new one
 		let newDatasets = preprocessDatasets(this.structuredDataSets);
 		if (this.chart) {
 			this.chart.data.datasets.length = 0;
 			this.chart.data.datasets.push(...newDatasets);
 			this.chart.update();
-		} else this.chart = chartCb(newDatasets, this.shadowRoot);
+		} else this.chart = chartCb(newDatasets, this.shadowRoot, options);
 	}
 
 	matchmakerOverviewChart() {
@@ -108,7 +114,7 @@ export default class Chart extends LitElement {
 		];
 
 		this.displayTitle = 'Players';
-		this.createOrUpdateChart(createLineChart);
+		this.createOrUpdateChart(createLineChart, this.lineChartOptions);
 	}
 
 	playerCountByRegionChart(data: RivetEe.ee.cloud.PlayerCountByRegionDataSet) {
@@ -120,7 +126,7 @@ export default class Chart extends LitElement {
 		}));
 
 		this.displayTitle = 'Players By Region';
-		this.createOrUpdateChart(createLineChart);
+		this.createOrUpdateChart(createLineChart, this.lineChartOptions);
 	}
 
 	playerCountByGameModeChart(data: RivetEe.ee.cloud.PlayerCountByGameModeDataSet) {
@@ -132,7 +138,7 @@ export default class Chart extends LitElement {
 		}));
 
 		this.displayTitle = 'Players By Game Mode';
-		this.createOrUpdateChart(createLineChart);
+		this.createOrUpdateChart(createLineChart, this.lineChartOptions);
 	}
 
 	lobbyCountChart(data: RivetEe.ee.cloud.LobbyCountDataSet) {
@@ -156,7 +162,7 @@ export default class Chart extends LitElement {
 		];
 
 		this.displayTitle = 'Lobbies';
-		this.createOrUpdateChart(createLineChart);
+		this.createOrUpdateChart(createLineChart, this.lineChartOptions);
 	}
 
 	lobbyCountByRegionChart(data: RivetEe.ee.cloud.LobbyCountByRegionDataSet) {
@@ -168,7 +174,7 @@ export default class Chart extends LitElement {
 		}));
 
 		this.displayTitle = 'Lobbies By Region';
-		this.createOrUpdateChart(createLineChart);
+		this.createOrUpdateChart(createLineChart, this.lineChartOptions);
 	}
 
 	lobbyCountByGameModeChart(data: RivetEe.ee.cloud.LobbyCountByGameModeDataSet) {
@@ -180,7 +186,7 @@ export default class Chart extends LitElement {
 		}));
 
 		this.displayTitle = 'Lobbies By Game Mode';
-		this.createOrUpdateChart(createLineChart);
+		this.createOrUpdateChart(createLineChart, this.lineChartOptions);
 	}
 
 	avgPlayDurationChart(data: RivetEe.ee.cloud.AvgPlayDurationDataSet) {
@@ -192,9 +198,7 @@ export default class Chart extends LitElement {
 		];
 
 		this.displayTitle = 'Average Play Duration';
-		this.createOrUpdateChart((dataSets, shadowRoot) =>
-			createLineChart(dataSets, shadowRoot, DURATION_LINE_CHART_OPTIONS)
-		);
+		this.createOrUpdateChart(createLineChart, DURATION_LINE_CHART_OPTIONS);
 	}
 
 	avgPlayDurationByRegionChart() {
@@ -290,7 +294,7 @@ export default class Chart extends LitElement {
 		];
 
 		this.displayTitle = 'New Players Per Second';
-		this.createOrUpdateChart(createLineChart);
+		this.createOrUpdateChart(createLineChart, this.lineChartOptions);
 	}
 
 	newLobbiesPerSecondChart(data: RivetEe.ee.cloud.NewLobbiesPerSecondDataSet) {
@@ -302,7 +306,7 @@ export default class Chart extends LitElement {
 		];
 
 		this.displayTitle = 'New Lobbies Per Second';
-		this.createOrUpdateChart(createLineChart);
+		this.createOrUpdateChart(createLineChart, this.lineChartOptions);
 	}
 
 	destroyedLobbiesByFailureChart(data: RivetEe.ee.cloud.DestroyedLobbiesByFailureDataSet) {
@@ -313,7 +317,7 @@ export default class Chart extends LitElement {
 		];
 
 		this.displayTitle = 'Destroyed Lobbies By Failure';
-		this.createOrUpdateChart(createBarChart);
+		this.createOrUpdateChart(createBarChart, this.barChartOptions);
 	}
 
 	destroyedLobbiesByExitCodeChart(data: RivetEe.ee.cloud.DestroyedLobbiesByExitCodeDataSet) {
@@ -325,7 +329,7 @@ export default class Chart extends LitElement {
 		}));
 
 		this.displayTitle = 'Destroyed Lobbies By Exit Code';
-		this.createOrUpdateChart(createBarChart);
+		this.createOrUpdateChart(createBarChart, this.barChartOptions);
 	}
 
 	failedLobbiesChart(data: RivetEe.ee.cloud.FailedLobbiesDataSet) {
@@ -337,7 +341,7 @@ export default class Chart extends LitElement {
 		];
 
 		this.displayTitle = 'Failed Lobbies';
-		this.createOrUpdateChart(createBarChart);
+		this.createOrUpdateChart(createBarChart, this.barChartOptions);
 	}
 
 	lobbyReadyTimeChart(data: RivetEe.ee.cloud.LobbyReadyTimeDataSet) {
@@ -349,9 +353,7 @@ export default class Chart extends LitElement {
 		];
 
 		this.displayTitle = 'Lobby Ready Time';
-		this.createOrUpdateChart((dataSets, shadowRoot) =>
-			createLineChart(dataSets, shadowRoot, DURATION_LINE_CHART_OPTIONS)
-		);
+		this.createOrUpdateChart(createLineChart, DURATION_LINE_CHART_OPTIONS);
 	}
 
 	render() {
