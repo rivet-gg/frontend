@@ -17,7 +17,6 @@ import { Alignment, Orientation } from '../common/overlay-positioning';
 import { DropDownSelectEvent, DropDownSelection } from '../dev/drop-down-list';
 import { Breadcrumb } from '../common/rvt-nav';
 import { RepeatingRequest } from '../../utils/repeating-request';
-import settings from '../../utils/settings';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { repeat } from 'lit/directives/repeat.js';
 import { when } from 'lit/directives/when.js';
@@ -441,18 +440,26 @@ export default class RvtRoot extends LitElement {
 					break;
 				case GlobalStatus.BootstrapFailed:
 					this.hideLoading();
+					// eslint-disable-next-line no-case-declarations
 					let error = (global.bootstrapError?.stack || global.bootstrapError).toString();
 					content = html`
-						<e-svg class="text-5xl w-full text-center mb-2" src="solid/bomb"></e-svg>
-						<h1>${this.errorMessage.title}</h1>
-						<p>${this.errorMessage.body}</p>
-						<div class="mt-2">
-							<code
-								class="mt-1 no-ligatures thick text-left w-3/4 inline-block select-text whitespace-pre-wrap"
-								>${error}</code
-							>
+						<div
+							id="content-holder"
+							class="min-h-screen max-w-contentwidth mx-auto flex pt-14 box-border items-center justify-center text-center"
+						>
+							<div class="elevated p-8">
+								<e-svg class="text-5xl w-full mb-2" src="solid/bomb"></e-svg>
+								<h1 class="text-2xl mb-4">${this.errorMessage.title}</h1>
+								<p>${this.errorMessage.body}</p>
+								<div class="mt-2 mb-4">
+									<code
+										class="break-all md:break-normal text-sm mt-1 no-ligatures thick text-left inline-block select-text whitespace-pre-wrap"
+										>${error}</code
+									>
+								</div>
+								<rvt-button @click=${() => window.location.reload()}>Reload</rvt-button>
+							</div>
 						</div>
-						<rvt-button @click=${() => window.location.reload()}>Reload</rvt-button>
 					`;
 					break;
 			}
