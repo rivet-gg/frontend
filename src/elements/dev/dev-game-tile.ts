@@ -10,12 +10,7 @@ import * as api from '../../utils/api';
 import clsx from 'clsx';
 
 const COLORS = [
-	'bg-red-700 hover:bg-red-600',
-	'bg-orange-700 hover:bg-orange-600',
-	'bg-yellow-700 hover:bg-yellow-600',
-	'bg-green-700 hover:bg-green-600',
-	'bg-blue-700 hover:bg-blue-600',
-	'bg-purple-700 hover:bg-purple-600'
+	'bg-black hover:bg-gray-500',
 ];
 
 @customElement('dev-game-tile')
@@ -36,18 +31,18 @@ export default class DevGameTile extends LitElement {
 				id="base"
 				href=${routes.devGame.build({ gameId: this.game.gameId })}
 				class=${clsx(
-					!this.game.bannerUrl && this.bgColor,
-					'bg-game-tile bg-cover bg-center transition-all'
-				)}
+			!this.game.bannerUrl && this.bgColor,
+			'bg-game-tile bg-cover bg-center transition-all'
+		)}
 			>
 				${this.game.bannerUrl
-					? html`<lazy-img
+				? html`<lazy-img
 							id="bg"
 							class="transition-all"
 							src=${this.game.bannerUrl}
 							bg-size="cover"
 					  ></lazy-img>`
-					: null}
+				: null}
 				<div id="info">
 					<lazy-img
 						class="h-20 w-4/5 pb-5"
