@@ -39,6 +39,7 @@ const PORT_PROTOCOLS: DropDownSelection<cloud.ProxyProtocol>[] = [
 ];
 
 const LOBBY_COUNT_MAX = 32768 - 1;
+const MAX_MAX_PLAYERS_PER_IP = 2 ** 32 - 1; // u32
 
 const CDN_AUTH_USER_MAX = 32;
 
@@ -851,6 +852,7 @@ export default class RvtNamespaceSettings extends LitElement {
 								placeholder="Count"
 								.init=${this.namespace.config.matchmaker.maxPlayersPerClient}
 								.min=${1}
+								.max=${MAX_MAX_PLAYERS_PER_IP}
 								@input=${this.updateMaxPlayersPerClient.bind(this)}
 							></text-input>
 						</div>
