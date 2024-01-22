@@ -76,7 +76,7 @@ export default class Chart extends LitElement {
 		// Update chart in-place instead of creating a new one
 		let newDatasets = preprocessDatasets(this.structuredDataSets);
 		if (this.chart) {
-			this.chart.data.datasets.length = 0;
+			this.chart.data.datasets = [];
 			this.chart.data.datasets.push(...newDatasets);
 			this.chart.update();
 		} else this.chart = chartCb(newDatasets, this.shadowRoot, options);
