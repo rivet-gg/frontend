@@ -6,6 +6,7 @@ $max-width: 250px;
 :host {
 	display: flex;
 	max-height: 100%;
+	width: 100%;
 }
 
 #base {
@@ -80,6 +81,10 @@ $max-width: 250px;
 					--fill: var(--text-color, #121212);
 				}
 			}
+
+			#options {
+				border-color: var(--text-color, #121212);
+			}
 		}
 
 		#controls {
@@ -98,6 +103,8 @@ $max-width: 250px;
 
 		#options {
 			background-color: var(--bg-color, #ffffff);
+			border: var(--border, 1px solid #bfbfbf);
+			border-top: none;
 
 			.option {
 				color: var(--text-color, #121212);
