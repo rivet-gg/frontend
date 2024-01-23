@@ -62,3 +62,4 @@ This lets you develop with the hub using localhost.
 ## Filing issues
 
 All Hub issues are managed in the [main Rivet repository](https://github.com/rivet-gg/rivet).
+
