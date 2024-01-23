@@ -27,11 +27,11 @@ export default class ToggleSwitch extends LitElement {
 		if (this.stopImmediatePropagation) e.stopImmediatePropagation();
 		if (this.isDisabled) return;
 
-		let event = new ToggleSwitchEvent(this.value);
+		let event = new ToggleSwitchEvent(!this.value);
+
+		// Only update if not cancelled
 		let isDispatched = this.dispatchEvent(event);
-		if (isDispatched) {
-			this.value = !this.value;
-		}
+		if (isDispatched) this.value = !this.value;
 	}
 
 	render() {
@@ -39,6 +39,7 @@ export default class ToggleSwitch extends LitElement {
 			active: this.value,
 			disabled: this.isDisabled
 		});
+
 		return html`<div id="base" class=${classes} @click=${this.toggleValue.bind(this)}>
 			<div id="knob"></div>
 		</div>`;

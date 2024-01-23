@@ -219,10 +219,15 @@ $input-length-short: 75px;
 				margin-top: 7px;
 			}
 
-			#counts {
+			.counts {
 				margin-top: 10px;
 				display: flex;
 				flex-direction: row;
+
+				&.disabled {
+					pointer-events: none;
+					opacity: 0.5;
+				}
 
 				.count {
 					max-width: 130px;

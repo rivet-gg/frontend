@@ -39,7 +39,7 @@ const PORT_PROTOCOLS: DropDownSelection<cloud.ProxyProtocol>[] = [
 ];
 
 const LOBBY_COUNT_MAX = 32768 - 1;
-const MAX_MAX_PLAYERS_PER_IP = 2 ** 32 - 1; // u32
+const MAX_MAX_PLAYERS_PER_CLIENT = 2 ** 31 - 1; // i32
 
 const CDN_AUTH_USER_MAX = 32;
 
@@ -693,6 +693,12 @@ export default class RvtNamespaceSettings extends LitElement {
 		this.validateMmConfigConfigDebounce.trigger();
 	}
 
+	toggleMaxPlayersPerClient(e: ToggleSwitchEvent) {
+		this.maxPlayerCountPerClient = e.value ? 8 : MAX_MAX_PLAYERS_PER_CLIENT;
+
+		this.validateMmConfigConfigDebounce.trigger();
+	}
+
 	updateMaxPlayersPerClient(event: InputEvent) {
 		let target = event.target as HTMLInputElement;
 		let value = parseInt(target.value);
@@ -793,7 +799,9 @@ export default class RvtNamespaceSettings extends LitElement {
 	renderMatchmakerSettings() {
 		if (!this.version.config.matchmaker) return null;
 
-		let mmConfigErrors = this.mmConfigValidationErrors.findFormatted();
+		let maxLobbiesErrors = this.mmConfigValidationErrors.findFormatted('lobby-count');
+		let maxPlayersErrors = this.mmConfigValidationErrors.findFormatted('max-players');
+		let maxPlayersEnabled = this.maxPlayerCountPerClient != MAX_MAX_PLAYERS_PER_CLIENT;
 
 		return html`<div class="setting">
 				<div class="setting-content">
@@ -808,12 +816,12 @@ export default class RvtNamespaceSettings extends LitElement {
 					</h2>
 					<p>Control the total maximum lobby count for this namespace.</p>
 					${when(
-						mmConfigErrors.length,
-						() => html`<error-list .errors=${mmConfigErrors}></error-list>`
+						maxLobbiesErrors.length,
+						() => html`<error-list .errors=${maxLobbiesErrors}></error-list>`
 					)}
-					<div id="counts">
+					<div class="counts">
 						<div class="count">
-							<h5>Max Lobby Count</h5>
+							<h3>Max Lobby Count</h3>
 							<text-input
 								class="short"
 								number
@@ -828,6 +836,10 @@ export default class RvtNamespaceSettings extends LitElement {
 				</div>
 			</div>
 			<div class="setting">
+				<toggle-switch
+					?value=${maxPlayersEnabled}
+					@toggle=${this.toggleMaxPlayersPerClient.bind(this)}
+				></toggle-switch>
 				<div class="setting-content">
 					<h2>
 						<e-svg
@@ -840,19 +852,22 @@ export default class RvtNamespaceSettings extends LitElement {
 					</h2>
 					<p>Control the maximum player count per IP.</p>
 					${when(
-						mmConfigErrors.length,
-						() => html`<error-list .errors=${mmConfigErrors}></error-list>`
+						maxPlayersErrors.length,
+						() => html`<error-list .errors=${maxPlayersErrors}></error-list>`
 					)}
-					<div id="counts">
+					<div class=${classMap({ counts: true, disabled: !maxPlayersEnabled })}>
 						<div class="count">
-							<h5>Max Player Count</h5>
+							<h3>Max Player Count</h3>
 							<text-input
 								class="short"
 								number
 								placeholder="Count"
-								.init=${this.namespace.config.matchmaker.maxPlayersPerClient}
+								.init=${this.namespace.config.matchmaker.maxPlayersPerClient ==
+								MAX_MAX_PLAYERS_PER_CLIENT
+									? 8
+									: this.namespace.config.matchmaker.maxPlayersPerClient}
 								.min=${1}
-								.max=${MAX_MAX_PLAYERS_PER_IP}
+								.max=${MAX_MAX_PLAYERS_PER_CLIENT}
 								@input=${this.updateMaxPlayersPerClient.bind(this)}
 							></text-input>
 						</div>
