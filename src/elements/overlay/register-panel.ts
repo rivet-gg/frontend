@@ -13,6 +13,7 @@ import * as api from '../../utils/api';
 import * as broadcast from '../../data/broadcast';
 import RvtRoot from '../root/rvt-root';
 import { globalEventGroups, IdentityChangeEvent } from '../../utils/global-events';
+import { createError } from '../common/rvt-error';
 
 export const VALIDATE_EMAIL =
 	/^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$/;
@@ -124,13 +125,13 @@ export default class RegisterPanel extends LitElement {
 	async startEmailVerification() {
 		// Wait for captcha
 		let captchaToken = null;
-		if (global.bootstrapData.captcha.turnstile) {
-			captchaToken = await RvtRoot.shared.promptCaptcha();
-		}
-		this.wait = true;
-		this.codeError = null;
-
 		try {
+			if (global.bootstrapData.captcha.turnstile) {
+				captchaToken = await RvtRoot.shared.promptCaptcha();
+			}
+			this.wait = true;
+			this.codeError = null;
+
 			let res = await global.deprecatedApi.auth.startEmailVerification({
 				email: this.email.trim(),
 				captcha: captchaToken
@@ -233,7 +234,7 @@ export default class RegisterPanel extends LitElement {
 
 	// === RENDER ===
 	render() {
-		if (this.loadError) return responses.renderError(this.loadError, true);
+		if (this.loadError) return createError(this.loadError);
 
 		let classes = classMap({
 			hidden: this.wait,

@@ -3,7 +3,7 @@ import './billing/module';
 import './dev/module';
 import './rvt-user-consent';
 import './dev-only';
-import './error';
+import './rvt-page-error';
 import './invalid-page-state';
 import './link-game';
 import './access-token';

@@ -123,7 +123,7 @@ export default class DevGameSettingsBilling extends LitElement {
 
 	render() {
 		if (!this.billingGroup) return this.renderPlaceholder();
-		if (this.loadError) return responses.renderError(this.loadError, true);
+		if (this.loadError) return responses.renderError(this.loadError);
 		if (global.bootstrapData.cluster != Rivet.cloud.BootstrapCluster.Enterprise)
 			return responses.renderEeOnly();
 

@@ -10,6 +10,7 @@ import { GroupSettingsRootConfig } from './elements/pages/dev/group/settings/gro
 import globalSettings from './utils/settings';
 import { DevGameRootConfig } from './elements/pages/dev/game/pages/rvt-game-dashboard';
 import config from './config';
+import { computeError } from './elements/common/rvt-error';
 
 export type RenderResult = RenderResultTemplate | RenderResultRedirect;
 
@@ -478,7 +479,7 @@ export namespace responses {
 				type: 'Custom'
 			},
 
-			template: html`<page-error message="Forbidden"></page-error>`
+			template: html`<rvt-page-error message="Forbidden"></rvt-page-error>`
 		};
 	}
 
@@ -488,7 +489,7 @@ export namespace responses {
 			breadcrumb: {
 				type: 'Custom'
 			},
-			template: html`<page-error message="Bad Request"></page-error>`
+			template: html`<rvt-page-error message="Bad Request"></rvt-page-error>`
 		};
 	}
 
@@ -555,25 +556,14 @@ export namespace responses {
 		};
 	}
 
-	export function renderError(error: Error, notFullHeight = false): TemplateResult {
-		// Build error message
-		let errorMessage: string;
-		if (typeof error == 'string') errorMessage = error;
-		else if (error instanceof RivetError) {
-			return html` <page-error
-				.message=${(error.body as any)?.message}
-				.expand=${!notFullHeight}
-			></page-error>`;
-		} else if (error && error.message && typeof error.message == 'string') errorMessage = error.message;
-		else if (error && error.hasOwnProperty('statusText')) {
+	export function renderError(error: Error): TemplateResult {
+		if (error && Object.prototype.hasOwnProperty.call(error, 'statusText')) {
 			let err = error as any as Response;
 
 			if (err.status == 403) return (forbidden() as RenderResultTemplate).template;
-
-			errorMessage = err.statusText ? err.statusText : err.status.toString() ?? 'Error';
-		} else errorMessage = 'Error';
-
-		return html` <page-error .message="${errorMessage}" .expand="${!notFullHeight}"></page-error>`;
+		}
+		let { title, message, stack } = computeError(error);
+		return html`<rvt-page-error .title=${title} .message=${message} .stack=${stack}></rvt-page-error>`;
 	}
 
 	export function renderEeOnly(): TemplateResult {

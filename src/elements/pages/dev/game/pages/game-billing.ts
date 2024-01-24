@@ -395,7 +395,7 @@ export default class DevGameBilling extends LitElement {
 	}
 
 	render() {
-		if (this.loadError) return responses.renderError(this.loadError, true);
+		if (this.loadError) return responses.renderError(this.loadError);
 
 		return html`<div id="base">
 			${this.renderGroup()}

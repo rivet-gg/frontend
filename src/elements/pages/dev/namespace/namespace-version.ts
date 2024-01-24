@@ -276,7 +276,7 @@ export default class DevNamespaceVersion extends LitElement {
 	}
 
 	render() {
-		if (this.loadError) return responses.renderError(this.loadError, true);
+		if (this.loadError) return responses.renderError(this.loadError);
 		if (this.namespace == null) return this.renderPlaceholder();
 
 		return html`

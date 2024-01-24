@@ -174,7 +174,7 @@ export default class DevGameNamespace extends LitElement {
 	}
 
 	render() {
-		if (this.loadError) return responses.renderError(this.loadError, true);
+		if (this.loadError) return responses.renderError(this.loadError);
 		if (this.version == null) return this.renderPlaceholder();
 
 		let namespaceOptions = this.game.namespaces

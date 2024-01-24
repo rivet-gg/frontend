@@ -209,7 +209,7 @@ export default class DevGameLobbies extends LitElement {
 	}
 
 	render() {
-		if (this.loadError) return responses.renderError(this.loadError, true);
+		if (this.loadError) return responses.renderError(this.loadError);
 		if (this.namespace == null) return this.renderPlaceholder();
 
 		// Game mode filter

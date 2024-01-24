@@ -356,7 +356,7 @@ export default class DevGameLogs extends LitElement {
 
 	// === Render ===
 	render() {
-		if (this.loadError) return responses.renderError(this.loadError, true);
+		if (this.loadError) return responses.renderError(this.loadError);
 
 		// Find selected lobby
 		let selectedLobby = this.lobbyId

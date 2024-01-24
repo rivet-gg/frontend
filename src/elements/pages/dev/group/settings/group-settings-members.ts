@@ -579,7 +579,7 @@ export default class GroupSettingsMembers extends LitElement {
 	}
 
 	render() {
-		if (this.loadError) return responses.renderError(this.loadError, true);
+		if (this.loadError) return responses.renderError(this.loadError);
 		if (!this.group) return this.renderPlaceholder();
 
 		let isOwner = this.group ? global.currentIdentity.identityId === this.group.ownerIdentityId : false;

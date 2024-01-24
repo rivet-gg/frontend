@@ -56,7 +56,7 @@ export default class DevGameTokens extends LitElement {
 	}
 
 	render() {
-		if (this.loadError) return responses.renderError(this.loadError, true);
+		if (this.loadError) return responses.renderError(this.loadError);
 
 		let tokens = [
 			{

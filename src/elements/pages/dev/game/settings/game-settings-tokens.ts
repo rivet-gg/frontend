@@ -80,7 +80,7 @@ export default class DevGameSettingsTokens extends LitElement {
 	}
 
 	render() {
-		if (this.loadError) return responses.renderError(this.loadError, true);
+		if (this.loadError) return responses.renderError(this.loadError);
 
 		return html`
 			<h1 class="text-2xl pb-2">Generate Game Tokens</h1>

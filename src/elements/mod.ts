@@ -15,6 +15,7 @@ import './common/stylized-button';
 import './common/toggle-switch';
 import './common/button/rvt-button';
 import './common/rvt-section';
+import './common/rvt-error';
 import './context-menu/context-action';
 import './context-menu/context-menu';
 import './dev/builds';

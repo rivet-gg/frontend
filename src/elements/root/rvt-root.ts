@@ -20,6 +20,7 @@ import { RepeatingRequest } from '../../utils/repeating-request';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { repeat } from 'lit/directives/repeat.js';
 import { when } from 'lit/directives/when.js';
+import { responses } from '../../routes';
 
 export const MIN_SWIPE_THRESHOLD = 10;
 const TRANSITION_LENGTH = timing.milliseconds(200); // Match with consts.scss/$transition-length
@@ -65,13 +66,6 @@ interface DropDownListData<T> {
 	bgColor: string;
 	highlightColor: string;
 }
-
-const ERROR_MESSAGES = [
-	{
-		title: 'Unknown Error',
-		body: "This error has been reported to Rivet's developers. Please try again later."
-	}
-];
 
 @customElement('rvt-root')
 export default class RvtRoot extends LitElement {
@@ -140,8 +134,6 @@ export default class RvtRoot extends LitElement {
 	deferredLinkGameStage: Stage = null;
 
 	turnstileWidgetId: string = null;
-
-	errorMessage = ERROR_MESSAGES[Math.floor(Math.random() * ERROR_MESSAGES.length)];
 
 	// === EVENT HANDLERS ===
 	handleStatusChange: (e: GlobalStatusChangeEvent) => void;
@@ -336,6 +328,13 @@ export default class RvtRoot extends LitElement {
 
 	promptCaptcha(): Promise<string> {
 		return new Promise((resolve, reject) => {
+			if (typeof turnstile === 'undefined')
+				return reject(
+					new Error(
+						"Can't load captcha. Please ensure it's not blocked by an adblocker or privacy extension."
+					)
+				);
+
 			let element: HTMLElement = document.body.querySelector('#turnstile');
 
 			if (element) {
@@ -440,25 +439,12 @@ export default class RvtRoot extends LitElement {
 					break;
 				case GlobalStatus.BootstrapFailed:
 					this.hideLoading();
-					// eslint-disable-next-line no-case-declarations
-					let error = (global.bootstrapError?.stack || global.bootstrapError).toString();
 					content = html`
 						<div
 							id="content-holder"
-							class="min-h-screen max-w-contentwidth mx-auto flex pt-14 box-border items-center justify-center text-center"
+							class="min-h-screen max-w-contentwidth mx-auto flex pt-14 box-border items-center justify-center"
 						>
-							<div class="retro-elevated p-8">
-								<e-svg class="text-5xl w-full mb-2" src="solid/bomb"></e-svg>
-								<h1 class="text-2xl mb-4">${this.errorMessage.title}</h1>
-								<p>${this.errorMessage.body}</p>
-								<div class="mt-2 mb-4">
-									<code
-										class="break-all md:break-normal text-sm mt-1 no-ligatures thick text-left inline-block select-text whitespace-pre-wrap"
-										>${error}</code
-									>
-								</div>
-								<rvt-button @click=${() => window.location.reload()}>Reload</rvt-button>
-							</div>
+							${responses.renderError(global.bootstrapError)}
 						</div>
 					`;
 					break;
