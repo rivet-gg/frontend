@@ -34,7 +34,6 @@ $input-length-medium: 120px;
 		#captcha-config {
 			background-color: $raised-bg;
 			padding: 16px 18px;
-			border-radius: 10px;
 			box-sizing: border-box;
 
 			text-input {
@@ -74,7 +73,6 @@ $input-length-medium: 120px;
 	#runtime-area {
 		background-color: $raised-bg;
 		padding: 16px 18px;
-		border-radius: 10px;
 		box-sizing: border-box;
 
 		&.empty {
@@ -360,8 +358,8 @@ $input-length-medium: 120px;
 	}
 
 	.large-create {
-		$border-width: 3px;
-		$border-radius: 10px;
+		$border-width: 2px;
+		$border-radius: 0;
 
 		overflow: hidden;
 		display: block;
@@ -373,20 +371,13 @@ $input-length-medium: 120px;
 		cursor: pointer;
 
 		background-image: utils.dashed-border(
-			rgba(255, 255, 255, 0.12),
+			rgba(255, 255, 255, 1),
 			$border-radius,
 			$border-width,
 			$dash-array: (5, 15)
 		);
 
 		&:hover {
-			background-image: utils.dashed-border(
-				rgba(255, 255, 255, 0.15),
-				$border-radius,
-				$border-width,
-				$dash-array: (5, 15)
-			);
-
 			.large-create-content {
 				background-color: rgba(255, 255, 255, 0.02);
 			}

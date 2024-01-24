@@ -44,15 +44,9 @@ export default class RvtNamespaceHeader extends LitElement {
 			visitUrl = `https://${visitHost}/`;
 		}
 
-		// FIXME(HUB-167): This is a hack to get around the fact that the button doesn't support custom colors
-		// This should be set by variant to keep consistency
-		return html`<stylized-button
-			color="var(--rvt-color-raised-bg)"
-			border-color="var(--rvt-color-raised-bg-border-color)"
-			right-icon="solid/arrow-up-right"
-			border-width=".75px"
-			id="visit-button"
-			.href=${visitUrl}
+		return html`<rvt-button
+			icon="solid/arrow-up-right"
+			href=${visitUrl}
 		>
 			Visit
 		</stylized-button>`;

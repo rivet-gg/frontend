@@ -26,8 +26,6 @@ $max-width: 250px;
 	max-height: 100%;
 	z-index: 1;
 
-	border-radius: 6px;
-
 	&.fixed {
 		width: var(--width, $max-width);
 	}
@@ -131,7 +129,6 @@ $max-width: 250px;
 		z-index: 3;
 		padding: 7px 11px 7px 15px;
 		background-color: $color;
-		border-radius: 6px;
 		box-shadow: $box-shadow;
 
 		cursor: pointer;
@@ -218,7 +215,6 @@ $max-width: 250px;
 		overflow-y: auto;
 
 		background-color: $color;
-		border-radius: 0 0 6px 6px;
 		box-shadow: 0 3px 12px rgba(0, 0, 0, 0.4);
 
 		.option {
@@ -235,7 +231,6 @@ $max-width: 250px;
 
 			&:not(.unstyled) {
 				padding: 5px 6px;
-				border-radius: 3px;
 			}
 
 			&:not(.header, .unstyled) {

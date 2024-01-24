@@ -320,10 +320,8 @@ export default class RvtNamespaceSettings extends LitElement {
 					<br />
 					<rvt-copy-area confidential value=${createRes.token}></rvt-copy-area>
 					<br />
-					<stylized-button
-						@click=${this.downloadEnvFile.bind(this, createRes.token)}
-						color="#4D4D4D"
-						>Download Environment File</stylized-button
+					<rvt-button @click=${this.downloadEnvFile.bind(this, createRes.token)}
+						>Download Environment File</rvt-button
 					>
 					<p class="light muted">
 						Rename this file to <code class="inline">.env</code> for use in conjunction with the
@@ -736,8 +734,11 @@ export default class RvtNamespaceSettings extends LitElement {
 		}
 
 		return html`
-			<div id="base" class="flex flex-col px-16 pt-6 text-slate-300 flex-wrap overflow-x-scroll">
-				${this.renderMatchmakerSettings()} ${this.renderCdnSettings(visitHost)}
+			<div id="base" class="flex flex-col text-white flex-wrap">
+				<h1 class="text-xl mb-4">Settings</h1>
+				<div class="grid lg:grid-flow-col gap-4 lg:grid-rows-3">
+					${this.renderMatchmakerSettings()} ${this.renderCdnSettings(visitHost)}
+				</div>
 			</div>
 
 			${this.renderCreateCustomHostnameModal()} ${this.renderCreateDevTokenModal()}

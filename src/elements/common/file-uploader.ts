@@ -352,7 +352,12 @@ export default class FileUploader extends LitElement {
 			: this.accept ?? null;
 
 		return html`
-			<div id="base" @drop=${this.onChange.bind(this)} @dragover=${(e: Event) => e.preventDefault()}>
+			<div
+				id="base"
+				class="transition-all hover:cursor-pointer hover:-translate-y-0.5 text-white hover:bg-button-bg-hover-color"
+				@drop=${this.onChange.bind(this)}
+				@dragover=${(e: Event) => e.preventDefault()}
+			>
 				<label id="base-label" class=${classes} for=${uploading ? null : 'file-upload'}>
 					<div id="content">
 						<slot name="icon"></slot>

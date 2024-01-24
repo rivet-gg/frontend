@@ -23,9 +23,6 @@ import { globalEventGroups } from '../../../../utils/global-events';
 import { RepeatingRequest } from '../../../../utils/repeating-request';
 import clsx from 'clsx';
 
-const tailwindConfig = require('../../../../../tailwind.config.js');
-const tailwind_palette = tailwindConfig.theme.extend.colors;
-
 @customElement('rvt-user-games')
 export default class RvtUserGames extends LitElement {
 	static styles = cssify(styles);
@@ -234,9 +231,7 @@ export default class RvtUserGames extends LitElement {
 
 		return html`
 			<div id="base" class="pb-12">
-				<div id="body">
-					${when(this.data !== null, this.renderBody.bind(this), this.renderPlaceholder)}
-				</div>
+				<div id="body">${when(this.data !== null, this.renderBody.bind(this))}</div>
 			</div>
 
 			<modal-create-group
@@ -268,7 +263,7 @@ export default class RvtUserGames extends LitElement {
 							global.currentIdentity.isRegistered),
 					() =>
 						html` <button
-							class="dashed-border-button flex justify-center items-center hover:cursor-pointer w-full h-32 place-content-center text-white/80  hover:text-white hover:bg-button-bg-hover-color"
+							class="dashed-border-button transition-all flex justify-center items-center hover:cursor-pointer w-full h-32 place-content-center text-white hover:bg-button-bg-hover-color"
 							@click=${this.openGroupModal.bind(this)}
 						>
 							<div class="font-bold text-lg pb-0.5 pr-2">
@@ -281,34 +276,6 @@ export default class RvtUserGames extends LitElement {
 		`;
 	}
 
-	renderPlaceholder() {
-		return html`<div id="placeholder">
-			<div class="placeholder-group">
-				<div class="placeholder-group-header">
-					<loading-placeholder></loading-placeholder>
-					<loading-placeholder></loading-placeholder>
-					<loading-placeholder></loading-placeholder>
-					<loading-placeholder></loading-placeholder>
-				</div>
-				<div class="placeholder-group-body">
-					<loading-placeholder></loading-placeholder>
-					<loading-placeholder></loading-placeholder>
-				</div>
-			</div>
-			<div class="placeholder-group">
-				<div class="placeholder-group-header">
-					<loading-placeholder></loading-placeholder>
-					<loading-placeholder></loading-placeholder>
-					<loading-placeholder></loading-placeholder>
-					<loading-placeholder></loading-placeholder>
-				</div>
-				<div class="placeholder-group-body">
-					<loading-placeholder></loading-placeholder>
-				</div>
-			</div>
-		</div>`;
-	}
-
 	renderGroup(group: Rivet.group.Handle) {
 		return when(
 			group.isDeveloper,
@@ -318,7 +285,7 @@ export default class RvtUserGames extends LitElement {
 						<div class="max-sm:w-1/3 md:w-2/3 flex flex-row space-x-3">
 							<div class="max-sm:invisible max-sm:w-0 my-auto">
 								<group-avatar
-									class="w-8 h-8"
+									class="w-12 h-12"
 									style="--font-size: 12px"
 									.group=${group}
 								></group-avatar>
@@ -331,33 +298,24 @@ export default class RvtUserGames extends LitElement {
 						${when(
 							group.isDeveloper,
 							() =>
-								html` <div class="flex flex-row ml-auto space-x-1">
-									<!-- <stylized-button
-										class="analytics-button"
+								html` <div class="flex flex-row ml-auto space-x-4">
+									<rvt-button
 										icon="solid/chart-line-up"
 										href=${routes.analyticsOverview.build({
-										groupId: group.groupId
-									})}
-										>Analytics</stylized-button
-									> -->
-									<stylized-button
-										class="billing-button w-20"
-										border-color=${tailwind_palette['raised-bg-border-color']}
-										border-width=".75px"
+											groupId: group.groupId
+										})}
+										>Analytics</rvt-button
+									>
+
+									<rvt-button
 										href=${routes.groupSettings.build({
 											groupId: group.groupId,
 											tab: 'Billing'
 										})}
-										color=${tailwind_palette['raised-bg']}
-										>Billing</stylized-button
+										>Billing</rvt-button
 									>
-									<stylized-button
-										class="settings-button"
-										border-color=${tailwind_palette['raised-bg-border-color']}
-										border-width=".75px"
-										href=${routes.groupSettings.build({ groupId: group.groupId })}
-										color=${tailwind_palette['raised-bg']}
-										>Settings</stylized-button
+									<rvt-button href=${routes.groupSettings.build({ groupId: group.groupId })}
+										>Settings</rvt-button
 									>
 								</div>`
 							// Reenable when open beta
@@ -378,18 +336,18 @@ export default class RvtUserGames extends LitElement {
 								<div
 									id="create-game"
 									class=${clsx(
-										'dashed-border-button cursor-pointer',
+										'h-80 flex flex-col justify-center items-center cursor-pointer dashed-border-4 dashed-border-white dashed-border-lg transition-all',
 										!this.gameModalActive && 'hover:bg-button-bg-hover-color'
 									)}
 									@click=${this.openGameModal.bind(this, group.groupId)}
 								>
 									<div class="relative flex flex-col place-content-center m-auto">
+										<h4 class="font-semibold text-lg text-center">Create a game</h4>
 										<lazy-img
-											class="h-24 w-4/5 m-auto mb-6"
+											class="h-24 w-4/5 m-auto mt-6"
 											src=${assets.asset('/games/blank/newgame.svg')}
 											bg-size="contain"
 										></lazy-img>
-										<h4 class="font-semibold text-lg text-center">Create a game</h4>
 									</div>
 								</div>
 								${repeat(
@@ -463,11 +421,12 @@ export default class RvtUserGames extends LitElement {
 					)}
 				</div>
 				<p class="content">We’ll walk you though the details of editing your game later.</p>
-				<stylized-button
-					.trigger=${this.createGame.bind(this)}
+				<rvt-button
+					class="mt-4"
+					@click=${this.createGame.bind(this)}
 					?disabled=${!this.gameIsValid}
 					?loading=${this.isCreatingGame}
-					>Create</stylized-button
+					>Create</rvt-button
 				>
 			</modal-body>
 		</drop-down-modal>`;

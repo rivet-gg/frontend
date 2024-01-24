@@ -1,11 +1,29 @@
 @use '../../../../shared/common';
 @use '../../../../shared/consts';
+@use '../../../../shared/utils';
+
+.dashed-border-button {
+	background-image: utils.dashed-border(
+		rgba(255, 255, 255, 1),
+		0,
+		2,
+		$dash-array: (5, 11),
+		$dash-offset: 2px
+	);
+
+	height: 4.25rem;
+
+	&:hover {
+		transform: translateY(-2px);
+	}
+
+	@include common.active-state();
+}
 
 #create-namespace-modal {
 	[slot='body'] {
 		h1 {
 			margin-bottom: 0;
-			color: black;
 
 			text-align: center;
 			font-size: 18px;
@@ -21,7 +39,6 @@
 
 			h2 {
 				margin: 14px 0 2px 0;
-				color: black;
 
 				font-size: 10px;
 				font-weight: bold;
@@ -47,13 +64,6 @@
 					margin-right: 2px;
 				}
 			}
-		}
-
-		stylized-button {
-			margin-top: 8px;
-			width: 100%;
-			max-width: 200px;
-			--padding: 0 35px;
 		}
 	}
 }

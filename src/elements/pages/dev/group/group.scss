@@ -5,8 +5,8 @@
 // TODO: Simplify the unnecessary styles in this file
 
 .dashed-border-button {
-	$border-width: 3px;
-	$border-radius: 30px;
+	$border-width: 2px;
+	$border-radius: 0px;
 
 	overflow: hidden;
 	display: flex;
@@ -15,22 +15,12 @@
 	border-radius: $border-radius;
 
 	background-image: utils.dashed-border(
-		rgba(255, 255, 255, 0.12),
+		rgba(255, 255, 255, 1),
 		$border-radius,
 		$border-width,
 		$dash-array: (5, 11),
 		$dash-offset: 2px
 	);
-
-	&:hover {
-		background-image: utils.dashed-border(
-			rgba(255, 255, 255, 0.15),
-			$border-radius,
-			$border-width,
-			$dash-array: (5, 11),
-			$dash-offset: 2px
-		);
-	}
 }
 
 #base {
@@ -193,7 +183,6 @@
 	[slot='body'] {
 		h1 {
 			margin-bottom: 0;
-			color: black;
 
 			text-align: center;
 			font-size: 18px;
@@ -208,7 +197,6 @@
 
 			h2 {
 				margin: 14px 0 2px 0;
-				color: black;
 
 				font-size: 10px;
 				font-weight: bold;
@@ -277,7 +265,6 @@
 
 			h3 {
 				margin: 8px 0 0 0;
-				color: black;
 				font-size: 12px;
 				text-align: center;
 				font-family: consts.$open-sans;
@@ -292,34 +279,7 @@
 
 .games-list {
 	#create-game {
-		$border-width: 3px;
-		$border-radius: 32px;
-
-		overflow: hidden;
-		display: flex;
-		position: relative;
 		height: 320px;
-		border-radius: $border-radius;
-
-		background-image: utils.dashed-border(
-			rgba(255, 255, 255, 0.12),
-			$border-radius,
-			$border-width,
-			$dash-array: (5, 11),
-			$dash-offset: 2px
-		);
-
-		&:hover {
-			background-image: utils.dashed-border(
-				rgba(255, 255, 255, 0.15),
-				$border-radius,
-				$border-width,
-				$dash-array: (5, 11),
-				$dash-offset: 2px
-			);
-		}
-
-		@include common.active-state();
 	}
 
 	#non-dev-group-selected {
@@ -547,7 +507,6 @@
 	[slot='body'] {
 		h1 {
 			margin-bottom: 0;
-			color: black;
 
 			text-align: center;
 			font-size: 18px;
@@ -575,7 +534,6 @@
 
 				h2 {
 					margin: 14px 0 2px 0;
-					color: black;
 
 					font-size: 10px;
 					font-weight: bold;

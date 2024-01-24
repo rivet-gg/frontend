@@ -84,8 +84,7 @@ export class RvtUserConsent extends LitElement {
 								Terms of Service
 							</a>
 							and
-							<a class="link" href="https://rivet.gg/privacy" target="_blank">
-								Privacy Policy </a
+							<a class="link" href="https://rivet.gg/privacy" target="_blank"> Privacy Policy</a
 							>.
 						</p>
 					`

@@ -25,21 +25,20 @@ export default class DevGroupBanner extends LitElement {
 
 	render() {
 		return html`
-			<div class="my-5 md:my-10 mx-auto bg-zinc-700 h-72 rounded-2xl relative">
+			<div class="my-5 md:my-10 mx-auto h-72 relative border-2 border-white">
 				<div class="flex flex-col place-content-center m-auto h-full w-1/2 text-center">
 					${this.group
 						? html`
 								${when(this.group.isCurrentIdentityMember, () => {
 									return html`
-										<stylized-button
+										<rvt-button
 											class="absolute top-6 right-10"
-											color="gray"
-											.href=${routes.groupSettings.build({
+											href=${routes.groupSettings.build({
 												groupId: this.group.groupId
 											})}
 										>
 											Settings
-										</stylized-button>
+										</rvt-button>
 									`;
 								})}
 								${this.renderGroupIcon(this.group)}

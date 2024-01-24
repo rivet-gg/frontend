@@ -27,8 +27,8 @@ export default class DevGameBanner extends LitElement {
 		return html`
 			<div
 				class=${clsx(
-					'relative my-[20px] md:my-[40px] mx-auto h-[18.2rem] rounded-[20px]',
-					this.game && this.game.bannerUrl ? 'bg-gray-900 overflow-hidden' : 'bg-zinc-700'
+					'relative my-5 md:my-10 mx-auto h-72 border-2 border-white',
+					this.game && this.game.bannerUrl ? 'bg-gray-900 overflow-hidden' : 'bg-zinc-900'
 				)}
 			>
 				<div class="flex flex-col place-content-center m-auto h-full w-1/2 text-center">
@@ -41,13 +41,16 @@ export default class DevGameBanner extends LitElement {
 											bg-size="cover"
 									  ></lazy-img>`
 									: null}
-								<stylized-button
+								<rvt-button
 									class="absolute top-6 right-10"
-									color="gray"
-									.href=${routes.devGameSettings.build({ gameId: this.game.gameId })}
+									type="a"
+									href=${routes.devGameSettings.build({
+										gameId: this.game.gameId,
+										tab: 'general'
+									})}
 								>
 									Settings
-								</stylized-button>
+								</rvt-button>
 								${this.renderGameIcon(this.game)}
 								<h1 class="text-2xl mt-8 z-10">${this.game.displayName}</h1>
 						  `

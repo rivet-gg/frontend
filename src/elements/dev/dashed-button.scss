@@ -4,7 +4,7 @@
 
 #base {
 	$background-image: var(--background-image, #{utils.dashed-border(rgba(255, 255, 255, 0.12), 5px)});
-	$border-radius: var(--border-radius, 5px);
+	$border-radius: var(--border-radius, 0px);
 	$border-width: var(--border-width, 2px);
 	$font-size: var(--font-size, 14px);
 	$height: var(--height, 33px);

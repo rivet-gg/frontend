@@ -137,11 +137,12 @@ export default class CreateGroupModal extends LitElement {
 							</span>`
 						: null}
 				</div>
-				<stylized-button
-					.trigger=${this.createGroup.bind(this)}
+				<rvt-button
+					class="mt-4"
+					@click=${this.createGroup.bind(this)}
 					?disabled=${!this.groupIsValid}
 					?loading=${this.isCreatingGroup}
-					>Create</stylized-button
+					>Create</rvt-button
 				>
 			</modal-body>
 		</drop-down-modal>`;

@@ -281,14 +281,6 @@ export default class GroupPage extends LitElement {
 	}
 
 	renderDesktop(profileNotFound: boolean, isOwner: boolean) {
-		let bgUrl = assets.asset('/profile-bg/02. Egg Sour.png');
-		let bgStyles = styleMap({
-			backgroundImage: this.colorExtractor.createBackgroundGradient()
-		});
-		let nameStyles = styleMap({
-			color: this.colorExtractor.createTextColor()
-		});
-
 		return html`
 			<div class="mx-auto max-w-contentwidth px-3 md:px-5 lg:px-0 pb-8">
 				<group-banner .group=${this.profile}></group-banner>
@@ -300,18 +292,18 @@ export default class GroupPage extends LitElement {
 								<div
 									id="create-game"
 									class=${clsx(
-										'dashed-border-button cursor-pointer',
+										'dashed-border-button cursor-pointer hover:-translate-y-0.5 transition-all',
 										!this.gameModalActive && 'hover:bg-button-bg-hover-color'
 									)}
 									@click=${this.openGameModal.bind(this, this.groupId)}
 								>
 									<div class="relative flex flex-col place-content-center m-auto">
+										<h4 class="font-semibold text-lg text-center">Create a game</h4>
 										<lazy-img
-											class="h-24 w-4/5 m-auto mb-6"
+											class="h-24 w-4/5 m-auto mt-6"
 											src=${assets.asset('/games/blank/newgame.svg')}
 											bg-size="contain"
 										></lazy-img>
-										<h4 class="font-semibold text-lg text-center">Create a game</h4>
 									</div>
 								</div>
 								${repeat(

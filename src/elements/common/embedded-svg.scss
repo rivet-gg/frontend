@@ -7,6 +7,7 @@
 
 :host {
 	--fill: white;
+	color: var(--fill);
 }
 
 // Default embedded SVG styling
@@ -20,7 +21,7 @@
 // If host is flagged as preserve, retain the styling; otherwise, fill the colors
 :host(:not([preserve])) {
 	svg * {
-		fill: var(--fill, white) !important;
+		fill: currentcolor !important;
 		transition: consts.$transition-length fill; // NOTE: This has bugs in Chrome
 	}
 }

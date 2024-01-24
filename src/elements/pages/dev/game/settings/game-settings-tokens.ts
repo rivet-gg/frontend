@@ -68,15 +68,13 @@ export default class DevGameSettingsTokens extends LitElement {
 
 	renderTokenBlock(token: Token): TemplateResult {
 		return html`
-			<div class="w-4/5 mx-auto border-2 border-zinc-900 bg-raised-bg rounded-lg p-5">
+			<div class="border-2 border-zinc-900 bg-raised-bg p-5">
 				<div class="flex flex-row w-full place-content-between align-middle mx-auto">
 					<h2 class="text-xl my-auto">${token.name}</h2>
-					<stylized-button class="my-auto" .href=${token.url}> Docs </stylized-button>
+					<rvt-button class="my-auto" href=${token.url}> Docs </rvt-button>
 				</div>
-				<p class="pt-3 pr-24">${token.description}</p>
-				<stylized-button class="my-auto pt-4" @click=${token.renderFunction}>
-					Generate
-				</stylized-button>
+				<p class="pt-3 pr-24 mb-4">${token.description}</p>
+				<rvt-button @click=${token.renderFunction}> Generate </rvt-button>
 			</div>
 		`;
 	}

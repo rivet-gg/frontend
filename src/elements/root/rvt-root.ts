@@ -447,7 +447,7 @@ export default class RvtRoot extends LitElement {
 							id="content-holder"
 							class="min-h-screen max-w-contentwidth mx-auto flex pt-14 box-border items-center justify-center text-center"
 						>
-							<div class="elevated p-8">
+							<div class="retro-elevated p-8">
 								<e-svg class="text-5xl w-full mb-2" src="solid/bomb"></e-svg>
 								<h1 class="text-2xl mb-4">${this.errorMessage.title}</h1>
 								<p>${this.errorMessage.body}</p>

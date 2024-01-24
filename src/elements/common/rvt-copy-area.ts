@@ -55,7 +55,7 @@ export default class RvtCopyArea extends LitElement {
 	}
 
 	private handleMouseEnter(e: MouseEvent) {
-		if (this.hidden) {
+		if (this.hidden && this.isConfidential) {
 			return tooltip('Click to reveal')(e);
 		}
 	}

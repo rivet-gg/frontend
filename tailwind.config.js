@@ -67,6 +67,16 @@ module.exports = {
 			},
 			aria: {
 				busy: 'busy'
+			},
+			boxShadow: {
+				elevated: '10px 10px 0 white'
+			},
+			backgroundImage: {
+				'user-banner': `url("${process.env.ASSETS_URL}/background/mounds-1.png")`,
+				'game-tile': `url("${process.env.ASSETS_URL}/games/tile.png")`
+			},
+			borderWidth: {
+				2: '2px'
 			}
 		}
 	},
@@ -117,15 +127,16 @@ module.exports = {
 				{ values: theme('transformStyle') }
 			);
 		}),
-		plugin(({ matchUtilities, theme }) => {
-			matchUtilities(
-				{
-					foldup: value => ({
-						boxShadow: value
-					})
-				},
-				{ values: theme('foldups') }
-			);
+		plugin(({ addComponents }) => {
+			addComponents({
+				'.retro-elevated': {
+					borderWidth: "theme('borderWidth.2')",
+					borderColor: "theme('colors.white')",
+					boxShadow: "theme('boxShadow.elevated')",
+					margin: 'theme(margin.1) theme(margin.4) theme(margin.4) theme(margin.1)',
+					backgroundColor: "theme('colors.zinc.900')"
+				}
+			});
 		})
 	]
 };

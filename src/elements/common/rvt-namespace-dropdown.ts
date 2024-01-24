@@ -44,7 +44,7 @@ export default class RvtNamespaceDropdown extends LitElement {
 	render() {
 		return html`
 			<div
-				class="relative min-w-[14rem] overflow-ellipsis bg-zinc-800 rounded-md py-1 transition-all aria-expanded:rounded-b-none hover:cursor-pointer"
+				class="relative min-w-[14rem] overflow-ellipsis bg-zinc-800 py-1 transition-all aria-expanded:rounded-b-none hover:cursor-pointer"
 				aria-expanded=${this.expanded}
 				@click=${() => this.switchExpandstate()}
 			>

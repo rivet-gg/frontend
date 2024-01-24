@@ -187,67 +187,40 @@ export default class GroupSettingsGeneral extends LitElement {
 		});
 
 		return html`
-			<h1 class="text-2xl pb-2">Basic Info</h1>
 
 			<div class="flex flex-col space-y-2 pb-4">
-				<h4>Name: <strong>${this.group.displayName}</strong></h4>
-				<h4>Members: <strong>${this.group.memberCount}</strong></h4>
+				<h1 class="text-2xl"><strong>${this.group.displayName}</h4>
+				<h4 class="font-normal">Members: ${this.group.memberCount}</h4>
 			</div>
 
-			<h1 class="text-2xl py-2">Edit Group Info</h1>
-			<div>
-				<div class="flex flex-row space-x-4 pb-4">
-					<stylized-button
-							id="cancel"
-							.trigger=${this.reset.bind(this)}
-							color="gray"
-							?disabled=${!(this.hasChanges || this.hasAvatarChanges)}
-							>Cancel</stylized-button
-						>
-					<stylized-button
-						id="confirm"
-						?disabled=${this.hasChanges ? !this.groupIsValid : !this.hasAvatarChanges}
-						.trigger=${this.confirmChanges.bind(this)}
-						>Save</stylized-button
-					>
+			<h1 class="text-xl py-4">Edit Group Info</h1>
+			<div class="grid lg:grid-cols-2 gap-4">
+				<div>
+					<h4 class="text pb-2">
+						Change Group Name (<span class="lettercount"
+							>${utils.countCodePoints(this.displayNameValue ?? '')}/${MAX_GROUPNAME_LENGTH}</span
+						>)
+					</h2>
+					<text-input
+						.init=${this.displayNameValue}
+						placeholder="Enter your group name here..."
+						.maxlength=${MAX_GROUPNAME_LENGTH}
+						@input=${this.displayNameInput.bind(this)}
+					></text-input>
+					<div class="pb-2"></div>
+					${
+						displayNameErrors.length > 0
+							? html`
+					<span id="profile-error" class="py-4">
+						<e-svg src="solid/circle-exclamation"></e-svg> ${displayNameErrors[0]}</li>
+					</span>`
+							: null
+					}
 				</div>
-
 				<!-- Profile info and actions -->
 				<div id="group-banner">
-					<!-- <div id="banner-bg" slot="banner-bg" style=${bgStyles}>
-						${when(!this.avatarUrlValue, () => html`<lazy-img src=${bgUrl}></lazy-img>`)}
-					</div> -->
-					<!-- <div id="avatar-holder" class="flex flex-row space-x-4 p-4 pt-2"> -->
-						<!-- ${
-							this.group
-								? html`<group-avatar
-										class="block w-16 h-16 hover:cursor-pointer"
-										shadow
-										@mouseenter=${tooltip('Change profile image')}
-										@click=${this.changeProfileImage.bind(this)}
-										.group=${this.group}
-										.placeholderOverride=${this.validDisplayNameValue}
-										.imagePlaceholder=${this.avatarUrlValue}
-								  ></group-avatar>`
-								: null
-						} -->
-
-						<!-- Change profile image button -->
-						<!-- <e-svg
-							class="w-5 h-5"
-							id="change-pfp"
-							src="solid/image"
-							@mouseenter=${tooltip('Change profile image')}
-							@click=${this.changeProfileImage.bind(this)}
-						></e-svg> -->
-					</div>
-<!-- 
-					<div id="main-display-name" style=${nameStyles}>
-						${this.group ? this.validDisplayNameValue : null}
-					</div> -->
-
-					<div id="uploader-overlay" class="w-full pb-8">
-						<h1 class="text-lg pb-2">Upload Group Image</h1>
+					<div id="uploader-overlay" class="w-full">
+						<h4 class="pb-2">Upload Group Image</h1>
 						<file-uploader
 							pause
 							max-size=${fileSize.megabytes(2)}
@@ -267,26 +240,21 @@ export default class GroupSettingsGeneral extends LitElement {
 					</div>
 				</div>
 
-				<h2 class="text-lg pt-4 pb-2">
-					Change Group Name (<span class="lettercount"
-						>${utils.countCodePoints(this.displayNameValue ?? '')}/${MAX_GROUPNAME_LENGTH}</span
-					>)
-				</h2>
-				<text-input
-					.init=${this.displayNameValue}
-					placeholder="Enter your group name here..."
-					.maxlength=${MAX_GROUPNAME_LENGTH}
-					@input=${this.displayNameInput.bind(this)}
-				></text-input>
-				<div class="pb-2"></div>
-				${
-					displayNameErrors.length > 0
-						? html`
-				<span id="profile-error" class="py-4">
-					<e-svg src="regular/circle-exclamation"></e-svg> ${displayNameErrors[0]}</li>
-				</span>`
-						: null
-				}
+				<div class="flex flex-row space-x-4 pb-4 justify-end col-span-2">
+					<rvt-button
+							id="cancel"
+							@click=${this.reset.bind(this)}
+							variant="secondary"
+							?disabled=${!(this.hasChanges || this.hasAvatarChanges)}
+							>Cancel</rvt-button
+						>
+					<rvt-button
+						id="confirm"
+						?disabled=${this.hasChanges ? !this.groupIsValid : !this.hasAvatarChanges}
+						@click=${this.confirmChanges.bind(this)}
+						>Save</rvt-button
+					>
+				</div>
 			</div>
 		`;
 	}
