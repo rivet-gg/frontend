@@ -7,7 +7,7 @@ module.exports = {
 	theme: {
 		fontFamily: {
 			sans: ['Open Sans', 'ui-sans-serif', 'system-ui'],
-			display: ['Cartridge', 'ui-sans-serif', 'system-ui'],
+			display: ['Perfectly Nineties', 'ui-sans-serif', 'system-ui'],
 			pixel: ['Silkscreen', 'ui-sans-serif', 'system-ui'],
 			mono: ['Fira Code', 'monospace']
 		},

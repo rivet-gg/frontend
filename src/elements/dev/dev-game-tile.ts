@@ -9,14 +9,7 @@ import assets from '../../data/assets';
 import * as api from '../../utils/api';
 import clsx from 'clsx';
 
-const COLORS = [
-	'bg-red-700 hover:bg-red-600',
-	'bg-orange-700 hover:bg-orange-600',
-	'bg-yellow-700 hover:bg-yellow-600',
-	'bg-green-700 hover:bg-green-600',
-	'bg-blue-700 hover:bg-blue-600',
-	'bg-purple-700 hover:bg-purple-600'
-];
+const COLORS = ['bg-black hover:bg-gray-500'];
 
 @customElement('dev-game-tile')
 export default class DevGameTile extends LitElement {
