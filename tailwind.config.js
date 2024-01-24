@@ -1,16 +1,5 @@
 const plugin = require('tailwindcss/plugin');
-const tailwindPalettes = require('./src/styles/pallete/tailwind.json');
-
-const palettesMap = tailwindPalettes.reduce((acc, curr) => {
-	acc[curr.paletteName] = curr;
-	return acc;
-}, {});
-
-const converPalletteToTailwind = palette =>
-	palette.swatches.reduce((acc, curr) => {
-		acc[curr.name] = `#${curr.color}`;
-		return acc;
-	}, {});
+const colors = require('./colors');
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -36,7 +25,7 @@ module.exports = {
 			screens: {
 				mdLg: '1100px'
 			},
-			colors: {
+			colors: args => ({
 				'button-bg-hover-color': '#ffffff05',
 				'base-bg': '#18181b', // Also change this in html/index.html and html/static-styles.css
 				'raised-bg': '#FFFFFF17',
@@ -45,10 +34,9 @@ module.exports = {
 				'context-menu': '#262626',
 				'raised-hover': '#FFFFFF27',
 				'muted-text': '#737373',
-				'main-accent': '#7f56d9',
-				violet: converPalletteToTailwind(palettesMap['Violet']),
-				zinc: converPalletteToTailwind(palettesMap['Zinc'])
-			},
+				'main-accent': "theme('colors.orange.300')",
+				...colors(args)
+			}),
 			scale: {
 				98: '.98'
 			},
@@ -134,7 +122,7 @@ module.exports = {
 					borderColor: "theme('colors.white')",
 					boxShadow: "theme('boxShadow.elevated')",
 					margin: 'theme(margin.1) theme(margin.4) theme(margin.4) theme(margin.1)',
-					backgroundColor: "theme('colors.zinc.900')"
+					backgroundColor: "theme('colors.charcole.950')"
 				}
 			});
 		})

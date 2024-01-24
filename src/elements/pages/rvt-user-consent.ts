@@ -78,13 +78,14 @@ export class RvtUserConsent extends LitElement {
 							</rvt-button>
 						</div>
 						<div class="w-3/4 border-b-white/10 border-b-[1px] h-px mx-auto my-6"></div>
-						<p class="text-gray-400 text-xs">
+						<p class="text-charcole-400 text-xs">
 							By clicking Register or Login, you agree to the Rivet
-							<a class="link" href="https://rivet.gg/terms" target="_blank">
-								Terms of Service
-							</a>
+							<a class="hover:underline" href="https://rivet.gg/terms" target="_blank"
+								>Terms of Service</a
+							>
 							and
-							<a class="link" href="https://rivet.gg/privacy" target="_blank"> Privacy Policy</a
+							<a class="hover:underline" href="https://rivet.gg/privacy" target="_blank">
+								Privacy Policy</a
 							>.
 						</p>
 					`

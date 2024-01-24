@@ -12,14 +12,14 @@ export const button = tv({
 		'min-w-30',
 		'transition-all',
 		'duration-100',
-		'disabled:opacity-50',
+		'disabled:opacity-60',
 		'aria-busy:cursor-default',
 		'group'
 	],
 	variants: {
 		variant: {
-			primary: 'text-white border-white border transition-all',
-			secondary: ' text-white bg-zinc-600 border-neutral-600 border transition-all',
+			primary: 'text-cream-100 border-cream-100 border transition-all',
+			secondary: ' text-white bg-charcole-900 border-cream-100 border transition-all',
 			danger: 'border-red-500 text-red-500 border transition-all'
 		},
 		size: {
@@ -33,11 +33,11 @@ export const button = tv({
 			variant: 'primary',
 			class: [
 				// hover
-				'hover:bg-raised-hover hover:-translate-y-0.5',
+				'hover:bg-cream-100 hover:text-charcole-950',
 				// active
-				'active:bg-raised-hover',
+				'active:bg-cream-50',
 				// disabled
-				'disabled:border-neutral-300 disabled:hover:bg-transparent disabled:translate-y-0 disabled:hover:text-white',
+				'disabled:border-cream-100 disabled:hover:bg-transparent disabled:hover:text-cream-100',
 				// loading
 				'aria-busy:border-neutral-300 aria-busy:hover:bg-transparent aria-busy:translate-y-0 aria-busy:hover:text-white'
 			]
@@ -46,7 +46,7 @@ export const button = tv({
 			variant: 'danger',
 			class: [
 				// hover
-				'hover:bg-red-500/15 hover:-translate-y-0.5',
+				'hover:bg-red-500/15',
 				// active
 				'hover:bg-red-500/20',
 				// disabled
@@ -59,13 +59,13 @@ export const button = tv({
 			variant: 'secondary',
 			class: [
 				// hover
-				'hover:bg-zinc-500 hover:-translate-y-0.5',
+				'hover:bg-charcole-800',
 				// active
-				'active:bg-zinc-750',
+				'active:bg-charcole-700',
 				// disabled
-				'disabled:bg-zinc-650 disabled:translate-y-0',
+				'disabled:bg-charcole-900',
 				// loading
-				'aria-busy:bg-zinc-650 aria-busy:translate-y-0'
+				'aria-busy:bg-charcole-900'
 			]
 		}
 	],
