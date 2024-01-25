@@ -78,7 +78,7 @@ export default class RvtNamespaceDropdown extends LitElement {
 					aria-expanded=${this.expanded}
 				>
 					<ul
-						class="overflow-hidden flex flex-col w-full px-3 max-h-48 aria-expanded:mb-1 aria-expanded:overflow-scroll"
+						class="overflow-hidden flex flex-col w-full px-3 max-h-48 aria-expanded:mb-1 aria-expanded:overflow-auto"
 						aria-expanded=${this.expanded}
 					>
 						${this.game.namespaces.map(namespace => {
