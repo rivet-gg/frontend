@@ -10,6 +10,7 @@ import { cssify } from '../../../../../utils/css';
 import utils from '../../../../../utils/utils';
 import timing from '../../../../../utils/timing';
 import { formatExitCodeMessage } from '../../../../../utils/error-signals';
+import { tooltip } from '../../../../../ui/helpers';
 
 import * as d3 from 'd3';
 import numbro from 'numbro';
@@ -687,6 +688,16 @@ export default class DevGameLogs extends LitElement {
 							<div class="key memory">
 								<div class="color"></div>
 								<span>Memory <b>${latestMemoryLabel}</b> / ${allocatedMemoryLabel}</span>
+								<icon-button
+									custom
+									class="ml-1 mb-[1px]"
+									style="--size: 15px; --padding: 0;"
+									href="https://rivet.gg/docs/dynamic-servers/concepts/lobby-metrics#memory-usage"
+									src="solid/circle-question"
+									@mouseenter=${tooltip(
+										'Metrics and logs use some memory. Click to learn more.'
+									)}
+								></icon-button>
 							</div>
 						</div>
 					</div>
