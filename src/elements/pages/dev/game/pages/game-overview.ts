@@ -233,11 +233,10 @@ export default class DevGameOverview extends LitElement {
 			: utils.convertStringToId(displayName);
 
 		try {
-			let res = await global.deprecatedApi.cloud.createGameNamespace({
-				gameId: this.game.gameId,
-				versionId: this.game.versions[0].versionId,
+			let res = await global.api.cloud.games.namespaces.createGameNamespace(this.game.gameId, {
+				displayName,
 				nameId,
-				displayName
+				versionId: this.game.versions[0].versionId
 			});
 
 			this.namespaceModalClose();

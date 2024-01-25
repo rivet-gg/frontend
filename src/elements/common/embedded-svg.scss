@@ -2,12 +2,11 @@
 
 // Import the --fill variable
 :root {
-	--fill: white;
+	--fill: currentColor;
 }
 
 :host {
-	--fill: white;
-	color: var(--fill);
+	--fill: currentColor;
 }
 
 // Default embedded SVG styling
@@ -21,7 +20,7 @@
 // If host is flagged as preserve, retain the styling; otherwise, fill the colors
 :host(:not([preserve])) {
 	svg * {
-		fill: currentcolor !important;
+		fill: var(--fill, currentColor) !important;
 		transition: consts.$transition-length fill; // NOTE: This has bugs in Chrome
 	}
 }

@@ -2,12 +2,10 @@ import { html, TemplateResult } from 'lit';
 import * as pathToRegexp from 'path-to-regexp';
 import global from './utils/global';
 import utils from './utils/utils';
-import RvtRoot from './elements/root/rvt-root';
 import { RivetError } from '@rivet-gg/api';
-import { Breadcrumb } from './elements/common/rvt-nav';
+import { Breadcrumb } from './elements/common/rvt-breadcrumbs';
 import { GameSettingsRootConfig } from './elements/pages/dev/game/settings/game-settings';
 import { GroupSettingsRootConfig } from './elements/pages/dev/group/settings/group-settings';
-import globalSettings from './utils/settings';
 import { DevGameRootConfig } from './elements/pages/dev/game/pages/rvt-game-dashboard';
 import config from './config';
 import { computeError } from './elements/common/rvt-error';
@@ -146,9 +144,13 @@ namespace routes {
 	export let groupSettings = new Route<{ groupId: string; tab?: string }>({
 		path: '/groups/:groupId/settings/:tab?',
 		render({ groupId, tab }) {
+			let tabNames: Record<string, string> = {
+				general: 'General',
+				members: 'Members'
+			};
 			return {
 				title: 'Settings',
-				breadcrumb: { type: 'GroupSettings', groupId: groupId, title: tab },
+				breadcrumb: { type: 'GroupSettings', groupId: groupId, title: tabNames[tab] },
 				template: responses.groupSettings(groupId, {
 					general: tab.toLowerCase() === 'general' || tab === undefined,
 					members: tab.toLowerCase() === 'members'
@@ -274,9 +276,14 @@ namespace routes {
 	export let devGameSettings = new Route<{ gameId: string; tab?: string }>({
 		path: '/games/:gameId/settings/:tab?',
 		render({ gameId, tab }) {
+			let tabNames: Record<string, string> = {
+				general: 'General',
+				tokens: 'Tokens',
+				billing: 'Billing'
+			};
 			return {
 				title: 'Settings',
-				breadcrumb: { type: 'GameSettings', gameId: gameId, title: tab },
+				breadcrumb: { type: 'GameSettings', gameId: gameId, title: tabNames[tab] },
 				template: responses.gameSettings(gameId, {
 					general: tab === 'general',
 					tokens: tab === 'tokens',

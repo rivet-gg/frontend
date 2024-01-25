@@ -16,7 +16,7 @@ import {
 } from '../../routes';
 
 import * as uuid from 'uuid';
-import { Breadcrumb } from '../common/rvt-nav';
+import { Breadcrumb } from '../common/rvt-breadcrumbs';
 
 interface ResolvedRoute {
 	route: Route<any> | null;

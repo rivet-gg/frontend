@@ -10,6 +10,7 @@ import './common/loading-placeholder-text';
 import './common/loading-wheel';
 import './common/rvt-namespace-dropdown';
 import './common/rvt-nav';
+import './common/rvt-breadcrumbs';
 import './common/overlay-positioning';
 import './common/stylized-button';
 import './common/toggle-switch';

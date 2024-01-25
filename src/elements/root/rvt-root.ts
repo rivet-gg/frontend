@@ -15,7 +15,7 @@ import { DeferredStageEvent, Stage } from '../pages/link-game';
 import StylizedButton from '../common/stylized-button';
 import { Alignment, Orientation } from '../common/overlay-positioning';
 import { DropDownSelectEvent, DropDownSelection } from '../dev/drop-down-list';
-import { Breadcrumb } from '../common/rvt-nav';
+import { Breadcrumb } from '../common/rvt-breadcrumbs';
 import { RepeatingRequest } from '../../utils/repeating-request';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { repeat } from 'lit/directives/repeat.js';

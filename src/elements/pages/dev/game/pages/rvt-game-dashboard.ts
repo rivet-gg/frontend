@@ -1,15 +1,10 @@
 import { customElement, property } from 'lit/decorators.js';
-import { html, LitElement, PropertyValues, TemplateResult } from 'lit';
+import { html, LitElement, TemplateResult } from 'lit';
 import { cssify } from '../../../../../utils/css';
 import styles from './game.scss';
 import { responses } from '../../../../../routes';
-import cloud from '@rivet-gg/cloud';
 import RvtRouter from '../../../../root/rvt-router';
-import { CloudGameCache } from '../../../../../data/cache';
-import logging from '../../../../../utils/logging';
-import { globalEventGroups } from '../../../../../utils/global-events';
-import { RepeatingRequest } from '../../../../../utils/repeating-request';
-import { Rivet } from '@rivet-gg/api';
+import { GameCacheController } from '../../../../../controllers';
 
 export interface DevGameRootConfig {
 	summary?: true;
@@ -48,58 +43,21 @@ export default class DevGame extends LitElement {
 	@property({ type: Object })
 	config: DevGameRootConfig = { summary: true };
 
-	@property({ type: Object })
-	game: Rivet.cloud.GameFull = null;
-
-	@property({ type: Object })
-	loadError?: any;
-
-	gameStream?: RepeatingRequest<Rivet.cloud.games.games.GetGameByIdResponse>;
+	private game = new GameCacheController('DevGame.game', this)
+		.setVariables(() => ({ gameId: this.gameId }))
+		.setEnabled(() => !!this.gameId);
 
 	get namespace() {
-		return this.game?.namespaces.find(x => x.namespaceId == this.namespaceId);
-	}
-
-	updated(changedProperties: PropertyValues) {
-		// Request data if category set
-		if (changedProperties.has('gameId')) {
-			this.resetData();
-			this.fetchData();
-		}
-	}
-
-	disconnectedCallback() {
-		super.disconnectedCallback();
-
-		if (this.gameStream) this.gameStream.cancel();
+		return this.game?.data.game.namespaces.find(x => x.namespaceId == this.namespaceId);
 	}
 
 	resetData() {
 		this.game = null;
 	}
 
-	async fetchData() {
-		if (this.gameStream) this.gameStream.cancel();
-
-		// Fetch events
-		this.gameStream = CloudGameCache.watch('DevGame.gameStream', this.gameId, res => {
-			this.game = res.game;
-
-			// Sort game versions by timestamp descending
-			this.game.versions.sort((a, b) => b.createTs.getTime() - a.createTs.getTime());
-		});
-
-		this.gameStream.onError(err => {
-			logging.error('Request error', err);
-
-			if (this.game) globalEventGroups.dispatch('error', err);
-			else this.loadError = err;
-		});
-	}
-
 	render() {
-		if (this.loadError) return responses.renderError(this.loadError);
-		if (this.game == null) return this.renderPlaceholder();
+		if (this.game.error) return responses.renderError(this.game.error);
+		if (!this.game.data?.game) return this.renderPlaceholder();
 
 		let namespace = this.namespace;
 		if (!namespace) return responses.renderError(new Error(`Namespace not found: ${this.namespaceId}`));
@@ -108,92 +66,96 @@ export default class DevGame extends LitElement {
 
 		let pageId = null; // Used for sidebar with pages that don't have a specific ID
 
-		let namespaceName = this.game.namespaces.find(
+		let namespaceName = this.game.data.game.namespaces.find(
 			n => n.namespaceId == this.config.namespace?.namespaceId || this.config.namespaceId
 		)?.displayName;
 
 		if (this.config.summary) {
 			body = html`<rvt-namespace-summary
-				.game=${this.game}
+				.game=${this.game.data.game}
 				.namespaceId=${this.namespaceId}
 			></rvt-namespace-summary>`;
 
-			RvtRouter.shared.updateTitle(this.game.displayName);
+			RvtRouter.shared.updateTitle(this.game.data.game.displayName);
 
 			pageId = 'summary';
 		} else if (this.config.billing) {
-			body = html`<page-dev-game-billing .game=${this.game}></page-dev-game-billing>`;
+			body = html`<page-dev-game-billing .game=${this.game.data.game}></page-dev-game-billing>`;
 
-			RvtRouter.shared.updateTitle(`${this.game.displayName} – Billing`);
+			RvtRouter.shared.updateTitle(`${this.game.data.game.displayName} – Billing`);
 
 			pageId = 'billing';
 		} else if (this.config.namespace) {
 			body = html`<page-dev-game-namespace
-				.game=${this.game}
+				.game=${this.game.data.game}
 				.namespaceId=${this.config.namespace.namespaceId}
 			></page-dev-game-namespace>`;
 
-			RvtRouter.shared.updateTitle(`${this.game.displayName} – ${namespaceName}`);
+			RvtRouter.shared.updateTitle(`${this.game.data.game.displayName} – ${namespaceName}`);
 		} else if (this.config.versionSettings) {
-			body = html`<rvt-namespace-settings .game=${this.game} .namespaceId=${this.namespaceId}>
+			body = html`<rvt-namespace-settings .game=${this.game.data.game} .namespaceId=${this.namespaceId}>
 			</rvt-namespace-settings>`;
 			pageId = 'namespaceSettings';
-			RvtRouter.shared.updateTitle(`${this.game.displayName} – ${namespaceName}`);
+			RvtRouter.shared.updateTitle(`${this.game.data.game.displayName} – ${namespaceName}`);
 		} else if (this.config.versionSummary) {
 			body = html`<page-dev-namespace-version
-				.game=${this.game}
+				.game=${this.game.data.game}
 				.namespaceId=${this.namespaceId}
 			></page-dev-namespace-version>`;
 
-			RvtRouter.shared.updateTitle(`${this.game.displayName} – Versions`);
+			RvtRouter.shared.updateTitle(`${this.game.data.game.displayName} – Versions`);
 		} else if (this.config.version) {
 			body = html`<page-dev-game-version
-				.game=${this.game}
+				.game=${this.game.data.game}
 				.versionId=${this.config.version.versionId}
 			></page-dev-game-version>`;
 
-			let version = this.game.versions.find(v => v.versionId == this.config.version.versionId);
+			let version = this.game.data.game.versions.find(
+				v => v.versionId == this.config.version.versionId
+			);
 			let versionName = version ? version.displayName : 'Unknown version';
 
-			RvtRouter.shared.updateTitle(`${this.game.displayName} – ${versionName}`);
+			RvtRouter.shared.updateTitle(`${this.game.data.game.displayName} – ${versionName}`);
 		} else if (this.config.versionDraft) {
-			body = html`<page-dev-game-version-draft .game=${this.game}></page-dev-game-version-draft>`;
+			body = html`<page-dev-game-version-draft
+				.game=${this.game.data.game}
+			></page-dev-game-version-draft>`;
 
-			RvtRouter.shared.updateTitle(`${this.game.displayName} – Version Draft`);
+			RvtRouter.shared.updateTitle(`${this.game.data.game.displayName} – Version Draft`);
 
 			pageId = 'draft';
 		} else if (this.config.tokens) {
 			body = html`<page-dev-game-tokens
-				.game=${this.game}
+				.game=${this.game.data.game}
 				.namespace=${namespace}
 			></page-dev-game-tokens>`;
 
-			RvtRouter.shared.updateTitle(`${this.game.displayName} – Tokens`);
+			RvtRouter.shared.updateTitle(`${this.game.data.game.displayName} – Tokens`);
 
 			pageId = 'tokens';
 		} else if (this.config.logs) {
 			body = html`<page-dev-game-logs
-				.game=${this.game}
+				.game=${this.game.data.game}
 				.namespaceId=${this.namespaceId}
 				.lobbyId=${this.config.logsLobbyId ?? null}
 			>
 			</page-dev-game-logs>`;
 
-			RvtRouter.shared.updateTitle(`${this.game.displayName} – Logs`);
+			RvtRouter.shared.updateTitle(`${this.game.data.game.displayName} – Logs`);
 
 			pageId = 'logs';
 		} else if (this.config.lobbies) {
-			body = html`<page-dev-game-lobbies .game=${this.game} .namespaceId=${this.namespaceId}>
+			body = html`<page-dev-game-lobbies .game=${this.game.data.game} .namespaceId=${this.namespaceId}>
 			</page-dev-game-lobbies>`;
 
-			RvtRouter.shared.updateTitle(`${this.game.displayName} – Lobbies`);
+			RvtRouter.shared.updateTitle(`${this.game.data.game.displayName} – Lobbies`);
 
 			pageId = 'lobbies';
 		} else if (this.config.kv) {
-			body = html`<page-dev-game-kv .game=${this.game} .namespaceId=${this.namespaceId}>
+			body = html`<page-dev-game-kv .game=${this.game.data.game} .namespaceId=${this.namespaceId}>
 			</page-dev-game-kv>`;
 
-			RvtRouter.shared.updateTitle(`${this.game.displayName} – KV`);
+			RvtRouter.shared.updateTitle(`${this.game.data.game.displayName} – KV`);
 			pageId = 'kv';
 		}
 
@@ -205,7 +167,7 @@ export default class DevGame extends LitElement {
 	renderSidebar(pageId: string) {
 		return html`<div id="tabs" slot="sidebar">
 			<rvt-game-dashboard-sidebar
-				.game=${this.game}
+				.game=${this.game.data.game}
 				.gameId=${this.gameId}
 				.namespaceId=${this.namespaceId}
 				.versionId=${this.config.version ? this.config.version.versionId : null}

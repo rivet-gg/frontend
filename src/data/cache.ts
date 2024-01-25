@@ -31,8 +31,110 @@ export namespace CurrentIdentityCache {
 	}
 }
 
+const hasWatchIndex = (res: unknown): res is { watch: { index: string } } => {
+	return (
+		res &&
+		typeof res === 'object' &&
+		'watch' in res &&
+		typeof res.watch === 'object' &&
+		'index' in res.watch
+	);
+};
+
+export interface CachedQuery<Input extends object, Output extends object> {
+	watch(
+		name: string,
+		variables: Input,
+		cb: (data: Output) => void,
+		requestOptions?: RepeatingRequestOptions
+	): RepeatingRequest<Output>;
+}
+
+const createQuery = <Input extends object, Output extends object>(cfg: {
+	cache: {
+		get: (variables: Input) => Promise<Output>;
+		set: (variables: Input, payload: Output) => Promise<void>;
+	};
+	fn: (opts: { variables: Input; request: object; requestOptions: object }) => Promise<Output>;
+}): CachedQuery<Input, Output> => {
+	return {
+		watch: (
+			name: string,
+			variables: Input,
+			cb: (data: Output) => void,
+			requestOptions: RepeatingRequestOptions
+		) => {
+			// Create a paused repeating request
+			let req = new RepeatingRequest(
+				name,
+				async (abortSignal, watchIndex) => {
+					return await cfg.fn({
+						variables,
+						request: { watchIndex },
+						requestOptions: { abortSignal }
+					});
+				},
+				{ pauseOnCreation: true }
+			);
+
+			req.onMessage(res => {
+				cb(res);
+				cfg.cache.set(variables, res);
+			});
+
+			// Fetch cache and start the request async
+			cfg.cache.get(variables).then(cacheRes => {
+				// Check req has not been cancelled in race condition
+				if (req.cancelled) return;
+
+				// Return cached information to callback
+				if (cacheRes) cb(cacheRes);
+
+				req.setOpts({
+					...requestOptions,
+					watchIndex:
+						requestOptions?.watchIndex === null
+							? null
+							: hasWatchIndex(cacheRes)
+							? cacheRes.watch
+							: null
+				});
+
+				req.start();
+			});
+
+			return req;
+		}
+	} as CachedQuery<Input, Output>;
+};
+
+// eslint-disable-next-line @typescript-eslint/no-namespace
+export namespace v2 {
+	export let GroupProfile = createQuery<{ groupId: string }, Rivet.group.GetProfileResponse>({
+		cache: {
+			get: variables => readCache(['groups', variables.groupId]),
+			set: (variables, payload) => writeCache(['groups', variables.groupId], payload)
+		},
+		fn: ({ variables, request, requestOptions }) =>
+			global.api.group.getProfile(variables.groupId, request, requestOptions)
+	});
+
+	export type GroupProfile = typeof GroupProfile;
+
+	export let Game = createQuery<{ gameId: string }, Rivet.cloud.games.GetGameByIdResponse>({
+		cache: {
+			get: variables => readCache(['cloud-games', variables.gameId]),
+			set: (variables, payload) => writeCache(['cloud-games', variables.gameId], payload)
+		},
+		fn: ({ variables, request, requestOptions }) =>
+			global.api.cloud.games.games.getGameById(variables.gameId, request, requestOptions)
+	});
+
+	export type Game = typeof Game;
+}
+
 export namespace GroupProfileCache {
-	type Payload = api.group.GetGroupProfileCommandOutput;
+	export type Payload = api.group.GetGroupProfileCommandOutput;
 
 	export async function get(groupId: string): Promise<Payload> {
 		return await readCache(['groups', groupId]);
