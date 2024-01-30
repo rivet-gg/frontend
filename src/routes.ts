@@ -192,7 +192,7 @@ namespace routes {
 		render({ code }) {
 			return {
 				title: 'Group Invite',
-				breadcrumb: { type: 'Custom' },
+				breadcrumb: { type: 'Custom', title: 'Group Invite' },
 				template: html`<page-group-invite .code=${code}></page-group-invite>`
 			};
 		}
@@ -203,7 +203,7 @@ namespace routes {
 		render({ tab }) {
 			return {
 				title: `Settings`,
-				breadcrumb: { type: 'Custom' },
+				breadcrumb: { type: 'Custom', title: 'Settings' },
 				template: html`<page-settings .tabId=${tab}></page-settings>`
 			};
 		}
@@ -214,7 +214,7 @@ namespace routes {
 		render({ token }) {
 			return {
 				title: `Link account`,
-				breadcrumb: { type: 'Custom' },
+				breadcrumb: { type: 'Custom', title: 'Link game' },
 				template: html`<page-link-game .token=${token}></page-link-game>`
 			};
 		}
@@ -225,7 +225,7 @@ namespace routes {
 		render({ token }) {
 			return {
 				title: 'Link Device',
-				breadcrumb: { type: 'Custom' },
+				breadcrumb: { type: 'Custom', title: 'Link device' },
 				template: html`<page-dev-device-link .deviceLinkToken=${token}></page-dev-device-link>`
 			};
 		}
@@ -236,7 +236,7 @@ namespace routes {
 		render({ token }) {
 			return {
 				title: `Access Token`,
-				breadcrumb: { type: 'Custom' },
+				breadcrumb: { type: 'Custom', title: 'Access token' },
 				template: html`<page-access-token .token=${token}></page-access-token>`
 			};
 		}
@@ -455,7 +455,7 @@ namespace routes {
 			}
 			return {
 				title: 'Kitchen Sink',
-				breadcrumb: { type: 'Custom' },
+				breadcrumb: { type: 'Custom', title: 'Kitchen Sink' },
 				template: html` <rvt-kitchen-sink></rvt-kichen-sink>`
 			};
 		}
@@ -483,7 +483,8 @@ export namespace responses {
 		return {
 			title: 'Forbidden',
 			breadcrumb: {
-				type: 'Custom'
+				type: 'Custom',
+				title: 'Forbidden'
 			},
 
 			template: html`<rvt-page-error message="Forbidden"></rvt-page-error>`
@@ -494,7 +495,8 @@ export namespace responses {
 		return {
 			title: 'Bad Request',
 			breadcrumb: {
-				type: 'Custom'
+				type: 'Custom',
+				title: 'Bad request'
 			},
 			template: html`<rvt-page-error message="Bad Request"></rvt-page-error>`
 		};
@@ -504,7 +506,8 @@ export namespace responses {
 		return {
 			title: 'Not Found',
 			breadcrumb: {
-				type: 'Custom'
+				type: 'Custom',
+				title: 'Not found'
 			},
 			template: html`
 				<div class="text-center fixed w-full h-32 m-auto left-0 right-0 top-0 bottom-0">
@@ -521,45 +524,6 @@ export namespace responses {
 					>
 				</div>
 			`
-		};
-	}
-
-	export function underConstruction(): RenderResult {
-		return {
-			title: 'Coming Soon',
-			breadcrumb: {
-				type: 'Custom'
-			},
-			template: html` <invalid-page-state>
-				<h1 slot="title">Coming Soon</h1>
-				<h2 slot="subtitle">This page isn't available yet. Come back soon!</h2>
-				<div slot="actions">
-					<stylized-button href=${routes.home.build({})}>Go Home</stylized-button>
-				</div>
-			</invalid-page-state>`
-		};
-	}
-
-	export function desktopOnly(): RenderResult {
-		return {
-			title: 'Desktop Only',
-			breadcrumb: {
-				type: 'Custom'
-			},
-			template: html` <invalid-page-state>
-				<h1 slot="title">Desktop Only</h1>
-				<h2 slot="subtitle">This page is only available on a Desktop platform.</h2>
-			</invalid-page-state>`
-		};
-	}
-
-	export function developerOnly(): RenderResult {
-		return {
-			title: 'Private Beta',
-			breadcrumb: {
-				type: 'Custom'
-			},
-			template: html` <page-dev-only></page-dev-only>`
 		};
 	}
 

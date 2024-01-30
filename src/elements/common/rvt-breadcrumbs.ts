@@ -16,7 +16,7 @@ export type Breadcrumb =
 	| { type: 'GameSettings'; gameId: string; title?: string }
 	| { type: 'Game'; gameId: string; title?: string }
 	| { type: 'Namespace'; gameId: string; namespaceId: string; title?: string }
-	| { type: 'Custom'; title?: string };
+	| { type: 'Custom'; title: string };
 
 @customElement('rvt-breadcrumbs')
 export default class RvtBreadcrumbs extends LitElement {
@@ -57,25 +57,38 @@ export default class RvtBreadcrumbs extends LitElement {
 			return [];
 		}
 		if (breadcrumb.type === 'Group' && this.group.data) {
-			return [
+			let crumbs = [
 				this.fragment.a({
 					content: html`${this.fragment.groupAvatar({ group: this.group.data?.group })}
 					${this.group.data?.group.displayName}`,
 					href: routes.groupOverview.build({ id: this.group.data?.group.groupId })
 				})
 			];
+			if (breadcrumb.title) {
+				crumbs.push(
+					this.fragment.a({
+						content: html`${breadcrumb.title}`
+					})
+				);
+			}
+			return crumbs;
 		}
 		if (breadcrumb.type === 'GroupSettings' && this.group.data) {
-			return [
+			let crumbs = [
 				this.fragment.a({
 					content: html`${this.fragment.groupAvatar({ group: this.group.data?.group })}
 					${this.group.data?.group.displayName}`,
 					href: routes.groupOverview.build({ id: this.group.data?.group.groupId })
-				}),
-				this.fragment.a({
-					content: html`${breadcrumb.title}`
 				})
 			];
+			if (breadcrumb.title) {
+				crumbs.push(
+					this.fragment.a({
+						content: html`${breadcrumb.title}`
+					})
+				);
+			}
+			return crumbs;
 		}
 		if (breadcrumb.type === 'Game' && this.group.data && this.game.data) {
 			return [
