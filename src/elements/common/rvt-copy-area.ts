@@ -63,7 +63,7 @@ export default class RvtCopyArea extends LitElement {
 	render() {
 		return html`
 			<div
-				class="flex flex-row items-center ml-auto my-auto ring-1 ring-zinc-400 ring-inset focus-within:ring-2 focus-within:ring-inset focus-within:ring-main-accent hover:ring-2 hover:ring-inset hover:ring-main-accent rounded-md"
+				class="flex flex-row items-center ml-auto my-auto ring-1 ring-zinc-400 ring-inset focus-within:ring-2 focus-within:ring-inset focus-within:ring-main-accent hover:ring-2 hover:ring-inset hover:ring-main-accent"
 			>
 				<input
 					@mouseenter=${this.handleMouseEnter.bind(this)}

@@ -20,6 +20,7 @@ import { RepeatingRequest } from '../../utils/repeating-request';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { repeat } from 'lit/directives/repeat.js';
 import { when } from 'lit/directives/when.js';
+import { keyed } from 'lit/directives/keyed.js';
 import { responses } from '../../routes';
 
 export const MIN_SWIPE_THRESHOLD = 10;
@@ -31,6 +32,10 @@ export interface AlertPanelData {
 	options: AlertOption[];
 	noDimClose?: boolean; // Disable closing the alert panel by clicking outside of the modal
 	active: boolean;
+}
+
+interface KeyedAlertPanelData extends AlertPanelData {
+	timestamp: number;
 }
 
 interface ActionSheetData {
@@ -85,7 +90,13 @@ export default class RvtRoot extends LitElement {
 	globalStatus: GlobalStatus = GlobalStatus.Loading;
 
 	@property({ type: Object })
-	alertPanelData: AlertPanelData = { title: '', details: null, options: [], active: false };
+	alertPanelData: KeyedAlertPanelData = {
+		title: '',
+		details: null,
+		options: [],
+		active: false,
+		timestamp: 0
+	};
 
 	@property({ type: Object })
 	actionSheetData: ActionSheetData = { contextElement: null, options: [], active: false };
@@ -193,7 +204,10 @@ export default class RvtRoot extends LitElement {
 
 	// === STATE MANAGEMENT ===
 	public showAlertPanel(data?: AlertPanelData) {
-		this.alertPanelData = data;
+		this.alertPanelData = {
+			...data,
+			timestamp: Date.now()
+		};
 	}
 
 	public hideAlertPanel() {
@@ -497,10 +511,13 @@ export default class RvtRoot extends LitElement {
 				@close="${this.hideAlertPanel.bind(this)}"
 			>
 				<modal-body slot="body">
-					<alert-panel
-						.data="${this.alertPanelData}"
-						@select="${this.hideAlertPanel.bind(this)}"
-					></alert-panel>
+					${keyed(
+						this.alertPanelData.timestamp,
+						html`<alert-panel
+							.data="${this.alertPanelData}"
+							@select="${this.hideAlertPanel.bind(this)}"
+						></alert-panel>`
+					)}
 				</modal-body>
 			</drop-down-modal>
 
