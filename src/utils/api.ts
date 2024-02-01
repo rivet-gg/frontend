@@ -93,7 +93,7 @@ async function customFetcher<R = unknown>(
 	let url: string;
 	if (args.queryParameters && Object.keys(args.queryParameters).length) {
 		let query = Object.entries(args.queryParameters)
-			.map(([k, v]) => {
+			.flatMap(([k, v]) => {
 				if (v instanceof Array) {
 					return v.map(vi => `${k}=${encodeURIComponent(vi)}`);
 				} else {
