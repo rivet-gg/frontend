@@ -53,26 +53,4 @@ export default class RvtUserDashboard extends LitElement {
 			</div>
 		`;
 	}
-
-	renderSplash() {
-		if (global.bootstrapData.cluster == Rivet.cloud.BootstrapCluster.Oss) {
-			return html`<h1 class="text-5xl mt-3.5 mb-8">Welcome to Rivet OSS!</h1>
-				<p class="text-lg">Login using the CLI with the command below:</p>
-				<code class="inline-block bg-white bg-opacity-10 px-7 py-3 pt-3.5 rounded-md my-6"
-					>bolt admin login</code
-				>
-				<p class="text-lg">
-					Or if you have email sending configured on your backend, use the login below.
-				</p>`;
-		} else {
-			return html`<h1 class="text-5xl mt-3.5 mb-8">Welcome to Rivet!</h1>
-				<p class="text-lg">Rivet is still in private beta.</p>
-				<p class="text-lg">Join the waitlist to get early access.</p>
-				<div class="flex justify-center my-8">
-					<stylized-button href="https://b8v8449klvp.typeform.com/rivet" target="_blank">
-						Beta Access Form
-					</stylized-button>
-				</div>`;
-		}
-	}
 }

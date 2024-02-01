@@ -61,7 +61,9 @@ module.exports = {
 			},
 			backgroundImage: {
 				'user-banner': `url("${process.env.ASSETS_URL}/background/mounds-1.png")`,
-				'game-tile': `url("${process.env.ASSETS_URL}/games/tile.png")`
+				'game-tile': `url("${process.env.ASSETS_URL}/games/tile.png")`,
+				'dark-grain': `url("${process.env.ASSETS_URL}/effects/grain-dark.png")`,
+				'light-grain': `url("${process.env.ASSETS_URL}/effects/grain-light.png")`
 			},
 			borderWidth: {
 				2: '2px'

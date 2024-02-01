@@ -1,4 +1,8 @@
-import { tv } from 'tailwind-variants';
+import { createTV } from 'tailwind-variants';
+
+const tv = createTV({
+	twMerge: false
+});
 
 export const button = tv({
 	base: [
@@ -18,8 +22,12 @@ export const button = tv({
 	],
 	variants: {
 		variant: {
-			primary: 'text-cream-100 border-cream-100 border transition-all',
-			secondary: ' text-white bg-charcole-900 border-cream-100 border transition-all',
+			primary: [
+				'relative text-cream-100 border-cream-100 border transition-all',
+				"before:content-[''] before:absolute before:inset-0 before:-z-10 before:bg-light-grain before:bg-blend-multiply before:transition-all before:opacity-0",
+				"after:content-[''] after:absolute after:inset-0 after:-z-10 after:bg-dark-grain after:transition-all after:opacity-100"
+			],
+			secondary: 'text-white bg-charcole-900 border-cream-100 border transition-all',
 			danger: 'border-red-500 text-red-500 border transition-all'
 		},
 		size: {
@@ -33,11 +41,13 @@ export const button = tv({
 			variant: 'primary',
 			class: [
 				// hover
-				'hover:bg-cream-100 hover:text-charcole-950',
+				'hover:bg-cream-100 hover:text-charcole-950 hover:before:bg-cream-100',
+				'hover:before:opacity-100 hover:after:opacity-0',
 				// active
 				'active:bg-cream-50',
 				// disabled
 				'disabled:border-cream-100 disabled:hover:bg-transparent disabled:hover:text-cream-100',
+				'disabled:hover:before:opacity-0 disabled:hover:after:opacity-100',
 				// loading
 				'aria-busy:border-neutral-300 aria-busy:hover:bg-transparent aria-busy:translate-y-0 aria-busy:hover:text-white'
 			]

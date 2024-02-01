@@ -72,13 +72,27 @@
 				top: 0;
 				bottom: 0;
 
-				background-color: #18181b;
+				background-image: url({{grain}});
 				text-align: center;
 				color: white;
 
 				z-index: 99999999;
 
 				transition: opacity 350ms cubic-bezier(1,0,1,.99) 150ms;
+				animation: loading 0.5s infinite;
+				animation-timing-function: steps(2, jump-both);
+			}
+
+			@keyframes loading {
+				0% {
+					background-position: 0% 0%;
+				}
+				20% {
+					background-position: 50% 50%;
+				}
+				100% {
+					background-position: -50% 100%;
+				}
 			}
 
 			#loading-logo {

@@ -17,7 +17,7 @@ module.exports = async function () {
 	console.log('Fetching assets');
 	let rivetLogo = (
 		await axios({
-			url: process.env.ASSETS_URL + '/icons/logo/logo-gradient-white.svg',
+			url: process.env.ASSETS_URL + '/logo/cream.svg',
 			responseType: 'text'
 		})
 	).data;
@@ -177,7 +177,8 @@ module.exports = async function () {
 				filename: 'index.html',
 				template: path.resolve(__dirname, 'html', 'index.hbs'),
 				templateParameters: {
-					rivetLogoEncoded: 'data:image/svg+xml,' + encodeURIComponent(rivetLogo)
+					rivetLogoEncoded: 'data:image/svg+xml,' + encodeURIComponent(rivetLogo),
+					grain: `${process.env.ASSETS_URL}/effects/grain-dark.png`
 				},
 				output: path.join(__dirname, 'dist'),
 				chunks: ['hub', 'service-worker-loader'],

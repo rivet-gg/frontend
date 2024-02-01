@@ -41,7 +41,7 @@ export class RvtUserConsent extends LitElement {
 	render() {
 		return html`
 			<div class="text-center p-4 pb-8 self-center">
-				<e-svg class="w-16 h-auto" src="logo/logo-gradient-white" preserve></e-svg>
+				<e-svg class="w-16 h-auto" src="logo/cream" non-icon preserve></e-svg>
 
 				${choose(global.bootstrapData.cluster, [
 					[
@@ -59,7 +59,7 @@ export class RvtUserConsent extends LitElement {
 					],
 					[
 						Rivet.cloud.BootstrapCluster.Enterprise,
-						() => html`<h1 class="text-5xl mt-3.5 mb-8">Welcome to Rivet!</h1>`
+						() => html`<h1 class="text-5xl mt-3.5 mb-8 text-cream-100">Welcome to Rivet!</h1>`
 					]
 				])}
 				${when(

@@ -32,7 +32,8 @@ export default class RvtNav extends LitElement {
 						<a aria-label="Home" class="my-auto" href=${routes.home.build({})}>
 							<div class="h-6">
 								<e-svg
-									src="logo/logo-gradient-white"
+									src="logo/cream"
+									non-icon
 									class="mb-[2px] h-full w-auto"
 									preserve
 								></e-svg>
