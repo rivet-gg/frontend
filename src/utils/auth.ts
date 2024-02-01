@@ -8,14 +8,15 @@ import { BroadcastEvent, BroadcastEventKind, logout } from '../data/broadcast';
 import { BroadcastSystem } from './broadcast';
 import utils from './utils';
 import * as api from './api';
+import { RivetClient, Rivet } from '@rivet-gg/api';
 
 export class Token {
 	public readonly identityId: string;
 	public readonly expiration: number;
 
-	public constructor(private tokenResponse: api.auth.RefreshIdentityTokenCommandOutput) {
+	public constructor(private tokenResponse: Rivet.auth.RefreshIdentityTokenResponse) {
 		this.identityId = tokenResponse.identityId;
-		this.expiration = this.tokenResponse.exp.getTime();
+		this.expiration = new Date(this.tokenResponse.exp).getTime();
 		logging.debug(
 			'New token expiration',
 			this.expiration,
@@ -35,9 +36,7 @@ export class AuthManager {
 	public authenticationFailed = false;
 
 	private fetchTokenPromise?: Promise<Token>;
-	private auth: api.auth.AuthService;
-
-	private tryIdentityToken = false;
+	private api: RivetClient;
 
 	// === EVENT HANDLERS ===
 	handleStorage: (e: StorageEvent) => void;
@@ -46,10 +45,9 @@ export class AuthManager {
 	private broadcast: BroadcastSystem = new BroadcastSystem();
 
 	public constructor() {
-		this.auth = new api.auth.AuthService({
-			endpoint: config.ORIGIN_API + '/auth',
-			// Force the credentials to be included, since we need to be able to modify cookies here
-			requestHandler: api.requestHandlerMiddleware(null, { credentials: 'include' })
+		this.api = new RivetClient({
+			environment: config.ORIGIN_API,
+			fetcher: api.basicFetcher()
 		});
 
 		// Preemptively fetch token
@@ -123,9 +121,6 @@ export class AuthManager {
 			} catch (err) {
 				if (err.code == 'CLAIMS_ENTITLEMENT_EXPIRED') {
 					logging.debug('Auth expired, refreshing token');
-				} else if (err.code == 'TOKEN_REVOKED' && !this.tryIdentityToken) {
-					logging.debug('refresh token revoked, trying identity token');
-					this.tryIdentityToken = true;
 				} else logging.error('Auth request failed', err);
 
 				this.authenticationFailed = true;
@@ -146,14 +141,7 @@ export class AuthManager {
 
 	private async _refreshTokenInner(logout: boolean): Promise<Token> {
 		// Fetch the new token. This will include the refresh token in the header.
-		let res;
-		if (this.tryIdentityToken) {
-			res = await this.auth.refreshIdentityToken({
-				logout
-			});
-		} else {
-			res = await this.auth.refreshIdentityToken({ logout });
-		}
+		let res = await this.api.auth.tokens.refreshIdentityToken({ logout });
 
 		// Identify the user
 		//
@@ -180,7 +168,6 @@ export class AuthManager {
 		ls.setString('identity-token', token.token);
 
 		this.authenticationFailed = false;
-		this.tryIdentityToken = false;
 		global.updateStatus();
 
 		return token;

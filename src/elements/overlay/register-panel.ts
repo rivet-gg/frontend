@@ -8,9 +8,8 @@ import { classMap } from 'lit/directives/class-map.js';
 import { responses } from '../../routes';
 import logging from '../../utils/logging';
 import TextInput from '../dev/text-input';
-import { clearCache } from '../../utils/cache';
+import { when } from 'lit/directives/when.js';
 import * as api from '../../utils/api';
-import * as broadcast from '../../data/broadcast';
 import RvtRoot from '../root/rvt-root';
 import { globalEventGroups, IdentityChangeEvent } from '../../utils/global-events';
 import { createError } from '../common/rvt-error';
@@ -173,12 +172,9 @@ export default class RegisterPanel extends LitElement {
 				this.loadingMessage = 'Switching accounts...';
 				this.verificationId = null;
 
-				// Identity changed, clear cache
-				await clearCache();
-
-				// Refresh all sessions
-				global.broadcast.postMessage(broadcast.refresh());
-				window.location.reload();
+				// Refresh token
+				await global.authManager.fetchToken(true);
+				this.closeRegisterPanel();
 			} else if (res.status == api.auth.CompleteStatus.LINKED_ACCOUNT_ADDED) {
 				this.codeAreaClose();
 
@@ -186,9 +182,9 @@ export default class RegisterPanel extends LitElement {
 				this.loadingMessage = 'Success! Updating account status...';
 				this.verificationId = null;
 
-				// Refresh all sessions
-				global.broadcast.postMessage(broadcast.refresh());
-				window.location.reload();
+				// Wait for update
+				await globalEventGroups.await('identity-change');
+				this.closeRegisterPanel();
 			} else if (res.status == api.auth.CompleteStatus.ALREADY_COMPLETE) {
 				this.codeError = 'This verification session has already been completed.';
 			} else if (res.status == api.auth.CompleteStatus.EXPIRED) {
@@ -232,12 +228,20 @@ export default class RegisterPanel extends LitElement {
 		}
 	}
 
+	closeRegisterPanel() {
+		this.dispatchEvent(new Event('close'));
+	}
+
+	async logout() {
+		await global.authManager.logout();
+	}
+
 	// === RENDER ===
 	render() {
 		if (this.loadError) return createError(this.loadError);
 
 		let classes = classMap({
-			hidden: this.wait,
+			loading: this.wait,
 			light: this.light
 		});
 
@@ -245,23 +249,12 @@ export default class RegisterPanel extends LitElement {
 			<div id="base" class=${classes}>
 				${this.codeAreaActive ? this.renderCodeArea() : this.renderEmailArea()}
 				${this.wait
-					? html` <div id="loading-overlay">
+					? html`<div id="loading-overlay">
 							<loading-wheel .message=${this.loadingMessage}></loading-wheel>
 					  </div>`
 					: null}
 			</div>
 		`;
-	}
-
-	async logout(): Promise<void> {
-		await global.authManager.logout();
-		window.location.reload();
-
-		return new Promise(resolve => resolve());
-	}
-
-	closeRegisterPanel() {
-		this.dispatchEvent(new Event('close'));
 	}
 
 	renderEmailArea() {
@@ -272,21 +265,25 @@ export default class RegisterPanel extends LitElement {
 
 		return html`<div id="email-area">
 			<h1>${this.title ?? 'Register or Login'}</h1>
-			${isRegistered
-				? html`<div id="registered">
+			${when(
+				isRegistered,
+				() =>
+					html`<div id="registered">
 						<p>
 							Your account is already registered.<br /><span id="email"
 								>Email: ${identity.email.email}</span
 							>
 						</p>
 						<rvt-button
+							class="ml-4"
 							icon="solid/arrow-right-from-bracket"
 							variant="danger"
 							@click=${this.logout.bind(this)}
 							>Log out</rvt-button
 						>
-				  </div>`
-				: html`<p>
+					</div>`,
+				() =>
+					html`<p>
 							${this.description ??
 							html`Enter your email below to register a Rivet account or login to an existing
 							account.`}
@@ -319,7 +316,8 @@ export default class RegisterPanel extends LitElement {
 								>Continue</rvt-button
 							>
 						</div>
-						${this.emailError != null ? html`<p id="error">${this.emailError}</p>` : null} `}
+						${this.emailError != null ? html`<p id="error">${this.emailError}</p>` : null}`
+			)}
 		</div>`;
 	}
 

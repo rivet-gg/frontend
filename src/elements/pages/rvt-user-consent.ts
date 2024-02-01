@@ -40,30 +40,36 @@ export class RvtUserConsent extends LitElement {
 
 	render() {
 		return html`
-			<div class="text-center p-4 pb-8 self-center">
+			<div class="flex flex-col items-center justify-center text-center p-4 pb-8 self-center">
 				<e-svg class="w-16 h-auto" src="logo/cream" non-icon preserve></e-svg>
-
+				<!-- Header -->
 				${choose(global.bootstrapData.cluster, [
 					[
 						Rivet.cloud.BootstrapCluster.Oss,
-						() =>
-							html`<h1 class="text-5xl mt-3.5 mb-8">Welcome to Rivet OSS!</h1>
-								<p class="text-lg">Login using the CLI with the command below:</p>
-								<code
-									class="inline-block bg-white bg-opacity-10 px-7 py-3 pt-3.5 rounded-md my-6"
-									>bolt admin login</code
-								>
-								<p class="text-lg mb-4">
-									If you have email sending configured on your backend, use the login below.
-								</p>`
+						() => html`<h1 class="text-5xl mt-3.5 mb-8">Welcome to Rivet OSS!</h1>`
 					],
 					[
 						Rivet.cloud.BootstrapCluster.Enterprise,
 						() => html`<h1 class="text-5xl mt-3.5 mb-8 text-cream-100">Welcome to Rivet!</h1>`
 					]
 				])}
+
+				<!-- Login methods -->
 				${when(
-					!global.currentIdentity?.isRegistered,
+					global.bootstrapData.loginMethods.accessToken,
+					() =>
+						html`<p class="text-lg">Login using the CLI with the command below:</p>
+							<rvt-copy-area
+								value="bolt admin login"
+								class="block w-[240px] my-5"
+							></rvt-copy-area>
+							${when(
+								global.bootstrapData.loginMethods.email,
+								() => html`<p class="text-lg mb-4">Or login via email:</p>`
+							)}`
+				)}
+				${when(
+					global.bootstrapData.loginMethods.email,
 					() => html`
 						<div class="w-full flex m-auto text-left items-center justify-center gap-4">
 							<rvt-button

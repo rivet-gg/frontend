@@ -23,12 +23,12 @@ export const button = tv({
 	variants: {
 		variant: {
 			primary: [
-				'relative text-cream-100 border-cream-100 border transition-all',
-				"before:content-[''] before:absolute before:inset-0 before:-z-10 before:bg-light-grain before:bg-blend-multiply before:transition-all before:opacity-0",
-				"after:content-[''] after:absolute after:inset-0 after:-z-10 after:bg-dark-grain after:transition-all after:opacity-100"
+				'relative text-cream-100 fill-cream-100 border-cream-100 border transition-all',
+				"before:content-[''] before:absolute before:inset-0 before:-z-10 before:bg-light-grain before:bg-[size:32px] before:bg-blend-multiply before:transition-all before:opacity-0",
+				"after:content-[''] after:absolute after:inset-0 after:-z-10 after:bg-dark-grain after:bg-[size:32px] after:transition-all after:opacity-100"
 			],
-			secondary: 'text-white bg-charcole-900 border-cream-100 border transition-all',
-			danger: 'border-red-500 text-red-500 border transition-all'
+			secondary: 'text-white fill-white bg-charcole-900 border-cream-100 border transition-all',
+			danger: 'border-red-500 text-red-500 fill-red-500 border transition-all'
 		},
 		size: {
 			sm: 'px-2 py-1 text-xs',
@@ -41,7 +41,7 @@ export const button = tv({
 			variant: 'primary',
 			class: [
 				// hover
-				'hover:bg-cream-100 hover:text-charcole-950 hover:before:bg-cream-100',
+				'hover:bg-cream-100 hover:text-charcole-950 hover:before:bg-cream-100 hover:fill-charcole-950',
 				'hover:before:opacity-100 hover:after:opacity-0',
 				// active
 				'active:bg-cream-50',
@@ -60,9 +60,9 @@ export const button = tv({
 				// active
 				'hover:bg-red-500/20',
 				// disabled
-				'disabled:border-red-300 disabled:hover:bg-transparent disabled:translate-y-0 disabled:hover:text-red-500',
+				'disabled:border-red-300 disabled:hover:bg-transparent disabled:translate-y-0 disabled:hover:text-red-500 disabled:hover:fill-red-500',
 				// loading
-				'aria-busy:border-red-300 aria-busy:hover:bg-transparent aria-busy:translate-y-0 aria-busy:hover:text-red-500'
+				'aria-busy:border-red-300 aria-busy:hover:bg-transparent aria-busy:translate-y-0 aria-busy:hover:text-red-500 aria-busy:hover:fill-red-500'
 			]
 		},
 		{

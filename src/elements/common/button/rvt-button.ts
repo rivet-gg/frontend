@@ -49,12 +49,19 @@ export default class RvtButton extends LitElement {
 				${when(
 					this.loading,
 					() => html`<e-svg class="animate-spin ${classes}" src="regular/spinner-third"></e-svg>`,
-					() => when(this.icon, () => html`<e-svg class="${classes}" .src=${this.icon}></e-svg>`)
+					() =>
+						when(
+							this.icon,
+							() => html`<e-svg preserve class="${classes}" .src=${this.icon}></e-svg>`
+						)
 				)}
 			</slot>
 			<slot></slot>
 			<slot name="suffix">
-				${when(this.iconRight, () => html`<e-svg class="${classes}" .src=${this.iconRight}></e-svg>`)}
+				${when(
+					this.iconRight,
+					() => html`<e-svg preserve class="${classes}" .src=${this.iconRight}></e-svg>`
+				)}
 			</slot>
 		`;
 	}

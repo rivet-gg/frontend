@@ -21,7 +21,7 @@ import { ifDefined } from 'lit/directives/if-defined.js';
 import { repeat } from 'lit/directives/repeat.js';
 import { when } from 'lit/directives/when.js';
 import { keyed } from 'lit/directives/keyed.js';
-import { responses } from '../../routes';
+import routes, { responses, RenderResultTemplate } from '../../routes';
 
 export const MIN_SWIPE_THRESHOLD = 10;
 const TRANSITION_LENGTH = timing.milliseconds(200); // Match with consts.scss/$transition-length
@@ -420,22 +420,36 @@ export default class RvtRoot extends LitElement {
 				case GlobalStatus.Bootstrapping:
 					this.showLoading();
 					break;
+				case GlobalStatus.AccessToken:
+					this.hideLoading();
+
+					let token = window.location.pathname.split('/')[2];
+					let rendered = routes.accessTokenLink.render(
+						{
+							token
+						},
+						{}
+					) as RenderResultTemplate;
+
+					content = rendered.template;
+					break;
 				case GlobalStatus.Consenting:
 				case GlobalStatus.Unregistered:
 					this.hideLoading();
+
 					content = html`
 						<div class="flex justify-center min-h-full w-full">
 							<rvt-user-consent
 								class="self-center"
-								@login=${RvtRoot.shared.onLoginButtonClick}
+								@login=${this.onLoginButtonClick.bind(this)}
 							></rvt-user-consent>
 						</div>
 					`;
 					break;
 				case GlobalStatus.Connected:
 				case GlobalStatus.Reconnecting:
-					// Continue as normal
 					this.hideLoading();
+
 					content = html`
 						<!-- Page Body -->
 						<div id="content-holder" class="min-h-screen flex pt-14 box-border">
@@ -453,6 +467,7 @@ export default class RvtRoot extends LitElement {
 					break;
 				case GlobalStatus.BootstrapFailed:
 					this.hideLoading();
+
 					content = html`
 						<div
 							id="content-holder"
@@ -465,7 +480,7 @@ export default class RvtRoot extends LitElement {
 			}
 		}
 
-		return html` ${this.renderOverlays()} ${content} `;
+		return html`${this.renderOverlays()}${content}`;
 	}
 
 	renderDebug() {

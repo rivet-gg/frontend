@@ -28,7 +28,7 @@ export default class RvtCopyArea extends LitElement {
 	copyText(e: Event) {
 		try {
 			utils.copyText(this.value);
-			return tooltip('Copied!')(e);
+			return tooltip('Copied!', { hideOnClick: false })(e);
 		} catch (err) {
 			logging.error('Unable to copy', err);
 			return tooltip('Failed to copy')(e);
@@ -71,14 +71,14 @@ export default class RvtCopyArea extends LitElement {
 					type="text"
 					value=${this.hidden && this.isConfidential ? PLACEHOLDER : this.value}
 					readonly
-					class="font-mono flex-1 border-none shadow-none ring-0 bg-transparent focus:ring-0 focus:shadow-none focus:border-none"
+					class="font-mono flex-1 min-w-0 border-none shadow-none ring-0 bg-transparent focus:ring-0 focus:shadow-none focus:border-none"
 				/>
 				<icon-button
 					src="solid/copy"
 					color="var(--rvt-zinc-400)"
 					highlight-color="var(--rvt-zinc-600)"
 					small
-					@mouseenter=${tooltip('Copy')}
+					@mouseenter=${tooltip('Copy', { hideOnClick: false })}
 					.trigger=${this.copyText.bind(this)}
 					class="mr-2"
 				></icon-button>

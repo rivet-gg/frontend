@@ -4,13 +4,12 @@ import { repeat } from 'lit/directives/repeat.js';
 import { when } from 'lit/directives/when.js';
 import styles from './settings.scss';
 import { cssify } from '../../../../utils/css';
-import { showAlert, tooltip } from '../../../../ui/helpers';
+import { showAlert } from '../../../../ui/helpers';
 import { globalEventGroups, SettingChangeEvent } from '../../../../utils/global-events';
 import RvtRouter from '../../../root/rvt-router';
 import global from '../../../../utils/global';
 import routes, { responses } from '../../../../routes';
 
-import { OAUTH_PROVIDERS } from '../../../../utils/utils';
 import logging from '../../../../utils/logging';
 import { ToggleSwitchEvent } from '../../../common/toggle-switch';
 import RvtRoot from '../../../root/rvt-root';
@@ -84,12 +83,6 @@ export default class SettingsPage extends LitElement {
 						icon: 'solid/user',
 						title: 'My Account',
 						render: this.renderIdentity
-					},
-					{
-						id: 'logout',
-						icon: 'solid/right-from-bracket',
-						title: 'Log out',
-						render: this.renderLogout
 					}
 				]
 			},
@@ -275,49 +268,58 @@ export default class SettingsPage extends LitElement {
 	}
 
 	renderIdentity() {
-		let unimp = () => alert('UNIMPLEMENTED');
-
 		// Get email from current identity
 		let identity = global.currentIdentity.linkedAccounts.find(a => a.email);
 		// Check if registered (with email)
 		let isRegistered = global.currentIdentity.isRegistered && !!identity;
 
 		return html`
-			<div class="flex flex-col space-y-2">
-				<h1 class="text-2xl pb-2">Profile Settings</h1>
+			<div class="flex flex-col space-y-3">
+				<h1 class="text-2xl mb-2">Profile Settings</h1>
 				<div>
-					<h2 class="text-lg pb-2">Profile appearance</h2>
-					<stylized-button
-						icon="solid/user-pen"
-						color="#404040"
-						text="#eeeeee"
-						.trigger=${this.openEditModal.bind(this)}
-						>Edit profile</stylized-button
+					<h2 class="text-lg mb-2">Profile appearance</h2>
+					<rvt-button icon="solid/user-pen" text="#eeeeee" @click=${this.openEditModal.bind(this)}
+						>Edit profile</rvt-button
 					>
 				</div>
-				<div class="item-header-holder">
-					<h2 class="text-lg py-2">Link Email</h2>
-					${isRegistered
-						? html`<span class="badge bg-green-700 rounded-lg px-3 py-0.5"
+				<div class="flex flex-col space-y-3">
+					<h2 class="text-lg my-0">Link Email</h2>
+					${when(
+						isRegistered,
+						() =>
+							html`<span class="badge self-start bg-green-700 rounded-lg px-3 py-0.5"
 								><e-svg src="solid/check"></e-svg> Registered</span
+							>`,
+						() => html`<p class="mt-0 mb-3">Link your email to Rivet for full account access.</p>`
+					)}
+					<rvt-button
+						icon="solid/envelope"
+						text="#eeeeee"
+						@click=${() => RvtRoot.shared.openRegisterPanel()}
+						>${isRegistered ? 'View registration' : 'Link email'}</rvt-button
+					>
+				</div>
+				<div class="flex flex-col space-y-3">
+					<h1 class="text-lg my-0">Logout</h1>
+					${global.currentIdentity.isRegistered || global.currentIdentity.isAdmin
+						? html`<rvt-button
+								class="mt-2"
+								icon="solid/arrow-right-from-bracket"
+								variant="danger"
+								@click=${this.logout.bind(this)}
+								>Logout</rvt-button
 						  >`
-						: html`
-								<p class="py-1">Link your email to Rivet for full account access.</p>
-								<stylized-button
-									icon="solid/envelope"
-									color="#404040"
-									text="#eeeeee"
-									.trigger=${() => RvtRoot.shared.openRegisterPanel()}
-									>${isRegistered ? 'View registration' : 'Link email'}</stylized-button
-								>
-						  `}
+						: html`<p class="mt-0 mb-3">Logged in as guest.</p>
+								<rvt-button @click=${() => RvtRoot.shared.openRegisterPanel()}
+									>Register Now</rvt-button
+								> `}
 				</div>
 				${when(
 					this.identityObserver.identity.isRegistered,
 					() => html`
 						<div>
-							<h2 class="text-lg py-2">Toggle deletion</h2>
-							<p class="pb-1">
+							<h2 class="text-lg my-0">Toggle deletion</h2>
+							<p class="mt-0 mb-3">
 								Marks your account for deletion. After 30 days of this switch being on, your
 								Rivet account and all associated game accounts will be
 								<b>permanently deleted</b>.
@@ -351,76 +353,7 @@ export default class SettingsPage extends LitElement {
 		`;
 	}
 
-	renderLinkAccount() {
-		return html`
-			<div class="padded-cell">
-				<h1 class="item-header">Add a new connection</h1>
-				<p>Add a connection to your Rivet account for easy access and integration.</p>
-				<!-- Link Accounts -->
-				<div id="oauth-providers">
-					${repeat(
-						OAUTH_PROVIDERS,
-						p => p.id,
-						p =>
-							html`<icon-button
-								class="provider-icon"
-								src=${p.iconPath}
-								href=${p.oauthUrl}
-								color=${p.color}
-								highlight-color="white"
-							></icon-button>`
-					)}
-				</div>
-			</div>
-			<div class="spacer"></div>
-			<div class="padded-cell">
-				<h1 class="item-header">Existing connections</h1>
-				<p class="muted">No connections added to account.</p>
-				<!-- <div id='oauth-connections'>
-					${repeat(
-					OAUTH_PROVIDERS,
-					p => p.id,
-					p =>
-						html` <div class="oauth-connection" style="background-color: ${p.color};">
-							<div class="header">
-								<h1><e-svg src=${p.iconPath}></e-svg> ${p.name}</h1>
-							</div>
-							<h2 class="account-name">NicholasKissel302</h2>
-							<e-svg
-								class="close-button"
-								src="regular/link-slash"
-								@mouseenter=${tooltip('Unlink')}
-							></e-svg>
-						</div>`
-				)}
-				</div> -->
-			</div>
-		`;
-	}
-
-	renderLogout() {
-		return html`
-			<div class="padded-cell">
-				<h1 class="item-header">Log out of Rivet</h1>
-				${global.currentIdentity.isRegistered
-					? html`<stylized-button
-							icon="regular/arrow-right-from-bracket"
-							color="#db3939"
-							.trigger=${this.logout.bind(this)}
-							>Log out</stylized-button
-					  >`
-					: html`<p>Logged in as guest.</p>
-							<stylized-button .trigger=${() => RvtRoot.shared.openRegisterPanel()}
-								>Register Now</stylized-button
-							> `}
-			</div>
-		`;
-	}
-
-	async logout(): Promise<void> {
+	async logout() {
 		await global.authManager.logout();
-		window.location.reload();
-
-		return new Promise(resolve => resolve());
 	}
 }

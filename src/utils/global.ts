@@ -10,7 +10,7 @@ import { CurrentIdentityCache, BootstrapCache } from '../data/cache';
 import { BroadcastEvent, BroadcastEventKind } from '../data/broadcast';
 import { ls } from './cache';
 import { BroadcastSystem } from './broadcast';
-import { Rivet, RivetClient, fetcher, apiResponse } from '@rivet-gg/api';
+import { Rivet, RivetClient, fetcher } from '@rivet-gg/api';
 import { Rivet as RivetEe, RivetClient as RivetEeClient } from '@rivet-gg/api-ee';
 import { HttpRequest } from '@aws-sdk/protocol-http';
 import { HttpHandlerOptions } from '@aws-sdk/types';
@@ -43,6 +43,8 @@ export enum GlobalStatus {
 	Bootstrapping, // Waiting for bootstrap to finish
 	Connecting, // Waiting for live to connect (i.e. currentIdentity not accessible)
 	Reconnecting, // Waiting for live to reconnect
+
+	AccessToken,
 
 	// Interactive
 	Consenting, // Waiting for user to click consent button
@@ -106,22 +108,17 @@ export class GlobalState {
 		// Load cache
 		await this.loadCache();
 
+		// IMPORTANT: If on the /access-token/ page, automatically consent to continue loading. This
+		// should only be enabled on OSS.
+		if (window.location.pathname.startsWith('/access-token/')) global.grantConsent();
+
 		// Bootstrap
 		await this.bootstrap();
-
-		// IMPORTANT: If on the /access-token/ page, automatically consent to continue loading. This is only
-		// done on OSS.
-		if (
-			window.location.pathname.startsWith('/access-token/') &&
-			this.bootstrapData.cluster == Rivet.cloud.BootstrapCluster.Oss
-		) {
-			global.grantConsent();
-		}
 
 		// Set initial status to trigger initial UI update
 		this.updateStatus();
 
-		// Handle evens from all instances of the hub
+		// Handle events from all instances of the hub
 		this.broadcast.addEventListener('message', this.handleBroadcastMessages.bind(this));
 
 		// Handle resize
@@ -129,9 +126,7 @@ export class GlobalState {
 		this.onResize();
 
 		// Setup API if already consented. If not, will be triggered on grantConsent.
-		if (settings.didConsent) {
-			this.setupApi();
-		}
+		if (settings.didConsent) this.setupApi();
 	}
 
 	async loadCache() {
@@ -169,8 +164,21 @@ export class GlobalState {
 		// Create auth client. This will automatically fetch a token.
 		this.authManager = new AuthManager();
 
-		// Create API middleware, automatically refreshes the api token on expiration
-		let _global = global;
+		// Create live instance.
+		logging.net('Connecting to live...', config.ORIGIN_API);
+		let fernFetcher = api.refreshFetcher(global);
+		this.api = new RivetClient({
+			environment: config.ORIGIN_API,
+			token: async () => (await global.authManager.fetchToken()).token,
+			fetcher: fernFetcher
+		});
+		this.apiEe = new RivetEeClient({
+			environment: config.ORIGIN_API,
+			token: async () => (await global.authManager.fetchToken()).token,
+			fetcher: fernFetcher
+		});
+
+		// Create Smithy API middleware, automatically refreshes the api token on expiration
 		let getToken = async () => (await global.authManager.fetchToken()).token;
 		let refreshMiddleware = (init?: RequestInit) => {
 			let requestHandlerMiddleware = api.requestHandlerMiddleware(getToken, init).handle;
@@ -193,7 +201,7 @@ export class GlobalState {
 							if (body.hasOwnProperty('code')) {
 								logging.debug('Auth expired, refreshing token from middleware');
 
-								await _global.authManager.fetchToken(true);
+								await global.authManager.fetchToken(true);
 
 								// Retry request after refreshing auth
 								res = await requestHandlerMiddleware(req, opts);
@@ -207,42 +215,6 @@ export class GlobalState {
 				}
 			};
 		};
-
-		// Create live instance.
-		logging.net('Connecting to live...', config.ORIGIN_API);
-		let fernFetcher = async (args: fetcher.Fetcher.Args) => {
-			this.modifyFernArgs(args);
-
-			// Make initial request
-			let response = await fetcher.fetcher<any>(args);
-
-			// Check for auth expired error
-			let error = (response as apiResponse.FailedResponse<fetcher.Fetcher.Error>).error;
-			if (
-				error &&
-				error.reason == 'status-code' &&
-				(error.body as any).code == 'CLAIMS_ENTITLEMENT_EXPIRED'
-			) {
-				logging.debug('Auth expired, refreshing token from middleware');
-
-				await _global.authManager.fetchToken(true);
-
-				// Retry request after refreshing auth
-				return await fetcher.fetcher<any>(args);
-			}
-
-			return response;
-		};
-		this.api = new RivetClient({
-			environment: config.ORIGIN_API,
-			token: async () => (await _global.authManager.fetchToken()).token,
-			fetcher: fernFetcher
-		});
-		this.apiEe = new RivetEeClient({
-			environment: config.ORIGIN_API,
-			token: async () => (await _global.authManager.fetchToken()).token,
-			fetcher: fernFetcher
-		});
 		this.deprecatedApi = {
 			auth: new api.auth.AuthService({
 				endpoint: config.ORIGIN_API + '/auth',
@@ -296,22 +268,19 @@ export class GlobalState {
 		while (retry <= 3) {
 			try {
 				// Initial bootstrap occurs before the api is fully created, make fallback
-				let api =
+				let initialApi =
 					this.api ??
 					new RivetClient({
 						environment: config.ORIGIN_API,
-						fetcher: async args => {
-							this.modifyFernArgs(args);
-							return await fetcher.fetcher<any>(args);
-						}
+						fetcher: api.basicFetcher()
 					});
 
 				// Bootstrap
 				logging.event('Bootstrapping');
-				let response = await api.cloud.bootstrap();
+				let response = await initialApi.cloud.bootstrap();
 
 				// Handle response
-				logging.event('Bootstrapp success', response);
+				logging.event('Bootstrap success', response);
 				this.bootstrapFailed = false;
 				this.bootstrapData = response;
 				this.updateStatus();
@@ -408,9 +377,7 @@ export class GlobalState {
 
 				// Attempt to reconnect in a few seconds
 				setTimeout(
-					() => {
-						this.setupLive(true);
-					},
+					() => this.setupLive(true),
 					this.setupLiveAttempts <= 3 ? timing.seconds(1) : timing.seconds(5)
 				);
 			});
@@ -455,9 +422,10 @@ export class GlobalState {
 			global.currentIdentity &&
 			!global.currentIdentity.isRegistered &&
 			!global.currentIdentity.isAdmin
-		)
-			status = GlobalStatus.Unregistered;
-		else if (this.troubleConnecting) status = GlobalStatus.Reconnecting;
+		) {
+			if (window.location.pathname.startsWith('/access-token/')) status = GlobalStatus.AccessToken;
+			else status = GlobalStatus.Unregistered;
+		} else if (this.troubleConnecting) status = GlobalStatus.Reconnecting;
 		else status = GlobalStatus.Connected;
 
 		// Dispatch event
@@ -486,16 +454,6 @@ export class GlobalState {
 
 		// Dispatch resize event
 		if (this.windowSize != oldSize) globalEventGroups.dispatch('resize', this.windowSize);
-	}
-
-	/**
-	 * Modifies the Fern arguments to remove headers that are not whitelisted in our CORS policy.
-	 */
-	modifyFernArgs(args: fetcher.Fetcher.Args) {
-		// Remove headers starting with `x-fern-` since this is not white listed in our CORS policy
-		for (let key in args.headers) {
-			if (key.toLowerCase().startsWith('x-fern-')) delete args.headers[key];
-		}
 	}
 }
 

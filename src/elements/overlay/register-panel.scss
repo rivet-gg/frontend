@@ -4,7 +4,7 @@
 #base {
 	position: relative;
 
-	&.hidden {
+	&.loading {
 		#email-area,
 		#code-area {
 			pointer-events: none;

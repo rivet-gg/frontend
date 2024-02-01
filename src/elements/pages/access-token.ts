@@ -3,7 +3,7 @@ import { customElement, property } from 'lit/decorators.js';
 import { when } from 'lit/directives/when.js';
 import { cssify } from '../../utils/css';
 import global from '../../utils/global';
-import { responses } from '../../routes';
+import routes, { responses } from '../../routes';
 import styles from './access-token.scss';
 
 @customElement('page-access-token')
@@ -22,7 +22,8 @@ export default class AccessTokenLink extends LitElement {
 	firstUpdated(changedProperties: PropertyValues) {
 		super.firstUpdated(changedProperties);
 
-		this.fetchData();
+		if (global.currentIdentity?.isAdmin) this.finished = true;
+		else this.fetchData();
 	}
 
 	async fetchData() {
@@ -30,6 +31,9 @@ export default class AccessTokenLink extends LitElement {
 			await global.api.auth.identity.accessToken.completeAccessTokenVerification({
 				accessToken: this.token
 			});
+
+			// Refresh token
+			await global.authManager.fetchToken(true);
 		} catch (err) {
 			this.loadError = err;
 		}
@@ -46,8 +50,9 @@ export default class AccessTokenLink extends LitElement {
 							<e-svg src="solid/circle-check"></e-svg>Login succeeded
 						</h2>
 						<p class="m-0 font-semibold text-[#ececec]">
-							No further action is required. You may now return to the home page
-						</p>`,
+							No further action is required. You may now return to the home page.
+						</p>
+						<rvt-button type="a" href=${routes.home.build({})} class="mt-3">Home</rvt-button>`,
 				() => html`<loading-wheel></loading-wheel>`
 			)}
 		</div>`;
