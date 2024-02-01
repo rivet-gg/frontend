@@ -199,7 +199,8 @@ export default class TextInput extends LitElement {
 	render() {
 		let classes = classMap({
 			light: this.light,
-			seamless: this.seamless
+			seamless: this.seamless,
+			disabled: this.isDisabled
 		});
 
 		if (this.area) {

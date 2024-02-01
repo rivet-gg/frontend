@@ -38,9 +38,6 @@ export default class DevGameOverview extends LitElement {
 	namespaceNameIdValue = '';
 
 	@property({ type: Boolean })
-	isCreatingNamespace = false;
-
-	@property({ type: Boolean })
 	namespaceIsValid = false;
 
 	@property({ type: String })
@@ -218,7 +215,6 @@ export default class DevGameOverview extends LitElement {
 					class="mt-4"
 					@click=${this.createNamespace.bind(this)}
 					?disabled=${!this.namespaceIsValid}
-					?loading=${this.isCreatingNamespace}
 					>Create</stylized-button
 				>
 			</modal-body>
@@ -239,14 +235,17 @@ export default class DevGameOverview extends LitElement {
 				versionId: this.game.versions[0].versionId
 			});
 
-			this.namespaceModalClose();
+			// Wait until a new update on the game stream before navigating
+			this.gameStream.onMessage(() => {
+				this.namespaceModalClose();
 
-			RvtRouter.shared.navigate(
-				routes.devNamespace.build({
-					gameId: this.game.gameId,
-					namespaceId: res.namespaceId
-				})
-			);
+				RvtRouter.shared.navigate(
+					routes.devNamespace.build({
+						gameId: this.game.gameId,
+						namespaceId: res.namespaceId
+					})
+				);
+			});
 		} catch (err) {
 			logging.error('failed to create namespace', err);
 			this.loadError = err;

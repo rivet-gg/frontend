@@ -76,6 +76,7 @@ export default class DevGameSettingsGeneral extends LitElement {
 						<div class="disabled">
 							<h4 class="text-lg pb-1">Game Title</h4>
 							<text-input
+								disabled
 								placeholder="Enter a game title here"
 								.init=${this.game.displayName}
 							></text-input>
