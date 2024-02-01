@@ -46,7 +46,9 @@ export function refreshFetcher(global: GlobalState) {
 		) {
 			logging.debug('Auth expired, refreshing token from middleware');
 
-			await global.authManager.fetchToken(true);
+			// The Fern API client doesn't re-fetch the token from the fetcher, we have to set it manually
+			let { token } = await global.authManager.fetchToken(true);
+			args.headers['Authorization'] = `Bearer ${token}`;
 
 			// Retry request after refreshing auth
 			return await customFetcher<any>(args);
@@ -73,10 +75,12 @@ async function customFetcher<R = unknown>(
 ): Promise<apiResponse.APIResponse<R, fetcher.Fetcher.Error>> {
 	let headers: Record<string, string | undefined> = {};
 
+	// Add content type header
 	if (args.body !== undefined && args.contentType != null) {
 		headers['Content-Type'] = args.contentType;
 	}
 
+	// Add argument headers
 	if (args.headers != null) {
 		for (let [key, value] of Object.entries(args.headers)) {
 			if (value != null) {
@@ -85,6 +89,7 @@ async function customFetcher<R = unknown>(
 		}
 	}
 
+	// Format query parameters
 	let url: string;
 	if (args.queryParameters && Object.keys(args.queryParameters).length) {
 		let query = Object.entries(args.queryParameters)
@@ -127,6 +132,7 @@ async function customFetcher<R = unknown>(
 	try {
 		let response = await makeRequest();
 
+		// Retry loop
 		for (let i = 0; i < (args.maxRetries ?? DEFAULT_MAX_RETRIES); ++i) {
 			if (
 				response.status === 408 ||

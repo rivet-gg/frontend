@@ -81,7 +81,7 @@ export default class AnalyticsOverview extends LitElement {
 	charts: Map<string, Chart> = new Map();
 
 	@property({ type: Boolean })
-	isLoading = true;
+	isLoading = false;
 
 	dateOptions: DropDownSelection<DateRange>[] = [
 		{ label: 'Past 10 Minutes', value: DateRange.Min10 },

@@ -166,20 +166,21 @@ export class GlobalState {
 
 		// Create live instance.
 		logging.net('Connecting to live...', config.ORIGIN_API);
+
+		let getToken = async () => (await global.authManager.fetchToken()).token;
 		let fernFetcher = api.refreshFetcher(global);
 		this.api = new RivetClient({
 			environment: config.ORIGIN_API,
-			token: async () => (await global.authManager.fetchToken()).token,
+			token: getToken,
 			fetcher: fernFetcher
 		});
 		this.apiEe = new RivetEeClient({
 			environment: config.ORIGIN_API,
-			token: async () => (await global.authManager.fetchToken()).token,
+			token: getToken,
 			fetcher: fernFetcher
 		});
 
 		// Create Smithy API middleware, automatically refreshes the api token on expiration
-		let getToken = async () => (await global.authManager.fetchToken()).token;
 		let refreshMiddleware = (init?: RequestInit) => {
 			let requestHandlerMiddleware = api.requestHandlerMiddleware(getToken, init).handle;
 
