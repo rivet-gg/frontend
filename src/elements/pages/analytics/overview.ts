@@ -266,9 +266,6 @@ export default class AnalyticsOverview extends LitElement {
 				queryEnd: new Date(now)
 			});
 
-			// Hide all charts
-			this.charts.forEach(c => c.classList.add('hidden'));
-
 			for (let dataSet of res.dataSets) {
 				let id = dataSetToVariant(dataSet);
 
@@ -282,7 +279,6 @@ export default class AnalyticsOverview extends LitElement {
 				// Update data
 				let chart = this.charts.get(id);
 				chart.dataSet = dataSet;
-				chart.classList.remove('hidden');
 			}
 
 			this.requestUpdate('charts');

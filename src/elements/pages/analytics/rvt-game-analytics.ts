@@ -6,7 +6,7 @@ import { Rivet } from '@rivet-gg/api';
 import { Rivet as RivetEe } from '@rivet-gg/api-ee';
 import timing from '../../../utils/timing';
 import Chart from './chart';
-import { map } from 'lit/directives/map.js';
+import { repeat } from 'lit/directives/repeat.js';
 import { cssify } from '../../../utils/css';
 import routes from '../../../routes';
 import moment from 'moment';
@@ -18,10 +18,9 @@ type Variants =
 	| typeof RivetEe.ee.cloud.AnalyticsVariantQuery.PlayerCountByRegion
 	| typeof RivetEe.ee.cloud.AnalyticsVariantQuery.LobbyCountByRegion;
 
-const LINE_CHART_OVERRIDEN_OPTIONS = {
+const LINE_CHART_OVERRIDDEN_OPTIONS = {
 	elements: {
 		point: {
-			radius: 4,
 			backgroundColor: '#ffffff'
 		}
 	},
@@ -109,7 +108,7 @@ export class RvtGameAnalytics extends LitElement {
 
 		let charts = variants.map(variant => {
 			let chart = new Chart();
-			chart.lineChartOptions = merge(LINE_CHART_OPTIONS, LINE_CHART_OVERRIDEN_OPTIONS);
+			chart.lineChartOptions = merge(LINE_CHART_OPTIONS, LINE_CHART_OVERRIDDEN_OPTIONS);
 			chart.renderer = this.chartRenderer.bind(chart, variant, globalStats);
 			chart.dataSet = this.analytics.dataSets.find(dataSet => dataSetToVariant(dataSet) === variant);
 			return { variant, chart };
@@ -172,7 +171,11 @@ export class RvtGameAnalytics extends LitElement {
 					</div>
 					<div>${moment(start).format('Do MMMM')} - ${moment(end).format('Do MMMM')}</div>
 				</div>
-				${map(this.charts, ({ chart }) => html`<div class="my-4">${chart}</div>`)}
+				${repeat(
+					this.charts,
+					({ variant }) => variant,
+					({ chart }) => html`<div class="my-4">${chart}</div>`
+				)}
 				<div class="flex justify-end">
 					<a href="${routes.analyticsOverview.build({ groupId: this.game.developerGroupId })}">
 						View more analytics <e-svg slot="icon" src="regular/arrow-up-right"></e-svg>

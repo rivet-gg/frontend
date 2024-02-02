@@ -8,7 +8,8 @@ export const LINE_CHART_OPTIONS: ChartOptions<'line'> = {
 	resizeDelay: 100,
 	interaction: {
 		intersect: false,
-		mode: 'index'
+		mode: 'nearest',
+		axis: 'x'
 	},
 	indexAxis: 'x',
 	layout: {

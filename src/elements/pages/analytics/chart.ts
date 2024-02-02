@@ -380,7 +380,6 @@ function preprocessDatasets(datasets: any[]): any[] {
 		let [r, g, b] = DATASET_COLORS[i % DATASET_COLORS.length];
 		dataset.borderColor = `rgba(${r}, ${g}, ${b})`;
 		dataset.backgroundColor = `rgba(${r}, ${g}, ${b}, 0.2)`;
-		dataset.fill = 'stack';
 	}
 
 	return datasets;
