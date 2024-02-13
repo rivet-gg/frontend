@@ -300,6 +300,19 @@ export default class DevGameOverview extends LitElement {
 		return html`
 			<div class="mx-auto max-w-contentwidth px-3 md:px-5 lg:px-0 pb-8">
 				<game-banner .game=${this.game}></game-banner>
+
+				${when(
+					this.game?.versions?.length == 1,
+					() =>
+						html`<a
+							class="flex mb-5 p-4 flex items-center justify-center bg-cream-100 text-charcole-900"
+							href="https://rivet.gg/learn"
+						>
+							Get started with examples or templates
+							<e-svg class="ms-2" src="regular/arrow-right"></e-svg>
+						</a>`
+				)}
+
 				<div class="flex flex-row w-full space-x-8 max-md:px-4 ">
 					${when(this.game, () => this.renderAnalytics(this.game))}
 					${when(this.game, () => this.renderNamespaceList(this.game))}
