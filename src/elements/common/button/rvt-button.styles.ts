@@ -24,8 +24,8 @@ export const button = tv({
 		variant: {
 			primary: [
 				'relative text-cream-100 fill-cream-100 border-cream-100 border transition-all',
-				"before:content-[''] before:absolute before:inset-0 before:-z-10 before:bg-light-grain before:bg-[size:32px] before:bg-blend-multiply before:transition-all before:opacity-0",
-				"after:content-[''] after:absolute after:inset-0 after:-z-10 after:bg-dark-grain after:bg-[size:32px] after:transition-all after:opacity-100"
+				"before:content-[''] before:absolute before:inset-0 before:-z-10 before:bg-light-grain before:[image-rendering:pixelated] before:bg-blend-multiply before:transition-all before:opacity-0",
+				"after:content-[''] after:absolute after:inset-0 after:-z-10 after:bg-dark-grain after:[image-rendering:pixelated] after:transition-all after:opacity-100"
 			],
 			secondary: 'text-white fill-white bg-charcole-900 border-cream-100 border transition-all',
 			danger: 'border-red-500 text-red-500 fill-red-500 border transition-all'

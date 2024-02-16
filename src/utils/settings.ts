@@ -26,13 +26,6 @@ const settings = {
 	},
 	set fullscreenMedia(v: boolean) {
 		ls.setBoolean('fullscreen-media', v);
-	},
-
-	getVersionConfigDraft(gameId: string): string {
-		return ls.getString(`version-config-draft:${gameId}`, '');
-	},
-	setVersionConfigDraft(gameId: string, v: string) {
-		ls.setString(`version-config-draft:${gameId}`, v);
 	}
 };
 

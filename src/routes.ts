@@ -320,25 +320,6 @@ namespace routes {
 		}
 	});
 
-	export let devVersion = new Route<{ gameId: string; namespaceId: string; versionId: string }>({
-		path: '/games/:gameId/namespaces/:namespaceId/versions/:versionId',
-		middlewares: () => [
-			MIDDLEWARES.validateUuid('gameId'),
-			MIDDLEWARES.validateUuid('namespaceId'),
-			MIDDLEWARES.validateUuid('versionId')
-		],
-		render({ gameId, namespaceId, versionId }) {
-			return {
-				title: 'Game Version',
-				breadcrumb: { type: 'Namespace', gameId, namespaceId, title: 'Version' },
-				template: responses.game(gameId, namespaceId, {
-					namespace: { namespaceId },
-					version: { versionId }
-				})
-			};
-		}
-	});
-
 	export let devVersionSettings = new Route<{ gameId: string; namespaceId: string }>({
 		path: '/games/:gameId/namespaces/:namespaceId/settings',
 		render({ gameId, namespaceId }) {
@@ -351,18 +332,6 @@ namespace routes {
 					versionSettings: true,
 					namespaceId
 				})
-			};
-		}
-	});
-
-	export let devVersionDraft = new Route<{ gameId: string }>({
-		path: '/games/:gameId/version-draft',
-		middlewares: () => [MIDDLEWARES.validateUuid('gameId')],
-		render({ gameId }) {
-			return {
-				title: 'Game Version Draft',
-				breadcrumb: { type: 'Game', gameId, title: 'Version Draft' },
-				template: responses.game(gameId, null, { versionDraft: true })
 			};
 		}
 	});
