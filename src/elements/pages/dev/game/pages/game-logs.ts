@@ -692,7 +692,7 @@ export default class DevGameLogs extends LitElement {
 									custom
 									class="ml-1 mb-[1px]"
 									style="--size: 15px; --padding: 0;"
-									href="https://rivet.gg/docs/dynamic-servers/concepts/lobby-metrics#memory-usage"
+									href="https://rivet.gg/docs/dynamic-servers/concepts/monitoring#memory-usage"
 									src="solid/circle-question"
 									@mouseenter=${tooltip(
 										'Metrics and logs use some memory. Click to learn more.'
