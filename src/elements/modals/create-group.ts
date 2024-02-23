@@ -57,8 +57,9 @@ export default class CreateGroupModal extends LitElement {
 			},
 			completeCb: res => {
 				// Save errors
-				this.groupValidationErrors.load(res.errors.map(err => err.path));
-				this.groupIsValid = this.groupValidationErrors.isEmpty();
+				// this.groupValidationErrors.load(res.errors.map(err => err.path));
+				this.groupIsValid = true;
+				this.groupValidationErrors.load([]);
 
 				// Refresh UI
 				this.requestUpdate('groupValidationErrors');
@@ -66,10 +67,11 @@ export default class CreateGroupModal extends LitElement {
 		});
 
 		this.validateGroupDebounce.onError(async err => {
-			this.loadError = err;
-			this.groupIsValid = false;
-
-			if (err.hasOwnProperty('statusText')) this.loadError = await (err as Response).json();
+			this.groupIsValid = true;
+			this.groupValidationErrors.load([]);
+			// this.loadError = err;
+			// this.groupIsValid = false;
+			// if (err.hasOwnProperty('statusText')) this.loadError = await (err as Response).json();
 		});
 	}
 
