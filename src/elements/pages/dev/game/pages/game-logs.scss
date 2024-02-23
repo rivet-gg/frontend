@@ -42,12 +42,10 @@ $sidebar-padding: 15px;
 
 		& > loading-placeholder {
 			height: 500px;
-			--border-radius: 15px;
 		}
 
 		.bordered-area {
 			box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-			border-radius: 16px;
 			display: flex;
 			flex-direction: column;
 			margin-bottom: 20px;
@@ -61,7 +59,6 @@ $sidebar-padding: 15px;
 				flex-direction: column;
 				box-sizing: border-box;
 				padding: 5px;
-				border-radius: 15px 15px 0 0;
 				background: #2a2a2a;
 
 				.content-header {
@@ -94,7 +91,6 @@ $sidebar-padding: 15px;
 				position: relative;
 				flex-direction: column;
 				box-sizing: border-box;
-				border-radius: 0 0 15px 15px;
 				border: 5px solid $raised-bg;
 				border-top: none;
 				padding: 6px 2px 2px 6px;
@@ -153,7 +149,6 @@ $sidebar-padding: 15px;
 						padding: 12px 8px 0 0;
 
 						#log-status {
-							border-radius: 4px;
 							padding: 3px 6px;
 							font-size: 12px;
 							font-weight: 600;
@@ -184,7 +179,6 @@ $sidebar-padding: 15px;
 								margin-left: 4px;
 								background: rgba(0, 0, 0, 0.3);
 								padding: 2px 6px;
-								border-radius: 4px;
 								font-weight: 700;
 								text-align: right;
 							}
@@ -193,7 +187,6 @@ $sidebar-padding: 15px;
 						#toggle-waterfall {
 							margin-top: 6px;
 							background-color: $raised-bg;
-							border-radius: 2px;
 							--padding: 3px;
 							--size: 17px;
 							transition: background-color consts.$transition-length;
@@ -252,7 +245,6 @@ $sidebar-padding: 15px;
 						display: flex;
 						align-items: center;
 						box-sizing: border-box;
-						border-radius: 4px;
 						padding: 5px 10px;
 						margin-right: 7px;
 						font-size: 12px;
@@ -405,7 +397,6 @@ $sidebar-padding: 15px;
 									flex: 0 0 auto;
 									width: 13px;
 									height: 13px;
-									border-radius: 2px;
 									margin-right: 4px;
 								}
 

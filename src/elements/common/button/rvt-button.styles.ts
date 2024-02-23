@@ -18,7 +18,9 @@ export const button = tv({
 		'duration-100',
 		'disabled:opacity-60',
 		'aria-busy:cursor-default',
-		'group'
+		'group',
+		'w-full',
+		'text-center'
 	],
 	variants: {
 		variant: {
@@ -28,7 +30,7 @@ export const button = tv({
 				"after:content-[''] after:absolute after:inset-0 after:-z-10 after:bg-dark-grain after:[image-rendering:pixelated] after:transition-all after:opacity-100"
 			],
 			link: ['text-cream-100 px-0 mx-2'],
-			secondary: 'text-white fill-white bg-charcole-900 border-cream-100 border transition-all',
+			secondary: 'text-white fill-white bg-charcole-900 border-charcole-600 border transition-all',
 			danger: 'border-red-500 text-red-500 fill-red-500 border transition-all'
 		},
 		size: {
@@ -88,7 +90,7 @@ export const button = tv({
 				// hover
 				'hover:bg-charcole-800',
 				// active
-				'active:bg-charcole-700',
+				'active:bg-charcole-700 aria-selected:bg-charcole-600',
 				// disabled
 				'disabled:bg-charcole-900',
 				// loading

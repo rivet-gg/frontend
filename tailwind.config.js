@@ -54,7 +54,8 @@ module.exports = {
 				'sidebar-layout': '18rem calc(100vw - 18rem)'
 			},
 			aria: {
-				busy: 'busy'
+				busy: 'busy',
+				selected: 'selected'
 			},
 			boxShadow: {
 				elevated: '10px 10px 0 white'

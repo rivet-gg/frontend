@@ -3,10 +3,14 @@ import { customElement, property } from 'lit/decorators.js';
 import { cssify } from '../../../utils/css';
 import { when } from 'lit/directives/when.js';
 import { ButtonVariant, ButtonSize, icon, button } from './rvt-button.styles';
+import clsx from 'clsx';
 
 @customElement('rvt-button')
 export default class RvtButton extends LitElement {
-	static styles = cssify();
+	static styles = cssify(':host { display: inline-block }');
+
+	@property({ type: String })
+	class?: string;
 
 	@property({ type: String })
 	type?: 'button' | 'submit' | 'a' = 'button';
@@ -74,9 +78,15 @@ export default class RvtButton extends LitElement {
 	}
 
 	render() {
-		let classes = button({ variant: this.variant, size: this.size });
+		let classes = clsx(button({ variant: this.variant, size: this.size }), this.class);
 		if (this.type === 'a' || this.href) {
-			return html` <a href=${this.href} target=${this.target} rel=${this.rel} class=${classes}>
+			return html` <a
+				href=${this.href}
+				target=${this.target}
+				rel=${this.rel}
+				class=${classes}
+				?aria-selected=${this.ariaSelected !== null}
+			>
 				${this.renderContent()}
 			</a>`;
 		}
@@ -88,6 +98,7 @@ export default class RvtButton extends LitElement {
 			?aria-disabled=${this.disabled}
 			?aria-busy=${this.loading}
 			aria-live="polite"
+			?aria-selected=${this.ariaSelected !== null}
 		>
 			${this.renderContent()}
 		</button>`;

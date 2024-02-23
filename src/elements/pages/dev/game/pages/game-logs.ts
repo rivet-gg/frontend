@@ -20,6 +20,7 @@ import logging from '../../../../../utils/logging';
 import { globalEventGroups } from '../../../../../utils/global-events';
 import { RepeatingRequest } from '../../../../../utils/repeating-request';
 import { Rivet } from '@rivet-gg/api';
+import { getRegionEmoji } from '../../../../../utils/emoji';
 
 enum MetricType {
 	Cpu,
@@ -33,12 +34,12 @@ interface MetricPoint {
 	label: string;
 }
 
-const UNKNOWN_REGION = {
+export const UNKNOWN_REGION = {
 	provider: 'unknown',
 	providerDisplayName: 'Unknown',
 	regionDisplayName: 'Unknown',
 	regionId: '00000000-0000-0000-0000-000000000000',
-	universalRegion: 0
+	universalRegion: 'unknown'
 };
 
 @customElement('page-dev-game-logs')
@@ -50,14 +51,14 @@ export default class DevGameLogs extends LitElement {
 
 	// === Game ===
 	@property({ type: Object })
-	game: cloud.GameFull;
+	game: Rivet.cloud.GameFull;
 
 	// === Namespace ===
 	@property({ type: String })
 	namespaceId: string;
 
 	@property({ type: Array })
-	lobbies: cloud.LogsLobbySummary[] = [];
+	lobbies: Rivet.cloud.LogsLobbySummary[] = [];
 
 	@property({ type: Boolean })
 	isLoadingNamespace = true;
@@ -73,7 +74,7 @@ export default class DevGameLogs extends LitElement {
 	isLoadingLobby = false;
 
 	@property({ type: Array })
-	lobbyData: cloud.GetNamespaceLobbyOutput = null;
+	lobbyData: Rivet.cloud.games.namespaces.GetNamespaceLobbyResponse = null;
 
 	// === Logs ===
 	@property({ type: Boolean })
@@ -171,11 +172,12 @@ export default class DevGameLogs extends LitElement {
 
 		try {
 			let namespaceId = this.namespaceId;
-			let data = await global.deprecatedApi.cloud.listNamespaceLobbies({
-				gameId: this.game.gameId,
+
+			let data = await global.api.cloud.games.namespaces.logs.listNamespaceLobbies(
+				this.game.gameId,
 				namespaceId,
-				beforeCreateTs: lastLobby ? lastLobby.createTs : undefined
-			});
+				{ beforeCreateTs: lastLobby ? lastLobby.createTs : undefined }
+			);
 
 			if (this.namespaceId == namespaceId) {
 				this.lobbies.push(...data.lobbies);
@@ -219,12 +221,11 @@ export default class DevGameLogs extends LitElement {
 		this.isLoadingLobby = true;
 
 		try {
-			console.log('fetch lobby', lobbyId);
-			this.lobbyData = await global.deprecatedApi.cloud.getNamespaceLobby({
-				gameId: this.game.gameId,
-				namespaceId: this.namespaceId,
-				lobbyId
-			});
+			this.lobbyData = await global.api.cloud.games.namespaces.logs.getNamespaceLobby(
+				this.game.gameId,
+				this.namespaceId,
+				this.lobbyId
+			);
 
 			this.logStreamType =
 				this.lobbyData.lobby.status.stopped?.failed ?? false
@@ -255,8 +256,6 @@ export default class DevGameLogs extends LitElement {
 
 	async fetchLogs(lobbyId: string, logStreamType: cloud.LogStream) {
 		this.isLoadingLogs = true;
-
-		console.log('fetch logs', lobbyId);
 
 		try {
 			let res = await global.deprecatedApi.cloud.getLobbyLogs({
@@ -392,7 +391,7 @@ export default class DevGameLogs extends LitElement {
 		</div>`;
 	}
 
-	renderBody(lobby: cloud.LogsLobbySummary) {
+	renderBody(lobby: Rivet.cloud.LogsLobbySummary) {
 		return html`<div id="body">
 			${when(
 				this.isLoadingNamespace,
@@ -416,7 +415,7 @@ export default class DevGameLogs extends LitElement {
 		return html`<loading-placeholder></loading-placeholder>`;
 	}
 
-	renderLog(lobby: cloud.LogsLobbySummary) {
+	renderLog(lobby: Rivet.cloud.LogsLobbySummary) {
 		let statusClasses = classMap({
 			active: !!lobby.status.running && !!lobby.startTs,
 			failed: !!lobby.status.stopped && lobby.status.stopped.failed
@@ -430,7 +429,14 @@ export default class DevGameLogs extends LitElement {
 					<div class="content-header">
 						<div class="content-header-left">
 							<h2 class="content-header-title">${lobby.lobbyGroupNameId}</h2>
-							<h3 id="log-region">${regionData.regionDisplayName}</h3>
+							<p id="log-region">
+								<e-svg
+									class="w-6 h-6 mr-1"
+									preserve
+									src=${getRegionEmoji(regionData.universalRegion)}
+								></e-svg>
+								${regionData.regionDisplayName}
+							</p>
 							${when(
 								lobby.status.stopped !== undefined,
 								() => html`
@@ -716,14 +722,25 @@ export default class DevGameLogs extends LitElement {
 	}
 }
 
-export function formatLobbyStatus(status: cloud.LogsLobbyStatus, startTs: Date) {
-	return status.running !== undefined
-		? startTs
-			? 'Running'
-			: 'Not Started'
-		: status.stopped
-		? status.stopped.failed
-			? 'Failed'
-			: 'Closed'
-		: 'Unknown status';
+export function formatLobbyStatus(status: Rivet.cloud.LogsLobbyStatus, startTs: Date) {
+	let statusString = getLobbyStatus(status, startTs);
+	return {
+		running: 'Running',
+		'not-started': 'Not started',
+		failed: 'Failed',
+		closed: 'Closed',
+		unknown: 'Unknown status'
+	}[statusString];
+}
+
+export function getLobbyStatus(status: Rivet.cloud.LogsLobbyStatus, startTs: Date) {
+	if (status.stopped?.stopTs) {
+		return status.stopped.failed ? 'failed' : 'closed';
+	}
+
+	if (status.running !== undefined) {
+		return startTs ? 'running' : 'not-started';
+	}
+
+	return 'unknown';
 }

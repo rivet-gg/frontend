@@ -1,23 +1,37 @@
 import { LitElement, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { cssify } from '../../utils/css';
-import styles from './dev-game-logs-sidebar.scss';
 import { repeat } from 'lit/directives/repeat.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { tooltip } from '../../ui/helpers';
-import cloud from '@rivet-gg/cloud';
-import { formatLobbyStatus } from '../pages/dev/game/pages/game-logs';
+import { Rivet } from '@rivet-gg/api';
+import { formatLobbyStatus, getLobbyStatus, UNKNOWN_REGION } from '../pages/dev/game/pages/game-logs';
 import routes from '../../routes';
+import { tv } from 'tailwind-variants';
+import { getRegionEmoji } from '../../utils/emoji';
+
+const statusBadgeClasses = tv({
+	base: ['w-2', 'h-2', 'rounded-full'],
+	variants: {
+		status: {
+			running: ['bg-green-500'],
+			closed: ['bg-red-500'],
+			failed: ['bg-red-500'],
+			'not-started': ['bg-green-500'],
+			unknown: ['bg-gray-500']
+		}
+	}
+});
 
 @customElement('dev-game-logs-sidebar')
 export default class DevGameLogsSidebar extends LitElement {
-	static styles = cssify(styles);
+	static styles = cssify();
 
 	@property({ type: Object })
-	game: cloud.GameFull;
+	game: Rivet.cloud.GameFull;
 
 	@property({ type: Array })
-	lobbies: cloud.LogsLobbySummary[] = [];
+	lobbies: Rivet.cloud.LogsLobbySummary[] = [];
 
 	@property({ type: String })
 	namespaceId: string;
@@ -37,7 +51,7 @@ export default class DevGameLogsSidebar extends LitElement {
 
 	render() {
 		return html`
-			<div id="base">
+			<div class="flex flex-col gap-2">
 				${this.isLoading
 					? html`
 							<loading-placeholder></loading-placeholder>
@@ -49,10 +63,8 @@ export default class DevGameLogsSidebar extends LitElement {
 							${this.moreLobbies
 								? html`
 										<div id="footer">
-											<stylized-button
-												color="#595959"
-												.trigger=${this.loadMore.bind(this)}
-												>Load more</stylized-button
+											<rvt-button variant="secondary" @click=${this.loadMore.bind(this)}
+												>Load more</rvt-button
 											>
 										</div>
 								  `
@@ -62,32 +74,54 @@ export default class DevGameLogsSidebar extends LitElement {
 		`;
 	}
 
-	renderLobby(lobby: cloud.LogsLobbySummary) {
-		let classes = classMap({
-			lobby: true,
-			selected: lobby.lobbyId == this.lobbyId
-		});
+	renderLobby(lobby: Rivet.cloud.LogsLobbySummary) {
+		let regionData = this.game.availableRegions.find(r => r.regionId == lobby.regionId) ?? UNKNOWN_REGION;
 
-		let statusClasses = classMap({
-			status: true,
-			active: lobby.status.running !== undefined,
-			failed: lobby.status.stopped !== undefined && lobby.status.stopped.failed
-		});
-
-		return html`<a
-			class=${classes}
+		return html`<rvt-button
+			type="a"
+			variant="secondary"
+			class="w-full flex justify-between"
+			?aria-selected=${lobby.lobbyId == this.lobbyId}
 			href=${routes.devLogLobby.build(
 				{ gameId: this.game.gameId, lobbyId: lobby.lobbyId, namespaceId: this.namespaceId },
 				{ namespaceId: this.namespaceId }
 			)}
 		>
-			<div class="lobby-title">
-				<h3>${lobby.lobbyGroupNameId}</h3>
-			</div>
-			<div
-				class=${statusClasses}
+			<span>
+				<e-svg
+					class="w-3 h-3 mr-1"
+					preserve
+					src=${getRegionEmoji(regionData.universalRegion)}
+				></e-svg>
+				${lobby.lobbyGroupNameId}
+			</span>
+			${this.renderLobbyStatus(lobby)}
+		</rvt-button>`;
+	}
+
+	renderLobbyStatus(lobby: Rivet.cloud.LogsLobbySummary) {
+		let status = getLobbyStatus(lobby.status, lobby.startTs);
+
+		if (status === 'not-started') {
+			return html`<span class="animate-spin" @mouseenter=${tooltip(
+				formatLobbyStatus(lobby.status, lobby.startTs)
+			)}><e-svg src="solid/spinner-third" preserve></span>`;
+		}
+
+		if (status === 'failed') {
+			return html`<e-svg
+				class="text-red-500"
+				src="solid/triangle-exclamation"
+				preserve
 				@mouseenter=${tooltip(formatLobbyStatus(lobby.status, lobby.startTs))}
-			></div>
-		</a>`;
+			></e-svg>`;
+		}
+
+		return html` <div
+			class=${statusBadgeClasses({
+				status: getLobbyStatus(lobby.status, lobby.startTs)
+			})}
+			@mouseenter=${tooltip(formatLobbyStatus(lobby.status, lobby.startTs))}
+		></div>`;
 	}
 }
