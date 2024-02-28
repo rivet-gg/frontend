@@ -3384,9 +3384,23 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@sentry/cli-darwin@npm:2.28.6":
+  version: 2.28.6
+  resolution: "@sentry/cli-darwin@npm:2.28.6"
+  conditions: os=darwin
+  languageName: node
+  linkType: hard
+
 "@sentry/cli-linux-arm64@npm:2.24.1":
   version: 2.24.1
   resolution: "@sentry/cli-linux-arm64@npm:2.24.1"
+  conditions: (os=linux | os=freebsd) & cpu=arm64
+  languageName: node
+  linkType: hard
+
+"@sentry/cli-linux-arm64@npm:2.28.6":
+  version: 2.28.6
+  resolution: "@sentry/cli-linux-arm64@npm:2.28.6"
   conditions: (os=linux | os=freebsd) & cpu=arm64
   languageName: node
   linkType: hard
@@ -3398,9 +3412,23 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@sentry/cli-linux-arm@npm:2.28.6":
+  version: 2.28.6
+  resolution: "@sentry/cli-linux-arm@npm:2.28.6"
+  conditions: (os=linux | os=freebsd) & cpu=arm
+  languageName: node
+  linkType: hard
+
 "@sentry/cli-linux-i686@npm:2.24.1":
   version: 2.24.1
   resolution: "@sentry/cli-linux-i686@npm:2.24.1"
+  conditions: (os=linux | os=freebsd) & (cpu=x86 | cpu=ia32)
+  languageName: node
+  linkType: hard
+
+"@sentry/cli-linux-i686@npm:2.28.6":
+  version: 2.28.6
+  resolution: "@sentry/cli-linux-i686@npm:2.28.6"
   conditions: (os=linux | os=freebsd) & (cpu=x86 | cpu=ia32)
   languageName: node
   linkType: hard
@@ -3412,6 +3440,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@sentry/cli-linux-x64@npm:2.28.6":
+  version: 2.28.6
+  resolution: "@sentry/cli-linux-x64@npm:2.28.6"
+  conditions: (os=linux | os=freebsd) & cpu=x64
+  languageName: node
+  linkType: hard
+
 "@sentry/cli-win32-i686@npm:2.24.1":
   version: 2.24.1
   resolution: "@sentry/cli-win32-i686@npm:2.24.1"
@@ -3419,9 +3454,23 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@sentry/cli-win32-i686@npm:2.28.6":
+  version: 2.28.6
+  resolution: "@sentry/cli-win32-i686@npm:2.28.6"
+  conditions: os=win32 & (cpu=x86 | cpu=ia32)
+  languageName: node
+  linkType: hard
+
 "@sentry/cli-win32-x64@npm:2.24.1":
   version: 2.24.1
   resolution: "@sentry/cli-win32-x64@npm:2.24.1"
+  conditions: os=win32 & cpu=x64
+  languageName: node
+  linkType: hard
+
+"@sentry/cli-win32-x64@npm:2.28.6":
+  version: 2.28.6
+  resolution: "@sentry/cli-win32-x64@npm:2.28.6"
   conditions: os=win32 & cpu=x64
   languageName: node
   linkType: hard
@@ -3460,6 +3509,43 @@ __metadata:
   bin:
     sentry-cli: bin/sentry-cli
   checksum: abfb779c6d890c47d5ffef4caafc544e7af143e2516ad6d21450b0bdba7ce2ce669864a3033c52e84351da1c510bea098e9f163b266227100cf78cf007246a82
+  languageName: node
+  linkType: hard
+
+"@sentry/cli@npm:^2.28.6":
+  version: 2.28.6
+  resolution: "@sentry/cli@npm:2.28.6"
+  dependencies:
+    "@sentry/cli-darwin": "npm:2.28.6"
+    "@sentry/cli-linux-arm": "npm:2.28.6"
+    "@sentry/cli-linux-arm64": "npm:2.28.6"
+    "@sentry/cli-linux-i686": "npm:2.28.6"
+    "@sentry/cli-linux-x64": "npm:2.28.6"
+    "@sentry/cli-win32-i686": "npm:2.28.6"
+    "@sentry/cli-win32-x64": "npm:2.28.6"
+    https-proxy-agent: "npm:^5.0.0"
+    node-fetch: "npm:^2.6.7"
+    progress: "npm:^2.0.3"
+    proxy-from-env: "npm:^1.1.0"
+    which: "npm:^2.0.2"
+  dependenciesMeta:
+    "@sentry/cli-darwin":
+      optional: true
+    "@sentry/cli-linux-arm":
+      optional: true
+    "@sentry/cli-linux-arm64":
+      optional: true
+    "@sentry/cli-linux-i686":
+      optional: true
+    "@sentry/cli-linux-x64":
+      optional: true
+    "@sentry/cli-win32-i686":
+      optional: true
+    "@sentry/cli-win32-x64":
+      optional: true
+  bin:
+    sentry-cli: bin/sentry-cli
+  checksum: 9f7808dcaaec59ef15599244152257bf79d4392a8dd50e2806d8e88e4ac3e66d96eebde1a87402a2848af44c65e1bec3b941d715cf13c26c3e7c835403da290e
   languageName: node
   linkType: hard
 
@@ -10942,6 +11028,7 @@ __metadata:
     "@rivet-gg/party": "file:gen/api-party"
     "@rivet-gg/portal": "file:gen/api-portal"
     "@sentry/browser": "npm:^7.90.0"
+    "@sentry/cli": "npm:^2.28.6"
     "@sentry/webpack-plugin": "npm:^2.10.2"
     "@tailwindcss/forms": "npm:^0.5.4"
     "@tailwindcss/typography": "npm:^0.5.9"
