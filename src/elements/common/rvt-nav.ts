@@ -24,27 +24,36 @@ export default class RvtNav extends LitElement {
 	render() {
 		return html`
 			<nav
-				class="gap-10 px-6 lg:z-30 pointer-events-auto flex flex-col transition md:divide-white/15 backdrop-blur bg-charcole-950 border-b border-white/10"
+				class="sm:px-6 relative z-30 w-full pointer-events-auto flex flex-col transition md:divide-white/15 backdrop-blur bg-charcole-950 border-b border-white/10"
 			>
-				<div class="h-14 flex items-center justify-between">
-					<div class="flex flex-row align-middle my-auto max-sm:mx-auto">
+				<div
+					class="px-6 sm:px-0 h-14 flex items-center justify-between max-w-contentwidth mx-auto w-full"
+				>
+					<div class="flex flex-row align-middle my-auto gap-4 order-2 sm:order-none">
 						<!-- Logo -->
-						<a aria-label="Home" class="my-auto" href=${routes.home.build({})}>
-							<div class="h-6">
+						<a aria-label="Home" class="my-auto" href="https://rivet.gg">
+							<div class="h-6 hidden sm:block">
 								<e-svg
-									src="logo/cream"
+									src="logo/text-cream"
 									non-icon
-									class="mb-[2px] h-full w-auto"
+									class="block h-full w-auto"
 									preserve
 								></e-svg>
 							</div>
-						</a>
-
-						<!-- Breadcrumb -->
-						<div class="hidden my-auto sm:ml-6 sm:block">
-							<div class="flex my-auto" aria-label="Breadcrumb">
-								<rvt-breadcrumbs .breadcrumbs=${this.breadcrumbs}></rvt-breadcrumbs>
+							<div class="h-6 sm:hidden">
+								<e-svg src="logo/cream" non-icon class="block h-full w-auto" preserve></e-svg>
 							</div>
+						</a>
+						<div class="hidden sm:flex flex-row align-middle gap-1">
+							<rvt-button icon="solid/hammer" variant="nav" href="https://rivet.gg/learn"
+								>Learn</rvt-button
+							>
+							<rvt-button icon="solid/books" variant="nav" href="https://rivet.gg/docs"
+								>Docs</rvt-button
+							>
+							<rvt-button icon="solid/circle-info" variant="nav" href="https://rivet.gg/support"
+								>Support</rvt-button
+							>
 						</div>
 					</div>
 
@@ -52,49 +61,71 @@ export default class RvtNav extends LitElement {
 						global.status == GlobalStatus.Connected,
 						() => html`
 							<!-- Avatar -->
-							<div class="sm:hidden absolute left-2">
+							<div class="sm:hidden order-1">
 								<identity-avatar
 									class="my-auto block w-7 h-7"
 									shadow
 									.identity=${global.currentIdentity}
 								></identity-avatar>
 							</div>
-							<div
-								class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0 space-x-4 max-sm:invisible my-auto"
-							>
-								<identity-name
-									class="my-auto text-sm"
-									.identity=${global.currentIdentity}
-									no-link
-								></identity-name>
-								<identity-avatar
-									class="block w-6 h-6 m-2"
-									.identity=${global.currentIdentity}
-								></identity-avatar>
+							<div class="sm:flex items-center pr-2 gap-5 hidden my-auto">
+								<a href="https://rivet.gg/discord">
+									<e-svg
+										src="brands/discord"
+										class="block w-5 h-5 transition-opacity text-white opacity-75 hover:opacity-100"
+									></e-svg>
+								</a>
+								<a href="https://github.com/rivet-gg">
+									<e-svg
+										src="brands/github"
+										class="block w-5 h-5 transition-opacity text-white opacity-75 hover:opacity-100"
+									></e-svg>
+								</a>
+								<div class="flex ml-3">
+									<identity-name
+										class="my-auto text-sm"
+										.identity=${global.currentIdentity}
+										no-link
+									></identity-name>
+									<identity-avatar
+										class="block w-6 h-6 ml-2"
+										.identity=${global.currentIdentity}
+									></identity-avatar>
+								</div>
 
-								<icon-button
-									src="solid/gear"
-									small
-									color="#ececec80"
-									href=${routes.settings.build({})}
-								></icon-button>
+								<a href=${routes.settings.build({})}>
+									<e-svg
+										src="solid/gear"
+										class="block w-5 h-5 text-white opacity-75 hover:opacity-100"
+									></e-svg>
+								</a>
 							</div>
 
 							<!-- Settings -->
-							<div
-								class="sm:hidden absolute right-2 flex place-content-center my-auto opacity-75 transition hover:opacity-100"
-							>
-								<icon-button
-									src="regular/gear"
-									class="my-auto"
-									small
-									color="#ececec80"
-									href=${routes.settings.build({})}
-								></icon-button>
+							<div class="sm:hidden flex place-content-center my-auto order-3">
+								<a href=${routes.settings.build({})}>
+									<e-svg
+										src="solid/gear"
+										class="block w-5 h-5 text-white opacity-75 hover:opacity-100"
+									></e-svg>
+								</a>
 							</div>
 						`
 					)}
 				</div>
+				<!-- Breadcrumb -->
+				${when(
+					this.breadcrumbs,
+					() =>
+						html` <div class="block max-w-contentwidth mx-auto w-full overflow-auto">
+							<div class="flex my-auto" aria-label="Breadcrumbs">
+								<rvt-breadcrumbs
+									class="flex-none px-6 sm:px-0"
+									.breadcrumbs=${this.breadcrumbs}
+								></rvt-breadcrumbs>
+							</div>
+						</div>`
+				)}
 			</nav>
 		`;
 	}

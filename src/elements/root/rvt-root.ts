@@ -12,7 +12,7 @@ import RegisterPanel from '../overlay/register-panel';
 import config from '../../config';
 import { HookFetch } from '../../utils/fetch-hook';
 import { DeferredStageEvent, Stage } from '../pages/link-game';
-import StylizedButton from '../common/stylized-button';
+import RvtButton from '../common/button/rvt-button';
 import { Alignment, Orientation } from '../common/overlay-positioning';
 import { DropDownSelectEvent, DropDownSelection } from '../dev/drop-down-list';
 import { Breadcrumb } from '../common/rvt-breadcrumbs';
@@ -360,7 +360,7 @@ export default class RvtRoot extends LitElement {
 					if (e.target === e.currentTarget) this.closeCaptcha();
 				});
 
-				let cancel = new StylizedButton();
+				let cancel = new RvtButton();
 				cancel.addEventListener('click', this.closeCaptcha.bind(this));
 				cancel.append(document.createTextNode('Cancel'));
 				element.append(cancel);
@@ -452,7 +452,7 @@ export default class RvtRoot extends LitElement {
 
 					content = html`
 						<!-- Page Body -->
-						<div id="content-holder" class="min-h-screen flex pt-14 box-border">
+						<div id="content-holder" class="min-h-screen flex pt-24 box-border">
 							<rvt-router
 								@change="${this.onRouteChange.bind(this)}"
 								@title-change="${this.onTitleChange.bind(this)}"

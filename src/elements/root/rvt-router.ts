@@ -570,6 +570,8 @@ export default class RvtRouter extends LitElement {
 			first: pageList.length == 1
 		});
 
-		return html`<div class="${classes} h-full">${newestPage.renderResult.template}</div> `;
+		return html`<div class="${classes} h-full px-6">
+			<div class="max-w-contentwidth h-full mx-auto">${newestPage.renderResult.template}</div>
+		</div> `;
 	}
 }

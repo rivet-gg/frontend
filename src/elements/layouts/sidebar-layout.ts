@@ -11,16 +11,16 @@ export default class Layout extends LitElement {
 
 	render() {
 		return html`
-			<div class="grid lg:grid-cols-sidebar-layout min-h-full">
+			<div class="grid lg:grid-cols-sidebar-layout min-h-full gap-5">
 				<!-- Sidebar -->
-				<div class="flex flex-col border-white/10 border-r">
-					<div class="min-h-full overflow-y-auto px-6 py-5 w-full h-full">
+				<div class="flex flex-col border-white/10 lg:border-r">
+					<div class="min-h-full lg:overflow-y-auto w-full h-full mt-8">
 						<slot name="sidebar"></slot>
 					</div>
 				</div>
 
 				<!-- Main -->
-				<main class="w-full">
+				<main class="w-full mt-8">
 					<slot name="body"></slot>
 				</main>
 			</div>
@@ -46,7 +46,7 @@ export class Body extends LitElement {
 	static styles = cssify();
 
 	render() {
-		return html` <div class="px-4 sm:px-6 lg:px-8 py-2 sm:py-3 lg:py-4"><slot></slot></div> `;
+		return html` <div><slot></slot></div> `;
 	}
 }
 

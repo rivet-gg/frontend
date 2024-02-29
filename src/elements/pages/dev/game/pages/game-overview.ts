@@ -255,7 +255,7 @@ export default class DevGameOverview extends LitElement {
 	renderNamespaceList(game: Rivet.cloud.GameFull): TemplateResult {
 		if (!game.namespaces) return html`<h1>No namespaces found</h1>`;
 		return html`
-			<div class="ml-auto w-1/2">
+			<div class="w-full">
 				<h3 class="text-xl">Namespaces</h3>
 				<div class="flex flex-col space-y-2 pt-4">
 					<button
@@ -289,7 +289,7 @@ export default class DevGameOverview extends LitElement {
 
 	renderAnalytics(game: Rivet.cloud.GameFull): TemplateResult {
 		return html`
-			<div class="w-1/2 ">
+			<div>
 				<h1 class="text-xl pb-4">Analytics</h1>
 				<rvt-game-analytics .game=${game}></rvt-game-analytics>
 			</div>
@@ -298,7 +298,7 @@ export default class DevGameOverview extends LitElement {
 
 	render() {
 		return html`
-			<div class="mx-auto max-w-contentwidth px-3 md:px-5 lg:px-0 pb-8">
+			<div>
 				<game-banner .game=${this.game}></game-banner>
 
 				${when(
@@ -313,7 +313,7 @@ export default class DevGameOverview extends LitElement {
 						</a>`
 				)}
 
-				<div class="flex flex-row w-full space-x-8 max-md:px-4 ">
+				<div class="w-full gap-8 flex flex-col md:grid grid-cols-2">
 					${when(this.game, () => this.renderAnalytics(this.game))}
 					${when(this.game, () => this.renderNamespaceList(this.game))}
 				</div>

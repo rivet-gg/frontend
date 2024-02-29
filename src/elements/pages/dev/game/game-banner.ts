@@ -16,7 +16,7 @@ export default class DevGameBanner extends LitElement {
 	renderGameIcon(game: cloud.GameFull): TemplateResult {
 		return html`
 			<lazy-img
-				class="mx-auto w-28 h-28 z-10"
+				class="mx-auto w-28 h-28 relative"
 				bg-size=${game ? (game.logoUrl ? 'contain' : 'cover') : 'cover'}
 				src=${game.logoUrl ?? assets.asset('/games/blank/logo.png')}
 			></lazy-img>
@@ -36,7 +36,7 @@ export default class DevGameBanner extends LitElement {
 						? html`
 								${this.game.bannerUrl
 									? html` <lazy-img
-											class="absolute left-0 top-0 w-full h-full opacity-40"
+											class="absolute left-0 top-0 w-full h-full opacity-40 -z-1"
 											src=${this.game.bannerUrl}
 											bg-size="cover"
 									  ></lazy-img>`
@@ -52,7 +52,7 @@ export default class DevGameBanner extends LitElement {
 									Settings
 								</rvt-button>
 								${this.renderGameIcon(this.game)}
-								<h1 class="text-2xl mt-8 z-10">${this.game.displayName}</h1>
+								<h1 class="text-2xl mt-8 relative">${this.game.displayName}</h1>
 						  `
 						: html``}
 				</div>

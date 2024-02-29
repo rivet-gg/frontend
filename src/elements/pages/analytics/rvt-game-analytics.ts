@@ -145,7 +145,7 @@ export class RvtGameAnalytics extends LitElement {
 
 		return html`
 			<div class="flex flex-col">
-				<div class="flex flex-row justify-between">
+				<div class="flex flex-col gap-2 sm:gap-0 sm:flex-row justify-between">
 					<div>
 						<rvt-button
 							@click=${this.handleDateRangeClick.bind(this, '24h')}

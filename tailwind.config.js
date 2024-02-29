@@ -41,7 +41,7 @@ module.exports = {
 				98: '.98'
 			},
 			maxWidth: {
-				contentwidth: '1100px'
+				contentwidth: '80rem'
 			},
 			translate: {
 				'.05': '.05rem'
@@ -51,7 +51,7 @@ module.exports = {
 				overlay: '6'
 			},
 			gridTemplateColumns: {
-				'sidebar-layout': '18rem calc(100vw - 18rem)'
+				'sidebar-layout': '15rem calc(100% - 15rem)'
 			},
 			aria: {
 				busy: 'busy',

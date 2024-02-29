@@ -136,6 +136,7 @@ export default class RvtBreadcrumbs extends LitElement {
 					href: routes.devGameOverview.build({ gameId: this.game.data?.game.gameId })
 				}),
 				html`<rvt-namespace-dropdown
+					class="ms-3.5 min-w-32"
 					.game=${this.game.data?.game}
 					.currentNamespace=${currentNamespace}
 				></rvt-namespace-dropdown>`
@@ -170,31 +171,31 @@ export default class RvtBreadcrumbs extends LitElement {
 			></lazy-img>
 		`,
 		a: (opts: { content: TemplateResult; href?: string }) => html`
-			<a
-				href=${ifDefined(opts.href)}
-				class=${clsx(
-					opts.href ? 'hover:bg-slate-200/5 hover:text-white' : '',
-					'text-slate-200 group-last:hover:bg-transparent group-last:hover:text-slate-200 flex font-display text-md items-center rounded-md gap-3 pl-3.5 pr-3.5 py-1.5 transition'
-				)}
-			>
-				${opts.content}
-			</a>
-		`
+			<rvt-button variant="nav" href=${ifDefined(opts.href)}>${opts.content}</rvt-button>
+		`,
+		home: () =>
+			html`<a href=${routes.home.build({})}
+				><e-svg src="solid/home" class="block h-4 w-4 flex-shrink-0 text-cream-100"></e-svg
+			></a>`
 	};
 
 	renderChevron(): TemplateResult {
-		return html`
-			<e-svg src="regular/chevron-right" class="h-5 w-5 flex-shrink-0 text-gray-200"></e-svg>
-		`;
+		return html` <e-svg src="solid/chevron-right" class="h-3 w-3 flex-shrink-0 text-cream-100"></e-svg> `;
 	}
 
 	render() {
 		let crumbs = this.generateCrumbs();
-		return html` <ol role="list" class="flex items-center">
+		if (crumbs.length < 1) {
+			return html``;
+		}
+		return html` <ol role="list" class="flex items-center h-12">
+			<li class="group me-3.5">
+				<div class="flex items-center">${this.fragment.home()}</div>
+			</li>
 			${map(
 				crumbs,
 				(crumb, index) =>
-					html`<li class="group">
+					html`<li class="group flex-shrink-0">
 						<div class="flex items-center">
 							${when(index <= crumbs.length - 1, () => this.renderChevron())} ${crumb}
 						</div>

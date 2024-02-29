@@ -282,13 +282,13 @@ export default class GroupPage extends LitElement {
 
 	renderDesktop(profileNotFound: boolean, isOwner: boolean) {
 		return html`
-			<div class="mx-auto max-w-contentwidth px-3 md:px-5 lg:px-0 pb-8">
+			<div>
 				<group-banner .group=${this.profile}></group-banner>
-				<div class="flex flex-row w-full space-x-8 max-md:px-4 ">
+				<div class="flex flex-row w-full">
 					${when(
 						this.games && this.profile.isCurrentIdentityMember,
 						() =>
-							html`<div class="games-list grid grid-cols-4 gap-4 w-full">
+							html`<div class="games-list grid grid-cols-2 md:grid-cols-4 gap-4 w-full">
 								<div
 									id="create-game"
 									class=${clsx(
