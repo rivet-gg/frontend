@@ -16,7 +16,7 @@ module.exports = async function () {
 			}),
 			sentryWebpackPlugin({
 				authToken: process.env.SENTRY_AUTH_TOKEN,
-				org: 'rivet-gg',
+				org: 'rivet-gaming',
 				project: 'hub'
 			})
 		]
