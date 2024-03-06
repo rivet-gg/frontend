@@ -306,14 +306,6 @@ export default class RvtUserGames extends LitElement {
 										})}
 										>Analytics</rvt-button
 									>
-
-									<rvt-button
-										href=${routes.groupSettings.build({
-											groupId: group.groupId,
-											tab: 'Billing'
-										})}
-										>Billing</rvt-button
-									>
 									<rvt-button href=${routes.groupSettings.build({ groupId: group.groupId })}
 										>Settings</rvt-button
 									>

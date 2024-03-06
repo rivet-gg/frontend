@@ -1,9 +1,6 @@
 import { LitElement, html, PropertyValues } from 'lit';
 import { repeat } from 'lit/directives/repeat.js';
-import { map } from 'lit/directives/map.js';
-import { when } from 'lit/directives/when.js';
-import clsx from 'clsx';
-import { customElement, property } from 'lit/decorators.js';
+import { customElement, property, queryAll, state } from 'lit/decorators.js';
 import { responses } from '../../../../../routes';
 import { cssify } from '../../../../../utils/css';
 import utils from '../../../../../utils/utils';
@@ -15,12 +12,20 @@ import { getRegionEmoji } from '../../../../../utils/emoji';
 import { RepeatingRequest } from '../../../../../utils/repeating-request';
 import logging from '../../../../../utils/logging';
 import { globalEventGroups } from '../../../../../utils/global-events';
+import { DropDownSelectEvent, DropDownSelection } from '../../../../dev/drop-down-list';
+import TextInput from '../../../../dev/text-input';
+import { showAlert } from '../../../../../ui/helpers';
 
-interface PaymentMethodAlert {
-	status: 'success' | 'error';
-	message: string;
-	date: Date;
-}
+const PRICE_PER_CORE = 22.76;
+
+const DEDICATED_HARDWARE_LIST: DropDownSelection<number>[] = [
+	{ value: 1 / 8, label: '1/8 core' },
+	{ value: 1 / 4, label: '1/4 core' },
+	{ value: 1 / 2, label: '1/2 core' },
+	{ value: 1, label: '1 core' },
+	{ value: 2, label: '2 cores' },
+	{ value: 4, label: '4 cores' }
+];
 
 @customElement('page-dev-game-settings-billing')
 export default class DevGameSettingsBilling extends LitElement {
@@ -45,6 +50,34 @@ export default class DevGameSettingsBilling extends LitElement {
 	loadError?: any;
 
 	billingGroupStream?: RepeatingRequest<RivetEe.ee.cloud.groups.billing.GetBillingResponse>;
+
+	@state()
+	private dedicatedHardware = DEDICATED_HARDWARE_LIST[0];
+
+	@queryAll('[data-region]')
+	private regionInputs: NodeList;
+
+	private numberFormatter = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' });
+
+	private get totalPrice() {
+		let totalCores =
+			this.gamePlanConfig?.dynamicServersCapacity.reduce((total, region) => total + region.cores, 0) ??
+			0;
+
+		return totalCores * this.dedicatedHardware.value * PRICE_PER_CORE;
+	}
+
+	private get isChanged() {
+		return (
+			this.gamePlan?.dynamicServersCapacity.findIndex(
+				region =>
+					region.cores !=
+					this.gamePlanConfig.dynamicServersCapacity.find(
+						config => config.regionId == region.region.regionId
+					).cores
+			) >= 0
+		);
+	}
 
 	updated(changedProperties: PropertyValues) {
 		// Request data if group changed
@@ -121,238 +154,147 @@ export default class DevGameSettingsBilling extends LitElement {
 		open(portal.stripeSessionUrl, '_blank');
 	}
 
+	private updateDedicatedHardware(event: DropDownSelectEvent<number>) {
+		let inputs = Array.from(this.regionInputs.values()) as TextInput[];
+
+		for (let capacity of this.gamePlanConfig.dynamicServersCapacity) {
+			capacity.cores = Math.ceil(
+				(capacity.cores * this.dedicatedHardware.value) / event.selection.value
+			);
+
+			let input = inputs.find(input => input.dataset.region === capacity.regionId);
+			input.value = `${capacity.cores}`;
+		}
+
+		this.dedicatedHardware = event.selection;
+
+		this.requestUpdate('gamePlanConfig');
+	}
+
 	render() {
 		if (!this.billingGroup) return this.renderPlaceholder();
 		if (this.loadError) return responses.renderError(this.loadError);
 		if (global.bootstrapData.cluster != Rivet.cloud.BootstrapCluster.Enterprise)
 			return responses.renderEeOnly();
 
-		return html`
-			<div class="max-w-5xl">
-				<h1 class="text-lg">Billing</h1>
-
-				${when(
-					!this.billingGroup.paymentMethodAttachedTs,
-					() => this.renderPaymentMethod(),
-					() =>
-						html`<h2 class="text-base mt-4">Dynamic Servers</h2>
-							<div class="grid mt-4 grid-cols-2 gap-8">
-								<div>${this.renderDynamicServersCapacity()}</div>
-
-								<div>
-									${this.renderDynamicServersCapacityTotal()}
-									<div class="col-span-2 border-t border-white/10 my-2"></div>
-									${this.renderPaymentMethod()}
-								</div>
-							</div>`
-				)}
-			</div>
-		`;
-	}
-
-	renderPaymentMethod() {
-		// Payment method alerts
-		let paymentMethodAlerts: PaymentMethodAlert[] = [];
-		if (this.billingGroup.paymentMethodAttachedTs) {
-			if (this.billingGroup.paymentMethodValidTs)
-				paymentMethodAlerts.push({
-					status: 'success',
-					date: this.billingGroup.paymentMethodValidTs,
-					message: 'Payment method is valid'
-				});
-			else
-				paymentMethodAlerts.push({
-					status: 'error',
-					date: this.billingGroup.paymentMethodAttachedTs,
-					message: 'Payment method is invalid'
-				});
-		} else {
-			paymentMethodAlerts.push({ status: 'error', date: null, message: 'No payment method attached' });
-		}
-		if (this.billingGroup.paymentFailedTs)
-			paymentMethodAlerts.push({
-				status: 'error',
-				date: this.billingGroup.paymentFailedTs,
-				message: 'Payment failed'
-			});
-
-		return html`
-			<h1 class="text-base">Payment method</h1>
-			<div class="my-2">
-				${map(
-					paymentMethodAlerts,
-					alert => html`
-						<div
-							class=${clsx(
-								'flex flex-row gap-2 text-xs',
-								alert.status == 'error' ? 'text-red-500' : 'text-white'
-							)}
-						>
-							<p>
-								${alert.message}
-								${alert.date &&
-								html` <span class="italic"
-									>(checked ${utils.formatDateLong(alert.date)})</span
-								>`}
-							</p>
-						</div>
-					`
-				)}
-			</div>
-			<div class="-ms-4">
-				${when(
-					this.billingGroup.paymentMethodAttachedTs,
-					() =>
-						html`<rvt-button
-							variant="link"
-							size="sm"
-							@click=${this.openBillingPortal.bind(
-								this,
-								RivetEe.ee.cloud.groups.billing.StripePortalSessionIntent.General
-							)}
-							>Manage</rvt-button
-						>`,
-					() =>
-						html`<rvt-button
-							variant="link"
-							size="sm"
-							@click=${this.openBillingPortal.bind(
-								this,
-								RivetEe.ee.cloud.groups.billing.StripePortalSessionIntent.PaymentMethodUpdate
-							)}
-							>Add Payment Method</rvt-button
-						>`
-				)}
-
-				<rvt-button
-					variant="link"
-					size="sm"
-					@click=${this.openBillingPortal.bind(
-						this,
-						RivetEe.ee.cloud.groups.billing.StripePortalSessionIntent.General
-					)}
-					>View invoices</rvt-button
-				>
-			</div>
-		`;
-	}
-
-	renderDynamicServersCapacityTotal() {
-		// Calculate total core count
-		let totalCores =
-			this.gamePlanConfig?.dynamicServersCapacity.reduce((total, region) => total + region.cores, 0) ??
-			0;
-
-		// Determine if config has changed
-		let isChanged =
-			this.gamePlan?.dynamicServersCapacity.findIndex(
-				region =>
-					region.cores !=
-					this.gamePlanConfig.dynamicServersCapacity.find(
-						config => config.regionId == region.region.regionId
-					).cores
-			) >= 0;
-
-		let oldCores =
-			this.gamePlan?.dynamicServersCapacity.reduce((total, region) => total + region.cores, 0) ?? 0;
-
-		return html`<div>
-				<h2 class="text-base">Total</h2>
-				<p>
-					${totalCores} cores &times; $26.00 USD =
-					${when(
-						isChanged,
-						() => html`<span class="line-through">$${(oldCores * 26).toFixed(2)} USD</span>`
-					)}
-					<span class="text-lg my-4 font-bold">$${(totalCores * 26).toFixed(2)} USD</span>
-				</p>
-			</div>
-
-			<div class="flex flex-col gap-2 mt-2 mb-4">
-				<div class="text-xs">
-					If you are downgrading, your new plan will take effect at the end of your current billing
-					period. If you are upgrading, you will be billed immediately for the prorated amount.
-				</div>
-				<rvt-button
-					@click=${this.applyGamePlan.bind(this)}
-					?disabled=${!isChanged}
-					?loading=${this.gamePlanUpdating}
-					>Apply</rvt-button
-				>
-			</div>`;
-	}
-
-	renderDynamicServersCapacity() {
-		if (!this.billingGroup.paymentMethodValidTs) {
+		if (!this.billingGroup.paymentMethodAttachedTs) {
 			return html`
-				<h2>Dynamic Servers Capacity</h2>
-				<div>Please input a valid payment method</div>
+				<div class="flex flex-col align-center justify-center text-center lg:h-screen">
+					<div class="mb-4 rounded-full text-white bg-charcole-900 self-center p-6">
+						<e-svg class="w-12 h-12" src="solid/credit-card"></e-svg>
+					</div>
+					<h2 class="text-4xl mb-2">Add Payment Method</h2>
+					<p>
+						You must add a payment method before you can add<br />
+						servers to your project.
+					</p>
+					<rvt-button
+						class="self-center mt-4"
+						@click=${this.openBillingPortal.bind(
+							this,
+							RivetEe.ee.cloud.groups.billing.StripePortalSessionIntent.PaymentMethodUpdate
+						)}
+						>Continue</rvt-button
+					>
+				</div>
 			`;
 		}
 
 		return html`
-			<h2>Capacity per region</h2>
-			<p class="my-2 text-xs">
-				Set the number of cores you want to allocate to each region. Each core includes 1 CPU core and
-				~2 GB RAM.
-				<rvt-a href="https://rivet.gg/docs/dynamic-servers/concepts/available-tiers"
-					>Read more about specs</rvt-a
-				>.
-			</p>
-			<div class="grid grid-cols-2 gap-2 max-w-5xl w-full mt-4 items-center">
-				<!-- Header -->
-				<div class="font-bold text-base text-sm">Region</div>
-				<div class="font-bold text-right text-sm pe-6 me-0.5">Capacity</div>
+			<div class="max-w-5xl">
+				<h1 class="text-3xl flex items-center gap-8  font-normal">
+					<span>${this.game.displayName} Billing</span>
+					<rvt-button
+						@click=${this.openBillingPortal.bind(
+							this,
+							RivetEe.ee.cloud.groups.billing.StripePortalSessionIntent.PaymentMethodUpdate
+						)}
+						>Manage</rvt-button
+					>
+				</h1>
 
-				<div class="col-span-2 border-t border-white/10 my-2"></div>
+				<p class="mt-4 pb-4 mb-4 border-b text-sm border-white">For questions about billing, contact <rvt-a href="mailto:billing@rivet.gg">billing@rivet.gg</rvt-a></p>
 
-				<!-- Items -->
-				${repeat(
-					this.gamePlan?.dynamicServersCapacity ?? [],
-					region => region.region.regionId,
-					region => {
-						let config = this.gamePlanConfig.dynamicServersCapacity.find(
-							config => config.regionId == region.region.regionId
-						);
-						let regionIcon = getRegionEmoji(region.region.universalRegion);
-						return html`
-							<div>
-								<e-svg class="w-6 h-6 mr-1" preserve src=${regionIcon}></e-svg>
-								${region.region.regionDisplayName}
-							</div>
-							<div class="flex items-center text-right justify-end">
-								<rvt-button
-									variant="link"
-									@click=${this.handleDynamicServersRegionDecrease.bind(
-										this,
-										region.region.regionId
+				<div class="flex flex-col lg:flex-row items-start lg:items-center justify-between mb-4">
+					<h2 class="text-2xl">Manage ${this.game.displayName} Servers</h2>
+					<rvt-a href="https://rivet.gg/docs/dynamic-servers/concepts/available-tiers" class="flex items-center">
+						<span class="text-md">Learn more about pricing & dedicated hardware specs</span>
+						<e-svg class="ml-2" src="solid/arrow-up-right-from-square"/>
+					</rv-a>
+				</div>
+
+				<div class="mb-8">
+					<p class="mb-2">Dedicated Hardware</p>
+					<drop-down-list @select=${this.updateDedicatedHardware.bind(
+						this
+					)} .options=${DEDICATED_HARDWARE_LIST} .selection=${
+						this.dedicatedHardware
+					}></drop-down-list>
+				</div>
+
+				<div class="grid grid-cols-3 gap-2 max-w-5xl w-full items-center">
+					<!-- Header -->
+					<div class="text-base mb-4">Region</div>
+					<div class="text-center mb-4">Hardware amount</div>
+					<div class="text-right pe-6 me-0.5 mb-4">Price</div>
+
+
+					<!-- Items -->
+					${repeat(
+						this.gamePlan?.dynamicServersCapacity ?? [],
+						region => region.region.regionId,
+						region => {
+							let config = this.gamePlanConfig.dynamicServersCapacity.find(
+								config => config.regionId == region.region.regionId
+							);
+							let regionIcon = getRegionEmoji(region.region.universalRegion);
+							return html`
+								<div>
+									<e-svg class="w-6 h-6 mr-1" preserve src=${regionIcon}></e-svg>
+									${region.region.regionDisplayName}
+								</div>
+								<div class="flex justify-center items-center">
+									<text-input
+										data-region=${region.region.regionId}
+										class="w-16 text-center mr-2"
+										number
+										min="0"
+										max="32768"
+										placeholder="0"
+										.init=${config.cores}
+										@change=${this.handleDynamicServersRegionInput.bind(
+											this,
+											region.region.regionId
+										)}
+									></text-input>
+									&times; ${this.dedicatedHardware.label}
+								</div>
+								<div class="text-right justify-end">
+									${this.numberFormatter.format(
+										config.cores * PRICE_PER_CORE * this.dedicatedHardware.value
 									)}
-									>-</rvt-button
-								>
-								<text-input
-									class="w-16 text-center"
-									number
-									min="0"
-									max="32768"
-									placeholder="0"
-									.init=${config.cores}
-									@change=${this.handleDynamicServersRegionInput.bind(
-										this,
-										region.region.regionId
-									)}
-								></text-input>
-								<rvt-button
-									variant="link"
-									@click=${this.handleDynamicServersRegionIncrease.bind(
-										this,
-										region.region.regionId
-									)}
-									>+</rvt-button
-								>
-							</div>
-						`;
-					}
-				)}
+								</div>
+							`;
+						}
+					)}
+					<div class="col-span-3 border-t border-white/10 my-2"></div>
+					<div>Monthly Server Total:</div>
+					<div class="text-center">${this.numberFormatter.format(this.totalPrice)}</div>
+				</div>
+				
+				<div class="mt-4 flex gap-4"> 
+					<rvt-button
+						@click=${this.applyGamePlan.bind(this)} 
+						?loading=${this.gamePlanUpdating}
+						?disabled=${!this.isChanged}>
+						Apply
+					</rvt-button>
+					<rvt-button 
+						@click=${this.resetGamePlan.bind(this)} 
+					 	?disabled=${!this.isChanged || this.gamePlanUpdating}>
+						Cancel
+					</rvt-button>
+				</div>
 			</div>
 		`;
 	}
@@ -363,22 +305,34 @@ export default class DevGameSettingsBilling extends LitElement {
 		this.requestUpdate('gamePlanConfig');
 	}
 
-	handleDynamicServersRegionDecrease(regionId: string) {
-		let region = this.gamePlanConfig.dynamicServersCapacity.find(config => config.regionId == regionId);
-		region.cores = Math.max(region.cores - 1, 0);
-		this.requestUpdate('gamePlanConfig');
-	}
-
-	handleDynamicServersRegionIncrease(regionId: string) {
-		let region = this.gamePlanConfig.dynamicServersCapacity.find(config => config.regionId == regionId);
-		region.cores += 1;
-		this.requestUpdate('gamePlanConfig');
-	}
-
 	async applyGamePlan() {
-		try {
-			this.gamePlanUpdating = true;
+		this.gamePlanUpdating = true;
+		let isConfirmed = await new Promise(resolve =>
+			showAlert(
+				'Confirm',
+				html`<p>
+					If you are downgrading the server amount it will reflect the next billing cycle or new
+					servers will be billed immediately at the prorated amount.
+				</p>`,
+				[
+					{
+						label: 'Purchase',
+						cb: () => resolve(true)
+					},
+					{
+						label: 'Cancel',
+						cb: () => resolve(false)
+					}
+				]
+			)
+		);
 
+		if (!isConfirmed) {
+			this.gamePlanUpdating = false;
+			return;
+		}
+
+		try {
 			await global.apiEe.ee.cloud.games.billing.updatePlan(this.game.gameId, {
 				plan: this.gamePlanConfig
 			});
@@ -390,6 +344,21 @@ export default class DevGameSettingsBilling extends LitElement {
 		} catch (err) {
 			this.loadError = err;
 		}
+	}
+
+	resetGamePlan() {
+		this.gamePlanConfig.dynamicServersCapacity = this.gamePlan.dynamicServersCapacity.map(capacity => ({
+			regionId: capacity.region.regionId,
+			cores: capacity.cores
+		}));
+
+		let inputs = Array.from(this.regionInputs.values()) as TextInput[];
+		for (let capacity of this.gamePlanConfig.dynamicServersCapacity) {
+			let input = inputs.find(input => input.dataset.region === capacity.regionId);
+			input.value = `${capacity.cores}`;
+		}
+
+		this.requestUpdate('gamePlanConfig');
 	}
 
 	renderPlaceholder() {

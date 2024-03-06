@@ -45,7 +45,7 @@ export default class AlertPanel extends LitElement {
 
 		return html`
 			<div id="base">
-				<div id="title">${this.data.title}</div>
+				<div id="title" class="font-display text-3xl">${this.data.title}</div>
 				${this.data.details ? html`<div id="details">${this.data.details}</div>` : null}
 				<div id="footer">
 					<div id="options">
