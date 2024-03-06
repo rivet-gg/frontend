@@ -9,6 +9,7 @@ import { BroadcastSystem } from './broadcast';
 import utils from './utils';
 import * as api from './api';
 import { RivetClient, Rivet } from '@rivet-gg/api';
+import { identifyUser } from './identify-user';
 
 export class Token {
 	public readonly identityId: string;
@@ -144,9 +145,7 @@ export class AuthManager {
 		let res = await this.api.auth.tokens.refreshIdentityToken({ logout });
 
 		// Identify the user
-		//
-		// This is in the same format as used by the backend. See analytics-event-create service.
-		posthog.identify(`user:${res.identityId}`);
+		identifyUser(res.identityId);
 
 		// Build new token
 		let token = new Token(res);

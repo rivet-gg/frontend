@@ -10,11 +10,12 @@ import { CurrentIdentityCache, BootstrapCache } from '../data/cache';
 import { BroadcastEvent, BroadcastEventKind } from '../data/broadcast';
 import { ls } from './cache';
 import { BroadcastSystem } from './broadcast';
-import { Rivet, RivetClient, fetcher } from '@rivet-gg/api';
-import { Rivet as RivetEe, RivetClient as RivetEeClient } from '@rivet-gg/api-ee';
+import { Rivet, RivetClient } from '@rivet-gg/api';
+import { RivetClient as RivetEeClient } from '@rivet-gg/api-ee';
 import { HttpRequest } from '@aws-sdk/protocol-http';
 import { HttpHandlerOptions } from '@aws-sdk/types';
 import { RepeatingRequest } from './repeating-request';
+import { identifyUser } from './identify-user';
 
 /*
 
@@ -427,7 +428,10 @@ export class GlobalState {
 			if (window.location.pathname.startsWith('/access-token/')) status = GlobalStatus.AccessToken;
 			else status = GlobalStatus.Unregistered;
 		} else if (this.troubleConnecting) status = GlobalStatus.Reconnecting;
-		else status = GlobalStatus.Connected;
+		else {
+			status = GlobalStatus.Connected;
+			identifyUser(global.currentIdentity.identityId, global.currentIdentity);
+		}
 
 		// Dispatch event
 		if (status !== this.status) {
