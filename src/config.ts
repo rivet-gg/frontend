@@ -16,7 +16,7 @@ if (apiEndpoint == '__AUTO__') {
 
 const config = {
 	RIVET_NAMESPACE: ENV_RIVET_NAMESPACE,
-	DEBUG: localStorage.RIVET_DEBUG || ENV_RIVET_NAMESPACE != 'prod',
+	DEBUG: localStorage.RIVET_DEBUG || ENV_RIVET_NAMESPACE != 'main',
 	ALLOW_PAGE_CACHE: window.localStorage.getItem('rivet:disable-page-cache') == null,
 
 	GIT_COMMIT: ENV_GIT_COMMIT,
