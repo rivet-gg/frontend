@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils";
 import { HTMLAttributes, PropsWithChildren } from "react";
 
 export const Typography = {
-  h1: ({
+  H1: ({
     className,
     ...props
   }: PropsWithChildren<HTMLAttributes<HTMLHeadingElement>>) => (
@@ -14,7 +14,7 @@ export const Typography = {
       {...props}
     />
   ),
-  h2: ({
+  H2: ({
     className,
     ...props
   }: PropsWithChildren<HTMLAttributes<HTMLHeadingElement>>) => (
@@ -26,7 +26,7 @@ export const Typography = {
       {...props}
     />
   ),
-  h3: ({
+  H3: ({
     className,
     ...props
   }: PropsWithChildren<HTMLAttributes<HTMLHeadingElement>>) => (
@@ -38,7 +38,7 @@ export const Typography = {
       {...props}
     />
   ),
-  h4: ({
+  H4: ({
     className,
     ...props
   }: PropsWithChildren<HTMLAttributes<HTMLHeadingElement>>) => (
@@ -50,7 +50,7 @@ export const Typography = {
       {...props}
     />
   ),
-  p: ({
+  P: ({
     className,
     ...props
   }: PropsWithChildren<HTMLAttributes<HTMLParagraphElement>>) => (
@@ -59,7 +59,7 @@ export const Typography = {
       {...props}
     />
   ),
-  blockquote: ({
+  Quote: ({
     className,
     ...props
   }: PropsWithChildren<HTMLAttributes<HTMLQuoteElement>>) => (
@@ -68,7 +68,7 @@ export const Typography = {
       {...props}
     />
   ),
-  ul: ({
+  Ul: ({
     className,
     ...props
   }: PropsWithChildren<HTMLAttributes<HTMLUListElement>>) => (
@@ -77,7 +77,7 @@ export const Typography = {
       {...props}
     />
   ),
-  ol: ({
+  Ol: ({
     className,
     ...props
   }: PropsWithChildren<HTMLAttributes<HTMLOListElement>>) => (
@@ -86,7 +86,7 @@ export const Typography = {
       {...props}
     />
   ),
-  code: ({
+  Code: ({
     className,
     ...props
   }: PropsWithChildren<HTMLAttributes<HTMLElement>>) => (
@@ -98,7 +98,7 @@ export const Typography = {
       {...props}
     />
   ),
-  lead: ({
+  Lead: ({
     className,
     ...props
   }: PropsWithChildren<HTMLAttributes<HTMLSpanElement>>) => (
@@ -107,13 +107,13 @@ export const Typography = {
       {...props}
     />
   ),
-  large: ({
+  Large: ({
     className,
     ...props
   }: PropsWithChildren<HTMLAttributes<HTMLSpanElement>>) => (
     <span className={cn(className, "text-lg font-semibold")} {...props} />
   ),
-  small: ({
+  Small: ({
     className,
     ...props
   }: PropsWithChildren<HTMLAttributes<HTMLSpanElement>>) => (
@@ -122,7 +122,7 @@ export const Typography = {
       {...props}
     />
   ),
-  muted: ({
+  Muted: ({
     className,
     ...props
   }: PropsWithChildren<HTMLAttributes<HTMLSpanElement>>) => (

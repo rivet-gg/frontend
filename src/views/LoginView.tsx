@@ -1,16 +1,17 @@
-import { CenteredContent } from "@/components/layouts/CenteredContent";
+import { LoginDialog } from "@/components/dialogs/LoginDialog";
+import { VHCenter } from "@/components/layouts/VHCenter";
 import { Button } from "@/components/ui/button";
 import { Typography } from "@/components/ui/typography";
 
 export const LoginView = () => {
   return (
-    <CenteredContent>
-      <Typography.h1>Welcome to Rivet!</Typography.h1>
-      <Button>Register or Login</Button>
-      <Typography.muted>
+    <VHCenter>
+      <Typography.H1>Rivet</Typography.H1>
+      <LoginDialog trigger={<Button>Register or Login</Button>} />
+      <Typography.Muted>
         By clicking Register or Login, you agree to the Rivet Terms of Service
         and Privacy Policy.
-      </Typography.muted>
-    </CenteredContent>
+      </Typography.Muted>
+    </VHCenter>
   );
 };

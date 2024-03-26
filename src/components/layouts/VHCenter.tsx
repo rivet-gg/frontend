@@ -1,10 +1,10 @@
 import { ReactNode } from "react";
 
-interface CenteredContentProps {
+interface VHCenterProps {
   children: ReactNode;
 }
 
-export const CenteredContent = ({ children }: CenteredContentProps) => (
+export const VHCenter = ({ children }: VHCenterProps) => (
   <div className="flex justify-center items-center h-full flex-col gap-4 min-h-screen">
     {children}
   </div>
