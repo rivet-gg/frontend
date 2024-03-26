@@ -35,7 +35,7 @@
     --radius: 0.5rem;
   }
 
-  .dark {
+  :root[class~="dark"] {
     --background: 240 10% 3.9%;
     --foreground: 0 0% 98%;
 
@@ -71,6 +71,6 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground min-h-screen;
   }
 }
