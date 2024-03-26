@@ -14,16 +14,17 @@ import { OtpForm } from "@/components/forms/OtpForm";
 
 interface LoginDialogProps {
   trigger: ReactNode;
+  onOtpSubmit: () => void;
 }
 
-export const LoginDialog = ({ trigger }: LoginDialogProps) => {
+export const LoginDialog = ({ trigger, onOtpSubmit }: LoginDialogProps) => {
   const [formState, setFormState] = useState<"email" | "otp">("email");
   return (
     <Dialog>
       <DialogTrigger asChild>{trigger}</DialogTrigger>
       <DialogContent>
         {formState === "otp" ? (
-          <OtpForm onSubmit={() => {}}>
+          <OtpForm onSubmit={onOtpSubmit}>
             <DialogHeader>
               <DialogTitle>Welcome to Rivet!</DialogTitle>
               <DialogDescription>
@@ -31,7 +32,7 @@ export const LoginDialog = ({ trigger }: LoginDialogProps) => {
                 paste it into the area below.
               </DialogDescription>
             </DialogHeader>
-            <OtpForm.Code />
+            <OtpForm.Code autoFocus />
             <DialogFooter>
               <Button type="button" variant="secondary">
                 Cancel

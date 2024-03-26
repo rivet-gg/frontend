@@ -9,8 +9,9 @@ import {
   FormLabel,
   FormMessage,
 } from "../ui/form";
-import { ReactNode } from "react";
+import { InputHTMLAttributes, ReactNode } from "react";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "../ui/input-otp";
+import { REGEXP_ONLY_DIGITS_AND_CHARS } from "input-otp";
 
 export const formSchema = z.object({
   otp: z.string().min(8).max(8),
@@ -40,7 +41,7 @@ export const OtpForm = ({ onSubmit, children }: OtpFormProps) => {
   );
 };
 
-const Code = () => {
+const Code = (props: InputHTMLAttributes<HTMLInputElement>) => {
   const { control } = useFormContext<FormValues>();
   return (
     <FormField
@@ -50,7 +51,12 @@ const Code = () => {
         <FormItem>
           <FormLabel>Code</FormLabel>
           <FormControl>
-            <InputOTP maxLength={8} {...field}>
+            <InputOTP
+              {...props}
+              {...field}
+              maxLength={8}
+              pattern={REGEXP_ONLY_DIGITS_AND_CHARS}
+            >
               <InputOTPGroup>
                 <InputOTPSlot index={0} />
                 <InputOTPSlot index={1} />
