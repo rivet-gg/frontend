@@ -1,12 +1,9 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: ["class"],
-  content: [
-    './pages/**/*.{ts,tsx}',
-    './components/**/*.{ts,tsx}',
-    './app/**/*.{ts,tsx}',
-    './src/**/*.{ts,tsx}',
-  ],
+  // Restricting the content to the components folder
+  // forces developers to use ui components for styling instead of utility classes
+  content: ["./src/components/**/*.{ts,tsx}"],
   prefix: "",
   theme: {
     container: {
@@ -74,4 +71,4 @@ module.exports = {
     },
   },
   plugins: [require("tailwindcss-animate")],
-}
+};

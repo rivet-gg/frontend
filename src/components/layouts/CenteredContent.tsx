@@ -5,7 +5,7 @@ interface CenteredContentProps {
 }
 
 export const CenteredContent = ({ children }: CenteredContentProps) => (
-  <div className="flex justify-center items-center h-full flex-col gap-4">
+  <div className="flex justify-center items-center h-full flex-col gap-4 min-h-screen">
     {children}
   </div>
 );
