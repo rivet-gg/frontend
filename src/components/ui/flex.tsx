@@ -39,14 +39,14 @@ export interface StackProps
 }
 
 const VStack = (props: Omit<StackProps, "direction">) => {
-  return <Stack {...props} direction="col" />;
+  return <Flex {...props} direction="col" />;
 };
 
 const HStack = (props: Omit<StackProps, "direction">) => {
-  return <Stack {...props} direction="row" />;
+  return <Flex {...props} direction="row" />;
 };
 
-const Stack = ({ children, className, ...props }: StackProps) => {
+const Flex = ({ children, className, ...props }: StackProps) => {
   const htmlProps = omitAlignItemsProps(
     omitJustifyContentProps(
       omitFlexDirectionProps(
@@ -73,4 +73,4 @@ const Stack = ({ children, className, ...props }: StackProps) => {
   );
 };
 
-export { HStack, VStack, Stack };
+export { HStack, VStack, Flex };

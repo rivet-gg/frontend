@@ -1,7 +1,7 @@
 import { useAuth } from "@/auth";
 import { LoginDialog } from "@/components/dialogs/LoginDialog";
 import { Button } from "@/components/ui/button";
-import { VStack } from "@/components/ui/stack";
+import { VStack } from "@/components/ui/flex";
 import * as Typography from "@/components/ui/typography";
 import { useNavigate } from "@tanstack/react-router";
 
