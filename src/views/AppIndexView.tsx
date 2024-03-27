@@ -3,8 +3,10 @@ import { Button } from "@/components/ui/button";
 import { Grid } from "@/components/ui/grid";
 import { Flex } from "@/components/ui/flex";
 import { LargeText, Text } from "@/components/ui/typography";
+import { useAuth } from "@/contexts/auth";
 
 export const AppIndexView = () => {
+  const auth = useAuth();
   return (
     <Flex direction="col">
       <Flex direction="row" justify="between" my="4">
@@ -26,6 +28,7 @@ export const AppIndexView = () => {
         <Text>hello</Text>
         <Text>hello</Text>
       </Grid>
+      <Flex>{JSON.stringify(auth.profile, null, 2)}</Flex>
     </Flex>
   );
 };

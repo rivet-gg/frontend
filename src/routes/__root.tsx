@@ -1,15 +1,15 @@
-import { AuthContext } from "@/auth";
+import { AuthContext } from "@/contexts/auth";
 import * as Layout from "@/components/layouts/root";
+import { QueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Outlet, createRootRouteWithContext } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/router-devtools";
+import { bootstrapQueryOptions } from "@/queries/bootstrap";
 
-export interface RouterContext {
-  auth: AuthContext;
-}
+const RootRoute = () => {
+  useSuspenseQuery(bootstrapQueryOptions());
 
-export const Route = createRootRouteWithContext<RouterContext>()({
-  component: () => (
+  return (
     <>
       <Layout.Root>
         <Layout.Header />
@@ -22,5 +22,14 @@ export const Route = createRootRouteWithContext<RouterContext>()({
       <TanStackRouterDevtools />
       <ReactQueryDevtools />
     </>
-  ),
+  );
+};
+
+export interface RouterContext {
+  auth: AuthContext;
+  queryClient: QueryClient;
+}
+
+export const Route = createRootRouteWithContext<RouterContext>()({
+  component: RootRoute,
 });

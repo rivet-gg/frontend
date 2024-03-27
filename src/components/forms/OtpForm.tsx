@@ -1,4 +1,9 @@
-import { useForm, useFormContext } from "react-hook-form";
+import {
+  UseFormReturn,
+  useForm,
+  useFormContext,
+  useFormState,
+} from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import z from "zod";
 import {
@@ -12,16 +17,21 @@ import {
 import { InputHTMLAttributes, ReactNode } from "react";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "../ui/input-otp";
 import { REGEXP_ONLY_DIGITS_AND_CHARS } from "input-otp";
+import { Button, ButtonProps } from "../ui/button";
 
 export const formSchema = z.object({
   otp: z.string().min(8).max(8),
 });
 
 export type FormValues = z.infer<typeof formSchema>;
+export type FormSubmitHandler = (
+  values: FormValues,
+  form: UseFormReturn<FormValues>,
+) => Promise<void>;
 
 interface OtpFormProps {
   children: ReactNode;
-  onSubmit: (values: FormValues) => Promise<void> | void;
+  onSubmit: FormSubmitHandler;
 }
 
 export const OtpForm = ({ onSubmit, children }: OtpFormProps) => {
@@ -34,7 +44,10 @@ export const OtpForm = ({ onSubmit, children }: OtpFormProps) => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="contents">
+      <form
+        onSubmit={form.handleSubmit((values) => onSubmit(values, form))}
+        className="contents"
+      >
         {children}
       </form>
     </Form>
@@ -76,4 +89,10 @@ const Code = (props: InputHTMLAttributes<HTMLInputElement>) => {
   );
 };
 
+const Submit = (props: ButtonProps) => {
+  const { isSubmitting } = useFormState<FormValues>();
+  return <Button type="submit" disabled={isSubmitting} {...props} />;
+};
+
 OtpForm.Code = Code;
+OtpForm.Submit = Submit;

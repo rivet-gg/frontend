@@ -1,4 +1,3 @@
-import { useAuth } from "@/auth";
 import { LoginDialog } from "@/components/dialogs/LoginDialog";
 import { Button } from "@/components/ui/button";
 import { VStack } from "@/components/ui/flex";
@@ -7,18 +6,14 @@ import { useNavigate } from "@tanstack/react-router";
 
 export const LoginView = () => {
   const navigate = useNavigate();
-  const auth = useAuth();
-
-  const handleOtpSubmit = async () => {
-    auth.setUser("frog");
-    await navigate({ to: "/" });
-  };
 
   return (
     <VStack>
       <Typography.H1>Rivet</Typography.H1>
       <LoginDialog
-        onOtpSubmit={handleOtpSubmit}
+        onLogin={async () => {
+          await navigate({ to: "/" });
+        }}
         trigger={<Button>Register or Login</Button>}
       />
       <Typography.MutedText>
