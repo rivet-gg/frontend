@@ -5,6 +5,44 @@ module.exports = {
   // forces developers to use ui components for styling instead of utility classes
   content: ["./src/components/**/*.{ts,tsx}"],
   prefix: "",
+  safelist: [
+    {
+      pattern: /m(x|y|l|r|t|b)-(0|2|4|6|8|10)/,
+      variants: ["xl", "lg", "md", "sm"],
+    },
+    {
+      pattern: /m-(0|2|4|6|8|10)/,
+      variants: ["xl", "lg", "md", "sm"],
+    },
+    {
+      pattern: /p-(0|2|4|6|8|10)/,
+      variants: ["xl", "lg", "md", "sm"],
+    },
+    {
+      pattern: /p(x|y|l|r|t|b)-(0|2|4|6|8|10)/,
+      variants: ["xl", "lg", "md", "sm"],
+    },
+    {
+      pattern: /gap-(0|2|4|6|8|10)/,
+      variants: ["xl", "lg", "md", "sm"],
+    },
+    {
+      pattern: /flex-(row|col|col-reverse|row-reverse)/,
+      variants: ["xl", "lg", "md", "sm"],
+    },
+    {
+      pattern: /justify-(start|end|center|between|around)/,
+      variants: ["xl", "lg", "md", "sm"],
+    },
+    {
+      pattern: /items-(start|end|center|baseline|stretch)/,
+      variants: ["xl", "lg", "md", "sm"],
+    },
+    {
+      pattern: /grid-cols-(1|2|3|4|5|6)/,
+      variants: ["xl", "lg", "md", "sm"],
+    },
+  ],
   theme: {
     container: {
       center: true,

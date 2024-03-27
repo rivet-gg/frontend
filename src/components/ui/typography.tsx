@@ -107,14 +107,14 @@ const Lead = ({
   <span className={cn(className, "text-xl text-muted-foreground")} {...props} />
 );
 
-const Large = ({
+const LargeText = ({
   className,
   ...props
 }: PropsWithChildren<HTMLAttributes<HTMLSpanElement>>) => (
   <span className={cn(className, "text-lg font-semibold")} {...props} />
 );
 
-const Small = ({
+const SmallText = ({
   className,
   ...props
 }: PropsWithChildren<HTMLAttributes<HTMLSpanElement>>) => (
@@ -124,7 +124,7 @@ const Small = ({
   />
 );
 
-const Muted = ({
+const MutedText = ({
   className,
   ...props
 }: PropsWithChildren<HTMLAttributes<HTMLSpanElement>>) => (
@@ -137,13 +137,13 @@ export {
   H3,
   H4,
   Paragraph,
-  Paragraph as P,
+  Paragraph as Text,
   Quote,
   Ul,
   Ol,
   Code,
   Lead,
-  Large,
-  Small,
-  Muted,
+  LargeText,
+  SmallText,
+  MutedText,
 };

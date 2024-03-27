@@ -21,10 +21,10 @@ export const LoginView = () => {
         onOtpSubmit={handleOtpSubmit}
         trigger={<Button>Register or Login</Button>}
       />
-      <Typography.Muted>
+      <Typography.MutedText>
         By clicking Register or Login, you agree to the Rivet Terms of Service
         and Privacy Policy.
-      </Typography.Muted>
+      </Typography.MutedText>
     </VStack>
   );
 };

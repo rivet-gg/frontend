@@ -1,7 +1,34 @@
-import { ReactNode } from "react";
+import { HTMLAttributes, ReactNode } from "react";
+import {
+  GridColumnsUtilitiesProps,
+  getGridColumnsClass,
+  omitGridColumnsProps,
+} from "./helpers/grid-columns";
+import { cn } from "@/lib/utils";
+import { GapUtilitiesProps, getGapClass, omitGapProps } from "./helpers/gap";
 
-const Grid = ({ children }: { columns: 4; children: ReactNode }) => {
-  return <div className="grid grid-cols-4 gap-4">{children}</div>;
+interface GridProps
+  extends HTMLAttributes<HTMLDivElement>,
+    Partial<GridColumnsUtilitiesProps>,
+    Partial<GapUtilitiesProps> {
+  children: ReactNode;
+}
+
+const Grid = ({ children, className, ...props }: GridProps) => {
+  const htmlProps = omitGapProps(omitGridColumnsProps(props));
+  return (
+    <div
+      className={cn(
+        "grid",
+        getGridColumnsClass(props),
+        getGapClass(props),
+        className,
+      )}
+      {...htmlProps}
+    >
+      {children}
+    </div>
+  );
 };
 
 export { Grid };
