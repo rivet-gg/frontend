@@ -11,6 +11,7 @@ export const rivetClient = new RivetClient({
     )) as Rivet.auth.RefreshIdentityTokenResponse | undefined;
     const response = await fetch(args.url, {
       method: args.method,
+      credentials: "include",
       headers: {
         "Content-Type": "application/json",
         ...(identity ? { Authorization: `Bearer ${identity.token}` } : {}),

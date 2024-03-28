@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import * as React from "react";
 import {
   identityTokenQueryOptions,
@@ -15,16 +15,16 @@ export interface AuthContext {
 const AuthContext = React.createContext<AuthContext | null>(null);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const { isSuccess, refetch: refetchSession } = useQuery(
+  const { isSuccess, refetch: refetchSession } = useSuspenseQuery(
     identityTokenQueryOptions(),
   );
-  const { data: profile, refetch: refetchProfile } = useQuery(
+  const { data: profile, refetch: refetchProfile } = useSuspenseQuery(
     selfProfileQueryOptions({ enabled: isSuccess }),
   );
 
-  const refreshToken = useCallback(() => {
-    refetchSession();
-    refetchProfile();
+  const refreshToken = useCallback(async () => {
+    await refetchSession();
+    await refetchProfile();
   }, [refetchSession, refetchProfile]);
 
   return (

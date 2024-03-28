@@ -11,42 +11,53 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as LoginImport } from './routes/login'
-import { Route as LayoutImport } from './routes/_layout'
-import { Route as LayoutIndexImport } from './routes/_layout.index'
+import { Route as AuthenticatedImport } from './routes/_authenticated'
+import { Route as AuthenticatedLayoutImport } from './routes/_authenticated._layout'
+import { Route as AuthenticatedLayoutIndexImport } from './routes/_authenticated._layout.index'
+import { Route as AuthenticatedLayoutGamesGameIdImport } from './routes/_authenticated._layout.games.$gameId'
 
 // Create/Update Routes
 
-const LoginRoute = LoginImport.update({
-  path: '/login',
+const AuthenticatedRoute = AuthenticatedImport.update({
+  id: '/_authenticated',
   getParentRoute: () => rootRoute,
 } as any)
 
-const LayoutRoute = LayoutImport.update({
+const AuthenticatedLayoutRoute = AuthenticatedLayoutImport.update({
   id: '/_layout',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => AuthenticatedRoute,
 } as any)
 
-const LayoutIndexRoute = LayoutIndexImport.update({
+const AuthenticatedLayoutIndexRoute = AuthenticatedLayoutIndexImport.update({
   path: '/',
-  getParentRoute: () => LayoutRoute,
+  getParentRoute: () => AuthenticatedLayoutRoute,
 } as any)
+
+const AuthenticatedLayoutGamesGameIdRoute =
+  AuthenticatedLayoutGamesGameIdImport.update({
+    path: '/games/$gameId',
+    getParentRoute: () => AuthenticatedLayoutRoute,
+  } as any)
 
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/_layout': {
-      preLoaderRoute: typeof LayoutImport
+    '/_authenticated': {
+      preLoaderRoute: typeof AuthenticatedImport
       parentRoute: typeof rootRoute
     }
-    '/login': {
-      preLoaderRoute: typeof LoginImport
-      parentRoute: typeof rootRoute
+    '/_authenticated/_layout': {
+      preLoaderRoute: typeof AuthenticatedLayoutImport
+      parentRoute: typeof AuthenticatedImport
     }
-    '/_layout/': {
-      preLoaderRoute: typeof LayoutIndexImport
-      parentRoute: typeof LayoutImport
+    '/_authenticated/_layout/': {
+      preLoaderRoute: typeof AuthenticatedLayoutIndexImport
+      parentRoute: typeof AuthenticatedLayoutImport
+    }
+    '/_authenticated/_layout/games/$gameId': {
+      preLoaderRoute: typeof AuthenticatedLayoutGamesGameIdImport
+      parentRoute: typeof AuthenticatedLayoutImport
     }
   }
 }
@@ -54,8 +65,12 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 export const routeTree = rootRoute.addChildren([
-  LayoutRoute.addChildren([LayoutIndexRoute]),
-  LoginRoute,
+  AuthenticatedRoute.addChildren([
+    AuthenticatedLayoutRoute.addChildren([
+      AuthenticatedLayoutIndexRoute,
+      AuthenticatedLayoutGamesGameIdRoute,
+    ]),
+  ]),
 ])
 
 /* prettier-ignore-end */
