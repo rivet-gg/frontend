@@ -3,6 +3,8 @@ import { routeTree } from "./routeTree.gen";
 import { AuthProvider, useAuth } from "./contexts/auth";
 import { queryClient, queryClientPersister } from "./queries/global";
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
+import { Suspense } from "react";
+import { FullscreenLoading } from "./components/fullscreen-loading";
 
 declare module "@tanstack/react-router" {
   interface Register {
@@ -32,9 +34,11 @@ export const App = () => {
       client={queryClient}
       persistOptions={{ persister: queryClientPersister }}
     >
-      <AuthProvider>
-        <InnerApp />
-      </AuthProvider>
+      <Suspense fallback={<FullscreenLoading />}>
+        <AuthProvider>
+          <InnerApp />
+        </AuthProvider>
+      </Suspense>
     </PersistQueryClientProvider>
   );
 };
