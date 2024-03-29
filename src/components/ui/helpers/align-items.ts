@@ -7,22 +7,20 @@ export interface AlignItemsValuesUtilitiesProps {
   items: Responsive<AlignItemsValues>;
 }
 
-export const omitAlignItemsProps = <
+export function omitAlignItemsProps<
   T extends Partial<AlignItemsValuesUtilitiesProps>,
->(
-  props: T,
-): Omit<T, keyof AlignItemsValuesUtilitiesProps> => {
+>(props: T): Omit<T, keyof AlignItemsValuesUtilitiesProps> {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { items, ...rest } = props;
   return rest;
-};
+}
 
-export const getAlignItemsClass = (
+export function getAlignItemsClass(
   props: Partial<AlignItemsValuesUtilitiesProps>,
-) => {
+) {
   const { items } = props;
 
   return [items && getResponsiveValue(items, "items")]
     .filter(Boolean)
     .join(" ");
-};
+}

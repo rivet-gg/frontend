@@ -6,7 +6,7 @@ import { Outlet, createRootRouteWithContext } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/router-devtools";
 import { bootstrapQueryOptions } from "@/queries/bootstrap";
 
-const RootRoute = () => {
+function RootRoute() {
   useSuspenseQuery(bootstrapQueryOptions());
 
   return (
@@ -23,7 +23,7 @@ const RootRoute = () => {
       <ReactQueryDevtools />
     </>
   );
-};
+}
 
 export interface RouterContext {
   auth: AuthContext;

@@ -4,7 +4,7 @@ import { VStack } from "@/components/ui/flex";
 import * as Typography from "@/components/ui/typography";
 import { useNavigate } from "@tanstack/react-router";
 
-export const LoginView = () => {
+export function LoginView() {
   const navigate = useNavigate();
 
   return (
@@ -22,4 +22,4 @@ export const LoginView = () => {
       </Typography.MutedText>
     </VStack>
   );
-};
+}

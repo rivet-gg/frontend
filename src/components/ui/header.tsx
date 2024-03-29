@@ -3,7 +3,7 @@ import { Sheet, SheetContent, SheetTrigger } from "./sheet";
 import { Menu, Package2 } from "lucide-react";
 import { Button } from "./button";
 
-export const Header = () => {
+export function Header() {
   return (
     <header className="sticky border-b top-0 z-50 backdrop-blur w-full">
       <div className="container">
@@ -98,4 +98,4 @@ export const Header = () => {
       </div>
     </header>
   );
-};
+}

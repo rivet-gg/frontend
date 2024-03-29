@@ -4,7 +4,7 @@ import { Link } from "@tanstack/react-router";
 
 interface GameCardProps extends Rivet.game.Summary {}
 
-export const GameCard = ({ displayName, gameId }: GameCardProps) => {
+export function GameCard({ displayName, gameId }: GameCardProps) {
   return (
     <Link to="/games/$gameId" params={{ gameId }}>
       <Card>
@@ -14,4 +14,4 @@ export const GameCard = ({ displayName, gameId }: GameCardProps) => {
       </Card>
     </Link>
   );
-};
+}

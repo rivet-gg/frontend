@@ -11,7 +11,7 @@ interface GroupProps {
   group: GroupGames;
 }
 
-const Group = ({ group }: GroupProps) => {
+function Group({ group }: GroupProps) {
   return (
     <Flex direction="col" my="4">
       <Flex direction="row" justify="between" my="4">
@@ -31,9 +31,9 @@ const Group = ({ group }: GroupProps) => {
       </Grid>
     </Flex>
   );
-};
+}
 
-export const AppIndexView = () => {
+export function AppIndexView() {
   const { data } = useSuspenseQuery(gamesQueryOptions());
   return (
     <Flex direction="col">
@@ -42,4 +42,4 @@ export const AppIndexView = () => {
       ))}
     </Flex>
   );
-};
+}

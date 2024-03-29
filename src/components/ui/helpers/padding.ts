@@ -13,15 +13,15 @@ export interface PaddingUtilitiesProps {
   pl: Responsive<PaddingValues>;
 }
 
-export const omitPaddingProps = <T extends Partial<PaddingUtilitiesProps>>(
+export function omitPaddingProps<T extends Partial<PaddingUtilitiesProps>>(
   props: T,
-): Omit<T, keyof PaddingUtilitiesProps> => {
+): Omit<T, keyof PaddingUtilitiesProps> {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { p, px, py, pt, pb, pr, pl, ...rest } = props;
   return rest;
-};
+}
 
-export const getPaddingsClass = (props: Partial<PaddingUtilitiesProps>) => {
+export function getPaddingsClass(props: Partial<PaddingUtilitiesProps>) {
   const { p, px, py, pt, pb, pr, pl } = props;
 
   return [
@@ -35,4 +35,4 @@ export const getPaddingsClass = (props: Partial<PaddingUtilitiesProps>) => {
   ]
     .filter(Boolean)
     .join(" ");
-};
+}

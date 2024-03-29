@@ -7,22 +7,18 @@ export interface GridColumnsUtilitiesProps {
   columns: Responsive<GridColumnsValues>;
 }
 
-export const omitGridColumnsProps = <
+export function omitGridColumnsProps<
   T extends Partial<GridColumnsUtilitiesProps>,
->(
-  props: T,
-): Omit<T, keyof GridColumnsUtilitiesProps> => {
+>(props: T): Omit<T, keyof GridColumnsUtilitiesProps> {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { columns, ...rest } = props;
   return rest;
-};
+}
 
-export const getGridColumnsClass = (
-  props: Partial<GridColumnsUtilitiesProps>,
-) => {
+export function getGridColumnsClass(props: Partial<GridColumnsUtilitiesProps>) {
   const { columns } = props;
 
   return [columns && getResponsiveValue(columns, "grid-cols")]
     .filter(Boolean)
     .join(" ");
-};
+}

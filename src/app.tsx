@@ -23,12 +23,12 @@ const router = createRouter({
   defaultPreloadStaleTime: 0,
 });
 
-const InnerApp = () => {
+function InnerApp() {
   const auth = useAuth();
   return <RouterProvider router={router} context={{ auth }} />;
-};
+}
 
-export const App = () => {
+export function App() {
   return (
     <PersistQueryClientProvider
       client={queryClient}
@@ -41,4 +41,4 @@ export const App = () => {
       </Suspense>
     </PersistQueryClientProvider>
   );
-};
+}

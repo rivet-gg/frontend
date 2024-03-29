@@ -13,15 +13,15 @@ export interface MarginUtilitiesProps {
   ml: Responsive<MarginValues>;
 }
 
-export const omitMarginProps = <T extends Partial<MarginUtilitiesProps>>(
+export function omitMarginProps<T extends Partial<MarginUtilitiesProps>>(
   props: T,
-): Omit<T, keyof MarginUtilitiesProps> => {
+): Omit<T, keyof MarginUtilitiesProps> {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { m, mx, my, mt, mb, mr, ml, ...rest } = props;
   return rest;
-};
+}
 
-export const getMarginClass = (props: Partial<MarginUtilitiesProps>) => {
+export function getMarginClass(props: Partial<MarginUtilitiesProps>) {
   const { m, mx, my, mt, mb, mr, ml } = props;
 
   return [
@@ -35,4 +35,4 @@ export const getMarginClass = (props: Partial<MarginUtilitiesProps>) => {
   ]
     .filter(Boolean)
     .join(" ");
-};
+}

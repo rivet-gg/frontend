@@ -1,9 +1,9 @@
 import { Responsive } from "./types";
 
-export const getResponsiveValue = <T extends string>(
+export function getResponsiveValue<T extends string>(
   value: Responsive<T> | undefined,
   key: string,
-) => {
+) {
   if (typeof value === "object") {
     return Object.entries(value)
       .map(([breakpoint, value]) => {
@@ -13,4 +13,4 @@ export const getResponsiveValue = <T extends string>(
   }
 
   return `${key}-${value}`;
-};
+}

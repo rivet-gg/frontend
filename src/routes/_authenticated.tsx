@@ -3,7 +3,7 @@ import { useAuth } from "@/contexts/auth";
 import { LoginView } from "@/views/login-view";
 import { Outlet, createFileRoute } from "@tanstack/react-router";
 
-const Authenticated = () => {
+function Authenticated() {
   const { profile } = useAuth();
 
   if (!profile?.identity.isRegistered) {
@@ -15,7 +15,7 @@ const Authenticated = () => {
   }
 
   return <Outlet />;
-};
+}
 
 export const Route = createFileRoute("/_authenticated")({
   component: Authenticated,

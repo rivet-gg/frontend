@@ -7,7 +7,7 @@ interface GameViewProps {
   gameId: string;
 }
 
-export const GameView = ({ gameId }: GameViewProps) => {
+export function GameView({ gameId }: GameViewProps) {
   const { data } = useSuspenseQuery(gameQueryOptions(gameId));
   return (
     <Flex mt="4" direction="col">
@@ -20,4 +20,4 @@ export const GameView = ({ gameId }: GameViewProps) => {
       </Ol>
     </Flex>
   );
-};
+}
