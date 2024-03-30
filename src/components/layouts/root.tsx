@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import { Header as UiHeader } from "../header";
 
 interface RootProps {
   children: ReactNode;
@@ -13,11 +14,7 @@ const Main = ({ children }: RootProps) => {
 };
 
 const Header = () => {
-  return (
-    <header className="bg-gray-800 text-white p-4">
-      <div className="container">Header</div>
-    </header>
-  );
+  return <UiHeader />;
 };
 
 const Footer = () => {
