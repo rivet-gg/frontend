@@ -11,7 +11,7 @@ export interface PageProps {
 export const Page = ({ title, children, className }: PageProps) => {
   return (
     <Flex direction="col" gap="4" className={className}>
-      <H1>{title}</H1>
+      <H1 className="my-8">{title}</H1>
       {children}
     </Flex>
   );

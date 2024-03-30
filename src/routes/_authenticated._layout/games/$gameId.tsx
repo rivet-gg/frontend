@@ -1,5 +1,5 @@
 import { gameQueryOptions } from "@/queries/games";
-import { GameView } from "@/views/game-view";
+import { GameView } from "@/views/game-index-view";
 import { createFileRoute } from "@tanstack/react-router";
 
 function GameIdRoute() {

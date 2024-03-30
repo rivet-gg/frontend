@@ -42,6 +42,10 @@ module.exports = {
       pattern: /grid-cols-(1|2|3|4|5|6)/,
       variants: ["xl", "lg", "md", "sm"],
     },
+    {
+      pattern: /w-(1\/3|2\/3|full)/,
+      variants: ["xl", "lg", "md", "sm"],
+    },
   ],
   theme: {
     container: {

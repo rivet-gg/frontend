@@ -15,7 +15,7 @@ export function GameCard({ displayName, gameId, logoUrl }: GameCardProps) {
               logoUrl || "https://assets2.rivet.gg/games/blank/blankgame.svg"
             }
             className="w-24 h-24 mx-auto object-contain"
-            alt=""
+            alt="Game logo"
           />
         </CardContent>
         <CardFooter className="justify-center">

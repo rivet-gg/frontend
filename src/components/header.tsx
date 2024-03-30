@@ -26,7 +26,7 @@ const UserProfileButton = () => {
 
 export function Header() {
   return (
-    <header className="sticky top-0 flex h-16 backdrop-blur z-10 items-center gap-4 border-b bg-background">
+    <header className="sticky top-0 flex h-16 backdrop-blur z-10 items-center gap-4 border-b bg-background/60">
       <div className="container flex items-center gap-4">
         <Sheet>
           <SheetTrigger asChild>

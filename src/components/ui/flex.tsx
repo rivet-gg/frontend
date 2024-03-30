@@ -26,6 +26,11 @@ import {
   getAlignItemsClass,
   omitAlignItemsProps,
 } from "./helpers/align-items";
+import {
+  WidthUtilitiesProps,
+  getWidthClass,
+  omitWidthProps,
+} from "./helpers/width";
 
 export interface StackProps
   extends HTMLAttributes<HTMLDivElement>,
@@ -34,7 +39,8 @@ export interface StackProps
     Partial<GapUtilitiesProps>,
     Partial<FlexDirectionUtilitiesProps>,
     Partial<JustifyContentUtilitiesProps>,
-    Partial<AlignItemsValuesUtilitiesProps> {
+    Partial<AlignItemsValuesUtilitiesProps>,
+    Partial<WidthUtilitiesProps> {
   children: ReactNode;
 }
 
@@ -47,10 +53,12 @@ const HStack = (props: Omit<StackProps, "direction">) => {
 };
 
 const Flex = ({ children, className, ...props }: StackProps) => {
-  const htmlProps = omitAlignItemsProps(
-    omitJustifyContentProps(
-      omitFlexDirectionProps(
-        omitGapProps(omitPaddingProps(omitMarginProps(props))),
+  const htmlProps = omitWidthProps(
+    omitAlignItemsProps(
+      omitJustifyContentProps(
+        omitFlexDirectionProps(
+          omitGapProps(omitPaddingProps(omitMarginProps(props))),
+        ),
       ),
     ),
   );
@@ -64,6 +72,7 @@ const Flex = ({ children, className, ...props }: StackProps) => {
         getFlexDirectionClass(props),
         getJustifyContentClass(props),
         getAlignItemsClass(props),
+        getWidthClass(props),
         className,
       )}
       {...htmlProps}

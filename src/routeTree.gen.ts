@@ -14,7 +14,8 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as AuthenticatedImport } from './routes/_authenticated'
 import { Route as AuthenticatedLayoutImport } from './routes/_authenticated._layout'
 import { Route as AuthenticatedLayoutIndexImport } from './routes/_authenticated._layout.index'
-import { Route as AuthenticatedLayoutGamesGameIdImport } from './routes/_authenticated._layout.games.$gameId'
+import { Route as AuthenticatedLayoutTeamsGroupIdImport } from './routes/_authenticated._layout/teams/$groupId'
+import { Route as AuthenticatedLayoutGamesGameIdImport } from './routes/_authenticated._layout/games/$gameId'
 
 // Create/Update Routes
 
@@ -32,6 +33,12 @@ const AuthenticatedLayoutIndexRoute = AuthenticatedLayoutIndexImport.update({
   path: '/',
   getParentRoute: () => AuthenticatedLayoutRoute,
 } as any)
+
+const AuthenticatedLayoutTeamsGroupIdRoute =
+  AuthenticatedLayoutTeamsGroupIdImport.update({
+    path: '/teams/$groupId',
+    getParentRoute: () => AuthenticatedLayoutRoute,
+  } as any)
 
 const AuthenticatedLayoutGamesGameIdRoute =
   AuthenticatedLayoutGamesGameIdImport.update({
@@ -59,6 +66,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedLayoutGamesGameIdImport
       parentRoute: typeof AuthenticatedLayoutImport
     }
+    '/_authenticated/_layout/teams/$groupId': {
+      preLoaderRoute: typeof AuthenticatedLayoutTeamsGroupIdImport
+      parentRoute: typeof AuthenticatedLayoutImport
+    }
   }
 }
 
@@ -69,6 +80,7 @@ export const routeTree = rootRoute.addChildren([
     AuthenticatedLayoutRoute.addChildren([
       AuthenticatedLayoutIndexRoute,
       AuthenticatedLayoutGamesGameIdRoute,
+      AuthenticatedLayoutTeamsGroupIdRoute,
     ]),
   ]),
 ])

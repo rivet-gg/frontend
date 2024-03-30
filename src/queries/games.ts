@@ -1,5 +1,5 @@
 import { queryOptions } from "@tanstack/react-query";
-import { rivetClient } from "./global";
+import { queryClient, rivetClient } from "./global";
 import { Rivet } from "@rivet-gg/api";
 
 export type GroupGames = Rivet.group.Summary & { games: Rivet.game.Summary[] };
@@ -9,8 +9,6 @@ export const gamesQueryOptions = () => {
     queryKey: ["games"],
     queryFn: () => rivetClient.cloud.games.games.getGames(),
     select: (data) => {
-      if (!data) return data;
-
       return data.groups.map((group) => {
         return {
           ...group,
@@ -19,6 +17,22 @@ export const gamesQueryOptions = () => {
           ),
         };
       });
+    },
+  });
+};
+
+export const groupGamesQueryOptions = (groupId: string) => {
+  return queryOptions({
+    ...gamesQueryOptions(),
+    select: (data) => {
+      const group = data.groups.find((group) => group.groupId === groupId)!;
+      const games = data.games.filter(
+        (game) => game.developer.groupId === group.groupId,
+      );
+      return {
+        ...group,
+        games,
+      };
     },
   });
 };
