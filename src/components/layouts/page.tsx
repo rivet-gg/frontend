@@ -5,7 +5,7 @@ interface PageRootProps {
 }
 
 const PageRoot = ({ children }: PageRootProps) => (
-  <div className="container">{children}</div>
+  <div className="container pt-4">{children}</div>
 );
 
 export { PageRoot as Root };

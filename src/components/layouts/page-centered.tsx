@@ -1,13 +1,13 @@
 import { ReactNode } from "react";
 
-interface PageWizardRootProps {
+interface PageCenteredProps {
   children: ReactNode;
 }
 
-const PageWizardRoot = ({ children }: PageWizardRootProps) => (
+const PageCentered = ({ children }: PageCenteredProps) => (
   <div className="flex flex-1 items-center justify-center">
     <div className="max-w-sm">{children}</div>
   </div>
 );
 
-export { PageWizardRoot as Root };
+export { PageCentered as Root };

@@ -1,4 +1,4 @@
-import * as Layout from "@/components/layouts/page-wizard";
+import * as Layout from "@/components/layouts/page-centered";
 import { useAuth } from "@/contexts/auth";
 import { LoginView } from "@/views/login-view";
 import { Outlet, createFileRoute } from "@tanstack/react-router";

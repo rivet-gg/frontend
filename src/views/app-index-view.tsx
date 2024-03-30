@@ -6,6 +6,13 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { GroupGames, gamesQueryOptions } from "@/queries/games";
 import { GroupAvatar } from "@/components/group-avatar";
 import { GameCard } from "@/components/game-card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { ArrowRightIcon } from "lucide-react";
+import { CtaCard } from "@/components/cta-card";
+import { Link } from "@tanstack/react-router";
+import { Page } from "@/components/page";
+import { useAuth } from "@/contexts/auth";
+import { NarrowPage } from "@/components/narrow-page";
 
 interface GroupProps {
   group: GroupGames;
@@ -19,10 +26,6 @@ function Group({ group }: GroupProps) {
           <GroupAvatar {...group} />
           <LargeText>{group.displayName}</LargeText>
         </Flex>
-        <Flex direction="row" gap="4">
-          <Button>Analytics</Button>
-          <Button>Settings</Button>
-        </Flex>
       </Flex>
       <Grid columns="4" gap="4">
         {group.games.map((game) => (
@@ -34,12 +37,30 @@ function Group({ group }: GroupProps) {
 }
 
 export function AppIndexView() {
+  const { profile } = useAuth();
   const { data } = useSuspenseQuery(gamesQueryOptions());
+
   return (
-    <Flex direction="col">
-      {data.map((group) => (
-        <Group key={group.groupId} group={group} />
-      ))}
-    </Flex>
+    <NarrowPage title={`Welcome to Rivet, ${profile?.identity.displayName}!`}>
+      <Grid columns="2" gap="4">
+        <a href="https://rivet.gg/learn">
+          <CtaCard title="Learn" description="Get started with your engine" />
+        </a>
+        <a href="https://rivet.gg/learn">
+          <CtaCard title="Docs" description="Lorem ipsum" />
+        </a>
+        <a href="https://rivet.gg/learn">
+          <CtaCard title="Discord" description="Lorem ipsum" />
+        </a>
+        <a href="https://rivet.gg/learn">
+          <CtaCard title="GitHub" description="Lorem ipsum" />
+        </a>
+      </Grid>
+      <Flex direction="col">
+        {data.map((group) => (
+          <Group key={group.groupId} group={group} />
+        ))}
+      </Flex>
+    </NarrowPage>
   );
 }
