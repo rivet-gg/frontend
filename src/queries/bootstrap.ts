@@ -7,3 +7,10 @@ export const bootstrapQueryOptions = () => {
     queryFn: () => rivetClient.cloud.bootstrap(),
   });
 };
+
+export const bootstrapCaptchaQueryOptions = () => {
+  return queryOptions({
+    ...bootstrapQueryOptions(),
+    select: (data) => data.captcha,
+  });
+};

@@ -1,60 +1,31 @@
-import {
-  UseFormReturn,
-  useForm,
-  useFormContext,
-  useFormState,
-} from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { UseFormReturn, useFormContext } from "react-hook-form";
 import z from "zod";
 import {
-  Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "../ui/form";
-import { InputHTMLAttributes, ReactNode } from "react";
+import { InputHTMLAttributes } from "react";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "../ui/input-otp";
 import { REGEXP_ONLY_DIGITS_AND_CHARS } from "input-otp";
-import { Button, ButtonProps } from "../ui/button";
+import { createSchemaForm } from "@/lib/create-schema-form";
 
 export const formSchema = z.object({
   otp: z.string().min(8).max(8),
 });
 
 export type FormValues = z.infer<typeof formSchema>;
-export type FormSubmitHandler = (
+export type SubmitHandler = (
   values: FormValues,
   form: UseFormReturn<FormValues>,
 ) => Promise<void>;
 
-interface OtpFormProps {
-  children: ReactNode;
-  onSubmit: FormSubmitHandler;
-}
+const { Form, Submit } = createSchemaForm(formSchema);
+export { Form, Submit };
 
-export const OtpForm = ({ onSubmit, children }: OtpFormProps) => {
-  const form = useForm<FormValues>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      otp: "",
-    },
-  });
-
-  return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit((values) => onSubmit(values, form))}
-        className="contents"
-      >
-        {children}
-      </form>
-    </Form>
-  );
-};
-
-const Code = (props: InputHTMLAttributes<HTMLInputElement>) => {
+export const Code = (props: InputHTMLAttributes<HTMLInputElement>) => {
   const { control } = useFormContext<FormValues>();
   return (
     <FormField
@@ -88,11 +59,3 @@ const Code = (props: InputHTMLAttributes<HTMLInputElement>) => {
     />
   );
 };
-
-const Submit = (props: ButtonProps) => {
-  const { isSubmitting } = useFormState<FormValues>();
-  return <Button type="submit" disabled={isSubmitting} {...props} />;
-};
-
-OtpForm.Code = Code;
-OtpForm.Submit = Submit;

@@ -1,135 +1,187 @@
+// This file is based on the typography components from https://ui.shadcn.com/docs/components/typography
+// with some modifications to fit the project's design system.
 import { cn } from "@/lib/utils";
-import { HTMLAttributes, PropsWithChildren } from "react";
+import { Slot } from "@radix-ui/react-slot";
+import { PropsWithChildren } from "react";
 
-const H1 = ({
-  className,
-  ...props
-}: PropsWithChildren<HTMLAttributes<HTMLHeadingElement>>) => (
-  <h1
-    className={cn(
-      className,
-      "scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl",
-    )}
-    {...props}
-  />
-);
+type TypographyElementProps<T extends keyof JSX.IntrinsicElements> =
+  PropsWithChildren<JSX.IntrinsicElements[T]> & {
+    asChild?: boolean;
+  };
 
-const H2 = ({
-  className,
-  ...props
-}: PropsWithChildren<HTMLAttributes<HTMLHeadingElement>>) => (
-  <h2
-    className={cn(
-      className,
-      "scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0",
-    )}
-    {...props}
-  />
-);
+const H1 = ({ className, asChild, ...props }: TypographyElementProps<"h1">) => {
+  const Comp = asChild ? Slot : "h1";
+  return (
+    <Comp
+      className={cn(
+        className,
+        "scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl",
+      )}
+      {...props}
+    />
+  );
+};
 
-const H3 = ({
-  className,
-  ...props
-}: PropsWithChildren<HTMLAttributes<HTMLHeadingElement>>) => (
-  <h3
-    className={cn(
-      className,
-      "scroll-m-20 text-2xl font-semibold tracking-tight",
-    )}
-    {...props}
-  />
-);
+const H2 = ({ className, asChild, ...props }: TypographyElementProps<"h2">) => {
+  const Comp = asChild ? Slot : "h2";
+  return (
+    <Comp
+      className={cn(
+        className,
+        "scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0",
+      )}
+      {...props}
+    />
+  );
+};
 
-const H4 = ({
-  className,
-  ...props
-}: PropsWithChildren<HTMLAttributes<HTMLHeadingElement>>) => (
-  <h4
-    className={cn(
-      className,
-      "scroll-m-20 text-xl font-semibold tracking-tight",
-    )}
-    {...props}
-  />
-);
+const H3 = ({ className, asChild, ...props }: TypographyElementProps<"h3">) => {
+  const Comp = asChild ? Slot : "h3";
+  return (
+    <Comp
+      className={cn(
+        className,
+        "scroll-m-20 text-2xl font-semibold tracking-tight",
+      )}
+      {...props}
+    />
+  );
+};
+
+const H4 = ({ className, asChild, ...props }: TypographyElementProps<"h4">) => {
+  const Comp = asChild ? Slot : "h4";
+  return (
+    <Comp
+      className={cn(
+        className,
+        "scroll-m-20 text-xl font-semibold tracking-tight",
+      )}
+      {...props}
+    />
+  );
+};
 
 const Paragraph = ({
   className,
+  asChild,
   ...props
-}: PropsWithChildren<HTMLAttributes<HTMLParagraphElement>>) => (
-  <p
-    className={cn(className, "leading-7 [&:not(:first-child)]:mt-6")}
-    {...props}
-  />
-);
+}: TypographyElementProps<"p">) => {
+  const Comp = asChild ? Slot : "p";
+  return (
+    <Comp
+      className={cn(className, "leading-7 [&:not(:first-child)]:mt-6")}
+      {...props}
+    />
+  );
+};
 
 const Quote = ({
   className,
+  asChild,
   ...props
-}: PropsWithChildren<HTMLAttributes<HTMLQuoteElement>>) => (
-  <blockquote
-    className={cn(className, "mt-6 border-l-2 pl-6 italic")}
-    {...props}
-  />
-);
+}: TypographyElementProps<"blockquote">) => {
+  const Comp = asChild ? Slot : "blockquote";
+  return (
+    <Comp className={cn(className, "mt-6 border-l-2 pl-6 italic")} {...props} />
+  );
+};
 
-const Ul = ({
-  className,
-  ...props
-}: PropsWithChildren<HTMLAttributes<HTMLUListElement>>) => (
-  <ul className={cn(className, "my-6 ml-6 list-disc [&>li]:mt-2")} {...props} />
-);
+const Ul = ({ className, asChild, ...props }: TypographyElementProps<"ul">) => {
+  const Comp = asChild ? Slot : "ul";
+  return (
+    <Comp
+      className={cn(className, "my-6 ml-6 list-disc [&>li]:mt-2")}
+      {...props}
+    />
+  );
+};
 
-const Ol = ({
-  className,
-  ...props
-}: PropsWithChildren<HTMLAttributes<HTMLOListElement>>) => (
-  <ol className={cn(className, "my-6 ml-6 list-disc [&>li]:mt-2")} {...props} />
-);
+const Ol = ({ className, asChild, ...props }: TypographyElementProps<"ol">) => {
+  const Comp = asChild ? Slot : "ol";
+  return (
+    <Comp
+      className={cn(className, "my-6 ml-6 list-disc [&>li]:mt-2")}
+      {...props}
+    />
+  );
+};
 
 const Code = ({
   className,
+  asChild,
   ...props
-}: PropsWithChildren<HTMLAttributes<HTMLElement>>) => (
-  <code
-    className={cn(
-      className,
-      "relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold",
-    )}
-    {...props}
-  />
-);
+}: TypographyElementProps<"code">) => {
+  const Comp = asChild ? Slot : "code";
+  return (
+    <Comp
+      className={cn(
+        className,
+        "relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold",
+      )}
+      {...props}
+    />
+  );
+};
 
 const Lead = ({
   className,
+  asChild,
   ...props
-}: PropsWithChildren<HTMLAttributes<HTMLSpanElement>>) => (
-  <span className={cn(className, "text-xl text-muted-foreground")} {...props} />
-);
+}: TypographyElementProps<"span">) => {
+  const Comp = asChild ? Slot : "span";
+  return (
+    <Comp
+      className={cn(className, "text-xl text-muted-foreground")}
+      {...props}
+    />
+  );
+};
 
 const LargeText = ({
   className,
+  asChild,
   ...props
-}: PropsWithChildren<HTMLAttributes<HTMLSpanElement>>) => (
-  <span className={cn(className, "text-lg font-semibold")} {...props} />
-);
+}: TypographyElementProps<"span">) => {
+  const Comp = asChild ? Slot : "span";
+  return <Comp className={cn(className, "text-lg font-semibold")} {...props} />;
+};
 
 const SmallText = ({
   className,
+  asChild,
   ...props
-}: PropsWithChildren<HTMLAttributes<HTMLSpanElement>>) => (
-  <span
-    className={cn(className, "text-sm font-medium leading-none")}
-    {...props}
-  />
-);
+}: TypographyElementProps<"span">) => {
+  const Comp = asChild ? Slot : "span";
+  return (
+    <Comp
+      className={cn(className, "text-sm font-medium leading-none")}
+      {...props}
+    />
+  );
+};
 
 const MutedText = ({
   className,
+  asChild,
   ...props
-}: PropsWithChildren<HTMLAttributes<HTMLSpanElement>>) => (
-  <span className={cn(className, "text-sm text-muted-foreground")} {...props} />
-);
+}: TypographyElementProps<"span">) => {
+  const Comp = asChild ? Slot : "span";
+  return (
+    <Comp
+      className={cn(className, "text-sm text-muted-foreground")}
+      {...props}
+    />
+  );
+};
+
+const Strong = ({
+  className,
+  asChild,
+  ...props
+}: TypographyElementProps<"span">) => {
+  const Comp = asChild ? Slot : "span";
+  return <Comp className={cn(className, "font-bold")} {...props} />;
+};
 
 export {
   H1,
@@ -146,4 +198,5 @@ export {
   LargeText,
   SmallText,
   MutedText,
+  Strong,
 };
