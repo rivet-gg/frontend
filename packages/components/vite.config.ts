@@ -12,7 +12,6 @@ export default defineConfig({
     },
   },
   build: {
-    emptyOutDir: true,
     lib: {
       entry: path.resolve(__dirname, "src/index.ts"),
       formats: ["es"],
