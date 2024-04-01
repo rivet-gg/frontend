@@ -1,0 +1,48 @@
+{
+  "name": "@rivet-gg/hub",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@hookform/resolvers": "^3.3.4",
+    "@rivet-gg/components": "*",
+    "@rivet-gg/api": "https://github.com/rivet-gg/rivet/raw/539f11efb856bc936576fe593fe051c0d7e1355d/sdks/typescript/archive.tgz",
+    "@tanstack/query-sync-storage-persister": "^5.28.9",
+    "@tanstack/react-query": "^5.28.8",
+    "@tanstack/react-query-devtools": "^5.28.8",
+    "@tanstack/react-query-persist-client": "^5.28.9",
+    "@tanstack/react-router": "^1.22.5",
+    "@tanstack/router-devtools": "^1.22.5",
+    "lucide-react": "^0.363.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-hook-form": "^7.51.1",
+    "react-turnstile": "^1.1.3",
+    "tailwind-merge": "^2.2.2",
+    "tailwindcss-animate": "^1.0.7",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@tanstack/router-vite-plugin": "^1.20.5",
+    "@types/node": "^20.11.30",
+    "@types/react": "^18.2.66",
+    "@types/react-dom": "^18.2.22",
+    "@typescript-eslint/eslint-plugin": "^7.2.0",
+    "@typescript-eslint/parser": "^7.2.0",
+    "@vitejs/plugin-react": "^4.2.1",
+    "autoprefixer": "^10.4.19",
+    "eslint": "^8.57.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.6",
+    "postcss": "^8.4.38",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5.2.2",
+    "vite": "^5.2.0"
+  }
+}
