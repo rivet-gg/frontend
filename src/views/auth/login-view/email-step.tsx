@@ -6,9 +6,9 @@ import {
   CardDescription,
   CardContent,
   CardFooter,
-} from "../card";
-import { Flex } from "../flex";
-import { MutedText } from "../typography";
+} from "@/components/ui/card";
+import { Flex } from "@/components/ui/flex";
+import { MutedText } from "@/components/ui/typography";
 
 interface EmailStepProps {
   onSubmit: LoginForm.SubmitHandler;

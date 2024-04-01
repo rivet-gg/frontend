@@ -1,15 +1,20 @@
 import * as Layout from "@/components/layouts/page-centered";
 import { useAuth } from "@/contexts/auth";
-import { LoginView } from "@/views/login-view";
-import { Outlet, createFileRoute } from "@tanstack/react-router";
+import { LoginView } from "@/views/auth/login-view/login-view";
+import { Outlet, createFileRoute, useNavigate } from "@tanstack/react-router";
 
 function Authenticated() {
   const { profile } = useAuth();
+  const navigate = useNavigate();
 
   if (!profile?.identity.isRegistered) {
     return (
       <Layout.Root>
-        <LoginView />
+        <LoginView
+          onSuccess={async () => {
+            await navigate({ to: "/" });
+          }}
+        />
       </Layout.Root>
     );
   }

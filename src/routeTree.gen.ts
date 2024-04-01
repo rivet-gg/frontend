@@ -13,7 +13,7 @@
 import { Route as rootRoute } from './routes/__root'
 import { Route as AuthenticatedImport } from './routes/_authenticated'
 import { Route as AuthenticatedLayoutImport } from './routes/_authenticated._layout'
-import { Route as AuthenticatedLayoutIndexImport } from './routes/_authenticated._layout.index'
+import { Route as AuthenticatedLayoutIndexImport } from './routes/_authenticated._layout/index'
 import { Route as AuthenticatedLayoutTeamsGroupIdImport } from './routes/_authenticated._layout/teams/$groupId'
 import { Route as AuthenticatedLayoutGamesGameIdImport } from './routes/_authenticated._layout/games/$gameId'
 

@@ -1,14 +1,14 @@
 import { useStartEmailVerificationMutation } from "@/queries/auth";
-import { FormValues as LoginFormValues } from "../../forms/login-form";
+import { FormValues as LoginFormValues } from "@/components/forms/login-form";
 import { OtpStep } from "./otp-step";
 import { EmailStep } from "./email-step";
 import { OtpFormSubmitHandlerArgs, useOtpFormSubmitHandler } from "./hooks";
 
-interface LoginFlowProps {
+interface LoginViewProps {
   onSuccess: OtpFormSubmitHandlerArgs["onSuccess"];
 }
 
-export const LoginFlow = ({ onSuccess }: LoginFlowProps) => {
+export const LoginView = ({ onSuccess }: LoginViewProps) => {
   const {
     mutateAsync: startEmailVerif,
     data: emailVerifData,

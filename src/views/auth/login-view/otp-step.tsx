@@ -1,5 +1,5 @@
 import * as OtpForm from "@/components/forms/otp-form";
-import { Button } from "../button";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardHeader,
@@ -7,8 +7,8 @@ import {
   CardDescription,
   CardContent,
   CardFooter,
-} from "../card";
-import { Flex } from "../flex";
+} from "@/components/ui/card";
+import { Flex } from "@/components/ui/flex";
 
 interface OtpStepProps {
   onSubmit: OtpForm.SubmitHandler;
