@@ -1,5 +1,6 @@
 import { queryOptions } from "@tanstack/react-query";
 import { rivetClient } from "./global";
+import { getMetaWatchIndex } from "./utils";
 
 export const identityTokenQueryOptions = () => {
   return queryOptions({
@@ -13,6 +14,11 @@ export const selfProfileQueryOptions = (opts: { enabled?: boolean } = {}) => {
   return queryOptions({
     ...opts,
     queryKey: ["selfProfile"],
-    queryFn: () => rivetClient.identity.getSelfProfile(),
+    queryFn: ({ meta }) => {
+      return rivetClient.identity.getSelfProfile({
+        watchIndex: getMetaWatchIndex(meta),
+      });
+    },
+    meta: { watch: true },
   });
 };

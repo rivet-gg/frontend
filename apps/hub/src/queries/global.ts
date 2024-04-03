@@ -1,7 +1,8 @@
 import { RivetClient, Rivet } from "@rivet-gg/api";
-import { QueryClient } from "@tanstack/react-query";
+import { QueryCache, QueryClient } from "@tanstack/react-query";
 import { createSyncStoragePersister } from "@tanstack/query-sync-storage-persister";
 import { identityTokenQueryOptions } from "./identity";
+import { getWatchIndex } from "./utils";
 
 export const rivetClient = new RivetClient({
   environment: "https://api.staging2.gameinc.io",
@@ -9,7 +10,13 @@ export const rivetClient = new RivetClient({
     const identity = (await queryClient.getQueryData(
       identityTokenQueryOptions().queryKey,
     )) as Rivet.auth.RefreshIdentityTokenResponse | undefined;
-    const response = await fetch(args.url, {
+
+    const url = new URL(args.url);
+    for (const [key, value] of Object.entries(args.queryParameters || {})) {
+      url.searchParams.append(key, value as string);
+    }
+
+    const response = await fetch(url.href, {
       method: args.method,
       credentials: "include",
       headers: {
@@ -45,6 +52,19 @@ export const queryClient = new QueryClient({
       gcTime: 1000 * 60 * 60 * 24,
     },
   },
+  queryCache: new QueryCache({
+    onSuccess: async (data, query) => {
+      if (query.meta?.watch && data) {
+        const index = getWatchIndex(data);
+        await queryClient.fetchQuery({
+          ...query.options,
+          queryKey: query.options.queryKey || query.queryKey,
+          staleTime: 0,
+          meta: { watchIndex: index },
+        });
+      }
+    },
+  }),
 });
 
 export const queryClientPersister = createSyncStoragePersister({
