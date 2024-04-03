@@ -1,10 +1,19 @@
 {
   "name": "@rivet-gg/components",
   "private": true,
-  "version": "0.0.0",
   "type": "module",
-  "main": "dist/components.js",
-  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/rivet-gg-components.umd.cjs",
+  "module": "./dist/rivet-gg-components.js",
+  "exports": {
+    ".": {
+      "import": "./dist/rivet-gg-components.js",
+      "require": "./dist/rivet-gg-components.umd.cjs"
+    },
+    "./theme.css": "./dist/theme.css"
+  },
   "scripts": {
     "dev": "vite build --watch",
     "build": "tsc && vite build",
@@ -29,6 +38,7 @@
     "vite-plugin-dts": "^3.8.1"
   },
   "devDependencies": {
+    "@types/mime": "^4.0.0",
     "@types/node": "^20.11.30",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",

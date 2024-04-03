@@ -1,4 +1,4 @@
-import { Button, ButtonProps } from "@rivet-gg/components";
+import { Button, ButtonProps, Form } from "@rivet-gg/components";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ReactNode } from "react";
 import {
@@ -36,12 +36,14 @@ export const createSchemaForm = <Schema extends z.AnyZodObject>(
 
       return (
         <FormProvider {...form}>
-          <form
-            onSubmit={form.handleSubmit((values) => onSubmit(values, form))}
-            className="contents"
-          >
-            {children}
-          </form>
+          <Form {...form}>
+            <form
+              onSubmit={form.handleSubmit((values) => onSubmit(values, form))}
+              className="contents"
+            >
+              {children}
+            </form>
+          </Form>
         </FormProvider>
       );
     },

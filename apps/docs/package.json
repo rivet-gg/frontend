@@ -3,19 +3,26 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "dependencies": {
+    "@rivet-gg/components": "workspace:*",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
   "devDependencies": {
     "@chromatic-com/storybook": "^1.2.25",
     "@storybook/addon-essentials": "^8.0.5",
     "@storybook/addon-interactions": "^8.0.5",
     "@storybook/addon-links": "^8.0.5",
     "@storybook/addon-onboarding": "^8.0.5",
+    "@storybook/addon-themes": "^8.0.5",
     "@storybook/blocks": "^8.0.5",
     "@storybook/react": "^8.0.5",
     "@storybook/react-vite": "^8.0.5",
     "@storybook/test": "^8.0.5",
+    "@types/mime": "^4.0.0",
     "prop-types": "^15.8.1",
     "storybook": "^8.0.5",
-    "@rivet-gg/components": "*"
+    "vite": "^5.2.0"
   },
   "scripts": {
     "dev": "storybook dev -p 6006",

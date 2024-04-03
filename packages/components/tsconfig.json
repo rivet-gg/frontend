@@ -27,6 +27,6 @@
       ]
     }
   },
-  "include": ["src", "../../apps/hub/src/views/group/group-avatar.tsx"],
+  "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

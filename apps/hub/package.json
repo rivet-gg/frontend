@@ -11,8 +11,8 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",
-    "@rivet-gg/components": "*",
     "@rivet-gg/api": "https://github.com/rivet-gg/rivet/raw/539f11efb856bc936576fe593fe051c0d7e1355d/sdks/typescript/archive.tgz",
+    "@rivet-gg/components": "workspace:*",
     "@tanstack/query-sync-storage-persister": "^5.28.9",
     "@tanstack/react-query": "^5.28.8",
     "@tanstack/react-query-devtools": "^5.28.8",
@@ -30,6 +30,7 @@
   },
   "devDependencies": {
     "@tanstack/router-vite-plugin": "^1.20.5",
+    "@types/mime": "^4.0.0",
     "@types/node": "^20.11.30",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",

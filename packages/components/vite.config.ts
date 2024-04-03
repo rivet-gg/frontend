@@ -12,9 +12,11 @@ export default defineConfig({
     },
   },
   build: {
+    sourcemap: true,
     lib: {
       entry: path.resolve(__dirname, "src/index.ts"),
-      formats: ["es"],
+      name: "RivetGGComponents",
+      fileName: "rivet-gg-components",
     },
     rollupOptions: {
       external: ["react", "react/jsx-runtime"],
