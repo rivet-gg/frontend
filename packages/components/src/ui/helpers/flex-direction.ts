@@ -1,7 +1,14 @@
 import { type Responsive } from "./types";
 import { getResponsiveValue } from "./utilities";
 
-type FlexDirectionValues = "col" | "col-reverse" | "row" | "row-reverse";
+export const FLEX_DIRECTION_VALUES = [
+  "col",
+  "col-reverse",
+  "row",
+  "row-reverse",
+] as const;
+
+type FlexDirectionValues = (typeof FLEX_DIRECTION_VALUES)[number];
 
 export interface FlexDirectionUtilitiesProps {
   direction: Responsive<FlexDirectionValues>;

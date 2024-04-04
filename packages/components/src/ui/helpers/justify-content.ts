@@ -1,7 +1,15 @@
 import { type Responsive } from "./types";
 import { getResponsiveValue } from "./utilities";
 
-type JustifyContentValues = "start" | "end" | "center" | "between" | "around";
+export const JUSTIFY_CONTENT_VALUES = [
+  "start",
+  "end",
+  "center",
+  "between",
+  "around",
+] as const;
+
+type JustifyContentValues = (typeof JUSTIFY_CONTENT_VALUES)[number];
 
 export interface JustifyContentUtilitiesProps {
   justify: Responsive<JustifyContentValues>;

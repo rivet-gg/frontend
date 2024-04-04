@@ -1,32 +1,15 @@
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  Ol,
-  Page,
-} from "@rivet-gg/components";
+import { Page } from "@rivet-gg/components";
 import { gameQueryOptions } from "@/queries/games";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
+import { GameNamespaces } from "@/views/game/game-namespaces";
 
 function GameIdRoute() {
   const { gameId } = Route.useParams();
   const { data } = useSuspenseQuery(gameQueryOptions(gameId));
   return (
     <Page title={data?.game.displayName}>
-      <Card>
-        <CardHeader>
-          <CardTitle>Namespaces</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <Ol>
-            {data?.game.namespaces.map((namespace) => (
-              <li key={namespace.namespaceId}>{namespace.displayName}</li>
-            ))}
-          </Ol>
-        </CardContent>
-      </Card>
+      <GameNamespaces gameId={gameId} />
     </Page>
   );
 }

@@ -15,4 +15,7 @@ export * from "./ui/dialog";
 export * from "./ui/card";
 export * from "./ui/button";
 export * from "./ui/avatar";
+export * from "./ui/table";
+export * from "./ui/badge";
 export * from "./lib/utils";
+export * as styleHelpers from "./ui/helpers/index";

@@ -42,5 +42,24 @@ export const gameQueryOptions = (gameId: string) => {
     queryKey: ["game", gameId],
     queryFn: ({ queryKey: [_, gameId] }) =>
       rivetClient.cloud.games.games.getGameById(gameId),
+    select: (data) => ({
+      ...data,
+      game: {
+        ...data.game,
+        namespaces: data.game.namespaces.map((namespace) => ({
+          ...namespace,
+          version: data.game.versions.find(
+            (version) => version.versionId === namespace.versionId,
+          ),
+        })),
+      },
+    }),
+  });
+};
+
+export const gameNamespacesQueryOptions = (gameId: string) => {
+  return queryOptions({
+    ...gameQueryOptions(gameId),
+    select: (data) => gameQueryOptions(gameId).select!(data).game.namespaces,
   });
 };

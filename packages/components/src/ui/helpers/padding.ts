@@ -1,7 +1,9 @@
 import { type Responsive } from "./types";
 import { getResponsiveValue } from "./utilities";
 
-type PaddingValues = "0" | "2" | "4" | "6" | "8" | "10";
+export const PADDING_VALUES = ["0", "2", "4", "6", "8", "10"] as const;
+
+type PaddingValues = (typeof PADDING_VALUES)[number];
 
 export interface PaddingUtilitiesProps {
   p: Responsive<PaddingValues>;

@@ -1,7 +1,9 @@
 import { type Responsive } from "./types";
 import { getResponsiveValue } from "./utilities";
 
-type WidthValues = "1/3" | "2/3" | "full";
+export const WIDTH_VALUES = ["1/3", "2/3", "16", "full"] as const;
+
+type WidthValues = (typeof WIDTH_VALUES)[number];
 
 export interface WidthUtilitiesProps {
   w: Responsive<WidthValues>;

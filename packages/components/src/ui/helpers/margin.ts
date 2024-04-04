@@ -1,7 +1,9 @@
 import { type Responsive } from "./types";
 import { getResponsiveValue } from "./utilities";
 
-type MarginValues = "0" | "2" | "4" | "6" | "8" | "10";
+export const MARGIN_VALUES = ["0", "2", "4", "6", "8", "10"] as const;
+
+type MarginValues = (typeof MARGIN_VALUES)[number];
 
 export interface MarginUtilitiesProps {
   m: Responsive<MarginValues>;

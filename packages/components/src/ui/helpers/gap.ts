@@ -1,7 +1,9 @@
 import { type Responsive } from "./types";
 import { getResponsiveValue } from "./utilities";
 
-type GapValues = "0" | "1" | "2" | "4" | "6" | "8" | "10";
+export const GAP_VALUES = ["0", "1", "2", "4", "6", "8", "10"] as const;
+
+type GapValues = (typeof GAP_VALUES)[number];
 
 export interface GapUtilitiesProps {
   gap: Responsive<GapValues>;

@@ -1,7 +1,15 @@
 import { type Responsive } from "./types";
 import { getResponsiveValue } from "./utilities";
 
-type AlignItemsValues = "start" | "end" | "center" | "baseline" | "stretch";
+export const ALIGN_ITEMS_VALUES = [
+  "start",
+  "end",
+  "center",
+  "baseline",
+  "stretch",
+] as const;
+
+type AlignItemsValues = (typeof ALIGN_ITEMS_VALUES)[number];
 
 export interface AlignItemsValuesUtilitiesProps {
   items: Responsive<AlignItemsValues>;

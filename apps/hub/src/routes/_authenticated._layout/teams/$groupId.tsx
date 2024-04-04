@@ -1,13 +1,7 @@
 import { groupGamesQueryOptions } from "@/queries/games";
+import { GroupGames } from "@/views/group/group-games";
 import { GroupMembers } from "@/views/group/group-members";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  Flex,
-  Page,
-} from "@rivet-gg/components";
+import { Flex, Page } from "@rivet-gg/components";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, notFound } from "@tanstack/react-router";
 
@@ -18,15 +12,10 @@ function GroupIdView() {
   return (
     <Page title={data.displayName}>
       <Flex direction="row" gap="4">
-        <Flex w="2/3" direction="row">
-          <Card>
-            <CardHeader>
-              <CardTitle>Games</CardTitle>
-            </CardHeader>
-            <CardContent></CardContent>
-          </Card>
+        <Flex w="2/3" direction="row" items="start">
+          <GroupGames groupId={groupId} />
         </Flex>
-        <Flex w="1/3" direction="row">
+        <Flex w="1/3" direction="row" items="start">
           <GroupMembers groupId={groupId} />
         </Flex>
       </Flex>

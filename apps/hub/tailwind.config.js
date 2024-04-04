@@ -1,3 +1,18 @@
+const { styleHelpers } = require("@rivet-gg/components");
+
+const safelistMap = [
+  ["m(x|y|l|r|t|b)", styleHelpers.MARGIN_VALUES],
+  ["m", styleHelpers.MARGIN_VALUES],
+  ["p", styleHelpers.PADDING_VALUES],
+  ["p(x|y|l|r|t|b)", styleHelpers.PADDING_VALUES],
+  ["gap", styleHelpers.GAP_VALUES],
+  ["flex", styleHelpers.FLEX_DIRECTION_VALUES],
+  ["justify", styleHelpers.JUSTIFY_CONTENT_VALUES],
+  ["items", styleHelpers.ALIGN_ITEMS_VALUES],
+  ["grid-cols", styleHelpers.GRID_COLUMNS_VALUES],
+  ["w", styleHelpers.WIDTH_VALUES],
+];
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: ["class"],
@@ -8,48 +23,10 @@ module.exports = {
     "../../node_modules/@rivet-gg/components/**/*.{ts,tsx}",
   ],
   prefix: "",
-  safelist: [
-    {
-      pattern: /m(x|y|l|r|t|b)-(0|2|4|6|8|10)/,
-      variants: ["xl", "lg", "md", "sm"],
-    },
-    {
-      pattern: /m-(0|2|4|6|8|10)/,
-      variants: ["xl", "lg", "md", "sm"],
-    },
-    {
-      pattern: /p-(0|2|4|6|8|10)/,
-      variants: ["xl", "lg", "md", "sm"],
-    },
-    {
-      pattern: /p(x|y|l|r|t|b)-(0|2|4|6|8|10)/,
-      variants: ["xl", "lg", "md", "sm"],
-    },
-    {
-      pattern: /gap-(0|2|4|6|8|10)/,
-      variants: ["xl", "lg", "md", "sm"],
-    },
-    {
-      pattern: /flex-(row|col|col-reverse|row-reverse)/,
-      variants: ["xl", "lg", "md", "sm"],
-    },
-    {
-      pattern: /justify-(start|end|center|between|around)/,
-      variants: ["xl", "lg", "md", "sm"],
-    },
-    {
-      pattern: /items-(start|end|center|baseline|stretch)/,
-      variants: ["xl", "lg", "md", "sm"],
-    },
-    {
-      pattern: /grid-cols-(1|2|3|4|5|6)/,
-      variants: ["xl", "lg", "md", "sm"],
-    },
-    {
-      pattern: /w-(1\/3|2\/3|full)/,
-      variants: ["xl", "lg", "md", "sm"],
-    },
-  ],
+  safelist: safelistMap.map(([pattern, values]) => ({
+    pattern: new RegExp(`${pattern}-(${values.join("|")})`),
+    variants: ["xl", "lg", "md", "sm"],
+  })),
   theme: {
     container: {
       center: true,
