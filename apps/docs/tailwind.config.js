@@ -23,7 +23,7 @@ module.exports = {
       variants: ["xl", "lg", "md", "sm"],
     },
     {
-      pattern: /gap-(0|2|4|6|8|10)/,
+      pattern: /gap-(0|1|2|4|6|8|10)/,
       variants: ["xl", "lg", "md", "sm"],
     },
     {

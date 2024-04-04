@@ -1,4 +1,5 @@
 import { groupGamesQueryOptions } from "@/queries/games";
+import { GroupMembers } from "@/views/group/group-members";
 import {
   Card,
   CardContent,
@@ -26,12 +27,7 @@ function GroupIdView() {
           </Card>
         </Flex>
         <Flex w="1/3" direction="row">
-          <Card>
-            <CardHeader>
-              <CardTitle>Members</CardTitle>
-            </CardHeader>
-            <CardContent></CardContent>
-          </Card>
+          <GroupMembers groupId={groupId} />
         </Flex>
       </Flex>
     </Page>
