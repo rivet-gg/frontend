@@ -7,7 +7,7 @@ export const identifyUser = (
 ) => {
 	let properties = {
 		name: identity?.displayName,
-		email: identity?.linkedAccounts[0].email.email,
+		email: identity?.linkedAccounts.find(x => x.email)?.email?.email,
 		avatar: identity?.avatarUrl
 	};
 
