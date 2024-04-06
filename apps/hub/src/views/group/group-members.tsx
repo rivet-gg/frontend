@@ -10,12 +10,17 @@ import {
 } from "@rivet-gg/components";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { UserAvatar } from "../user/user-avatar";
+import { groupOnwerQueryOptions } from "@/queries/games";
+import { Crown } from "lucide-react";
 
 interface GroupMembersProps {
   groupId: string;
 }
 
 export function GroupMembers({ groupId }: GroupMembersProps) {
+  const { data: groupOwnerIdentityId } = useSuspenseQuery(
+    groupOnwerQueryOptions(groupId),
+  );
   const { data } = useSuspenseQuery(groupMembersQueryOptions(groupId));
 
   return (
@@ -33,9 +38,12 @@ export function GroupMembers({ groupId }: GroupMembersProps) {
               items="center"
             >
               <UserAvatar {...member.identity} />
-              <Grid>
+              <Flex gap="2" items="center">
                 <Text>{member.identity.displayName}</Text>
-              </Grid>
+                {groupOwnerIdentityId === member.identity.identityId && (
+                  <Crown className="w-4 text-primary" />
+                )}
+              </Flex>
             </Flex>
           ))}
         </Grid>

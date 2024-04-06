@@ -37,6 +37,15 @@ export const groupGamesQueryOptions = (groupId: string) => {
   });
 };
 
+export const groupOnwerQueryOptions = (groupId: string) => {
+  return queryOptions({
+    ...groupGamesQueryOptions(groupId),
+    select: (data) => {
+      return groupGamesQueryOptions(groupId).select!(data).ownerIdentityId;
+    },
+  });
+};
+
 export const gameQueryOptions = (gameId: string) => {
   return queryOptions({
     queryKey: ["game", gameId],
