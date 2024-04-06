@@ -14,8 +14,11 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as AuthenticatedImport } from './routes/_authenticated'
 import { Route as AuthenticatedLayoutImport } from './routes/_authenticated._layout'
 import { Route as AuthenticatedLayoutIndexImport } from './routes/_authenticated._layout/index'
-import { Route as AuthenticatedLayoutTeamsGroupIdImport } from './routes/_authenticated._layout/teams/$groupId'
 import { Route as AuthenticatedLayoutGamesGameIdImport } from './routes/_authenticated._layout/games/$gameId'
+import { Route as AuthenticatedLayoutTeamsGroupIdIndexImport } from './routes/_authenticated._layout/teams/$groupId/index'
+import { Route as AuthenticatedLayoutTeamsGroupIdSettingsImport } from './routes/_authenticated._layout/teams/$groupId/settings'
+import { Route as AuthenticatedLayoutTeamsGroupIdMembersImport } from './routes/_authenticated._layout/teams/$groupId/members'
+import { Route as AuthenticatedLayoutTeamsGroupIdBillingImport } from './routes/_authenticated._layout/teams/$groupId/billing'
 
 // Create/Update Routes
 
@@ -34,15 +37,33 @@ const AuthenticatedLayoutIndexRoute = AuthenticatedLayoutIndexImport.update({
   getParentRoute: () => AuthenticatedLayoutRoute,
 } as any)
 
-const AuthenticatedLayoutTeamsGroupIdRoute =
-  AuthenticatedLayoutTeamsGroupIdImport.update({
-    path: '/teams/$groupId',
-    getParentRoute: () => AuthenticatedLayoutRoute,
-  } as any)
-
 const AuthenticatedLayoutGamesGameIdRoute =
   AuthenticatedLayoutGamesGameIdImport.update({
     path: '/games/$gameId',
+    getParentRoute: () => AuthenticatedLayoutRoute,
+  } as any)
+
+const AuthenticatedLayoutTeamsGroupIdIndexRoute =
+  AuthenticatedLayoutTeamsGroupIdIndexImport.update({
+    path: '/teams/$groupId/',
+    getParentRoute: () => AuthenticatedLayoutRoute,
+  } as any)
+
+const AuthenticatedLayoutTeamsGroupIdSettingsRoute =
+  AuthenticatedLayoutTeamsGroupIdSettingsImport.update({
+    path: '/teams/$groupId/settings',
+    getParentRoute: () => AuthenticatedLayoutRoute,
+  } as any)
+
+const AuthenticatedLayoutTeamsGroupIdMembersRoute =
+  AuthenticatedLayoutTeamsGroupIdMembersImport.update({
+    path: '/teams/$groupId/members',
+    getParentRoute: () => AuthenticatedLayoutRoute,
+  } as any)
+
+const AuthenticatedLayoutTeamsGroupIdBillingRoute =
+  AuthenticatedLayoutTeamsGroupIdBillingImport.update({
+    path: '/teams/$groupId/billing',
     getParentRoute: () => AuthenticatedLayoutRoute,
   } as any)
 
@@ -66,8 +87,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedLayoutGamesGameIdImport
       parentRoute: typeof AuthenticatedLayoutImport
     }
-    '/_authenticated/_layout/teams/$groupId': {
-      preLoaderRoute: typeof AuthenticatedLayoutTeamsGroupIdImport
+    '/_authenticated/_layout/teams/$groupId/billing': {
+      preLoaderRoute: typeof AuthenticatedLayoutTeamsGroupIdBillingImport
+      parentRoute: typeof AuthenticatedLayoutImport
+    }
+    '/_authenticated/_layout/teams/$groupId/members': {
+      preLoaderRoute: typeof AuthenticatedLayoutTeamsGroupIdMembersImport
+      parentRoute: typeof AuthenticatedLayoutImport
+    }
+    '/_authenticated/_layout/teams/$groupId/settings': {
+      preLoaderRoute: typeof AuthenticatedLayoutTeamsGroupIdSettingsImport
+      parentRoute: typeof AuthenticatedLayoutImport
+    }
+    '/_authenticated/_layout/teams/$groupId/': {
+      preLoaderRoute: typeof AuthenticatedLayoutTeamsGroupIdIndexImport
       parentRoute: typeof AuthenticatedLayoutImport
     }
   }
@@ -80,7 +113,10 @@ export const routeTree = rootRoute.addChildren([
     AuthenticatedLayoutRoute.addChildren([
       AuthenticatedLayoutIndexRoute,
       AuthenticatedLayoutGamesGameIdRoute,
-      AuthenticatedLayoutTeamsGroupIdRoute,
+      AuthenticatedLayoutTeamsGroupIdBillingRoute,
+      AuthenticatedLayoutTeamsGroupIdMembersRoute,
+      AuthenticatedLayoutTeamsGroupIdSettingsRoute,
+      AuthenticatedLayoutTeamsGroupIdIndexRoute,
     ]),
   ]),
 ])
