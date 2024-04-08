@@ -37,6 +37,9 @@ module.exports = {
         "2xl": "1400px",
       },
     },
+    data: {
+      active: 'status~="active"',
+    },
     extend: {
       colors: {
         border: "hsl(var(--border))",

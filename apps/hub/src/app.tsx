@@ -1,4 +1,9 @@
-import { createRouter, RouterProvider } from "@tanstack/react-router";
+import {
+  createRouter,
+  RegisteredRouter,
+  RoutePaths,
+  RouterProvider,
+} from "@tanstack/react-router";
 import { routeTree } from "./routeTree.gen";
 import { AuthProvider, useAuth } from "./contexts/auth";
 import { queryClient, queryClientPersister } from "./queries/global";
@@ -10,7 +15,12 @@ declare module "@tanstack/react-router" {
   interface Register {
     router: typeof router;
   }
+
+  interface StaticDataRouteOption {
+    subNav?: { title: string; url: string }[];
+  }
 }
+
 // Create a new router instance
 const router = createRouter({
   routeTree,

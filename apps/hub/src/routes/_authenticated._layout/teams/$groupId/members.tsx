@@ -1,4 +1,4 @@
-import { GroupPageTabs } from "@/components/group/group-page-tabs";
+import { subNav } from "@/domains/group/data/route";
 import { groupGamesQueryOptions } from "@/queries/games";
 import { GroupMembers } from "@/views/group/group-members";
 import { Page, Flex } from "@rivet-gg/components";
@@ -11,10 +11,7 @@ function GroupIdMembersView() {
 
   return (
     <>
-      <Page
-        title={data.displayName}
-        header={<GroupPageTabs groupId={groupId} currentTab="members" />}
-      >
+      <Page title={data.displayName}>
         <Flex direction="row" gap="4">
           <GroupMembers groupId={groupId} />
         </Flex>
@@ -26,6 +23,7 @@ function GroupIdMembersView() {
 export const Route = createFileRoute(
   "/_authenticated/_layout/teams/$groupId/members",
 )({
+  staticData: { subNav },
   beforeLoad: async ({ context: { queryClient }, params: { groupId } }) => {
     const data = await queryClient.ensureQueryData(
       groupGamesQueryOptions(groupId),

@@ -1,6 +1,6 @@
 import { GroupImageCard } from "@/components/group/group-image-card";
 import { GroupNameCard } from "@/components/group/group-name-card";
-import { GroupPageTabs } from "@/components/group/group-page-tabs";
+import { subNav } from "@/domains/group/data/route";
 import { groupGamesQueryOptions } from "@/queries/games";
 import { Flex, SidebarNavigation, SidebarPage } from "@rivet-gg/components";
 import { useSuspenseQuery } from "@tanstack/react-query";
@@ -14,7 +14,6 @@ function GroupIdSettingsView() {
     <>
       <SidebarPage
         title={data.displayName}
-        header={<GroupPageTabs groupId={groupId} currentTab="settings" />}
         sidebar={
           <SidebarNavigation>
             <Link
@@ -39,6 +38,9 @@ function GroupIdSettingsView() {
 export const Route = createFileRoute(
   "/_authenticated/_layout/teams/$groupId/settings/",
 )({
+  staticData: {
+    subNav,
+  },
   beforeLoad: async ({ context: { queryClient }, params: { groupId } }) => {
     const data = await queryClient.ensureQueryData(
       groupGamesQueryOptions(groupId),

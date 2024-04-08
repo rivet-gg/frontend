@@ -1,4 +1,4 @@
-import { GroupPageTabs } from "@/components/group/group-page-tabs";
+import { subNav } from "@/domains/group/data/route";
 import { groupGamesQueryOptions } from "@/queries/games";
 import { GroupGames } from "@/views/group/group-games";
 import { GroupMembers } from "@/views/group/group-members";
@@ -12,10 +12,7 @@ function GroupIdView() {
 
   return (
     <>
-      <Page
-        title={data.displayName}
-        header={<GroupPageTabs groupId={groupId} currentTab="overview" />}
-      >
+      <Page title={data.displayName}>
         <Flex direction="row" gap="4">
           <Flex w="2/3" direction="row" items="start">
             <GroupGames groupId={groupId} />
@@ -31,6 +28,9 @@ function GroupIdView() {
 
 export const Route = createFileRoute("/_authenticated/_layout/teams/$groupId/")(
   {
+    staticData: {
+      subNav,
+    },
     beforeLoad: async ({ context: { queryClient }, params: { groupId } }) => {
       const data = await queryClient.ensureQueryData(
         groupGamesQueryOptions(groupId),

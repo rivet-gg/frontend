@@ -11,7 +11,7 @@ export function Group(props: GroupProps) {
 
   return (
     <Flex direction="col" my="4">
-      <Link to="/teams/$groupId" params={{ groupId }}>
+      <Link to="/teams/$groupId/" params={{ groupId }}>
         <Flex direction="row" justify="between" my="4">
           <Flex direction="row" items="center" gap="4">
             <GroupAvatar {...props} />

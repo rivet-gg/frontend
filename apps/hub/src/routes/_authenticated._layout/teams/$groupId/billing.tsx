@@ -1,4 +1,4 @@
-import { GroupPageTabs } from "@/components/group/group-page-tabs";
+import { subNav } from "@/domains/group/data/route";
 import { groupGamesQueryOptions } from "@/queries/games";
 import { Page, Flex, Text } from "@rivet-gg/components";
 import { useSuspenseQuery } from "@tanstack/react-query";
@@ -10,10 +10,7 @@ function GroupIdBillingView() {
 
   return (
     <>
-      <Page
-        title={data.displayName}
-        header={<GroupPageTabs groupId={groupId} currentTab="billing" />}
-      >
+      <Page title={data.displayName}>
         <Flex direction="row" gap="4">
           <Text>Billing</Text>
         </Flex>
@@ -25,6 +22,9 @@ function GroupIdBillingView() {
 export const Route = createFileRoute(
   "/_authenticated/_layout/teams/$groupId/billing",
 )({
+  staticData: {
+    subNav,
+  },
   beforeLoad: async ({ context: { queryClient }, params: { groupId } }) => {
     const data = await queryClient.ensureQueryData(
       groupGamesQueryOptions(groupId),
