@@ -1,18 +1,8 @@
+import { GroupImageCard } from "@/components/group/group-image-card";
 import { GroupNameCard } from "@/components/group/group-name-card";
 import { GroupPageTabs } from "@/components/group/group-page-tabs";
 import { groupGamesQueryOptions } from "@/queries/games";
-import {
-  Page,
-  Card,
-  Grid,
-  SidebarNavigation,
-  CardHeader,
-  CardContent,
-  CardFooter,
-  CardTitle,
-  CardDescription,
-  SidebarPage,
-} from "@rivet-gg/components";
+import { Flex, SidebarNavigation, SidebarPage } from "@rivet-gg/components";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { Link, createFileRoute, notFound } from "@tanstack/react-router";
 
@@ -37,7 +27,10 @@ function GroupIdSettingsView() {
           </SidebarNavigation>
         }
       >
-        <GroupNameCard groupId={groupId} />
+        <Flex gap="4" direction="col">
+          <GroupNameCard groupId={groupId} />
+          <GroupImageCard groupId={groupId} />
+        </Flex>
       </SidebarPage>
     </>
   );

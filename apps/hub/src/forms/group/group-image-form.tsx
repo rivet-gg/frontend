@@ -6,12 +6,24 @@ import {
   FormItem,
   FormLabel,
   FormControl,
-  Input,
+  FileInput,
   FormMessage,
+  fileSize,
 } from "@rivet-gg/components";
 
+const allowedTypes = ["image/png", "image/jpeg"];
+
 export const formSchema = z.object({
-  name: z.string().max(25),
+  image: z
+    .custom<File>()
+    .refine(
+      (file) => file.size <= fileSize.megabytes(2),
+      `File size should be less than 2MB.`,
+    )
+    .refine(
+      (file) => allowedTypes.includes(file.type),
+      `File type should be one of ${allowedTypes.join(", ")}`,
+    ),
 });
 
 export type FormValues = z.infer<typeof formSchema>;
@@ -23,17 +35,21 @@ export type SubmitHandler = (
 const { Form, Submit } = createSchemaForm(formSchema);
 export { Form, Submit };
 
-export const Name = () => {
+export const Image = () => {
   const { control } = useFormContext<FormValues>();
   return (
     <FormField
       control={control}
-      name="name"
+      name="image"
       render={({ field }) => (
         <FormItem>
-          <FormLabel>Name</FormLabel>
+          <FormLabel>Image</FormLabel>
           <FormControl>
-            <Input placeholder="Enter your team name here..." {...field} />
+            <FileInput<FormValues>
+              name="image"
+              field={field}
+              accept={allowedTypes.join(", ")}
+            />
           </FormControl>
           <FormMessage />
         </FormItem>

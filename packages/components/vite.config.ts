@@ -19,7 +19,13 @@ export default defineConfig({
       fileName: "rivet-gg-components",
     },
     rollupOptions: {
-      external: ["react", "react/jsx-runtime"],
+      external: [
+        "react",
+        "react/jsx-runtime",
+        "react-hook-form",
+        "zod",
+        "lucide-react",
+      ],
     },
   },
 });

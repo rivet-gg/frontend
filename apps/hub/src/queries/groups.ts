@@ -12,6 +12,11 @@ export const groupMembersQueryOptions = (groupId: string) => {
 
 export const useGroupUpdateProfileMutation = () => {
   return useMutation({
+    mutationFn: ({
+      groupId,
+      ...data
+    }: Rivet.group.UpdateProfileRequest & { groupId: string }) =>
+      rivetClient.group.updateProfile(groupId, data),
     onSuccess: async (_, variables) => {
       return Promise.all([
         queryClient.invalidateQueries(
@@ -20,10 +25,51 @@ export const useGroupUpdateProfileMutation = () => {
         queryClient.invalidateQueries(gamesQueryOptions()),
       ]);
     },
+  });
+};
+
+const useAvatarUploadCompleteMutation = () => {
+  return useMutation({
     mutationFn: ({
       groupId,
-      ...data
-    }: Rivet.group.UpdateProfileRequest & { groupId: string }) =>
-      rivetClient.group.updateProfile(groupId, data),
+      uploadId,
+    }: {
+      groupId: string;
+      uploadId: string;
+    }) => rivetClient.group.completeAvatarUpload(groupId, uploadId),
+    onSuccess(_, variables) {
+      return Promise.all([
+        queryClient.invalidateQueries(
+          groupMembersQueryOptions(variables.groupId),
+        ),
+        queryClient.invalidateQueries(gamesQueryOptions()),
+      ]);
+    },
+  });
+};
+
+export const useAvatarUploadMutation = (groupId: string) => {
+  const { mutateAsync } = useAvatarUploadCompleteMutation();
+  return useMutation({
+    mutationFn: ({ file }: { file: File }) =>
+      rivetClient.group.prepareAvatarUpload({
+        mime: file.type,
+        contentLength: file.size,
+        path: file.name,
+      }),
+    onSuccess: async (response, data) => {
+      await fetch(response.presignedRequest.url, {
+        method: "PUT",
+        body: data.file,
+        mode: "cors",
+        headers: {
+          "Content-Type": data.file.type,
+        },
+      });
+      await mutateAsync({
+        groupId: groupId,
+        uploadId: response.uploadId,
+      });
+    },
   });
 };
