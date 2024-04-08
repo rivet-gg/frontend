@@ -7,7 +7,7 @@ import {
 } from "./helpers/margin";
 import {
   PaddingUtilitiesProps,
-  getPaddingsClass,
+  getPaddingClass,
   omitPaddingProps,
 } from "./helpers/padding";
 import { GapUtilitiesProps, getGapClass, omitGapProps } from "./helpers/gap";
@@ -67,7 +67,7 @@ const Flex = ({ children, className, ...props }: StackProps) => {
       className={cn(
         "flex",
         getMarginClass(props),
-        getPaddingsClass(props),
+        getPaddingClass(props),
         getGapClass(props),
         getFlexDirectionClass(props),
         getJustifyContentClass(props),

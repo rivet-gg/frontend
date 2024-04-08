@@ -20,6 +20,8 @@ module.exports = {
   // forces developers to use ui components for styling instead of utility classes
   content: [
     "./src/components/**/*.{ts,tsx}",
+    "./src/layouts/**/*.{ts,tsx}",
+    "./src/forms/**/*.{ts,tsx}",
     "../../node_modules/@rivet-gg/components/**/*.{ts,tsx}",
   ],
   prefix: "",

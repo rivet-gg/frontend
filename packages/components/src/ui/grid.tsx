@@ -11,17 +11,25 @@ import {
   getWidthClass,
   omitWidthProps,
 } from "./helpers/width";
+import {
+  MarginUtilitiesProps,
+  getMarginClass,
+  omitMarginProps,
+} from "./helpers";
 
 interface GridProps
   extends HTMLAttributes<HTMLDivElement>,
     Partial<GridColumnsUtilitiesProps>,
+    Partial<MarginUtilitiesProps>,
     Partial<GapUtilitiesProps>,
     Partial<WidthUtilitiesProps> {
   children: ReactNode;
 }
 
 const Grid = ({ children, className, ...props }: GridProps) => {
-  const htmlProps = omitWidthProps(omitGapProps(omitGridColumnsProps(props)));
+  const htmlProps = omitMarginProps(
+    omitWidthProps(omitGapProps(omitGridColumnsProps(props))),
+  );
   return (
     <div
       className={cn(
@@ -29,6 +37,7 @@ const Grid = ({ children, className, ...props }: GridProps) => {
         getGridColumnsClass(props),
         getGapClass(props),
         getWidthClass(props),
+        getMarginClass(props),
         className,
       )}
       {...htmlProps}

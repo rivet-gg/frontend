@@ -2,6 +2,8 @@ export * from "./cta-card";
 export * from "./fullscreen-loading";
 export * from "./page";
 export * from "./narrow-page";
+export * from "./sidebar-page";
+export * from "./sidebar-navigation";
 export * from "./ui/typography";
 export * from "./ui/skeleton";
 export * from "./ui/sheet";

@@ -1,4 +1,4 @@
-import { GroupPageTabs } from "@/components/group-page-tabs";
+import { GroupPageTabs } from "@/components/group/group-page-tabs";
 import { groupGamesQueryOptions } from "@/queries/games";
 import { GroupGames } from "@/views/group/group-games";
 import { GroupMembers } from "@/views/group/group-members";

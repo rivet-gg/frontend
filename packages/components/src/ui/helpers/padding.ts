@@ -23,7 +23,7 @@ export function omitPaddingProps<T extends Partial<PaddingUtilitiesProps>>(
   return rest;
 }
 
-export function getPaddingsClass(props: Partial<PaddingUtilitiesProps>) {
+export function getPaddingClass(props: Partial<PaddingUtilitiesProps>) {
   const { p, px, py, pt, pb, pr, pl } = props;
 
   return [

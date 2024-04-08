@@ -1,4 +1,4 @@
-import { GroupPageTabs } from "@/components/group-page-tabs";
+import { GroupPageTabs } from "@/components/group/group-page-tabs";
 import { groupGamesQueryOptions } from "@/queries/games";
 import { Page, Flex, Text } from "@rivet-gg/components";
 import { useSuspenseQuery } from "@tanstack/react-query";

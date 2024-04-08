@@ -27,7 +27,7 @@ export function GroupPageTabs({ currentTab, groupId }: GroupPageTabsProps) {
   };
 
   return (
-    <Tabs defaultValue={currentTab} onValueChange={handleValueChange}>
+    <Tabs defaultValue={currentTab} onValueChange={handleValueChange} mb="4">
       <TabsList>
         <TabsTrigger value="overview">Overview</TabsTrigger>
         <TabsTrigger value="members">Members</TabsTrigger>
