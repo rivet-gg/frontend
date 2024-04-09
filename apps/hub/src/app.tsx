@@ -1,15 +1,10 @@
-import {
-  createRouter,
-  RegisteredRouter,
-  RoutePaths,
-  RouterProvider,
-} from "@tanstack/react-router";
+import { createRouter, RouterProvider } from "@tanstack/react-router";
 import { routeTree } from "./routeTree.gen";
-import { AuthProvider, useAuth } from "./contexts/auth";
 import { queryClient, queryClientPersister } from "./queries/global";
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
 import { Suspense } from "react";
 import { FullscreenLoading } from "@rivet-gg/components";
+import { useAuth, AuthProvider } from "./domains/auth/contexts/auth";
 
 declare module "@tanstack/react-router" {
   interface Register {

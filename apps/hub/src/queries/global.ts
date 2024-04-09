@@ -1,7 +1,7 @@
 import { RivetClient, Rivet } from "@rivet-gg/api";
 import { QueryCache, QueryClient } from "@tanstack/react-query";
 import { createSyncStoragePersister } from "@tanstack/query-sync-storage-persister";
-import { identityTokenQueryOptions } from "./identity";
+import { identityTokenQueryOptions } from "../domains/user/queries";
 import { getWatchIndex } from "./utils";
 
 export const rivetClient = new RivetClient({

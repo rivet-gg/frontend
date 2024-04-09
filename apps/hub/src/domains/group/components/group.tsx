@@ -1,7 +1,7 @@
-import { GroupGames } from "@/queries/games";
+import { GroupGames } from "@/domains/game/queries";
 import { Flex, LargeText, Grid } from "@rivet-gg/components";
 import { Link } from "@tanstack/react-router";
-import { GameCard } from "../game/game-card";
+import { GameCard } from "../../game/components/game-card";
 import { GroupAvatar } from "./group-avatar";
 
 interface GroupProps extends GroupGames {}

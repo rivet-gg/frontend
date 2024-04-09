@@ -1,11 +1,11 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import * as React from "react";
+import { useCallback } from "react";
+import { Rivet } from "@rivet-gg/api";
 import {
   identityTokenQueryOptions,
   selfProfileQueryOptions,
-} from "../queries/identity";
-import { useCallback } from "react";
-import { Rivet } from "@rivet-gg/api";
+} from "@/domains/user/queries";
 
 export interface AuthContext {
   profile: Rivet.identity.GetProfileResponse | undefined;

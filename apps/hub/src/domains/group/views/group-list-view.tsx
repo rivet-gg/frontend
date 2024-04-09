@@ -1,6 +1,6 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { gamesQueryOptions } from "@/queries/games";
-import { Group } from "./group-view";
+import { gamesQueryOptions } from "@/domains/game/queries";
+import { Group } from "../components/group";
 import { Flex } from "@rivet-gg/components";
 
 export function GroupListView() {

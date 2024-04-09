@@ -1,6 +1,6 @@
 import { queryOptions } from "@tanstack/react-query";
-import { rivetClient } from "./global";
-import { getMetaWatchIndex } from "./utils";
+import { rivetClient } from "../../../queries/global";
+import { getMetaWatchIndex } from "../../../queries/utils";
 
 export const identityTokenQueryOptions = () => {
   return queryOptions({

@@ -1,6 +1,6 @@
-import { useAuth } from "@/contexts/auth";
-import { gamesQueryOptions } from "@/queries/games";
-import { GroupListView } from "@/views/group/group-list-view";
+import { useAuth } from "@/domains/auth/contexts/auth";
+import { gamesQueryOptions } from "@/domains/game/queries";
+import { GroupListView } from "@/domains/group/views/group-list-view";
 import { CtaCard, Grid, NarrowPage } from "@rivet-gg/components";
 import { createFileRoute } from "@tanstack/react-router";
 

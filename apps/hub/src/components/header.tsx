@@ -1,4 +1,4 @@
-import { Link, useRouter } from "@tanstack/react-router";
+import { Link } from "@tanstack/react-router";
 import { Menu } from "lucide-react";
 import {
   Button,
@@ -7,9 +7,9 @@ import {
   SheetContent,
   SheetTrigger,
 } from "@rivet-gg/components";
-import { useAuth } from "@/contexts/auth";
 import { NavItem } from "./nav-item";
 import { HeaderSubNav } from "./header-sub-nav";
+import { useAuth } from "@/domains/auth/contexts/auth";
 
 const UserProfileButton = () => {
   const { profile } = useAuth();

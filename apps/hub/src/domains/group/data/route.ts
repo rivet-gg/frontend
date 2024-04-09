@@ -1,4 +1,4 @@
-export const subNav = [
+export const groupSubNav = [
   {
     title: "Overview",
     url: "/teams/$groupId/",

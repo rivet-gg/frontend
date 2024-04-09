@@ -1,5 +1,5 @@
 import { queryOptions } from "@tanstack/react-query";
-import { rivetClient } from "./global";
+import { rivetClient } from "../../../queries/global";
 import { Rivet } from "@rivet-gg/api";
 
 export type GroupGames = Rivet.group.Summary & { games: Rivet.game.Summary[] };

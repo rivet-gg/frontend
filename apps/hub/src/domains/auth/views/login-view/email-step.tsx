@@ -1,4 +1,4 @@
-import * as LoginForm from "@/forms/login-form";
+import * as LoginForm from "@/domains/auth/forms/login-form";
 import {
   Card,
   CardHeader,

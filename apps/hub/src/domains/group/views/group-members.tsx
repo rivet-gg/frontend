@@ -1,4 +1,4 @@
-import { groupMembersQueryOptions } from "@/queries/groups";
+import { groupMembersQueryOptions } from "@/domains/group/queries";
 import {
   Card,
   CardContent,
@@ -9,8 +9,8 @@ import {
   Text,
 } from "@rivet-gg/components";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { UserAvatar } from "../user/user-avatar";
-import { groupOnwerQueryOptions } from "@/queries/games";
+import { UserAvatar } from "../../user/components/user-avatar";
+import { groupOnwerQueryOptions } from "@/domains/game/queries";
 import { Crown } from "lucide-react";
 
 interface GroupMembersProps {

@@ -1,15 +1,15 @@
 import { Page } from "@rivet-gg/components";
-import { gameQueryOptions } from "@/queries/games";
+import { gameQueryOptions } from "@/domains/game/queries";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
-import { GameNamespaces } from "@/views/game/game-namespaces";
+import { GameNamespacesView } from "@/domains/game/views/game-namespaces";
 
 function GameIdRoute() {
   const { gameId } = Route.useParams();
   const { data } = useSuspenseQuery(gameQueryOptions(gameId));
   return (
     <Page title={data?.game.displayName}>
-      <GameNamespaces gameId={gameId} />
+      <GameNamespacesView gameId={gameId} />
     </Page>
   );
 }

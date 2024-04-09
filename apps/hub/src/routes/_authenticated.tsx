@@ -1,6 +1,6 @@
+import { useAuth } from "@/domains/auth/contexts/auth";
+import { LoginView } from "@/domains/auth/views/login-view/login-view";
 import * as Layout from "@/layouts/page-centered";
-import { useAuth } from "@/contexts/auth";
-import { LoginView } from "@/views/auth/login-view/login-view";
 import { Outlet, createFileRoute, useNavigate } from "@tanstack/react-router";
 
 function Authenticated() {

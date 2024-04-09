@@ -1,5 +1,5 @@
 import { queryOptions } from "@tanstack/react-query";
-import { rivetClient } from "./global";
+import { rivetClient } from "../../../queries/global";
 
 export const bootstrapQueryOptions = () => {
   return queryOptions({

@@ -1,4 +1,4 @@
-import * as OtpForm from "@/forms/otp-form";
+import * as OtpForm from "@/domains/auth/forms/otp-form";
 import {
   Button,
   Card,

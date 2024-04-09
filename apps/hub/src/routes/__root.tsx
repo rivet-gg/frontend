@@ -1,10 +1,10 @@
-import { AuthContext } from "@/contexts/auth";
+import { AuthContext } from "@/domains/auth/contexts/auth";
+import { bootstrapQueryOptions } from "@/domains/auth/queries/bootstrap";
 import * as Layout from "@/layouts/root";
 import { QueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Outlet, createRootRouteWithContext } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/router-devtools";
-import { bootstrapQueryOptions } from "@/queries/bootstrap";
 
 function RootRoute() {
   useSuspenseQuery(bootstrapQueryOptions());

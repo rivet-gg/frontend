@@ -1,5 +1,5 @@
-import { subNav } from "@/domains/group/data/route";
-import { groupGamesQueryOptions } from "@/queries/games";
+import { groupSubNav } from "@/domains/group/data/route";
+import { groupGamesQueryOptions } from "@/domains/game/queries";
 import { Page, Flex, Text } from "@rivet-gg/components";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, notFound } from "@tanstack/react-router";
@@ -23,7 +23,7 @@ export const Route = createFileRoute(
   "/_authenticated/_layout/teams/$groupId/billing",
 )({
   staticData: {
-    subNav,
+    subNav: groupSubNav,
   },
   beforeLoad: async ({ context: { queryClient }, params: { groupId } }) => {
     const data = await queryClient.ensureQueryData(

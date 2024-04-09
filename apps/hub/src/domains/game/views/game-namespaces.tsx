@@ -1,4 +1,4 @@
-import { gameNamespacesQueryOptions } from "@/queries/games";
+import { gameNamespacesQueryOptions } from "@/domains/game/queries";
 import {
   Badge,
   Card,
@@ -14,11 +14,11 @@ import {
 } from "@rivet-gg/components";
 import { useSuspenseQuery } from "@tanstack/react-query";
 
-interface GameNamespacesProps {
+interface GameNamespacesViewProps {
   gameId: string;
 }
 
-export function GameNamespaces({ gameId }: GameNamespacesProps) {
+export function GameNamespacesView({ gameId }: GameNamespacesViewProps) {
   const { data } = useSuspenseQuery(gameNamespacesQueryOptions(gameId));
 
   return (

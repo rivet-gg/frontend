@@ -1,6 +1,5 @@
 import { UseFormReturn, useFormContext } from "react-hook-form";
 import z from "zod";
-import { bootstrapCaptchaQueryOptions } from "@/queries/bootstrap";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import Turnstile from "react-turnstile";
 import { createSchemaForm } from "@/lib/create-schema-form";
@@ -12,6 +11,7 @@ import {
   Input,
   FormMessage,
 } from "@rivet-gg/components";
+import { bootstrapCaptchaQueryOptions } from "../queries/bootstrap";
 
 export const formSchema = z.object({
   email: z.string().email(),

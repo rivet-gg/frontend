@@ -6,10 +6,10 @@ import {
   CardHeader,
   CardTitle,
 } from "@rivet-gg/components";
-import * as GroupNameForm from "@/forms/group/group-name-form";
-import { groupGamesQueryOptions } from "@/queries/games";
+import * as GroupNameForm from "@/domains/group/forms/group-name-form";
+import { groupGamesQueryOptions } from "@/domains/game/queries";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { useGroupUpdateProfileMutation } from "@/queries/groups";
+import { useGroupUpdateProfileMutation } from "@/domains/group/queries";
 
 interface GroupNameCardProps {
   groupId: string;

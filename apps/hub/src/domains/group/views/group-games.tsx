@@ -1,4 +1,4 @@
-import { groupGamesQueryOptions } from "@/queries/games";
+import { groupGamesQueryOptions } from "@/domains/game/queries";
 import {
   Card,
   CardContent,

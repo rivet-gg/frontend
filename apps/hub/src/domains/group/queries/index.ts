@@ -1,7 +1,7 @@
 import { queryOptions, useMutation } from "@tanstack/react-query";
-import { queryClient, rivetClient } from "./global";
+import { queryClient, rivetClient } from "../../../queries/global";
 import { Rivet } from "@rivet-gg/api";
-import { gamesQueryOptions } from "./games";
+import { gamesQueryOptions } from "../../game/queries";
 
 export const groupMembersQueryOptions = (groupId: string) => {
   return queryOptions({
