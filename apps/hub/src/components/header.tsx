@@ -31,7 +31,7 @@ const UserProfileButton = () => {
 
 export function Header() {
   return (
-    <header className="sticky top-0 flex py-2 backdrop-blur z-10 items-center gap-4 border-b bg-background/60">
+    <header className="sticky top-0  min-h-16 flex py-2 backdrop-blur z-10 items-center gap-4 border-b bg-background/60">
       <div className="container flex flex-col gap-4">
         <div className="flex items-center gap-4 w-full">
           <Sheet>

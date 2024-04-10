@@ -1,9 +1,9 @@
 import { groupSubNav } from "@/domains/group/data/route";
 import { groupGamesQueryOptions } from "@/domains/game/queries";
-import { GroupMembers } from "@/domains/group/views/group-members";
 import { Page, Flex } from "@rivet-gg/components";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, notFound } from "@tanstack/react-router";
+import { GroupDetailedMembers } from "@/domains/group/views/group-detailed-members";
 
 function GroupIdMembersView() {
   const { groupId } = Route.useParams();
@@ -13,7 +13,7 @@ function GroupIdMembersView() {
     <>
       <Page title={data.displayName}>
         <Flex direction="row" gap="4">
-          <GroupMembers groupId={groupId} />
+          <GroupDetailedMembers groupId={groupId} />
         </Flex>
       </Page>
     </>
