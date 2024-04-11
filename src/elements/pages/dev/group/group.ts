@@ -286,7 +286,8 @@ export default class GroupPage extends LitElement {
 				<group-banner .group=${this.profile}></group-banner>
 				<div class="flex flex-row w-full">
 					${when(
-						this.games && this.profile.isCurrentIdentityMember,
+						this.games &&
+							(this.profile.isCurrentIdentityMember || global.currentIdentity.isAdmin),
 						() =>
 							html`<div class="games-list grid grid-cols-2 md:grid-cols-4 gap-4 w-full">
 								<div
