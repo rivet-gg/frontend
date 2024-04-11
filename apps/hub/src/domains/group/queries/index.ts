@@ -118,7 +118,7 @@ export const useGroupTransferOwnershipMutation = ({
   });
 };
 
-export const useGroupKickMutation = ({
+export const useGroupKickMemberMutation = ({
   onSuccess,
 }: {
   onSuccess?: () => void;
@@ -131,6 +131,31 @@ export const useGroupKickMutation = ({
       groupId: string;
       identityId: string;
     }) => rivetClient.group.kickMember(groupId, identityId),
+    onSuccess: async (_, variables) => {
+      await Promise.all([
+        queryClient.invalidateQueries(gamesQueryOptions()),
+        queryClient.invalidateQueries(
+          groupMembersQueryOptions(variables.groupId),
+        ),
+      ]);
+      onSuccess?.();
+    },
+  });
+};
+
+export const useGroupBanMemberMutation = ({
+  onSuccess,
+}: {
+  onSuccess?: () => void;
+} = {}) => {
+  return useMutation({
+    mutationFn: ({
+      groupId,
+      identityId,
+    }: {
+      groupId: string;
+      identityId: string;
+    }) => rivetClient.group.banIdentity(groupId, identityId),
     onSuccess: async (_, variables) => {
       await Promise.all([
         queryClient.invalidateQueries(gamesQueryOptions()),

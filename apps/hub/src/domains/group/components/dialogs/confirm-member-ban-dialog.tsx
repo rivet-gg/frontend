@@ -13,7 +13,7 @@ import {
 } from "@rivet-gg/components";
 import {
   groupMemberQueryOptions,
-  useGroupKickMemberMutation,
+  useGroupBanMemberMutation,
 } from "../../queries";
 import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
 import { groupGamesQueryOptions } from "@/domains/game/queries";
@@ -31,7 +31,7 @@ function Content({ groupId, identityId, onSuccess }: ContentProps) {
   const { data: groupMember } = useQuery(
     groupMemberQueryOptions({ identityId, groupId }),
   );
-  const { mutate, isPending } = useGroupKickMemberMutation({
+  const { mutate, isPending } = useGroupBanMemberMutation({
     onSuccess,
   });
 
@@ -42,7 +42,7 @@ function Content({ groupId, identityId, onSuccess }: ContentProps) {
         <DialogDescription asChild>
           <div>
             <Text>
-              Are you sure you want to kick{" "}
+              Are you sure you want to ban{" "}
               <Strong>{groupMember?.identity.displayName}</Strong> from group{" "}
               <Code>{group?.displayName}</Code>?
             </Text>
@@ -64,16 +64,16 @@ function Content({ groupId, identityId, onSuccess }: ContentProps) {
   );
 }
 
-interface ConfirmMemberKickDialogProps
+interface ConfirmMemberBanDialogProps
   extends DialogProps,
     Partial<ContentProps> {}
 
-export function ConfirmMemberKickDialog({
+export function ConfirmMemberBanDialog({
   groupId,
   identityId,
   onSuccess,
   ...dialogProps
-}: ConfirmMemberKickDialogProps) {
+}: ConfirmMemberBanDialogProps) {
   return (
     <Dialog {...dialogProps}>
       <DialogContent>

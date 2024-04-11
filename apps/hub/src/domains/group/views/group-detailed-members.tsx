@@ -15,6 +15,7 @@ import { Crown } from "lucide-react";
 import { GroupMemberSettingsMenu } from "../components/group-member-settings-menu";
 import { useGroupMemberTransferOwnership } from "../hooks/use-group-member-transfer-ownership";
 import { useGroupMemberKick } from "../hooks/use-group-member-kick";
+import { useGroupMemberBan } from "../hooks/use-group-member-ban";
 
 interface GroupDetailedMembersProps {
   groupId: string;
@@ -32,6 +33,9 @@ export function GroupDetailedMembers({ groupId }: GroupDetailedMembersProps) {
   const { confirmMemberKick, dialog: confirmMemberKickDialog } =
     useGroupMemberKick(groupId);
 
+  const { confirmMemberBan, dialog: confirmMemberBanDialog } =
+    useGroupMemberBan(groupId);
+
   return (
     <Card w="full">
       <CardHeader>
@@ -40,6 +44,7 @@ export function GroupDetailedMembers({ groupId }: GroupDetailedMembersProps) {
       <CardContent>
         {confirmTransferOwnershipDialog}
         {confirmMemberKickDialog}
+        {confirmMemberBanDialog}
         <Grid gap="4">
           {data.members.map((member) => (
             <Flex
@@ -62,6 +67,7 @@ export function GroupDetailedMembers({ groupId }: GroupDetailedMembersProps) {
                 groupId={groupId}
                 onTransferOwnership={confirmTransferOwnership}
                 onKick={confirmMemberKick}
+                onBan={confirmMemberBan}
               />
             </Flex>
           ))}

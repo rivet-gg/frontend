@@ -18,7 +18,7 @@ interface GroupMemberInfo {
 interface GroupMemberSettingsMenuProps extends GroupMemberInfo {
   onTransferOwnership?: (data: GroupMemberInfo) => void;
   onKick?: (data: GroupMemberInfo) => void;
-  onBan?: () => void;
+  onBan?: (data: GroupMemberInfo) => void;
 }
 
 export function GroupMemberSettingsMenu({
@@ -63,7 +63,13 @@ export function GroupMemberSettingsMenu({
         >
           Kick
         </DropdownMenuItem>
-        <DropdownMenuItem onSelect={onBan}>Ban</DropdownMenuItem>
+        <DropdownMenuItem
+          onSelect={() => {
+            onBan?.({ groupId, identityId });
+          }}
+        >
+          Ban
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
