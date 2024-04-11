@@ -8,14 +8,10 @@ import {
   DialogHeader,
   DialogProps,
   DialogTitle,
-  Link,
   Strong,
   Text,
 } from "@rivet-gg/components";
-import {
-  groupMemberQueryOptions,
-  useGroupTransferOwnershipMutation,
-} from "../../queries";
+import { groupMemberQueryOptions, useGroupKickMutation } from "../../queries";
 import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
 import { groupGamesQueryOptions } from "@/domains/game/queries";
 import { Suspense } from "react";
@@ -32,7 +28,7 @@ function Content({ groupId, identityId, onSuccess }: ContentProps) {
   const { data: groupMember } = useQuery(
     groupMemberQueryOptions({ identityId, groupId }),
   );
-  const { mutate, isPending } = useGroupTransferOwnershipMutation({
+  const { mutate, isPending } = useGroupKickMutation({
     onSuccess,
   });
 
@@ -43,27 +39,9 @@ function Content({ groupId, identityId, onSuccess }: ContentProps) {
         <DialogDescription asChild>
           <div>
             <Text>
-              Are you sure you want to transfer ownership of group{" "}
-              <Code>{group?.displayName}</Code>? This action{" "}
-              <Strong>CANNOT</Strong> be undone.
-            </Text>
-            <Text>
-              <Strong>
-                As a developer group, transferring ownership will cause all
-                billing related emails to be sent to the new owner. Your bank
-                account information will stay attached to the group unless
-                removed by a Rivet employee.
-              </Strong>
-            </Text>
-            <Text>
-              Contact{" "}
-              <Link href="https://rivet.gg/support" target="_blank">
-                Support
-              </Link>{" "}
-              for more info.
-            </Text>
-            <Text>
-              New owner: <Strong>{groupMember?.identity.displayName}</Strong>
+              Are you sure you want to kick{" "}
+              <Strong>{groupMember?.identity.displayName}</Strong> from group{" "}
+              <Code>{group?.displayName}</Code>?
             </Text>
           </div>
         </DialogDescription>
@@ -73,7 +51,7 @@ function Content({ groupId, identityId, onSuccess }: ContentProps) {
           type="submit"
           isLoading={isPending}
           onClick={() => {
-            mutate({ groupId, newOwnerIdentityId: identityId });
+            mutate({ groupId, identityId });
           }}
         >
           Confirm
@@ -83,16 +61,16 @@ function Content({ groupId, identityId, onSuccess }: ContentProps) {
   );
 }
 
-interface ConfirmTransferOwnershipDialogProps
+interface ConfirmMemberKickDialogProps
   extends DialogProps,
     Partial<ContentProps> {}
 
-export function ConfirmTransferOwnershipDialog({
+export function ConfirmMemberKickDialog({
   groupId,
   identityId,
   onSuccess,
   ...dialogProps
-}: ConfirmTransferOwnershipDialogProps) {
+}: ConfirmMemberKickDialogProps) {
   return (
     <Dialog {...dialogProps}>
       <DialogContent>

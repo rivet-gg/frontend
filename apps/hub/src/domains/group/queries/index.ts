@@ -19,15 +19,15 @@ export const groupMembersQueryOptions = (groupId: string) => {
 
 export const groupMemberQueryOptions = ({
   groupId,
-  memberIdentityId,
+  identityId,
 }: {
   groupId: string;
-  memberIdentityId: string;
+  identityId: string;
 }) => {
   return queryOptions({
     ...groupMembersQueryOptions(groupId),
     select: (data) =>
-      data.members.find((m) => m.identity.identityId === memberIdentityId),
+      data.members.find((m) => m.identity.identityId === identityId),
   });
 };
 
@@ -106,6 +106,31 @@ export const useGroupTransferOwnershipMutation = ({
       ...rest
     }: { groupId: string } & Rivet.group.TransferOwnershipRequest) =>
       rivetClient.group.transferOwnership(groupId, rest),
+    onSuccess: async (_, variables) => {
+      await Promise.all([
+        queryClient.invalidateQueries(gamesQueryOptions()),
+        queryClient.invalidateQueries(
+          groupMembersQueryOptions(variables.groupId),
+        ),
+      ]);
+      onSuccess?.();
+    },
+  });
+};
+
+export const useGroupKickMutation = ({
+  onSuccess,
+}: {
+  onSuccess?: () => void;
+} = {}) => {
+  return useMutation({
+    mutationFn: ({
+      groupId,
+      identityId,
+    }: {
+      groupId: string;
+      identityId: string;
+    }) => rivetClient.group.kickMember(groupId, identityId),
     onSuccess: async (_, variables) => {
       await Promise.all([
         queryClient.invalidateQueries(gamesQueryOptions()),

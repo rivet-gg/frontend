@@ -55,13 +55,14 @@ export const queryClient = new QueryClient({
   queryCache: new QueryCache({
     onSuccess: async (data, query) => {
       if (query.meta?.watch && data) {
-        const index = getWatchIndex(data);
-        await queryClient.fetchQuery({
-          ...query.options,
-          queryKey: query.options.queryKey || query.queryKey,
-          staleTime: 0,
-          meta: { watchIndex: index },
-        });
+        // FIXME: is not working as intended
+        // const index = getWatchIndex(data);
+        // await queryClient.fetchQuery({
+        //   ...query.options,
+        //   queryKey: query.options.queryKey || query.queryKey,
+        //   staleTime: 0,
+        //   meta: { watchIndex: index },
+        // });
       }
     },
   }),

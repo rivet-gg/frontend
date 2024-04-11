@@ -14,6 +14,7 @@ import { groupOnwerQueryOptions } from "@/domains/game/queries";
 import { Crown } from "lucide-react";
 import { GroupMemberSettingsMenu } from "../components/group-member-settings-menu";
 import { useGroupMemberTransferOwnership } from "../hooks/use-group-member-transfer-ownership";
+import { useGroupMemberKick } from "../hooks/use-group-member-kick";
 
 interface GroupDetailedMembersProps {
   groupId: string;
@@ -25,8 +26,11 @@ export function GroupDetailedMembers({ groupId }: GroupDetailedMembersProps) {
   );
   const { data } = useSuspenseQuery(groupMembersQueryOptions(groupId));
 
-  const { confirmTransferOwnership, dialog } =
-    useGroupMemberTransferOwnership();
+  const { confirmTransferOwnership, dialog: confirmTransferOwnershipDialog } =
+    useGroupMemberTransferOwnership(groupId);
+
+  const { confirmMemberKick, dialog: confirmMemberKickDialog } =
+    useGroupMemberKick(groupId);
 
   return (
     <Card w="full">
@@ -34,7 +38,8 @@ export function GroupDetailedMembers({ groupId }: GroupDetailedMembersProps) {
         <CardTitle>Members</CardTitle>
       </CardHeader>
       <CardContent>
-        {dialog}
+        {confirmTransferOwnershipDialog}
+        {confirmMemberKickDialog}
         <Grid gap="4">
           {data.members.map((member) => (
             <Flex
@@ -56,6 +61,7 @@ export function GroupDetailedMembers({ groupId }: GroupDetailedMembersProps) {
                 identityId={member.identity.identityId}
                 groupId={groupId}
                 onTransferOwnership={confirmTransferOwnership}
+                onKick={confirmMemberKick}
               />
             </Flex>
           ))}

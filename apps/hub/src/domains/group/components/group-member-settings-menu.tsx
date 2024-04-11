@@ -6,19 +6,18 @@ import {
   Button,
   DropdownMenuContent,
   DropdownMenuItem,
-  Dialog,
 } from "@rivet-gg/components";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { MoreVertical } from "lucide-react";
 
-interface GroupMemberSettingsMenuProps {
+interface GroupMemberInfo {
   identityId: string;
   groupId: string;
+}
 
-  onTransferOwnership?: (data: {
-    groupId: string;
-    memberIdentityId: string;
-  }) => void;
+interface GroupMemberSettingsMenuProps extends GroupMemberInfo {
+  onTransferOwnership?: (data: GroupMemberInfo) => void;
+  onKick?: (data: GroupMemberInfo) => void;
   onBan?: () => void;
 }
 
@@ -26,6 +25,7 @@ export function GroupMemberSettingsMenu({
   groupId,
   identityId,
   onTransferOwnership,
+  onKick,
   onBan,
 }: GroupMemberSettingsMenuProps) {
   const { data: selfProfileIdentityId } = useSuspenseQuery(
@@ -51,13 +51,18 @@ export function GroupMemberSettingsMenu({
       <DropdownMenuContent align="end">
         {groupOwnerIdentityId !== identityId ? (
           <DropdownMenuItem
-            onSelect={() =>
-              onTransferOwnership?.({ groupId, memberIdentityId: identityId })
-            }
+            onSelect={() => onTransferOwnership?.({ groupId, identityId })}
           >
             Transfer ownership
           </DropdownMenuItem>
         ) : null}
+        <DropdownMenuItem
+          onSelect={() => {
+            onKick?.({ groupId, identityId });
+          }}
+        >
+          Kick
+        </DropdownMenuItem>
         <DropdownMenuItem onSelect={onBan}>Ban</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
