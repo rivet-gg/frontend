@@ -183,6 +183,20 @@ const Strong = ({
   return <Comp className={cn(className, "font-bold")} {...props} />;
 };
 
+const Link = ({
+  className,
+  asChild,
+  ...props
+}: TypographyElementProps<"a">) => {
+  const Comp = asChild ? Slot : "a";
+  return (
+    <Comp
+      className={cn(className, "font-medium underline underline-offset-4")}
+      {...props}
+    />
+  );
+};
+
 export {
   H1,
   H2,
@@ -199,4 +213,5 @@ export {
   SmallText,
   MutedText,
   Strong,
+  Link,
 };

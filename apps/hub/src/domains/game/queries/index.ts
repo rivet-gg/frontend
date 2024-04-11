@@ -1,13 +1,17 @@
 import { queryOptions } from "@tanstack/react-query";
 import { rivetClient } from "../../../queries/global";
 import { Rivet } from "@rivet-gg/api";
+import { getMetaWatchIndex } from "@/queries/utils";
 
 export type GroupGames = Rivet.group.Summary & { games: Rivet.game.Summary[] };
 
 export const gamesQueryOptions = () => {
   return queryOptions({
     queryKey: ["games"],
-    queryFn: () => rivetClient.cloud.games.games.getGames(),
+    queryFn: ({ meta }) =>
+      rivetClient.cloud.games.games.getGames({
+        watchIndex: getMetaWatchIndex(meta),
+      }),
     select: (data) => {
       return data.groups.map((group) => {
         return {
@@ -18,6 +22,7 @@ export const gamesQueryOptions = () => {
         };
       });
     },
+    meta: { watch: true },
   });
 };
 
@@ -49,8 +54,11 @@ export const groupOnwerQueryOptions = (groupId: string) => {
 export const gameQueryOptions = (gameId: string) => {
   return queryOptions({
     queryKey: ["game", gameId],
-    queryFn: ({ queryKey: [_, gameId] }) =>
-      rivetClient.cloud.games.games.getGameById(gameId),
+    queryFn: ({ queryKey: [_, gameId], meta }) =>
+      rivetClient.cloud.games.games.getGameById(gameId, {
+        watchIndex: getMetaWatchIndex(meta),
+      }),
+    meta: { watch: true },
     select: (data) => ({
       ...data,
       game: {

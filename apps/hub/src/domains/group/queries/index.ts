@@ -2,11 +2,32 @@ import { queryOptions, useMutation } from "@tanstack/react-query";
 import { queryClient, rivetClient } from "../../../queries/global";
 import { Rivet } from "@rivet-gg/api";
 import { gamesQueryOptions } from "../../game/queries";
+import { getMetaWatchIndex } from "@/queries/utils";
 
 export const groupMembersQueryOptions = (groupId: string) => {
   return queryOptions({
     queryKey: ["group", groupId],
-    queryFn: () => rivetClient.group.getMembers(groupId),
+    queryFn: ({ meta }) =>
+      rivetClient.group.getMembers(groupId, {
+        watchIndex: getMetaWatchIndex(meta),
+      }),
+    meta: {
+      watch: true,
+    },
+  });
+};
+
+export const groupMemberQueryOptions = ({
+  groupId,
+  memberIdentityId,
+}: {
+  groupId: string;
+  memberIdentityId: string;
+}) => {
+  return queryOptions({
+    ...groupMembersQueryOptions(groupId),
+    select: (data) =>
+      data.members.find((m) => m.identity.identityId === memberIdentityId),
   });
 };
 
@@ -70,6 +91,29 @@ export const useAvatarUploadMutation = (groupId: string) => {
         groupId: groupId,
         uploadId: response.uploadId,
       });
+    },
+  });
+};
+
+export const useGroupTransferOwnershipMutation = ({
+  onSuccess,
+}: {
+  onSuccess?: () => void;
+} = {}) => {
+  return useMutation({
+    mutationFn: ({
+      groupId,
+      ...rest
+    }: { groupId: string } & Rivet.group.TransferOwnershipRequest) =>
+      rivetClient.group.transferOwnership(groupId, rest),
+    onSuccess: async (_, variables) => {
+      await Promise.all([
+        queryClient.invalidateQueries(gamesQueryOptions()),
+        queryClient.invalidateQueries(
+          groupMembersQueryOptions(variables.groupId),
+        ),
+      ]);
+      onSuccess?.();
     },
   });
 };

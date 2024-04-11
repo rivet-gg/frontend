@@ -22,3 +22,10 @@ export const selfProfileQueryOptions = (opts: { enabled?: boolean } = {}) => {
     meta: { watch: true },
   });
 };
+
+export const selfProfileIdentityIdQueryOptions = () => {
+  return queryOptions({
+    ...selfProfileQueryOptions(),
+    select: (data) => data.identity.identityId,
+  });
+};

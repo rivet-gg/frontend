@@ -6,17 +6,14 @@ import {
   CardTitle,
   Flex,
   Grid,
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
   Text,
 } from "@rivet-gg/components";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { UserAvatar } from "../../user/components/user-avatar";
 import { groupOnwerQueryOptions } from "@/domains/game/queries";
 import { Crown } from "lucide-react";
+import { GroupMemberSettingsMenu } from "../components/group-member-settings-menu";
+import { useGroupMemberTransferOwnership } from "../hooks/use-group-member-transfer-ownership";
 
 interface GroupDetailedMembersProps {
   groupId: string;
@@ -28,12 +25,16 @@ export function GroupDetailedMembers({ groupId }: GroupDetailedMembersProps) {
   );
   const { data } = useSuspenseQuery(groupMembersQueryOptions(groupId));
 
+  const { confirmTransferOwnership, dialog } =
+    useGroupMemberTransferOwnership();
+
   return (
     <Card w="full">
       <CardHeader>
         <CardTitle>Members</CardTitle>
       </CardHeader>
       <CardContent>
+        {dialog}
         <Grid gap="4">
           {data.members.map((member) => (
             <Flex
@@ -42,23 +43,20 @@ export function GroupDetailedMembers({ groupId }: GroupDetailedMembersProps) {
               gap="4"
               items="center"
             >
-              <UserAvatar {...member.identity} />
-              <Flex gap="2" items="center">
-                <Text>{member.identity.displayName}</Text>
-                {groupOwnerIdentityId === member.identity.identityId && (
-                  <Crown className="w-4 text-primary" />
-                )}
-                <Select>
-                  <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="Theme" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="light">Light</SelectItem>
-                    <SelectItem value="dark">Dark</SelectItem>
-                    <SelectItem value="system">System</SelectItem>
-                  </SelectContent>
-                </Select>
+              <Flex w="full" gap="4">
+                <UserAvatar {...member.identity} />
+                <Flex gap="2" items="center">
+                  <Text>{member.identity.displayName}</Text>
+                  {groupOwnerIdentityId === member.identity.identityId && (
+                    <Crown className="w-4 text-primary" />
+                  )}
+                </Flex>
               </Flex>
+              <GroupMemberSettingsMenu
+                identityId={member.identity.identityId}
+                groupId={groupId}
+                onTransferOwnership={confirmTransferOwnership}
+              />
             </Flex>
           ))}
         </Grid>
