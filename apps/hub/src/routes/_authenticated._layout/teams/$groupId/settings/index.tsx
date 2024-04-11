@@ -1,24 +1,22 @@
 import { groupSubNav } from "@/domains/group/data/route";
 import { groupGamesQueryOptions } from "@/domains/game/queries";
 import { Flex, SidebarNavigation, SidebarPage } from "@rivet-gg/components";
-import { useSuspenseQuery } from "@tanstack/react-query";
 import { Link, createFileRoute, notFound } from "@tanstack/react-router";
 import { GroupImageCard } from "@/domains/group/components/group-image-card";
 import { GroupNameCard } from "@/domains/group/components/group-name-card";
 
 function GroupIdSettingsView() {
-  const { groupId } = Route.useParams();
-  const { data } = useSuspenseQuery(groupGamesQueryOptions(groupId));
+  const { group } = Route.useLoaderData();
 
   return (
     <>
       <SidebarPage
-        title={data.displayName}
+        title={group.displayName}
         sidebar={
           <SidebarNavigation>
             <Link
               to="/teams/$groupId/settings"
-              params={{ groupId }}
+              params={{ groupId: group.groupId }}
               className="font-semibold text-primary"
             >
               General
@@ -27,8 +25,8 @@ function GroupIdSettingsView() {
         }
       >
         <Flex gap="4" direction="col">
-          <GroupNameCard groupId={groupId} />
-          <GroupImageCard groupId={groupId} />
+          <GroupNameCard groupId={group.groupId} />
+          <GroupImageCard groupId={group.groupId} />
         </Flex>
       </SidebarPage>
     </>
@@ -41,7 +39,7 @@ export const Route = createFileRoute(
   staticData: {
     subNav: groupSubNav,
   },
-  beforeLoad: async ({ context: { queryClient }, params: { groupId } }) => {
+  loader: async ({ context: { queryClient }, params: { groupId } }) => {
     const data = await queryClient.ensureQueryData(
       groupGamesQueryOptions(groupId),
     );
@@ -50,6 +48,8 @@ export const Route = createFileRoute(
     if (!group) {
       throw notFound();
     }
+
+    return { group };
   },
   component: GroupIdSettingsView,
 });

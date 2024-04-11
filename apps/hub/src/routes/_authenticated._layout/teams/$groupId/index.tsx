@@ -3,22 +3,20 @@ import { groupGamesQueryOptions } from "@/domains/game/queries";
 import { GroupGames } from "@/domains/group/views/group-games";
 import { GroupMembers } from "@/domains/group/views/group-members";
 import { Page, Flex } from "@rivet-gg/components";
-import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, notFound } from "@tanstack/react-router";
 
 function GroupIdView() {
-  const { groupId } = Route.useParams();
-  const { data } = useSuspenseQuery(groupGamesQueryOptions(groupId));
+  const { group } = Route.useLoaderData();
 
   return (
     <>
-      <Page title={data.displayName}>
+      <Page title={group.displayName}>
         <Flex direction="row" gap="4">
           <Flex w="2/3" direction="row" items="start">
-            <GroupGames groupId={groupId} />
+            <GroupGames groupId={group.groupId} />
           </Flex>
           <Flex w="1/3" direction="row" items="start">
-            <GroupMembers groupId={groupId} />
+            <GroupMembers groupId={group.groupId} />
           </Flex>
         </Flex>
       </Page>
@@ -31,7 +29,7 @@ export const Route = createFileRoute("/_authenticated/_layout/teams/$groupId/")(
     staticData: {
       subNav: groupSubNav,
     },
-    beforeLoad: async ({ context: { queryClient }, params: { groupId } }) => {
+    loader: async ({ context: { queryClient }, params: { groupId } }) => {
       const data = await queryClient.ensureQueryData(
         groupGamesQueryOptions(groupId),
       );
@@ -40,6 +38,8 @@ export const Route = createFileRoute("/_authenticated/_layout/teams/$groupId/")(
       if (!group) {
         throw notFound();
       }
+
+      return { group };
     },
     component: GroupIdView,
   },

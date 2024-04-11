@@ -1,16 +1,14 @@
 import { groupSubNav } from "@/domains/group/data/route";
 import { groupGamesQueryOptions } from "@/domains/game/queries";
 import { Page, Flex, Text } from "@rivet-gg/components";
-import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, notFound } from "@tanstack/react-router";
 
 function GroupIdBillingView() {
-  const { groupId } = Route.useParams();
-  const { data } = useSuspenseQuery(groupGamesQueryOptions(groupId));
+  const { group } = Route.useLoaderData();
 
   return (
     <>
-      <Page title={data.displayName}>
+      <Page title={group.displayName}>
         <Flex direction="row" gap="4">
           <Text>Billing</Text>
         </Flex>
@@ -25,7 +23,7 @@ export const Route = createFileRoute(
   staticData: {
     subNav: groupSubNav,
   },
-  beforeLoad: async ({ context: { queryClient }, params: { groupId } }) => {
+  loader: async ({ context: { queryClient }, params: { groupId } }) => {
     const data = await queryClient.ensureQueryData(
       groupGamesQueryOptions(groupId),
     );
@@ -34,6 +32,8 @@ export const Route = createFileRoute(
     if (!group) {
       throw notFound();
     }
+
+    return { group };
   },
   component: GroupIdBillingView,
 });
