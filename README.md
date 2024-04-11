@@ -8,6 +8,7 @@ _This is the source code for the [Rivet Hub](https://hub.rivet.gg) frontend_
 
 -   [NodeJS](https://nodejs.org/en/) v16+
 -   [Yarn](https://yarnpkg.com/)
+-   [Git LFS](https://git-lfs.com/) (make sure this is installed before cloning repo)
 
 ## Getting started
 
