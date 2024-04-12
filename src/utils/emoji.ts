@@ -3,6 +3,7 @@ import { Rivet } from '@rivet-gg/api';
 const U200D = String.fromCharCode(0x200d);
 const UFE0Fg = /\uFE0F/g;
 
+/** Map of `RegionSummary.regionNameId` to emoji */
 const REGION_EMOJI: { [key: string]: string } = {
 	unknown: '❓',
 	local: '🏠',
@@ -32,7 +33,7 @@ const REGION_EMOJI: { [key: string]: string } = {
 	miami: '🇺🇸',
 	jakarta: '🇮🇩',
 	los_angeles: '🇺🇸'
-} satisfies Record<Rivet.cloud.UniversalRegion, string>;
+} satisfies Record<string, string>;
 
 export function getRegionEmoji(regionId: string) {
 	let regionEmoji = REGION_EMOJI[regionId] ?? REGION_EMOJI.unknown;

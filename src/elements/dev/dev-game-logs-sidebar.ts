@@ -88,11 +88,7 @@ export default class DevGameLogsSidebar extends LitElement {
 			)}
 		>
 			<span>
-				<e-svg
-					class="w-3 h-3 mr-1"
-					preserve
-					src=${getRegionEmoji(regionData.universalRegion)}
-				></e-svg>
+				<e-svg class="w-3 h-3 mr-1" preserve src=${getRegionEmoji(regionData.regionNameId)}></e-svg>
 				${lobby.lobbyGroupNameId}
 			</span>
 			${this.renderLobbyStatus(lobby)}

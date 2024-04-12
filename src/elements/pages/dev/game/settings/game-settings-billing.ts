@@ -247,7 +247,7 @@ export default class DevGameSettingsBilling extends LitElement {
 							let config = this.gamePlanConfig.dynamicServersCapacity.find(
 								config => config.regionId == region.region.regionId
 							);
-							let regionIcon = getRegionEmoji(region.region.universalRegion);
+							let regionIcon = getRegionEmoji(region.region.regionNameId);
 							return html`
 								<div>
 									<e-svg class="w-6 h-6 mr-1" preserve src=${regionIcon}></e-svg>

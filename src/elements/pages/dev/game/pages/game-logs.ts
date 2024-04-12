@@ -35,12 +35,12 @@ interface MetricPoint {
 }
 
 export const UNKNOWN_REGION = {
+	regionId: '00000000-0000-0000-0000-000000000000',
+	regionNameId: 'unknown',
 	provider: 'unknown',
 	providerDisplayName: 'Unknown',
-	regionDisplayName: 'Unknown',
-	regionId: '00000000-0000-0000-0000-000000000000',
-	universalRegion: 'unknown'
-};
+	regionDisplayName: 'Unknown'
+} as Rivet.cloud.RegionSummary;
 
 @customElement('page-dev-game-logs')
 export default class DevGameLogs extends LitElement {
@@ -433,7 +433,7 @@ export default class DevGameLogs extends LitElement {
 								<e-svg
 									class="w-6 h-6 mr-1"
 									preserve
-									src=${getRegionEmoji(regionData.universalRegion)}
+									src=${getRegionEmoji(regionData.regionNameId)}
 								></e-svg>
 								${regionData.regionDisplayName}
 							</p>
