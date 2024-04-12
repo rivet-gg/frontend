@@ -51,6 +51,31 @@ export default class DevGameTokens extends LitElement {
 		}
 	}
 
+	async createServiceToken() {
+		try {
+			let createRes = await global.api.cloud.games.namespaces.createGameNamespaceTokenService(
+				this.game.gameId,
+				this.namespace.namespaceId,
+				{
+					ttl: 365 * 24 * 60 * 60 * 1000
+				}
+			);
+
+			showAlert(
+				'Namespace Service Token Creation',
+				html`
+					<span>
+						Copy this token to your clipboard. You will not be able to access this token again.<br />
+						Expires in 365 days.
+					</span>
+					<rvt-copy-area confidential value=${createRes.token}></rvt-copy-area>
+				`
+			);
+		} catch (err) {
+			logging.error('Failed to create public token', err);
+		}
+	}
+
 	downloadEnvFile(token: string) {
 		utils.downloadData('_env', `RIVET_TOKEN=${token}`);
 	}
@@ -83,6 +108,17 @@ export default class DevGameTokens extends LitElement {
 							></rvt-copy-area>
 						</div>
 					`;
+				}
+			},
+			{
+				name: 'Service Token',
+				url: 'https://rivet.gg/docs/general/concepts/handling-game-tokens#public-namespace-tokens',
+				description:
+					'Service tokens are used from private API servers. These should never be shared.',
+				render: () => {
+					return html`<rvt-button @click=${this.createServiceToken.bind(this)}>
+						Generate
+					</rvt-button>`;
 				}
 			}
 		];
