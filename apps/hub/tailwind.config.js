@@ -22,6 +22,7 @@ module.exports = {
     "./src/components/**/*.{ts,tsx}",
     "./src/layouts/**/*.{ts,tsx}",
     "./src/forms/**/*.{ts,tsx}",
+    "./src/lib/**/*.{ts,tsx}",
     "../../node_modules/@rivet-gg/components/**/*.{ts,tsx}",
   ],
   prefix: "",

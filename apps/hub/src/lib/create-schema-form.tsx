@@ -20,7 +20,7 @@ interface FormProps<FormValues extends FieldValues> {
   children: ReactNode;
 }
 
-export const createSchemaForm = <Schema extends z.AnyZodObject>(
+export const createSchemaForm = <Schema extends z.ZodSchema>(
   schema: Schema,
 ) => {
   return {

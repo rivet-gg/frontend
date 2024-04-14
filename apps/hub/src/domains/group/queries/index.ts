@@ -167,3 +167,13 @@ export const useGroupBanMemberMutation = ({
     },
   });
 };
+
+export const useGroupInviteMutation = () => {
+  return useMutation({
+    mutationFn: ({
+      groupId,
+      ...rest
+    }: { groupId: string } & Rivet.group.CreateInviteRequest) =>
+      rivetClient.group.invites.createInvite(groupId, rest),
+  });
+};

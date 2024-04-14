@@ -1,5 +1,6 @@
 import { groupMembersQueryOptions } from "@/domains/group/queries";
 import {
+  Button,
   Card,
   CardContent,
   CardHeader,
@@ -16,6 +17,7 @@ import { GroupMemberSettingsMenu } from "../components/group-member-settings-men
 import { useGroupMemberTransferOwnership } from "../hooks/use-group-member-transfer-ownership";
 import { useGroupMemberKick } from "../hooks/use-group-member-kick";
 import { useGroupMemberBan } from "../hooks/use-group-member-ban";
+import { useGroupInvite } from "../hooks/use-group-invite";
 
 interface GroupDetailedMembersProps {
   groupId: string;
@@ -36,15 +38,24 @@ export function GroupDetailedMembers({ groupId }: GroupDetailedMembersProps) {
   const { confirmMemberBan, dialog: confirmMemberBanDialog } =
     useGroupMemberBan(groupId);
 
+  const { openGroupInviteDialog, dialog: groupInviteDialog } =
+    useGroupInvite(groupId);
+
   return (
     <Card w="full">
       <CardHeader>
-        <CardTitle>Members</CardTitle>
+        <Flex items="center" gap="4" justify="between">
+          <CardTitle>Members</CardTitle>
+          <Button variant="secondary" onClick={openGroupInviteDialog}>
+            Invite
+          </Button>
+        </Flex>
       </CardHeader>
       <CardContent>
         {confirmTransferOwnershipDialog}
         {confirmMemberKickDialog}
         {confirmMemberBanDialog}
+        {groupInviteDialog}
         <Grid gap="4">
           {data.members.map((member) => (
             <Flex

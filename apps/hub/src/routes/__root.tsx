@@ -1,6 +1,7 @@
 import { AuthContext } from "@/domains/auth/contexts/auth";
 import { bootstrapQueryOptions } from "@/domains/auth/queries/bootstrap";
 import * as Layout from "@/layouts/root";
+import { Toaster } from "@rivet-gg/components";
 import { QueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Outlet, createRootRouteWithContext } from "@tanstack/react-router";
@@ -19,6 +20,7 @@ function RootRoute() {
         <Layout.Footer />
       </Layout.Root>
 
+      <Toaster />
       <TanStackRouterDevtools />
       <ReactQueryDevtools />
     </>
