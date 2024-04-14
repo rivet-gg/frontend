@@ -7,16 +7,22 @@ interface DialogData {
 
 export function useGroupMemberTransferOwnership(groupId: string) {
   const [data, setData] = useState<DialogData | null>(null);
+  const [isOpen, setIsOpen] = useState(false);
 
   const close = useCallback(() => {
-    setData(null);
+    setIsOpen(false);
+  }, []);
+
+  const open = useCallback((data: DialogData) => {
+    setData(data);
+    setIsOpen(true);
   }, []);
 
   return {
-    confirmTransferOwnership: setData,
+    confirmTransferOwnership: open,
     dialog: (
       <ConfirmTransferOwnershipDialog
-        open={data !== null}
+        open={isOpen}
         groupId={groupId}
         identityId={data?.identityId}
         onSuccess={close}

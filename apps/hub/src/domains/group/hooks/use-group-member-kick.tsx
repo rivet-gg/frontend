@@ -7,16 +7,22 @@ interface DialogData {
 
 export function useGroupMemberKick(groupId: string) {
   const [data, setData] = useState<DialogData | null>(null);
+  const [isOpen, setIsOpen] = useState(false);
 
   const close = useCallback(() => {
-    setData(null);
+    setIsOpen(false);
+  }, []);
+
+  const open = useCallback((data: DialogData) => {
+    setData(data);
+    setIsOpen(true);
   }, []);
 
   return {
-    confirmMemberKick: setData,
+    confirmMemberKick: open,
     dialog: (
       <ConfirmMemberKickDialog
-        open={data !== null}
+        open={isOpen}
         groupId={groupId}
         identityId={data?.identityId}
         onSuccess={close}

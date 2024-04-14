@@ -13,6 +13,7 @@ import {
   TableRow,
 } from "@rivet-gg/components";
 import { useSuspenseQuery } from "@tanstack/react-query";
+import { Link } from "@tanstack/react-router";
 
 interface GameNamespacesViewProps {
   gameId: string;
@@ -30,14 +31,21 @@ export function GameNamespacesView({ gameId }: GameNamespacesViewProps) {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Name</TableHead>
+              <TableHead w="full">Name</TableHead>
               <TableHead>Version</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {data.map((namespace) => (
               <TableRow key={namespace.namespaceId}>
-                <TableCell>{namespace.displayName}</TableCell>
+                <TableCell>
+                  <Link
+                    to="/games/$gameId/namespaces/$namespaceId"
+                    params={{ gameId, namespaceId: namespace.namespaceId }}
+                  >
+                    {namespace.displayName}
+                  </Link>
+                </TableCell>
                 <TableCell>
                   <Badge>{namespace.version?.displayName}</Badge>
                 </TableCell>

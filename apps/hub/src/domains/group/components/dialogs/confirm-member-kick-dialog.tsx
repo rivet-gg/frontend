@@ -38,7 +38,7 @@ function Content({ groupId, identityId, onSuccess }: ContentProps) {
   return (
     <>
       <DialogHeader>
-        <DialogTitle>Are you sure?</DialogTitle>
+        <DialogTitle>Confirm Member Kick</DialogTitle>
         <DialogDescription asChild>
           <div>
             <Text>

@@ -7,16 +7,22 @@ interface DialogData {
 
 export function useGroupMemberBan(groupId: string) {
   const [data, setData] = useState<DialogData | null>(null);
+  const [isOpen, setIsOpen] = useState(false);
 
   const close = useCallback(() => {
-    setData(null);
+    setIsOpen(false);
+  }, []);
+
+  const open = useCallback((data: DialogData) => {
+    setData(data);
+    setIsOpen(true);
   }, []);
 
   return {
-    confirmMemberBan: setData,
+    confirmMemberBan: open,
     dialog: (
       <ConfirmMemberBanDialog
-        open={data !== null}
+        open={isOpen}
         groupId={groupId}
         identityId={data?.identityId}
         onSuccess={close}
