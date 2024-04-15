@@ -1,5 +1,5 @@
-import { queryOptions } from "@tanstack/react-query";
-import { rivetClient } from "../../../queries/global";
+import { queryOptions, useMutation } from "@tanstack/react-query";
+import { queryClient, rivetClient } from "../../../queries/global";
 import { Rivet } from "@rivet-gg/api";
 import { getMetaWatchIndex } from "@/queries/utils";
 
@@ -78,5 +78,29 @@ export const gameNamespacesQueryOptions = (gameId: string) => {
   return queryOptions({
     ...gameQueryOptions(gameId),
     select: (data) => gameQueryOptions(gameId).select!(data).game.namespaces,
+  });
+};
+
+export const useNamespaceCreateMutation = ({
+  onSuccess,
+}: {
+  onSuccess?: (
+    data: Rivet.cloud.games.namespaces.CreateGameNamespaceResponse,
+  ) => void;
+} = {}) => {
+  return useMutation({
+    mutationFn: ({
+      gameId,
+      ...data
+    }: Rivet.cloud.games.namespaces.CreateGameNamespaceRequest & {
+      gameId: string;
+    }) => rivetClient.cloud.games.namespaces.createGameNamespace(gameId, data),
+    onSuccess: async (data, values) => {
+      await Promise.all([
+        queryClient.invalidateQueries(gameQueryOptions(values.gameId)),
+        queryClient.invalidateQueries(gamesQueryOptions()),
+      ]);
+      onSuccess?.(data);
+    },
   });
 };

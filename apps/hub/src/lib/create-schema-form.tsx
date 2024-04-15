@@ -30,6 +30,7 @@ export const createSchemaForm = <Schema extends z.ZodSchema>(
       onSubmit,
     }: FormProps<z.TypeOf<Schema>>) => {
       const form = useForm<z.TypeOf<Schema>>({
+        reValidateMode: "onSubmit",
         resolver: zodResolver(schema),
         defaultValues,
       });

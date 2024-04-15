@@ -179,16 +179,16 @@ export const useGroupInviteMutation = () => {
 };
 
 export const useGroupCreateMutation = ({
-  onSucess,
+  onSuccess,
 }: {
-  onSucess?: (data: Rivet.group.CreateResponse) => void;
+  onSuccess?: (data: Rivet.group.CreateResponse) => void;
 } = {}) => {
   return useMutation({
     mutationFn: (data: Rivet.group.CreateRequest) =>
       rivetClient.group.create(data),
     onSuccess: async (data) => {
       await queryClient.invalidateQueries(gamesQueryOptions());
-      onSucess?.(data);
+      onSuccess?.(data);
     },
   });
 };

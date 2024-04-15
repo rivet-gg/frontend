@@ -14,7 +14,7 @@ import { useNavigate } from "@tanstack/react-router";
 function Content() {
   const navigate = useNavigate();
   const { mutateAsync } = useGroupCreateMutation({
-    onSucess: (data) => {
+    onSuccess: (data) => {
       navigate({ to: "/teams/$groupId/", params: { groupId: data.groupId } });
     },
   });

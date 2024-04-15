@@ -1,10 +1,12 @@
 import { gameNamespacesQueryOptions } from "@/domains/game/queries";
 import {
   Badge,
+  Button,
   Card,
   CardContent,
   CardHeader,
   CardTitle,
+  Flex,
   Table,
   TableBody,
   TableCell,
@@ -14,6 +16,8 @@ import {
 } from "@rivet-gg/components";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
+import { Plus } from "lucide-react";
+import { useNamespaceCreateDialog } from "../hooks/use-namespace-create-dialog";
 
 interface GameNamespacesViewProps {
   gameId: string;
@@ -22,10 +26,18 @@ interface GameNamespacesViewProps {
 export function GameNamespacesView({ gameId }: GameNamespacesViewProps) {
   const { data } = useSuspenseQuery(gameNamespacesQueryOptions(gameId));
 
+  const { open, dialog } = useNamespaceCreateDialog(gameId);
+
   return (
     <Card w="full">
+      {dialog}
       <CardHeader>
-        <CardTitle>Namespaces</CardTitle>
+        <Flex items="center" gap="4" justify="between">
+          <CardTitle>Namespaces</CardTitle>
+          <Button variant="secondary" size="icon" onClick={open}>
+            <Plus />
+          </Button>
+        </Flex>
       </CardHeader>
       <CardContent>
         <Table>
