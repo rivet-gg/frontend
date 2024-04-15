@@ -5,14 +5,18 @@
   "files": [
     "dist"
   ],
-  "main": "./dist/rivet-gg-components.umd.cjs",
-  "module": "./dist/rivet-gg-components.js",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
   "exports": {
     ".": {
-      "import": "./dist/rivet-gg-components.js",
-      "require": "./dist/rivet-gg-components.umd.cjs"
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
     },
-    "./theme.css": "./dist/theme.css"
+    "./theme.css": "./dist/theme.css",
+    "./game": {
+      "import": "./dist/game.js",
+      "require": "./dist/game.cjs"
+    }
   },
   "scripts": {
     "dev": "vite build --watch",

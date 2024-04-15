@@ -17,16 +17,12 @@ export const formSchema = z
   .object({
     name: z.string().max(25),
     slug: z.string().max(25).optional(),
-    gameId: z.string(),
   })
   .superRefine(async (arg, ctx) => {
-    const res = await rivetClient.cloud.games.namespaces.validateGameNamespace(
-      arg.gameId,
-      {
-        displayName: arg.name,
-        nameId: arg.slug || convertStringToId(arg.name),
-      },
-    );
+    const res = await rivetClient.cloud.games.games.validateGame({
+      displayName: arg.name,
+      nameId: arg.slug || convertStringToId(arg.name),
+    });
     const errors = new TraversableErrors(VALIDATION_ERRORS.GAME_NAMESPACE);
     errors.load(res.errors.map((e) => e.path));
 
@@ -73,7 +69,7 @@ export const Name = () => {
           <FormLabel>Name</FormLabel>
           <FormControl>
             <Input
-              placeholder="Enter a namespace name..."
+              placeholder="Enter a game name..."
               maxLength={25}
               {...field}
             />

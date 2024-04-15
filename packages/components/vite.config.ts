@@ -14,9 +14,10 @@ export default defineConfig({
   build: {
     sourcemap: true,
     lib: {
-      entry: path.resolve(__dirname, "src/index.ts"),
-      name: "RivetGGComponents",
-      fileName: "rivet-gg-components",
+      entry: {
+        index: path.resolve(__dirname, "src/index.ts"),
+        game: path.resolve(__dirname, "src/game/index.ts"),
+      },
     },
     rollupOptions: {
       external: [
@@ -25,6 +26,7 @@ export default defineConfig({
         "react-hook-form",
         "zod",
         "lucide-react",
+        "@rivet-gg/api",
       ],
     },
   },

@@ -1,8 +1,9 @@
 import { GroupGames } from "@/domains/game/queries";
 import { Flex, LargeText, Grid } from "@rivet-gg/components";
+import { GameCard } from "@rivet-gg/components/game";
 import { Link } from "@tanstack/react-router";
-import { GameCard } from "../../game/components/game-card";
 import { GroupAvatar } from "./group-avatar";
+import { GroupEmptyCard } from "./group-empty-card";
 
 interface GroupProps extends GroupGames {}
 
@@ -19,11 +20,21 @@ export function Group(props: GroupProps) {
           </Flex>
         </Flex>
       </Link>
-      <Grid columns="4" gap="4">
-        {games.map((game) => (
-          <GameCard key={game.gameId} {...game} />
-        ))}
-      </Grid>
+      {games.length === 0 ? (
+        <GroupEmptyCard groupId={groupId} />
+      ) : (
+        <Grid columns="4" gap="4">
+          {games.map((game) => (
+            <Link
+              key={game.gameId}
+              to="/games/$gameId/"
+              params={{ gameId: game.gameId }}
+            >
+              <GameCard {...game} />
+            </Link>
+          ))}
+        </Grid>
+      )}
     </Flex>
   );
 }

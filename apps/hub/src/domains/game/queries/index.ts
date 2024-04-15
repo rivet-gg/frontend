@@ -81,6 +81,21 @@ export const gameNamespacesQueryOptions = (gameId: string) => {
   });
 };
 
+export const useGameCreateMutation = ({
+  onSuccess,
+}: {
+  onSuccess?: (data: Rivet.cloud.games.CreateGameResponse) => void;
+} = {}) => {
+  return useMutation({
+    mutationFn: (data: Rivet.cloud.games.CreateGameRequest) =>
+      rivetClient.cloud.games.games.createGame(data),
+    onSuccess: async (data) => {
+      await queryClient.invalidateQueries(gamesQueryOptions());
+      onSuccess?.(data);
+    },
+  });
+};
+
 export const useNamespaceCreateMutation = ({
   onSuccess,
 }: {
