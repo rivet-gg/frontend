@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
 import { CreateGroupInviteDialog } from "../components/dialogs/create-group-invite-dialog";
 
-export function useGroupInvite(groupId: string) {
+export function useGroupInviteDialog(groupId: string) {
   const [isOpen, setIsOpen] = useState(false);
 
   const close = useCallback(() => {

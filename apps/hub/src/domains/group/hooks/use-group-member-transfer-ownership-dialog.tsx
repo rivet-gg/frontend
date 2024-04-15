@@ -5,7 +5,7 @@ interface DialogData {
   identityId: string;
 }
 
-export function useGroupMemberTransferOwnership(groupId: string) {
+export function useGroupMemberTransferOwnershipDialog(groupId: string) {
   const [data, setData] = useState<DialogData | null>(null);
   const [isOpen, setIsOpen] = useState(false);
 

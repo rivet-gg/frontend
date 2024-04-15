@@ -48,8 +48,14 @@ export const createSchemaForm = <Schema extends z.ZodSchema>(
       );
     },
     Submit: (props: ButtonProps) => {
-      const { isSubmitting } = useFormState<z.TypeOf<Schema>>();
-      return <Button type="submit" isLoading={isSubmitting} {...props} />;
+      const { isSubmitting, isValidating } = useFormState<z.TypeOf<Schema>>();
+      return (
+        <Button
+          type="submit"
+          isLoading={isSubmitting || isValidating}
+          {...props}
+        />
+      );
     },
   };
 };

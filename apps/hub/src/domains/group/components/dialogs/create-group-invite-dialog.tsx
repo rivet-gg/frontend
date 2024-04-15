@@ -71,9 +71,7 @@ function Content({ groupId, onClose }: ContentProps) {
           <GroupInviteForm.UsageCount />
         </Flex>
         <DialogFooter>
-          <GroupInviteForm.Submit type="submit" onClick={() => {}}>
-            Create
-          </GroupInviteForm.Submit>
+          <GroupInviteForm.Submit type="submit">Create</GroupInviteForm.Submit>
         </DialogFooter>
       </GroupInviteForm.Form>
     </>

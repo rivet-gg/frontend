@@ -5,7 +5,7 @@ interface DialogData {
   identityId: string;
 }
 
-export function useGroupMemberBan(groupId: string) {
+export function useGroupMemberBanDialog(groupId: string) {
   const [data, setData] = useState<DialogData | null>(null);
   const [isOpen, setIsOpen] = useState(false);
 

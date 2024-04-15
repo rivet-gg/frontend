@@ -14,10 +14,10 @@ import { UserAvatar } from "../../user/components/user-avatar";
 import { groupOnwerQueryOptions } from "@/domains/game/queries";
 import { Crown } from "lucide-react";
 import { GroupMemberSettingsMenu } from "../components/group-member-settings-menu";
-import { useGroupMemberTransferOwnership } from "../hooks/use-group-member-transfer-ownership";
-import { useGroupMemberKick } from "../hooks/use-group-member-kick";
-import { useGroupMemberBan } from "../hooks/use-group-member-ban";
-import { useGroupInvite } from "../hooks/use-group-invite";
+import { useGroupMemberTransferOwnershipDialog } from "../hooks/use-group-member-transfer-ownership-dialog";
+import { useGroupMemberKickDialog } from "../hooks/use-group-member-kick-dialog";
+import { useGroupMemberBanDialog } from "../hooks/use-group-member-ban-dialog";
+import { useGroupInviteDialog } from "../hooks/use-group-invite-dialog";
 
 interface GroupDetailedMembersProps {
   groupId: string;
@@ -30,16 +30,16 @@ export function GroupDetailedMembers({ groupId }: GroupDetailedMembersProps) {
   const { data } = useSuspenseQuery(groupMembersQueryOptions(groupId));
 
   const { confirmTransferOwnership, dialog: confirmTransferOwnershipDialog } =
-    useGroupMemberTransferOwnership(groupId);
+    useGroupMemberTransferOwnershipDialog(groupId);
 
   const { confirmMemberKick, dialog: confirmMemberKickDialog } =
-    useGroupMemberKick(groupId);
+    useGroupMemberKickDialog(groupId);
 
   const { confirmMemberBan, dialog: confirmMemberBanDialog } =
-    useGroupMemberBan(groupId);
+    useGroupMemberBanDialog(groupId);
 
   const { openGroupInviteDialog, dialog: groupInviteDialog } =
-    useGroupInvite(groupId);
+    useGroupInviteDialog(groupId);
 
   return (
     <Card w="full">

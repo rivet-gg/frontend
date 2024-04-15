@@ -2,23 +2,23 @@ import * as React from "react";
 
 import { cn } from "@/lib/utils";
 import {
-  WidthUtilitiesProps,
-  getWidthClass,
-  omitWidthProps,
-} from "./helpers/width";
+  CommonHelperProps,
+  getCommonHelperClass,
+  omitCommonHelperProps,
+} from "./helpers";
 
 const Card = React.forwardRef<
   HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement> & Partial<WidthUtilitiesProps>
+  React.HTMLAttributes<HTMLDivElement> & Partial<CommonHelperProps>
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
     className={cn(
       "rounded-lg border bg-card text-card-foreground shadow-sm",
-      getWidthClass(props),
+      getCommonHelperClass(props),
       className,
     )}
-    {...omitWidthProps(props)}
+    {...omitCommonHelperProps(props)}
   />
 ));
 Card.displayName = "Card";
