@@ -69,7 +69,7 @@ export function GroupDetailedMembers({ groupId }: GroupDetailedMembersProps) {
                 <Flex gap="2" items="center">
                   <Text>{member.identity.displayName}</Text>
                   {groupOwnerIdentityId === member.identity.identityId && (
-                    <Crown className="w-4 text-primary" />
+                    <Crown className="text-primary w-4" />
                   )}
                 </Flex>
               </Flex>

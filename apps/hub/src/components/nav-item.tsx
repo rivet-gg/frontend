@@ -12,7 +12,7 @@ export const NavItem = ({ className, asChild, ...props }: NavItemProps) => {
     <Comp
       className={cn(
         className,
-        "text-muted-foreground transition-colors hover:text-foreground",
+        "text-muted-foreground hover:text-foreground transition-colors",
       )}
       {...props}
     />

@@ -11,13 +11,13 @@ export function HeaderSubNav() {
   }
 
   return (
-    <div className="flex items-center gap-6 -mb-2">
+    <div className="-mb-2 flex items-center gap-6">
       {subNav.map((item) => (
         <Link
           key={item.url}
           to={item.url}
           params={lastMatch.params}
-          className="text-sm py-2 text-muted-foreground border-b border-transparent data-active:border-white data-active:text-foreground"
+          className="text-muted-foreground data-active:border-white data-active:text-foreground border-b border-transparent py-2 text-sm"
         >
           {item.title}
         </Link>

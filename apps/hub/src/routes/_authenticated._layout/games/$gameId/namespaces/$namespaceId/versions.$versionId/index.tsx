@@ -1,5 +1,12 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute } from "@tanstack/react-router";
 
-export const Route = createFileRoute('/_authenticated/_layout/games/$gameId/namespaces/$namespaceId/versions/$versionId/')({
-  component: () => <div>Hello /_authenticated/_layout/games/$gameId/namespaces/$namespaceId/versions/$versionId/!</div>
-})
+export const Route = createFileRoute(
+  "/_authenticated/_layout/games/$gameId/namespaces/$namespaceId/versions/$versionId/",
+)({
+  component: () => (
+    <div>
+      Hello
+      /_authenticated/_layout/games/$gameId/namespaces/$namespaceId/versions/$versionId/!
+    </div>
+  ),
+});

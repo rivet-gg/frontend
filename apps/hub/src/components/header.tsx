@@ -31,9 +31,9 @@ const UserProfileButton = () => {
 
 export function Header() {
   return (
-    <header className="sticky top-0 flex py-2 backdrop-blur z-10 items-center gap-4 border-b bg-background/60">
+    <header className="bg-background/60 sticky top-0 z-10 flex items-center gap-4 border-b py-2 backdrop-blur">
       <div className="container flex flex-col gap-4">
-        <div className="flex items-center gap-4 w-full">
+        <div className="flex w-full items-center gap-4">
           <Sheet>
             <SheetTrigger asChild>
               <Button
@@ -46,7 +46,7 @@ export function Header() {
               </Button>
             </SheetTrigger>
             <SheetContent side="left">
-              <nav className="grid gap-6 text-lg font-medium min-h-full">
+              <nav className="grid min-h-full gap-6 text-lg font-medium">
                 <div className="flex-1">
                   <Flex direction="col" gap="6">
                     <Link
@@ -76,7 +76,7 @@ export function Header() {
               </nav>
             </SheetContent>
           </Sheet>
-          <nav className="font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6 flex-1">
+          <nav className="flex-1 font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
             <Link to="/">
               <img
                 className="h-6"
@@ -85,7 +85,7 @@ export function Header() {
               />
             </Link>
           </nav>
-          <div className="font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm gap-6">
+          <div className="gap-6 font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm">
             <NavItem asChild className="hidden md:inline-block">
               <a href="https://rivet.gg/docs" target="_blank">
                 Docs

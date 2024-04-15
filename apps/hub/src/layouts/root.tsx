@@ -6,11 +6,11 @@ interface RootProps {
 }
 
 const Root = ({ children }: RootProps) => {
-  return <div className="flex flex-col min-h-screen">{children}</div>;
+  return <div className="flex min-h-screen flex-col">{children}</div>;
 };
 
 const Main = ({ children }: RootProps) => {
-  return <main className="flex-1 flex flex-col bg-muted/20">{children}</main>;
+  return <main className="bg-muted/20 flex flex-1 flex-col">{children}</main>;
 };
 
 const Header = () => {
@@ -19,7 +19,7 @@ const Header = () => {
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-800 text-white p-4">
+    <footer className="bg-gray-800 p-4 text-white">
       <div className="container">Footer</div>
     </footer>
   );
