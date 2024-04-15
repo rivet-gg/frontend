@@ -5,7 +5,7 @@ import { cn } from "./lib/utils";
 
 export interface PageProps {
   className?: string;
-  title: string;
+  title: ReactNode;
   header?: ReactNode;
   children: ReactNode;
 }

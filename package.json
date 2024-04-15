@@ -7,5 +7,8 @@
   "scripts": {
     "start": "npx turbo dev"
   },
-  "packageManager": "yarn@4.1.1"
+  "packageManager": "yarn@4.1.1",
+  "devDependencies": {
+    "prettier-plugin-tailwindcss": "^0.5.14"
+  }
 }

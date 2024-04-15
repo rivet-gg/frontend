@@ -24,6 +24,7 @@ import { Route as AuthenticatedLayoutGamesGameIdBillingImport } from './routes/_
 import { Route as AuthenticatedLayoutGamesGameIdBackendImport } from './routes/_authenticated._layout/games/$gameId/backend'
 import { Route as AuthenticatedLayoutTeamsGroupIdSettingsIndexImport } from './routes/_authenticated._layout/teams/$groupId/settings/index'
 import { Route as AuthenticatedLayoutGamesGameIdNamespacesNamespaceIdIndexImport } from './routes/_authenticated._layout/games/$gameId/namespaces/$namespaceId/index'
+import { Route as AuthenticatedLayoutGamesGameIdNamespacesNamespaceIdVersionsVersionIdIndexImport } from './routes/_authenticated._layout/games/$gameId/namespaces/$namespaceId/versions.$versionId/index'
 
 // Create/Update Routes
 
@@ -102,6 +103,14 @@ const AuthenticatedLayoutGamesGameIdNamespacesNamespaceIdIndexRoute =
     getParentRoute: () => AuthenticatedLayoutRoute,
   } as any)
 
+const AuthenticatedLayoutGamesGameIdNamespacesNamespaceIdVersionsVersionIdIndexRoute =
+  AuthenticatedLayoutGamesGameIdNamespacesNamespaceIdVersionsVersionIdIndexImport.update(
+    {
+      path: '/games/$gameId/namespaces/$namespaceId/versions/$versionId/',
+      getParentRoute: () => AuthenticatedLayoutRoute,
+    } as any,
+  )
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -158,6 +167,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedLayoutGamesGameIdNamespacesNamespaceIdIndexImport
       parentRoute: typeof AuthenticatedLayoutImport
     }
+    '/_authenticated/_layout/games/$gameId/namespaces/$namespaceId/versions/$versionId/': {
+      preLoaderRoute: typeof AuthenticatedLayoutGamesGameIdNamespacesNamespaceIdVersionsVersionIdIndexImport
+      parentRoute: typeof AuthenticatedLayoutImport
+    }
   }
 }
 
@@ -177,6 +190,7 @@ export const routeTree = rootRoute.addChildren([
       AuthenticatedLayoutTeamsGroupIdIndexRoute,
       AuthenticatedLayoutTeamsGroupIdSettingsIndexRoute,
       AuthenticatedLayoutGamesGameIdNamespacesNamespaceIdIndexRoute,
+      AuthenticatedLayoutGamesGameIdNamespacesNamespaceIdVersionsVersionIdIndexRoute,
     ]),
   ]),
 ])

@@ -52,7 +52,7 @@ export function GameNamespacesView({ gameId }: GameNamespacesViewProps) {
               <TableRow key={namespace.namespaceId}>
                 <TableCell>
                   <Link
-                    to="/games/$gameId/namespaces/$namespaceId"
+                    to="/games/$gameId/namespaces/$namespaceId/"
                     params={{ gameId, namespaceId: namespace.namespaceId }}
                   >
                     {namespace.displayName}

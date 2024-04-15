@@ -119,3 +119,18 @@ export const useNamespaceCreateMutation = ({
     },
   });
 };
+
+export const gameNamespaceQueryOptions = (
+  gameId: string,
+  namespaceId: string,
+) => {
+  return queryOptions({
+    queryKey: ["gameNamespace", gameId, namespaceId],
+    queryFn: ({ queryKey: [_, gameId, namespaceId] }) =>
+      rivetClient.cloud.games.namespaces.getGameNamespaceById(
+        gameId,
+        namespaceId,
+      ),
+    meta: { watch: true },
+  });
+};

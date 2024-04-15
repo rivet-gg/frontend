@@ -1,4 +1,5 @@
 export * from "./cta-card";
+export * from "./value-card";
 export * from "./fullscreen-loading";
 export * from "./page";
 export * from "./narrow-page";

@@ -4,7 +4,7 @@ export function HeaderSubNav() {
   const matches = useMatches();
 
   const lastMatch = matches[matches.length - 1];
-  const subNav = lastMatch?.staticData.subNav;
+  const subNav = lastMatch?.context.subNav ?? lastMatch?.staticData.subNav;
 
   if (!subNav) {
     return null;
