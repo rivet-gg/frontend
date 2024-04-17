@@ -30,7 +30,7 @@ function RootRoute() {
 export interface RouterContext {
   auth: AuthContext;
   queryClient: QueryClient;
-  subNav?: { title: string; url: string }[];
+  subNav?: { title: string; url: string; exact?: boolean }[];
 }
 
 export const Route = createRootRouteWithContext<RouterContext>()({

@@ -7,7 +7,7 @@ import { Link, useMatchRoute } from "@tanstack/react-router";
 import { Suspense } from "react";
 
 interface LinksProps {
-  links: { title: string; url: string }[];
+  links: { title: string; url: string; exact?: boolean }[];
   params: Record<string, string>;
 }
 
@@ -18,7 +18,7 @@ function Links({ links, params }: LinksProps) {
         <Link
           key={item.url}
           to={item.url}
-          activeOptions={{ exact: true }}
+          activeOptions={{ exact: item.exact }}
           params={params}
           className="text-muted-foreground data-active:border-white data-active:text-foreground border-b border-transparent py-2 text-sm"
         >

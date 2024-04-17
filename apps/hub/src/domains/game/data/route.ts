@@ -4,6 +4,7 @@ export const gameSubNav = [
   {
     title: "Overview",
     url: "/games/$gameId/",
+    exact: true,
   },
   {
     title: "Backend",
@@ -24,12 +25,24 @@ export const gameSubNav = [
 ];
 
 export const buildNamespaceSubNav = (config: Rivet.cloud.NamespaceConfig) => {
-  const subNav = [
+  const subNav: { title: string; url: string; exact?: boolean }[] = [
     {
       title: "Overview",
       url: `/games/$gameId/namespaces/$namespaceId/`,
+      exact: true,
+    },
+    {
+      title: "Versions",
+      url: `/games/$gameId/namespaces/$namespaceId/versions/`,
     },
   ];
+
+  if (config.matchmaker) {
+    subNav.push({
+      title: "Matchmaker",
+      url: "/games/$gameId/namespaces/$namespaceId/matchmaker/",
+    });
+  }
 
   if (config.cdn) {
     subNav.push({
@@ -52,12 +65,10 @@ export const buildNamespaceSubNav = (config: Rivet.cloud.NamespaceConfig) => {
     });
   }
 
-  if (config.matchmaker) {
-    subNav.push({
-      title: "Matchmaker",
-      url: "/games/$gameId/namespaces/$namespaceId/matchmaker/",
-    });
-  }
+  subNav.push({
+    title: "Tokens",
+    url: "/games/$gameId/namespaces/$namespaceId/tokens/",
+  });
 
   return subNav;
 };

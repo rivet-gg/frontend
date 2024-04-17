@@ -16,7 +16,7 @@ function GroupIdSettingsView() {
             <Link
               to="/teams/$groupId/settings"
               params={{ groupId: group.groupId }}
-              className="text-primary font-semibold"
+              className="text-foreground font-semibold"
             >
               General
             </Link>

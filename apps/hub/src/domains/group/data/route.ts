@@ -2,6 +2,7 @@ export const groupSubNav = [
   {
     title: "Overview",
     url: "/teams/$groupId/",
+    exact: true,
   },
   {
     title: "Members",
