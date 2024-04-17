@@ -120,10 +120,13 @@ export const useNamespaceCreateMutation = ({
   });
 };
 
-export const gameNamespaceQueryOptions = (
-  gameId: string,
-  namespaceId: string,
-) => {
+export const gameNamespaceQueryOptions = ({
+  gameId,
+  namespaceId,
+}: {
+  gameId: string;
+  namespaceId: string;
+}) => {
   return queryOptions({
     queryKey: ["gameNamespace", gameId, namespaceId],
     queryFn: ({ queryKey: [_, gameId, namespaceId] }) =>

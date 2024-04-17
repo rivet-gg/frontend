@@ -1,4 +1,3 @@
-import { groupSubNav } from "@/domains/group/data/route";
 import { groupGamesQueryOptions } from "@/domains/game/queries";
 import { Flex, SidebarNavigation, SidebarPage } from "@rivet-gg/components";
 import { Link, createFileRoute, notFound } from "@tanstack/react-router";
@@ -36,9 +35,6 @@ function GroupIdSettingsView() {
 export const Route = createFileRoute(
   "/_authenticated/_layout/teams/$groupId/settings/",
 )({
-  staticData: {
-    subNav: groupSubNav,
-  },
   loader: async ({ context: { queryClient }, params: { groupId } }) => {
     const data = await queryClient.ensureQueryData(
       groupGamesQueryOptions(groupId),

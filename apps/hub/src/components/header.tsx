@@ -10,6 +10,7 @@ import {
 import { NavItem } from "./nav-item";
 import { HeaderSubNav } from "./header-sub-nav";
 import { useAuth } from "@/domains/auth/contexts/auth";
+import { Breadcrumbs } from "./breadcrumbs/breadcrumbs";
 
 const UserProfileButton = () => {
   const { profile } = useAuth();
@@ -22,7 +23,7 @@ const UserProfileButton = () => {
         <img
           src={profile.identity.avatarUrl}
           alt="User avatar"
-          className="h-7 w-7 rounded-full"
+          className="size-7 rounded-full"
         />
       </Link>
     </Button>
@@ -32,7 +33,7 @@ const UserProfileButton = () => {
 export function Header() {
   return (
     <header className="bg-background/60 sticky top-0 z-10 flex items-center gap-4 border-b py-2 backdrop-blur">
-      <div className="container flex flex-col gap-4">
+      <div className="container flex min-h-10 flex-col gap-4">
         <div className="flex w-full items-center gap-4">
           <Sheet>
             <SheetTrigger asChild>
@@ -41,7 +42,7 @@ export function Header() {
                 size="icon"
                 className="shrink-0 md:hidden"
               >
-                <Menu className="h-5 w-5" />
+                <Menu className="size-5" />
                 <span className="sr-only">Toggle navigation menu</span>
               </Button>
             </SheetTrigger>
@@ -84,6 +85,7 @@ export function Header() {
                 src="https://assets2.rivet.gg/logo/cream.svg"
               />
             </Link>
+            <Breadcrumbs />
           </nav>
           <div className="gap-6 font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm">
             <NavItem asChild className="hidden md:inline-block">

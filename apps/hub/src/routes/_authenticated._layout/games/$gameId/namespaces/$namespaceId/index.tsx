@@ -51,18 +51,12 @@ function NamespaceIdRoute() {
 export const Route = createFileRoute(
   "/_authenticated/_layout/games/$gameId/namespaces/$namespaceId/",
 )({
-  beforeLoad: async ({ params: { gameId, namespaceId } }) => {
-    const { namespace } = await queryClient.ensureQueryData(
-      gameNamespaceQueryOptions(gameId, namespaceId),
-    );
-    return {};
-  },
   loader: async ({ params: { gameId, namespaceId } }) => {
     const { game } = await queryClient.ensureQueryData(
       gameQueryOptions(gameId),
     );
     const { namespace } = await queryClient.ensureQueryData(
-      gameNamespaceQueryOptions(gameId, namespaceId),
+      gameNamespaceQueryOptions({ gameId, namespaceId }),
     );
 
     const version = game.versions.find(

@@ -6,18 +6,18 @@ import {
   AvatarProps,
 } from "@rivet-gg/components";
 
-interface GroupAvatarProps
-  extends Pick<Rivet.group.Summary, "avatarUrl" | "displayName">,
+interface GameAvatarProps
+  extends Pick<Rivet.game.Summary, "logoUrl" | "displayName">,
     AvatarProps {}
 
-export function GroupAvatar({
-  avatarUrl,
+export function GameAvatar({
+  logoUrl,
   displayName,
   ...props
-}: GroupAvatarProps) {
+}: GameAvatarProps) {
   return (
     <Avatar {...props}>
-      <AvatarImage src={avatarUrl} />
+      <AvatarImage src={logoUrl} />
       <AvatarFallback>{displayName[0]}</AvatarFallback>
     </Avatar>
   );

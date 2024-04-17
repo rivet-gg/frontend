@@ -1,4 +1,3 @@
-import { groupSubNav } from "@/domains/group/data/route";
 import { groupGamesQueryOptions } from "@/domains/game/queries";
 import { GroupGames } from "@/domains/group/views/group-games";
 import { GroupMembers } from "@/domains/group/views/group-members";
@@ -26,9 +25,6 @@ function GroupIdView() {
 
 export const Route = createFileRoute("/_authenticated/_layout/teams/$groupId/")(
   {
-    staticData: {
-      subNav: groupSubNav,
-    },
     loader: async ({ context: { queryClient }, params: { groupId } }) => {
       const data = await queryClient.ensureQueryData(
         groupGamesQueryOptions(groupId),

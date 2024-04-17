@@ -13,9 +13,6 @@ function GameIdRoute() {
 export const Route = createFileRoute(
   "/_authenticated/_layout/games/$gameId/settings",
 )({
-  staticData: {
-    subNav: gameSubNav,
-  },
   beforeLoad: async ({ context: { queryClient }, params: { gameId } }) => {
     await queryClient.ensureQueryData(gameQueryOptions(gameId));
   },

@@ -8,14 +8,14 @@ import { GroupEmptyCard } from "./group-empty-card";
 interface GroupProps extends GroupGames {}
 
 export function Group(props: GroupProps) {
-  const { groupId, displayName, games } = props;
+  const { groupId, displayName, avatarUrl, games } = props;
 
   return (
     <Flex direction="col" my="4">
       <Link to="/teams/$groupId/" params={{ groupId }}>
         <Flex direction="row" justify="between" my="4">
           <Flex direction="row" items="center" gap="4">
-            <GroupAvatar {...props} />
+            <GroupAvatar displayName={displayName} avatarUrl={avatarUrl} />
             <LargeText>{displayName}</LargeText>
           </Flex>
         </Flex>
