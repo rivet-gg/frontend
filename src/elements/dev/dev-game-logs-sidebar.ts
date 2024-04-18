@@ -15,7 +15,7 @@ const statusBadgeClasses = tv({
 	variants: {
 		status: {
 			running: ['bg-green-500'],
-			closed: ['bg-red-500'],
+			closed: ['bg-gray-500'],
 			failed: ['bg-red-500'],
 			'not-started': ['bg-green-500'],
 			unknown: ['bg-gray-500']

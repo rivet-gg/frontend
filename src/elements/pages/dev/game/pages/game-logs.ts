@@ -728,7 +728,7 @@ export function formatLobbyStatus(status: Rivet.cloud.LogsLobbyStatus, startTs: 
 		running: 'Running',
 		'not-started': 'Not started',
 		failed: 'Failed',
-		closed: 'Closed',
+		closed: 'Finished',
 		unknown: 'Unknown status'
 	}[statusString];
 }
