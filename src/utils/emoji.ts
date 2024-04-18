@@ -6,36 +6,25 @@ const UFE0Fg = /\uFE0F/g;
 /** Map of `RegionSummary.regionNameId` to emoji */
 const REGION_EMOJI: { [key: string]: string } = {
 	unknown: '❓',
-	local: '🏠',
-	amsterdam: '🇳🇱',
-	atlanta: '🇺🇸',
-	bangalore: '🇮🇳',
-	dallas: '🇺🇸',
-	frankfurt: '🇩🇪',
-	london: '🇬🇧',
-	mumbai: '🇮🇳',
-	newark: '🇺🇸',
-	new_york_city: '🇺🇸',
-	san_francisco: '🇺🇸',
-	singapore: '🇸🇬',
-	sydney: '🇦🇺',
-	tokyo: '🇯🇵',
-	toronto: '🇨🇦',
-	washington_dc: '🇺🇸',
-	chicago: '🇺🇸',
-	paris: '🇫🇷',
-	seattle: '🇺🇸',
-	sao_paulo: '🇧🇷',
-	stockholm: '🇸🇪',
-	chennai: '🇮🇳',
-	osaka: '🇯🇵',
-	milan: '🇮🇹',
-	miami: '🇺🇸',
-	jakarta: '🇮🇩',
-	los_angeles: '🇺🇸'
+	atl: '🇺🇸', // Atlanta
+	sfo: '🇺🇸', // San Francisco
+	fra: '🇩🇪', // Frankfurt
+	syd: '🇦🇺', // Sydney
+	tok: '🇯🇵', // Tokyo
+	mba: '🇮🇳', // Mumbai
+	tor: '🇨🇦', // Toronto
+	dca: '🇺🇸', // Washington DC
+	dfw: '🇺🇸', // Dallas
+	ewr: '🇺🇸', // Newark
+	lon: '🇬🇧', // London
+	sgp: '🇸🇬' // Singapore
 } satisfies Record<string, string>;
 
 export function getRegionEmoji(regionId: string) {
+	// HACK: Remove prefix for old regions with format `lnd-atl`
+	let regionIdSplit = regionId.split('-');
+	regionId = regionIdSplit[regionIdSplit.length - 1];
+
 	let regionEmoji = REGION_EMOJI[regionId] ?? REGION_EMOJI.unknown;
 	return `emoji/${converEmojiToUriFriendlyString(regionEmoji)}`;
 }
