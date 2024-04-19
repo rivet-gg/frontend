@@ -29,6 +29,7 @@ export * from "./ui/popover";
 export * from "./ui/switch";
 export * from "./ui/label";
 export * from "./ui/sonner";
+export * from "./ui/tooltip";
 export * from "./lib/utils";
 export * from "./lib/filesize";
 export * from "./lib/timing";

@@ -1,14 +1,15 @@
 import { NamespaceVersionTitle } from "@/domains/game/components/namespace-version-title";
 import {
-  gameNamespaceQueryOptions,
   gameQueryOptions,
+  gameNamespaceQueryOptions,
 } from "@/domains/game/queries";
+import { NamespaceVersions } from "@/domains/game/views/namespace-versions";
 import { queryClient } from "@/queries/global";
-import { Button, Grid, Page, ValueCard } from "@rivet-gg/components";
-import { Link, createFileRoute, notFound } from "@tanstack/react-router";
+import { Page } from "@rivet-gg/components";
+import { createFileRoute, notFound } from "@tanstack/react-router";
 
-function NamespaceIdRoute() {
-  const { namespace, game, version } = Route.useLoaderData();
+function NamespaceVersionsRoute() {
+  const { namespace, version, game } = Route.useLoaderData();
   return (
     <Page
       title={
@@ -18,31 +19,16 @@ function NamespaceIdRoute() {
         />
       }
     >
-      <Grid columns="3" gap="4">
-        <ValueCard
-          title="Current version"
-          description={version.displayName}
-          footer={
-            <Button asChild variant="outline">
-              <Link
-                to="/games/$gameId/namespaces/$namespaceId/versions"
-                params={{
-                  gameId: game.gameId,
-                  namespaceId: namespace.namespaceId,
-                }}
-              >
-                Manage version
-              </Link>
-            </Button>
-          }
-        />
-      </Grid>
+      <NamespaceVersions
+        gameId={game.gameId}
+        namespaceId={namespace.namespaceId}
+      />
     </Page>
   );
 }
 
 export const Route = createFileRoute(
-  "/_authenticated/_layout/games/$gameId/namespaces/$namespaceId/",
+  "/_authenticated/_layout/games/$gameId/namespaces/$namespaceId/versions",
 )({
   loader: async ({ params: { gameId, namespaceId } }) => {
     const { game } = await queryClient.ensureQueryData(
@@ -62,5 +48,5 @@ export const Route = createFileRoute(
 
     return { namespace, version, game };
   },
-  component: NamespaceIdRoute,
+  component: NamespaceVersionsRoute,
 });

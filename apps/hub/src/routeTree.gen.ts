@@ -26,8 +26,8 @@ import { Route as AuthenticatedLayoutGamesGameIdBillingImport } from './routes/_
 import { Route as AuthenticatedLayoutGamesGameIdBackendImport } from './routes/_authenticated._layout/games/$gameId/backend'
 import { Route as AuthenticatedLayoutTeamsGroupIdSettingsIndexImport } from './routes/_authenticated._layout/teams/$groupId/settings/index'
 import { Route as AuthenticatedLayoutGamesGameIdNamespacesNamespaceIdIndexImport } from './routes/_authenticated._layout/games/$gameId/namespaces/$namespaceId/index'
+import { Route as AuthenticatedLayoutGamesGameIdNamespacesNamespaceIdVersionsImport } from './routes/_authenticated._layout/games/$gameId/namespaces/$namespaceId/versions'
 import { Route as AuthenticatedLayoutGamesGameIdNamespacesNamespaceIdMatchmakerLayoutImport } from './routes/_authenticated._layout/games/$gameId/namespaces/$namespaceId/matchmaker/_layout'
-import { Route as AuthenticatedLayoutGamesGameIdNamespacesNamespaceIdVersionsVersionIdIndexImport } from './routes/_authenticated._layout/games/$gameId/namespaces/$namespaceId/versions.$versionId/index'
 import { Route as AuthenticatedLayoutGamesGameIdNamespacesNamespaceIdMatchmakerLayoutIndexImport } from './routes/_authenticated._layout/games/$gameId/namespaces/$namespaceId/matchmaker/_layout.index'
 import { Route as AuthenticatedLayoutGamesGameIdNamespacesNamespaceIdMatchmakerLayoutSettingsImport } from './routes/_authenticated._layout/games/$gameId/namespaces/$namespaceId/matchmaker/_layout.settings'
 import { Route as AuthenticatedLayoutGamesGameIdNamespacesNamespaceIdMatchmakerLayoutLogsImport } from './routes/_authenticated._layout/games/$gameId/namespaces/$namespaceId/matchmaker/_layout.logs'
@@ -123,20 +123,18 @@ const AuthenticatedLayoutGamesGameIdNamespacesNamespaceIdIndexRoute =
     getParentRoute: () => AuthenticatedLayoutRoute,
   } as any)
 
+const AuthenticatedLayoutGamesGameIdNamespacesNamespaceIdVersionsRoute =
+  AuthenticatedLayoutGamesGameIdNamespacesNamespaceIdVersionsImport.update({
+    path: '/games/$gameId/namespaces/$namespaceId/versions',
+    getParentRoute: () => AuthenticatedLayoutRoute,
+  } as any)
+
 const AuthenticatedLayoutGamesGameIdNamespacesNamespaceIdMatchmakerLayoutRoute =
   AuthenticatedLayoutGamesGameIdNamespacesNamespaceIdMatchmakerLayoutImport.update(
     {
       id: '/_layout',
       getParentRoute: () =>
         AuthenticatedLayoutGamesGameIdNamespacesNamespaceIdMatchmakerRoute,
-    } as any,
-  )
-
-const AuthenticatedLayoutGamesGameIdNamespacesNamespaceIdVersionsVersionIdIndexRoute =
-  AuthenticatedLayoutGamesGameIdNamespacesNamespaceIdVersionsVersionIdIndexImport.update(
-    {
-      path: '/games/$gameId/namespaces/$namespaceId/versions/$versionId/',
-      getParentRoute: () => AuthenticatedLayoutRoute,
     } as any,
   )
 
@@ -228,6 +226,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedLayoutTeamsGroupIdSettingsIndexImport
       parentRoute: typeof AuthenticatedLayoutImport
     }
+    '/_authenticated/_layout/games/$gameId/namespaces/$namespaceId/versions': {
+      preLoaderRoute: typeof AuthenticatedLayoutGamesGameIdNamespacesNamespaceIdVersionsImport
+      parentRoute: typeof AuthenticatedLayoutImport
+    }
     '/_authenticated/_layout/games/$gameId/namespaces/$namespaceId/': {
       preLoaderRoute: typeof AuthenticatedLayoutGamesGameIdNamespacesNamespaceIdIndexImport
       parentRoute: typeof AuthenticatedLayoutImport
@@ -256,10 +258,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedLayoutGamesGameIdNamespacesNamespaceIdMatchmakerLayoutIndexImport
       parentRoute: typeof AuthenticatedLayoutGamesGameIdNamespacesNamespaceIdMatchmakerLayoutImport
     }
-    '/_authenticated/_layout/games/$gameId/namespaces/$namespaceId/versions/$versionId/': {
-      preLoaderRoute: typeof AuthenticatedLayoutGamesGameIdNamespacesNamespaceIdVersionsVersionIdIndexImport
-      parentRoute: typeof AuthenticatedLayoutImport
-    }
   }
 }
 
@@ -278,6 +276,7 @@ export const routeTree = rootRoute.addChildren([
       AuthenticatedLayoutGamesGameIdIndexRoute,
       AuthenticatedLayoutTeamsGroupIdIndexRoute,
       AuthenticatedLayoutTeamsGroupIdSettingsIndexRoute,
+      AuthenticatedLayoutGamesGameIdNamespacesNamespaceIdVersionsRoute,
       AuthenticatedLayoutGamesGameIdNamespacesNamespaceIdIndexRoute,
       AuthenticatedLayoutGamesGameIdNamespacesNamespaceIdMatchmakerRoute.addChildren(
         [
@@ -291,7 +290,6 @@ export const routeTree = rootRoute.addChildren([
           ),
         ],
       ),
-      AuthenticatedLayoutGamesGameIdNamespacesNamespaceIdVersionsVersionIdIndexRoute,
     ]),
   ]),
 ])

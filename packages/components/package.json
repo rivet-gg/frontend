@@ -33,6 +33,7 @@
     "@radix-ui/react-slot": "^1.0.2",
     "@radix-ui/react-switch": "^1.0.3",
     "@radix-ui/react-tabs": "^1.0.4",
+    "@radix-ui/react-tooltip": "^1.0.7",
     "@rivet-gg/api": "https://github.com/rivet-gg/rivet/raw/539f11efb856bc936576fe593fe051c0d7e1355d/sdks/typescript/archive.tgz",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",

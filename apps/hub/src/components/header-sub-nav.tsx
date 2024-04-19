@@ -13,7 +13,7 @@ interface LinksProps {
 
 function Links({ links, params }: LinksProps) {
   return (
-    <div className="-mb-2 flex items-center gap-6">
+    <div className="-mb-2 flex min-h-10 items-center gap-6">
       {links.map((item) => (
         <Link
           key={item.url}
@@ -87,7 +87,7 @@ export function HeaderSubNav() {
   return (
     <Suspense
       fallback={
-        <div className="flex items-center gap-6">
+        <div className="-mb-2 flex min-h-10 items-center gap-6">
           <Skeleton className="mb-2 h-5 w-16" />
           <Skeleton className="mb-2 h-5 w-16" />
           <Skeleton className="mb-2 h-5 w-16" />

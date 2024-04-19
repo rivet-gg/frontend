@@ -81,6 +81,19 @@ export const gameNamespacesQueryOptions = (gameId: string) => {
   });
 };
 
+export const gameVersionsQueryOptions = (gameId: string) => {
+  return queryOptions({
+    ...gameQueryOptions(gameId),
+    select: (data) =>
+      gameQueryOptions(gameId).select!(data)
+        .game.versions.map((version) => ({
+          ...version,
+          createTs: new Date(version.createTs),
+        }))
+        .sort((a, b) => b.createTs.getTime() - a.createTs.getTime()),
+  });
+};
+
 export const useGameCreateMutation = ({
   onSuccess,
 }: {
@@ -135,5 +148,31 @@ export const gameNamespaceQueryOptions = ({
         namespaceId,
       ),
     meta: { watch: true },
+  });
+};
+
+export const useUpdateGameNamespaceVersionMutation = ({
+  onSuccess,
+}: {
+  onSuccess?: () => void;
+}) => {
+  return useMutation({
+    mutationFn: ({
+      gameId,
+      namespaceId,
+      versionId,
+    }: {
+      gameId: string;
+      namespaceId: string;
+    } & Rivet.cloud.games.namespaces.UpdateGameNamespaceVersionRequest) =>
+      rivetClient.cloud.games.namespaces.updateGameNamespaceVersion(
+        gameId,
+        namespaceId,
+        { versionId },
+      ),
+    onSuccess: async (data, values) => {
+      await queryClient.invalidateQueries(gameQueryOptions(values.gameId));
+      onSuccess?.();
+    },
   });
 };
