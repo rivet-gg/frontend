@@ -1,66 +1,46 @@
-import { NamespaceVersionTitle } from "@/domains/game/components/namespace-version-title";
 import {
   gameNamespaceQueryOptions,
-  gameQueryOptions,
+  gameVersionQueryOptions,
 } from "@/domains/game/queries";
-import { queryClient } from "@/queries/global";
-import { Button, Grid, Page, ValueCard } from "@rivet-gg/components";
-import { Link, createFileRoute, notFound } from "@tanstack/react-router";
+import { Button, Grid, ValueCard } from "@rivet-gg/components";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { Link, createFileRoute } from "@tanstack/react-router";
 
 function NamespaceIdRoute() {
-  const { namespace, game, version } = Route.useLoaderData();
+  const { gameId, namespaceId } = Route.useParams();
+
+  const {
+    data: { namespace },
+  } = useSuspenseQuery(gameNamespaceQueryOptions({ gameId, namespaceId }));
+  const { data: version } = useSuspenseQuery(
+    gameVersionQueryOptions({ gameId, versionId: namespace.versionId }),
+  );
+
   return (
-    <Page
-      title={
-        <NamespaceVersionTitle
-          namespace={namespace.displayName}
-          version={version.displayName}
-        />
-      }
-    >
-      <Grid columns="3" gap="4">
-        <ValueCard
-          title="Current version"
-          description={version.displayName}
-          footer={
-            <Button asChild variant="outline">
-              <Link
-                to="/games/$gameId/namespaces/$namespaceId/versions"
-                params={{
-                  gameId: game.gameId,
-                  namespaceId: namespace.namespaceId,
-                }}
-              >
-                Manage version
-              </Link>
-            </Button>
-          }
-        />
-      </Grid>
-    </Page>
+    <Grid columns="3" gap="4">
+      <ValueCard
+        title="Current version"
+        description={version.displayName}
+        footer={
+          <Button asChild variant="outline">
+            <Link
+              to="/games/$gameId/namespaces/$namespaceId/versions"
+              params={{
+                gameId,
+                namespaceId,
+              }}
+            >
+              Manage version
+            </Link>
+          </Button>
+        }
+      />
+    </Grid>
   );
 }
 
 export const Route = createFileRoute(
   "/_authenticated/_layout/games/$gameId/namespaces/$namespaceId/",
 )({
-  loader: async ({ params: { gameId, namespaceId } }) => {
-    const { game } = await queryClient.ensureQueryData(
-      gameQueryOptions(gameId),
-    );
-    const { namespace } = await queryClient.ensureQueryData(
-      gameNamespaceQueryOptions({ gameId, namespaceId }),
-    );
-
-    const version = game.versions.find(
-      (version) => version.versionId === namespace.versionId,
-    );
-
-    if (!namespace || !game || !version) {
-      throw notFound();
-    }
-
-    return { namespace, version, game };
-  },
   component: NamespaceIdRoute,
 });

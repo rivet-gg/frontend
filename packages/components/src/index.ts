@@ -1,8 +1,11 @@
 export * from "./cta-card";
+export * from "./action-card";
+export * from "./docs-card";
 export * from "./value-card";
 export * from "./fullscreen-loading";
 export * from "./page";
 export * from "./narrow-page";
+export * from "./sidebar-page-content";
 export * from "./sidebar-page";
 export * from "./sidebar-navigation";
 export * from "./copy-area";
@@ -34,3 +37,5 @@ export * from "./lib/utils";
 export * from "./lib/filesize";
 export * from "./lib/timing";
 export * as styleHelpers from "./ui/helpers/index";
+
+export { VisuallyHidden } from "@radix-ui/react-visually-hidden";

@@ -1,25 +1,23 @@
-import { Outlet, createFileRoute, notFound } from "@tanstack/react-router";
-import * as Layout from "@/domains/game/layouts/matchmaker-layout";
+import * as Layout from "@/domains/game/layouts/namespace-layout";
 import {
-  gameQueryOptions,
   gameNamespaceQueryOptions,
+  gameQueryOptions,
 } from "@/domains/game/queries";
 import { queryClient } from "@/queries/global";
+import { Outlet, createFileRoute, notFound } from "@tanstack/react-router";
 
-function MatchmakerLayoutView() {
-  const { namespace, game } = Route.useLoaderData();
-
+function NamespaceIdRoute() {
   return (
-    <Layout.Root namespaceId={namespace.namespaceId} gameId={game.gameId}>
+    <Layout.Root>
       <Outlet />
     </Layout.Root>
   );
 }
 
 export const Route = createFileRoute(
-  "/_authenticated/_layout/games/$gameId/namespaces/$namespaceId/matchmaker/_layout",
+  "/_authenticated/_layout/games/$gameId/namespaces/$namespaceId",
 )({
-  loader: async ({ params: { gameId, namespaceId } }) => {
+  beforeLoad: async ({ params: { gameId, namespaceId } }) => {
     const { game } = await queryClient.ensureQueryData(
       gameQueryOptions(gameId),
     );
@@ -34,8 +32,6 @@ export const Route = createFileRoute(
     if (!namespace || !game || !version) {
       throw notFound();
     }
-
-    return { namespace, version, game };
   },
-  component: MatchmakerLayoutView,
+  component: NamespaceIdRoute,
 });

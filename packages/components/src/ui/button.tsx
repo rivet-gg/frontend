@@ -1,9 +1,11 @@
 import * as React from "react";
-import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
 
 import { cn } from "@/lib/utils";
-import { Loader2 } from "lucide-react";
+import {
+  PolymorphicComponentPropsWithRef,
+  PolymorphicRef,
+} from "./helpers/polymorphic";
 
 const buttonVariants = cva(
   "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:size-4",
@@ -34,30 +36,32 @@ const buttonVariants = cva(
   },
 );
 
-export interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {
-  asChild?: boolean;
+interface Props extends VariantProps<typeof buttonVariants> {
   isLoading?: boolean;
   fullWidth?: boolean;
+  endIcon?: React.ReactElement;
 }
 
-const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  (
+type ButtonProps<C extends React.ElementType = "input"> =
+  PolymorphicComponentPropsWithRef<C, Props>;
+
+const Button = React.forwardRef(
+  <C extends React.ElementType = "input">(
     {
+      as,
       className,
       variant,
       size,
-      asChild = false,
       fullWidth,
       isLoading,
+      endIcon,
       disabled,
       children,
       ...props
-    },
-    ref,
+    }: ButtonProps<C>,
+    ref: PolymorphicRef<C>,
   ) => {
-    const Comp = asChild ? Slot : "button";
+    const Comp = as ? as : "button";
 
     return (
       <Comp
@@ -69,14 +73,8 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {...props}
         disabled={isLoading || disabled}
       >
-        {!asChild && isLoading ? (
-          <>
-            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-            {children}
-          </>
-        ) : (
-          children
-        )}
+        {children}
+        {endIcon ? React.cloneElement(endIcon, { className: "ml-2" }) : null}
       </Comp>
     );
   },

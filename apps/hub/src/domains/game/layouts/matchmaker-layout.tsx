@@ -1,4 +1,8 @@
-import { SidebarPage, SidebarNavigation, Flex } from "@rivet-gg/components";
+import {
+  SidebarNavigation,
+  Flex,
+  SidebarPageContent,
+} from "@rivet-gg/components";
 import { Link } from "@tanstack/react-router";
 import { ReactNode } from "react";
 
@@ -34,8 +38,7 @@ function MatchmakerPage({
   children,
 }: MatchmakerPageProps) {
   return (
-    <SidebarPage
-      title="Matchmaker"
+    <SidebarPageContent
       sidebar={
         <SidebarNavigation>
           {LINKS.map((link) => (
@@ -58,7 +61,7 @@ function MatchmakerPage({
       <Flex gap="4" direction="col">
         {children}
       </Flex>
-    </SidebarPage>
+    </SidebarPageContent>
   );
 }
 

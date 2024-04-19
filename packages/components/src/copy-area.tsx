@@ -16,7 +16,7 @@ export function CopyArea({ value }: CopyAreaProps) {
 
   return (
     <Flex gap="2">
-      <Input readOnly value={value} />
+      <Input readOnly value={value} className="font-mono" />
       <Button variant="secondary" size="icon" onClick={handleClick}>
         <Copy />
       </Button>

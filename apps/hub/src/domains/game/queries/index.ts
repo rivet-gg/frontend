@@ -2,6 +2,7 @@ import { queryOptions, useMutation } from "@tanstack/react-query";
 import { queryClient, rivetClient } from "../../../queries/global";
 import { Rivet } from "@rivet-gg/api";
 import { getMetaWatchIndex } from "@/queries/utils";
+import { version } from "os";
 
 export type GroupGames = Rivet.group.Summary & { games: Rivet.game.Summary[] };
 
@@ -93,6 +94,21 @@ export const gameVersionsQueryOptions = (gameId: string) => {
         .sort((a, b) => b.createTs.getTime() - a.createTs.getTime()),
   });
 };
+
+export const gameVersionQueryOptions = ({
+  gameId,
+  versionId,
+}: {
+  gameId: string;
+  versionId: string;
+}) =>
+  queryOptions({
+    ...gameQueryOptions(gameId),
+    select: (data) =>
+      gameQueryOptions(gameId).select!(data).game.versions.find(
+        (version) => version.versionId === versionId,
+      )!,
+  });
 
 export const useGameCreateMutation = ({
   onSuccess,
