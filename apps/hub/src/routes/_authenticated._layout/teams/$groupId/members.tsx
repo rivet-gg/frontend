@@ -1,36 +1,19 @@
-import { groupGamesQueryOptions } from "@/domains/game/queries";
-import { Page, Flex } from "@rivet-gg/components";
-import { createFileRoute, notFound } from "@tanstack/react-router";
+import { Flex } from "@rivet-gg/components";
+import { createFileRoute } from "@tanstack/react-router";
 import { GroupDetailedMembers } from "@/domains/group/views/group-detailed-members";
 
 function GroupIdMembersView() {
-  const { group } = Route.useLoaderData();
+  const { groupId } = Route.useParams();
 
   return (
-    <>
-      <Page title={group.displayName}>
-        <Flex direction="row" gap="4">
-          <GroupDetailedMembers groupId={group.groupId} />
-        </Flex>
-      </Page>
-    </>
+    <Flex direction="row" gap="4">
+      <GroupDetailedMembers groupId={groupId} />
+    </Flex>
   );
 }
 
 export const Route = createFileRoute(
   "/_authenticated/_layout/teams/$groupId/members",
 )({
-  loader: async ({ context: { queryClient }, params: { groupId } }) => {
-    const data = await queryClient.ensureQueryData(
-      groupGamesQueryOptions(groupId),
-    );
-
-    const group = data.groups.find((group) => group.groupId === groupId);
-    if (!group) {
-      throw notFound();
-    }
-
-    return { group };
-  },
   component: GroupIdMembersView,
 });

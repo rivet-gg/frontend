@@ -1,20 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { gameSubNav } from "@/domains/game/data/route";
-import { gameQueryOptions } from "@/domains/game/queries";
-import { Page } from "@rivet-gg/components";
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { Text } from "@rivet-gg/components";
 
-function GameIdRoute() {
-  const { gameId } = Route.useParams();
-  const { data } = useSuspenseQuery(gameQueryOptions(gameId));
-  return <Page title={data?.game.displayName}>Settings</Page>;
+function GameSettingsRoute() {
+  return <Text>Settings</Text>;
 }
 
 export const Route = createFileRoute(
   "/_authenticated/_layout/games/$gameId/settings",
 )({
-  beforeLoad: async ({ context: { queryClient }, params: { gameId } }) => {
-    await queryClient.ensureQueryData(gameQueryOptions(gameId));
-  },
-  component: GameIdRoute,
+  component: GameSettingsRoute,
 });

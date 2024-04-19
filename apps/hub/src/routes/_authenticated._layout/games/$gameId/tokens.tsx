@@ -1,19 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { gameQueryOptions } from "@/domains/game/queries";
-import { Page } from "@rivet-gg/components";
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { Text } from "@rivet-gg/components";
 
-function GameIdRoute() {
-  const { gameId } = Route.useParams();
-  const { data } = useSuspenseQuery(gameQueryOptions(gameId));
-  return <Page title={data?.game.displayName}>Tokens</Page>;
+function GameTokensRoute() {
+  return <Text>Tokens</Text>;
 }
 
 export const Route = createFileRoute(
   "/_authenticated/_layout/games/$gameId/tokens",
 )({
-  beforeLoad: async ({ context: { queryClient }, params: { gameId } }) => {
-    await queryClient.ensureQueryData(gameQueryOptions(gameId));
-  },
-  component: GameIdRoute,
+  component: GameTokensRoute,
 });

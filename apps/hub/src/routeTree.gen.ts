@@ -14,8 +14,11 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as AuthenticatedImport } from './routes/_authenticated'
 import { Route as AuthenticatedLayoutImport } from './routes/_authenticated._layout'
 import { Route as AuthenticatedLayoutIndexImport } from './routes/_authenticated._layout/index'
+import { Route as AuthenticatedLayoutTeamsGroupIdImport } from './routes/_authenticated._layout/teams/$groupId'
+import { Route as AuthenticatedLayoutGamesGameIdImport } from './routes/_authenticated._layout/games/$gameId'
 import { Route as AuthenticatedLayoutTeamsGroupIdIndexImport } from './routes/_authenticated._layout/teams/$groupId/index'
 import { Route as AuthenticatedLayoutGamesGameIdIndexImport } from './routes/_authenticated._layout/games/$gameId/index'
+import { Route as AuthenticatedLayoutTeamsGroupIdSettingsImport } from './routes/_authenticated._layout/teams/$groupId/settings'
 import { Route as AuthenticatedLayoutTeamsGroupIdMembersImport } from './routes/_authenticated._layout/teams/$groupId/members'
 import { Route as AuthenticatedLayoutTeamsGroupIdBillingImport } from './routes/_authenticated._layout/teams/$groupId/billing'
 import { Route as AuthenticatedLayoutGamesGameIdTokensImport } from './routes/_authenticated._layout/games/$gameId/tokens'
@@ -50,64 +53,82 @@ const AuthenticatedLayoutIndexRoute = AuthenticatedLayoutIndexImport.update({
   getParentRoute: () => AuthenticatedLayoutRoute,
 } as any)
 
+const AuthenticatedLayoutTeamsGroupIdRoute =
+  AuthenticatedLayoutTeamsGroupIdImport.update({
+    path: '/teams/$groupId',
+    getParentRoute: () => AuthenticatedLayoutRoute,
+  } as any)
+
+const AuthenticatedLayoutGamesGameIdRoute =
+  AuthenticatedLayoutGamesGameIdImport.update({
+    path: '/games/$gameId',
+    getParentRoute: () => AuthenticatedLayoutRoute,
+  } as any)
+
 const AuthenticatedLayoutTeamsGroupIdIndexRoute =
   AuthenticatedLayoutTeamsGroupIdIndexImport.update({
-    path: '/teams/$groupId/',
-    getParentRoute: () => AuthenticatedLayoutRoute,
+    path: '/',
+    getParentRoute: () => AuthenticatedLayoutTeamsGroupIdRoute,
   } as any)
 
 const AuthenticatedLayoutGamesGameIdIndexRoute =
   AuthenticatedLayoutGamesGameIdIndexImport.update({
-    path: '/games/$gameId/',
-    getParentRoute: () => AuthenticatedLayoutRoute,
+    path: '/',
+    getParentRoute: () => AuthenticatedLayoutGamesGameIdRoute,
+  } as any)
+
+const AuthenticatedLayoutTeamsGroupIdSettingsRoute =
+  AuthenticatedLayoutTeamsGroupIdSettingsImport.update({
+    path: '/settings',
+    getParentRoute: () => AuthenticatedLayoutTeamsGroupIdRoute,
   } as any)
 
 const AuthenticatedLayoutTeamsGroupIdMembersRoute =
   AuthenticatedLayoutTeamsGroupIdMembersImport.update({
-    path: '/teams/$groupId/members',
-    getParentRoute: () => AuthenticatedLayoutRoute,
+    path: '/members',
+    getParentRoute: () => AuthenticatedLayoutTeamsGroupIdRoute,
   } as any)
 
 const AuthenticatedLayoutTeamsGroupIdBillingRoute =
   AuthenticatedLayoutTeamsGroupIdBillingImport.update({
-    path: '/teams/$groupId/billing',
-    getParentRoute: () => AuthenticatedLayoutRoute,
+    path: '/billing',
+    getParentRoute: () => AuthenticatedLayoutTeamsGroupIdRoute,
   } as any)
 
 const AuthenticatedLayoutGamesGameIdTokensRoute =
   AuthenticatedLayoutGamesGameIdTokensImport.update({
-    path: '/games/$gameId/tokens',
-    getParentRoute: () => AuthenticatedLayoutRoute,
+    path: '/tokens',
+    getParentRoute: () => AuthenticatedLayoutGamesGameIdRoute,
   } as any)
 
 const AuthenticatedLayoutGamesGameIdSettingsRoute =
   AuthenticatedLayoutGamesGameIdSettingsImport.update({
-    path: '/games/$gameId/settings',
-    getParentRoute: () => AuthenticatedLayoutRoute,
+    path: '/settings',
+    getParentRoute: () => AuthenticatedLayoutGamesGameIdRoute,
   } as any)
 
 const AuthenticatedLayoutGamesGameIdBillingRoute =
   AuthenticatedLayoutGamesGameIdBillingImport.update({
-    path: '/games/$gameId/billing',
-    getParentRoute: () => AuthenticatedLayoutRoute,
+    path: '/billing',
+    getParentRoute: () => AuthenticatedLayoutGamesGameIdRoute,
   } as any)
 
 const AuthenticatedLayoutGamesGameIdBackendRoute =
   AuthenticatedLayoutGamesGameIdBackendImport.update({
-    path: '/games/$gameId/backend',
-    getParentRoute: () => AuthenticatedLayoutRoute,
+    path: '/backend',
+    getParentRoute: () => AuthenticatedLayoutGamesGameIdRoute,
   } as any)
 
 const AuthenticatedLayoutTeamsGroupIdSettingsIndexRoute =
   AuthenticatedLayoutTeamsGroupIdSettingsIndexImport.update({
-    path: '/teams/$groupId/settings/',
-    getParentRoute: () => AuthenticatedLayoutRoute,
+    path: '/',
+    getParentRoute: () => AuthenticatedLayoutTeamsGroupIdSettingsRoute,
   } as any)
 
 const AuthenticatedLayoutGamesGameIdNamespacesNamespaceIdRoute =
   AuthenticatedLayoutGamesGameIdNamespacesNamespaceIdImport.update({
-    path: '/games/$gameId/namespaces/$namespaceId',
-    getParentRoute: () => AuthenticatedLayoutRoute,
+    path: '/namespaces/$namespaceId',
+    getParentRoute: () => AuthenticatedLayoutGamesGameIdRoute,
   } as any)
 
 const AuthenticatedLayoutGamesGameIdNamespacesNamespaceIdIndexRoute =
@@ -190,45 +211,57 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedLayoutIndexImport
       parentRoute: typeof AuthenticatedLayoutImport
     }
+    '/_authenticated/_layout/games/$gameId': {
+      preLoaderRoute: typeof AuthenticatedLayoutGamesGameIdImport
+      parentRoute: typeof AuthenticatedLayoutImport
+    }
+    '/_authenticated/_layout/teams/$groupId': {
+      preLoaderRoute: typeof AuthenticatedLayoutTeamsGroupIdImport
+      parentRoute: typeof AuthenticatedLayoutImport
+    }
     '/_authenticated/_layout/games/$gameId/backend': {
       preLoaderRoute: typeof AuthenticatedLayoutGamesGameIdBackendImport
-      parentRoute: typeof AuthenticatedLayoutImport
+      parentRoute: typeof AuthenticatedLayoutGamesGameIdImport
     }
     '/_authenticated/_layout/games/$gameId/billing': {
       preLoaderRoute: typeof AuthenticatedLayoutGamesGameIdBillingImport
-      parentRoute: typeof AuthenticatedLayoutImport
+      parentRoute: typeof AuthenticatedLayoutGamesGameIdImport
     }
     '/_authenticated/_layout/games/$gameId/settings': {
       preLoaderRoute: typeof AuthenticatedLayoutGamesGameIdSettingsImport
-      parentRoute: typeof AuthenticatedLayoutImport
+      parentRoute: typeof AuthenticatedLayoutGamesGameIdImport
     }
     '/_authenticated/_layout/games/$gameId/tokens': {
       preLoaderRoute: typeof AuthenticatedLayoutGamesGameIdTokensImport
-      parentRoute: typeof AuthenticatedLayoutImport
+      parentRoute: typeof AuthenticatedLayoutGamesGameIdImport
     }
     '/_authenticated/_layout/teams/$groupId/billing': {
       preLoaderRoute: typeof AuthenticatedLayoutTeamsGroupIdBillingImport
-      parentRoute: typeof AuthenticatedLayoutImport
+      parentRoute: typeof AuthenticatedLayoutTeamsGroupIdImport
     }
     '/_authenticated/_layout/teams/$groupId/members': {
       preLoaderRoute: typeof AuthenticatedLayoutTeamsGroupIdMembersImport
-      parentRoute: typeof AuthenticatedLayoutImport
+      parentRoute: typeof AuthenticatedLayoutTeamsGroupIdImport
+    }
+    '/_authenticated/_layout/teams/$groupId/settings': {
+      preLoaderRoute: typeof AuthenticatedLayoutTeamsGroupIdSettingsImport
+      parentRoute: typeof AuthenticatedLayoutTeamsGroupIdImport
     }
     '/_authenticated/_layout/games/$gameId/': {
       preLoaderRoute: typeof AuthenticatedLayoutGamesGameIdIndexImport
-      parentRoute: typeof AuthenticatedLayoutImport
+      parentRoute: typeof AuthenticatedLayoutGamesGameIdImport
     }
     '/_authenticated/_layout/teams/$groupId/': {
       preLoaderRoute: typeof AuthenticatedLayoutTeamsGroupIdIndexImport
-      parentRoute: typeof AuthenticatedLayoutImport
+      parentRoute: typeof AuthenticatedLayoutTeamsGroupIdImport
     }
     '/_authenticated/_layout/games/$gameId/namespaces/$namespaceId': {
       preLoaderRoute: typeof AuthenticatedLayoutGamesGameIdNamespacesNamespaceIdImport
-      parentRoute: typeof AuthenticatedLayoutImport
+      parentRoute: typeof AuthenticatedLayoutGamesGameIdImport
     }
     '/_authenticated/_layout/teams/$groupId/settings/': {
       preLoaderRoute: typeof AuthenticatedLayoutTeamsGroupIdSettingsIndexImport
-      parentRoute: typeof AuthenticatedLayoutImport
+      parentRoute: typeof AuthenticatedLayoutTeamsGroupIdSettingsImport
     }
     '/_authenticated/_layout/games/$gameId/namespaces/$namespaceId/matchmaker': {
       preLoaderRoute: typeof AuthenticatedLayoutGamesGameIdNamespacesNamespaceIdMatchmakerImport
@@ -271,28 +304,34 @@ export const routeTree = rootRoute.addChildren([
   AuthenticatedRoute.addChildren([
     AuthenticatedLayoutRoute.addChildren([
       AuthenticatedLayoutIndexRoute,
-      AuthenticatedLayoutGamesGameIdBackendRoute,
-      AuthenticatedLayoutGamesGameIdBillingRoute,
-      AuthenticatedLayoutGamesGameIdSettingsRoute,
-      AuthenticatedLayoutGamesGameIdTokensRoute,
-      AuthenticatedLayoutTeamsGroupIdBillingRoute,
-      AuthenticatedLayoutTeamsGroupIdMembersRoute,
-      AuthenticatedLayoutGamesGameIdIndexRoute,
-      AuthenticatedLayoutTeamsGroupIdIndexRoute,
-      AuthenticatedLayoutGamesGameIdNamespacesNamespaceIdRoute.addChildren([
-        AuthenticatedLayoutGamesGameIdNamespacesNamespaceIdMatchmakerRoute.addChildren(
-          [
-            AuthenticatedLayoutGamesGameIdNamespacesNamespaceIdMatchmakerLayoutLobbiesRoute,
-            AuthenticatedLayoutGamesGameIdNamespacesNamespaceIdMatchmakerLayoutLogsRoute,
-            AuthenticatedLayoutGamesGameIdNamespacesNamespaceIdMatchmakerLayoutSettingsRoute,
-            AuthenticatedLayoutGamesGameIdNamespacesNamespaceIdMatchmakerLayoutIndexRoute,
-          ],
-        ),
-        AuthenticatedLayoutGamesGameIdNamespacesNamespaceIdTokensRoute,
-        AuthenticatedLayoutGamesGameIdNamespacesNamespaceIdVersionsRoute,
-        AuthenticatedLayoutGamesGameIdNamespacesNamespaceIdIndexRoute,
+      AuthenticatedLayoutGamesGameIdRoute.addChildren([
+        AuthenticatedLayoutGamesGameIdBackendRoute,
+        AuthenticatedLayoutGamesGameIdBillingRoute,
+        AuthenticatedLayoutGamesGameIdSettingsRoute,
+        AuthenticatedLayoutGamesGameIdTokensRoute,
+        AuthenticatedLayoutGamesGameIdIndexRoute,
+        AuthenticatedLayoutGamesGameIdNamespacesNamespaceIdRoute.addChildren([
+          AuthenticatedLayoutGamesGameIdNamespacesNamespaceIdMatchmakerRoute.addChildren(
+            [
+              AuthenticatedLayoutGamesGameIdNamespacesNamespaceIdMatchmakerLayoutLobbiesRoute,
+              AuthenticatedLayoutGamesGameIdNamespacesNamespaceIdMatchmakerLayoutLogsRoute,
+              AuthenticatedLayoutGamesGameIdNamespacesNamespaceIdMatchmakerLayoutSettingsRoute,
+              AuthenticatedLayoutGamesGameIdNamespacesNamespaceIdMatchmakerLayoutIndexRoute,
+            ],
+          ),
+          AuthenticatedLayoutGamesGameIdNamespacesNamespaceIdTokensRoute,
+          AuthenticatedLayoutGamesGameIdNamespacesNamespaceIdVersionsRoute,
+          AuthenticatedLayoutGamesGameIdNamespacesNamespaceIdIndexRoute,
+        ]),
       ]),
-      AuthenticatedLayoutTeamsGroupIdSettingsIndexRoute,
+      AuthenticatedLayoutTeamsGroupIdRoute.addChildren([
+        AuthenticatedLayoutTeamsGroupIdBillingRoute,
+        AuthenticatedLayoutTeamsGroupIdMembersRoute,
+        AuthenticatedLayoutTeamsGroupIdSettingsRoute.addChildren([
+          AuthenticatedLayoutTeamsGroupIdSettingsIndexRoute,
+        ]),
+        AuthenticatedLayoutTeamsGroupIdIndexRoute,
+      ]),
     ]),
   ]),
 ])

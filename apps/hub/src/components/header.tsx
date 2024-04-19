@@ -18,14 +18,12 @@ const UserProfileButton = () => {
     return null;
   }
   return (
-    <Button asChild variant="secondary" size="icon" className="rounded-full">
-      <Link href="#">
-        <img
-          src={profile.identity.avatarUrl}
-          alt="User avatar"
-          className="size-7 rounded-full"
-        />
-      </Link>
+    <Button as="a" variant="secondary" size="icon" className="rounded-full">
+      <img
+        src={profile.identity.avatarUrl}
+        alt="User avatar"
+        className="size-7 rounded-full"
+      />
     </Button>
   );
 };
