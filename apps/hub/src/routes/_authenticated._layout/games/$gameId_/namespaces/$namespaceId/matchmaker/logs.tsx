@@ -5,7 +5,7 @@ function MatchmakerLogsView() {
 }
 
 export const Route = createFileRoute(
-  "/_authenticated/_layout/games/$gameId/namespaces/$namespaceId/matchmaker/_layout/logs",
+  "/_authenticated/_layout/games/$gameId/namespaces/$namespaceId/matchmaker/logs",
 )({
   component: MatchmakerLogsView,
 });

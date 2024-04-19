@@ -5,7 +5,7 @@ function MatchmakerSettingsView() {
 }
 
 export const Route = createFileRoute(
-  "/_authenticated/_layout/games/$gameId/namespaces/$namespaceId/matchmaker/_layout/settings",
+  "/_authenticated/_layout/games/$gameId/namespaces/$namespaceId/matchmaker/settings",
 )({
   component: MatchmakerSettingsView,
 });

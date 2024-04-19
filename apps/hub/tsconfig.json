@@ -22,6 +22,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["src"],
+  "include": ["src", "src/routes/_authenticated._layout/games/$gameId_/namespaces/$namespaceId/matchmaker/index.tsx"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
