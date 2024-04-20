@@ -11,6 +11,7 @@ const safelistMap = [
   ["items", styleHelpers.ALIGN_ITEMS_VALUES],
   ["grid-cols", styleHelpers.GRID_COLUMNS_VALUES],
   ["w", styleHelpers.WIDTH_VALUES],
+  ["flex", styleHelpers.FLEX_VALUES],
 ];
 
 /** @type {import('tailwindcss').Config} */

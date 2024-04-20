@@ -7,4 +7,5 @@ export * from "./margin";
 export * from "./padding";
 export * from "./utilities";
 export * from "./width";
+export * from "./flex";
 export * from "./common";

@@ -3,6 +3,7 @@ import { queryClient, rivetClient } from "../../../queries/global";
 import { Rivet } from "@rivet-gg/api";
 import { getMetaWatchIndex } from "@/queries/utils";
 import { version } from "os";
+import { toast } from "@rivet-gg/components";
 
 export type GroupGames = Rivet.group.Summary & { games: Rivet.game.Summary[] };
 
@@ -190,5 +191,122 @@ export const useUpdateGameNamespaceVersionMutation = ({
       await queryClient.invalidateQueries(gameQueryOptions(values.gameId));
       onSuccess?.();
     },
+  });
+};
+
+export const useNamespaceDomainPublichAuthMutation = ({
+  onSuccess,
+}: {
+  onSuccess?: () => void;
+} = {}) => {
+  return useMutation({
+    mutationFn: ({
+      gameId,
+      namespaceId,
+      enabled,
+    }: {
+      gameId: string;
+      namespaceId: string;
+      enabled: boolean;
+    }) =>
+      rivetClient.cloud.games.namespaces.toggleNamespaceDomainPublicAuth(
+        gameId,
+        namespaceId,
+        {
+          enabled,
+        },
+      ),
+    onError: () => {
+      toast.error("Failed to update domain-based authentication");
+    },
+    onSuccess: async (data, values) => {
+      await queryClient.invalidateQueries(gameQueryOptions(values.gameId));
+      await queryClient.invalidateQueries(
+        gameNamespaceQueryOptions({
+          gameId: values.gameId,
+          namespaceId: values.namespaceId,
+        }),
+      );
+      onSuccess?.();
+    },
+  });
+};
+
+export const useNamespaceAuthTypeMutation = ({
+  onSuccess,
+}: {
+  onSuccess?: () => void;
+} = {}) => {
+  return useMutation({
+    mutationFn: ({
+      gameId,
+      namespaceId,
+      authType,
+    }: {
+      gameId: string;
+      namespaceId: string;
+      authType: Rivet.cloud.CdnAuthType;
+    }) =>
+      rivetClient.cloud.games.namespaces.setNamespaceCdnAuthType(
+        gameId,
+        namespaceId,
+        {
+          authType,
+        },
+      ),
+    onError: () => {
+      toast.error("Failed to update authentication type");
+    },
+    onSuccess: async (data, values) => {
+      await queryClient.invalidateQueries(gameQueryOptions(values.gameId));
+      await queryClient.invalidateQueries(
+        gameNamespaceQueryOptions({
+          gameId: values.gameId,
+          namespaceId: values.namespaceId,
+        }),
+      );
+      onSuccess?.();
+    },
+  });
+};
+
+export const useNamespaceUpdateCdnAuthUserMutation = () => {
+  return useMutation({
+    mutationFn: ({
+      gameId,
+      namespaceId,
+      user,
+      password,
+    }: {
+      gameId: string;
+      namespaceId: string;
+    } & Rivet.cloud.games.namespaces.UpdateNamespaceCdnAuthUserRequest) =>
+      rivetClient.cloud.games.namespaces.updateNamespaceCdnAuthUser(
+        gameId,
+        namespaceId,
+        {
+          user,
+          password,
+        },
+      ),
+  });
+};
+
+export const useNamespaceRemoveCdnAuthUserMutation = () => {
+  return useMutation({
+    mutationFn: ({
+      gameId,
+      namespaceId,
+      user,
+    }: {
+      gameId: string;
+      namespaceId: string;
+      user: string;
+    }) =>
+      rivetClient.cloud.games.namespaces.removeNamespaceCdnAuthUser(
+        gameId,
+        namespaceId,
+        user,
+      ),
   });
 };

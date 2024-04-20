@@ -19,6 +19,8 @@
     "@tanstack/react-query-persist-client": "^5.29",
     "@tanstack/react-router": "^1.28.4",
     "@tanstack/router-devtools": "^1.28.4",
+    "@types/bcryptjs": "^2.4.6",
+    "bcryptjs": "^2.4.3",
     "lucide-react": "^0.363.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

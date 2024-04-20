@@ -37,5 +37,6 @@ export * from "./lib/utils";
 export * from "./lib/filesize";
 export * from "./lib/timing";
 export * as styleHelpers from "./ui/helpers/index";
+export { toast } from "sonner";
 
 export { VisuallyHidden } from "@radix-ui/react-visually-hidden";

@@ -22,7 +22,7 @@ export const ActionCard = ({
 }: CtaCardProps) => {
   return (
     <Card>
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 min-h-20">
         <CardTitle className="font-bold">{title}</CardTitle>
         {action}
       </CardHeader>

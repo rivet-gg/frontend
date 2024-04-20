@@ -12,6 +12,7 @@ import {
 
 import { cn } from "@/lib/utils";
 import { Label } from "./label";
+import { FlexUtilitiesProps, getFlexClass, omitFlexProps } from "./helpers";
 
 const Form = FormProvider;
 
@@ -22,7 +23,7 @@ type FormFieldContextValue<
   name: TName;
 };
 
-const FormFieldContext = React.createContext<FormFieldContextValue>(
+export const FormFieldContext = React.createContext<FormFieldContextValue>(
   {} as FormFieldContextValue,
 );
 
@@ -72,13 +73,17 @@ const FormItemContext = React.createContext<FormItemContextValue>(
 
 const FormItem = React.forwardRef<
   HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
+  React.HTMLAttributes<HTMLDivElement> & Partial<FlexUtilitiesProps>
 >(({ className, ...props }, ref) => {
   const id = React.useId();
 
   return (
     <FormItemContext.Provider value={{ id }}>
-      <div ref={ref} className={cn("space-y-2", className)} {...props} />
+      <div
+        ref={ref}
+        className={cn("space-y-2", getFlexClass(props), className)}
+        {...omitFlexProps(props)}
+      />
     </FormItemContext.Provider>
   );
 });
