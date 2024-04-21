@@ -33,17 +33,20 @@ export interface BadgeProps
     VariantProps<typeof badgeVariants>,
     Partial<CommonHelperProps> {}
 
-function Badge({ className, variant, ...props }: BadgeProps) {
-  return (
-    <div
-      className={cn(
-        badgeVariants({ variant }),
-        getCommonHelperClass(props),
-        className,
-      )}
-      {...omitCommonHelperProps(props)}
-    />
-  );
-}
+const Badge = React.forwardRef<HTMLDivElement, BadgeProps>(
+  ({ className, variant, ...props }, ref) => {
+    return (
+      <div
+        ref={ref}
+        className={cn(
+          badgeVariants({ variant }),
+          getCommonHelperClass(props),
+          className,
+        )}
+        {...omitCommonHelperProps(props)}
+      />
+    );
+  },
+);
 
 export { Badge, badgeVariants };

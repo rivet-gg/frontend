@@ -164,7 +164,22 @@ export const gameNamespaceQueryOptions = ({
         gameId,
         namespaceId,
       ),
-    meta: { watch: true },
+    select: (data) => ({
+      ...data,
+      namespace: {
+        ...data.namespace,
+        config: {
+          ...data.namespace.config,
+          cdn: {
+            ...data.namespace.config.cdn,
+            domains: data.namespace.config.cdn.domains.map((domain) => ({
+              ...domain,
+              createTs: new Date(domain.createTs),
+            })),
+          },
+        },
+      },
+    }),
   });
 };
 
@@ -308,5 +323,51 @@ export const useNamespaceRemoveCdnAuthUserMutation = () => {
         namespaceId,
         user,
       ),
+  });
+};
+
+export const useNamespaceAddDomainMutation = () => {
+  return useMutation({
+    mutationFn: ({
+      gameId,
+      namespaceId,
+      domain,
+    }: {
+      gameId: string;
+      namespaceId: string;
+    } & Rivet.cloud.games.namespaces.AddNamespaceDomainRequest) =>
+      rivetClient.cloud.games.namespaces.addNamespaceDomain(
+        gameId,
+        namespaceId,
+        { domain },
+      ),
+  });
+};
+
+export const useNamespaceRemoveDomainMutation = () => {
+  return useMutation({
+    mutationFn: ({
+      gameId,
+      namespaceId,
+      domain,
+    }: {
+      gameId: string;
+      namespaceId: string;
+      domain: string;
+    }) =>
+      rivetClient.cloud.games.namespaces.removeNamespaceDomain(
+        gameId,
+        namespaceId,
+        domain,
+      ),
+    onSuccess: async (data, values) => {
+      await queryClient.invalidateQueries(gameQueryOptions(values.gameId));
+      await queryClient.invalidateQueries(
+        gameNamespaceQueryOptions({
+          gameId: values.gameId,
+          namespaceId: values.namespaceId,
+        }),
+      );
+    },
   });
 };

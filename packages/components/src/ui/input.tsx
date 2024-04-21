@@ -1,23 +1,19 @@
 import { cn } from "@/lib/utils";
-import { ElementType, ReactNode, forwardRef } from "react";
-import {
-  PolymorphicComponentPropsWithRef,
-  PolymorphicRef,
-} from "./helpers/polymorphic";
+import { ReactNode, forwardRef } from "react";
 
-type Props = { children?: ReactNode; className?: string };
+import { Slot } from "@radix-ui/react-slot";
 
-type InputStylesProps<C extends ElementType = "input"> =
-  PolymorphicComponentPropsWithRef<C, Props>;
+export interface InputProps extends React.ComponentPropsWithoutRef<"input"> {
+  asChild?: boolean;
+  children?: ReactNode;
+  className?: string;
+}
 
-export const InputStyles = forwardRef(
-  <C extends ElementType = "input">(
-    { as, className, ...other }: InputStylesProps<C>,
-    ref?: PolymorphicRef<C>,
-  ) => {
-    const Component = as || "input";
+const Input = forwardRef<HTMLInputElement, InputProps>(
+  ({ asChild, className, ...other }, ref) => {
+    const Comp = asChild ? Slot : "input";
     return (
-      <Component
+      <Comp
         ref={ref}
         {...other}
         className={cn(
@@ -29,13 +25,6 @@ export const InputStyles = forwardRef(
   },
 );
 
-export interface InputProps extends InputStylesProps<"input"> {}
-
-const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ type, ...props }, ref) => {
-    return <InputStyles as="input" type={type} ref={ref} {...props} />;
-  },
-);
 Input.displayName = "Input";
 
 export { Input };

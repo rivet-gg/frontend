@@ -35,7 +35,7 @@ export const EmailStep = ({ onSubmit }: EmailStepProps) => {
           </Flex>
         </CardContent>
         <CardFooter>
-          <LoginForm.Submit fullWidth>Continue</LoginForm.Submit>
+          <LoginForm.Submit w="full">Continue</LoginForm.Submit>
         </CardFooter>
       </Card>
     </LoginForm.Form>

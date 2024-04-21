@@ -21,14 +21,10 @@ export const DocsCard = ({
       title={title}
       description={description}
       action={
-        <Button
-          as="a"
-          href={href}
-          target="_blank"
-          variant="outline"
-          endIcon={<ExternalLink />}
-        >
-          Docs
+        <Button asChild variant="outline" endIcon={<ExternalLink />}>
+          <a href={href} target="_blank">
+            Docs
+          </a>
         </Button>
       }
       footer={footer}

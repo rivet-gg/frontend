@@ -11,9 +11,9 @@ import {
 import { gameNamespaceQueryOptions } from "../../queries";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { DialogActivityIndicator } from "@/components/dialog-activity-indicator";
-import * as CdnManageAuthUsersForm from "@/domains/game/forms/cdn-manage-auth-users";
+import * as CdnManageAuthUsersForm from "@/domains/game/forms/cdn-manage-auth-users-form";
 import { Suspense } from "react";
-import { useCdnManageAuthUsers } from "../../hooks/use-cdn-manage-auth-users";
+import { useCdnManageAuthUsersFormHandler } from "../../hooks/use-cdn-manage-auth-users-form-handler";
 
 interface ContentProps {
   gameId: string;
@@ -26,7 +26,7 @@ function Content({ gameId, namespaceId, onSuccess }: ContentProps) {
     gameNamespaceQueryOptions({ gameId, namespaceId }),
   );
 
-  const handleSubmit = useCdnManageAuthUsers({
+  const handleSubmit = useCdnManageAuthUsersFormHandler({
     namespaceId,
     gameId,
     onSuccess,
@@ -44,7 +44,7 @@ function Content({ gameId, namespaceId, onSuccess }: ContentProps) {
       }}
     >
       <DialogHeader>
-        <DialogTitle>Manage CDN authentication users</DialogTitle>
+        <DialogTitle>Manage CDN Authentication Users</DialogTitle>
       </DialogHeader>
       <Flex gap="4" direction="col">
         <Text>

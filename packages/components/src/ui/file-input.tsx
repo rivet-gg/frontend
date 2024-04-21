@@ -1,6 +1,6 @@
 import { ChangeEvent, useState } from "react";
 import { ControllerRenderProps, FieldName, FieldValues } from "react-hook-form";
-import { InputProps, InputStyles, Input } from "./input";
+import { InputProps, Input } from "./input";
 import { Button } from "./button";
 import { Trash2 } from "lucide-react";
 
@@ -36,17 +36,19 @@ export function FileInput<FormValues extends FieldValues>({
 
   if (file) {
     return (
-      <InputStyles as="div" className="justify-between items-center">
-        {fileName}
-        <Button
-          type="button"
-          variant="ghost"
-          size="icon"
-          onClick={handleRemoveClick}
-        >
-          <Trash2 size={16} />
-        </Button>
-      </InputStyles>
+      <Input asChild>
+        <div className="justify-between items-center">
+          {fileName}
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon"
+            onClick={handleRemoveClick}
+          >
+            <Trash2 size={16} />
+          </Button>
+        </div>
+      </Input>
     );
   }
 

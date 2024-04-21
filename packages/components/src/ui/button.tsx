@@ -2,11 +2,13 @@ import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 
 import { cn } from "@/lib/utils";
-import {
-  PolymorphicComponentPropsWithRef,
-  PolymorphicRef,
-} from "./helpers/polymorphic";
 import { Loader2 } from "lucide-react";
+import {
+  CommonHelperProps,
+  getCommonHelperClass,
+  omitCommonHelperProps,
+} from "./helpers";
+import { Slot, Slottable } from "@radix-ui/react-slot";
 
 const buttonVariants = cva(
   "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:size-4",
@@ -37,47 +39,52 @@ const buttonVariants = cva(
   },
 );
 
-interface Props extends VariantProps<typeof buttonVariants> {
+export interface ButtonProps
+  extends VariantProps<typeof buttonVariants>,
+    Partial<CommonHelperProps>,
+    React.ComponentPropsWithoutRef<"button"> {
+  asChild?: boolean;
   isLoading?: boolean;
-  fullWidth?: boolean;
   endIcon?: React.ReactElement;
 }
 
-type ButtonProps<C extends React.ElementType = "input"> =
-  PolymorphicComponentPropsWithRef<C, Props>;
-
-const Button = React.forwardRef(
-  <C extends React.ElementType = "input">(
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  (
     {
-      as,
+      asChild,
       className,
       variant,
       size,
-      fullWidth,
       isLoading,
       endIcon,
       disabled,
       children,
       ...props
-    }: ButtonProps<C>,
-    ref: PolymorphicRef<C>,
+    },
+    ref,
   ) => {
-    const Comp = as ? as : "button";
+    const C = asChild ? Slot : "button";
 
     return (
-      <Comp
+      <C
         className={cn(
           buttonVariants({ variant, size, className }),
-          fullWidth && "w-full",
+          getCommonHelperClass(props),
         )}
         ref={ref}
-        {...props}
+        {...omitCommonHelperProps(props)}
         disabled={isLoading || disabled}
       >
-        {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
-        {children}
+        {isLoading ? (
+          <Loader2
+            className={cn("h-4 w-4 animate-spin", size !== "icon" && "mr-2")}
+          />
+        ) : null}
+        {size === "icon" && isLoading ? null : (
+          <Slottable>{children}</Slottable>
+        )}
         {endIcon ? React.cloneElement(endIcon, { className: "ml-2" }) : null}
-      </Comp>
+      </C>
     );
   },
 );

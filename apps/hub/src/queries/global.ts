@@ -31,16 +31,17 @@ export const rivetClient = new RivetClient({
         status: response.status,
         body: await response.json(),
       };
+    } else {
+      return {
+        ok: false,
+        status: response.status,
+        error: {
+          reason: "status-code",
+          statusCode: response.status,
+          body: await response.json(),
+        },
+      };
     }
-
-    return {
-      ok: false,
-      status: response.status,
-      error: {
-        reason: "unknown",
-        errorMessage: response.statusText,
-      },
-    };
   },
 });
 

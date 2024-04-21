@@ -1,4 +1,5 @@
 import { useCdnManageAuthUsersDialog } from "@/domains/game/hooks/use-cdn-manage-auth-users-dialog";
+import { useCdnManageCustomDomainsDialog } from "@/domains/game/hooks/use-cdn-manage-custom-domains-dialog";
 import {
   gameNamespaceQueryOptions,
   gameQueryOptions,
@@ -58,7 +59,6 @@ function PasswordAuthOption() {
   } = useSuspenseQuery(gameNamespaceQueryOptions({ gameId, namespaceId }));
 
   const { dialog, open } = useCdnManageAuthUsersDialog({ gameId, namespaceId });
-
   return (
     <>
       {dialog}
@@ -94,24 +94,33 @@ function PasswordAuthOption() {
 }
 
 function CustomDomainsOption({ nameId }: { nameId: string }) {
+  const { gameId, namespaceId } = Route.useParams();
+  const { dialog, open } = useCdnManageCustomDomainsDialog({
+    gameId,
+    namespaceId,
+  });
+
   return (
-    <ActionCard
-      title="Custom domains"
-      description={
-        <Ol>
-          <li>
-            Add a CNAME record pointed at <Code>{nameId}.rivet.game</Code> to
-            your domain's DNS config.
-          </li>
-          <li>Add your domain below.</li>
-          <li>
-            Once added, your domain will be verified by Cloudflare. This should
-            take around 5 minutes.
-          </li>
-        </Ol>
-      }
-      footer={<Button>Manage domains</Button>}
-    />
+    <>
+      {dialog}
+      <ActionCard
+        title="Custom domains"
+        description={
+          <Ol>
+            <li>
+              Add a CNAME record pointed at <Code>{nameId}.rivet.game</Code> to
+              your domain's DNS config.
+            </li>
+            <li>Add your domain below.</li>
+            <li>
+              Once added, your domain will be verified by Cloudflare. This
+              should take around 5 minutes.
+            </li>
+          </Ol>
+        }
+        footer={<Button onClick={open}>Manage domains</Button>}
+      />
+    </>
   );
 }
 

@@ -7,7 +7,7 @@ import {
   gameNamespaceQueryOptions,
 } from "../queries";
 import { useCallback } from "react";
-import { SubmitHandler } from "@/domains/game/forms/cdn-manage-auth-users";
+import { SubmitHandler } from "@/domains/game/forms/cdn-manage-auth-users-form";
 import { queryClient } from "@/queries/global";
 
 const SALT = bcrypt.genSaltSync(10);
@@ -57,19 +57,19 @@ function computeUsersDiff(
   return { update, create, errors, remove };
 }
 
-interface UseCdnManageAuthUsersProps {
+interface UseCdnManageAuthUsersFormHandlerProps {
   gameId: string;
   namespaceId: string;
   userList: Rivet.cloud.CdnNamespaceAuthUser[];
   onSuccess?: () => void;
 }
 
-export function useCdnManageAuthUsers({
+export function useCdnManageAuthUsersFormHandler({
   onSuccess,
   gameId,
   userList,
   namespaceId,
-}: UseCdnManageAuthUsersProps) {
+}: UseCdnManageAuthUsersFormHandlerProps) {
   const { mutateAsync: updateUser } = useNamespaceUpdateCdnAuthUserMutation();
   const { mutateAsync: removeUser } = useNamespaceRemoveCdnAuthUserMutation();
 
