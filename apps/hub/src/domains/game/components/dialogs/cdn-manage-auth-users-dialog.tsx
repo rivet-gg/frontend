@@ -1,27 +1,26 @@
 import {
-  Dialog,
-  DialogContent,
   DialogFooter,
   DialogHeader,
-  DialogProps,
   DialogTitle,
   Flex,
   Text,
 } from "@rivet-gg/components";
 import { gameNamespaceQueryOptions } from "../../queries";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { DialogActivityIndicator } from "@/components/dialog-activity-indicator";
 import * as CdnManageAuthUsersForm from "@/domains/game/forms/cdn-manage-auth-users-form";
-import { Suspense } from "react";
 import { useCdnManageAuthUsersFormHandler } from "../../hooks/use-cdn-manage-auth-users-form-handler";
+import { DialogContentProps } from "@/hooks/use-dialog";
 
-interface ContentProps {
+interface ContentProps extends DialogContentProps {
   gameId: string;
   namespaceId: string;
-  onSuccess?: () => void;
 }
 
-function Content({ gameId, namespaceId, onSuccess }: ContentProps) {
+export default function CdnManageAuthUsersDialogContent({
+  gameId,
+  namespaceId,
+  onClose,
+}: ContentProps) {
   const { data } = useSuspenseQuery(
     gameNamespaceQueryOptions({ gameId, namespaceId }),
   );
@@ -29,7 +28,7 @@ function Content({ gameId, namespaceId, onSuccess }: ContentProps) {
   const handleSubmit = useCdnManageAuthUsersFormHandler({
     namespaceId,
     gameId,
-    onSuccess,
+    onSuccess: onClose,
     userList: data.namespace.config.cdn.authUserList,
   });
 
@@ -58,33 +57,5 @@ function Content({ gameId, namespaceId, onSuccess }: ContentProps) {
         <CdnManageAuthUsersForm.Submit>Save</CdnManageAuthUsersForm.Submit>
       </DialogFooter>
     </CdnManageAuthUsersForm.Form>
-  );
-}
-
-interface CdnManageAuthUsersDialogProps
-  extends DialogProps,
-    Partial<ContentProps> {}
-
-export function CdnManageAuthUsersDialog({
-  gameId,
-  namespaceId,
-  ...dialogProps
-}: CdnManageAuthUsersDialogProps) {
-  return (
-    <Dialog {...dialogProps}>
-      <DialogContent>
-        {gameId && namespaceId ? (
-          <Suspense fallback={<DialogActivityIndicator />}>
-            <Content
-              gameId={gameId}
-              namespaceId={namespaceId}
-              onSuccess={() => dialogProps.onOpenChange?.(false)}
-            />
-          </Suspense>
-        ) : (
-          <DialogActivityIndicator />
-        )}
-      </DialogContent>
-    </Dialog>
   );
 }

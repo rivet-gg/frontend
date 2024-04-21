@@ -1,9 +1,6 @@
 import {
-  Dialog,
-  DialogContent,
   DialogFooter,
   DialogHeader,
-  DialogProps,
   DialogTitle,
   Flex,
 } from "@rivet-gg/components";
@@ -11,15 +8,14 @@ import * as NamespaceCreateForm from "@/domains/game/forms/namespace-create-form
 import { gameQueryOptions, useNamespaceCreateMutation } from "../../queries";
 import { useNavigate } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { DialogActivityIndicator } from "@/components/dialog-activity-indicator";
-import { Suspense } from "react";
 import { convertStringToId } from "@/lib/utils";
+import { type DialogContentProps } from "@/hooks/use-dialog";
 
-interface ContentProps {
+interface ContentProps extends DialogContentProps {
   gameId: string;
 }
 
-function Content({ gameId }: ContentProps) {
+export default function CreateNamespaceDialogContent({ gameId }: ContentProps) {
   const navigate = useNavigate();
   const { data: game } = useSuspenseQuery(gameQueryOptions(gameId));
   const { mutateAsync } = useNamespaceCreateMutation({
@@ -58,28 +54,5 @@ function Content({ gameId }: ContentProps) {
         </DialogFooter>
       </NamespaceCreateForm.Form>
     </>
-  );
-}
-
-interface CreateNamespaceDialogProps
-  extends DialogProps,
-    Partial<ContentProps> {}
-
-export function CreateNamespaceDialog({
-  gameId,
-  ...dialogProps
-}: CreateNamespaceDialogProps) {
-  return (
-    <Dialog {...dialogProps}>
-      <DialogContent>
-        {gameId ? (
-          <Suspense fallback={<DialogActivityIndicator />}>
-            <Content gameId={gameId} />
-          </Suspense>
-        ) : (
-          <DialogActivityIndicator />
-        )}
-      </DialogContent>
-    </Dialog>
   );
 }

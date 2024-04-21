@@ -1,11 +1,10 @@
-import { useCdnManageAuthUsersDialog } from "@/domains/game/hooks/use-cdn-manage-auth-users-dialog";
-import { useCdnManageCustomDomainsDialog } from "@/domains/game/hooks/use-cdn-manage-custom-domains-dialog";
 import {
   gameNamespaceQueryOptions,
   gameQueryOptions,
   useNamespaceAuthTypeMutation,
   useNamespaceDomainPublichAuthMutation,
 } from "@/domains/game/queries";
+import { useDialog } from "@/hooks/use-dialog";
 import { Rivet } from "@rivet-gg/api";
 import {
   ActionCard,
@@ -58,7 +57,11 @@ function PasswordAuthOption() {
     data: { namespace },
   } = useSuspenseQuery(gameNamespaceQueryOptions({ gameId, namespaceId }));
 
-  const { dialog, open } = useCdnManageAuthUsersDialog({ gameId, namespaceId });
+  const { dialog, open } = useDialog.ManageCdnAuthUsers({
+    gameId,
+    namespaceId,
+  });
+
   return (
     <>
       {dialog}
@@ -95,7 +98,7 @@ function PasswordAuthOption() {
 
 function CustomDomainsOption({ nameId }: { nameId: string }) {
   const { gameId, namespaceId } = Route.useParams();
-  const { dialog, open } = useCdnManageCustomDomainsDialog({
+  const { dialog, open } = useDialog.ManageCdnCustomDomains({
     gameId,
     namespaceId,
   });

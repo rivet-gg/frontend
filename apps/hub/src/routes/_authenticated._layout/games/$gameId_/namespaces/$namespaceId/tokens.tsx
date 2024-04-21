@@ -1,16 +1,19 @@
 import { gameNamespaceQueryOptions } from "@/domains/game/queries";
+import { useDialog } from "@/hooks/use-dialog";
 import { Button, CopyArea, DocsCard, Grid, Text } from "@rivet-gg/components";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 
-function NamespaceTokensRoute() {
+function PublicTokenCard() {
   const { gameId, namespaceId } = Route.useParams();
-  const {
-    data: { namespace },
-  } = useSuspenseQuery(gameNamespaceQueryOptions({ gameId, namespaceId }));
+  const { dialog, open } = useDialog.GenerateNamespacePublicToken({
+    gameId,
+    namespaceId,
+  });
 
   return (
-    <Grid columns="2" gap="4" items="start">
+    <>
+      {dialog}
       <DocsCard
         title="Public token"
         href="https://rivet.gg/docs/general/concepts/handling-game-tokens#public-namespace-tokens"
@@ -20,8 +23,21 @@ function NamespaceTokensRoute() {
             with the public.
           </Text>
         }
-        footer={<Button>Generate</Button>}
+        footer={<Button onClick={open}>Generate</Button>}
       />
+    </>
+  );
+}
+
+function NamespaceTokensRoute() {
+  const { gameId, namespaceId } = Route.useParams();
+  const {
+    data: { namespace },
+  } = useSuspenseQuery(gameNamespaceQueryOptions({ gameId, namespaceId }));
+
+  return (
+    <Grid columns="2" gap="4" items="start">
+      <PublicTokenCard />
       <DocsCard
         title="Development token"
         href="https://rivet.gg/docs/general/concepts/dev-tokens"

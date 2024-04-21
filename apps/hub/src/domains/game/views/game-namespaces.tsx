@@ -17,7 +17,7 @@ import {
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import { Plus } from "lucide-react";
-import { useNamespaceCreateDialog } from "../hooks/use-namespace-create-dialog";
+import { useDialog } from "@/hooks/use-dialog";
 
 interface GameNamespacesViewProps {
   gameId: string;
@@ -26,7 +26,7 @@ interface GameNamespacesViewProps {
 export function GameNamespacesView({ gameId }: GameNamespacesViewProps) {
   const { data } = useSuspenseQuery(gameNamespacesQueryOptions(gameId));
 
-  const { open, dialog } = useNamespaceCreateDialog(gameId);
+  const { open, dialog } = useDialog.CreateNamespace({ gameId });
 
   return (
     <Card w="full">

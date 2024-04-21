@@ -1,10 +1,7 @@
 import {
   Button,
-  Dialog,
-  DialogContent,
   DialogFooter,
   DialogHeader,
-  DialogProps,
   DialogTitle,
   Flex,
   Strong,
@@ -15,20 +12,23 @@ import {
   useUpdateGameNamespaceVersionMutation,
 } from "../../queries";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { DialogActivityIndicator } from "@/components/dialog-activity-indicator";
-import { Suspense } from "react";
+import { DialogContentProps } from "@/hooks/use-dialog";
 
-interface ContentProps {
+interface ContentProps extends DialogContentProps {
   gameId: string;
   namespaceId: string;
   versionId: string;
-  onSuccess?: () => void;
 }
 
-function Content({ gameId, namespaceId, versionId, onSuccess }: ContentProps) {
+export default function DeployNamespaceVersionDialogContent({
+  gameId,
+  namespaceId,
+  versionId,
+  onClose,
+}: ContentProps) {
   const { data } = useSuspenseQuery(gameQueryOptions(gameId));
   const { mutate, isPending } = useUpdateGameNamespaceVersionMutation({
-    onSuccess,
+    onSuccess: onClose,
   });
 
   const chosenVersion = data.game.versions.find(
@@ -63,35 +63,5 @@ function Content({ gameId, namespaceId, versionId, onSuccess }: ContentProps) {
         </Button>
       </DialogFooter>
     </>
-  );
-}
-
-interface DeployNamespaceVersionDialogProps
-  extends DialogProps,
-    Partial<ContentProps> {}
-
-export function DeployNamespaceVersionDialog({
-  gameId,
-  namespaceId,
-  versionId,
-  ...dialogProps
-}: DeployNamespaceVersionDialogProps) {
-  return (
-    <Dialog {...dialogProps}>
-      <DialogContent>
-        {gameId && namespaceId && versionId ? (
-          <Suspense fallback={<DialogActivityIndicator />}>
-            <Content
-              gameId={gameId}
-              namespaceId={namespaceId}
-              versionId={versionId}
-              onSuccess={() => dialogProps.onOpenChange?.(false)}
-            />
-          </Suspense>
-        ) : (
-          <DialogActivityIndicator />
-        )}
-      </DialogContent>
-    </Dialog>
   );
 }

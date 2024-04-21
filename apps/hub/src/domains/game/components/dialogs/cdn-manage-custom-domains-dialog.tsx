@@ -1,12 +1,8 @@
 import {
   Badge,
   Button,
-  Code,
-  Dialog,
-  DialogContent,
   DialogFooter,
   DialogHeader,
-  DialogProps,
   DialogTitle,
   Flex,
   Table,
@@ -22,12 +18,11 @@ import {
   useNamespaceRemoveDomainMutation,
 } from "../../queries";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { DialogActivityIndicator } from "@/components/dialog-activity-indicator";
-import { Suspense } from "react";
 import { Rivet } from "@rivet-gg/api";
 import * as CdnNewCustomDomainForm from "@/domains/game/forms/cdn-new-custom-domain-form";
 import { useCdnNewCustomDomainFormHandler } from "../../hooks/use-cdn-new-custom-domain-form-handler";
 import { Info, Plus, Trash } from "lucide-react";
+import { type DialogContentProps } from "@/hooks/use-dialog";
 
 const VARIANT_MAP = {
   [Rivet.cloud.CdnNamespaceDomainVerificationStatus.Active]: null,
@@ -89,13 +84,16 @@ function DomainConfigRow({
   );
 }
 
-interface ContentProps {
+interface ContentProps extends DialogContentProps {
   gameId: string;
   namespaceId: string;
-  onSuccess?: () => void;
 }
 
-function Content({ gameId, namespaceId, onSuccess }: ContentProps) {
+export default function CdnManageCustomDomainsDialogContent({
+  gameId,
+  namespaceId,
+  onClose,
+}: ContentProps) {
   const { data, refetch, isRefetching } = useSuspenseQuery(
     gameNamespaceQueryOptions({ gameId, namespaceId }),
   );
@@ -151,38 +149,10 @@ function Content({ gameId, namespaceId, onSuccess }: ContentProps) {
         >
           Refresh
         </Button>
-        <Button variant="secondary" type="button" onClick={onSuccess}>
+        <Button type="button" onClick={onClose}>
           Close
         </Button>
       </DialogFooter>
     </>
-  );
-}
-
-interface CdnManageCustomDomainsDialogProps
-  extends DialogProps,
-    Partial<ContentProps> {}
-
-export function CdnManageCustomDomainsDialog({
-  gameId,
-  namespaceId,
-  ...dialogProps
-}: CdnManageCustomDomainsDialogProps) {
-  return (
-    <Dialog {...dialogProps}>
-      <DialogContent>
-        {gameId && namespaceId ? (
-          <Suspense fallback={<DialogActivityIndicator />}>
-            <Content
-              gameId={gameId}
-              namespaceId={namespaceId}
-              onSuccess={() => dialogProps.onOpenChange?.(false)}
-            />
-          </Suspense>
-        ) : (
-          <DialogActivityIndicator />
-        )}
-      </DialogContent>
-    </Dialog>
   );
 }

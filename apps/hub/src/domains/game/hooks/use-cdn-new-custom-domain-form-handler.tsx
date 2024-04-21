@@ -5,7 +5,6 @@ import {
 } from "../queries";
 import { useCallback } from "react";
 import { SubmitHandler } from "@/domains/game/forms/cdn-new-custom-domain-form";
-import { RivetError } from "@rivet-gg/api";
 import { queryClient } from "@/queries/global";
 import { isRivetError } from "@/lib/utils";
 

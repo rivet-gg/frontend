@@ -10,15 +10,13 @@ import {
 import * as GameCreateForm from "@/domains/game/forms/game-create-form";
 import { useGameCreateMutation } from "../../queries";
 import { useNavigate } from "@tanstack/react-router";
-import { DialogActivityIndicator } from "@/components/dialog-activity-indicator";
-import { Suspense } from "react";
 import { convertStringToId } from "@/lib/utils";
 
 interface ContentProps {
   groupId: string;
 }
 
-function Content({ groupId }: ContentProps) {
+export default function CreateGameDialogContent({ groupId }: ContentProps) {
   const navigate = useNavigate();
   const { mutateAsync } = useGameCreateMutation({
     onSuccess: (data) => {
@@ -53,26 +51,5 @@ function Content({ groupId }: ContentProps) {
         </DialogFooter>
       </GameCreateForm.Form>
     </>
-  );
-}
-
-interface CreateGameDialogProps extends DialogProps, Partial<ContentProps> {}
-
-export function CreateGameDialog({
-  groupId,
-  ...dialogProps
-}: CreateGameDialogProps) {
-  return (
-    <Dialog {...dialogProps}>
-      <DialogContent>
-        {groupId ? (
-          <Suspense fallback={<DialogActivityIndicator />}>
-            <Content groupId={groupId} />
-          </Suspense>
-        ) : (
-          <DialogActivityIndicator />
-        )}
-      </DialogContent>
-    </Dialog>
   );
 }

@@ -6,14 +6,14 @@ import {
   CardHeader,
   CardTitle,
 } from "@rivet-gg/components";
-import { useGameCreateDialog } from "@/domains/game/hooks/use-game-create-dialog";
+import { useDialog } from "@/hooks/use-dialog";
 
 interface GroupEmptyCardProps {
   groupId: string;
 }
 
 export function GroupEmptyCard({ groupId }: GroupEmptyCardProps) {
-  const { open, dialog } = useGameCreateDialog(groupId);
+  const { open, dialog } = useDialog.CreateGame({ groupId });
 
   return (
     <>

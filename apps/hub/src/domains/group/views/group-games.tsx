@@ -1,5 +1,5 @@
-import { useGameCreateDialog } from "@/domains/game/hooks/use-game-create-dialog";
 import { groupGamesQueryOptions } from "@/domains/game/queries";
+import { useDialog } from "@/hooks/use-dialog";
 import {
   Button,
   Card,
@@ -25,8 +25,7 @@ interface GroupGamesProps {
 
 export function GroupGames({ groupId }: GroupGamesProps) {
   const { data } = useSuspenseQuery(groupGamesQueryOptions(groupId));
-
-  const { open, dialog } = useGameCreateDialog(groupId);
+  const { open, dialog } = useDialog.CreateGame({ groupId });
 
   return (
     <>

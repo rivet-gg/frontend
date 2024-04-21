@@ -371,3 +371,23 @@ export const useNamespaceRemoveDomainMutation = () => {
     },
   });
 };
+
+export const gameNamespaceTokenPublicQueryOptions = ({
+  gameId,
+  namespaceId,
+}: {
+  gameId: string;
+  namespaceId: string;
+}) => {
+  return queryOptions({
+    staleTime: 0,
+    gcTime: 0,
+    queryKey: ["gameNamespaceTokenPublic", gameId, namespaceId],
+    queryFn: ({ queryKey: [_, gameId, namespaceId] }) =>
+      rivetClient.cloud.games.namespaces.createGameNamespaceTokenPublic(
+        gameId,
+        namespaceId,
+      ),
+    select: (data) => data.token,
+  });
+};
