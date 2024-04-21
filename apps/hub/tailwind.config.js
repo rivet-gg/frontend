@@ -20,7 +20,7 @@ module.exports = {
   // Restricting the content to the components folder
   // forces developers to use ui components for styling instead of utility classes
   content: [
-    "./src/components/**/*.{ts,tsx}",
+    "./src/**/components/**/*.{ts,tsx}",
     "./src/layouts/**/*.{ts,tsx}",
     "./src/forms/**/*.{ts,tsx}",
     "./src/lib/**/*.{ts,tsx}",

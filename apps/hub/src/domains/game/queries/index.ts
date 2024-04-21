@@ -3,6 +3,7 @@ import { queryClient, rivetClient } from "../../../queries/global";
 import { Rivet } from "@rivet-gg/api";
 import { getMetaWatchIndex } from "@/queries/utils";
 import { toast } from "@rivet-gg/components";
+import { getLobbyStatus } from "../data/lobby-status";
 
 export type GroupGames = Rivet.group.Summary & { games: Rivet.game.Summary[] };
 
@@ -93,12 +94,9 @@ export const gameVersionsQueryOptions = (gameId: string) => {
   return queryOptions({
     ...gameQueryOptions(gameId),
     select: (data) =>
-      gameQueryOptions(gameId).select!(data)
-        .game.versions.map((version) => ({
-          ...version,
-          createTs: new Date(version.createTs),
-        }))
-        .sort((a, b) => b.createTs.getTime() - a.createTs.getTime()),
+      gameQueryOptions(gameId).select!(data).game.versions.sort(
+        (a, b) => b.createTs.getTime() - a.createTs.getTime(),
+      ),
   });
 };
 
@@ -185,22 +183,6 @@ export const gameNamespaceQueryOptions = ({
         gameId,
         namespaceId,
       ),
-    select: (data) => ({
-      ...data,
-      namespace: {
-        ...data.namespace,
-        config: {
-          ...data.namespace.config,
-          cdn: {
-            ...data.namespace.config.cdn,
-            domains: data.namespace.config.cdn.domains.map((domain) => ({
-              ...domain,
-              createTs: new Date(domain.createTs),
-            })),
-          },
-        },
-      },
-    }),
   });
 };
 
@@ -441,6 +423,69 @@ export const gameNamespaceLogsLobbiesQueryOptions = ({
         gameId,
         namespaceId,
       ),
-    select: (data) => data.lobbies,
+    select: (data) =>
+      data.lobbies.map((lobby) => ({
+        ...lobby,
+        readableStatus: getLobbyStatus(lobby.status, lobby.startTs),
+      })),
+  });
+};
+
+export const gameNamespaceLogsLobbyQueryOptions = ({
+  gameId,
+  namespaceId,
+  lobbyId,
+}: {
+  gameId: string;
+  namespaceId: string;
+  lobbyId: string;
+}) => {
+  return queryOptions({
+    queryKey: ["gameNamespaceLogsLobby", gameId, namespaceId, lobbyId],
+    queryFn: ({
+      queryKey: [
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        _,
+        gameId,
+        namespaceId,
+      ],
+    }) =>
+      rivetClient.cloud.games.namespaces.logs.getNamespaceLobby(
+        gameId,
+        namespaceId,
+        lobbyId,
+      ),
+    select: (data) => ({
+      ...data,
+      lobby: {
+        ...data.lobby,
+        readableStatus: getLobbyStatus(data.lobby.status, data.lobby.startTs),
+      },
+    }),
+  });
+};
+
+export const gameNamespaceLogsLobbyLogsQueryOptions = ({
+  gameId,
+  lobbyId,
+  stream,
+}: {
+  gameId: string;
+  lobbyId: string;
+} & Rivet.cloud.games.GetLobbyLogsRequest) => {
+  return queryOptions({
+    queryKey: ["gameNamespaceLogsLobbyLogs", gameId, lobbyId, stream],
+    queryFn: ({
+      queryKey: [
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        _,
+        gameId,
+        lobbyId,
+        stream,
+      ],
+    }) =>
+      rivetClient.cloud.games.matchmaker.getLobbyLogs(gameId, lobbyId, {
+        stream: stream as Rivet.cloud.games.LogStream,
+      }),
   });
 };

@@ -37,7 +37,7 @@ export function NamespaceBreadcrumb({
       <div>
         <Select value={namespaceId} onValueChange={handleNamespaceChange}>
           <SelectTrigger>
-            <SelectValue placeholder="Select expiration" />
+            <SelectValue placeholder="Select namespace" />
           </SelectTrigger>
           <SelectContent>
             {data.map((namespace) => (
