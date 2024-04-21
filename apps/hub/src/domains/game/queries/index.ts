@@ -2,7 +2,6 @@ import { queryOptions, useMutation } from "@tanstack/react-query";
 import { queryClient, rivetClient } from "../../../queries/global";
 import { Rivet } from "@rivet-gg/api";
 import { getMetaWatchIndex } from "@/queries/utils";
-import { version } from "os";
 import { toast } from "@rivet-gg/components";
 
 export type GroupGames = Rivet.group.Summary & { games: Rivet.game.Summary[] };
@@ -56,7 +55,14 @@ export const groupOnwerQueryOptions = (groupId: string) => {
 export const gameQueryOptions = (gameId: string) => {
   return queryOptions({
     queryKey: ["game", gameId],
-    queryFn: ({ queryKey: [_, gameId], meta }) =>
+    queryFn: ({
+      queryKey: [
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        _,
+        gameId,
+      ],
+      meta,
+    }) =>
       rivetClient.cloud.games.games.getGameById(gameId, {
         watchIndex: getMetaWatchIndex(meta),
       }),
@@ -93,6 +99,14 @@ export const gameVersionsQueryOptions = (gameId: string) => {
           createTs: new Date(version.createTs),
         }))
         .sort((a, b) => b.createTs.getTime() - a.createTs.getTime()),
+  });
+};
+
+export const gameRegionsQueryOptions = (gameId: string) => {
+  return queryOptions({
+    ...gameQueryOptions(gameId),
+    select: (data) =>
+      gameQueryOptions(gameId).select!(data).game.availableRegions,
   });
 };
 
@@ -159,7 +173,14 @@ export const gameNamespaceQueryOptions = ({
 }) => {
   return queryOptions({
     queryKey: ["gameNamespace", gameId, namespaceId],
-    queryFn: ({ queryKey: [_, gameId, namespaceId] }) =>
+    queryFn: ({
+      queryKey: [
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        _,
+        gameId,
+        namespaceId,
+      ],
+    }) =>
       rivetClient.cloud.games.namespaces.getGameNamespaceById(
         gameId,
         namespaceId,
@@ -383,11 +404,43 @@ export const gameNamespaceTokenPublicQueryOptions = ({
     staleTime: 0,
     gcTime: 0,
     queryKey: ["gameNamespaceTokenPublic", gameId, namespaceId],
-    queryFn: ({ queryKey: [_, gameId, namespaceId] }) =>
+    queryFn: ({
+      queryKey: [
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        _,
+        gameId,
+        namespaceId,
+      ],
+    }) =>
       rivetClient.cloud.games.namespaces.createGameNamespaceTokenPublic(
         gameId,
         namespaceId,
       ),
     select: (data) => data.token,
+  });
+};
+
+export const gameNamespaceLogsLobbiesQueryOptions = ({
+  gameId,
+  namespaceId,
+}: {
+  gameId: string;
+  namespaceId: string;
+}) => {
+  return queryOptions({
+    queryKey: ["gameNamespaceLogsLobbies", gameId, namespaceId],
+    queryFn: ({
+      queryKey: [
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        _,
+        gameId,
+        namespaceId,
+      ],
+    }) =>
+      rivetClient.cloud.games.namespaces.logs.listNamespaceLobbies(
+        gameId,
+        namespaceId,
+      ),
+    select: (data) => data.lobbies,
   });
 };

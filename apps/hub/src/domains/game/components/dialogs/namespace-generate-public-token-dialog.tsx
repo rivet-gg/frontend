@@ -16,7 +16,7 @@ interface ContentProps extends DialogContentProps {
   namespaceId: string;
 }
 
-export default function NamespaceGenerateTokenDialogContent({
+export default function NamespaceGeneratePublicTokenDialogContent({
   gameId,
   namespaceId,
   onClose,

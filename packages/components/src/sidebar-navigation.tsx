@@ -13,7 +13,7 @@ export function SidebarNavigation({
   return (
     <nav
       className={cn(
-        "grid gap-4 text-sm text-muted-foreground",
+        "flex flex-col gap-4 text-sm text-muted-foreground",
         getCommonHelperClass(props),
       )}
     >

@@ -124,7 +124,6 @@ export default function CdnManageCustomDomainsDialogContent({
           <TableRow>
             <TableHead>Name</TableHead>
             <TableHead>Created</TableHead>
-            <TableHead>Created</TableHead>
             <TableHead>Status</TableHead>
             <TableHead></TableHead>
           </TableRow>

@@ -6,10 +6,10 @@ export const gameSubNav = [
     url: "/games/$gameId/",
     exact: true,
   },
-  {
-    title: "Backend",
-    url: "/games/$gameId/backend",
-  },
+  // {
+  //   title: "Backend",
+  //   url: "/games/$gameId/backend",
+  // },
   {
     title: "Tokens",
     url: "/games/$gameId/tokens",
@@ -51,19 +51,19 @@ export const buildNamespaceSubNav = (config: Rivet.cloud.NamespaceConfig) => {
     });
   }
 
-  if (config.identity) {
-    subNav.push({
-      title: "Identity",
-      url: "/games/$gameId/namespaces/$namespaceId/identity/",
-    });
-  }
+  // if (config.identity) {
+  //   subNav.push({
+  //     title: "Identity",
+  //     url: "/games/$gameId/namespaces/$namespaceId/identity/",
+  //   });
+  // }
 
-  if (config.kv) {
-    subNav.push({
-      title: "KV",
-      url: "/games/$gameId/namespaces/$namespaceId/kv/",
-    });
-  }
+  // if (config.kv) {
+  //   subNav.push({
+  //     title: "KV",
+  //     url: "/games/$gameId/namespaces/$namespaceId/kv/",
+  //   });
+  // }
 
   subNav.push({
     title: "Tokens",
