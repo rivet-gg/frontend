@@ -3,7 +3,6 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
-  LogsView,
   Separator,
 } from "@rivet-gg/components";
 import { LobbyLogs } from "../components/lobby-logs";

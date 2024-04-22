@@ -12,6 +12,7 @@ const safelistMap = [
   ["grid-cols", styleHelpers.GRID_COLUMNS_VALUES],
   ["w", styleHelpers.WIDTH_VALUES],
   ["flex", styleHelpers.FLEX_VALUES],
+  ["min-h", styleHelpers.MIN_HEIGHT_VALUES],
 ];
 
 /** @type {import('tailwindcss').Config} */

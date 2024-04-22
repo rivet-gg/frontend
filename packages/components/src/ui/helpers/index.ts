@@ -8,4 +8,5 @@ export * from "./padding";
 export * from "./utilities";
 export * from "./width";
 export * from "./flex";
+export * from "./min-height";
 export * from "./common";

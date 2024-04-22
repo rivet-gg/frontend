@@ -19,7 +19,8 @@ import {
 import { Rivet } from "@rivet-gg/api";
 import { type LobbyStatus } from "../data/lobby-status";
 import { LobbyRegion } from "../components/lobby-region";
-import { Link } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
+import { LobbyLogsBreadcrumbs } from "../components/lobby-logs-breadcrumbs";
 
 interface LobbyRowProps extends Rivet.cloud.LogsLobbySummary {
   readableStatus: LobbyStatus;
@@ -42,15 +43,20 @@ function LobbyRow({
   namespaceId,
 }: LobbyRowProps) {
   const region = regions.find((region) => region.regionId === regionId);
+
+  const navigate = useNavigate();
+
   return (
-    <TableRow key={lobbyId}>
+    <TableRow
+      isClickable
+      onClick={() =>
+        navigate({
+          to: "/games/$gameId/namespaces/$namespaceId/matchmaker/logs/$lobbyId",
+          params: { lobbyId, namespaceId, gameId },
+        })
+      }
+    >
       <TableCell>
-        <Link
-          to="/games/$gameId/namespaces/$namespaceId/matchmaker/logs/$lobbyId"
-          params={{ lobbyId, namespaceId, gameId }}
-        >
-          {lobbyId}
-        </Link>
         <LobbyRegion region={region?.universalRegion || "unknown"} />
       </TableCell>
       <TableCell>{lobbyGroupNameId}</TableCell>
@@ -83,7 +89,9 @@ export function NamespaceMatchmakerLogs({
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Logs</CardTitle>
+        <CardTitle>
+          <LobbyLogsBreadcrumbs gameId={gameId} namespaceId={namespaceId} />
+        </CardTitle>
       </CardHeader>
       <CardContent>
         <Table>

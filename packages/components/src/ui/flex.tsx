@@ -1,15 +1,5 @@
 import { cn } from "@/lib/utils";
 import { HTMLAttributes, ReactNode } from "react";
-import {
-  MarginUtilitiesProps,
-  getMarginClass,
-  omitMarginProps,
-} from "./helpers/margin";
-import {
-  PaddingUtilitiesProps,
-  getPaddingClass,
-  omitPaddingProps,
-} from "./helpers/padding";
 import { GapUtilitiesProps, getGapClass, omitGapProps } from "./helpers/gap";
 import {
   FlexDirectionUtilitiesProps,
@@ -27,20 +17,18 @@ import {
   omitAlignItemsProps,
 } from "./helpers/align-items";
 import {
-  WidthUtilitiesProps,
-  getWidthClass,
-  omitWidthProps,
-} from "./helpers/width";
+  CommonHelperProps,
+  getCommonHelperClass,
+  omitCommonHelperProps,
+} from "./helpers";
 
 export interface StackProps
   extends HTMLAttributes<HTMLDivElement>,
-    Partial<MarginUtilitiesProps>,
-    Partial<PaddingUtilitiesProps>,
+    Partial<CommonHelperProps>,
     Partial<GapUtilitiesProps>,
     Partial<FlexDirectionUtilitiesProps>,
     Partial<JustifyContentUtilitiesProps>,
-    Partial<AlignItemsValuesUtilitiesProps>,
-    Partial<WidthUtilitiesProps> {
+    Partial<AlignItemsValuesUtilitiesProps> {
   children: ReactNode;
 }
 
@@ -53,26 +41,20 @@ const HStack = (props: Omit<StackProps, "direction">) => {
 };
 
 const Flex = ({ children, className, ...props }: StackProps) => {
-  const htmlProps = omitWidthProps(
-    omitAlignItemsProps(
-      omitJustifyContentProps(
-        omitFlexDirectionProps(
-          omitGapProps(omitPaddingProps(omitMarginProps(props))),
-        ),
-      ),
+  const htmlProps = omitAlignItemsProps(
+    omitJustifyContentProps(
+      omitFlexDirectionProps(omitGapProps(omitCommonHelperProps(props))),
     ),
   );
   return (
     <div
       className={cn(
         "flex",
-        getMarginClass(props),
-        getPaddingClass(props),
+        getCommonHelperClass(props),
         getGapClass(props),
         getFlexDirectionClass(props),
         getJustifyContentClass(props),
         getAlignItemsClass(props),
-        getWidthClass(props),
         className,
       )}
       {...htmlProps}

@@ -4,6 +4,11 @@ import {
   omitMarginProps,
 } from "./margin";
 import {
+  MinHeightUtilitiesProps,
+  getMinWidthClass,
+  omitMinHeightProps,
+} from "./min-height";
+import {
   PaddingUtilitiesProps,
   getPaddingClass,
   omitPaddingProps,
@@ -13,10 +18,13 @@ import { WidthUtilitiesProps, getWidthClass, omitWidthProps } from "./width";
 export interface CommonHelperProps
   extends MarginUtilitiesProps,
     PaddingUtilitiesProps,
-    WidthUtilitiesProps {}
+    WidthUtilitiesProps,
+    MinHeightUtilitiesProps {}
 
 export function omitCommonHelperProps(props: Partial<CommonHelperProps>) {
-  return omitMarginProps(omitPaddingProps(omitWidthProps(props)));
+  return omitMinHeightProps(
+    omitMarginProps(omitPaddingProps(omitWidthProps(props))),
+  );
 }
 
 export function getCommonHelperClass(props: Partial<CommonHelperProps>) {
@@ -24,5 +32,6 @@ export function getCommonHelperClass(props: Partial<CommonHelperProps>) {
     getMarginClass(props),
     getPaddingClass(props),
     getWidthClass(props),
+    getMinWidthClass(props),
   ].join(" ");
 }
