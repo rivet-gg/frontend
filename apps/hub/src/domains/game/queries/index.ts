@@ -4,6 +4,7 @@ import { Rivet } from "@rivet-gg/api";
 import { getMetaWatchIndex } from "@/queries/utils";
 import { toast } from "@rivet-gg/components";
 import { getLobbyStatus } from "../data/lobby-status";
+import { time } from "console";
 
 export type GroupGames = Rivet.group.Summary & { games: Rivet.game.Summary[] };
 
@@ -487,5 +488,25 @@ export const gameNamespaceLogsLobbyLogsQueryOptions = ({
       rivetClient.cloud.games.matchmaker.getLobbyLogs(gameId, lobbyId, {
         stream: stream as Rivet.cloud.games.LogStream,
       }),
+  });
+};
+
+export const useExportLobbyLogsMutation = () => {
+  return useMutation({
+    mutationFn: ({
+      gameId,
+      lobbyId,
+      stream,
+    }: {
+      gameId: string;
+      lobbyId: string;
+    } & Rivet.cloud.games.ExportLobbyLogsRequest) =>
+      rivetClient.cloud.games.matchmaker.exportLobbyLogs(gameId, lobbyId, {
+        stream,
+      }),
+    onSuccess: async (data) => {
+      window.open(data.url, "_blank");
+      toast.success("Logs exported successfully");
+    },
   });
 };

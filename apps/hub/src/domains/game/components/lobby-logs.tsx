@@ -1,6 +1,12 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { gameNamespaceLogsLobbyLogsQueryOptions } from "../queries";
-import { ScrollArea } from "@rivet-gg/components";
+import {
+  gameNamespaceLogsLobbyLogsQueryOptions,
+  useExportLobbyLogsMutation,
+} from "../queries";
+import { Button, LogsView } from "@rivet-gg/components";
+import { useState } from "react";
+import { Download } from "lucide-react";
+import { Rivet } from "@rivet-gg/api";
 
 interface LobbyLogsProps {
   gameId: string;
@@ -8,46 +14,41 @@ interface LobbyLogsProps {
 }
 
 export function LobbyLogs({ gameId, lobbyId }: LobbyLogsProps) {
+  const [logType, setLogType] =
+    useState<Rivet.cloud.games.LogStream>("std_out");
+
   const {
     data: { timestamps, lines },
   } = useSuspenseQuery(
     gameNamespaceLogsLobbyLogsQueryOptions({
       gameId,
       lobbyId,
-      stream: "std_out",
+      stream: logType,
     }),
   );
 
-  if (timestamps.length === 0 || lines.length === 0) {
-    return (
-      <div className="text-muted-foreground py-8 text-center">
-        <p>No logs available</p>
-        <p>Logs older than 48 hours will not show up here.</p>
-      </div>
-    );
-  }
+  const { mutate: download, isPending } = useExportLobbyLogsMutation();
 
   return (
-    <ScrollArea className="my-4 h-72 w-full">
-      <div className="flex gap-4">
-        <div className="">
-          {timestamps.map((timestamp) => (
-            <div
-              key={timestamp}
-              className="text-muted-foreground my-1 font-mono text-sm"
-            >
-              {timestamp}
-            </div>
-          ))}
-        </div>
-        <div className="">
-          {lines.map((line) => (
-            <div key={line} className="my-1 font-mono text-sm">
-              {window.atob(line)}
-            </div>
-          ))}
-        </div>
-      </div>
-    </ScrollArea>
+    <LogsView
+      timestamps={timestamps}
+      lines={lines}
+      logType={logType}
+      onLogTypeChange={setLogType}
+      sidebar={
+        <Button
+          isLoading={isPending}
+          disabled={timestamps.length === 0 || lines.length === 0}
+          variant="outline"
+          aria-label="Download logs"
+          size="icon"
+          onClick={() => download({ lobbyId, gameId, stream: logType })}
+        >
+          <Download />
+        </Button>
+      }
+    />
   );
 }
+
+LobbyLogs.Skeleton = LogsView.Skeleton;

@@ -1,32 +1,44 @@
 import {
-  Badge,
   Card,
   CardContent,
   CardHeader,
   CardTitle,
-  Flex,
-  Grid,
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
+  LogsView,
   Separator,
-  ValueDisplay,
-  WithTooltip,
-  formatDuration,
-  formatExitCodeMessage,
 } from "@rivet-gg/components";
-import { LobbyStatusBadge } from "../components/lobby-status";
-import { useSuspenseQuery } from "@tanstack/react-query";
-import {
-  gameRegionsQueryOptions,
-  gameNamespaceLogsLobbiesQueryOptions,
-  gameNamespaceLogsLobbyQueryOptions,
-} from "../queries";
-import { LobbyRegion } from "../components/lobby-region";
-import { Link, useNavigate } from "@tanstack/react-router";
 import { LobbyLogs } from "../components/lobby-logs";
+import { LobbyLogsSummary } from "../components/lobby-logs-summary";
+import { LobbyLogsBreadcrumbs } from "../components/lobby-logs-breadcrumbs";
+import { Suspense } from "react";
+interface ContentProps {
+  gameId: string;
+  namespaceId: string;
+  lobbyId: string;
+}
+
+function Content({ gameId, namespaceId, lobbyId }: ContentProps) {
+  return (
+    <>
+      <Suspense
+        fallback={
+          <>
+            <LobbyLogsSummary.Skeleton />
+            <Separator />
+            <LobbyLogs.Skeleton />
+          </>
+        }
+      >
+        <LobbyLogsSummary
+          lobbyId={lobbyId}
+          namespaceId={namespaceId}
+          gameId={gameId}
+        />
+        <Separator />
+        <LobbyLogs lobbyId={lobbyId} gameId={gameId} />
+      </Suspense>
+    </>
+  );
+}
 
 interface NamespaceMatchmakerLobbyLogsProps {
   gameId: string;
@@ -39,154 +51,24 @@ export function NamespaceMatchmakerLobbyLogs({
   namespaceId,
   lobbyId,
 }: NamespaceMatchmakerLobbyLogsProps) {
-  const navigate = useNavigate();
-
-  const { data: lobbies } = useSuspenseQuery(
-    gameNamespaceLogsLobbiesQueryOptions({ gameId, namespaceId }),
-  );
-  const { data: lobby } = useSuspenseQuery(
-    gameNamespaceLogsLobbyQueryOptions({ gameId, namespaceId, lobbyId }),
-  );
-
-  const { data: regions } = useSuspenseQuery(gameRegionsQueryOptions(gameId));
-
   return (
     <>
       <Card>
         <CardHeader>
           <CardTitle>
-            <Flex items="center">
-              <span className="w-full">
-                <Link
-                  to="/games/$gameId/namespaces/$namespaceId/matchmaker/logs/"
-                  params={{ gameId, namespaceId }}
-                >
-                  Logs
-                </Link>{" "}
-                /
-              </span>
-              <Select
-                value={lobbyId}
-                onValueChange={(newLobbyId) => {
-                  navigate({
-                    to: `/games/$gameId/namespaces/$namespaceId/matchmaker/logs/$lobbyId`,
-                    params: { gameId, namespaceId, lobbyId: newLobbyId },
-                  });
-                }}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Select expiration" />
-                </SelectTrigger>
-                <SelectContent>
-                  {lobbies.map((lobby) => {
-                    const region = regions.find(
-                      (region) => region.regionId === lobby.regionId,
-                    );
-                    return (
-                      <SelectItem key={lobby.lobbyId} value={lobby.lobbyId}>
-                        <Flex gap="2">
-                          <LobbyRegion
-                            region={region?.universalRegion || "unknown"}
-                          />{" "}
-                          {lobby.lobbyGroupNameId} ({lobby.lobbyId})
-                          <LobbyStatusBadge status={lobby.readableStatus} />
-                        </Flex>
-                      </SelectItem>
-                    );
-                  })}
-                </SelectContent>
-              </Select>
-            </Flex>
+            <LobbyLogsBreadcrumbs
+              gameId={gameId}
+              namespaceId={namespaceId}
+              lobbyId={lobbyId}
+            />
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <Flex gap="4" direction="col" mb="6">
-            <Grid columns="4" gap="4">
-              <ValueDisplay
-                label="Status"
-                value={<LobbyStatusBadge status={lobby.lobby.readableStatus} />}
-              />
-              {lobby.lobby.status.stopped ? (
-                <ValueDisplay
-                  label="Exit code"
-                  value={
-                    <WithTooltip
-                      content={formatExitCodeMessage(
-                        lobby.lobby.status.stopped.exitCode,
-                      )}
-                      trigger={
-                        <Badge variant="outline">
-                          {lobby.lobby.status.stopped.exitCode}
-                        </Badge>
-                      }
-                    />
-                  }
-                />
-              ) : null}
-            </Grid>
-            <Grid columns="4" gap="4">
-              <ValueDisplay
-                label="Created at"
-                value={lobby.lobby.createTs?.toLocaleString() || "-"}
-              />
-              <ValueDisplay
-                label="Started at"
-                value={lobby.lobby.startTs?.toLocaleString() || "-"}
-              />
-              <ValueDisplay
-                label="Ready at"
-                value={lobby.lobby.readyTs?.toLocaleString() || "-"}
-              />
-              <ValueDisplay
-                label="Stopped / finished at"
-                value={
-                  lobby.lobby.status.stopped?.stopTs?.toLocaleString() || "-"
-                }
-              />
-            </Grid>
-            <Grid columns="4" gap="4">
-              {lobby.lobby.status.stopped ? (
-                <ValueDisplay
-                  label="Duration"
-                  value={formatDuration(
-                    lobby.lobby.status.stopped.stopTs.getTime() -
-                      lobby.lobby.createTs.getTime(),
-                    { showSeconds: true },
-                  )}
-                />
-              ) : (
-                <ValueDisplay
-                  label="Since created"
-                  value={formatDuration(
-                    Date.now() - lobby.lobby.createTs.getTime(),
-                    { showSeconds: true },
-                  )}
-                />
-              )}
-              {lobby.lobby.startTs ? (
-                <ValueDisplay
-                  label="Start duration"
-                  value={formatDuration(
-                    lobby.lobby.startTs?.getTime() -
-                      lobby.lobby.createTs.getTime(),
-                    { showSeconds: true },
-                  )}
-                />
-              ) : null}
-              {lobby.lobby.readyTs ? (
-                <ValueDisplay
-                  label="Ready duration"
-                  value={formatDuration(
-                    lobby.lobby.readyTs?.getTime() -
-                      lobby.lobby.createTs.getTime(),
-                    { showSeconds: true },
-                  )}
-                />
-              ) : null}
-            </Grid>
-          </Flex>
-          <Separator />
-          <LobbyLogs lobbyId={lobbyId} gameId={gameId} />
+          <Content
+            gameId={gameId}
+            namespaceId={namespaceId}
+            lobbyId={lobbyId}
+          />
         </CardContent>
       </Card>
     </>
