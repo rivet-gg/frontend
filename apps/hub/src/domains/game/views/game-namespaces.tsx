@@ -15,7 +15,7 @@ import {
   TableRow,
 } from "@rivet-gg/components";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { Link } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { Plus } from "lucide-react";
 import { useDialog } from "@/hooks/use-dialog";
 
@@ -27,6 +27,8 @@ export function GameNamespacesView({ gameId }: GameNamespacesViewProps) {
   const { data } = useSuspenseQuery(gameNamespacesQueryOptions(gameId));
 
   const { open, dialog } = useDialog.CreateNamespace({ gameId });
+
+  const navigate = useNavigate();
 
   return (
     <Card w="full">
@@ -49,15 +51,17 @@ export function GameNamespacesView({ gameId }: GameNamespacesViewProps) {
           </TableHeader>
           <TableBody>
             {data.map((namespace) => (
-              <TableRow key={namespace.namespaceId}>
-                <TableCell>
-                  <Link
-                    to="/games/$gameId/namespaces/$namespaceId/"
-                    params={{ gameId, namespaceId: namespace.namespaceId }}
-                  >
-                    {namespace.displayName}
-                  </Link>
-                </TableCell>
+              <TableRow
+                key={namespace.namespaceId}
+                isClickable
+                onClick={() => {
+                  navigate({
+                    to: "/games/$gameId/namespaces/$namespaceId/",
+                    params: { gameId, namespaceId: namespace.namespaceId },
+                  });
+                }}
+              >
+                <TableCell>{namespace.displayName}</TableCell>
                 <TableCell>
                   <Badge>{namespace.version?.displayName}</Badge>
                 </TableCell>

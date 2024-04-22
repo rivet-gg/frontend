@@ -510,3 +510,31 @@ export const useExportLobbyLogsMutation = () => {
     },
   });
 };
+
+export const useNamepsaceMatchmakerUpdateConfigMutation = () => {
+  return useMutation({
+    mutationFn: ({
+      gameId,
+      namespaceId,
+      lobbyCountMax,
+      maxPlayers,
+    }: {
+      gameId: string;
+      namespaceId: string;
+    } & Rivet.cloud.games.namespaces.UpdateGameNamespaceMatchmakerConfigRequest) =>
+      rivetClient.cloud.games.namespaces.updateGameNamespaceMatchmakerConfig(
+        gameId,
+        namespaceId,
+        { lobbyCountMax, maxPlayers },
+      ),
+    onSuccess: async (data, values) => {
+      await queryClient.invalidateQueries(gameQueryOptions(values.gameId));
+      await queryClient.invalidateQueries(
+        gameNamespaceQueryOptions({
+          gameId: values.gameId,
+          namespaceId: values.namespaceId,
+        }),
+      );
+    },
+  });
+};

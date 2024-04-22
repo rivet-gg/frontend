@@ -10,8 +10,8 @@ import {
   FormMessage,
 } from "@rivet-gg/components";
 import { rivetClient } from "@/queries/global";
-import { TraversableErrors, VALIDATION_ERRORS } from "@/lib/traversable-errors";
 import { convertStringToId } from "@/lib/utils";
+import { validateAgainstApi } from "@/lib/async-validation";
 
 export const formSchema = z
   .object({
@@ -27,28 +27,14 @@ export const formSchema = z
         nameId: arg.slug || convertStringToId(arg.name),
       },
     );
-    const errors = new TraversableErrors(VALIDATION_ERRORS.GAME_NAMESPACE);
-    errors.load(res.errors.map((e) => e.path));
 
-    if (!errors.isEmpty()) {
-      const displayNameErrors = errors.findFormatted("display-name");
-      if (displayNameErrors.length > 0) {
-        ctx.addIssue({
-          path: ["name"],
-          code: z.ZodIssueCode.custom,
-          message: displayNameErrors[0] || "",
-        });
-      }
-
-      const nameIdErrors = errors.findFormatted("name-id");
-      if (nameIdErrors.length > 0) {
-        ctx.addIssue({
-          path: ["slug"],
-          code: z.ZodIssueCode.custom,
-          message: nameIdErrors[0] || "",
-        });
-      }
-    }
+    validateAgainstApi({
+      group: "GAME_NAMESPACE",
+      errors: res.errors,
+    }).setSchemaIssues(ctx, {
+      name: "display-name",
+      slug: "name-id",
+    });
 
     return z.NEVER;
   });

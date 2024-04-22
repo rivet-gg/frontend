@@ -11,11 +11,11 @@ import { groupGamesQueryOptions } from "@/domains/game/queries";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { useGroupUpdateProfileMutation } from "@/domains/group/queries";
 
-interface GroupNameCardProps {
+interface GroupNameSettingsCardProps {
   groupId: string;
 }
 
-export function GroupNameCard({ groupId }: GroupNameCardProps) {
+export function GroupNameSettingsCard({ groupId }: GroupNameSettingsCardProps) {
   const { data } = useSuspenseQuery(groupGamesQueryOptions(groupId));
   const { mutateAsync } = useGroupUpdateProfileMutation();
   return (

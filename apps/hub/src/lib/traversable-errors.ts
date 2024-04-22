@@ -5,10 +5,34 @@ interface ValidationErrors {
   GROUP: TraversableObject;
   GAME_VERSION: TraversableObject;
   GAME_NAMESPACE: TraversableObject;
-  IDENTITY_PROFILE: TraversableObject;
+  // IDENTITY_PROFILE: TraversableObject;
   GROUP_PROFILE: TraversableObject;
-  DEV_TOKEN: TraversableObject;
+  // DEV_TOKEN: TraversableObject;
   GAME_NAMESPACE_CONFIG: TraversableObject;
+}
+
+export interface ValidationPaths {
+  GAME: {
+    "display-name": true;
+    "name-id": true;
+  };
+  // GROUP: string;
+  GAME_VERSION: {
+    "display-name": true;
+  };
+  GAME_NAMESPACE: {
+    "display-name": true;
+    "name-id": true;
+  };
+  // IDENTITY_PROFILE: string;
+  GROUP_PROFILE: {
+    "display-name": true;
+    bio: true;
+  };
+  GAME_NAMESPACE_CONFIG: {
+    "lobby-count": true;
+    "max-players": true;
+  };
 }
 
 // Typed JSON

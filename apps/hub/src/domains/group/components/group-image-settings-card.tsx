@@ -8,11 +8,13 @@ import {
 import * as GroupImageForm from "@/domains/group/forms/group-image-form";
 import { useAvatarUploadMutation } from "@/domains/group/queries";
 
-interface GroupImageCardProps {
+interface GroupImageSettingsCardProps {
   groupId: string;
 }
 
-export function GroupImageCard({ groupId }: GroupImageCardProps) {
+export function GroupImageSettingsCard({
+  groupId,
+}: GroupImageSettingsCardProps) {
   const { mutateAsync } = useAvatarUploadMutation(groupId);
   return (
     <GroupImageForm.Form

@@ -1,14 +1,14 @@
 import { Flex } from "@rivet-gg/components";
 import { createFileRoute } from "@tanstack/react-router";
-import { GroupImageCard } from "@/domains/group/components/group-image-card";
-import { GroupNameCard } from "@/domains/group/components/group-name-card";
+import { GroupImageSettingsCard } from "@/domains/group/components/group-image-settings-card";
+import { GroupNameSettingsCard } from "@/domains/group/components/group-name-settings-card";
 
 function GroupIdSettingsView() {
   const { groupId } = Route.useParams();
   return (
     <Flex gap="4" direction="col">
-      <GroupNameCard groupId={groupId} />
-      <GroupImageCard groupId={groupId} />
+      <GroupNameSettingsCard groupId={groupId} />
+      <GroupImageSettingsCard groupId={groupId} />
     </Flex>
   );
 }
