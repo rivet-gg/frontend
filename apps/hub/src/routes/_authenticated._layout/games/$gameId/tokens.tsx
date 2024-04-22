@@ -1,8 +1,37 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Text } from "@rivet-gg/components";
+import { Button, DocsCard, Grid, Text } from "@rivet-gg/components";
+import { useDialog } from "@/hooks/use-dialog";
+
+function CloudTokenCard() {
+  const { gameId } = Route.useParams();
+  const { dialog, open } = useDialog.GenerateGameCloudToken({
+    gameId,
+  });
+
+  return (
+    <>
+      {dialog}
+      <DocsCard
+        title="Cloud token"
+        href="https://rivet.gg/docs/general/concepts/token-types#cloud"
+        description={
+          <Text>
+            Cloud tokens are used to access Rivet Cloud. They are used by the
+            client to access Rivet Cloud.
+          </Text>
+        }
+        footer={<Button onClick={open}>Generate</Button>}
+      />
+    </>
+  );
+}
 
 function GameTokensRoute() {
-  return <Text>Tokens</Text>;
+  return (
+    <Grid columns="2" gap="4" items="start">
+      <CloudTokenCard />
+    </Grid>
+  );
 }
 
 export const Route = createFileRoute(

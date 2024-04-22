@@ -26,6 +26,7 @@ import { Route as AuthenticatedLayoutGamesGameIdSettingsImport } from './routes/
 import { Route as AuthenticatedLayoutGamesGameIdBillingImport } from './routes/_authenticated._layout/games/$gameId/billing'
 import { Route as AuthenticatedLayoutGamesGameIdBackendImport } from './routes/_authenticated._layout/games/$gameId/backend'
 import { Route as AuthenticatedLayoutTeamsGroupIdSettingsIndexImport } from './routes/_authenticated._layout/teams/$groupId/settings/index'
+import { Route as AuthenticatedLayoutGamesGameIdSettingsIndexImport } from './routes/_authenticated._layout/games/$gameId/settings/index'
 import { Route as AuthenticatedLayoutGamesGameIdNamespacesNamespaceIdImport } from './routes/_authenticated._layout/games/$gameId_/namespaces/$namespaceId'
 import { Route as AuthenticatedLayoutGamesGameIdNamespacesNamespaceIdIndexImport } from './routes/_authenticated._layout/games/$gameId_/namespaces/$namespaceId/index'
 import { Route as AuthenticatedLayoutGamesGameIdNamespacesNamespaceIdVersionsImport } from './routes/_authenticated._layout/games/$gameId_/namespaces/$namespaceId/versions'
@@ -125,6 +126,12 @@ const AuthenticatedLayoutTeamsGroupIdSettingsIndexRoute =
   AuthenticatedLayoutTeamsGroupIdSettingsIndexImport.update({
     path: '/',
     getParentRoute: () => AuthenticatedLayoutTeamsGroupIdSettingsRoute,
+  } as any)
+
+const AuthenticatedLayoutGamesGameIdSettingsIndexRoute =
+  AuthenticatedLayoutGamesGameIdSettingsIndexImport.update({
+    path: '/',
+    getParentRoute: () => AuthenticatedLayoutGamesGameIdSettingsRoute,
   } as any)
 
 const AuthenticatedLayoutGamesGameIdNamespacesNamespaceIdRoute =
@@ -277,6 +284,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedLayoutGamesGameIdNamespacesNamespaceIdImport
       parentRoute: typeof AuthenticatedLayoutImport
     }
+    '/_authenticated/_layout/games/$gameId/settings/': {
+      preLoaderRoute: typeof AuthenticatedLayoutGamesGameIdSettingsIndexImport
+      parentRoute: typeof AuthenticatedLayoutGamesGameIdSettingsImport
+    }
     '/_authenticated/_layout/teams/$groupId/settings/': {
       preLoaderRoute: typeof AuthenticatedLayoutTeamsGroupIdSettingsIndexImport
       parentRoute: typeof AuthenticatedLayoutTeamsGroupIdSettingsImport
@@ -333,7 +344,9 @@ export const routeTree = rootRoute.addChildren([
       AuthenticatedLayoutGamesGameIdRoute.addChildren([
         AuthenticatedLayoutGamesGameIdBackendRoute,
         AuthenticatedLayoutGamesGameIdBillingRoute,
-        AuthenticatedLayoutGamesGameIdSettingsRoute,
+        AuthenticatedLayoutGamesGameIdSettingsRoute.addChildren([
+          AuthenticatedLayoutGamesGameIdSettingsIndexRoute,
+        ]),
         AuthenticatedLayoutGamesGameIdTokensRoute,
         AuthenticatedLayoutGamesGameIdIndexRoute,
       ]),

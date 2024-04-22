@@ -538,3 +538,58 @@ export const useNamepsaceMatchmakerUpdateConfigMutation = () => {
     },
   });
 };
+
+export const gameTokenCloudQueryOptions = ({ gameId }: { gameId: string }) => {
+  return queryOptions({
+    staleTime: 0,
+    gcTime: 0,
+    queryKey: ["gameTokenCloud", gameId],
+    queryFn: ({
+      queryKey: [
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        _,
+        gameId,
+      ],
+    }) => rivetClient.cloud.games.tokens.createCloudToken(gameId),
+    select: (data) => data.token,
+  });
+};
+
+const useGameLogoUploadCompleteMutation = () => {
+  return useMutation({
+    mutationFn: ({ gameId, uploadId }: { gameId: string; uploadId: string }) =>
+      rivetClient.cloud.games.games.gameLogoUploadComplete(gameId, uploadId),
+    onSuccess(_, variables) {
+      return Promise.all([
+        queryClient.invalidateQueries(gameQueryOptions(variables.gameId)),
+        queryClient.invalidateQueries(gamesQueryOptions()),
+      ]);
+    },
+  });
+};
+
+export const useGameLogoUploadMutation = (gameId: string) => {
+  const { mutateAsync } = useGameLogoUploadCompleteMutation();
+  return useMutation({
+    mutationFn: ({ file }: { file: File }) =>
+      rivetClient.cloud.games.games.gameLogoUploadPrepare(gameId, {
+        mime: file.type,
+        contentLength: file.size,
+        path: file.name,
+      }),
+    onSuccess: async (response, data) => {
+      await fetch(response.presignedRequest.url, {
+        method: "PUT",
+        body: data.file,
+        mode: "cors",
+        headers: {
+          "Content-Type": data.file.type,
+        },
+      });
+      await mutateAsync({
+        gameId,
+        uploadId: response.uploadId,
+      });
+    },
+  });
+};

@@ -71,6 +71,13 @@ useDialog.GenerateNamespacePublicToken = createDialogHook(
   },
 );
 
+useDialog.GenerateGameCloudToken = createDialogHook(
+  import("@/domains/game/components/dialogs/game-generate-cloud-token-dialog"),
+  {
+    autoFocus: false,
+  },
+);
+
 useDialog.CreateGame = createDialogHook(
   import("@/domains/game/components/dialogs/create-game-dialog"),
 );
