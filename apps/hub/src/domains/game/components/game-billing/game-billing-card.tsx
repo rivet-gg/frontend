@@ -6,7 +6,7 @@ import { ExternalLink } from "lucide-react";
 interface GameBillingCardProps {
   groupId: string;
   children: ReactNode;
-  footer: ReactNode;
+  footer?: ReactNode;
 }
 
 export function GameBillingCard({
