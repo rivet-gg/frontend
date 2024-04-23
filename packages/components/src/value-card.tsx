@@ -9,18 +9,18 @@ import { ReactNode } from "react";
 
 interface ValueCardProps {
   title: string;
-  description: string;
+  value: string;
   footer?: ReactNode;
 }
 
-export const ValueCard = ({ title, description, footer }: ValueCardProps) => {
+export const ValueCard = ({ title, value, footer }: ValueCardProps) => {
   return (
     <Card>
       <CardHeader>
         <CardTitle className="text-sm font-medium">{title}</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="text-2xl font-bold">{description}</div>
+        <div className="text-2xl font-bold">{value}</div>
       </CardContent>
       {footer ? <CardFooter>{footer}</CardFooter> : null}
     </Card>

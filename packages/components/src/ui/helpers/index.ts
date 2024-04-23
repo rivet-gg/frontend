@@ -9,4 +9,6 @@ export * from "./utilities";
 export * from "./width";
 export * from "./flex";
 export * from "./min-height";
+export * from "./min-width";
+export * from "./text-align";
 export * from "./common";

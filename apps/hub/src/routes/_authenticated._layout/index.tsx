@@ -11,16 +11,18 @@ function IndexRoute() {
     <NarrowPage title={`Welcome to Rivet, ${profile?.identity.displayName}!`}>
       <Grid columns="2" gap="4">
         <a href="https://rivet.gg/learn">
-          <CtaCard title="Learn" description="Get started with your engine" />
+          <CtaCard title="Learn">Get started with your engine</CtaCard>
         </a>
-        <a href="https://rivet.gg/learn">
-          <CtaCard title="Docs" description="Lorem ipsum" />
+        <a href="https://rivet.gg/docs">
+          <CtaCard title="Docs">
+            Learn more about Rivet and its features
+          </CtaCard>
         </a>
-        <a href="https://rivet.gg/learn">
-          <CtaCard title="Discord" description="Lorem ipsum" />
+        <a href="https://rivet.gg/discord">
+          <CtaCard title="Discord">Join our community on Discord</CtaCard>
         </a>
-        <a href="https://rivet.gg/learn">
-          <CtaCard title="GitHub" description="Lorem ipsum" />
+        <a href="https://github.com/rivet-gg">
+          <CtaCard title="GitHub">Contribute to Rivet on GitHub</CtaCard>
         </a>
       </Grid>
       <GroupListView />

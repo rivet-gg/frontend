@@ -1,5 +1,6 @@
 export * from "./cta-card";
 export * from "./action-card";
+export * from "./external-card";
 export * from "./docs-card";
 export * from "./value-card";
 export * from "./fullscreen-loading";

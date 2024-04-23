@@ -1,16 +1,12 @@
 import { ArrowRightIcon } from "lucide-react";
-import { ActionCard } from "./action-card";
+import { ActionCard, ActionCardProps } from "./action-card";
 
-interface CtaCardProps {
-  title: string;
-  description: string;
-}
+interface CtaCardProps extends Omit<ActionCardProps, "action"> {}
 
-export const CtaCard = ({ title, description }: CtaCardProps) => {
+export const CtaCard = (props: CtaCardProps) => {
   return (
     <ActionCard
-      title={title}
-      description={description}
+      {...props}
       action={<ArrowRightIcon className="h-4 w-4 text-muted-foreground" />}
     />
   );

@@ -20,7 +20,7 @@ function NamespaceIdRoute() {
     <Grid columns="3" gap="4">
       <ValueCard
         title="Current version"
-        description={version.displayName}
+        value={version.displayName}
         footer={
           <Button asChild variant="outline">
             <Link

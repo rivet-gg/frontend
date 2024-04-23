@@ -36,3 +36,12 @@ export function formatDuration(duration: number, opts: DurationOptions = {}) {
 
   return `${negative ? "-" : ""}${(opts.shorten ? s.slice(0, 2) : s).join(" ")}`;
 }
+
+const currencyFormatter = new Intl.NumberFormat("en-US", {
+  style: "currency",
+  currency: "USD",
+});
+
+export function formatCurrency(amount: number) {
+  return currencyFormatter.format(amount);
+}

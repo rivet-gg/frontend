@@ -13,6 +13,8 @@ const safelistMap = [
   ["w", styleHelpers.WIDTH_VALUES],
   ["flex", styleHelpers.FLEX_VALUES],
   ["min-h", styleHelpers.MIN_HEIGHT_VALUES],
+  ["min-w", styleHelpers.MIN_WIDTH_VALUES],
+  ["text", styleHelpers.TEXT_ALIGN_VALUES],
 ];
 
 /** @type {import('tailwindcss').Config} */

@@ -8,6 +8,7 @@ import {
   FieldValues,
   useFormState,
   FormProvider,
+  useFormContext,
 } from "react-hook-form";
 import z from "zod";
 
@@ -16,7 +17,7 @@ interface FormProps<FormValues extends FieldValues> {
     values: FormValues,
     form: UseFormReturn<FormValues>,
   ) => Promise<void>;
-  defaultValues: DefaultValues<FormValues> | DefaultValues<FormValues>;
+  defaultValues: DefaultValues<FormValues>;
   children: ReactNode;
 }
 
@@ -54,6 +55,18 @@ export const createSchemaForm = <Schema extends z.ZodSchema>(
         <Button
           type="submit"
           isLoading={isSubmitting || isValidating}
+          {...props}
+        />
+      );
+    },
+    Reset: (props: ButtonProps) => {
+      const { defaultValues, isDirty } = useFormState<z.TypeOf<Schema>>();
+      const { reset } = useFormContext<z.TypeOf<Schema>>();
+      return (
+        <Button
+          type="button"
+          disabled={!isDirty}
+          onClick={() => reset(defaultValues)}
           {...props}
         />
       );

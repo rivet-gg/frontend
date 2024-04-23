@@ -1,10 +1,11 @@
 import { RivetClient, Rivet } from "@rivet-gg/api";
+import { RivetClient as RivetEEClient } from "@rivet-gg/api-ee";
 import { QueryCache, QueryClient } from "@tanstack/react-query";
 import { createSyncStoragePersister } from "@tanstack/query-sync-storage-persister";
 import { identityTokenQueryOptions } from "../domains/user/queries";
 import superjson from "superjson";
 
-export const rivetClient = new RivetClient({
+const opts = {
   environment: "https://api.staging2.gameinc.io",
   fetcher: async (args) => {
     const identity = (await queryClient.getQueryData(
@@ -31,7 +32,7 @@ export const rivetClient = new RivetClient({
         ok: true,
         status: response.status,
         body: await response.json(),
-      };
+      } as const;
     } else {
       return {
         ok: false,
@@ -41,10 +42,13 @@ export const rivetClient = new RivetClient({
           statusCode: response.status,
           body: await response.json(),
         },
-      };
+      } as const;
     }
   },
-});
+};
+
+export const rivetClient = new RivetClient(opts);
+export const rivetEEClient = new RivetEEClient(opts);
 
 export const queryClient = new QueryClient({
   defaultOptions: {

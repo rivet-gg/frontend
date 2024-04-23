@@ -29,7 +29,7 @@ export function omitMinHeightProps<T extends Partial<MinHeightUtilitiesProps>>(
   return rest;
 }
 
-export function getMinWidthClass(props: Partial<MinHeightUtilitiesProps>) {
+export function getMinHeightClass(props: Partial<MinHeightUtilitiesProps>) {
   const { minH } = props;
 
   return [minH && getResponsiveValue(minH, "min-h")].filter(Boolean).join(" ");

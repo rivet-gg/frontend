@@ -14,14 +14,13 @@ function CloudTokenCard() {
       <DocsCard
         title="Cloud token"
         href="https://rivet.gg/docs/general/concepts/token-types#cloud"
-        description={
-          <Text>
-            Cloud tokens are used to access Rivet Cloud. They are used by the
-            client to access Rivet Cloud.
-          </Text>
-        }
         footer={<Button onClick={open}>Generate</Button>}
-      />
+      >
+        <Text>
+          Cloud tokens are used to access Rivet Cloud. They are used by the
+          client to access Rivet Cloud.
+        </Text>
+      </DocsCard>
     </>
   );
 }

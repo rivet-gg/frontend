@@ -1,4 +1,4 @@
-import { WithTooltip } from "@rivet-gg/components";
+import { Flex, WithTooltip } from "@rivet-gg/components";
 import { Rivet } from "@rivet-gg/api";
 import { converEmojiToUriFriendlyString } from "@/lib/emoji";
 import { config } from "@/lib/config";
@@ -67,6 +67,7 @@ const REGION_LABEL = {
 
 interface LobbyRegionProps {
   region: Rivet.cloud.UniversalRegion;
+  showLabel?: boolean;
 }
 
 function getRegionEmoji(regionId: Rivet.cloud.UniversalRegion) {
@@ -74,15 +75,18 @@ function getRegionEmoji(regionId: Rivet.cloud.UniversalRegion) {
   return `icons/emoji/${converEmojiToUriFriendlyString(regionEmoji)}.svg`;
 }
 
-export function LobbyRegion({ region }: LobbyRegionProps) {
+export function LobbyRegion({ region, showLabel }: LobbyRegionProps) {
   return (
     <WithTooltip
       content={REGION_LABEL[region] ?? REGION_LABEL.unknown}
       trigger={
-        <img
-          className="w-5"
-          src={`${config.assetsUrl}${getRegionEmoji(region)}`}
-        />
+        <Flex gap="2">
+          <img
+            className="w-5"
+            src={`${config.assetsUrl}${getRegionEmoji(region)}`}
+          />
+          {showLabel ? REGION_LABEL[region] : REGION_LABEL.unknown}
+        </Flex>
       }
     />
   );

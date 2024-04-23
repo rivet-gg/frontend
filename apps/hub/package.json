@@ -12,6 +12,7 @@
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",
     "@rivet-gg/api": "https://github.com/rivet-gg/rivet/raw/539f11efb856bc936576fe593fe051c0d7e1355d/sdks/typescript/archive.tgz",
+    "@rivet-gg/api-ee": "file:vendor/rivet-gg-api-ee.tgz",
     "@rivet-gg/components": "workspace:*",
     "@tanstack/query-sync-storage-persister": "^5.29",
     "@tanstack/react-query": "^5.29.2",

@@ -2,10 +2,10 @@ import * as React from "react";
 
 import { cn } from "@/lib/utils";
 import {
-  WidthUtilitiesProps,
-  getWidthClass,
-  omitWidthProps,
-} from "./helpers/width";
+  CommonHelperProps,
+  getCommonHelperClass,
+  omitCommonHelperProps,
+} from "./helpers";
 
 const Table = React.forwardRef<
   HTMLTableElement,
@@ -74,28 +74,32 @@ TableRow.displayName = "TableRow";
 
 const TableHead = React.forwardRef<
   HTMLTableCellElement,
-  React.ThHTMLAttributes<HTMLTableCellElement> & Partial<WidthUtilitiesProps>
+  React.ThHTMLAttributes<HTMLTableCellElement> & Partial<CommonHelperProps>
 >(({ className, ...props }, ref) => (
   <th
     ref={ref}
     className={cn(
       "h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0",
-      getWidthClass(props),
+      getCommonHelperClass(props),
       className,
     )}
-    {...omitWidthProps(props)}
+    {...omitCommonHelperProps(props)}
   />
 ));
 TableHead.displayName = "TableHead";
 
 const TableCell = React.forwardRef<
   HTMLTableCellElement,
-  React.TdHTMLAttributes<HTMLTableCellElement>
+  React.TdHTMLAttributes<HTMLTableCellElement> & Partial<CommonHelperProps>
 >(({ className, ...props }, ref) => (
   <td
     ref={ref}
-    className={cn("p-4 align-middle [&:has([role=checkbox])]:pr-0", className)}
-    {...props}
+    className={cn(
+      "p-4 align-middle [&:has([role=checkbox])]:pr-0",
+      getCommonHelperClass(props),
+      className,
+    )}
+    {...omitCommonHelperProps(props)}
   />
 ));
 TableCell.displayName = "TableCell";

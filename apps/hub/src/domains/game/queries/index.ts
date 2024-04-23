@@ -1,10 +1,14 @@
 import { queryOptions, useMutation } from "@tanstack/react-query";
-import { queryClient, rivetClient } from "../../../queries/global";
+import {
+  queryClient,
+  rivetClient,
+  rivetEEClient,
+} from "../../../queries/global";
 import { Rivet } from "@rivet-gg/api";
+import { Rivet as RivetEE } from "@rivet-gg/api-ee";
 import { getMetaWatchIndex } from "@/queries/utils";
 import { toast } from "@rivet-gg/components";
 import { getLobbyStatus } from "../data/lobby-status";
-import { time } from "console";
 
 export type GroupGames = Rivet.group.Summary & { games: Rivet.game.Summary[] };
 
@@ -590,6 +594,41 @@ export const useGameLogoUploadMutation = (gameId: string) => {
         gameId,
         uploadId: response.uploadId,
       });
+    },
+  });
+};
+
+export const gameBillingQueryOptions = (gameId: string) => {
+  return queryOptions({
+    queryKey: ["game", gameId, "billing"],
+    queryFn: ({
+      queryKey: [
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        _,
+        gameId,
+      ],
+    }) => rivetEEClient.ee.cloud.games.billing.get(gameId),
+  });
+};
+
+export const useUpdateGameBillingMutation = ({
+  onSuccess,
+}: {
+  onSuccess?: () => void;
+}) => {
+  return useMutation({
+    mutationFn: ({
+      gameId,
+      plan,
+    }: {
+      gameId: string;
+    } & RivetEE.ee.cloud.games.billing.UpdatePlanRequest) =>
+      rivetEEClient.ee.cloud.games.billing.updatePlan(gameId, { plan }),
+    onSuccess: async (data, values) => {
+      await queryClient.invalidateQueries(
+        gameBillingQueryOptions(values.gameId),
+      );
+      onSuccess?.();
     },
   });
 };

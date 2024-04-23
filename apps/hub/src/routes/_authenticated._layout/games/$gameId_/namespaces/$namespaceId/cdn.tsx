@@ -38,14 +38,13 @@ function DomainBasedAuthOption() {
           }}
         />
       }
-      description={
-        <Text>
-          Allows for clients to authenticate with this namespace based on the
-          domain they make requests from. This should only be used for
-          namespaces intended to be publicly accessible.
-        </Text>
-      }
-    />
+    >
+      <Text>
+        Allows for clients to authenticate with this namespace based on the
+        domain they make requests from. This should only be used for namespaces
+        intended to be publicly accessible.
+      </Text>
+    </ActionCard>
   );
 }
 
@@ -84,14 +83,13 @@ function PasswordAuthOption() {
             }}
           />
         }
-        description={
-          <Text>
-            Restricts CDN access to select authenticated users. Authentication
-            is done via HTTP basic access authentication.
-          </Text>
-        }
         footer={<Button onClick={open}>Manage users</Button>}
-      />
+      >
+        <Text>
+          Restricts CDN access to select authenticated users. Authentication is
+          done via HTTP basic access authentication.
+        </Text>
+      </ActionCard>
     </>
   );
 }
@@ -108,21 +106,20 @@ function CustomDomainsOption({ nameId }: { nameId: string }) {
       {dialog}
       <ActionCard
         title="Custom domains"
-        description={
-          <Ol>
-            <li>
-              Add a CNAME record pointed at <Code>{nameId}.rivet.game</Code> to
-              your domain's DNS config.
-            </li>
-            <li>Add your domain below.</li>
-            <li>
-              Once added, your domain will be verified by Cloudflare. This
-              should take around 5 minutes.
-            </li>
-          </Ol>
-        }
         footer={<Button onClick={open}>Manage domains</Button>}
-      />
+      >
+        <Ol>
+          <li>
+            Add a CNAME record pointed at <Code>{nameId}.rivet.game</Code> to
+            your domain's DNS config.
+          </li>
+          <li>Add your domain below.</li>
+          <li>
+            Once added, your domain will be verified by Cloudflare. This should
+            take around 5 minutes.
+          </li>
+        </Ol>
+      </ActionCard>
     </>
   );
 }
