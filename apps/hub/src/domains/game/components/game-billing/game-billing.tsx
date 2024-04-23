@@ -23,7 +23,9 @@ interface GameBillingProps {
 }
 export function GameBilling({ gameId }: GameBillingProps) {
   const [
-    { data },
+    {
+      data: { plan },
+    },
     {
       data: {
         game: { developerGroupId, availableRegions },
@@ -34,7 +36,7 @@ export function GameBilling({ gameId }: GameBillingProps) {
   });
 
   const { dialog, onSubmit, defaultValues } = useGameBillingFormHelpers({
-    plan: data.plan,
+    plan,
     gameId,
     availableRegions,
   });
