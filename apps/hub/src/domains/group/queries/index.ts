@@ -2,7 +2,7 @@ import { queryOptions, useMutation } from "@tanstack/react-query";
 import {
   queryClient,
   rivetClient,
-  rivetEEClient,
+  rivetEeClient,
 } from "../../../queries/global";
 import { Rivet } from "@rivet-gg/api";
 import { gamesQueryOptions } from "../../game/queries";
@@ -200,6 +200,6 @@ export const useGroupCreateMutation = ({
 export const groupBillingQueryOptions = (groupId: string) => {
   return queryOptions({
     queryKey: ["group", groupId, "billing"],
-    queryFn: () => rivetEEClient.ee.cloud.groups.billing.get(groupId),
+    queryFn: () => rivetEeClient.ee.cloud.groups.billing.get(groupId),
   });
 };

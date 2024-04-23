@@ -2,10 +2,10 @@ import { queryOptions, useMutation } from "@tanstack/react-query";
 import {
   queryClient,
   rivetClient,
-  rivetEEClient,
+  rivetEeClient as rivetEeClient,
 } from "../../../queries/global";
 import { Rivet } from "@rivet-gg/api";
-import { Rivet as RivetEE } from "@rivet-gg/api-ee";
+import { Rivet as RivetEe } from "@rivet-gg/api-ee";
 import { getMetaWatchIndex } from "@/queries/utils";
 import { toast } from "@rivet-gg/components";
 import { getLobbyStatus } from "../data/lobby-status";
@@ -607,7 +607,7 @@ export const gameBillingQueryOptions = (gameId: string) => {
         _,
         gameId,
       ],
-    }) => rivetEEClient.ee.cloud.games.billing.get(gameId),
+    }) => rivetEeClient.ee.cloud.games.billing.get(gameId),
   });
 };
 
@@ -622,13 +622,30 @@ export const useUpdateGameBillingMutation = ({
       plan,
     }: {
       gameId: string;
-    } & RivetEE.ee.cloud.games.billing.UpdatePlanRequest) =>
-      rivetEEClient.ee.cloud.games.billing.updatePlan(gameId, { plan }),
+    } & RivetEe.ee.cloud.games.billing.UpdatePlanRequest) =>
+      rivetEeClient.ee.cloud.games.billing.updatePlan(gameId, { plan }),
     onSuccess: async (data, values) => {
       await queryClient.invalidateQueries(
         gameBillingQueryOptions(values.gameId),
       );
       onSuccess?.();
+    },
+  });
+};
+
+export const useCreateBillingPortalSessionMutation = () => {
+  return useMutation({
+    mutationFn: ({
+      groupId,
+      intent,
+    }: {
+      groupId: string;
+    } & RivetEe.ee.cloud.groups.billing.CreateStripePortalSessionRequest) =>
+      rivetEeClient.ee.cloud.groups.billing.createStripePortalSession(groupId, {
+        intent,
+      }),
+    onSuccess: async (data) => {
+      window.open(data.stripeSessionUrl, "_blank");
     },
   });
 };

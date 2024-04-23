@@ -1,5 +1,5 @@
 import { RivetClient, Rivet } from "@rivet-gg/api";
-import { RivetClient as RivetEEClient } from "@rivet-gg/api-ee";
+import { RivetClient as RivetEeClient } from "@rivet-gg/api-ee";
 import { QueryCache, QueryClient } from "@tanstack/react-query";
 import { createSyncStoragePersister } from "@tanstack/query-sync-storage-persister";
 import { identityTokenQueryOptions } from "../domains/user/queries";
@@ -48,7 +48,7 @@ const opts = {
 };
 
 export const rivetClient = new RivetClient(opts);
-export const rivetEEClient = new RivetEEClient(opts);
+export const rivetEeClient = new RivetEeClient(opts);
 
 export const queryClient = new QueryClient({
   defaultOptions: {

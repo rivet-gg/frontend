@@ -20,7 +20,7 @@ export default function ConfirmBillingPlanDialogContent({
   gameId,
   onClose,
 }: ContentProps) {
-  const { mutate } = useUpdateGameBillingMutation({
+  const { mutate, isPending } = useUpdateGameBillingMutation({
     onSuccess: () => {
       onClose?.();
     },
@@ -43,6 +43,7 @@ export default function ConfirmBillingPlanDialogContent({
           Cancel
         </Button>
         <Button
+          isLoading={isPending}
           onClick={() => {
             mutate({ plan, gameId });
           }}

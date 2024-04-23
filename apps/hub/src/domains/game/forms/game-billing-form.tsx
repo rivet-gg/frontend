@@ -15,6 +15,7 @@ import {
   Input,
   formatCurrency,
 } from "@rivet-gg/components";
+import { useEffect } from "react";
 
 export const hardwareTierValues = [
   { value: "1/8", label: "1/8 core", multiplier: 1 / 8 },
@@ -79,6 +80,46 @@ export const HardwareTier = () => {
       )}
     />
   );
+};
+
+export const HardwareMultiplier = () => {
+  const { watch, setValue } = useFormContext<FormValues>();
+
+  useEffect(() => {
+    let lastHardwareTier: string | undefined;
+    const { unsubscribe } = watch((value) => {
+      if (lastHardwareTier === value.hardwareTier) return;
+      if (!value.hardwareTier || !value.capacity) return;
+      const lastHardwareTierValue = hardwareTierValues.find(
+        (item) => item.value === lastHardwareTier,
+      );
+      const currentHardwareTierValue = hardwareTierValues.find(
+        (item) => item.value === value.hardwareTier,
+      );
+
+      lastHardwareTier = value.hardwareTier;
+      if (!currentHardwareTierValue || !lastHardwareTierValue) return;
+
+      setValue(
+        "capacity",
+        value.capacity?.map(
+          (item) =>
+            ({
+              cores: Math.ceil(
+                ((item?.cores ?? 1) * lastHardwareTierValue.multiplier) /
+                  currentHardwareTierValue.multiplier,
+              ),
+              regionId: item?.regionId ?? "",
+            }) ?? [],
+        ),
+      );
+
+      lastHardwareTier = value.hardwareTier;
+    });
+    return () => unsubscribe();
+  }, [setValue, watch]);
+
+  return null;
 };
 
 interface CapacityProps {
