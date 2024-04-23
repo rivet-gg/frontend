@@ -61,7 +61,7 @@ function Content({ groupId, onClose }: ContentProps) {
             useCount: values.isInfinite ? 0 : values.usageCount,
           });
         }}
-        defaultValues={{ isInfinite: true }}
+        defaultValues={{ isInfinite: true, expTime: timing.minutes(30) }}
       >
         <DialogHeader>
           <DialogTitle>Create Group Invite</DialogTitle>

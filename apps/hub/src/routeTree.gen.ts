@@ -12,32 +12,33 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as AuthenticatedImport } from './routes/_authenticated'
-import { Route as AuthenticatedLayoutImport } from './routes/_authenticated._layout'
-import { Route as AuthenticatedLayoutIndexImport } from './routes/_authenticated._layout/index'
-import { Route as AuthenticatedLayoutTeamsGroupIdImport } from './routes/_authenticated._layout/teams/$groupId'
-import { Route as AuthenticatedLayoutGamesGameIdImport } from './routes/_authenticated._layout/games/$gameId'
-import { Route as AuthenticatedLayoutTeamsGroupIdIndexImport } from './routes/_authenticated._layout/teams/$groupId/index'
-import { Route as AuthenticatedLayoutGamesGameIdIndexImport } from './routes/_authenticated._layout/games/$gameId/index'
-import { Route as AuthenticatedLayoutTeamsGroupIdSettingsImport } from './routes/_authenticated._layout/teams/$groupId/settings'
-import { Route as AuthenticatedLayoutTeamsGroupIdMembersImport } from './routes/_authenticated._layout/teams/$groupId/members'
-import { Route as AuthenticatedLayoutTeamsGroupIdBillingImport } from './routes/_authenticated._layout/teams/$groupId/billing'
-import { Route as AuthenticatedLayoutGamesGameIdTokensImport } from './routes/_authenticated._layout/games/$gameId/tokens'
-import { Route as AuthenticatedLayoutGamesGameIdSettingsImport } from './routes/_authenticated._layout/games/$gameId/settings'
-import { Route as AuthenticatedLayoutGamesGameIdBillingImport } from './routes/_authenticated._layout/games/$gameId/billing'
-import { Route as AuthenticatedLayoutGamesGameIdBackendImport } from './routes/_authenticated._layout/games/$gameId/backend'
-import { Route as AuthenticatedLayoutTeamsGroupIdSettingsIndexImport } from './routes/_authenticated._layout/teams/$groupId/settings/index'
-import { Route as AuthenticatedLayoutGamesGameIdSettingsIndexImport } from './routes/_authenticated._layout/games/$gameId/settings/index'
-import { Route as AuthenticatedLayoutGamesGameIdNamespacesNamespaceIdImport } from './routes/_authenticated._layout/games/$gameId_/namespaces/$namespaceId'
-import { Route as AuthenticatedLayoutGamesGameIdNamespacesNamespaceIdIndexImport } from './routes/_authenticated._layout/games/$gameId_/namespaces/$namespaceId/index'
-import { Route as AuthenticatedLayoutGamesGameIdNamespacesNamespaceIdVersionsImport } from './routes/_authenticated._layout/games/$gameId_/namespaces/$namespaceId/versions'
-import { Route as AuthenticatedLayoutGamesGameIdNamespacesNamespaceIdTokensImport } from './routes/_authenticated._layout/games/$gameId_/namespaces/$namespaceId/tokens'
-import { Route as AuthenticatedLayoutGamesGameIdNamespacesNamespaceIdMatchmakerImport } from './routes/_authenticated._layout/games/$gameId_/namespaces/$namespaceId/matchmaker'
-import { Route as AuthenticatedLayoutGamesGameIdNamespacesNamespaceIdCdnImport } from './routes/_authenticated._layout/games/$gameId_/namespaces/$namespaceId/cdn'
-import { Route as AuthenticatedLayoutGamesGameIdNamespacesNamespaceIdMatchmakerIndexImport } from './routes/_authenticated._layout/games/$gameId_/namespaces/$namespaceId/matchmaker/index'
-import { Route as AuthenticatedLayoutGamesGameIdNamespacesNamespaceIdMatchmakerSettingsImport } from './routes/_authenticated._layout/games/$gameId_/namespaces/$namespaceId/matchmaker/settings'
-import { Route as AuthenticatedLayoutGamesGameIdNamespacesNamespaceIdMatchmakerLobbiesImport } from './routes/_authenticated._layout/games/$gameId_/namespaces/$namespaceId/matchmaker/lobbies'
-import { Route as AuthenticatedLayoutGamesGameIdNamespacesNamespaceIdMatchmakerLogsIndexImport } from './routes/_authenticated._layout/games/$gameId_/namespaces/$namespaceId/matchmaker/logs/index'
-import { Route as AuthenticatedLayoutGamesGameIdNamespacesNamespaceIdMatchmakerLogsLobbyIdImport } from './routes/_authenticated._layout/games/$gameId_/namespaces/$namespaceId/matchmaker/logs/$lobbyId'
+import { Route as AuthenticatedLayoutImport } from './routes/_authenticated/_layout'
+import { Route as AuthenticatedLayoutIndexImport } from './routes/_authenticated/_layout/index'
+import { Route as AuthenticatedInviteInviteCodeImport } from './routes/_authenticated/invite.$inviteCode'
+import { Route as AuthenticatedLayoutTeamsGroupIdImport } from './routes/_authenticated/_layout/teams/$groupId'
+import { Route as AuthenticatedLayoutGamesGameIdImport } from './routes/_authenticated/_layout/games/$gameId'
+import { Route as AuthenticatedLayoutTeamsGroupIdIndexImport } from './routes/_authenticated/_layout/teams/$groupId/index'
+import { Route as AuthenticatedLayoutGamesGameIdIndexImport } from './routes/_authenticated/_layout/games/$gameId/index'
+import { Route as AuthenticatedLayoutTeamsGroupIdSettingsImport } from './routes/_authenticated/_layout/teams/$groupId/settings'
+import { Route as AuthenticatedLayoutTeamsGroupIdMembersImport } from './routes/_authenticated/_layout/teams/$groupId/members'
+import { Route as AuthenticatedLayoutTeamsGroupIdBillingImport } from './routes/_authenticated/_layout/teams/$groupId/billing'
+import { Route as AuthenticatedLayoutGamesGameIdTokensImport } from './routes/_authenticated/_layout/games/$gameId/tokens'
+import { Route as AuthenticatedLayoutGamesGameIdSettingsImport } from './routes/_authenticated/_layout/games/$gameId/settings'
+import { Route as AuthenticatedLayoutGamesGameIdBillingImport } from './routes/_authenticated/_layout/games/$gameId/billing'
+import { Route as AuthenticatedLayoutGamesGameIdBackendImport } from './routes/_authenticated/_layout/games/$gameId/backend'
+import { Route as AuthenticatedLayoutTeamsGroupIdSettingsIndexImport } from './routes/_authenticated/_layout/teams/$groupId/settings/index'
+import { Route as AuthenticatedLayoutGamesGameIdSettingsIndexImport } from './routes/_authenticated/_layout/games/$gameId/settings/index'
+import { Route as AuthenticatedLayoutGamesGameIdNamespacesNamespaceIdImport } from './routes/_authenticated/_layout/games/$gameId_/namespaces/$namespaceId'
+import { Route as AuthenticatedLayoutGamesGameIdNamespacesNamespaceIdIndexImport } from './routes/_authenticated/_layout/games/$gameId_/namespaces/$namespaceId/index'
+import { Route as AuthenticatedLayoutGamesGameIdNamespacesNamespaceIdVersionsImport } from './routes/_authenticated/_layout/games/$gameId_/namespaces/$namespaceId/versions'
+import { Route as AuthenticatedLayoutGamesGameIdNamespacesNamespaceIdTokensImport } from './routes/_authenticated/_layout/games/$gameId_/namespaces/$namespaceId/tokens'
+import { Route as AuthenticatedLayoutGamesGameIdNamespacesNamespaceIdMatchmakerImport } from './routes/_authenticated/_layout/games/$gameId_/namespaces/$namespaceId/matchmaker'
+import { Route as AuthenticatedLayoutGamesGameIdNamespacesNamespaceIdCdnImport } from './routes/_authenticated/_layout/games/$gameId_/namespaces/$namespaceId/cdn'
+import { Route as AuthenticatedLayoutGamesGameIdNamespacesNamespaceIdMatchmakerIndexImport } from './routes/_authenticated/_layout/games/$gameId_/namespaces/$namespaceId/matchmaker/index'
+import { Route as AuthenticatedLayoutGamesGameIdNamespacesNamespaceIdMatchmakerSettingsImport } from './routes/_authenticated/_layout/games/$gameId_/namespaces/$namespaceId/matchmaker/settings'
+import { Route as AuthenticatedLayoutGamesGameIdNamespacesNamespaceIdMatchmakerLobbiesImport } from './routes/_authenticated/_layout/games/$gameId_/namespaces/$namespaceId/matchmaker/lobbies'
+import { Route as AuthenticatedLayoutGamesGameIdNamespacesNamespaceIdMatchmakerLogsIndexImport } from './routes/_authenticated/_layout/games/$gameId_/namespaces/$namespaceId/matchmaker/logs/index'
+import { Route as AuthenticatedLayoutGamesGameIdNamespacesNamespaceIdMatchmakerLogsLobbyIdImport } from './routes/_authenticated/_layout/games/$gameId_/namespaces/$namespaceId/matchmaker/logs/$lobbyId'
 
 // Create/Update Routes
 
@@ -55,6 +56,12 @@ const AuthenticatedLayoutIndexRoute = AuthenticatedLayoutIndexImport.update({
   path: '/',
   getParentRoute: () => AuthenticatedLayoutRoute,
 } as any)
+
+const AuthenticatedInviteInviteCodeRoute =
+  AuthenticatedInviteInviteCodeImport.update({
+    path: '/invite/$inviteCode',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
 
 const AuthenticatedLayoutTeamsGroupIdRoute =
   AuthenticatedLayoutTeamsGroupIdImport.update({
@@ -232,6 +239,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedLayoutImport
       parentRoute: typeof AuthenticatedImport
     }
+    '/_authenticated/invite/$inviteCode': {
+      preLoaderRoute: typeof AuthenticatedInviteInviteCodeImport
+      parentRoute: typeof AuthenticatedImport
+    }
     '/_authenticated/_layout/': {
       preLoaderRoute: typeof AuthenticatedLayoutIndexImport
       parentRoute: typeof AuthenticatedLayoutImport
@@ -374,6 +385,7 @@ export const routeTree = rootRoute.addChildren([
         AuthenticatedLayoutGamesGameIdNamespacesNamespaceIdIndexRoute,
       ]),
     ]),
+    AuthenticatedInviteInviteCodeRoute,
   ]),
 ])
 

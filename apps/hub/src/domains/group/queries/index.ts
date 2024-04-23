@@ -4,9 +4,12 @@ import {
   rivetClient,
   rivetEeClient,
 } from "../../../queries/global";
-import { Rivet } from "@rivet-gg/api";
+import { Rivet, RivetError } from "@rivet-gg/api";
 import { gamesQueryOptions } from "../../game/queries";
 import { getMetaWatchIndex } from "@/queries/utils";
+import { toast } from "@rivet-gg/components";
+import { isRivetError } from "@/lib/utils";
+import { useNavigate } from "@tanstack/react-router";
 
 export const groupMembersQueryOptions = (groupId: string) => {
   return queryOptions({
@@ -201,5 +204,32 @@ export const groupBillingQueryOptions = (groupId: string) => {
   return queryOptions({
     queryKey: ["group", groupId, "billing"],
     queryFn: () => rivetEeClient.ee.cloud.groups.billing.get(groupId),
+  });
+};
+
+export const groupInviteQueryOptions = (inviteId: string) => {
+  return queryOptions({
+    queryKey: ["groupInvite", inviteId],
+    queryFn: () => rivetClient.group.invites.getInvite(inviteId),
+  });
+};
+
+export const useGroupInviteAcceptMutation = () => {
+  const navigate = useNavigate();
+  return useMutation({
+    mutationFn: (inviteId: string) =>
+      rivetClient.group.invites.consumeInvite(inviteId),
+    onSuccess: async (data) => {
+      await queryClient.invalidateQueries(gamesQueryOptions());
+      navigate({ to: "/teams/$groupId", params: { groupId: data.groupId! } });
+    },
+    onError: (error) => {
+      if (isRivetError(error)) {
+        return toast.error("Failed to accept invite", {
+          description: error.body.message,
+        });
+      }
+      return toast.error("Failed to accept invite.");
+    },
   });
 };
