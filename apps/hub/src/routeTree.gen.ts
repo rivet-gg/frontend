@@ -15,6 +15,7 @@ import { Route as AuthenticatedImport } from './routes/_authenticated'
 import { Route as AuthenticatedLayoutImport } from './routes/_authenticated/_layout'
 import { Route as AuthenticatedLayoutIndexImport } from './routes/_authenticated/_layout/index'
 import { Route as AuthenticatedInviteInviteCodeImport } from './routes/_authenticated/invite.$inviteCode'
+import { Route as AuthenticatedDevicesLinkTokenImport } from './routes/_authenticated/devices.link.$token'
 import { Route as AuthenticatedLayoutTeamsGroupIdImport } from './routes/_authenticated/_layout/teams/$groupId'
 import { Route as AuthenticatedLayoutGamesGameIdImport } from './routes/_authenticated/_layout/games/$gameId'
 import { Route as AuthenticatedLayoutTeamsGroupIdIndexImport } from './routes/_authenticated/_layout/teams/$groupId/index'
@@ -60,6 +61,12 @@ const AuthenticatedLayoutIndexRoute = AuthenticatedLayoutIndexImport.update({
 const AuthenticatedInviteInviteCodeRoute =
   AuthenticatedInviteInviteCodeImport.update({
     path: '/invite/$inviteCode',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+
+const AuthenticatedDevicesLinkTokenRoute =
+  AuthenticatedDevicesLinkTokenImport.update({
+    path: '/devices/link/$token',
     getParentRoute: () => AuthenticatedRoute,
   } as any)
 
@@ -255,6 +262,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedLayoutTeamsGroupIdImport
       parentRoute: typeof AuthenticatedLayoutImport
     }
+    '/_authenticated/devices/link/$token': {
+      preLoaderRoute: typeof AuthenticatedDevicesLinkTokenImport
+      parentRoute: typeof AuthenticatedImport
+    }
     '/_authenticated/_layout/games/$gameId/backend': {
       preLoaderRoute: typeof AuthenticatedLayoutGamesGameIdBackendImport
       parentRoute: typeof AuthenticatedLayoutGamesGameIdImport
@@ -386,6 +397,7 @@ export const routeTree = rootRoute.addChildren([
       ]),
     ]),
     AuthenticatedInviteInviteCodeRoute,
+    AuthenticatedDevicesLinkTokenRoute,
   ]),
 ])
 

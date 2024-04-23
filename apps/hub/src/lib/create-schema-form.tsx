@@ -7,7 +7,6 @@ import {
   UseFormReturn,
   FieldValues,
   useFormState,
-  FormProvider,
   useFormContext,
 } from "react-hook-form";
 import z from "zod";
@@ -37,16 +36,19 @@ export const createSchemaForm = <Schema extends z.ZodSchema>(
       });
 
       return (
-        <FormProvider {...form}>
-          <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit((values) => onSubmit(values, form))}
-              className="contents"
-            >
-              {children}
-            </form>
-          </Form>
-        </FormProvider>
+        <Form {...form}>
+          <form
+            onSubmit={(event) => {
+              event.stopPropagation();
+              return form.handleSubmit((values) => onSubmit(values, form))(
+                event,
+              );
+            }}
+            className="contents"
+          >
+            {children}
+          </form>
+        </Form>
       );
     },
     Submit: (props: ButtonProps) => {

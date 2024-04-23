@@ -41,6 +41,7 @@ export const createDialogHook = <
 
     return {
       open,
+      close,
       dialog: (
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
           <DialogContent
@@ -141,6 +142,10 @@ useDialog.GenerateGameCloudToken = createDialogHook(
   {
     autoFocus: false,
   },
+);
+
+useDialog.CreateGroupGame = createDialogHook(
+  import("@/domains/game/components/dialogs/group-create-game-dialog"),
 );
 
 useDialog.CreateGame = createDialogHook(

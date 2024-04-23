@@ -1,42 +1,50 @@
 import {
+  Dialog,
+  DialogContent,
   DialogFooter,
   DialogHeader,
+  DialogProps,
   DialogTitle,
   Flex,
 } from "@rivet-gg/components";
-import * as GameCreateForm from "@/domains/game/forms/game-create-form";
+import * as GameCreateForm from "@/domains/game/forms/group-create-game-form";
 import { useGameCreateMutation } from "../../queries";
+import { useNavigate } from "@tanstack/react-router";
 import { convertStringToId } from "@/lib/utils";
-import { Rivet } from "@rivet-gg/api";
 
-interface CreateGameDialogContentProps {
-  onSuccess?: (data: Rivet.cloud.games.CreateGameResponse) => void;
+interface ContentProps {
+  groupId: string;
 }
 
-export default function CreateGameDialogContent({
-  onSuccess,
-}: CreateGameDialogContentProps) {
+export default function CreateGroupGameDialogContent({
+  groupId,
+}: ContentProps) {
+  const navigate = useNavigate();
   const { mutateAsync } = useGameCreateMutation({
-    onSuccess,
+    onSuccess: (data) => {
+      navigate({
+        to: "/games/$gameId/",
+        params: { gameId: data.gameId },
+      });
+    },
   });
 
   return (
     <>
       <GameCreateForm.Form
-        onSubmit={async ({ name, slug, developerGroupId }) => {
+        onSubmit={async (values) => {
           await mutateAsync({
-            developerGroupId,
-            displayName: name,
-            nameId: slug || convertStringToId(name),
+            developerGroupId: groupId,
+            displayName: values.name,
+            nameId: values.slug || convertStringToId(values.name),
           });
         }}
-        defaultValues={{ name: "", slug: "", developerGroupId: "" }}
+        defaultValues={{ name: "", slug: "" }}
       >
         <DialogHeader>
           <DialogTitle>Create New Game</DialogTitle>
         </DialogHeader>
         <Flex gap="4" direction="col">
-          <GameCreateForm.Group />
           <GameCreateForm.Name />
           <GameCreateForm.Slug />
         </Flex>

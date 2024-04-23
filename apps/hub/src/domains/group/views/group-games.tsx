@@ -25,7 +25,7 @@ interface GroupGamesProps {
 
 export function GroupGames({ groupId }: GroupGamesProps) {
   const { data } = useSuspenseQuery(groupGamesQueryOptions(groupId));
-  const { open, dialog } = useDialog.CreateGame({ groupId });
+  const { open, dialog } = useDialog.CreateGroupGame({ groupId });
 
   return (
     <>

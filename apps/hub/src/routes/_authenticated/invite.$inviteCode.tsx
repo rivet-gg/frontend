@@ -41,7 +41,7 @@ function InviteCodeInviteRoute() {
             </Flex>
           </CardTitle>
           <CardDescription>
-            You've been invited to join the group{" "}
+            You've been invited to join the team{" "}
             <Strong>{data.group.displayName}</Strong>. Do you want to accept the
             invitation?
           </CardDescription>

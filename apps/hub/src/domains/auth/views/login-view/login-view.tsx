@@ -5,7 +5,7 @@ import { EmailStep } from "./email-step";
 import { OtpFormSubmitHandlerArgs, useOtpFormSubmitHandler } from "./hooks";
 
 interface LoginViewProps {
-  onSuccess: OtpFormSubmitHandlerArgs["onSuccess"];
+  onSuccess?: OtpFormSubmitHandlerArgs["onSuccess"];
 }
 
 export const LoginView = ({ onSuccess }: LoginViewProps) => {

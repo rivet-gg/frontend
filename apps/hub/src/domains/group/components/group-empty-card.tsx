@@ -13,7 +13,7 @@ interface GroupEmptyCardProps {
 }
 
 export function GroupEmptyCard({ groupId }: GroupEmptyCardProps) {
-  const { open, dialog } = useDialog.CreateGame({ groupId });
+  const { open, dialog } = useDialog.CreateGroupGame({ groupId });
 
   return (
     <>

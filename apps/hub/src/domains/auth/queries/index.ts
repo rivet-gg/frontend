@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { rivetClient } from "../../../queries/global";
+import { queryClient, rivetClient } from "../../../queries/global";
 import { Rivet } from "@rivet-gg/api";
 
 export const useStartEmailVerificationMutation = () => {
@@ -20,5 +20,24 @@ export const useCompleteEmailVerificationMutation = (
     mutationFn: (data: Rivet.auth.identity.CompleteEmailVerificationRequest) =>
       rivetClient.auth.identity.email.completeEmailVerification(data),
     ...opts,
+  });
+};
+
+export const deviceLinkTokenQueryOptions = (deviceLinkToken: string) => {
+  return {
+    queryKey: ["deviceLinkToken", deviceLinkToken],
+    queryFn: () => rivetClient.cloud.devices.links.get({ deviceLinkToken }),
+  };
+};
+
+export const useCompleteDeviceLinkMutation = () => {
+  return useMutation({
+    mutationFn: (data: Rivet.cloud.devices.links.CompleteDeviceLinkRequest) =>
+      rivetClient.cloud.devices.links.complete(data),
+    onSuccess: (data, values) => {
+      queryClient.invalidateQueries(
+        deviceLinkTokenQueryOptions(values.deviceLinkToken),
+      );
+    },
   });
 };

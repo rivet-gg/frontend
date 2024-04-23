@@ -35,7 +35,7 @@ const RESPONSE_MAP = {
 
 export interface OtpFormSubmitHandlerArgs {
   verificationId: string | undefined;
-  onSuccess: () => void;
+  onSuccess?: () => void;
 }
 
 export const useOtpFormSubmitHandler = ({
@@ -73,10 +73,10 @@ export const useOtpFormSubmitHandler = ({
           translatedResponse.type === Rivet.auth.CompleteStatus.SwitchIdentity
         ) {
           await refreshToken();
-          return onSuccess();
+          return onSuccess?.();
         }
 
-        return onSuccess();
+        return onSuccess?.();
       } catch {
         return form.setError("otp", {
           type: "manual",
