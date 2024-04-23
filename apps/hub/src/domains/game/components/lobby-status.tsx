@@ -37,6 +37,10 @@ export function LobbyStatusBadge({ status }: LobbyStatusBadgeProps) {
     return <Badge variant="outline">Finished</Badge>;
   }
 
+  if (status === "idle") {
+    return <Badge variant="secondary">Idle</Badge>;
+  }
+
   return (
     <Badge variant="outline">
       <ShieldQuestion className="mr-1 size-4" />

@@ -9,20 +9,42 @@ import {
   TableHead,
   TableHeader,
   TableRow,
+  WithTooltip,
+  formatDuration,
 } from "@rivet-gg/components";
 import { LobbyStatusBadge } from "../components/lobby-status";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import {
   gameRegionsQueryOptions,
-  gameNamespaceLogsLobbiesQueryOptions,
+  gameNamespaceLobbiesLiveQueryOptions,
 } from "../queries";
 import { Rivet } from "@rivet-gg/api";
 import { type LobbyStatus } from "../data/lobby-status";
 import { LobbyRegion } from "../components/lobby-region";
-import { Link, useNavigate } from "@tanstack/react-router";
+import { useNavigate } from "@tanstack/react-router";
 import { MatchmakerLobbyBreadcrumbs } from "../components/lobby-logs-breadcrumbs";
+import { useEffect, useState } from "react";
 
-interface LobbyRowProps extends Rivet.cloud.LogsLobbySummary {
+interface UptimeProps {
+  createTs: Date;
+}
+
+function Uptime({ createTs }: UptimeProps) {
+  const [uptime, setUptime] = useState(() => Date.now() - createTs.getTime());
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setUptime(Date.now() - createTs.getTime());
+    }, 1000);
+    return () => {
+      clearInterval(interval);
+    };
+  }, [createTs]);
+
+  return <>{formatDuration(uptime)}</>;
+}
+
+interface LobbyRowProps extends Rivet.cloud.LobbySummaryAnalytics {
   readableStatus: LobbyStatus;
   regions: Rivet.cloud.RegionSummary[];
   gameId: string;
@@ -33,13 +55,14 @@ function LobbyRow({
   lobbyId,
   lobbyGroupNameId,
   createTs,
-  readyTs,
-  status,
-  startTs,
   readableStatus,
   regionId,
   regions,
   gameId,
+  totalPlayerCount,
+  maxPlayersNormal,
+  maxPlayersDirect,
+  maxPlayersParty,
   namespaceId,
 }: LobbyRowProps) {
   const region = regions.find((region) => region.regionId === regionId);
@@ -60,10 +83,29 @@ function LobbyRow({
         <LobbyRegion region={region?.universalRegion || "unknown"} />
       </TableCell>
       <TableCell>{lobbyGroupNameId}</TableCell>
-      <TableCell>{createTs.toLocaleString()}</TableCell>
-      <TableCell>{readyTs?.toLocaleString() || "-"}</TableCell>
-      <TableCell>{startTs?.toLocaleString() || "-"}</TableCell>
-      <TableCell>{status.stopped?.stopTs?.toLocaleString() || "-"}</TableCell>
+      <TableCell>
+        {
+          <WithTooltip
+            content={createTs.toLocaleString()}
+            trigger={
+              <div>
+                <Uptime createTs={createTs} />
+              </div>
+            }
+          />
+        }
+      </TableCell>
+      <TableCell>
+        {totalPlayerCount} /{" "}
+        <WithTooltip
+          content="Normal / Direct / Party max players"
+          trigger={
+            <span>
+              ({maxPlayersNormal}/{maxPlayersDirect}/{maxPlayersParty})
+            </span>
+          }
+        />
+      </TableCell>
       <TableCell>
         <LobbyStatusBadge status={readableStatus} />
       </TableCell>
@@ -71,19 +113,21 @@ function LobbyRow({
   );
 }
 
-interface NamespaceMatchmakerLogsProps {
+interface NamespaceMatchmakerLobbiesProps {
   gameId: string;
   namespaceId: string;
 }
 
-export function NamespaceMatchmakerLogs({
+export function NamespaceMatchmakerLobbies({
   gameId,
   namespaceId,
-}: NamespaceMatchmakerLogsProps) {
+}: NamespaceMatchmakerLobbiesProps) {
   const { data: regions } = useSuspenseQuery(gameRegionsQueryOptions(gameId));
 
-  const { data: lobbies } = useSuspenseQuery(
-    gameNamespaceLogsLobbiesQueryOptions({ gameId, namespaceId }),
+  const {
+    data: { lobbies },
+  } = useSuspenseQuery(
+    gameNamespaceLobbiesLiveQueryOptions({ gameId, namespaceId }),
   );
 
   return (
@@ -91,6 +135,7 @@ export function NamespaceMatchmakerLogs({
       <CardHeader>
         <CardTitle>
           <MatchmakerLobbyBreadcrumbs
+            title="Lobby"
             gameId={gameId}
             namespaceId={namespaceId}
           />
@@ -102,10 +147,8 @@ export function NamespaceMatchmakerLogs({
             <TableRow>
               <TableHead>Region</TableHead>
               <TableHead>Group Name</TableHead>
-              <TableHead>Created</TableHead>
-              <TableHead>Ready</TableHead>
-              <TableHead>Started</TableHead>
-              <TableHead>Stopped / Finished</TableHead>
+              <TableHead>Uptime</TableHead>
+              <TableHead>Players</TableHead>
               <TableHead>Status</TableHead>
             </TableRow>
           </TableHeader>

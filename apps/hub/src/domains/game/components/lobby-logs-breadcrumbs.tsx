@@ -6,11 +6,13 @@ interface LobbyLogsBreadcrumbsProps {
   gameId: string;
   namespaceId: string;
   lobbyId?: string;
+  title: string;
 }
 
-export function LobbyLogsBreadcrumbs({
+export function MatchmakerLobbyBreadcrumbs({
   gameId,
   namespaceId,
+  title,
   lobbyId,
 }: LobbyLogsBreadcrumbsProps) {
   const navigate = useNavigate();
@@ -21,7 +23,7 @@ export function LobbyLogsBreadcrumbs({
           to="/games/$gameId/namespaces/$namespaceId/matchmaker/logs/"
           params={{ gameId, namespaceId }}
         >
-          Logs
+          {title}
         </Link>
         {lobbyId ? <> /</> : null}
       </span>

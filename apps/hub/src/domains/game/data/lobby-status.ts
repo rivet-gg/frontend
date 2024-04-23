@@ -5,6 +5,8 @@ export type LobbyStatus =
   | "not-started"
   | "failed"
   | "closed"
+  | "idle"
+  | "outdated"
   | "unknown";
 
 export function formatLobbyStatus(status: LobbyStatus) {
@@ -14,9 +16,29 @@ export function formatLobbyStatus(status: LobbyStatus) {
     failed: "Failed",
     closed: "Closed",
     unknown: "Unknown status",
+    idle: "Idle",
+    outdated: "Outdated",
   };
 
   return map[status];
+}
+
+export function getLiveLobbyStatus(
+  lobby: Rivet.cloud.LobbySummaryAnalytics,
+): LobbyStatus {
+  if (lobby.isClosed) {
+    return "closed";
+  }
+  if (lobby.isIdle) {
+    return "idle";
+  }
+  if (lobby.isOutdated) {
+    return "outdated";
+  }
+  if (lobby.isReady) {
+    return "running";
+  }
+  return "unknown";
 }
 
 export function getLobbyStatus(

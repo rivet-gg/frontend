@@ -1,7 +1,12 @@
+import { NamespaceMatchmakerLobbies } from "@/domains/game/views/namespace-matchmaker-lobbies";
 import { createFileRoute } from "@tanstack/react-router";
 
 function MatchmakerLobbiesView() {
-  return "lobbies";
+  const { gameId, namespaceId } = Route.useParams();
+
+  return (
+    <NamespaceMatchmakerLobbies gameId={gameId} namespaceId={namespaceId} />
+  );
 }
 
 export const Route = createFileRoute(

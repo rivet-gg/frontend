@@ -8,7 +8,7 @@ import { Rivet } from "@rivet-gg/api";
 import { Rivet as RivetEe } from "@rivet-gg/api-ee";
 import { getMetaWatchIndex } from "@/queries/utils";
 import { toast } from "@rivet-gg/components";
-import { getLobbyStatus } from "../data/lobby-status";
+import { getLiveLobbyStatus, getLobbyStatus } from "../data/lobby-status";
 
 export type GroupGames = Rivet.group.Summary & { games: Rivet.game.Summary[] };
 
@@ -647,5 +647,30 @@ export const useCreateBillingPortalSessionMutation = () => {
     onSuccess: async (data) => {
       window.open(data.stripeSessionUrl, "_blank");
     },
+  });
+};
+
+export const gameNamespaceLobbiesLiveQueryOptions = ({
+  gameId,
+  namespaceId,
+}: {
+  gameId: string;
+  namespaceId: string;
+}) => {
+  return queryOptions({
+    queryKey: ["game", gameId, "namespace", namespaceId],
+    refetchInterval: 15000,
+    queryFn: ({ queryKey: [_, gameId, __, namespaceId] }) =>
+      rivetClient.cloud.games.namespaces.analytics.getAnalyticsMatchmakerLive(
+        gameId,
+        namespaceId,
+      ),
+    select: (data) => ({
+      ...data,
+      lobbies: data.lobbies.map((lobby) => ({
+        ...lobby,
+        readableStatus: getLiveLobbyStatus(lobby),
+      })),
+    }),
   });
 };

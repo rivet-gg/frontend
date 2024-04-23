@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { HTMLAttributes, ReactNode } from "react";
+import { HTMLAttributes, ReactNode, forwardRef } from "react";
 import { GapUtilitiesProps, getGapClass, omitGapProps } from "./helpers/gap";
 import {
   FlexDirectionUtilitiesProps,
@@ -40,28 +40,31 @@ const HStack = (props: Omit<StackProps, "direction">) => {
   return <Flex {...props} direction="row" />;
 };
 
-const Flex = ({ children, className, ...props }: StackProps) => {
-  const htmlProps = omitAlignItemsProps(
-    omitJustifyContentProps(
-      omitFlexDirectionProps(omitGapProps(omitCommonHelperProps(props))),
-    ),
-  );
-  return (
-    <div
-      className={cn(
-        "flex",
-        getCommonHelperClass(props),
-        getGapClass(props),
-        getFlexDirectionClass(props),
-        getJustifyContentClass(props),
-        getAlignItemsClass(props),
-        className,
-      )}
-      {...htmlProps}
-    >
-      {children}
-    </div>
-  );
-};
+const Flex = forwardRef<HTMLDivElement, StackProps>(
+  ({ children, className, ...props }, ref) => {
+    const htmlProps = omitAlignItemsProps(
+      omitJustifyContentProps(
+        omitFlexDirectionProps(omitGapProps(omitCommonHelperProps(props))),
+      ),
+    );
+    return (
+      <div
+        ref={ref}
+        className={cn(
+          "flex",
+          getCommonHelperClass(props),
+          getGapClass(props),
+          getFlexDirectionClass(props),
+          getJustifyContentClass(props),
+          getAlignItemsClass(props),
+          className,
+        )}
+        {...htmlProps}
+      >
+        {children}
+      </div>
+    );
+  },
+);
 
 export { HStack, VStack, Flex };

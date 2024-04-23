@@ -7,7 +7,7 @@ import {
 } from "@rivet-gg/components";
 import { LobbyLogs } from "../components/lobby-logs";
 import { LobbyLogsSummary } from "../components/lobby-logs-summary";
-import { LobbyLogsBreadcrumbs } from "../components/lobby-logs-breadcrumbs";
+import { MatchmakerLobbyBreadcrumbs } from "../components/lobby-logs-breadcrumbs";
 import { Suspense } from "react";
 interface ContentProps {
   gameId: string;
@@ -55,7 +55,8 @@ export function NamespaceMatchmakerLobbyLogs({
       <Card>
         <CardHeader>
           <CardTitle>
-            <LobbyLogsBreadcrumbs
+            <MatchmakerLobbyBreadcrumbs
+              title="Logs"
               gameId={gameId}
               namespaceId={namespaceId}
               lobbyId={lobbyId}

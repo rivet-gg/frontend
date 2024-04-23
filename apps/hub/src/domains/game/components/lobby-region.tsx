@@ -85,7 +85,7 @@ export function LobbyRegion({ region, showLabel }: LobbyRegionProps) {
             className="w-5"
             src={`${config.assetsUrl}${getRegionEmoji(region)}`}
           />
-          {showLabel ? REGION_LABEL[region] : REGION_LABEL.unknown}
+          {showLabel ? REGION_LABEL[region] : null}
         </Flex>
       }
     />
