@@ -10,9 +10,7 @@ interface GameBillingViewProps {
 
 export function GameBillingView({ gameId }: GameBillingViewProps) {
   const {
-    data: {
-      game: { developerGroupId },
-    },
+    data: { developerGroupId },
   } = useSuspenseQuery(gameQueryOptions(gameId));
 
   const { data: groupBilling } = useSuspenseQuery(

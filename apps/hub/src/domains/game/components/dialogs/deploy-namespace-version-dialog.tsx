@@ -26,15 +26,13 @@ export default function DeployNamespaceVersionDialogContent({
   versionId,
   onClose,
 }: ContentProps) {
-  const { data } = useSuspenseQuery(gameQueryOptions(gameId));
+  const { data: game } = useSuspenseQuery(gameQueryOptions(gameId));
   const { mutate, isPending } = useUpdateGameNamespaceVersionMutation({
     onSuccess: onClose,
   });
 
-  const chosenVersion = data.game.versions.find(
-    (v) => v.versionId === versionId,
-  );
-  const chosenNamespace = data.game.namespaces.find(
+  const chosenVersion = game.versions.find((v) => v.versionId === versionId);
+  const chosenNamespace = game.namespaces.find(
     (ns) => ns.namespaceId === namespaceId,
   );
   return (
@@ -42,7 +40,7 @@ export default function DeployNamespaceVersionDialogContent({
       <DialogHeader>
         <DialogTitle>
           Deploy version {chosenVersion?.displayName} to{" "}
-          {chosenNamespace?.displayName} of {data.game.displayName}
+          {chosenNamespace?.displayName} of {game.displayName}
         </DialogTitle>
       </DialogHeader>
       <Flex gap="4" direction="col">
@@ -51,7 +49,7 @@ export default function DeployNamespaceVersionDialogContent({
           <Strong>{chosenVersion?.displayName}</Strong> created at{" "}
           {chosenVersion?.createTs.toLocaleString()} to namespace{" "}
           <Strong>{chosenNamespace?.displayName}</Strong> of game{" "}
-          <Strong>{data.game.displayName}</Strong>?
+          <Strong>{game.displayName}</Strong>?
         </Text>
       </Flex>
       <DialogFooter>

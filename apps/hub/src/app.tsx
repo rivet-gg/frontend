@@ -1,10 +1,15 @@
-import { createRouter, RouterProvider } from "@tanstack/react-router";
+import {
+  createRouteMask,
+  createRouter,
+  RouterProvider,
+} from "@tanstack/react-router";
 import { routeTree } from "./routeTree.gen";
 import { queryClient, queryClientPersister } from "./queries/global";
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
 import { Suspense } from "react";
 import { FullscreenLoading } from "@rivet-gg/components";
 import { useAuth, AuthProvider } from "./domains/auth/contexts/auth";
+import { routeMasks } from "./lib/route-masks";
 
 declare module "@tanstack/react-router" {
   interface Register {
@@ -19,6 +24,7 @@ declare module "@tanstack/react-router" {
 // Create a new router instance
 const router = createRouter({
   routeTree,
+  routeMasks,
   context: {
     auth: undefined!,
     queryClient,

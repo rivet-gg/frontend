@@ -14,15 +14,15 @@ export function GameBreadcrumb({ gameId }: GameBreadcrumbProps) {
 
   return (
     <>
-      <GroupBreadcrumb groupId={data.game.developerGroupId} />
+      <GroupBreadcrumb groupId={data.developerGroupId} />
       <Separator />
       <Link to="/games/$gameId" params={{ gameId }} className="flex gap-2">
         <GameAvatar
-          displayName={data.game.displayName}
-          logoUrl={data.game.logoUrl}
+          displayName={data.displayName}
+          logoUrl={data.logoUrl}
           className="size-5"
         />
-        {data.game.displayName}
+        {data.displayName}
       </Link>
     </>
   );

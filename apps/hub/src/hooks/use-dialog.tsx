@@ -1,5 +1,5 @@
 import { DialogActivityIndicator } from "@/components/dialog-activity-indicator";
-import { Dialog, DialogContent } from "@rivet-gg/components";
+import { Dialog, DialogContent, DialogProps } from "@rivet-gg/components";
 import {
   lazy,
   ComponentProps,
@@ -26,8 +26,33 @@ export const createDialogHook = <
   component: Component,
   opts: DialogConfig = {},
 ) => {
-  return (props: ComponentProps<Awaited<Component>["default"]>) => {
-    const [isOpen, setIsOpen] = useState(false);
+  const DialogImpl = ({
+    dialogProps,
+    ...props
+  }: ComponentProps<Awaited<Component>["default"]> & {
+    dialogProps?: DialogProps;
+  }) => {
+    const Content = useMemo(() => lazy(() => component), []);
+
+    return (
+      <Dialog {...dialogProps}>
+        <DialogContent
+          onOpenAutoFocus={(e) => {
+            if (opts.autoFocus === false) {
+              return e.preventDefault();
+            }
+          }}
+        >
+          <Suspense fallback={<DialogActivityIndicator />}>
+            <Content {...props} onClose={() => props.onOpenChange?.(false)} />
+          </Suspense>
+        </DialogContent>
+      </Dialog>
+    );
+  };
+
+  const useHook = (props: ComponentProps<Awaited<Component>["default"]>) => {
+    const [isOpen, setIsOpen] = useState(() => false);
 
     const close = useCallback(() => {
       setIsOpen(false);
@@ -37,28 +62,24 @@ export const createDialogHook = <
       setIsOpen(true);
     }, []);
 
-    const Content = useMemo(() => lazy(() => component), []);
-
     return {
       open,
       close,
       dialog: (
-        <Dialog open={isOpen} onOpenChange={setIsOpen}>
-          <DialogContent
-            onOpenAutoFocus={(e) => {
-              if (opts.autoFocus === false) {
-                return e.preventDefault();
-              }
-            }}
-          >
-            <Suspense fallback={<DialogActivityIndicator />}>
-              <Content {...props} onClose={close} />
-            </Suspense>
-          </DialogContent>
-        </Dialog>
+        <DialogImpl
+          dialogProps={{
+            open: isOpen,
+            onOpenChange: setIsOpen,
+          }}
+          {...props}
+        />
       ),
     };
   };
+
+  useHook.Dialog = DialogImpl;
+
+  return useHook;
 };
 
 export const createDataDialogHook = <
@@ -171,4 +192,8 @@ useDialog.DeployNamespaceVersion = createDialogHook(
 useDialog.ConfirmBillingPlan = createDataDialogHook(
   ["plan"],
   import("@/domains/game/components/dialogs/confirm-billing-plan-dialog"),
+);
+
+useDialog.CreateGroupInvite = createDialogHook(
+  import("@/domains/group/components/dialogs/create-group-invite-dialog"),
 );

@@ -1,10 +1,7 @@
 import {
   Button,
-  Dialog,
-  DialogContent,
   DialogFooter,
   DialogHeader,
-  DialogProps,
   DialogTitle,
   Flex,
   Label,
@@ -12,17 +9,18 @@ import {
   CopyArea,
   timing,
 } from "@rivet-gg/components";
-import { Suspense } from "react";
-import { DialogActivityIndicator } from "@/components/dialog-activity-indicator";
 import * as GroupInviteForm from "@/domains/group/forms/group-invite-form";
 import { useGroupInviteMutation } from "../../queries";
 
-interface ContentProps {
+interface CreateGroupInviteDialogContentContentProps {
   groupId: string;
   onClose?: () => void;
 }
 
-function Content({ groupId, onClose }: ContentProps) {
+export default function CreateGroupInviteDialogContent({
+  groupId,
+  onClose,
+}: CreateGroupInviteDialogContentContentProps) {
   const { mutateAsync, data } = useGroupInviteMutation();
 
   if (data) {
@@ -76,29 +74,5 @@ function Content({ groupId, onClose }: ContentProps) {
         </DialogFooter>
       </GroupInviteForm.Form>
     </>
-  );
-}
-
-interface CreateGroupInviteDialogProps
-  extends DialogProps,
-    Partial<ContentProps> {}
-
-export function CreateGroupInviteDialog({
-  groupId,
-  onClose,
-  ...dialogProps
-}: CreateGroupInviteDialogProps) {
-  return (
-    <Dialog {...dialogProps}>
-      <DialogContent>
-        {groupId ? (
-          <Suspense fallback={<DialogActivityIndicator />}>
-            <Content groupId={groupId} onClose={onClose} />
-          </Suspense>
-        ) : (
-          <DialogActivityIndicator />
-        )}
-      </DialogContent>
-    </Dialog>
   );
 }

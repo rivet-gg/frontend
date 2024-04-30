@@ -11,6 +11,7 @@ import { GameTile } from "@rivet-gg/components/game";
 import { Link } from "@tanstack/react-router";
 import { GroupAvatar } from "./group-avatar";
 import { GroupEmptyAlert } from "./group-empty-alert";
+import { ArrowRight } from "lucide-react";
 
 interface GroupProps extends GroupGames {}
 
@@ -26,6 +27,7 @@ export function Group(props: GroupProps) {
               <GroupAvatar displayName={displayName} avatarUrl={avatarUrl} />
               <LargeText>{displayName}</LargeText>
             </Flex>
+            <ArrowRight />
           </Flex>
         </Link>
       </CardHeader>

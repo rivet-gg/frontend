@@ -27,9 +27,7 @@ export function GameBilling({ gameId }: GameBillingProps) {
       data: { plan },
     },
     {
-      data: {
-        game: { developerGroupId, availableRegions },
-      },
+      data: { developerGroupId, availableRegions },
     },
   ] = useSuspenseQueries({
     queries: [gameBillingQueryOptions(gameId), gameQueryOptions(gameId)],

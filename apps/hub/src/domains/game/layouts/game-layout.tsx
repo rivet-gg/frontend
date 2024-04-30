@@ -10,7 +10,7 @@ interface GamePageProps {
 
 function GamePage({ children, gameId }: GamePageProps) {
   const { data } = useSuspenseQuery(gameQueryOptions(gameId));
-  return <Page title={data.game.displayName}>{children}</Page>;
+  return <Page title={data.displayName}>{children}</Page>;
 }
 
 export { GamePage as Root };

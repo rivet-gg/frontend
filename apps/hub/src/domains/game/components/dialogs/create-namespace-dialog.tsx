@@ -35,7 +35,7 @@ export default function CreateNamespaceDialogContent({ gameId }: ContentProps) {
             gameId,
             displayName: values.name,
             nameId: values.slug || convertStringToId(values.name),
-            versionId: game.game.versions[0].versionId,
+            versionId: game.versions[0].versionId,
           });
         }}
         defaultValues={{ name: "", slug: "", gameId }}

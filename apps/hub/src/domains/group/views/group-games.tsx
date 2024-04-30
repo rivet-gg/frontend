@@ -1,5 +1,4 @@
 import { groupGamesQueryOptions } from "@/domains/game/queries";
-import { useDialog } from "@/hooks/use-dialog";
 import {
   Button,
   Card,
@@ -25,17 +24,17 @@ interface GroupGamesProps {
 
 export function GroupGames({ groupId }: GroupGamesProps) {
   const { data } = useSuspenseQuery(groupGamesQueryOptions(groupId));
-  const { open, dialog } = useDialog.CreateGroupGame({ groupId });
 
   return (
     <>
-      {dialog}
       <Card w="full">
         <CardHeader>
           <Flex items="center" gap="4" justify="between">
             <CardTitle>Games</CardTitle>
-            <Button variant="secondary" size="sm" onClick={open}>
-              <Plus />
+            <Button variant="secondary" size="sm">
+              <Link search={{ modal: "create-game" }}>
+                <Plus />
+              </Link>
             </Button>
           </Flex>
         </CardHeader>

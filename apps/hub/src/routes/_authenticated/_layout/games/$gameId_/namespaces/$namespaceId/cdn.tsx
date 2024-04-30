@@ -16,7 +16,8 @@ import {
   Text,
 } from "@rivet-gg/components";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { createFileRoute } from "@tanstack/react-router";
+import { Link, createFileRoute } from "@tanstack/react-router";
+import { z } from "zod";
 
 function DomainBasedAuthOption() {
   const { mutate, isPending } = useNamespaceDomainPublichAuthMutation();
@@ -83,7 +84,11 @@ function PasswordAuthOption() {
             }}
           />
         }
-        footer={<Button onClick={open}>Manage users</Button>}
+        footer={
+          <Button asChild>
+            <Link search={{ modal: "cdn-users" }}>Manage users</Link>
+          </Button>
+        }
       >
         <Text>
           Restricts CDN access to select authenticated users. Authentication is
@@ -95,18 +100,15 @@ function PasswordAuthOption() {
 }
 
 function CustomDomainsOption({ nameId }: { nameId: string }) {
-  const { gameId, namespaceId } = Route.useParams();
-  const { dialog, open } = useDialog.ManageCdnCustomDomains({
-    gameId,
-    namespaceId,
-  });
-
   return (
     <>
-      {dialog}
       <ActionCard
         title="Custom domains"
-        footer={<Button onClick={open}>Manage domains</Button>}
+        footer={
+          <Button asChild>
+            <Link search={{ modal: "cdn-domains" }}> Manage domains</Link>
+          </Button>
+        }
       >
         <Ol>
           <li>
@@ -124,23 +126,63 @@ function CustomDomainsOption({ nameId }: { nameId: string }) {
   );
 }
 
+function Modals() {
+  const navigate = Route.useNavigate();
+  const { gameId, namespaceId } = Route.useParams();
+  const { modal } = Route.useSearch();
+
+  const ManageCdnAuthUsersDialog = useDialog.ManageCdnAuthUsers.Dialog;
+  const ManageCdnCustomDomains = useDialog.ManageCdnCustomDomains.Dialog;
+
+  const handleonOpenChange = (value: boolean) => {
+    if (!value) {
+      navigate({ search: { modal: undefined } });
+    }
+  };
+
+  return (
+    <>
+      <ManageCdnAuthUsersDialog
+        gameId={gameId}
+        namespaceId={namespaceId}
+        dialogProps={{
+          open: modal === "cdn-users",
+          onOpenChange: handleonOpenChange,
+        }}
+      />
+      <ManageCdnCustomDomains
+        gameId={gameId}
+        namespaceId={namespaceId}
+        dialogProps={{
+          open: modal === "cdn-domains",
+          onOpenChange: handleonOpenChange,
+        }}
+      />
+    </>
+  );
+}
+
 function NamespaceCdnRoute() {
   const { gameId } = Route.useParams();
-  const {
-    data: { game },
-  } = useSuspenseQuery(gameQueryOptions(gameId));
+  const { data: game } = useSuspenseQuery(gameQueryOptions(gameId));
 
   return (
     <Grid columns="2" gap="4" items="start">
       <DomainBasedAuthOption />
       <PasswordAuthOption />
       <CustomDomainsOption nameId={game.nameId} />
+      <Modals />
     </Grid>
   );
 }
 
+const searchSchema = z.object({
+  modal: z.enum(["cdn-users", "cdn-domains"]).optional(),
+});
+
 export const Route = createFileRoute(
   "/_authenticated/_layout/games/$gameId/namespaces/$namespaceId/cdn",
 )({
+  validateSearch: (search) => searchSchema.parse(search),
   component: NamespaceCdnRoute,
 });

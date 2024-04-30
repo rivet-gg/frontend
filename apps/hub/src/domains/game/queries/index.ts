@@ -12,6 +12,14 @@ import { getLiveLobbyStatus, getLobbyStatus } from "../data/lobby-status";
 
 export type GroupGames = Rivet.group.Summary & { games: Rivet.game.Summary[] };
 
+export type Game = Rivet.game.Summary & {
+  namespaces: Rivet.cloud.NamespaceSummary[];
+};
+
+export type Namespace = Rivet.cloud.NamespaceSummary & {
+  version: Rivet.cloud.version.Summary | undefined;
+};
+
 export const gamesQueryOptions = () => {
   return queryOptions({
     queryKey: ["games"],
@@ -74,16 +82,13 @@ export const gameQueryOptions = (gameId: string) => {
       }),
     meta: { watch: true },
     select: (data) => ({
-      ...data,
-      game: {
-        ...data.game,
-        namespaces: data.game.namespaces.map((namespace) => ({
-          ...namespace,
-          version: data.game.versions.find(
-            (version) => version.versionId === namespace.versionId,
-          ),
-        })),
-      },
+      ...data.game,
+      namespaces: data.game.namespaces.map((namespace) => ({
+        ...namespace,
+        version: data.game.versions.find(
+          (version) => version.versionId === namespace.versionId,
+        ),
+      })),
     }),
   });
 };
@@ -91,7 +96,7 @@ export const gameQueryOptions = (gameId: string) => {
 export const gameNamespacesQueryOptions = (gameId: string) => {
   return queryOptions({
     ...gameQueryOptions(gameId),
-    select: (data) => gameQueryOptions(gameId).select!(data).game.namespaces,
+    select: (data) => gameQueryOptions(gameId).select!(data).namespaces,
   });
 };
 
@@ -99,7 +104,7 @@ export const gameVersionsQueryOptions = (gameId: string) => {
   return queryOptions({
     ...gameQueryOptions(gameId),
     select: (data) =>
-      gameQueryOptions(gameId).select!(data).game.versions.sort(
+      gameQueryOptions(gameId).select!(data).versions.sort(
         (a, b) => b.createTs.getTime() - a.createTs.getTime(),
       ),
   });
@@ -108,8 +113,38 @@ export const gameVersionsQueryOptions = (gameId: string) => {
 export const gameRegionsQueryOptions = (gameId: string) => {
   return queryOptions({
     ...gameQueryOptions(gameId),
+    select: (data) => gameQueryOptions(gameId).select!(data).availableRegions,
+  });
+};
+
+export const gameNamespaceDisplayNameQueryOptions = ({
+  gameId,
+  namespaceId,
+}: {
+  gameId: string;
+  namespaceId: string;
+}) =>
+  queryOptions({
+    ...gameQueryOptions(gameId),
     select: (data) =>
-      gameQueryOptions(gameId).select!(data).game.availableRegions,
+      gameQueryOptions(gameId).select!(data).namespaces.find(
+        (namespace) => namespace.namespaceId === namespaceId,
+      )!.displayName,
+  });
+
+export const gameNamespaceVersionQueryOptions = ({
+  gameId,
+  namespaceId,
+}: {
+  gameId: string;
+  namespaceId: string;
+}) => {
+  return queryOptions({
+    ...gameQueryOptions(gameId),
+    select: (data) =>
+      gameQueryOptions(gameId).select!(data).namespaces.find(
+        (namespace) => namespace.namespaceId === namespaceId,
+      )!.version,
   });
 };
 
@@ -123,7 +158,7 @@ export const gameVersionQueryOptions = ({
   queryOptions({
     ...gameQueryOptions(gameId),
     select: (data) =>
-      gameQueryOptions(gameId).select!(data).game.versions.find(
+      gameQueryOptions(gameId).select!(data).versions.find(
         (version) => version.versionId === versionId,
       )!,
   });

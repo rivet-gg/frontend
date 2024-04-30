@@ -1,3 +1,4 @@
+import { CommandPanel } from "@/components/command-panel";
 import { useAuth } from "@/domains/auth/contexts/auth";
 import { LoginView } from "@/domains/auth/views/login-view/login-view";
 import * as Layout from "@/layouts/page-centered";
@@ -14,7 +15,12 @@ function Authenticated() {
     );
   }
 
-  return <Outlet />;
+  return (
+    <>
+      <Outlet />
+      <CommandPanel />
+    </>
+  );
 }
 
 export const Route = createFileRoute("/_authenticated")({

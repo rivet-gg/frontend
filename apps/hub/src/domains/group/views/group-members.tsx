@@ -13,7 +13,7 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { UserAvatar } from "../../user/components/user-avatar";
 import { groupOnwerQueryOptions } from "@/domains/game/queries";
 import { Crown } from "lucide-react";
-import { useGroupInviteDialog } from "../hooks/use-group-invite-dialog";
+import { Link } from "@tanstack/react-router";
 
 interface GroupMembersProps {
   groupId: string;
@@ -25,21 +25,17 @@ export function GroupMembers({ groupId }: GroupMembersProps) {
   );
   const { data } = useSuspenseQuery(groupMembersQueryOptions(groupId));
 
-  const { openGroupInviteDialog, dialog: groupInviteDialog } =
-    useGroupInviteDialog(groupId);
-
   return (
     <Card w="full">
       <CardHeader>
         <Flex items="center" gap="4" justify="between">
           <CardTitle>Members</CardTitle>
-          <Button variant="secondary" onClick={openGroupInviteDialog}>
-            Invite
+          <Button asChild variant="secondary">
+            <Link search={{ modal: "invite" }}>Invite</Link>
           </Button>
         </Flex>
       </CardHeader>
       <CardContent>
-        {groupInviteDialog}
         <Grid gap="4">
           {data.members.map((member) => (
             <Flex

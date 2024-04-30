@@ -1,20 +1,17 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { Link, createFileRoute } from "@tanstack/react-router";
 import { Button, DocsCard, Grid, Text } from "@rivet-gg/components";
-import { useDialog } from "@/hooks/use-dialog";
 
 function CloudTokenCard() {
-  const { gameId } = Route.useParams();
-  const { dialog, open } = useDialog.GenerateGameCloudToken({
-    gameId,
-  });
-
   return (
     <>
-      {dialog}
       <DocsCard
         title="Cloud token"
         href="https://rivet.gg/docs/general/concepts/token-types#cloud"
-        footer={<Button onClick={open}>Generate</Button>}
+        footer={
+          <Button asChild>
+            <Link search={{ modal: "cloud-token" }}>Generate</Link>
+          </Button>
+        }
       >
         <Text>
           Cloud tokens are used to access Rivet Cloud. They are used by the

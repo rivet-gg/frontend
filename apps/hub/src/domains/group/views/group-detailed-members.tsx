@@ -17,7 +17,7 @@ import { GroupMemberSettingsMenu } from "../components/group-member-settings-men
 import { useGroupMemberTransferOwnershipDialog } from "../hooks/use-group-member-transfer-ownership-dialog";
 import { useGroupMemberKickDialog } from "../hooks/use-group-member-kick-dialog";
 import { useGroupMemberBanDialog } from "../hooks/use-group-member-ban-dialog";
-import { useGroupInviteDialog } from "../hooks/use-group-invite-dialog";
+import { Link } from "@tanstack/react-router";
 
 interface GroupDetailedMembersProps {
   groupId: string;
@@ -38,16 +38,13 @@ export function GroupDetailedMembers({ groupId }: GroupDetailedMembersProps) {
   const { confirmMemberBan, dialog: confirmMemberBanDialog } =
     useGroupMemberBanDialog(groupId);
 
-  const { openGroupInviteDialog, dialog: groupInviteDialog } =
-    useGroupInviteDialog(groupId);
-
   return (
     <Card w="full">
       <CardHeader>
         <Flex items="center" gap="4" justify="between">
           <CardTitle>Members</CardTitle>
-          <Button variant="secondary" onClick={openGroupInviteDialog}>
-            Invite
+          <Button variant="secondary" asChild>
+            <Link search={{ modal: "invite" }}>Invite</Link>
           </Button>
         </Flex>
       </CardHeader>
@@ -55,7 +52,6 @@ export function GroupDetailedMembers({ groupId }: GroupDetailedMembersProps) {
         {confirmTransferOwnershipDialog}
         {confirmMemberKickDialog}
         {confirmMemberBanDialog}
-        {groupInviteDialog}
         <Grid gap="4">
           {data.members.map((member) => (
             <Flex
