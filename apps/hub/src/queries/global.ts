@@ -8,9 +8,9 @@ import superjson from "superjson";
 const opts: RivetClient.Options = {
   environment: "https://api.staging2.gameinc.io",
   fetcher: async (args) => {
-    const identity = (await queryClient.getQueryData(
-      identityTokenQueryOptions().queryKey,
-    )) as Rivet.auth.RefreshIdentityTokenResponse | undefined;
+    const identity = args.url.includes("/auth/tokens/identity")
+      ? undefined
+      : await queryClient.fetchQuery(identityTokenQueryOptions());
 
     const url = new URL(args.url);
     for (const [key, value] of Object.entries(args.queryParameters || {})) {
