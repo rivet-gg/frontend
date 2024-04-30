@@ -14,7 +14,7 @@ type GroupCommandPanelPage = {
 
 type GameCommandPanelPage = {
   key: "game";
-  params: { gameId: string; groupId: string };
+  params: { gameId: string };
 };
 
 type NamespaceCommandPanelPage = {

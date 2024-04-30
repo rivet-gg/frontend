@@ -22,6 +22,7 @@ import { GroupCommandPanelPage } from "./command-panel/command-panel-page/group-
 import { GameCommandPanelPage } from "./command-panel/command-panel-page/game-command-panel-page";
 import { NamespaceCommandPanelPage } from "./command-panel/command-panel-page/namespace-command-panel-page";
 import { CommandPanelNavigationBreadcrumbs } from "./command-panel/command-panel-navigation-breadcrumbs";
+import { useMatchRoute } from "@tanstack/react-router";
 
 export function CommandPanel() {
   const [open, setOpen] = useState(false);
@@ -29,17 +30,53 @@ export function CommandPanel() {
   const [search, setSearch] = useState("");
   const [pages, setPages] = useState<CommandPanelPage[]>([]);
   const page = pages[pages.length - 1];
+  const matchRoute = useMatchRoute();
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
       if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
         e.preventDefault();
-        setOpen((open) => !open);
+        startTransition(() => {
+          const isTeam = matchRoute({
+            from: "/",
+            to: "/teams/$groupId",
+          }) as { groupId: string } | false;
+
+          if (isTeam) {
+            setPages([{ key: "group", params: { groupId: isTeam.groupId } }]);
+          }
+
+          const isGame = matchRoute({
+            from: "/",
+            to: "/games/$gameId",
+          }) as { gameId: string } | false;
+          if (isGame) {
+            setPages([{ key: "game", params: { gameId: isGame.gameId } }]);
+          }
+
+          const isNamespace = matchRoute({
+            from: "/",
+            to: "/games/$gameId/namespaces/$namespaceId",
+          }) as { gameId: string; namespaceId: string } | false;
+          if (isNamespace) {
+            setPages([
+              { key: "game", params: { gameId: isNamespace.gameId } },
+              {
+                key: "namespace",
+                params: {
+                  gameId: isNamespace.gameId,
+                  namespaceId: isNamespace.namespaceId,
+                },
+              },
+            ]);
+          }
+          setOpen((open) => !open);
+        });
       }
     };
     document.addEventListener("keydown", down);
     return () => document.removeEventListener("keydown", down);
-  }, []);
+  }, [matchRoute]);
 
   const handlePageChange = useCallback((page: CommandPanelPage) => {
     startTransition(() => {
