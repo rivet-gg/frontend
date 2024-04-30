@@ -10,7 +10,11 @@ import {
   FormMessage,
 } from "@rivet-gg/components";
 
+// FIXME
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const PROTOCOL_REGEX = /^\w+:/;
+// FIXME
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const DOMAIN_REGEX =
   /^(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z0-9][a-z0-9-]{0,61}[a-z0-9]$/;
 

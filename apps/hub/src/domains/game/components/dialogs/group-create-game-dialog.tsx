@@ -1,9 +1,6 @@
 import {
-  Dialog,
-  DialogContent,
   DialogFooter,
   DialogHeader,
-  DialogProps,
   DialogTitle,
   Flex,
 } from "@rivet-gg/components";

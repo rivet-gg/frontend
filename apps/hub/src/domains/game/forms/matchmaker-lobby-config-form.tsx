@@ -9,9 +9,6 @@ import {
   Input,
   FormMessage,
 } from "@rivet-gg/components";
-import { rivetClient } from "@/queries/global";
-import { TraversableErrors, VALIDATION_ERRORS } from "@/lib/traversable-errors";
-import { convertStringToId } from "@/lib/utils";
 
 const LOBBY_COUNT_MAX = 32768 - 1;
 

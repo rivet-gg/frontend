@@ -695,7 +695,17 @@ export const gameNamespaceLobbiesLiveQueryOptions = ({
   return queryOptions({
     queryKey: ["game", gameId, "namespace", namespaceId],
     refetchInterval: 15000,
-    queryFn: ({ queryKey: [_, gameId, __, namespaceId] }) =>
+    queryFn: ({
+      queryKey: [
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        _,
+        gameId,
+
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        __,
+        namespaceId,
+      ],
+    }) =>
       rivetClient.cloud.games.namespaces.analytics.getAnalyticsMatchmakerLive(
         gameId,
         namespaceId,

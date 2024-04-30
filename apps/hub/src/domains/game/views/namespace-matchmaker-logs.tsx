@@ -19,7 +19,7 @@ import {
 import { Rivet } from "@rivet-gg/api";
 import { type LobbyStatus } from "../data/lobby-status";
 import { LobbyRegion } from "../components/lobby-region";
-import { Link, useNavigate } from "@tanstack/react-router";
+import { useNavigate } from "@tanstack/react-router";
 import { MatchmakerLobbyBreadcrumbs } from "../components/lobby-logs-breadcrumbs";
 
 interface LobbyRowProps extends Rivet.cloud.LogsLobbySummary {

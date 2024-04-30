@@ -6,7 +6,6 @@ import {
   CardHeader,
   CardTitle,
   Code,
-  H1,
   Text,
 } from "@rivet-gg/components";
 import { ErrorComponentProps } from "@tanstack/react-router";

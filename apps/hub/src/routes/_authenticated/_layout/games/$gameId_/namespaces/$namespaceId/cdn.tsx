@@ -57,14 +57,8 @@ function PasswordAuthOption() {
     data: { namespace },
   } = useSuspenseQuery(gameNamespaceQueryOptions({ gameId, namespaceId }));
 
-  const { dialog, open } = useDialog.ManageCdnAuthUsers({
-    gameId,
-    namespaceId,
-  });
-
   return (
     <>
-      {dialog}
       <ActionCard
         title="Password authentication"
         action={

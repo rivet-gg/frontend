@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import { Button, ButtonProps } from "@rivet-gg/components";
+import { Button } from "@rivet-gg/components";
 import React from "react";
 
 const meta = {

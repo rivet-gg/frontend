@@ -4,7 +4,7 @@ import {
   rivetClient,
   rivetEeClient,
 } from "../../../queries/global";
-import { Rivet, RivetError } from "@rivet-gg/api";
+import { Rivet } from "@rivet-gg/api";
 import { gamesQueryOptions } from "../../game/queries";
 import { getMetaWatchIndex } from "@/queries/utils";
 import { toast } from "@rivet-gg/components";
