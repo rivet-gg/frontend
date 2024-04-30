@@ -25,6 +25,8 @@ export const gameNamespaceQueryOptions = ({
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         _,
         gameId,
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        __,
         namespaceId,
       ],
     }) =>
@@ -82,7 +84,12 @@ export const gameNamespaceLogsLobbyQueryOptions = ({
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         _,
         gameId,
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        __,
         namespaceId,
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        ___,
+        lobbyId,
       ],
     }) =>
       rivetClient.cloud.games.namespaces.logs.getNamespaceLobby(
@@ -116,6 +123,8 @@ export const gameNamespaceTokenPublicQueryOptions = ({
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         _,
         gameId,
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        __,
         namespaceId,
       ],
     }) =>
@@ -141,6 +150,8 @@ export const gameNamespaceLogsLobbiesQueryOptions = ({
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         _,
         gameId,
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        __,
         namespaceId,
       ],
     }) =>
@@ -171,7 +182,11 @@ export const gameNamespaceLogsLobbyLogsQueryOptions = ({
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         _,
         gameId,
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        __,
         lobbyId,
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        ___,
         stream,
       ],
     }) =>
@@ -209,7 +224,6 @@ export const gameNamespaceLobbiesLiveQueryOptions = ({
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         _,
         gameId,
-
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         __,
         namespaceId,
