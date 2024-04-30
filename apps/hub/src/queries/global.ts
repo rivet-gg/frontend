@@ -27,8 +27,6 @@ const opts: RivetClient.Options = {
       body: args.method === "GET" ? undefined : JSON.stringify(args.body),
     });
 
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-
     if (response.ok) {
       return {
         ok: true,
