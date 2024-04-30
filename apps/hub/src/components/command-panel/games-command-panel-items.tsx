@@ -8,10 +8,7 @@ interface GamesCommandPanelItemsProps {
   groupId: string;
 }
 
-export function GamesCommandPanelItems({
-  games,
-  groupId,
-}: GamesCommandPanelItemsProps) {
+export function GamesCommandPanelItems({ games }: GamesCommandPanelItemsProps) {
   const { changePage } = useCommandPanelNavigation();
   return (
     <>
@@ -23,7 +20,7 @@ export function GamesCommandPanelItems({
           onSelect={() => {
             changePage({
               key: "game",
-              params: { gameId: game.gameId, groupId },
+              params: { gameId: game.gameId },
             });
           }}
         >
