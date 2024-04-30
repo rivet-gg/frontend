@@ -2,7 +2,7 @@ import {
   gameNamespaceQueryOptions,
   gameQueryOptions,
   useNamespaceAuthTypeMutation,
-  useNamespaceDomainPublichAuthMutation,
+  useNamespaceDomainPublicAuthMutation,
 } from "@/domains/game/queries";
 import { useDialog } from "@/hooks/use-dialog";
 import { Rivet } from "@rivet-gg/api";
@@ -20,7 +20,7 @@ import { Link, createFileRoute } from "@tanstack/react-router";
 import { z } from "zod";
 
 function DomainBasedAuthOption() {
-  const { mutate, isPending } = useNamespaceDomainPublichAuthMutation();
+  const { mutate, isPending } = useNamespaceDomainPublicAuthMutation();
 
   const { gameId, namespaceId } = Route.useParams();
   const {

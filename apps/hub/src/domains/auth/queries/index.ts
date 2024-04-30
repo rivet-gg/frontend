@@ -26,8 +26,7 @@ export const useCompleteEmailVerificationMutation = (
 export const deviceLinkTokenQueryOptions = (deviceLinkToken: string) => {
   return {
     queryKey: ["deviceLinkToken", deviceLinkToken],
-    queryFn: ({ signal }) =>
-      rivetClient.cloud.devices.links.get({ deviceLinkToken }),
+    queryFn: () => rivetClient.cloud.devices.links.get({ deviceLinkToken }),
   };
 };
 
@@ -35,7 +34,7 @@ export const useCompleteDeviceLinkMutation = () => {
   return useMutation({
     mutationFn: (data: Rivet.cloud.devices.links.CompleteDeviceLinkRequest) =>
       rivetClient.cloud.devices.links.complete(data),
-    onSuccess: (data, values) => {
+    onSuccess: (_, values) => {
       queryClient.invalidateQueries(
         deviceLinkTokenQueryOptions(values.deviceLinkToken),
       );
