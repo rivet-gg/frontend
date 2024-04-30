@@ -6,7 +6,7 @@ import { identityTokenQueryOptions } from "../domains/user/queries";
 import superjson from "superjson";
 
 const opts: RivetClient.Options = {
-  environment: "https://api.rivet.gg",
+  environment: "https://api.staging2.gameinc.io",
   fetcher: async (args) => {
     const identity = args.url.includes("/auth/tokens/identity")
       ? undefined
