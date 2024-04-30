@@ -13,7 +13,10 @@ import { Bomb } from "lucide-react";
 import { hasMethod, isRivetError } from "@/lib/utils";
 import { NotFoundComponent } from "./not-found-component";
 
-export const ErrorComponent = ({ error, reset }: ErrorComponentProps) => {
+export const ErrorComponent = ({
+  error,
+  reset,
+}: Partial<ErrorComponentProps>) => {
   if (isRivetError(error)) {
     if (error.statusCode === 404) {
       return <NotFoundComponent />;

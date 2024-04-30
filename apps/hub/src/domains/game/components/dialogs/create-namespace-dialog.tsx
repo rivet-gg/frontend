@@ -21,7 +21,7 @@ export default function CreateNamespaceDialogContent({ gameId }: ContentProps) {
   const { mutateAsync } = useNamespaceCreateMutation({
     onSuccess: (data) => {
       navigate({
-        to: "/games/$gameId/namespaces/$namespaceId/",
+        to: "/games/$gameId/namespaces/$namespaceId",
         params: { gameId: gameId, namespaceId: data.namespaceId },
       });
     },

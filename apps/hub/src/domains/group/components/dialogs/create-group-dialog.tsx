@@ -15,7 +15,7 @@ function Content() {
   const navigate = useNavigate();
   const { mutateAsync } = useGroupCreateMutation({
     onSuccess: (data) => {
-      navigate({ to: "/teams/$groupId/", params: { groupId: data.groupId } });
+      navigate({ to: "/teams/$groupId", params: { groupId: data.groupId } });
     },
   });
 

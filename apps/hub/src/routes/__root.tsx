@@ -11,11 +11,22 @@ import {
 import { TanStackRouterDevtools } from "@tanstack/router-devtools";
 import { Suspense } from "react";
 import * as PageLayout from "@/layouts/page";
+import { NotFoundComponent } from "@/components/not-found-component";
+
+function RootNotFoundComponent() {
+  return (
+    <PageLayout.Root>
+      <Page title="Not found">
+        <NotFoundComponent />
+      </Page>
+    </PageLayout.Root>
+  );
+}
 
 function RootErrorComponent(props: ErrorComponentProps) {
   return (
     <PageLayout.Root>
-      <Page title="Not found">
+      <Page title="Error!">
         <ErrorComponent {...props} />
       </Page>
     </PageLayout.Root>
@@ -55,5 +66,5 @@ export interface RouterContext {
 export const Route = createRootRouteWithContext<RouterContext>()({
   component: RootRoute,
   errorComponent: RootErrorComponent,
-  notFoundComponent: RootErrorComponent,
+  notFoundComponent: RootNotFoundComponent,
 });

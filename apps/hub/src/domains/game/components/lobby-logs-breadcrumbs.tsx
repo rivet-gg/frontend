@@ -20,7 +20,7 @@ export function MatchmakerLobbyBreadcrumbs({
     <Flex items="center" justify="start" minH="10">
       <span className="mr-1 min-w-0 flex-shrink-0">
         <Link
-          to="/games/$gameId/namespaces/$namespaceId/matchmaker/logs/"
+          to="/games/$gameId/namespaces/$namespaceId/matchmaker/logs"
           params={{ gameId, namespaceId }}
         >
           {title}

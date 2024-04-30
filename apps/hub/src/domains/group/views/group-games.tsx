@@ -63,7 +63,7 @@ export function GroupGames({ groupId }: GroupGamesProps) {
                   <TableCell>
                     <Link
                       className="contents"
-                      to="/games/$gameId/"
+                      to="/games/$gameId"
                       params={{ gameId: game.gameId }}
                     >
                       <Text>{game.displayName}</Text>

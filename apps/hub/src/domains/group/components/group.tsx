@@ -22,7 +22,7 @@ export function Group(props: GroupProps) {
   return (
     <Card my="4">
       <CardHeader>
-        <Link to="/teams/$groupId/" params={{ groupId }}>
+        <Link to="/teams/$groupId" params={{ groupId }}>
           <Flex direction="row" justify="between">
             <Flex direction="row" items="center" gap="4">
               <GroupAvatar displayName={displayName} avatarUrl={avatarUrl} />
@@ -40,7 +40,7 @@ export function Group(props: GroupProps) {
             {games.map((game) => (
               <Link
                 key={game.gameId}
-                to="/games/$gameId/"
+                to="/games/$gameId"
                 params={{ gameId: game.gameId }}
               >
                 <GameTile {...game} />

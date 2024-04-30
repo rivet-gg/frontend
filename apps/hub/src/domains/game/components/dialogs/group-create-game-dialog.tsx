@@ -20,7 +20,7 @@ export default function CreateGroupGameDialogContent({
   const { mutateAsync } = useGameCreateMutation({
     onSuccess: (data) => {
       navigate({
-        to: "/games/$gameId/",
+        to: "/games/$gameId",
         params: { gameId: data.gameId },
       });
     },

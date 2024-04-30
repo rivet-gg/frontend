@@ -56,7 +56,7 @@ export function GameNamespacesView({ gameId }: GameNamespacesViewProps) {
                 isClickable
                 onClick={() => {
                   navigate({
-                    to: "/games/$gameId/namespaces/$namespaceId/",
+                    to: "/games/$gameId/namespaces/$namespaceId",
                     params: { gameId, namespaceId: namespace.namespaceId },
                   });
                 }}
