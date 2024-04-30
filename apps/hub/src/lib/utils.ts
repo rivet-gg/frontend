@@ -26,3 +26,5 @@ export function hasMethod<TName extends string>(
     })
     .safeParse(obj).success;
 }
+
+export function noop() {}

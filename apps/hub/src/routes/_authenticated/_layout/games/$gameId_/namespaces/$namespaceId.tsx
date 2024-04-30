@@ -1,14 +1,29 @@
+import { ErrorComponent } from "@/components/error-component";
 import * as Layout from "@/domains/game/layouts/namespace-layout";
 import {
   gameNamespaceQueryOptions,
   gameQueryOptions,
 } from "@/domains/game/queries";
 import { queryClient } from "@/queries/global";
-import { Outlet, createFileRoute, notFound } from "@tanstack/react-router";
+import {
+  ErrorComponentProps,
+  Outlet,
+  createFileRoute,
+  notFound,
+} from "@tanstack/react-router";
+
+function NamespaceErrorComponent(props: ErrorComponentProps) {
+  return (
+    <Layout.EmptyRoot>
+      <ErrorComponent {...props} />
+    </Layout.EmptyRoot>
+  );
+}
 
 function NamespaceIdRoute() {
+  const params = Route.useParams();
   return (
-    <Layout.Root>
+    <Layout.Root {...params}>
       <Outlet />
     </Layout.Root>
   );
@@ -34,4 +49,5 @@ export const Route = createFileRoute(
     }
   },
   component: NamespaceIdRoute,
+  errorComponent: NamespaceErrorComponent,
 });

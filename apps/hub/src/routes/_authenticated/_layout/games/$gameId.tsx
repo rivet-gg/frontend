@@ -1,9 +1,22 @@
+import { ErrorComponent } from "@/components/error-component";
 import * as Layout from "@/domains/game/layouts/game-layout";
 import { gameQueryOptions } from "@/domains/game/queries";
 import { useDialog } from "@/hooks/use-dialog";
 
-import { Outlet, createFileRoute } from "@tanstack/react-router";
+import {
+  ErrorComponentProps,
+  Outlet,
+  createFileRoute,
+} from "@tanstack/react-router";
 import { z } from "zod";
+
+function GameIdErrorComponent(props: ErrorComponentProps) {
+  return (
+    <Layout.EmptyRoot>
+      <ErrorComponent {...props} />
+    </Layout.EmptyRoot>
+  );
+}
 
 function Modals() {
   const navigate = Route.useNavigate();
@@ -51,4 +64,5 @@ export const Route = createFileRoute("/_authenticated/_layout/games/$gameId")({
     await queryClient.ensureQueryData(gameQueryOptions(gameId));
   },
   component: GameIdRoute,
+  errorComponent: GameIdErrorComponent,
 });

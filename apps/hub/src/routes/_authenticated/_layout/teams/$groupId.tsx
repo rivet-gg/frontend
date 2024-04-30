@@ -1,8 +1,24 @@
+import { ErrorComponent } from "@/components/error-component";
 import * as Layout from "@/domains/game/layouts/group-layout";
 import { groupGamesQueryOptions } from "@/domains/game/queries";
 import { useDialog } from "@/hooks/use-dialog";
-import { Outlet, createFileRoute, notFound } from "@tanstack/react-router";
+import {
+  ErrorComponentProps,
+  Outlet,
+  createFileRoute,
+  notFound,
+} from "@tanstack/react-router";
 import { z } from "zod";
+
+function GroupIdErrorComponent(props: ErrorComponentProps) {
+  const { groupId } = Route.useParams();
+
+  return (
+    <Layout.Root groupId={groupId}>
+      <ErrorComponent {...props} />
+    </Layout.Root>
+  );
+}
 
 function Modals() {
   const navigate = Route.useNavigate();
@@ -13,7 +29,6 @@ function Modals() {
   const CreateGroupGameDialog = useDialog.CreateGroupGame.Dialog;
 
   const handleonOpenChange = (value: boolean) => {
-    console.log(value);
     if (!value) {
       navigate({ search: { modal: undefined } });
     }
@@ -67,4 +82,5 @@ export const Route = createFileRoute("/_authenticated/_layout/teams/$groupId")({
     }
   },
   component: GroupIdView,
+  errorComponent: GroupIdErrorComponent,
 });

@@ -1,11 +1,26 @@
 import { ErrorComponent } from "@/components/error-component";
 import { AuthContext } from "@/domains/auth/contexts/auth";
 import * as Layout from "@/layouts/root";
-import { FullscreenLoading } from "@rivet-gg/components";
+import { FullscreenLoading, Page } from "@rivet-gg/components";
 import { QueryClient } from "@tanstack/react-query";
-import { Outlet, createRootRouteWithContext } from "@tanstack/react-router";
+import {
+  ErrorComponentProps,
+  Outlet,
+  createRootRouteWithContext,
+} from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/router-devtools";
 import { Suspense } from "react";
+import * as PageLayout from "@/layouts/page";
+
+function RootErrorComponent(props: ErrorComponentProps) {
+  return (
+    <PageLayout.Root>
+      <Page title="Not found">
+        <ErrorComponent {...props} />
+      </Page>
+    </PageLayout.Root>
+  );
+}
 
 function Root() {
   return (
@@ -39,6 +54,6 @@ export interface RouterContext {
 
 export const Route = createRootRouteWithContext<RouterContext>()({
   component: RootRoute,
-  errorComponent: ErrorComponent,
-  wrapInSuspense: false,
+  errorComponent: RootErrorComponent,
+  notFoundComponent: RootErrorComponent,
 });

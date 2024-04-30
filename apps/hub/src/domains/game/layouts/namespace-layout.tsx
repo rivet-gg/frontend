@@ -1,19 +1,30 @@
 import { Page } from "@rivet-gg/components";
-import { useParams } from "@tanstack/react-router";
 import { ReactNode } from "react";
 import { CurrentNamespaceVersionTitle } from "../components/current-namespace-version-title";
 
 interface MatchmakerPageProps {
   children: ReactNode;
+  namespaceId: string;
+  gameId: string;
 }
 
-function NamespacePage({ children }: MatchmakerPageProps) {
-  const params = useParams({
-    from: "/_authenticated/_layout/games/$gameId/namespaces/$namespaceId",
-  });
+function NamespacePage({ children, namespaceId, gameId }: MatchmakerPageProps) {
   return (
-    <Page title={<CurrentNamespaceVersionTitle {...params} />}>{children}</Page>
+    <Page
+      title={
+        <CurrentNamespaceVersionTitle
+          gameId={gameId}
+          namespaceId={namespaceId}
+        />
+      }
+    >
+      {children}
+    </Page>
   );
 }
 
-export { NamespacePage as Root };
+function EmptyRoot({ children }: { children: ReactNode }) {
+  return <Page title="Unknown Namespace">{children}</Page>;
+}
+
+export { NamespacePage as Root, EmptyRoot };

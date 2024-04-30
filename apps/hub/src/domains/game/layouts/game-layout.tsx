@@ -1,5 +1,5 @@
 import { Page } from "@rivet-gg/components";
-import { ReactNode } from "react";
+import { PropsWithChildren, ReactNode } from "react";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { gameQueryOptions } from "../queries";
 
@@ -13,4 +13,8 @@ function GamePage({ children, gameId }: GamePageProps) {
   return <Page title={data.displayName}>{children}</Page>;
 }
 
-export { GamePage as Root };
+function EmptyGamePage({ children }: PropsWithChildren) {
+  return <Page title="Unknown Game">{children}</Page>;
+}
+
+export { GamePage as Root, EmptyGamePage as EmptyRoot };

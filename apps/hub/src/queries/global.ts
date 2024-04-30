@@ -1,4 +1,4 @@
-import { RivetClient, Rivet } from "@rivet-gg/api";
+import { RivetClient } from "@rivet-gg/api";
 import { RivetClient as RivetEeClient } from "@rivet-gg/api-ee";
 import { QueryCache, QueryClient } from "@tanstack/react-query";
 import { createSyncStoragePersister } from "@tanstack/query-sync-storage-persister";

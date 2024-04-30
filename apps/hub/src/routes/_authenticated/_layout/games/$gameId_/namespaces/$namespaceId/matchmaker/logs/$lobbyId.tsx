@@ -1,3 +1,4 @@
+import { gameNamespaceLogsLobbyQueryOptions } from "@/domains/game/queries";
 import { NamespaceMatchmakerLobbyLogs } from "@/domains/game/views/namespace-matchmaker-lobby-logs";
 import { createFileRoute } from "@tanstack/react-router";
 
@@ -16,5 +17,10 @@ function MatchmakerLobbyLogsView() {
 export const Route = createFileRoute(
   "/_authenticated/_layout/games/$gameId/namespaces/$namespaceId/matchmaker/logs/$lobbyId",
 )({
+  beforeLoad: async ({ params: { gameId, namespaceId, lobbyId }, context }) => {
+    await context.queryClient.ensureQueryData(
+      gameNamespaceLogsLobbyQueryOptions({ gameId, namespaceId, lobbyId }),
+    );
+  },
   component: MatchmakerLobbyLogsView,
 });

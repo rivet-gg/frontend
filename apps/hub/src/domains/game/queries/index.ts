@@ -693,7 +693,7 @@ export const gameNamespaceLobbiesLiveQueryOptions = ({
   namespaceId: string;
 }) => {
   return queryOptions({
-    queryKey: ["game", gameId, "namespace", namespaceId],
+    queryKey: ["game", gameId, "namespace", namespaceId, "lobbies"],
     refetchInterval: 15000,
     queryFn: ({
       queryKey: [

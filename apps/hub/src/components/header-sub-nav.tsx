@@ -2,9 +2,10 @@ import { useAuth } from "@/domains/auth/contexts/auth";
 import { buildNamespaceSubNav, gameSubNav } from "@/domains/game/data/route";
 import { gameNamespaceQueryOptions } from "@/domains/game/queries";
 import { groupSubNav } from "@/domains/group/data/route";
+import { noop } from "@/lib/utils";
 import { Skeleton } from "@rivet-gg/components";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { Link, useMatchRoute } from "@tanstack/react-router";
+import { CatchBoundary, Link, useMatchRoute } from "@tanstack/react-router";
 import { Suspense } from "react";
 
 interface LinksProps {
@@ -92,16 +93,18 @@ function Content() {
 
 export function HeaderSubNav() {
   return (
-    <Suspense
-      fallback={
-        <div className="-mb-2 flex min-h-10 items-center gap-6">
-          <Skeleton className="mb-2 h-5 w-16" />
-          <Skeleton className="mb-2 h-5 w-16" />
-          <Skeleton className="mb-2 h-5 w-16" />
-        </div>
-      }
-    >
-      <Content />
-    </Suspense>
+    <CatchBoundary getResetKey={() => "reset"} errorComponent={noop}>
+      <Suspense
+        fallback={
+          <div className="-mb-2 flex min-h-10 items-center gap-6">
+            <Skeleton className="mb-2 h-5 w-16" />
+            <Skeleton className="mb-2 h-5 w-16" />
+            <Skeleton className="mb-2 h-5 w-16" />
+          </div>
+        }
+      >
+        <Content />
+      </Suspense>
+    </CatchBoundary>
   );
 }
