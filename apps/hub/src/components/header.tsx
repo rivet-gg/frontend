@@ -19,11 +19,13 @@ const UserProfileButton = () => {
   }
   return (
     <Button asChild variant="secondary" size="icon" className="rounded-full">
-      <img
-        src={profile.identity.avatarUrl}
-        alt="User avatar"
-        className="size-7 rounded-full"
-      />
+      <div>
+        <img
+          src={profile.identity.avatarUrl}
+          alt="User avatar"
+          className="size-7 rounded-full"
+        />
+      </div>
     </Button>
   );
 };

@@ -1,3 +1,4 @@
+import { ErrorComponent } from "@/components/error-component";
 import { AuthContext } from "@/domains/auth/contexts/auth";
 import { bootstrapQueryOptions } from "@/domains/auth/queries/bootstrap";
 import * as Layout from "@/layouts/root";
@@ -38,4 +39,5 @@ export interface RouterContext {
 
 export const Route = createRootRouteWithContext<RouterContext>()({
   component: RootRoute,
+  errorComponent: ErrorComponent,
 });
