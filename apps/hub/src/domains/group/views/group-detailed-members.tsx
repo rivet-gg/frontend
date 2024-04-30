@@ -14,10 +14,8 @@ import { UserAvatar } from "../../user/components/user-avatar";
 import { groupOnwerQueryOptions } from "@/domains/game/queries";
 import { Crown } from "lucide-react";
 import { GroupMemberSettingsMenu } from "../components/group-member-settings-menu";
-import { useGroupMemberTransferOwnershipDialog } from "../hooks/use-group-member-transfer-ownership-dialog";
-import { useGroupMemberKickDialog } from "../hooks/use-group-member-kick-dialog";
-import { useGroupMemberBanDialog } from "../hooks/use-group-member-ban-dialog";
 import { Link } from "@tanstack/react-router";
+import { useDialog } from "@/hooks/use-dialog";
 
 interface GroupDetailedMembersProps {
   groupId: string;
@@ -29,14 +27,16 @@ export function GroupDetailedMembers({ groupId }: GroupDetailedMembersProps) {
   );
   const { data } = useSuspenseQuery(groupMembersQueryOptions(groupId));
 
-  const { confirmTransferOwnership, dialog: confirmTransferOwnershipDialog } =
-    useGroupMemberTransferOwnershipDialog(groupId);
+  const {
+    open: confirmTransferOwnership,
+    dialog: confirmTransferOwnershipDialog,
+  } = useDialog.ConfirmTransferOwnership({ groupId });
 
-  const { confirmMemberKick, dialog: confirmMemberKickDialog } =
-    useGroupMemberKickDialog(groupId);
+  const { open: confirmMemberKick, dialog: confirmMemberKickDialog } =
+    useDialog.ConfirmMemberKick({ groupId });
 
-  const { confirmMemberBan, dialog: confirmMemberBanDialog } =
-    useGroupMemberBanDialog(groupId);
+  const { open: confirmMemberBan, dialog: confirmMemberBanDialog } =
+    useDialog.ConfirmMemberBan({ groupId });
 
   return (
     <Card w="full">

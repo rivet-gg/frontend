@@ -1,5 +1,5 @@
-import { Flex } from "@rivet-gg/components";
 import { Loader2 } from "lucide-react";
+import { Flex } from "./flex";
 
 export function DialogActivityIndicator() {
   return (

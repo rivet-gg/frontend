@@ -24,6 +24,7 @@ export * from "./ui/form";
 export * from "./ui/flex";
 export * from "./ui/dropdown-menu";
 export * from "./ui/dialog";
+export * from "./ui/dialog-activity-indicator";
 export * from "./ui/card";
 export * from "./ui/button";
 export * from "./ui/avatar";

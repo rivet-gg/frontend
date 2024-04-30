@@ -1,9 +1,6 @@
 import {
-  Dialog,
-  DialogContent,
   DialogFooter,
   DialogHeader,
-  DialogProps,
   DialogTitle,
   Flex,
 } from "@rivet-gg/components";
@@ -11,7 +8,7 @@ import * as GroupCreateForm from "@/domains/group/forms/group-create-form";
 import { useGroupCreateMutation } from "../../queries";
 import { useNavigate } from "@tanstack/react-router";
 
-function Content() {
+export default function CreateGroupDialogContent() {
   const navigate = useNavigate();
   const { mutateAsync } = useGroupCreateMutation({
     onSuccess: (data) => {
@@ -40,17 +37,5 @@ function Content() {
         </DialogFooter>
       </GroupCreateForm.Form>
     </>
-  );
-}
-
-interface CreateGroupDialogProps extends DialogProps {}
-
-export function CreateGroupDialog(dialogProps: CreateGroupDialogProps) {
-  return (
-    <Dialog {...dialogProps}>
-      <DialogContent>
-        <Content />
-      </DialogContent>
-    </Dialog>
   );
 }

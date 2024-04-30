@@ -1,11 +1,9 @@
-import { DialogActivityIndicator } from "@/components/dialog-activity-indicator";
 import { Dialog, DialogContent, DialogProps } from "@rivet-gg/components";
 import {
   lazy,
   ComponentProps,
   useCallback,
   useState,
-  Suspense,
   ComponentType,
   useMemo,
 } from "react";
@@ -43,9 +41,7 @@ export const createDialogHook = <
             }
           }}
         >
-          <Suspense fallback={<DialogActivityIndicator />}>
-            <Content {...props} onClose={() => props.onOpenChange?.(false)} />
-          </Suspense>
+          <Content {...props} onClose={() => props.onOpenChange?.(false)} />
         </DialogContent>
       </Dialog>
     );
@@ -137,9 +133,7 @@ export const createDataDialogHook = <
               }
             }}
           >
-            <Suspense fallback={<DialogActivityIndicator />}>
-              <Content {...props} {...data} onClose={close} />
-            </Suspense>
+            <Content {...props} {...data} onClose={close} />
           </DialogContent>
         </Dialog>
       ),
@@ -196,4 +190,25 @@ useDialog.ConfirmBillingPlan = createDataDialogHook(
 
 useDialog.CreateGroupInvite = createDialogHook(
   import("@/domains/group/components/dialogs/create-group-invite-dialog"),
+);
+
+useDialog.ConfirmTransferOwnership = createDataDialogHook(
+  ["identityId"],
+  import(
+    "@/domains/group/components/dialogs/confirm-transfer-ownership-dialog"
+  ),
+);
+
+useDialog.ConfirmMemberKick = createDataDialogHook(
+  ["identityId"],
+  import("@/domains/group/components/dialogs/confirm-member-kick-dialog"),
+);
+
+useDialog.ConfirmMemberBan = createDataDialogHook(
+  ["identityId"],
+  import("@/domains/group/components/dialogs/confirm-member-ban-dialog"),
+);
+
+useDialog.CreateGroup = createDialogHook(
+  import("@/domains/group/components/dialogs/create-group-dialog"),
 );

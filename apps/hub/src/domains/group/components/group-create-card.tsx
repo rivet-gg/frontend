@@ -6,10 +6,10 @@ import {
   CardHeader,
   CardTitle,
 } from "@rivet-gg/components";
-import { useGroupCreateDialog } from "../hooks/use-group-create-dialog";
+import { useDialog } from "@/hooks/use-dialog";
 
 export function GroupCreateCard() {
-  const { openGroupCreateDialog, dialog } = useGroupCreateDialog();
+  const { open: openGroupCreateDialog, dialog } = useDialog.CreateGroup({});
 
   return (
     <>

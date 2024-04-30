@@ -1,12 +1,9 @@
 import {
   Button,
   Code,
-  Dialog,
-  DialogContent,
   DialogDescription,
   DialogFooter,
   DialogHeader,
-  DialogProps,
   DialogTitle,
   Strong,
   Text,
@@ -17,16 +14,18 @@ import {
 } from "../../queries";
 import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
 import { groupGamesQueryOptions } from "@/domains/game/queries";
-import { Suspense } from "react";
-import { DialogActivityIndicator } from "@/components/dialog-activity-indicator";
 
-interface ContentProps {
+interface ConfirmMemberKickDialogContentProps {
   groupId: string;
   identityId: string;
   onSuccess?: () => void;
 }
 
-function Content({ groupId, identityId, onSuccess }: ContentProps) {
+export default function ConfirmMemberKickDialogContent({
+  groupId,
+  identityId,
+  onSuccess,
+}: ConfirmMemberKickDialogContentProps) {
   const { data: group } = useSuspenseQuery(groupGamesQueryOptions(groupId));
   const { data: groupMember } = useQuery(
     groupMemberQueryOptions({ identityId, groupId }),
@@ -61,34 +60,5 @@ function Content({ groupId, identityId, onSuccess }: ContentProps) {
         </Button>
       </DialogFooter>
     </>
-  );
-}
-
-interface ConfirmMemberKickDialogProps
-  extends DialogProps,
-    Partial<ContentProps> {}
-
-export function ConfirmMemberKickDialog({
-  groupId,
-  identityId,
-  onSuccess,
-  ...dialogProps
-}: ConfirmMemberKickDialogProps) {
-  return (
-    <Dialog {...dialogProps}>
-      <DialogContent>
-        {groupId && identityId ? (
-          <Suspense fallback={<DialogActivityIndicator />}>
-            <Content
-              groupId={groupId}
-              identityId={identityId}
-              onSuccess={onSuccess}
-            />
-          </Suspense>
-        ) : (
-          <DialogActivityIndicator />
-        )}
-      </DialogContent>
-    </Dialog>
   );
 }
