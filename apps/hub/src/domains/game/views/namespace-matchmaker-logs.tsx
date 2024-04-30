@@ -120,6 +120,13 @@ export function NamespaceMatchmakerLogs({
                 namespaceId={namespaceId}
               />
             ))}
+            {lobbies.length === 0 && (
+              <TableRow>
+                <TableCell colSpan={7} className="text-center">
+                  No lobby logs found
+                </TableCell>
+              </TableRow>
+            )}
           </TableBody>
         </Table>
       </CardContent>

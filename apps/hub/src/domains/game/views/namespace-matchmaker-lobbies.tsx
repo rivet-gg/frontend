@@ -162,6 +162,13 @@ export function NamespaceMatchmakerLobbies({
                 namespaceId={namespaceId}
               />
             ))}
+            {lobbies.length === 0 && (
+              <TableRow>
+                <TableCell colSpan={5} className="text-center">
+                  No lobbies found
+                </TableCell>
+              </TableRow>
+            )}
           </TableBody>
         </Table>
       </CardContent>
