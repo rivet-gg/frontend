@@ -91,6 +91,7 @@ export function NamespaceMatchmakerLogs({
       <CardHeader>
         <CardTitle>
           <MatchmakerLobbyBreadcrumbs
+            title="Logs"
             gameId={gameId}
             namespaceId={namespaceId}
           />

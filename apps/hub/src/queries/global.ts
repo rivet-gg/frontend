@@ -5,7 +5,7 @@ import { createSyncStoragePersister } from "@tanstack/query-sync-storage-persist
 import { identityTokenQueryOptions } from "../domains/user/queries";
 import superjson from "superjson";
 
-const opts = {
+const opts: RivetClient.Options = {
   environment: "https://api.staging2.gameinc.io",
   fetcher: async (args) => {
     const identity = (await queryClient.getQueryData(

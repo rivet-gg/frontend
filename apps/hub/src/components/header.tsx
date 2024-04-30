@@ -18,7 +18,7 @@ const UserProfileButton = () => {
     return null;
   }
   return (
-    <Button as="a" variant="secondary" size="icon" className="rounded-full">
+    <Button asChild variant="secondary" size="icon" className="rounded-full">
       <img
         src={profile.identity.avatarUrl}
         alt="User avatar"
