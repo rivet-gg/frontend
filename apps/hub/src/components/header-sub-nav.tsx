@@ -1,3 +1,4 @@
+import { useAuth } from "@/domains/auth/contexts/auth";
 import { buildNamespaceSubNav, gameSubNav } from "@/domains/game/data/route";
 import { gameNamespaceQueryOptions } from "@/domains/game/queries";
 import { groupSubNav } from "@/domains/group/data/route";
@@ -53,6 +54,12 @@ function Content() {
     to: "/games/$gameId/namespaces/$namespaceId",
     fuzzy: true,
   }) as { gameId: string; namespaceId: string } | false;
+
+  const { profile } = useAuth();
+
+  if (!profile?.identity.isRegistered) {
+    return null;
+  }
 
   if (namespaceMatch) {
     return (

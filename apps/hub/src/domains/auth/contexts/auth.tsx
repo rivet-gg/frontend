@@ -6,6 +6,7 @@ import {
   identityTokenQueryOptions,
   selfProfileQueryOptions,
 } from "@/domains/user/queries";
+import { bootstrapQueryOptions } from "../queries/bootstrap";
 
 export interface AuthContext {
   profile: Rivet.identity.GetProfileResponse | undefined;
@@ -21,6 +22,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const { data: profile, refetch: refetchProfile } = useSuspenseQuery(
     selfProfileQueryOptions({ enabled: isSuccess }),
   );
+
+  useSuspenseQuery(bootstrapQueryOptions({ enabled: isSuccess }));
 
   const refreshToken = useCallback(async () => {
     await refetchSession();

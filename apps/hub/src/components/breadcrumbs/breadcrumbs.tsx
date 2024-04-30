@@ -4,9 +4,15 @@ import { Suspense } from "react";
 import { GroupBreadcrumb } from "./group-breadcrumb";
 import { GameBreadcrumb } from "./game-breadcrumb";
 import { NamespaceBreadcrumb } from "./namespace-breadcrumb";
+import { useAuth } from "@/domains/auth/contexts/auth";
 
 function Content() {
   const matchRoute = useMatchRoute();
+
+  const { profile } = useAuth();
+  if (!profile?.identity.isRegistered) {
+    return null;
+  }
 
   const groupMatch = matchRoute({ to: "/teams/$groupId", fuzzy: true }) as
     | false

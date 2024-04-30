@@ -6,6 +6,7 @@ import {
   CardHeader,
   CardContent,
   Card,
+  Skeleton,
 } from "@rivet-gg/components";
 import { GameTile } from "@rivet-gg/components/game";
 import { Link } from "@tanstack/react-router";
@@ -51,3 +52,7 @@ export function Group(props: GroupProps) {
     </Card>
   );
 }
+
+Group.Skeleton = () => {
+  return <Skeleton className="my-4 h-64 w-full" />;
+};

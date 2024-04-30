@@ -11,6 +11,7 @@ import { NavItem } from "./nav-item";
 import { HeaderSubNav } from "./header-sub-nav";
 import { useAuth } from "@/domains/auth/contexts/auth";
 import { Breadcrumbs } from "./breadcrumbs/breadcrumbs";
+import { HeaderRouteLoader } from "./header-route-loader";
 
 const UserProfileButton = () => {
   const { profile } = useAuth();
@@ -33,7 +34,8 @@ const UserProfileButton = () => {
 export function Header() {
   return (
     <header className="bg-background/60 sticky top-0 z-10 flex items-center gap-4 border-b py-2 backdrop-blur">
-      <div className="container flex min-h-10 flex-col gap-4">
+      <HeaderRouteLoader />
+      <div className="container flex min-h-10 flex-col justify-center gap-4">
         <div className="flex w-full items-center gap-4">
           <Sheet>
             <SheetTrigger asChild>

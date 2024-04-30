@@ -6,8 +6,7 @@ import { Outlet, createFileRoute } from "@tanstack/react-router";
 
 function Authenticated() {
   const { profile } = useAuth();
-
-  if (!profile?.identity.isRegistered) {
+  if (profile?.identity.isRegistered === false) {
     return (
       <Layout.Root>
         <LoginView />

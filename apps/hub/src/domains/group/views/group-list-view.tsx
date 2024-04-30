@@ -15,3 +15,13 @@ export function GroupListView() {
     </Flex>
   );
 }
+
+GroupListView.Skeleton = () => {
+  return (
+    <Flex direction="col">
+      <Group.Skeleton />
+      <Group.Skeleton />
+      <Group.Skeleton />
+    </Flex>
+  );
+};

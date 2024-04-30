@@ -1,32 +1,32 @@
 import { ErrorComponent } from "@/components/error-component";
 import { AuthContext } from "@/domains/auth/contexts/auth";
-import { bootstrapQueryOptions } from "@/domains/auth/queries/bootstrap";
 import * as Layout from "@/layouts/root";
-import { FullscreenLoading, Toaster } from "@rivet-gg/components";
-import { QueryClient, useSuspenseQuery } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { FullscreenLoading } from "@rivet-gg/components";
+import { QueryClient } from "@tanstack/react-query";
 import { Outlet, createRootRouteWithContext } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/router-devtools";
 import { Suspense } from "react";
 
-function RootRoute() {
-  useSuspenseQuery(bootstrapQueryOptions());
+function Root() {
+  return (
+    <Layout.Root>
+      <Layout.Header />
+      <Layout.Main>
+        <Outlet />
+      </Layout.Main>
+      <Layout.Footer />
+    </Layout.Root>
+  );
+}
 
+function RootRoute() {
   return (
     <>
-      <Layout.Root>
-        <Suspense fallback={<FullscreenLoading />}>
-          <Layout.Header />
-          <Layout.Main>
-            <Outlet />
-          </Layout.Main>
-          <Layout.Footer />
-        </Suspense>
-      </Layout.Root>
+      <Suspense fallback={<FullscreenLoading />}>
+        <Root />
+      </Suspense>
 
-      <Toaster />
       <TanStackRouterDevtools />
-      <ReactQueryDevtools />
     </>
   );
 }
@@ -40,4 +40,5 @@ export interface RouterContext {
 export const Route = createRootRouteWithContext<RouterContext>()({
   component: RootRoute,
   errorComponent: ErrorComponent,
+  wrapInSuspense: false,
 });

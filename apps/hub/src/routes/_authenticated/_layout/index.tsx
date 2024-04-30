@@ -3,6 +3,7 @@ import { gamesQueryOptions } from "@/domains/game/queries";
 import { GroupListView } from "@/domains/group/views/group-list-view";
 import { CtaCard, Grid, NarrowPage } from "@rivet-gg/components";
 import { createFileRoute } from "@tanstack/react-router";
+import { Suspense } from "react";
 
 function IndexRoute() {
   const { profile } = useAuth();
@@ -25,7 +26,9 @@ function IndexRoute() {
           <CtaCard title="GitHub">Contribute to Rivet on GitHub</CtaCard>
         </a>
       </Grid>
-      <GroupListView />
+      <Suspense fallback={<GroupListView.Skeleton />}>
+        <GroupListView />
+      </Suspense>
     </NarrowPage>
   );
 }

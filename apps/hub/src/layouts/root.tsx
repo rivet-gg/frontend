@@ -19,8 +19,10 @@ const Header = () => {
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-800 p-4 text-white">
-      <div className="container">Footer</div>
+    <footer className="text-muted-foreground bg-muted/20 p-4 text-center text-sm">
+      <div className="container">
+        &copy; {new Date().getFullYear()} Rivet Gaming, Inc. All rights reserved
+      </div>
     </footer>
   );
 };

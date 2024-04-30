@@ -1,27 +1,19 @@
-import {
-  createRouteMask,
-  createRouter,
-  RouterProvider,
-} from "@tanstack/react-router";
+import { createRouter, RouterProvider } from "@tanstack/react-router";
 import { routeTree } from "./routeTree.gen";
 import { queryClient, queryClientPersister } from "./queries/global";
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
 import { Suspense } from "react";
-import { FullscreenLoading } from "@rivet-gg/components";
+import { FullscreenLoading, Toaster } from "@rivet-gg/components";
 import { useAuth, AuthProvider } from "./domains/auth/contexts/auth";
 import { routeMasks } from "./lib/route-masks";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 declare module "@tanstack/react-router" {
   interface Register {
     router: typeof router;
   }
-
-  interface StaticDataRouteOption {
-    subNav?: { title: string; url: string }[];
-  }
 }
 
-// Create a new router instance
 const router = createRouter({
   routeTree,
   routeMasks,
@@ -50,6 +42,9 @@ export function App() {
           <InnerApp />
         </AuthProvider>
       </Suspense>
+
+      <Toaster />
+      <ReactQueryDevtools />
     </PersistQueryClientProvider>
   );
 }
