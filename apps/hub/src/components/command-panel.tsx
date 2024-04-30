@@ -24,7 +24,7 @@ import { NamespaceCommandPanelPage } from "./command-panel/command-panel-page/na
 import { CommandPanelNavigationBreadcrumbs } from "./command-panel/command-panel-navigation-breadcrumbs";
 
 export function CommandPanel() {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
 
   const [search, setSearch] = useState("");
   const [pages, setPages] = useState<CommandPanelPage[]>([]);
@@ -73,7 +73,6 @@ export function CommandPanel() {
 
   return (
     <CommandDialog
-      defaultOpen={true}
       commandProps={{
         onKeyDown: handleKeyDown,
       }}
