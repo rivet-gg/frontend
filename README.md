@@ -119,6 +119,15 @@ The project is designed to be built once and used in multiple environments. UI p
 
 and fill it with the appropriate values.
 
+However, if you want to just deploy the project in a common way, supply the environment variables:
+
+```bash
+API_URL=YOUR
+ASSETS_URL=VALUES
+```
+
+when building the project.
+
 ## 🏗️ Contributing
 
 1. Look for any issue that describes something that needs to be done - or, if
