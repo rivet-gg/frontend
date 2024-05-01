@@ -109,7 +109,7 @@ Views are special components that are used in the routes, following MVC pattern.
 
 ### Configuration
 
-The project is designed to be built once and used in multiple environments. UI package uses a React context to determine environment configuration. Hub app, on the other hand, uses an HTML element to fetch the configuration and pass it to the UI elements. To configure project put the following element in the `public/index.html` file:
+The project is designed to be built once and used in multiple environments. UI package uses a React context to determine environment configuration. Hub app, on the other hand, uses an HTML element to fetch the configuration and pass it to the UI elements. To configure the project put the following element in the `public/index.html` file:
 
 ```html
 <script type="application/json" id="RIVET_CONFIG">
