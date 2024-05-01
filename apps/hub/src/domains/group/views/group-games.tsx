@@ -1,3 +1,4 @@
+import { GameTableActions } from "@/domains/game/components/game-table-actions";
 import { groupGamesQueryOptions } from "@/domains/game/queries";
 import {
   AssetImage,
@@ -16,7 +17,7 @@ import {
   Text,
 } from "@rivet-gg/components";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { Link } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { Plus } from "lucide-react";
 
 interface GroupGamesProps {
@@ -25,6 +26,8 @@ interface GroupGamesProps {
 
 export function GroupGames({ groupId }: GroupGamesProps) {
   const { data } = useSuspenseQuery(groupGamesQueryOptions(groupId));
+
+  const navigate = useNavigate();
 
   return (
     <>
@@ -45,12 +48,22 @@ export function GroupGames({ groupId }: GroupGamesProps) {
               <TableRow>
                 <TableHead w="16"></TableHead>
                 <TableHead>Name</TableHead>
+                <TableHead w="16"></TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {data.games.map((game) => (
-                <TableRow key={game.gameId}>
-                  <TableCell>
+                <TableRow
+                  key={game.gameId}
+                  isClickable
+                  onClick={() => {
+                    navigate({
+                      to: "/games/$gameId",
+                      params: { gameId: game.gameId },
+                    });
+                  }}
+                >
+                  <TableCell w="16">
                     <AssetImage
                       src={game.logoUrl || "/games/blank/blankgame.svg"}
                       alt={`${game.displayName} logo`}
@@ -59,13 +72,10 @@ export function GroupGames({ groupId }: GroupGamesProps) {
                     />
                   </TableCell>
                   <TableCell>
-                    <Link
-                      className="contents"
-                      to="/games/$gameId"
-                      params={{ gameId: game.gameId }}
-                    >
-                      <Text>{game.displayName}</Text>
-                    </Link>
+                    <Text>{game.displayName}</Text>
+                  </TableCell>
+                  <TableCell>
+                    <GameTableActions />
                   </TableCell>
                 </TableRow>
               ))}
