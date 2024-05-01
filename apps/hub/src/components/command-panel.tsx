@@ -38,8 +38,8 @@ export function CommandPanel() {
         e.preventDefault();
         startTransition(() => {
           const isTeam = matchRoute({
-            from: "/",
             to: "/teams/$groupId",
+            fuzzy: true,
           }) as { groupId: string } | false;
 
           if (isTeam) {
@@ -47,16 +47,16 @@ export function CommandPanel() {
           }
 
           const isGame = matchRoute({
-            from: "/",
             to: "/games/$gameId",
+            fuzzy: true,
           }) as { gameId: string } | false;
           if (isGame) {
             setPages([{ key: "game", params: { gameId: isGame.gameId } }]);
           }
 
           const isNamespace = matchRoute({
-            from: "/",
             to: "/games/$gameId/namespaces/$namespaceId",
+            fuzzy: true,
           }) as { gameId: string; namespaceId: string } | false;
           if (isNamespace) {
             setPages([
@@ -76,7 +76,7 @@ export function CommandPanel() {
     };
     document.addEventListener("keydown", down);
     return () => document.removeEventListener("keydown", down);
-  }, [matchRoute]);
+  }, []);
 
   const handlePageChange = useCallback((page: CommandPanelPage) => {
     startTransition(() => {
