@@ -11,10 +11,8 @@ import {
 import { z } from "zod";
 
 function GroupIdErrorComponent(props: ErrorComponentProps) {
-  const { groupId } = Route.useParams();
-
   return (
-    <Layout.Root groupId={groupId}>
+    <Layout.Root>
       <ErrorComponent {...props} />
     </Layout.Root>
   );
@@ -55,10 +53,8 @@ function Modals() {
 }
 
 function GroupIdView() {
-  const { groupId } = Route.useParams();
-
   return (
-    <Layout.Root groupId={groupId}>
+    <Layout.Root>
       <Outlet />
       <Modals />
     </Layout.Root>

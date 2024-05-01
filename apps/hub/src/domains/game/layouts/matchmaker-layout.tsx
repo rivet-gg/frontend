@@ -7,11 +7,11 @@ import { Link } from "@tanstack/react-router";
 import { ReactNode } from "react";
 
 const LINKS = [
-  {
-    url: "/games/$gameId/namespaces/$namespaceId/matchmaker/",
-    text: "Overview",
-    exact: true,
-  },
+  // {
+  //   url: "/games/$gameId/namespaces/$namespaceId/matchmaker/",
+  //   text: "Overview",
+  //   exact: true,
+  // },
   {
     url: "/games/$gameId/namespaces/$namespaceId/matchmaker/lobbies",
     text: "Lobbies",

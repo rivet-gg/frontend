@@ -128,6 +128,16 @@ VITE_APP_ASSETS_URL=VALUES
 
 when building the project.
 
+### Troubleshooting
+
+#### `Failed to resolve import "./some_file.js" from "../../packages/components/dist/index.js". Does the file exist?` error
+
+This is caused by the race condition between the Vite server (responsible for building Hub) and the Rollup build (responsible for building UI). To fix this, stop the Vite server remove `node_modules` from the `hub` directory, and run the Vite server again.
+
+### `[postcss] Cannot find module '/your/path/to/project/node_modules/@rivet-gg/components/dist/index.cjs'` error
+
+See the solution for the previous error.
+
 ## 🏗️ Contributing
 
 1. Look for any issue that describes something that needs to be done - or, if

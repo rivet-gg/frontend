@@ -6,15 +6,15 @@ import { Skeleton } from "./ui/skeleton";
 
 export interface PageProps {
   className?: string;
-  title: ReactNode;
+  title?: ReactNode;
   header?: ReactNode;
   children: ReactNode;
 }
 
 export const Page = ({ title, header, children, className }: PageProps) => {
   return (
-    <Flex direction="col" gap="4" className={className}>
-      <H1 className={cn(header ? "mt-8" : "my-8")}>{title}</H1>
+    <Flex direction="col" gap="4" className={cn(className, !title && "pt-4")}>
+      {title ? <H1 className={cn(header ? "mt-8" : "my-8")}>{title}</H1> : null}
       {header}
       {children}
     </Flex>

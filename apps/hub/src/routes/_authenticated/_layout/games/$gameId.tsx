@@ -45,9 +45,8 @@ function Modals() {
 }
 
 function GameIdRoute() {
-  const { gameId } = Route.useParams();
   return (
-    <Layout.Root gameId={gameId}>
+    <Layout.Root>
       <Outlet />
       <Modals />
     </Layout.Root>

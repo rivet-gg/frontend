@@ -21,9 +21,8 @@ function NamespaceErrorComponent(props: ErrorComponentProps) {
 }
 
 function NamespaceIdRoute() {
-  const params = Route.useParams();
   return (
-    <Layout.Root {...params}>
+    <Layout.Root>
       <Outlet />
     </Layout.Root>
   );
