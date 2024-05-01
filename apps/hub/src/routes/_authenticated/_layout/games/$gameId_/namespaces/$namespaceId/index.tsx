@@ -17,7 +17,7 @@ function NamespaceIdRoute() {
   );
 
   return (
-    <Grid columns="3" gap="4">
+    <Grid columns={{ initial: "1", md: "3" }} gap="4">
       <ValueCard
         title="Current version"
         value={version.displayName}

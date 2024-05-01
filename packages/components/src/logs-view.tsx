@@ -49,7 +49,7 @@ interface LogRowProps {
 
 function LogRow({ timestamp, line }: LogRowProps) {
   return (
-    <div>
+    <div className="text-nowrap">
       <span className="text-muted-foreground my-1 mr-2 font-mono text-sm">
         {timestamp}
       </span>

@@ -61,9 +61,15 @@ function LobbyRow({
       </TableCell>
       <TableCell>{lobbyGroupNameId}</TableCell>
       <TableCell>{createTs.toLocaleString()}</TableCell>
-      <TableCell>{readyTs?.toLocaleString() || "-"}</TableCell>
-      <TableCell>{startTs?.toLocaleString() || "-"}</TableCell>
-      <TableCell>{status.stopped?.stopTs?.toLocaleString() || "-"}</TableCell>
+      <TableCell display={{ initial: "hidden", md: "table-cell" }}>
+        {readyTs?.toLocaleString() || "-"}
+      </TableCell>
+      <TableCell display={{ initial: "hidden", md: "table-cell" }}>
+        {startTs?.toLocaleString() || "-"}
+      </TableCell>
+      <TableCell display={{ initial: "hidden", md: "table-cell" }}>
+        {status.stopped?.stopTs?.toLocaleString() || "-"}
+      </TableCell>
       <TableCell>
         <LobbyStatusBadge status={readableStatus} />
       </TableCell>
@@ -104,9 +110,15 @@ export function NamespaceMatchmakerLogs({
               <TableHead>Region</TableHead>
               <TableHead>Group Name</TableHead>
               <TableHead>Created</TableHead>
-              <TableHead>Ready</TableHead>
-              <TableHead>Started</TableHead>
-              <TableHead>Stopped / Finished</TableHead>
+              <TableHead display={{ initial: "hidden", md: "table-cell" }}>
+                Ready
+              </TableHead>
+              <TableHead display={{ initial: "hidden", md: "table-cell" }}>
+                Started
+              </TableHead>
+              <TableHead display={{ initial: "hidden", md: "table-cell" }}>
+                Stopped / Finished
+              </TableHead>
               <TableHead>Status</TableHead>
             </TableRow>
           </TableHeader>

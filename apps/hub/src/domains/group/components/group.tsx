@@ -36,7 +36,7 @@ export function Group(props: GroupProps) {
         {games.length === 0 ? (
           <GroupEmptyAlert groupId={groupId} />
         ) : (
-          <Grid columns="4" gap="4">
+          <Grid columns={{ initial: "1", md: "4" }} gap="4">
             {games.map((game) => (
               <Link
                 key={game.gameId}

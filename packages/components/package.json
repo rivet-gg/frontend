@@ -16,6 +16,10 @@
     "./game": {
       "import": "./dist/game.js",
       "require": "./dist/game.cjs"
+    },
+    "./tailwind-base": {
+      "import": "./dist/tailwind-base.js",
+      "require": "./dist/tailwind-base.cjs"
     }
   },
   "scripts": {

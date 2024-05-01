@@ -24,7 +24,7 @@ function CloudTokenCard() {
 
 function GameTokensRoute() {
   return (
-    <Grid columns="2" gap="4" items="start">
+    <Grid columns={{ initial: "1", md: "2" }} gap="4" items="start">
       <CloudTokenCard />
     </Grid>
   );

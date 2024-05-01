@@ -62,7 +62,7 @@ function NamespaceTokensRoute() {
 
   return (
     <>
-      <Grid columns="2" gap="4" items="start">
+      <Grid columns={{ initial: "1", md: "2" }} gap="4" items="start">
         <PublicTokenCard />
         <DocsCard
           title="Development token"

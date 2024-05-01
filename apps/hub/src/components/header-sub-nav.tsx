@@ -15,7 +15,7 @@ interface LinksProps {
 
 function Links({ links, params }: LinksProps) {
   return (
-    <div className="-mb-2 flex min-h-10 items-center gap-6">
+    <div className="-mx-8 -mb-2 flex min-h-10 items-center gap-6 overflow-auto px-8">
       {links.map((item) => (
         <Link
           key={item.url}

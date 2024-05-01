@@ -6,11 +6,11 @@ import { createFileRoute } from "@tanstack/react-router";
 function GroupIdView() {
   const { groupId } = Route.useParams();
   return (
-    <Flex direction="row" gap="4">
-      <Flex w="2/3" direction="row" items="start">
+    <Flex direction={{ initial: "col", md: "row" }} gap="4">
+      <Flex w={{ initial: "full", md: "2/3" }} direction="row" items="start">
         <GroupGames groupId={groupId} />
       </Flex>
-      <Flex w="1/3" direction="row" items="start">
+      <Flex w={{ initial: "full", md: "1/3" }} direction="row" items="start">
         <GroupMembers groupId={groupId} />
       </Flex>
     </Flex>

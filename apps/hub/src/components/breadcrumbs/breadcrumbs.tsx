@@ -1,11 +1,12 @@
-import { Skeleton } from "@rivet-gg/components";
+import { Skeleton, cn } from "@rivet-gg/components";
 import { CatchBoundary, useMatchRoute } from "@tanstack/react-router";
-import { Suspense } from "react";
+import { Suspense, useContext } from "react";
 import { GroupBreadcrumb } from "./group-breadcrumb";
 import { GameBreadcrumb } from "./game-breadcrumb";
 import { NamespaceBreadcrumb } from "./namespace-breadcrumb";
 import { useAuth } from "@/domains/auth/contexts/auth";
 import { noop } from "@/lib/utils";
+import { MobileBreadcrumbsContext } from "./mobile-breadcrumbs";
 
 function Content() {
   const matchRoute = useMatchRoute();
@@ -49,8 +50,15 @@ function Content() {
 }
 
 export function Breadcrumbs() {
+  const isMobile = useContext(MobileBreadcrumbsContext);
   return (
-    <div className="flex items-center gap-2">
+    <div
+      className={cn(
+        "flex",
+        isMobile && "flex-col gap-6",
+        !isMobile && "items-center gap-2",
+      )}
+    >
       <CatchBoundary getResetKey={() => "reset"} errorComponent={noop}>
         <Suspense
           fallback={

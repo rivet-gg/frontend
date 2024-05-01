@@ -23,7 +23,7 @@ function Container({ children }: PropsWithChildren) {
 
 function Row({ children }: PropsWithChildren) {
   return (
-    <Grid columns="4" gap="4">
+    <Grid columns={{ initial: "2", md: "4" }} gap="4">
       {children}
     </Grid>
   );

@@ -13,6 +13,7 @@ import { HeaderSubNav } from "./header-sub-nav";
 import { useAuth } from "@/domains/auth/contexts/auth";
 import { Breadcrumbs } from "./breadcrumbs/breadcrumbs";
 import { HeaderRouteLoader } from "./header-route-loader";
+import { MobileBreadcrumbs } from "./breadcrumbs/mobile-breadcrumbs";
 
 const UserProfileButton = () => {
   const { profile } = useAuth();
@@ -63,6 +64,8 @@ export function Header() {
                         alt="Rivet logo"
                       />
                     </Link>
+
+                    <MobileBreadcrumbs />
                   </Flex>
                 </div>
                 <Flex direction="col" justify="end" gap="6">
@@ -88,7 +91,9 @@ export function Header() {
                 src="/logo/cream.svg"
               />
             </Link>
-            <Breadcrumbs />
+            <div className="hidden md:flex">
+              <Breadcrumbs />
+            </div>
           </nav>
           <div className="gap-6 font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm">
             <NavItem asChild className="hidden md:inline-block">

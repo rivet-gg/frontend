@@ -10,7 +10,7 @@ function IndexRoute() {
 
   return (
     <NarrowPage title={`Welcome to Rivet, ${profile?.identity.displayName}!`}>
-      <Grid columns="2" gap="4">
+      <Grid columns={{ initial: "1", md: "2" }} gap="4">
         <a href="https://rivet.gg/learn">
           <CtaCard title="Learn">Get started with your engine</CtaCard>
         </a>

@@ -14,7 +14,7 @@ export function GroupCreateCard() {
   return (
     <>
       {dialog}
-      <Card w="1/2" my="4">
+      <Card w={{ initial: "full", md: "1/2" }} my="4">
         <CardHeader>
           <CardTitle>Create a new team</CardTitle>
           <CardDescription>

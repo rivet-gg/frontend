@@ -11,4 +11,5 @@ export * from "./flex";
 export * from "./min-height";
 export * from "./min-width";
 export * from "./text-align";
+export * from "./display";
 export * from "./common";

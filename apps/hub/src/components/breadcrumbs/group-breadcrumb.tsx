@@ -2,6 +2,9 @@ import { groupGamesQueryOptions } from "@/domains/game/queries";
 import { GroupAvatar } from "@/domains/group/components/group-avatar";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
+import { MobileBreadcrumbsContext } from "./mobile-breadcrumbs";
+import { Fragment, useContext } from "react";
+import { NavItem } from "../nav-item";
 
 interface GroupBreadcrumbProps {
   groupId: string;
@@ -10,16 +13,24 @@ interface GroupBreadcrumbProps {
 export function GroupBreadcrumb({ groupId }: GroupBreadcrumbProps) {
   const { data } = useSuspenseQuery(groupGamesQueryOptions(groupId));
 
+  const isMobile = useContext(MobileBreadcrumbsContext);
+
+  const Element = isMobile ? NavItem : Fragment;
+
   return (
-    <>
-      <Link to="/teams/$groupId" params={{ groupId }} className="flex gap-2">
+    <Element>
+      <Link
+        to="/teams/$groupId"
+        params={{ groupId }}
+        className="flex items-center gap-2"
+      >
         <GroupAvatar
           avatarUrl={data.avatarUrl}
           displayName={data.displayName}
-          className="size-5"
+          className={isMobile ? "size-10" : "size-5"}
         />
         {data.displayName}
       </Link>
-    </>
+    </Element>
   );
 }
