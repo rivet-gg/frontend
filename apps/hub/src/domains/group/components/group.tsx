@@ -28,7 +28,7 @@ export function Group(props: GroupProps) {
               <GroupAvatar displayName={displayName} avatarUrl={avatarUrl} />
               <LargeText>{displayName}</LargeText>
             </Flex>
-            <ArrowRight />
+            <ArrowRight className="text-muted-foreground" />
           </Flex>
         </Link>
       </CardHeader>
