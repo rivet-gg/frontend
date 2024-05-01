@@ -49,7 +49,6 @@ function MatchmakerPage({
                 gameId,
                 namespaceId,
               }}
-              activeOptions={{ exact: link.exact }}
               className="data-active:text-foreground font-semibold"
             >
               {link.text}
