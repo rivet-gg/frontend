@@ -1,5 +1,6 @@
 import { groupGamesQueryOptions } from "@/domains/game/queries";
 import {
+  AssetImage,
   Button,
   Card,
   CardContent,
@@ -50,11 +51,8 @@ export function GroupGames({ groupId }: GroupGamesProps) {
               {data.games.map((game) => (
                 <TableRow key={game.gameId}>
                   <TableCell>
-                    <img
-                      src={
-                        game.logoUrl ||
-                        "https://assets2.rivet.gg/games/blank/blankgame.svg"
-                      }
+                    <AssetImage
+                      src={game.logoUrl || "/games/blank/blankgame.svg"}
                       alt={`${game.displayName} logo`}
                       width={64}
                       height={64}

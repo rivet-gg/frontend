@@ -3,7 +3,12 @@ import { routeTree } from "./routeTree.gen";
 import { queryClient, queryClientPersister } from "./queries/global";
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
 import { Suspense } from "react";
-import { FullscreenLoading, Toaster } from "@rivet-gg/components";
+import {
+  ConfigProvider,
+  FullscreenLoading,
+  getConfig,
+  Toaster,
+} from "@rivet-gg/components";
 import { useAuth, AuthProvider } from "./domains/auth/contexts/auth";
 import { routeMasks } from "./lib/route-masks";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
@@ -37,14 +42,16 @@ export function App() {
       client={queryClient}
       persistOptions={{ persister: queryClientPersister }}
     >
-      <Suspense fallback={<FullscreenLoading />}>
-        <AuthProvider>
-          <InnerApp />
-        </AuthProvider>
-      </Suspense>
+      <ConfigProvider value={getConfig()}>
+        <Suspense fallback={<FullscreenLoading />}>
+          <AuthProvider>
+            <InnerApp />
+          </AuthProvider>
+        </Suspense>
 
-      <Toaster />
-      <ReactQueryDevtools />
+        <Toaster />
+        <ReactQueryDevtools />
+      </ConfigProvider>
     </PersistQueryClientProvider>
   );
 }

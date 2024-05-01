@@ -1,6 +1,7 @@
 import { gamesQueryOptions } from "@/domains/game/queries";
 import { GroupAvatar } from "@/domains/group/components/group-avatar";
 import {
+  AssetImage,
   Flex,
   Select,
   SelectContent,
@@ -72,11 +73,8 @@ export function GameSelect({
               {group.games.map((game) => (
                 <SelectItem key={game.gameId} value={game.gameId}>
                   <Flex gap="2" items="center">
-                    <img
-                      src={
-                        game.logoUrl ||
-                        "https://assets2.rivet.gg/games/blank/blankgame.svg"
-                      }
+                    <AssetImage
+                      src={game.logoUrl || "/games/blank/blankgame.svg"}
                       className="mx-auto size-5 object-contain"
                       alt="Game logo"
                     />

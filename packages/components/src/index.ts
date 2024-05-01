@@ -13,6 +13,7 @@ export * from "./copy-area";
 export * from "./value-display";
 export * from "./virtual-scroll-area";
 export * from "./logs-view";
+export * from "./asset-image";
 export * from "./ui/typography";
 export * from "./ui/skeleton";
 export * from "./ui/sheet";
@@ -47,6 +48,7 @@ export * from "./lib/filesize";
 export * from "./lib/timing";
 export * from "./lib/formatter";
 export * from "./lib/exit-signals";
+export * from "./lib/config";
 export * as styleHelpers from "./ui/helpers/index";
 export { toast } from "sonner";
 

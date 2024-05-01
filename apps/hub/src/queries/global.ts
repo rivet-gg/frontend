@@ -4,9 +4,10 @@ import { QueryCache, QueryClient } from "@tanstack/react-query";
 import { createSyncStoragePersister } from "@tanstack/query-sync-storage-persister";
 import { identityTokenQueryOptions } from "../domains/user/queries";
 import superjson from "superjson";
+import { getConfig } from "@rivet-gg/components";
 
 const opts: RivetClient.Options = {
-  environment: "https://api.staging2.gameinc.io",
+  environment: getConfig().apiUrl,
   fetcher: async (args) => {
     const identity = args.url.includes("/auth/tokens/identity")
       ? undefined

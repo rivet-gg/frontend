@@ -107,6 +107,18 @@ The components used in the Rivet Hub are defined in the `apps/hub/src/components
 
 Views are special components that are used in the routes, following MVC pattern. They are defined in the `apps/hub/src/views` folder. The views are using the components and the queries to display the data. The views are not meant to be reused across the Rivet products.
 
+### Configuration
+
+The project is designed to be built once and used in multiple environments. UI package uses a React context to determine environment configuration. Hub app, on the other hand, uses an HTML element to fetch the configuration and pass it to the UI elements. To configure project put the following element in the `public/index.html` file:
+
+```html
+<script type="application/json" id="RIVET_CONFIG">
+  { "apiUrl": "YOUR API URL", "assetsUrl": "YOUR ASSETS URL" }
+</script>
+```
+
+and fill it with the appropriate values.
+
 ## 🏗️ Contributing
 
 1. Look for any issue that describes something that needs to be done - or, if

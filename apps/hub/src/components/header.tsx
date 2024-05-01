@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { Menu } from "lucide-react";
 import {
+  AssetImage,
   Button,
   Flex,
   Sheet,
@@ -56,9 +57,9 @@ export function Header() {
                       href="/"
                       className="flex items-center gap-2 text-lg font-semibold"
                     >
-                      <img
+                      <AssetImage
                         className="h-6"
-                        src="https://assets2.rivet.gg/logo/text-cream.svg"
+                        src="/logo/cream.svg"
                         alt="Rivet logo"
                       />
                     </Link>
@@ -81,10 +82,10 @@ export function Header() {
           </Sheet>
           <nav className="flex-1 font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
             <Link to="/">
-              <img
+              <AssetImage
                 className="h-6"
                 alt="Rivet Logo"
-                src="https://assets2.rivet.gg/logo/cream.svg"
+                src="/logo/cream.svg"
               />
             </Link>
             <Breadcrumbs />

@@ -1,6 +1,7 @@
 import { Flex } from "@/ui/flex";
 import { Text } from "@/ui/typography";
 import { Rivet } from "@rivet-gg/api";
+import { AssetImage } from "..";
 
 interface GameTileProps
   extends Pick<Rivet.game.Summary, "displayName" | "logoUrl"> {}
@@ -14,8 +15,8 @@ export function GameTile({ displayName, logoUrl }: GameTileProps) {
       items="center"
     >
       <div>
-        <img
-          src={logoUrl || "https://assets2.rivet.gg/games/blank/blankgame.svg"}
+        <AssetImage
+          src={logoUrl || "/games/blank/blankgame.svg"}
           className="w-24 h-24 mx-auto object-contain"
           alt="Game logo"
         />
