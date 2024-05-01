@@ -26,7 +26,7 @@ export const ActionCard = ({
   return (
     <Card>
       <CardHeader>
-        <div className="flex flex-row items-center justify-between space-y-0 pb-2">
+        <div className="flex flex-row items-center justify-between space-y-0 gap-2 pb-2">
           <CardTitle className="font-bold">{title}</CardTitle>
           {action}
         </div>
