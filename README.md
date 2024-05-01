@@ -122,8 +122,8 @@ and fill it with the appropriate values.
 However, if you want to just deploy the project in a common way, supply the environment variables:
 
 ```bash
-API_URL=YOUR
-ASSETS_URL=VALUES
+VITE_APP_API_URL=YOUR
+VITE_APP_ASSETS_URL=VALUES
 ```
 
 when building the project.
