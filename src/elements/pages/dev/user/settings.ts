@@ -327,11 +327,12 @@ export default class SettingsPage extends LitElement {
 							<toggle-switch
 								.value=${this.identityObserver.identity.awaitingDeletion}
 								@toggle=${(e: ToggleSwitchEvent) => {
-									if (!e.value) {
+									if (e.value) {
 										e.preventDefault();
 										return this.confirmAccountDeletion();
+									} else {
+										this.settingChanged('toggle-deletion', false);
 									}
-									this.settingChanged('toggle-deletion', !e.value);
 								}}
 							></toggle-switch>
 						</div>
