@@ -52,7 +52,7 @@ function RootRoute() {
         <Root />
       </Suspense>
 
-      <TanStackRouterDevtools />
+      {import.meta.env.DEV ? <TanStackRouterDevtools /> : null}
     </>
   );
 }
