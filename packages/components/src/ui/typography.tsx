@@ -248,8 +248,8 @@ const Link = ({
   return (
     <Comp
       className={cn(
-        className,
         "font-medium underline underline-offset-4",
+        className,
         getCommonHelperClass(props),
       )}
       {...omitCommonHelperProps(props)}

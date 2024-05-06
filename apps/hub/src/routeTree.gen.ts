@@ -15,6 +15,7 @@ import { Route as AuthenticatedImport } from './routes/_authenticated'
 import { Route as AuthenticatedLayoutImport } from './routes/_authenticated/_layout'
 import { Route as AuthenticatedLayoutIndexImport } from './routes/_authenticated/_layout/index'
 import { Route as AuthenticatedInviteInviteCodeImport } from './routes/_authenticated/invite.$inviteCode'
+import { Route as AuthenticatedLayoutMyProfileImport } from './routes/_authenticated/_layout/my-profile'
 import { Route as AuthenticatedDevicesLinkTokenImport } from './routes/_authenticated/devices.link.$token'
 import { Route as AuthenticatedLayoutTeamsGroupIdImport } from './routes/_authenticated/_layout/teams/$groupId'
 import { Route as AuthenticatedLayoutGamesGameIdImport } from './routes/_authenticated/_layout/games/$gameId'
@@ -62,6 +63,12 @@ const AuthenticatedInviteInviteCodeRoute =
   AuthenticatedInviteInviteCodeImport.update({
     path: '/invite/$inviteCode',
     getParentRoute: () => AuthenticatedRoute,
+  } as any)
+
+const AuthenticatedLayoutMyProfileRoute =
+  AuthenticatedLayoutMyProfileImport.update({
+    path: '/my-profile',
+    getParentRoute: () => AuthenticatedLayoutRoute,
   } as any)
 
 const AuthenticatedDevicesLinkTokenRoute =
@@ -246,6 +253,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedLayoutImport
       parentRoute: typeof AuthenticatedImport
     }
+    '/_authenticated/_layout/my-profile': {
+      preLoaderRoute: typeof AuthenticatedLayoutMyProfileImport
+      parentRoute: typeof AuthenticatedLayoutImport
+    }
     '/_authenticated/invite/$inviteCode': {
       preLoaderRoute: typeof AuthenticatedInviteInviteCodeImport
       parentRoute: typeof AuthenticatedImport
@@ -362,6 +373,7 @@ declare module '@tanstack/react-router' {
 export const routeTree = rootRoute.addChildren([
   AuthenticatedRoute.addChildren([
     AuthenticatedLayoutRoute.addChildren([
+      AuthenticatedLayoutMyProfileRoute,
       AuthenticatedLayoutIndexRoute,
       AuthenticatedLayoutGamesGameIdRoute.addChildren([
         AuthenticatedLayoutGamesGameIdBackendRoute,

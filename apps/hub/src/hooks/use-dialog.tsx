@@ -41,7 +41,10 @@ export const createDialogHook = <
             }
           }}
         >
-          <Content {...props} onClose={() => props.onOpenChange?.(false)} />
+          <Content
+            {...props}
+            onClose={() => dialogProps?.onOpenChange?.(false)}
+          />
         </DialogContent>
       </Dialog>
     );
@@ -58,16 +61,20 @@ export const createDialogHook = <
       setIsOpen(true);
     }, []);
 
+    const handleOpenChange = useCallback((open: boolean) => {
+      setIsOpen(open);
+    }, []);
+
     return {
       open,
       close,
       dialog: (
         <DialogImpl
+          {...props}
           dialogProps={{
             open: isOpen,
-            onOpenChange: setIsOpen,
+            onOpenChange: handleOpenChange,
           }}
-          {...props}
         />
       ),
     };
@@ -211,4 +218,8 @@ useDialog.ConfirmMemberBan = createDataDialogHook(
 
 useDialog.CreateGroup = createDialogHook(
   import("@/domains/group/components/dialogs/create-group-dialog"),
+);
+
+useDialog.ConfirmAccountDeletion = createDialogHook(
+  import("@/domains/user/components/dialogs/confirm-account-deletion-dialog"),
 );

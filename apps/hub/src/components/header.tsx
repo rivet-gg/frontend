@@ -22,13 +22,13 @@ const UserProfileButton = () => {
   }
   return (
     <Button asChild variant="secondary" size="icon" className="rounded-full">
-      <div>
+      <Link to="/my-profile">
         <img
           src={profile.identity.avatarUrl}
           alt="User avatar"
           className="size-7 rounded-full"
         />
-      </div>
+      </Link>
     </Button>
   );
 };

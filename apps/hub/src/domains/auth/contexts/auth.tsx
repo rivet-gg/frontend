@@ -5,11 +5,13 @@ import { Rivet } from "@rivet-gg/api";
 import {
   identityTokenQueryOptions,
   selfProfileQueryOptions,
+  useLogoutMutation,
 } from "@/domains/user/queries";
 import { bootstrapQueryOptions } from "../queries/bootstrap";
 
 export interface AuthContext {
   profile: Rivet.identity.GetProfileResponse | undefined;
+  logout: () => void;
   refreshToken: () => void;
 }
 
@@ -23,6 +25,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     selfProfileQueryOptions({ enabled: isSuccess }),
   );
 
+  const { mutate: logout } = useLogoutMutation();
+
   useSuspenseQuery(bootstrapQueryOptions({ enabled: isSuccess }));
 
   const refreshToken = useCallback(async () => {
@@ -31,7 +35,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, [refetchSession, refetchProfile]);
 
   return (
-    <AuthContext.Provider value={{ profile, refreshToken }}>
+    <AuthContext.Provider value={{ profile, refreshToken, logout }}>
       {children}
     </AuthContext.Provider>
   );
