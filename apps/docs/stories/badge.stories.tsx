@@ -1,16 +1,25 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import { Badge } from "@rivet-gg/components";
+import { Badge as BadgeCmp } from "@rivet-gg/components";
 import React from "react";
 
 const meta = {
   title: "Badge",
-  component: Badge,
-} satisfies Meta<typeof Badge>;
+  component: BadgeCmp,
+  args: {
+    variant: "default",
+  },
+  argTypes: {
+    variant: {
+      control: "select",
+      options: ["default", "destructive", "outline", "secondary"],
+    },
+  },
+} satisfies Meta<typeof BadgeCmp>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const badge: Story = {
-  render: (props) => <Badge {...props}>Badge</Badge>,
+export const Badge: Story = {
+  render: (props) => <BadgeCmp {...props}>Badge</BadgeCmp>,
 };

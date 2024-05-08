@@ -7,4 +7,9 @@ export default defineConfig({
   optimizeDeps: {
     include: ["@rivet-gg/components"],
   },
+  build: {
+    commonjsOptions: {
+      include: [/@rivet-gg\/components/, /node_modules/],
+    },
+  },
 });
