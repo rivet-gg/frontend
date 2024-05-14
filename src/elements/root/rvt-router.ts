@@ -50,6 +50,7 @@ interface RemovablePage {
 	new: boolean;
 	back: boolean;
 	state: PageState;
+	params: Record<string, string>;
 	renderResult: RenderResultTemplate;
 	removalTimeout?: number;
 }
@@ -282,7 +283,7 @@ export default class RvtRouter extends LitElement {
 		}
 
 		// Resolve the route
-		let { renderResult, route } = this.resolveRoute(parsed.pathname, parsed.searchParams);
+		let { renderResult, route, params } = this.resolveRoute(parsed.pathname, parsed.searchParams);
 		let newest = this.newestPage;
 		// Handle redirect if needed and don't do anything else; if doesn't match, then cast to a template
 		if ((renderResult as RenderResultRedirect).redirect) {
@@ -333,6 +334,7 @@ export default class RvtRouter extends LitElement {
 				old: false,
 				new: false,
 				back: opts.previousPage != null,
+				params,
 				state: {
 					scrollTop: 0
 				},

@@ -18,6 +18,7 @@ export default class RvtNamespaceDropdown extends LitElement {
 	private handleListSelect(event: DropDownSelectEvent<string>) {
 		RvtRouter.shared.navigate(
 			RvtRouter.shared.currentPage.route.build({
+				...RvtRouter.shared.currentPage.params,
 				gameId: this.game.gameId,
 				namespaceId: event.selection.value
 			})
