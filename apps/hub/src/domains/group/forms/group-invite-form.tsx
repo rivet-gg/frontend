@@ -1,22 +1,22 @@
-import { UseFormReturn, useFormContext } from "react-hook-form";
-import z from "zod";
 import { createSchemaForm } from "@/lib/create-schema-form";
 import {
+  Flex,
+  FormControl,
   FormField,
   FormItem,
   FormLabel,
-  FormControl,
   FormMessage,
+  Input,
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
   Switch,
-  Flex,
-  Input,
   timing,
 } from "@rivet-gg/components";
+import { type UseFormReturn, useFormContext } from "react-hook-form";
+import z from "zod";
 
 const expirationValues = [
   { label: "30 minutes", value: timing.minutes(30) },

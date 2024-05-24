@@ -1,13 +1,13 @@
+import * as GameCreateForm from "@/domains/game/forms/game-create-form";
+import { convertStringToId } from "@/lib/utils";
+import type { Rivet } from "@rivet-gg/api";
 import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
   Flex,
 } from "@rivet-gg/components";
-import * as GameCreateForm from "@/domains/game/forms/game-create-form";
 import { useGameCreateMutation } from "../../queries";
-import { convertStringToId } from "@/lib/utils";
-import { Rivet } from "@rivet-gg/api";
 
 interface CreateGameDialogContentProps {
   onSuccess?: (data: Rivet.cloud.games.CreateGameResponse) => void;

@@ -1,14 +1,14 @@
 import { useAuth } from "@/domains/auth/contexts/auth";
 import {
-  SidebarNavigation,
   Flex,
-  SidebarPageContent,
-  Separator,
   Link,
+  Separator,
+  SidebarNavigation,
+  SidebarPageContent,
 } from "@rivet-gg/components";
 import { Link as InternalLink } from "@tanstack/react-router";
 import { LogOut } from "lucide-react";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 
 interface ProfilePageProps {
   children: ReactNode;

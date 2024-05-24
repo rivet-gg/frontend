@@ -5,24 +5,24 @@ import {
   CommandList,
   CommandLoading,
 } from "@rivet-gg/components";
+import { useMatchRoute } from "@tanstack/react-router";
 import {
-  useState,
-  useEffect,
+  type KeyboardEventHandler,
   Suspense,
-  useCallback,
   startTransition,
-  KeyboardEventHandler,
+  useCallback,
+  useEffect,
+  useState,
 } from "react";
+import { CommandPanelNavigationBreadcrumbs } from "./command-panel/command-panel-navigation-breadcrumbs";
 import {
   CommandPanelNavigationProvider,
-  CommandPanelPage,
+  type CommandPanelPage,
 } from "./command-panel/command-panel-navigation-provider";
-import { IndexCommandPanelPage } from "./command-panel/command-panel-page/index-command-panel-page";
-import { GroupCommandPanelPage } from "./command-panel/command-panel-page/group-command-panel-page";
 import { GameCommandPanelPage } from "./command-panel/command-panel-page/game-command-panel-page";
+import { GroupCommandPanelPage } from "./command-panel/command-panel-page/group-command-panel-page";
+import { IndexCommandPanelPage } from "./command-panel/command-panel-page/index-command-panel-page";
 import { NamespaceCommandPanelPage } from "./command-panel/command-panel-page/namespace-command-panel-page";
-import { CommandPanelNavigationBreadcrumbs } from "./command-panel/command-panel-navigation-breadcrumbs";
-import { useMatchRoute } from "@tanstack/react-router";
 
 export function CommandPanel() {
   const [open, setOpen] = useState(false);
@@ -32,6 +32,7 @@ export function CommandPanel() {
   const page = pages[pages.length - 1];
   const matchRoute = useMatchRoute();
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: we do not want to run this effect on every change of match route
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
       if (e.key === "k" && (e.metaKey || e.ctrlKey)) {

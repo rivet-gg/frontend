@@ -1,5 +1,5 @@
-import { UseFormReturn, useFormContext } from "react-hook-form";
-import z from "zod";
+import { GameSelect } from "@/domains/game/components/game-select";
+import { useDialog } from "@/hooks/use-dialog";
 import { createSchemaForm } from "@/lib/create-schema-form";
 import {
   FormField,
@@ -7,8 +7,8 @@ import {
   FormLabel,
   FormMessage,
 } from "@rivet-gg/components";
-import { GameSelect } from "@/domains/game/components/game-select";
-import { useDialog } from "@/hooks/use-dialog";
+import { type UseFormReturn, useFormContext } from "react-hook-form";
+import z from "zod";
 
 export const formSchema = z.object({
   gameId: z.string().min(1, "Required"),

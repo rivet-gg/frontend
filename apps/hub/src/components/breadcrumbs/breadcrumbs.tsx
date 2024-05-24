@@ -1,12 +1,12 @@
+import { useAuth } from "@/domains/auth/contexts/auth";
+import { noop } from "@/lib/utils";
 import { Skeleton, cn } from "@rivet-gg/components";
 import { CatchBoundary, useMatchRoute } from "@tanstack/react-router";
 import { Suspense, useContext } from "react";
-import { GroupBreadcrumb } from "./group-breadcrumb";
 import { GameBreadcrumb } from "./game-breadcrumb";
-import { NamespaceBreadcrumb } from "./namespace-breadcrumb";
-import { useAuth } from "@/domains/auth/contexts/auth";
-import { noop } from "@/lib/utils";
+import { GroupBreadcrumb } from "./group-breadcrumb";
 import { MobileBreadcrumbsContext } from "./mobile-breadcrumbs";
+import { NamespaceBreadcrumb } from "./namespace-breadcrumb";
 
 function Content() {
   const matchRoute = useMatchRoute();

@@ -1,7 +1,7 @@
-import { ActionCard, Text, Grid } from "@rivet-gg/components";
+import * as AutoscalingConfigForm from "@/domains/game/forms/backend-env-autoscaling-config-form";
+import { ActionCard, Grid, Text } from "@rivet-gg/components";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { gameBackendProjectEnvQueryOptions } from "../queries";
-import * as AutoscalingConfigForm from "@/domains/game/forms/backend-env-autoscaling-config-form";
 
 interface OverviewCardProps {
   environmentId: string;
@@ -16,7 +16,6 @@ function OverviewCard({ environmentId, projectId }: OverviewCardProps) {
   return (
     <ActionCard title={"Overview"}>
       <Text>Created {data.createTs.toLocaleString()}</Text>
-      <Text></Text>
     </ActionCard>
   );
 }

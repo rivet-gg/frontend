@@ -1,9 +1,9 @@
 import { gameQueryOptions } from "@/domains/game/queries";
 import { CommandGroup, CommandItem } from "@rivet-gg/components";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { Home, Receipt, Cog, KeyRound } from "lucide-react";
-import { NamespacesCommandPanelItems } from "../namespaces-command-panel-items";
+import { Cog, Home, KeyRound, Receipt } from "lucide-react";
 import { useCommandPanelNavigation } from "../command-panel-navigation-provider";
+import { NamespacesCommandPanelItems } from "../namespaces-command-panel-items";
 
 interface GameCommandPanelPage {
   gameId: string;

@@ -1,6 +1,6 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { GameBackendView } from "@/domains/game/views/game-backend";
 import { gameBackendProjectEnvsQueryOptions } from "@/domains/game/queries";
+import { GameBackendView } from "@/domains/game/views/game-backend";
+import { createFileRoute } from "@tanstack/react-router";
 
 function GameBackendRoute() {
   const { gameId } = Route.useParams();

@@ -1,6 +1,6 @@
 import { Flex } from "@/ui/flex";
 import { Text } from "@/ui/typography";
-import { Rivet } from "@rivet-gg/api";
+import type { Rivet } from "@rivet-gg/api";
 import { AssetImage } from "..";
 
 interface GameTileProps

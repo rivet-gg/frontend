@@ -1,8 +1,6 @@
-import { UseFormReturn, useFormContext } from "react-hook-form";
+import { type UseFormReturn, useFormContext } from "react-hook-form";
 import z from "zod";
 
-import { InputHTMLAttributes } from "react";
-import { REGEXP_ONLY_DIGITS_AND_CHARS } from "input-otp";
 import { createSchemaForm } from "@/lib/create-schema-form";
 import {
   FormControl,
@@ -14,6 +12,8 @@ import {
   InputOTPGroup,
   InputOTPSlot,
 } from "@rivet-gg/components";
+import { REGEXP_ONLY_DIGITS_AND_CHARS } from "input-otp";
+import type { InputHTMLAttributes } from "react";
 
 export const formSchema = z.object({
   otp: z.string().min(8).max(8),

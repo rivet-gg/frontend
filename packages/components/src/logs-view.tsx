@@ -1,18 +1,18 @@
+import type { Virtualizer } from "@tanstack/react-virtual";
 import { ListEnd } from "lucide-react";
-import { Tabs, TabsList, TabsTrigger } from "./ui/tabs";
-import { VirtualScrollArea } from "./virtual-scroll-area";
-import { Toggle } from "./ui/toggle";
 import {
-  PropsWithChildren,
-  ReactNode,
+  type PropsWithChildren,
+  type ReactNode,
   useCallback,
   useLayoutEffect,
   useRef,
   useState,
 } from "react";
-import { Virtualizer } from "@tanstack/react-virtual";
-import { Skeleton } from "./ui/skeleton";
 import { cn } from "./lib/utils";
+import { Skeleton } from "./ui/skeleton";
+import { Tabs, TabsList, TabsTrigger } from "./ui/tabs";
+import { Toggle } from "./ui/toggle";
+import { VirtualScrollArea } from "./virtual-scroll-area";
 
 export function Root({ children }: PropsWithChildren) {
   return <div className="mt-4">{children}</div>;

@@ -1,6 +1,6 @@
-import { AssetImage, Flex, WithTooltip } from "@rivet-gg/components";
-import { Rivet } from "@rivet-gg/api";
 import { converEmojiToUriFriendlyString } from "@/lib/emoji";
+import type { Rivet } from "@rivet-gg/api";
+import { AssetImage, Flex, WithTooltip } from "@rivet-gg/components";
 
 const REGION_EMOJI = {
   local: "🏠",

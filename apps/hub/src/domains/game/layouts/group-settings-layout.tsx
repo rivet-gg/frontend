@@ -1,6 +1,6 @@
 import { SidebarNavigation, SidebarPageContent } from "@rivet-gg/components";
-import { ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
+import type { ReactNode } from "react";
 
 interface GroupPageProps {
   groupId: string;

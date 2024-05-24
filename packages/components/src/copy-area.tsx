@@ -1,10 +1,10 @@
 import { Copy } from "lucide-react";
+import { useState } from "react";
+import { toast } from "sonner";
 import { Button } from "./ui/button";
 import { Flex } from "./ui/flex";
 import { Input } from "./ui/input";
-import { toast } from "sonner";
 import { WithTooltip } from "./ui/tooltip";
-import { useState } from "react";
 
 interface CopyAreaProps {
   value: string;

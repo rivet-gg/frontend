@@ -2,9 +2,9 @@
 // with some modifications to fit the project's design system.
 import { cn } from "@/lib/utils";
 import { Slot } from "@radix-ui/react-slot";
-import { PropsWithChildren } from "react";
+import type { PropsWithChildren } from "react";
 import {
-  CommonHelperProps,
+  type CommonHelperProps,
   getCommonHelperClass,
   omitCommonHelperProps,
 } from "./helpers";

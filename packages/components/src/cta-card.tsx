@@ -1,5 +1,5 @@
 import { ArrowRightIcon } from "lucide-react";
-import { ActionCard, ActionCardProps } from "./action-card";
+import { ActionCard, type ActionCardProps } from "./action-card";
 
 interface CtaCardProps extends Omit<ActionCardProps, "action"> {}
 

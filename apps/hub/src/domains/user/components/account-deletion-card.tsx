@@ -1,16 +1,16 @@
 import { useAuth } from "@/domains/auth/contexts/auth";
+import { useDialog } from "@/hooks/use-dialog";
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
-  Text,
   Flex,
   Strong,
   Switch,
+  Text,
 } from "@rivet-gg/components";
 import { TriangleAlert } from "lucide-react";
-import { useDialog } from "@/hooks/use-dialog";
 import { useIdentityDeletionMutation } from "../queries";
 
 export function AccountDeletionCard() {

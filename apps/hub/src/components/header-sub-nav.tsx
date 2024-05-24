@@ -1,7 +1,7 @@
 import { useAuth } from "@/domains/auth/contexts/auth";
 import {
-  buildNamespaceSubNav,
   buildGameSubNav,
+  buildNamespaceSubNav,
 } from "@/domains/game/data/route";
 import {
   gameBackendProjectQueryOptions,
@@ -13,7 +13,7 @@ import { noop } from "@/lib/utils";
 import { Skeleton } from "@rivet-gg/components";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { CatchBoundary, Link, useMatchRoute } from "@tanstack/react-router";
-import { ReactNode, Suspense } from "react";
+import { type ReactNode, Suspense } from "react";
 
 interface LinksProps {
   links: { title: string; url: string; exact?: boolean; icon?: ReactNode }[];

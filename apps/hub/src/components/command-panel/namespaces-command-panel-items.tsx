@@ -1,6 +1,6 @@
+import type { Namespace } from "@/domains/game/queries";
 import { Badge, CommandItem } from "@rivet-gg/components";
 import { useCommandPanelNavigation } from "./command-panel-navigation-provider";
-import { Namespace } from "@/domains/game/queries";
 
 interface NamespacesCommandPanelItemsProps {
   namespaces: Namespace[];

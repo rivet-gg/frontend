@@ -1,3 +1,4 @@
+import * as GroupImageForm from "@/domains/game/forms/game-logo-form";
 import {
   Card,
   CardContent,
@@ -5,7 +6,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@rivet-gg/components";
-import * as GroupImageForm from "@/domains/game/forms/game-logo-form";
 import { useGameLogoUploadMutation } from "../queries";
 
 interface GameLogoSettingsCardProps {

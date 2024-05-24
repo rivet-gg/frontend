@@ -1,11 +1,11 @@
 import { groupOnwerQueryOptions } from "@/domains/game/queries";
 import { selfProfileIdentityIdQueryOptions } from "@/domains/user/queries";
 import {
-  DropdownMenu,
-  DropdownMenuTrigger,
   Button,
+  DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuTrigger,
 } from "@rivet-gg/components";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { MoreVertical } from "lucide-react";

@@ -1,3 +1,5 @@
+import { useAuth } from "@/domains/auth/contexts/auth";
+import * as UserNameForm from "@/domains/group/forms/group-name-form";
 import {
   Card,
   CardContent,
@@ -5,8 +7,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@rivet-gg/components";
-import * as UserNameForm from "@/domains/group/forms/group-name-form";
-import { useAuth } from "@/domains/auth/contexts/auth";
 import { useIdentityUpdateProfileMutation } from "../queries";
 
 export function UserNameSettingsCard() {

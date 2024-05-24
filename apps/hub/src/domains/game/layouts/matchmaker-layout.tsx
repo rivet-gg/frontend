@@ -1,10 +1,10 @@
 import {
-  SidebarNavigation,
   Flex,
+  SidebarNavigation,
   SidebarPageContent,
 } from "@rivet-gg/components";
 import { Link } from "@tanstack/react-router";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 
 const LINKS = [
   // {

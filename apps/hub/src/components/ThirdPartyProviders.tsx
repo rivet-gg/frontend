@@ -1,7 +1,7 @@
-import { PropsWithChildren, useEffect } from "react";
-import { PostHogProvider, usePostHog } from "posthog-js/react";
-import { useConfig } from "@rivet-gg/components";
 import { useAuth } from "@/domains/auth/contexts/auth";
+import { useConfig } from "@rivet-gg/components";
+import { PostHogProvider, usePostHog } from "posthog-js/react";
+import { type PropsWithChildren, useEffect } from "react";
 
 export function IdentifyUser() {
   const posthog = usePostHog();

@@ -1,3 +1,4 @@
+import { groupOnwerQueryOptions } from "@/domains/game/queries";
 import { groupMembersQueryOptions } from "@/domains/group/queries";
 import {
   Button,
@@ -10,10 +11,9 @@ import {
   Text,
 } from "@rivet-gg/components";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { UserAvatar } from "../../user/components/user-avatar";
-import { groupOnwerQueryOptions } from "@/domains/game/queries";
-import { Crown } from "lucide-react";
 import { Link } from "@tanstack/react-router";
+import { Crown } from "lucide-react";
+import { UserAvatar } from "../../user/components/user-avatar";
 
 interface GroupMembersProps {
   groupId: string;

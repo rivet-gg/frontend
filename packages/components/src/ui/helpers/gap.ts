@@ -1,4 +1,4 @@
-import { type Responsive } from "./types";
+import type { Responsive } from "./types";
 import { getResponsiveValue } from "./utilities";
 
 export const GAP_VALUES = ["0", "1", "2", "4", "6", "8", "10"] as const;

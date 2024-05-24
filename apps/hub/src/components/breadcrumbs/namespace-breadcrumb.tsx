@@ -1,7 +1,4 @@
 import { gameNamespacesQueryOptions } from "@/domains/game/queries";
-import { useSuspenseQuery } from "@tanstack/react-query";
-import { Separator } from "./separator";
-import { GameBreadcrumb } from "./game-breadcrumb";
 import {
   Select,
   SelectContent,
@@ -9,7 +6,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@rivet-gg/components";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
+import { GameBreadcrumb } from "./game-breadcrumb";
+import { Separator } from "./separator";
 
 interface NamespaceBreadcrumbProps {
   namespaceId: string;

@@ -1,6 +1,6 @@
-import { ReactNode } from "react";
-import { CommonHelperProps, getCommonHelperClass } from "./ui/helpers";
+import type { ReactNode } from "react";
 import { cn } from "./lib/utils";
+import { type CommonHelperProps, getCommonHelperClass } from "./ui/helpers";
 
 export interface SidebarNavigationProps extends Partial<CommonHelperProps> {
   children: ReactNode;

@@ -1,6 +1,6 @@
-import { cn } from "@rivet-gg/components";
 import { Slot } from "@radix-ui/react-slot";
-import { PropsWithChildren } from "react";
+import { cn } from "@rivet-gg/components";
+import type { PropsWithChildren } from "react";
 
 interface NavItemProps extends PropsWithChildren<JSX.IntrinsicElements["a"]> {
   asChild?: boolean;

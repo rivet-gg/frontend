@@ -1,3 +1,4 @@
+import type { Rivet } from "@rivet-gg/api";
 import {
   Card,
   CardContent,
@@ -10,17 +11,16 @@ import {
   TableHeader,
   TableRow,
 } from "@rivet-gg/components";
-import { LobbyStatusBadge } from "../components/lobby-status";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import {
-  gameRegionsQueryOptions,
-  gameNamespaceLogsLobbiesQueryOptions,
-} from "../queries";
-import { Rivet } from "@rivet-gg/api";
-import { type LobbyStatus } from "../data/lobby-status";
-import { LobbyRegion } from "../components/lobby-region";
 import { useNavigate } from "@tanstack/react-router";
 import { MatchmakerLobbyBreadcrumbs } from "../components/lobby-logs-breadcrumbs";
+import { LobbyRegion } from "../components/lobby-region";
+import { LobbyStatusBadge } from "../components/lobby-status";
+import type { LobbyStatus } from "../data/lobby-status";
+import {
+  gameNamespaceLogsLobbiesQueryOptions,
+  gameRegionsQueryOptions,
+} from "../queries";
 
 interface LobbyRowProps extends Rivet.cloud.LogsLobbySummary {
   readableStatus: LobbyStatus;

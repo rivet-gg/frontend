@@ -1,3 +1,6 @@
+import * as CdnNewCustomDomainForm from "@/domains/game/forms/cdn-new-custom-domain-form";
+import type { DialogContentProps } from "@/hooks/use-dialog";
+import { Rivet } from "@rivet-gg/api";
 import {
   Badge,
   Button,
@@ -13,16 +16,13 @@ import {
   TableRow,
   WithTooltip,
 } from "@rivet-gg/components";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { Info, Plus, Trash } from "lucide-react";
+import { useCdnNewCustomDomainFormHandler } from "../../hooks/use-cdn-new-custom-domain-form-handler";
 import {
   gameNamespaceQueryOptions,
   useNamespaceRemoveDomainMutation,
 } from "../../queries";
-import { useSuspenseQuery } from "@tanstack/react-query";
-import { Rivet } from "@rivet-gg/api";
-import * as CdnNewCustomDomainForm from "@/domains/game/forms/cdn-new-custom-domain-form";
-import { useCdnNewCustomDomainFormHandler } from "../../hooks/use-cdn-new-custom-domain-form-handler";
-import { Info, Plus, Trash } from "lucide-react";
-import { type DialogContentProps } from "@/hooks/use-dialog";
 
 const VARIANT_MAP = {
   [Rivet.cloud.CdnNamespaceDomainVerificationStatus.Active]: null,
@@ -125,7 +125,7 @@ export default function CdnManageCustomDomainsDialogContent({
             <TableHead>Name</TableHead>
             <TableHead>Created</TableHead>
             <TableHead>Status</TableHead>
-            <TableHead></TableHead>
+            <TableHead />
           </TableRow>
         </TableHeader>
         <TableBody>

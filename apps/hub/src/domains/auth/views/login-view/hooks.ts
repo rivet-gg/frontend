@@ -1,5 +1,5 @@
-import { SubmitHandler as FormSubmitHandler } from "@/domains/auth/forms/otp-form";
 import { useAuth } from "@/domains/auth/contexts/auth";
+import type { SubmitHandler as FormSubmitHandler } from "@/domains/auth/forms/otp-form";
 import { useCompleteEmailVerificationMutation } from "@/domains/auth/queries";
 import { Rivet } from "@rivet-gg/api";
 import { useCallback } from "react";

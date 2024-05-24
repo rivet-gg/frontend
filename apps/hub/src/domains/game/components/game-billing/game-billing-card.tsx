@@ -1,7 +1,7 @@
 import { ActionCard, Link, Separator } from "@rivet-gg/components";
-import { ReactNode } from "react";
-import { GameBillingPortalButton } from "./game-billing-portal-button";
 import { ExternalLink } from "lucide-react";
+import type { ReactNode } from "react";
+import { GameBillingPortalButton } from "./game-billing-portal-button";
 
 interface GameBillingCardProps {
   groupId: string;

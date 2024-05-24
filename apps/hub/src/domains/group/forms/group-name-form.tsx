@@ -1,14 +1,14 @@
-import { UseFormReturn, useFormContext } from "react-hook-form";
-import z from "zod";
 import { createSchemaForm } from "@/lib/create-schema-form";
 import {
+  FormControl,
   FormField,
   FormItem,
   FormLabel,
-  FormControl,
-  Input,
   FormMessage,
+  Input,
 } from "@rivet-gg/components";
+import { type UseFormReturn, useFormContext } from "react-hook-form";
+import z from "zod";
 
 export const formSchema = z.object({
   name: z.string().max(25),

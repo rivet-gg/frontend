@@ -1,10 +1,10 @@
-import { rivetClient, queryClient, rivetEeClient } from "@/queries/global";
-import { Rivet } from "@rivet-gg/api";
-import { Rivet as RivetEe } from "@rivet-gg/api-ee";
+import { queryClient, rivetClient, rivetEeClient } from "@/queries/global";
+import type { Rivet } from "@rivet-gg/api";
+import type { Rivet as RivetEe } from "@rivet-gg/api-ee";
 import { toast } from "@rivet-gg/components";
 import { useMutation } from "@tanstack/react-query";
 import { gameBillingQueryOptions } from "./namespace/query-options";
-import { gamesQueryOptions, gameQueryOptions } from "./query-options";
+import { gameQueryOptions, gamesQueryOptions } from "./query-options";
 
 export const useGameCreateMutation = ({
   onSuccess,

@@ -1,6 +1,6 @@
 import { queryClient, rivetEeClient } from "@/queries/global";
+import type { Rivet as RivetEe } from "@rivet-gg/api-ee";
 import { useMutation } from "@tanstack/react-query";
-import { Rivet as RivetEe } from "@rivet-gg/api-ee";
 import { gameBackendProjectEnvsQueryOptions } from "./query-options";
 
 export const useCreateBackendProjectEnvMutation = ({

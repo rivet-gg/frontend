@@ -46,9 +46,9 @@ export function GroupGames({ groupId }: GroupGamesProps) {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead w="16"></TableHead>
+                <TableHead w="16" />
                 <TableHead>Name</TableHead>
-                <TableHead w="16"></TableHead>
+                <TableHead w="16" />
               </TableRow>
             </TableHeader>
             <TableBody>

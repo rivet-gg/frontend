@@ -1,14 +1,14 @@
-import { UseFormReturn, useFormContext } from "react-hook-form";
-import z from "zod";
 import { createSchemaForm } from "@/lib/create-schema-form";
 import {
+  FormControl,
   FormField,
   FormItem,
   FormLabel,
-  FormControl,
   FormMessage,
   Slider,
 } from "@rivet-gg/components";
+import { type UseFormReturn, useFormContext } from "react-hook-form";
+import z from "zod";
 
 export const AUTOSCALING_VALUE_MAP = [
   { value: 0.25, memory: 1, vcpu: 0.25 },

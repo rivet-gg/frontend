@@ -1,3 +1,4 @@
+import type { DialogContentProps } from "@/hooks/use-dialog";
 import {
   Button,
   DialogFooter,
@@ -7,12 +8,11 @@ import {
   Strong,
   Text,
 } from "@rivet-gg/components";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import {
   gameQueryOptions,
   useUpdateGameNamespaceVersionMutation,
 } from "../../queries";
-import { useSuspenseQuery } from "@tanstack/react-query";
-import { DialogContentProps } from "@/hooks/use-dialog";
 
 interface ContentProps extends DialogContentProps {
   gameId: string;

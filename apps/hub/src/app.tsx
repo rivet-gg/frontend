@@ -1,18 +1,18 @@
-import { createRouter, RouterProvider } from "@tanstack/react-router";
-import { routeTree } from "./routeTree.gen";
-import { queryClient, queryClientPersister } from "./queries/global";
-import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
-import { Suspense } from "react";
 import {
   ConfigProvider,
   FullscreenLoading,
-  getConfig,
   Toaster,
+  getConfig,
 } from "@rivet-gg/components";
-import { useAuth, AuthProvider } from "./domains/auth/contexts/auth";
-import { routeMasks } from "./lib/route-masks";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
+import { RouterProvider, createRouter } from "@tanstack/react-router";
+import { Suspense } from "react";
 import { ThirdPartyProviders } from "./components/ThirdPartyProviders";
+import { AuthProvider, useAuth } from "./domains/auth/contexts/auth";
+import { routeMasks } from "./lib/route-masks";
+import { queryClient, queryClientPersister } from "./queries/global";
+import { routeTree } from "./routeTree.gen";
 
 declare module "@tanstack/react-router" {
   interface Register {
@@ -24,6 +24,7 @@ const router = createRouter({
   routeTree,
   routeMasks,
   context: {
+    // biome-ignore lint/style/noNonNullAssertion: we know this will be defined
     auth: undefined!,
     queryClient,
   },

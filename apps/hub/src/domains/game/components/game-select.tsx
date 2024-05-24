@@ -14,7 +14,7 @@ import {
 } from "@rivet-gg/components";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { CirclePlus } from "lucide-react";
-import { ComponentProps, Fragment, useCallback } from "react";
+import { type ComponentProps, Fragment, useCallback } from "react";
 
 interface GameSelectProps extends ComponentProps<typeof Select> {
   showCreateGame?: boolean;

@@ -1,4 +1,4 @@
-import { type Responsive } from "./types";
+import type { Responsive } from "./types";
 import { getResponsiveValue } from "./utilities";
 
 export const GRID_COLUMNS_VALUES = ["1", "2", "3", "4", "5", "6"] as const;

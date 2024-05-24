@@ -1,11 +1,11 @@
-import { Dialog, DialogContent, DialogProps } from "@rivet-gg/components";
+import { Dialog, DialogContent, type DialogProps } from "@rivet-gg/components";
 import {
+  type ComponentProps,
+  type ComponentType,
   lazy,
-  ComponentProps,
   useCallback,
-  useState,
-  ComponentType,
   useMemo,
+  useState,
 } from "react";
 
 export interface DialogContentProps {
@@ -17,8 +17,7 @@ interface DialogConfig {
 }
 
 export const createDialogHook = <
-  // we don't know the type of the component, so we use any
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: we don't know the type of the component, so we use any
   Component extends Promise<{ default: ComponentType<any> }>,
 >(
   component: Component,
@@ -30,6 +29,7 @@ export const createDialogHook = <
   }: ComponentProps<Awaited<Component>["default"]> & {
     dialogProps?: DialogProps;
   }) => {
+    // biome-ignore lint/correctness/useExhaustiveDependencies: component here is a static value, won't change over time
     const Content = useMemo(() => lazy(() => component), []);
 
     return (
@@ -87,8 +87,7 @@ export const createDialogHook = <
 
 export const createDataDialogHook = <
   const DataPropKeys extends string[],
-  // we don't know the type of the component, so we use any
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: we don't know the type of the component, so we use any
   Component extends Promise<{ default: ComponentType<any> }>,
 >(
   keys: DataPropKeys,
@@ -127,6 +126,7 @@ export const createDataDialogHook = <
       [],
     );
 
+    // biome-ignore lint/correctness/useExhaustiveDependencies: component here is a static value, won't change over time
     const Content = useMemo(() => lazy(() => component), []);
 
     return {

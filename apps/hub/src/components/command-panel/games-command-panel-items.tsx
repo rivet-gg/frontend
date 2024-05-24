@@ -1,7 +1,7 @@
 import { GameAvatar } from "@/domains/game/components/game-avatar";
+import type { Rivet } from "@rivet-gg/api";
 import { CommandItem } from "@rivet-gg/components";
 import { useCommandPanelNavigation } from "./command-panel-navigation-provider";
-import { Rivet } from "@rivet-gg/api";
 
 interface GamesCommandPanelItemsProps {
   games: Rivet.game.Summary[];

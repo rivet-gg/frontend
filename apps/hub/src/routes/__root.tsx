@@ -1,17 +1,17 @@
 import { ErrorComponent } from "@/components/error-component";
-import { AuthContext } from "@/domains/auth/contexts/auth";
+import { NotFoundComponent } from "@/components/not-found-component";
+import type { AuthContext } from "@/domains/auth/contexts/auth";
+import * as PageLayout from "@/layouts/page";
 import * as Layout from "@/layouts/root";
 import { FullscreenLoading, Page } from "@rivet-gg/components";
-import { QueryClient } from "@tanstack/react-query";
+import type { QueryClient } from "@tanstack/react-query";
 import {
-  ErrorComponentProps,
+  type ErrorComponentProps,
   Outlet,
   createRootRouteWithContext,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/router-devtools";
 import { Suspense } from "react";
-import * as PageLayout from "@/layouts/page";
-import { NotFoundComponent } from "@/components/not-found-component";
 
 function RootNotFoundComponent() {
   return (

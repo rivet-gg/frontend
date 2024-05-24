@@ -1,8 +1,11 @@
+import type { FormValues as LoginFormValues } from "@/domains/auth/forms/login-form";
 import { useStartEmailVerificationMutation } from "@/domains/auth/queries";
-import { FormValues as LoginFormValues } from "@/domains/auth/forms/login-form";
-import { OtpStep } from "./otp-step";
 import { EmailStep } from "./email-step";
-import { OtpFormSubmitHandlerArgs, useOtpFormSubmitHandler } from "./hooks";
+import {
+  type OtpFormSubmitHandlerArgs,
+  useOtpFormSubmitHandler,
+} from "./hooks";
+import { OtpStep } from "./otp-step";
 
 interface LoginViewProps {
   onSuccess?: OtpFormSubmitHandlerArgs["onSuccess"];

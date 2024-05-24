@@ -5,10 +5,10 @@ import {
   CardTitle,
   Separator,
 } from "@rivet-gg/components";
-import { LobbyLogs } from "../components/lobby-logs";
-import { LobbyLogsSummary } from "../components/lobby-logs-summary";
-import { MatchmakerLobbyBreadcrumbs } from "../components/lobby-logs-breadcrumbs";
 import { Suspense } from "react";
+import { LobbyLogs } from "../components/lobby-logs";
+import { MatchmakerLobbyBreadcrumbs } from "../components/lobby-logs-breadcrumbs";
+import { LobbyLogsSummary } from "../components/lobby-logs-summary";
 interface ContentProps {
   gameId: string;
   namespaceId: string;

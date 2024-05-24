@@ -1,7 +1,7 @@
-import { Flex } from "@rivet-gg/components";
-import { createFileRoute } from "@tanstack/react-router";
 import { GroupImageSettingsCard } from "@/domains/group/components/group-image-settings-card";
 import { GroupNameSettingsCard } from "@/domains/group/components/group-name-settings-card";
+import { Flex } from "@rivet-gg/components";
+import { createFileRoute } from "@tanstack/react-router";
 
 function GroupIdSettingsView() {
   const { groupId } = Route.useParams();

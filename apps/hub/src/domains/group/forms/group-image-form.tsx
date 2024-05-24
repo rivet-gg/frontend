@@ -1,15 +1,15 @@
-import { UseFormReturn, useFormContext } from "react-hook-form";
-import z from "zod";
 import { createSchemaForm } from "@/lib/create-schema-form";
 import {
+  FileInput,
+  FormControl,
   FormField,
   FormItem,
   FormLabel,
-  FormControl,
-  FileInput,
   FormMessage,
   fileSize,
 } from "@rivet-gg/components";
+import { type UseFormReturn, useFormContext } from "react-hook-form";
+import z from "zod";
 
 const allowedTypes = ["image/png", "image/jpeg"];
 
@@ -18,7 +18,7 @@ export const formSchema = z.object({
     .custom<File>()
     .refine(
       (file) => file.size <= fileSize.megabytes(2),
-      `File size should be less than 2MB.`,
+      "File size should be less than 2MB.",
     )
     .refine(
       (file) => allowedTypes.includes(file.type),

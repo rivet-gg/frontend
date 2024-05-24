@@ -1,10 +1,10 @@
+import { ErrorComponent } from "@/components/error-component";
+import * as Layout from "@/domains/game/layouts/matchmaker-layout";
 import {
-  ErrorComponentProps,
+  type ErrorComponentProps,
   Outlet,
   createFileRoute,
 } from "@tanstack/react-router";
-import * as Layout from "@/domains/game/layouts/matchmaker-layout";
-import { ErrorComponent } from "@/components/error-component";
 
 function MatchmakerLayoutErrorComponent(props: ErrorComponentProps) {
   const { namespaceId, gameId } = Route.useParams();

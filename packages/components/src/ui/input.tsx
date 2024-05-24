@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { ReactNode, forwardRef } from "react";
+import { type ReactNode, forwardRef } from "react";
 
 import { Slot } from "@radix-ui/react-slot";
 

@@ -1,6 +1,6 @@
 import { Badge } from "@rivet-gg/components";
-import { type LobbyStatus } from "../data/lobby-status";
-import { Loader2, ShieldQuestion, ShieldAlert } from "lucide-react";
+import { Loader2, ShieldAlert, ShieldQuestion } from "lucide-react";
+import type { LobbyStatus } from "../data/lobby-status";
 
 interface LobbyStatusBadgeProps {
   status: LobbyStatus;

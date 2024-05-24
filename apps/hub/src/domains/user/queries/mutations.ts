@@ -1,9 +1,9 @@
 import { gamesQueryOptions } from "@/domains/game/queries";
 import { groupMembersQueryOptions } from "@/domains/group/queries";
-import { rivetClient, queryClient } from "@/queries/global";
+import { queryClient, rivetClient } from "@/queries/global";
+import type { Rivet } from "@rivet-gg/api";
 import { useMutation } from "@tanstack/react-query";
 import { selfProfileQueryOptions } from "./query-options";
-import { Rivet } from "@rivet-gg/api";
 
 const useAvatarUploadCompleteMutation = () => {
   return useMutation({

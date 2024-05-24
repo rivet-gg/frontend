@@ -8,10 +8,10 @@ import {
   formatDuration,
   formatExitCodeMessage,
 } from "@rivet-gg/components";
-import { LobbyStatusBadge } from "./lobby-status";
 import { useSuspenseQuery } from "@tanstack/react-query";
+import type { PropsWithChildren } from "react";
 import { gameNamespaceLogsLobbyQueryOptions } from "../queries";
-import { PropsWithChildren } from "react";
+import { LobbyStatusBadge } from "./lobby-status";
 
 function Container({ children }: PropsWithChildren) {
   return (

@@ -1,3 +1,5 @@
+import type { DialogContentProps } from "@/hooks/use-dialog";
+import type { Rivet } from "@rivet-gg/api-ee";
 import {
   Button,
   DialogFooter,
@@ -6,8 +8,6 @@ import {
   Flex,
   Text,
 } from "@rivet-gg/components";
-import { DialogContentProps } from "@/hooks/use-dialog";
-import { Rivet } from "@rivet-gg/api-ee";
 import { useUpdateGameBillingMutation } from "../../queries";
 
 interface ContentProps extends DialogContentProps {

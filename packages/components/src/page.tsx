@@ -1,8 +1,8 @@
-import { ReactNode } from "react";
-import { Flex } from "./ui/flex";
-import { H1 } from "./ui/typography";
+import type { ReactNode } from "react";
 import { cn } from "./lib/utils";
+import { Flex } from "./ui/flex";
 import { Skeleton } from "./ui/skeleton";
+import { H1 } from "./ui/typography";
 
 export interface PageProps {
   className?: string;

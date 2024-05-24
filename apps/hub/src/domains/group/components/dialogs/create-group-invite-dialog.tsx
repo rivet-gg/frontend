@@ -1,15 +1,15 @@
+import * as GroupInviteForm from "@/domains/group/forms/group-invite-form";
 import {
   Button,
+  CopyArea,
   DialogFooter,
   DialogHeader,
   DialogTitle,
   Flex,
   Label,
   Text,
-  CopyArea,
   timing,
 } from "@rivet-gg/components";
-import * as GroupInviteForm from "@/domains/group/forms/group-invite-form";
 import { useGroupInviteMutation } from "../../queries";
 
 interface CreateGroupInviteDialogContentContentProps {

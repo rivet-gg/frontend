@@ -1,4 +1,4 @@
-import { type Responsive } from "./types";
+import type { Responsive } from "./types";
 import { getResponsiveValue } from "./utilities";
 
 export const ALIGN_ITEMS_VALUES = [

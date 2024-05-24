@@ -1,5 +1,5 @@
 import { Page } from "@rivet-gg/components";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 
 interface MatchmakerPageProps {
   children: ReactNode;

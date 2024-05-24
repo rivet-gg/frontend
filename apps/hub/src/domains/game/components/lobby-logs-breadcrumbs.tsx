@@ -1,6 +1,6 @@
 import { Flex } from "@rivet-gg/components";
-import { LobbyLogsSelect } from "./lobby-logs-select";
 import { Link, useNavigate } from "@tanstack/react-router";
+import { LobbyLogsSelect } from "./lobby-logs-select";
 
 interface LobbyLogsBreadcrumbsProps {
   gameId: string;

@@ -1,28 +1,28 @@
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useDialog } from "@/hooks/use-dialog";
+import type { Rivet } from "@rivet-gg/api";
 import {
-  gameNamespacesQueryOptions,
-  gameVersionsQueryOptions,
-} from "../queries";
-import {
+  Badge,
+  Button,
   Card,
   CardContent,
   CardHeader,
   CardTitle,
   Flex,
+  Table,
   TableBody,
   TableCell,
   TableHead,
   TableHeader,
   TableRow,
-  Table,
   Text,
-  Button,
-  Badge,
 } from "@rivet-gg/components";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import { Fragment } from "react/jsx-runtime";
-import { Rivet } from "@rivet-gg/api";
-import { useDialog } from "@/hooks/use-dialog";
+import {
+  gameNamespacesQueryOptions,
+  gameVersionsQueryOptions,
+} from "../queries";
 
 interface NamespaceVersionRowProps extends Rivet.cloud.version.Summary {
   isCurrent: boolean;
@@ -120,11 +120,18 @@ export function NamespaceVersions({
               <TableHead>Name</TableHead>
               <TableHead>Created at</TableHead>
               <TableHead>Deployed to</TableHead>
-              <TableHead></TableHead>
+              <TableHead />
             </TableRow>
           </TableHeader>
           <TableBody>
-            {versions.map((version) => {
+            {!versions || versions.length === 0 ? (
+              <TableRow>
+                <TableCell colSpan={4}>
+                  <Text>There's no versions yet.</Text>
+                </TableCell>
+              </TableRow>
+            ) : null}
+            {versions?.map((version) => {
               const isCurrentVersion =
                 version.versionId === currentNamespace?.versionId;
               const deployedNamespaces = namespaces.filter(

@@ -1,12 +1,12 @@
+import type { Rivet } from "@rivet-gg/api";
+import { Button, LogsView } from "@rivet-gg/components";
 import { useSuspenseQuery } from "@tanstack/react-query";
+import { Download } from "lucide-react";
+import { useState } from "react";
 import {
   gameNamespaceLogsLobbyLogsQueryOptions,
   useExportLobbyLogsMutation,
 } from "../queries";
-import { Button, LogsView } from "@rivet-gg/components";
-import { useState } from "react";
-import { Download } from "lucide-react";
-import { Rivet } from "@rivet-gg/api";
 
 interface LobbyLogsProps {
   gameId: string;

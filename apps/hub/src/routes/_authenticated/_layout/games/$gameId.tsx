@@ -4,7 +4,7 @@ import { gameQueryOptions } from "@/domains/game/queries";
 import { useDialog } from "@/hooks/use-dialog";
 
 import {
-  ErrorComponentProps,
+  type ErrorComponentProps,
   Outlet,
   createFileRoute,
 } from "@tanstack/react-router";

@@ -1,5 +1,5 @@
 import { Page } from "@rivet-gg/components";
-import { PropsWithChildren, ReactNode } from "react";
+import type { PropsWithChildren, ReactNode } from "react";
 
 interface GamePageProps {
   children: ReactNode;

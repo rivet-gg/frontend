@@ -1,5 +1,4 @@
-import { Link } from "@tanstack/react-router";
-import { Menu } from "lucide-react";
+import { useAuth } from "@/domains/auth/contexts/auth";
 import {
   AssetImage,
   Button,
@@ -8,12 +7,13 @@ import {
   SheetContent,
   SheetTrigger,
 } from "@rivet-gg/components";
-import { NavItem } from "./nav-item";
-import { HeaderSubNav } from "./header-sub-nav";
-import { useAuth } from "@/domains/auth/contexts/auth";
+import { Link } from "@tanstack/react-router";
+import { Menu } from "lucide-react";
 import { Breadcrumbs } from "./breadcrumbs/breadcrumbs";
-import { HeaderRouteLoader } from "./header-route-loader";
 import { MobileBreadcrumbs } from "./breadcrumbs/mobile-breadcrumbs";
+import { HeaderRouteLoader } from "./header-route-loader";
+import { HeaderSubNav } from "./header-sub-nav";
+import { NavItem } from "./nav-item";
 
 const UserProfileButton = () => {
   const { profile } = useAuth();
@@ -70,12 +70,20 @@ export function Header() {
                 </div>
                 <Flex direction="col" justify="end" gap="6">
                   <NavItem asChild>
-                    <a href="https://rivet.gg/docs" target="_blank">
+                    <a
+                      href="https://rivet.gg/docs"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
                       Docs
                     </a>
                   </NavItem>
                   <NavItem asChild>
-                    <a href="https://rivet.gg/support" target="_blank">
+                    <a
+                      href="https://rivet.gg/support"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
                       Support
                     </a>
                   </NavItem>
@@ -97,12 +105,16 @@ export function Header() {
           </nav>
           <div className="gap-6 font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm">
             <NavItem asChild className="hidden md:inline-block">
-              <a href="https://rivet.gg/docs" target="_blank">
+              <a href="https://rivet.gg/docs" target="_blank" rel="noreferrer">
                 Docs
               </a>
             </NavItem>
             <NavItem asChild className="hidden md:inline-block">
-              <a href="https://rivet.gg/support" target="_blank">
+              <a
+                href="https://rivet.gg/support"
+                target="_blank"
+                rel="noreferrer"
+              >
                 Support
               </a>
             </NavItem>

@@ -7,8 +7,8 @@ import {
   CardTitle,
   Text,
 } from "@rivet-gg/components";
-import { Milestone } from "lucide-react";
 import { Link } from "@tanstack/react-router";
+import { Milestone } from "lucide-react";
 
 export const NotFoundComponent = () => {
   return (

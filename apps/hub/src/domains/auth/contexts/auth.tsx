@@ -1,14 +1,14 @@
-import { useSuspenseQuery } from "@tanstack/react-query";
-import * as React from "react";
-import { useCallback } from "react";
-import { Rivet } from "@rivet-gg/api";
+import { IdentifyUser } from "@/components/ThirdPartyProviders";
 import {
   identityTokenQueryOptions,
   selfProfileQueryOptions,
   useLogoutMutation,
 } from "@/domains/user/queries";
+import type { Rivet } from "@rivet-gg/api";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import * as React from "react";
+import { useCallback } from "react";
 import { bootstrapQueryOptions } from "../queries/bootstrap";
-import { IdentifyUser } from "@/components/ThirdPartyProviders";
 
 export interface AuthContext {
   profile: Rivet.identity.GetProfileResponse | undefined;

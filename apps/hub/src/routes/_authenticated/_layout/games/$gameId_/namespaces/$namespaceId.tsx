@@ -6,7 +6,7 @@ import {
 } from "@/domains/game/queries";
 import { queryClient } from "@/queries/global";
 import {
-  ErrorComponentProps,
+  type ErrorComponentProps,
   Outlet,
   createFileRoute,
   notFound,

@@ -1,18 +1,18 @@
-import { GroupGames } from "@/domains/game/queries";
+import type { GroupGames } from "@/domains/game/queries";
 import {
-  Flex,
-  LargeText,
-  Grid,
-  CardHeader,
-  CardContent,
   Card,
+  CardContent,
+  CardHeader,
+  Flex,
+  Grid,
+  LargeText,
   Skeleton,
 } from "@rivet-gg/components";
 import { GameTile } from "@rivet-gg/components/game";
 import { Link } from "@tanstack/react-router";
+import { ArrowRight } from "lucide-react";
 import { GroupAvatar } from "./group-avatar";
 import { GroupEmptyAlert } from "./group-empty-alert";
-import { ArrowRight } from "lucide-react";
 
 interface GroupProps extends GroupGames {}
 

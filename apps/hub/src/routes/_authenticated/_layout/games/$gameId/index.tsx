@@ -1,5 +1,5 @@
-import { createFileRoute } from "@tanstack/react-router";
 import { GameNamespacesView } from "@/domains/game/views/game-namespaces";
+import { createFileRoute } from "@tanstack/react-router";
 
 function GameIdRoute() {
   const { gameId } = Route.useParams();

@@ -1,4 +1,4 @@
-import { Button, ButtonProps } from "@rivet-gg/components";
+import { Button, type ButtonProps } from "@rivet-gg/components";
 import { useCreateBillingPortalSessionMutation } from "../../queries";
 
 interface GameBillingPortalButtonProps extends ButtonProps {

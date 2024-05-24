@@ -1,3 +1,4 @@
+import type { DialogContentProps } from "@/hooks/use-dialog";
 import {
   Button,
   CopyArea,
@@ -9,7 +10,6 @@ import {
 } from "@rivet-gg/components";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { gameTokenCloudQueryOptions } from "../../queries";
-import { type DialogContentProps } from "@/hooks/use-dialog";
 
 interface ContentProps extends DialogContentProps {
   gameId: string;

@@ -1,14 +1,14 @@
-import { Badge, Skeleton } from "@rivet-gg/components";
-import { CommandPanelPage } from "./command-panel-navigation-provider";
-import { GroupAvatar } from "@/domains/group/components/group-avatar";
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { GameAvatar } from "@/domains/game/components/game-avatar";
 import {
   gameNamespaceDisplayNameQueryOptions,
   gameQueryOptions,
   groupGamesQueryOptions,
 } from "@/domains/game/queries";
-import { GameAvatar } from "@/domains/game/components/game-avatar";
+import { GroupAvatar } from "@/domains/group/components/group-avatar";
+import { Badge, Skeleton } from "@rivet-gg/components";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { Suspense } from "react";
+import type { CommandPanelPage } from "./command-panel-navigation-provider";
 
 function GroupBreadcrumbs({ groupId }: { groupId: string }) {
   const { data: group } = useSuspenseQuery(groupGamesQueryOptions(groupId));

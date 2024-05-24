@@ -1,6 +1,6 @@
+import type { Rivet } from "@rivet-gg/api";
 import { useMutation } from "@tanstack/react-query";
 import { queryClient, rivetClient } from "../../../queries/global";
-import { Rivet } from "@rivet-gg/api";
 
 export const useStartEmailVerificationMutation = () => {
   return useMutation({

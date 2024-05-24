@@ -1,16 +1,16 @@
-import { UseFormReturn, useFormContext } from "react-hook-form";
-import z from "zod";
-import { useSuspenseQuery } from "@tanstack/react-query";
-import Turnstile from "react-turnstile";
 import { createSchemaForm } from "@/lib/create-schema-form";
 import {
+  FormControl,
   FormField,
   FormItem,
   FormLabel,
-  FormControl,
-  Input,
   FormMessage,
+  Input,
 } from "@rivet-gg/components";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { type UseFormReturn, useFormContext } from "react-hook-form";
+import Turnstile from "react-turnstile";
+import z from "zod";
 import { bootstrapCaptchaQueryOptions } from "../queries/bootstrap";
 
 export const formSchema = z.object({
@@ -57,12 +57,14 @@ export const Captcha = () => {
       render={({ field }) => (
         <FormItem>
           <FormControl>
-            <Turnstile
-              sitekey={data.turnstile!.siteKey!}
-              onVerify={(token) => {
-                field.onChange({ target: { value: token } });
-              }}
-            />
+            {data.turnstile?.siteKey ? (
+              <Turnstile
+                sitekey={data.turnstile.siteKey}
+                onVerify={(token) => {
+                  field.onChange({ target: { value: token } });
+                }}
+              />
+            ) : null}
           </FormControl>
           <FormMessage />
         </FormItem>

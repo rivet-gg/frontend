@@ -1,14 +1,14 @@
-import { UseFormReturn, useFormContext } from "react-hook-form";
-import z from "zod";
 import { createSchemaForm } from "@/lib/create-schema-form";
 import {
+  FormControl,
   FormField,
   FormItem,
   FormLabel,
-  FormControl,
-  Input,
   FormMessage,
+  Input,
 } from "@rivet-gg/components";
+import { type UseFormReturn, useFormContext } from "react-hook-form";
+import z from "zod";
 
 const LOBBY_COUNT_MAX = 32768 - 1;
 

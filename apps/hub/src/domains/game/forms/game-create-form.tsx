@@ -1,5 +1,4 @@
-import { UseFormReturn, useFormContext } from "react-hook-form";
-import z from "zod";
+import { GroupSelect } from "@/domains/group/components/group-select";
 import { createSchemaForm } from "@/lib/create-schema-form";
 import {
   FormField,
@@ -7,8 +6,9 @@ import {
   FormLabel,
   FormMessage,
 } from "@rivet-gg/components";
+import { type UseFormReturn, useFormContext } from "react-hook-form";
+import z from "zod";
 import * as GroupCreateGameForm from "./group-create-game-form";
-import { GroupSelect } from "@/domains/group/components/group-select";
 
 export const formSchema = z.intersection(
   z.object({ developerGroupId: z.string().min(1, "Required") }),

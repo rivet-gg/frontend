@@ -1,12 +1,12 @@
+import * as GroupCreateForm from "@/domains/group/forms/group-create-form";
 import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
   Flex,
 } from "@rivet-gg/components";
-import * as GroupCreateForm from "@/domains/group/forms/group-create-form";
-import { useGroupCreateMutation } from "../../queries";
 import { useNavigate } from "@tanstack/react-router";
+import { useGroupCreateMutation } from "../../queries";
 
 export default function CreateGroupDialogContent() {
   const navigate = useNavigate();

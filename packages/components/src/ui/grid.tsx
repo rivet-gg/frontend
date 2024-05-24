@@ -1,24 +1,28 @@
-import { HTMLAttributes, ReactNode } from "react";
-import {
-  GridColumnsUtilitiesProps,
-  getGridColumnsClass,
-  omitGridColumnsProps,
-} from "./helpers/grid-columns";
 import { cn } from "@/lib/utils";
-import { GapUtilitiesProps, getGapClass, omitGapProps } from "./helpers/gap";
+import type { HTMLAttributes, ReactNode } from "react";
 import {
-  WidthUtilitiesProps,
-  getWidthClass,
-  omitWidthProps,
-} from "./helpers/width";
-import {
-  AlignItemsValuesUtilitiesProps,
-  MarginUtilitiesProps,
+  type AlignItemsValuesUtilitiesProps,
+  type MarginUtilitiesProps,
   getAlignItemsClass,
   getMarginClass,
   omitAlignItemsProps,
   omitMarginProps,
 } from "./helpers";
+import {
+  type GapUtilitiesProps,
+  getGapClass,
+  omitGapProps,
+} from "./helpers/gap";
+import {
+  type GridColumnsUtilitiesProps,
+  getGridColumnsClass,
+  omitGridColumnsProps,
+} from "./helpers/grid-columns";
+import {
+  type WidthUtilitiesProps,
+  getWidthClass,
+  omitWidthProps,
+} from "./helpers/width";
 
 interface GridProps
   extends HTMLAttributes<HTMLDivElement>,

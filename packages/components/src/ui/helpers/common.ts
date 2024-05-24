@@ -1,34 +1,38 @@
 import {
-  DisplayUtilitiesProps,
+  type DisplayUtilitiesProps,
   getDisplayClass,
   omitDisplayProps,
 } from "./display";
 import {
-  MarginUtilitiesProps,
+  type MarginUtilitiesProps,
   getMarginClass,
   omitMarginProps,
 } from "./margin";
 import {
-  MinHeightUtilitiesProps,
+  type MinHeightUtilitiesProps,
   getMinHeightClass,
   omitMinHeightProps,
 } from "./min-height";
 import {
-  MinWidthUtilitiesProps,
+  type MinWidthUtilitiesProps,
   getMinWidthClass,
   omitMinWidthProps,
 } from "./min-width";
 import {
-  PaddingUtilitiesProps,
+  type PaddingUtilitiesProps,
   getPaddingClass,
   omitPaddingProps,
 } from "./padding";
 import {
-  TextAlignUtilitiesProps,
+  type TextAlignUtilitiesProps,
   getTextAlignClass,
   omitTextAlignProps,
 } from "./text-align";
-import { WidthUtilitiesProps, getWidthClass, omitWidthProps } from "./width";
+import {
+  type WidthUtilitiesProps,
+  getWidthClass,
+  omitWidthProps,
+} from "./width";
 
 export interface CommonHelperProps
   extends MarginUtilitiesProps,

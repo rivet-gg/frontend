@@ -1,5 +1,4 @@
-import { useSuspenseQueries } from "@tanstack/react-query";
-import { gameBillingQueryOptions, gameQueryOptions } from "../../queries";
+import * as GameBillingForm from "@/domains/game/forms/game-billing-form";
 import {
   Flex,
   Grid,
@@ -13,9 +12,10 @@ import {
   TableRow,
   Text,
 } from "@rivet-gg/components";
-import { LobbyRegion } from "../lobby-region";
-import * as GameBillingForm from "@/domains/game/forms/game-billing-form";
+import { useSuspenseQueries } from "@tanstack/react-query";
 import { useGameBillingFormHelpers } from "../../hooks/use-game-billing-form-helpers";
+import { gameBillingQueryOptions, gameQueryOptions } from "../../queries";
+import { LobbyRegion } from "../lobby-region";
 import { GameBillingCard } from "./game-billing-card";
 
 interface GameBillingProps {

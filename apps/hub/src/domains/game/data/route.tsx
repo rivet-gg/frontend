@@ -1,5 +1,5 @@
-import { Rivet } from "@rivet-gg/api";
-import { Rivet as RivetEe } from "@rivet-gg/api-ee";
+import type { Rivet } from "@rivet-gg/api";
+import type { Rivet as RivetEe } from "@rivet-gg/api-ee";
 import {
   Cloud,
   Cog,
@@ -10,7 +10,7 @@ import {
   Receipt,
   Swords,
 } from "lucide-react";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 
 type SubNavLink = {
   title: string;
@@ -66,13 +66,13 @@ export const buildNamespaceSubNav = (config: Rivet.cloud.NamespaceConfig) => {
   const subNav: SubNavLink[] = [
     {
       title: "Overview",
-      url: `/games/$gameId/namespaces/$namespaceId/`,
+      url: "/games/$gameId/namespaces/$namespaceId/",
       exact: true,
       icon: <Home />,
     },
     {
       title: "Versions",
-      url: `/games/$gameId/namespaces/$namespaceId/versions/`,
+      url: "/games/$gameId/namespaces/$namespaceId/versions/",
       icon: <GitBranch />,
     },
   ];

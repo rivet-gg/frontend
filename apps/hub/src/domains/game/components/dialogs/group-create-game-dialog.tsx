@@ -1,13 +1,13 @@
+import * as GameCreateForm from "@/domains/game/forms/group-create-game-form";
+import { convertStringToId } from "@/lib/utils";
 import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
   Flex,
 } from "@rivet-gg/components";
-import * as GameCreateForm from "@/domains/game/forms/group-create-game-form";
-import { useGameCreateMutation } from "../../queries";
 import { useNavigate } from "@tanstack/react-router";
-import { convertStringToId } from "@/lib/utils";
+import { useGameCreateMutation } from "../../queries";
 
 interface ContentProps {
   groupId: string;

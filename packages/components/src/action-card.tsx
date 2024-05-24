@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import {
   Card,
   CardContent,
@@ -6,7 +7,6 @@ import {
   CardHeader,
   CardTitle,
 } from "./ui/card";
-import { ReactNode } from "react";
 
 export interface ActionCardProps {
   title: string;

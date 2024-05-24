@@ -27,6 +27,7 @@ export const groupGamesQueryOptions = (groupId: string) => {
   return queryOptions({
     ...gamesQueryOptions(),
     select: (data) => {
+      // biome-ignore lint/style/noNonNullAssertion: when we get here, we know the group exists
       const group = data.groups.find((group) => group.groupId === groupId)!;
       const games = data.games.filter(
         (game) => game.developer.groupId === group.groupId,
@@ -43,7 +44,7 @@ export const groupOnwerQueryOptions = (groupId: string) => {
   return queryOptions({
     ...groupGamesQueryOptions(groupId),
     select: (data) => {
-      return groupGamesQueryOptions(groupId).select!(data).ownerIdentityId;
+      return groupGamesQueryOptions(groupId).select?.(data).ownerIdentityId;
     },
   });
 };
@@ -79,16 +80,17 @@ export const gameVersionsQueryOptions = (gameId: string) => {
   return queryOptions({
     ...gameQueryOptions(gameId),
     select: (data) =>
-      gameQueryOptions(gameId).select!(data).versions.sort(
-        (a, b) => b.createTs.getTime() - a.createTs.getTime(),
-      ),
+      gameQueryOptions(gameId)
+        .select?.(data)
+        .versions.sort((a, b) => b.createTs.getTime() - a.createTs.getTime()),
   });
 };
 
 export const gameRegionsQueryOptions = (gameId: string) => {
   return queryOptions({
     ...gameQueryOptions(gameId),
-    select: (data) => gameQueryOptions(gameId).select!(data).availableRegions,
+    // biome-ignore lint/style/noNonNullAssertion: when we get here, we know the regions exist
+    select: (data) => gameQueryOptions(gameId).select?.(data).availableRegions!,
   });
 };
 
@@ -102,9 +104,10 @@ export const gameVersionQueryOptions = ({
   queryOptions({
     ...gameQueryOptions(gameId),
     select: (data) =>
-      gameQueryOptions(gameId).select!(data).versions.find(
-        (version) => version.versionId === versionId,
-      )!,
+      // biome-ignore lint/style/noNonNullAssertion: when we get here, we know the version exists
+      gameQueryOptions(gameId)
+        .select?.(data)
+        .versions.find((version) => version.versionId === versionId)!,
   });
 
 export const gameTokenCloudQueryOptions = ({ gameId }: { gameId: string }) => {

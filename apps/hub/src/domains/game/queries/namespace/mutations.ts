@@ -1,5 +1,5 @@
-import { rivetClient, queryClient } from "@/queries/global";
-import { Rivet } from "@rivet-gg/api";
+import { queryClient, rivetClient } from "@/queries/global";
+import type { Rivet } from "@rivet-gg/api";
 import { toast } from "@rivet-gg/components";
 import { useMutation } from "@tanstack/react-query";
 import { gameQueryOptions } from "../query-options";

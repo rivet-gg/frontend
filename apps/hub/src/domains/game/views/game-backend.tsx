@@ -1,5 +1,5 @@
+import { useDialog } from "@/hooks/use-dialog";
 import {
-  Text,
   Button,
   Card,
   CardContent,
@@ -12,11 +12,11 @@ import {
   TableHead,
   TableHeader,
   TableRow,
+  Text,
 } from "@rivet-gg/components";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
 import { Plus } from "lucide-react";
-import { useDialog } from "@/hooks/use-dialog";
 import { GameBackendEnvTableActions } from "../components/game-backend-env-table-actions";
 import { gameBackendProjectEnvsQueryOptions } from "../queries";
 
@@ -51,7 +51,7 @@ export function GameBackendView({ projectId, gameId }: GameBackendViewProps) {
             <TableRow>
               <TableHead w="full">Name</TableHead>
               <TableHead>Url</TableHead>
-              <TableHead></TableHead>
+              <TableHead />
             </TableRow>
           </TableHeader>
           <TableBody>

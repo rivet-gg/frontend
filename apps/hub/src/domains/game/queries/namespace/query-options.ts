@@ -1,13 +1,14 @@
 import { rivetClient, rivetEeClient } from "@/queries/global";
-import { Rivet } from "@rivet-gg/api";
+import type { Rivet } from "@rivet-gg/api";
 import { queryOptions } from "@tanstack/react-query";
-import { getLobbyStatus, getLiveLobbyStatus } from "../../data/lobby-status";
+import { getLiveLobbyStatus, getLobbyStatus } from "../../data/lobby-status";
 import { gameQueryOptions } from "../query-options";
 
 export const gameNamespacesQueryOptions = (gameId: string) => {
   return queryOptions({
     ...gameQueryOptions(gameId),
-    select: (data) => gameQueryOptions(gameId).select!(data).namespaces,
+    // biome-ignore lint/style/noNonNullAssertion: when we get here, we know the game exists
+    select: (data) => gameQueryOptions(gameId).select?.(data).namespaces!,
   });
 };
 
@@ -47,9 +48,10 @@ export const gameNamespaceDisplayNameQueryOptions = ({
   queryOptions({
     ...gameQueryOptions(gameId),
     select: (data) =>
-      gameQueryOptions(gameId).select!(data).namespaces.find(
-        (namespace) => namespace.namespaceId === namespaceId,
-      )!.displayName,
+      gameQueryOptions(gameId)
+        .select?.(data)
+        .namespaces.find((namespace) => namespace.namespaceId === namespaceId)
+        ?.displayName,
   });
 
 export const gameNamespaceVersionQueryOptions = ({
@@ -62,9 +64,10 @@ export const gameNamespaceVersionQueryOptions = ({
   return queryOptions({
     ...gameQueryOptions(gameId),
     select: (data) =>
-      gameQueryOptions(gameId).select!(data).namespaces.find(
-        (namespace) => namespace.namespaceId === namespaceId,
-      )!.version,
+      gameQueryOptions(gameId)
+        .select?.(data)
+        .namespaces.find((namespace) => namespace.namespaceId === namespaceId)
+        ?.version,
   });
 };
 

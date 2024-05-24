@@ -1,13 +1,13 @@
 import * as LoginForm from "@/domains/auth/forms/login-form";
 import {
   Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
-  CardDescription,
-  CardContent,
   Flex,
   MutedText,
-  CardFooter,
 } from "@rivet-gg/components";
 
 interface EmailStepProps {

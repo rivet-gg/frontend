@@ -1,4 +1,4 @@
-import { Responsive } from "./types";
+import type { Responsive } from "./types";
 
 export function getResponsiveValue<T extends string>(
   value: Responsive<T> | undefined,

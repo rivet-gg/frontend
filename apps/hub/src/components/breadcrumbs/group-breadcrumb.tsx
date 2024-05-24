@@ -2,9 +2,9 @@ import { groupGamesQueryOptions } from "@/domains/game/queries";
 import { GroupAvatar } from "@/domains/group/components/group-avatar";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
-import { MobileBreadcrumbsContext } from "./mobile-breadcrumbs";
 import { Fragment, useContext } from "react";
 import { NavItem } from "../nav-item";
+import { MobileBreadcrumbsContext } from "./mobile-breadcrumbs";
 
 interface GroupBreadcrumbProps {
   groupId: string;

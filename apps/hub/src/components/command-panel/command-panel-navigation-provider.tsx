@@ -1,6 +1,6 @@
-import { UseNavigateResult, useNavigate } from "@tanstack/react-router";
+import { type UseNavigateResult, useNavigate } from "@tanstack/react-router";
 import {
-  ReactNode,
+  type ReactNode,
   createContext,
   startTransition,
   useCallback,

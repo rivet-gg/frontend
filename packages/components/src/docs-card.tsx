@@ -1,4 +1,4 @@
-import { ExternalCard, ExternalCardProps } from "./external-card";
+import { ExternalCard, type ExternalCardProps } from "./external-card";
 
 interface DocsCardProps extends Omit<ExternalCardProps, "label"> {}
 

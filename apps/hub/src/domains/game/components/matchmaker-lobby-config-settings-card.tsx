@@ -1,3 +1,4 @@
+import * as MatchmakerLobbyConfigForm from "@/domains/game/forms/matchmaker-lobby-config-form";
 import {
   Card,
   CardContent,
@@ -6,10 +7,9 @@ import {
   CardTitle,
   Flex,
 } from "@rivet-gg/components";
-import * as MatchmakerLobbyConfigForm from "@/domains/game/forms/matchmaker-lobby-config-form";
-import { gameNamespaceQueryOptions } from "../queries";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { useMatchmakerLobbyConfigFormHandler } from "../hooks/use-matchmaker-lobby-config-form-handler";
+import { gameNamespaceQueryOptions } from "../queries";
 
 interface MatchMakerLobbyConfigSettingsCardProps {
   gameId: string;

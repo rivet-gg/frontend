@@ -1,4 +1,5 @@
 import { gameNamespacesQueryOptions } from "@/domains/game/queries";
+import { useDialog } from "@/hooks/use-dialog";
 import {
   Badge,
   Button,
@@ -17,7 +18,6 @@ import {
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
 import { Plus } from "lucide-react";
-import { useDialog } from "@/hooks/use-dialog";
 import { GameNamespaceTableActions } from "../components/game-namespace-table-actions";
 
 interface GameNamespacesViewProps {
@@ -48,7 +48,7 @@ export function GameNamespacesView({ gameId }: GameNamespacesViewProps) {
             <TableRow>
               <TableHead w="full">Name</TableHead>
               <TableHead>Version</TableHead>
-              <TableHead></TableHead>
+              <TableHead />
             </TableRow>
           </TableHeader>
           <TableBody>

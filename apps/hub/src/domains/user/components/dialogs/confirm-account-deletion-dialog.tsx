@@ -1,3 +1,4 @@
+import type { DialogContentProps } from "@/hooks/use-dialog";
 import {
   Button,
   DialogDescription,
@@ -8,7 +9,6 @@ import {
   Text,
 } from "@rivet-gg/components";
 import { useIdentityDeletionMutation } from "../../queries";
-import { type DialogContentProps } from "@/hooks/use-dialog";
 
 interface ConfirmAccountDeletionDialogContentProps extends DialogContentProps {}
 

@@ -1,7 +1,7 @@
 import { gamesQueryOptions } from "@/domains/game/queries";
 import { isRivetError } from "@/lib/utils";
-import { rivetClient, queryClient } from "@/queries/global";
-import { Rivet } from "@rivet-gg/api";
+import { queryClient, rivetClient } from "@/queries/global";
+import type { Rivet } from "@rivet-gg/api";
 import { toast } from "@rivet-gg/components";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
@@ -176,7 +176,9 @@ export const useGroupInviteAcceptMutation = () => {
       rivetClient.group.invites.consumeInvite(inviteId),
     onSuccess: async (data) => {
       await queryClient.invalidateQueries(gamesQueryOptions());
-      navigate({ to: "/teams/$groupId", params: { groupId: data.groupId! } });
+      if (data.groupId) {
+        navigate({ to: "/teams/$groupId", params: { groupId: data.groupId } });
+      }
     },
     onError: (error) => {
       if (isRivetError(error)) {

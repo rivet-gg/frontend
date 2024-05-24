@@ -1,21 +1,21 @@
-import { UseFormReturn, useFormContext } from "react-hook-form";
-import z from "zod";
 import { createSchemaForm } from "@/lib/create-schema-form";
 import {
+  FormControl,
   FormField,
   FormItem,
   FormLabel,
-  FormControl,
   FormMessage,
+  Input,
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-  Input,
   formatCurrency,
 } from "@rivet-gg/components";
 import { useEffect } from "react";
+import { type UseFormReturn, useFormContext } from "react-hook-form";
+import z from "zod";
 
 export const hardwareTierValues = [
   { value: "1/8", label: "1/8 core", multiplier: 1 / 8 },

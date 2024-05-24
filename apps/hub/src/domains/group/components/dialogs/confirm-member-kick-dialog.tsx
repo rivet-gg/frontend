@@ -1,3 +1,4 @@
+import { groupGamesQueryOptions } from "@/domains/game/queries";
 import {
   Button,
   Code,
@@ -8,12 +9,11 @@ import {
   Strong,
   Text,
 } from "@rivet-gg/components";
+import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
 import {
   groupMemberQueryOptions,
   useGroupKickMemberMutation,
 } from "../../queries";
-import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
-import { groupGamesQueryOptions } from "@/domains/game/queries";
 
 interface ConfirmMemberKickDialogContentProps {
   groupId: string;

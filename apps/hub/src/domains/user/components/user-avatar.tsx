@@ -1,4 +1,4 @@
-import { Rivet } from "@rivet-gg/api";
+import type { Rivet } from "@rivet-gg/api";
 import { Avatar, AvatarFallback, AvatarImage } from "@rivet-gg/components";
 
 interface UserAvatarProps

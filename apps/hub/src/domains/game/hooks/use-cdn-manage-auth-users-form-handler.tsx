@@ -1,14 +1,14 @@
-import { Rivet } from "@rivet-gg/api";
-import bcrypt from "bcryptjs";
-import {
-  useNamespaceUpdateCdnAuthUserMutation,
-  useNamespaceRemoveCdnAuthUserMutation,
-  gameQueryOptions,
-  gameNamespaceQueryOptions,
-} from "../queries";
-import { useCallback } from "react";
-import { SubmitHandler } from "@/domains/game/forms/cdn-manage-auth-users-form";
+import type { SubmitHandler } from "@/domains/game/forms/cdn-manage-auth-users-form";
 import { queryClient } from "@/queries/global";
+import type { Rivet } from "@rivet-gg/api";
+import bcrypt from "bcryptjs";
+import { useCallback } from "react";
+import {
+  gameNamespaceQueryOptions,
+  gameQueryOptions,
+  useNamespaceRemoveCdnAuthUserMutation,
+  useNamespaceUpdateCdnAuthUserMutation,
+} from "../queries";
 
 const SALT = bcrypt.genSaltSync(10);
 
@@ -80,12 +80,12 @@ export function useCdnManageAuthUsersFormHandler({
         values.users,
       );
       if (diff.errors.length > 0) {
-        diff.errors.forEach(({ idx, error }) => {
+        for (const { idx, error } of diff.errors) {
           form.setError(`users.${idx}.password`, {
             type: "manual",
             message: error,
           });
-        });
+        }
         return;
       }
 

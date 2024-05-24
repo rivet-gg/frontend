@@ -1,15 +1,15 @@
+import * as NamespaceCreateForm from "@/domains/game/forms/namespace-create-form";
+import type { DialogContentProps } from "@/hooks/use-dialog";
+import { convertStringToId } from "@/lib/utils";
 import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
   Flex,
 } from "@rivet-gg/components";
-import * as NamespaceCreateForm from "@/domains/game/forms/namespace-create-form";
-import { gameQueryOptions, useNamespaceCreateMutation } from "../../queries";
-import { useNavigate } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { convertStringToId } from "@/lib/utils";
-import { type DialogContentProps } from "@/hooks/use-dialog";
+import { useNavigate } from "@tanstack/react-router";
+import { gameQueryOptions, useNamespaceCreateMutation } from "../../queries";
 
 interface ContentProps extends DialogContentProps {
   gameId: string;

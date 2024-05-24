@@ -1,6 +1,6 @@
 import { ChevronRight } from "lucide-react";
-import { MobileBreadcrumbsContext } from "./mobile-breadcrumbs";
 import { useContext } from "react";
+import { MobileBreadcrumbsContext } from "./mobile-breadcrumbs";
 
 export function Separator() {
   const isMobile = useContext(MobileBreadcrumbsContext);

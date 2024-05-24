@@ -1,5 +1,5 @@
-import { Outlet, createFileRoute, notFound } from "@tanstack/react-router";
 import { gameBackendProjectQueryOptions } from "@/domains/game/queries";
+import { Outlet, createFileRoute, notFound } from "@tanstack/react-router";
 
 function GameBackendRoute() {
   return <Outlet />;

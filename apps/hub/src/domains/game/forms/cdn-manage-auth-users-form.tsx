@@ -1,5 +1,3 @@
-import { UseFormReturn, useFieldArray, useFormContext } from "react-hook-form";
-import z from "zod";
 import { createSchemaForm } from "@/lib/create-schema-form";
 import {
   Button,
@@ -13,6 +11,12 @@ import {
   Text,
 } from "@rivet-gg/components";
 import { Trash } from "lucide-react";
+import {
+  type UseFormReturn,
+  useFieldArray,
+  useFormContext,
+} from "react-hook-form";
+import z from "zod";
 
 export const formSchema = z.object({
   users: z

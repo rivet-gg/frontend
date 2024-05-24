@@ -9,7 +9,7 @@ import {
   SelectValue,
 } from "@rivet-gg/components";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { ComponentProps } from "react";
+import type { ComponentProps } from "react";
 
 interface GroupSelectProps extends ComponentProps<typeof Select> {}
 

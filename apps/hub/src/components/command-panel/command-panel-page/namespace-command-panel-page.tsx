@@ -5,15 +5,15 @@ import {
 import { Badge, CommandGroup, CommandItem } from "@rivet-gg/components";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import {
-  Home,
   Cog,
-  Link,
-  UserCog,
-  Swords,
-  Joystick,
-  Scroll,
-  KeyRound,
   GitBranch,
+  Home,
+  Joystick,
+  KeyRound,
+  Link,
+  Scroll,
+  Swords,
+  UserCog,
 } from "lucide-react";
 import { useCommandPanelNavigation } from "../command-panel-navigation-provider";
 

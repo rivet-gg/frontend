@@ -1,10 +1,10 @@
 import { RivetClient } from "@rivet-gg/api";
 import { RivetClient as RivetEeClient } from "@rivet-gg/api-ee";
-import { QueryCache, QueryClient } from "@tanstack/react-query";
-import { createSyncStoragePersister } from "@tanstack/query-sync-storage-persister";
-import { identityTokenQueryOptions } from "../domains/user/queries";
-import superjson from "superjson";
 import { getConfig } from "@rivet-gg/components";
+import { createSyncStoragePersister } from "@tanstack/query-sync-storage-persister";
+import { QueryCache, QueryClient } from "@tanstack/react-query";
+import superjson from "superjson";
+import { identityTokenQueryOptions } from "../domains/user/queries";
 
 const opts: RivetClient.Options = {
   environment: getConfig().apiUrl,
@@ -34,17 +34,16 @@ const opts: RivetClient.Options = {
         status: response.status,
         body: await response.json(),
       } as const;
-    } else {
-      return {
-        ok: false,
-        status: response.status,
-        error: {
-          reason: "status-code",
-          statusCode: response.status,
-          body: await response.json(),
-        },
-      } as const;
     }
+    return {
+      ok: false,
+      status: response.status,
+      error: {
+        reason: "status-code",
+        statusCode: response.status,
+        body: await response.json(),
+      },
+    } as const;
   },
 };
 

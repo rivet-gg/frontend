@@ -1,6 +1,6 @@
-import { ReactNode } from "react";
-import { Page, PageProps } from "./page";
 import { Slot } from "@radix-ui/react-slot";
+import type { ReactNode } from "react";
+import { Page, type PageProps } from "./page";
 
 export interface NarrowPageProps extends PageProps {
   title: string;

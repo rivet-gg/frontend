@@ -1,5 +1,5 @@
-import { ReactNode } from "react";
-import { Page, PageProps } from "./page";
+import type { ReactNode } from "react";
+import { Page, type PageProps } from "./page";
 import { SidebarPageContent } from "./sidebar-page-content";
 
 export interface SidebarPageProps extends PageProps {

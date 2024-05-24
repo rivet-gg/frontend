@@ -1,3 +1,5 @@
+import * as GroupImageForm from "@/domains/group/forms/group-image-form";
+import { useAvatarUploadMutation } from "@/domains/group/queries";
 import {
   Card,
   CardContent,
@@ -5,8 +7,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@rivet-gg/components";
-import * as GroupImageForm from "@/domains/group/forms/group-image-form";
-import { useAvatarUploadMutation } from "@/domains/group/queries";
 
 interface GroupImageSettingsCardProps {
   groupId: string;

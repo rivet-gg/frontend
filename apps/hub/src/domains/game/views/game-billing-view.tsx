@@ -1,8 +1,8 @@
-import { useSuspenseQuery } from "@tanstack/react-query";
-import { groupBillingQueryOptions } from "@/domains/group/queries";
 import { gameQueryOptions } from "@/domains/game/queries";
-import { GameBillingMissingPaymentMethod } from "../components/game-billing/game-billing-missing-payment-method";
+import { groupBillingQueryOptions } from "@/domains/group/queries";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { GameBilling } from "../components/game-billing/game-billing";
+import { GameBillingMissingPaymentMethod } from "../components/game-billing/game-billing-missing-payment-method";
 
 interface GameBillingViewProps {
   gameId: string;

@@ -1,8 +1,8 @@
+import type { SubmitHandler } from "@/domains/game/forms/matchmaker-lobby-config-form";
+import { validateAgainstApi } from "@/lib/async-validation";
 import { rivetClient } from "@/queries/global";
 import { useCallback } from "react";
 import { useNamepsaceMatchmakerUpdateConfigMutation } from "../queries";
-import { SubmitHandler } from "@/domains/game/forms/matchmaker-lobby-config-form";
-import { validateAgainstApi } from "@/lib/async-validation";
 
 interface UseMatchmakerLobbyConfigFormHandlerProps {
   gameId: string;

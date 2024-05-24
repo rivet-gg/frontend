@@ -1,3 +1,9 @@
+import * as DeviceLinkForm from "@/domains/auth/forms/device-link-form";
+import {
+  deviceLinkTokenQueryOptions,
+  useCompleteDeviceLinkMutation,
+} from "@/domains/auth/queries";
+import * as Layout from "@/layouts/page-centered";
 import { queryClient } from "@/queries/global";
 import {
   Button,
@@ -10,13 +16,7 @@ import {
   Flex,
   Text,
 } from "@rivet-gg/components";
-import * as Layout from "@/layouts/page-centered";
 import { Link, createFileRoute, notFound } from "@tanstack/react-router";
-import {
-  deviceLinkTokenQueryOptions,
-  useCompleteDeviceLinkMutation,
-} from "@/domains/auth/queries";
-import * as DeviceLinkForm from "@/domains/auth/forms/device-link-form";
 function DeviceLinkTokenRoute() {
   const { token } = Route.useParams();
 

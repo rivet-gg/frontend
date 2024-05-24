@@ -3,7 +3,7 @@ import * as Layout from "@/domains/game/layouts/group-layout";
 import { groupGamesQueryOptions } from "@/domains/game/queries";
 import { useDialog } from "@/hooks/use-dialog";
 import {
-  ErrorComponentProps,
+  type ErrorComponentProps,
   Outlet,
   createFileRoute,
   notFound,

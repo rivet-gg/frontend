@@ -1,8 +1,12 @@
-import { ChangeEvent, useState } from "react";
-import { ControllerRenderProps, FieldName, FieldValues } from "react-hook-form";
-import { InputProps, Input } from "./input";
-import { Button } from "./button";
 import { Trash2 } from "lucide-react";
+import { type ChangeEvent, useState } from "react";
+import type {
+  ControllerRenderProps,
+  FieldName,
+  FieldValues,
+} from "react-hook-form";
+import { Button } from "./button";
+import { Input, type InputProps } from "./input";
 
 interface FileInputProps<FormValues extends FieldValues> extends InputProps {
   name: FieldName<FormValues>;

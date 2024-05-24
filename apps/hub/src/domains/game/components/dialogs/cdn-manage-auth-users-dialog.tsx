@@ -1,3 +1,5 @@
+import * as CdnManageAuthUsersForm from "@/domains/game/forms/cdn-manage-auth-users-form";
+import type { DialogContentProps } from "@/hooks/use-dialog";
 import {
   DialogFooter,
   DialogHeader,
@@ -5,11 +7,9 @@ import {
   Flex,
   Text,
 } from "@rivet-gg/components";
-import { gameNamespaceQueryOptions } from "../../queries";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import * as CdnManageAuthUsersForm from "@/domains/game/forms/cdn-manage-auth-users-form";
 import { useCdnManageAuthUsersFormHandler } from "../../hooks/use-cdn-manage-auth-users-form-handler";
-import { DialogContentProps } from "@/hooks/use-dialog";
+import { gameNamespaceQueryOptions } from "../../queries";
 
 interface ContentProps extends DialogContentProps {
   gameId: string;

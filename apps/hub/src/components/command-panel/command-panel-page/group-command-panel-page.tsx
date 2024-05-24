@@ -1,9 +1,9 @@
 import { groupGamesQueryOptions } from "@/domains/game/queries";
 import { CommandGroup, CommandItem } from "@rivet-gg/components";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { Home, Plus, UserPlus, Users, Cog } from "lucide-react";
-import { GamesCommandPanelItems } from "../games-command-panel-items";
+import { Cog, Home, Plus, UserPlus, Users } from "lucide-react";
 import { useCommandPanelNavigation } from "../command-panel-navigation-provider";
+import { GamesCommandPanelItems } from "../games-command-panel-items";
 
 interface GroupCommandPanelPageProps {
   groupId: string;

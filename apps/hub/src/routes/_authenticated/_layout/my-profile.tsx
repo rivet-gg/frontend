@@ -1,8 +1,8 @@
-import { createFileRoute } from "@tanstack/react-router";
-import * as Layout from "@/domains/user/layouts/profile-layout";
+import { AccountDeletionCard } from "@/domains/user/components/account-deletion-card";
 import { UserAvatarSettingsCard } from "@/domains/user/components/user-avatar-settings-card";
 import { UserNameSettingsCard } from "@/domains/user/components/user-name-settings-card";
-import { AccountDeletionCard } from "@/domains/user/components/account-deletion-card";
+import * as Layout from "@/domains/user/layouts/profile-layout";
+import { createFileRoute } from "@tanstack/react-router";
 
 function MyProfileRoute() {
   return (

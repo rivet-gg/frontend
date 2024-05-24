@@ -1,6 +1,6 @@
+import { GroupDetailedMembers } from "@/domains/group/views/group-detailed-members";
 import { Flex } from "@rivet-gg/components";
 import { createFileRoute } from "@tanstack/react-router";
-import { GroupDetailedMembers } from "@/domains/group/views/group-detailed-members";
 
 function GroupIdMembersView() {
   const { groupId } = Route.useParams();

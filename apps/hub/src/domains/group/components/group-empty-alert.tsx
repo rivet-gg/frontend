@@ -1,3 +1,4 @@
+import { useDialog } from "@/hooks/use-dialog";
 import {
   Alert,
   AlertDescription,
@@ -5,7 +6,6 @@ import {
   Button,
   Flex,
 } from "@rivet-gg/components";
-import { useDialog } from "@/hooks/use-dialog";
 import { Ghost } from "lucide-react";
 
 interface GroupEmptyAlertProps {

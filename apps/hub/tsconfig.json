@@ -1,5 +1,4 @@
 {
-
   "composite": true,
   "compilerOptions": {
     "target": "ESNext",
@@ -14,5 +13,5 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["src"],
+  "include": ["src"]
 }

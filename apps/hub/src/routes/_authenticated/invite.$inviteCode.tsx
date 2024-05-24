@@ -1,7 +1,9 @@
+import { GroupAvatar } from "@/domains/group/components/group-avatar";
 import {
   groupInviteQueryOptions,
   useGroupInviteAcceptMutation,
 } from "@/domains/group/queries";
+import * as Layout from "@/layouts/page-centered";
 import { queryClient } from "@/queries/global";
 import {
   Button,
@@ -13,10 +15,8 @@ import {
   Flex,
   Strong,
 } from "@rivet-gg/components";
-import * as Layout from "@/layouts/page-centered";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { Link, createFileRoute, notFound } from "@tanstack/react-router";
-import { GroupAvatar } from "@/domains/group/components/group-avatar";
 
 function InviteCodeInviteRoute() {
   const { inviteCode } = Route.useParams();

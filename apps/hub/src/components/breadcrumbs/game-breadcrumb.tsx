@@ -1,12 +1,12 @@
+import { GameAvatar } from "@/domains/game/components/game-avatar";
 import { gameQueryOptions } from "@/domains/game/queries";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { GroupBreadcrumb } from "./group-breadcrumb";
 import { Link } from "@tanstack/react-router";
-import { Separator } from "./separator";
-import { GameAvatar } from "@/domains/game/components/game-avatar";
-import { MobileBreadcrumbsContext } from "./mobile-breadcrumbs";
 import { Fragment, useContext } from "react";
 import { NavItem } from "../nav-item";
+import { GroupBreadcrumb } from "./group-breadcrumb";
+import { MobileBreadcrumbsContext } from "./mobile-breadcrumbs";
+import { Separator } from "./separator";
 
 interface GameBreadcrumbProps {
   gameId: string;

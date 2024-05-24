@@ -1,17 +1,18 @@
 import {
-  Virtualizer,
-  VirtualizerOptions,
+  type Virtualizer,
+  type VirtualizerOptions,
   useVirtualizer,
 } from "@tanstack/react-virtual";
-import { ScrollArea, ScrollAreaProps } from "./ui/scroll-area";
 import {
-  ReactElement,
-  RefObject,
+  type ReactElement,
+  type RefObject,
   cloneElement,
   useImperativeHandle,
   useRef,
 } from "react";
+import { ScrollArea, type ScrollAreaProps } from "./ui/scroll-area";
 
+// biome-ignore lint/suspicious/noExplicitAny: we don't care about the type of the row
 interface VirtualScrollAreaProps<TItem extends Record<string, any>>
   // optional
   extends Partial<
@@ -29,6 +30,7 @@ interface VirtualScrollAreaProps<TItem extends Record<string, any>>
   virtualizerRef?: RefObject<Virtualizer<HTMLDivElement, Element>>;
 }
 
+// biome-ignore lint/suspicious/noExplicitAny: we don't care about the type of the row
 export function VirtualScrollArea<TItem extends Record<string, any>>({
   className,
   row: Row,

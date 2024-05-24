@@ -1,3 +1,4 @@
+import { hasMethod, isRivetError } from "@/lib/utils";
 import {
   Button,
   Card,
@@ -8,9 +9,8 @@ import {
   Code,
   Text,
 } from "@rivet-gg/components";
-import { ErrorComponentProps } from "@tanstack/react-router";
+import type { ErrorComponentProps } from "@tanstack/react-router";
 import { Bomb } from "lucide-react";
-import { hasMethod, isRivetError } from "@/lib/utils";
 import { NotFoundComponent } from "./not-found-component";
 
 export const ErrorComponent = ({

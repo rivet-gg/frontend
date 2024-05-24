@@ -1,8 +1,8 @@
-import { Rivet as RivetEE } from "@rivet-gg/api-ee";
 import * as GameBillingForm from "@/domains/game/forms/game-billing-form";
-import { useCallback } from "react";
 import { useDialog } from "@/hooks/use-dialog";
-import { Rivet } from "@rivet-gg/api";
+import type { Rivet } from "@rivet-gg/api";
+import type { Rivet as RivetEE } from "@rivet-gg/api-ee";
+import { useCallback } from "react";
 
 const findTheLargestCoreAmount = (
   capacity: RivetEE.ee.cloud.games.billing.DynamicServersCapacityRegion[] = [],

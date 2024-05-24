@@ -1,7 +1,7 @@
 import { ExternalLink } from "lucide-react";
-import { ActionCard, ActionCardProps } from "./action-card";
+import type { ReactNode } from "react";
+import { ActionCard, type ActionCardProps } from "./action-card";
 import { Button } from "./ui/button";
-import { ReactNode } from "react";
 
 export interface ExternalCardProps extends Omit<ActionCardProps, "label"> {
   href: string;
@@ -14,7 +14,7 @@ export const ExternalCard = ({ href, label, ...props }: ExternalCardProps) => {
       {...props}
       action={
         <Button asChild variant="outline" endIcon={<ExternalLink />}>
-          <a href={href} target="_blank">
+          <a href={href} target="_blank" rel="noreferrer">
             {label}
           </a>
         </Button>
