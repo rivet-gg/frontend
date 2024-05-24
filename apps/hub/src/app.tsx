@@ -12,6 +12,7 @@ import {
 import { useAuth, AuthProvider } from "./domains/auth/contexts/auth";
 import { routeMasks } from "./lib/route-masks";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { ThirdPartyProviders } from "./components/ThirdPartyProviders";
 
 declare module "@tanstack/react-router" {
   interface Register {
@@ -43,14 +44,16 @@ export function App() {
       persistOptions={{ persister: queryClientPersister }}
     >
       <ConfigProvider value={getConfig()}>
-        <Suspense fallback={<FullscreenLoading />}>
-          <AuthProvider>
-            <InnerApp />
-          </AuthProvider>
-        </Suspense>
+        <ThirdPartyProviders>
+          <Suspense fallback={<FullscreenLoading />}>
+            <AuthProvider>
+              <InnerApp />
+            </AuthProvider>
+          </Suspense>
 
-        <Toaster />
-        <ReactQueryDevtools />
+          <Toaster />
+          <ReactQueryDevtools />
+        </ThirdPartyProviders>
       </ConfigProvider>
     </PersistQueryClientProvider>
   );

@@ -223,3 +223,7 @@ useDialog.CreateGroup = createDialogHook(
 useDialog.ConfirmAccountDeletion = createDialogHook(
   import("@/domains/user/components/dialogs/confirm-account-deletion-dialog"),
 );
+
+useDialog.CreateBackendEnv = createDialogHook(
+  import("@/domains/game/components/dialogs/create-backend-env-dialog"),
+);

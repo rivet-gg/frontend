@@ -135,7 +135,7 @@ export function NamespaceMatchmakerLogs({
             {lobbies.length === 0 && (
               <TableRow>
                 <TableCell colSpan={7} className="text-center">
-                  No lobby logs found
+                  No lobby logs found.
                 </TableCell>
               </TableRow>
             )}

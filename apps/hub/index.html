@@ -54,7 +54,14 @@
     <div id="root"></div>
 
     <script type="application/json" id="RIVET_CONFIG">
-      { "apiUrl": "%VITE_APP_API_URL%", "assetsUrl": "%VITE_APP_ASSETS_URL%" }
+      {
+        "apiUrl": "%VITE_APP_API_URL%",
+        "assetsUrl": "%VITE_APP_ASSETS_URL%",
+        "posthog": {
+          "apiKey": "%VITE_APP_POSTHOG_API_KEY%",
+          "apiHost": "%VITE_APP_POSTHOG_HOST%"
+        }
+      }
     </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>

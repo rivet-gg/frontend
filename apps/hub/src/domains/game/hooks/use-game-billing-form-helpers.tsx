@@ -2,6 +2,7 @@ import { Rivet as RivetEE } from "@rivet-gg/api-ee";
 import * as GameBillingForm from "@/domains/game/forms/game-billing-form";
 import { useCallback } from "react";
 import { useDialog } from "@/hooks/use-dialog";
+import { Rivet } from "@rivet-gg/api";
 
 const findTheLargestCoreAmount = (
   capacity: RivetEE.ee.cloud.games.billing.DynamicServersCapacityRegion[] = [],
@@ -22,7 +23,7 @@ const findHardwareTier = (cores: number) => {
 interface UseGameBillingFormHelpersProps {
   gameId: string;
   plan: RivetEE.ee.cloud.games.billing.Plan;
-  availableRegions: RivetEE.cloud.RegionSummary[];
+  availableRegions: Rivet.cloud.RegionSummary[];
 }
 
 export function useGameBillingFormHelpers({

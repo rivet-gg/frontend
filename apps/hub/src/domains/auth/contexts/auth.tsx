@@ -8,6 +8,7 @@ import {
   useLogoutMutation,
 } from "@/domains/user/queries";
 import { bootstrapQueryOptions } from "../queries/bootstrap";
+import { IdentifyUser } from "@/components/ThirdPartyProviders";
 
 export interface AuthContext {
   profile: Rivet.identity.GetProfileResponse | undefined;
@@ -36,6 +37,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <AuthContext.Provider value={{ profile, refreshToken, logout }}>
+      <IdentifyUser />
       {children}
     </AuthContext.Provider>
   );

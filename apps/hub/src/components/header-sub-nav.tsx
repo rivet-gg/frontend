@@ -1,15 +1,22 @@
 import { useAuth } from "@/domains/auth/contexts/auth";
-import { buildNamespaceSubNav, gameSubNav } from "@/domains/game/data/route";
-import { gameNamespaceQueryOptions } from "@/domains/game/queries";
+import {
+  buildNamespaceSubNav,
+  buildGameSubNav,
+} from "@/domains/game/data/route";
+import {
+  gameBackendProjectQueryOptions,
+  gameNamespaceQueryOptions,
+} from "@/domains/game/queries";
 import { groupSubNav } from "@/domains/group/data/route";
+import { useFeatureFlag } from "@/hooks/use-feature-flag";
 import { noop } from "@/lib/utils";
 import { Skeleton } from "@rivet-gg/components";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { CatchBoundary, Link, useMatchRoute } from "@tanstack/react-router";
-import { Suspense } from "react";
+import { ReactNode, Suspense } from "react";
 
 interface LinksProps {
-  links: { title: string; url: string; exact?: boolean }[];
+  links: { title: string; url: string; exact?: boolean; icon?: ReactNode }[];
   params: Record<string, string>;
 }
 
@@ -23,12 +30,29 @@ function Links({ links, params }: LinksProps) {
           to={item.url}
           activeOptions={{ exact: item.exact }}
           params={params}
-          className="text-muted-foreground data-active:border-white data-active:text-foreground border-b border-transparent py-2 text-sm"
+          className="text-muted-foreground data-active:border-primary data-active:text-foreground flex items-center border-b border-transparent py-2 text-sm"
         >
+          {item.icon ? (
+            <span className="mr-2 [&_svg]:size-4">{item.icon}</span>
+          ) : null}
           {item.title}
         </Link>
       ))}
     </div>
+  );
+}
+
+function GameLinks({
+  gameId,
+  params,
+}: Omit<LinksProps, "links"> & { gameId: string }) {
+  const { data } = useSuspenseQuery(gameBackendProjectQueryOptions(gameId));
+  const isEnabled = useFeatureFlag("hub-opengb-backend");
+  return (
+    <Links
+      links={buildGameSubNav({ ...data, isOpenGbEnabled: isEnabled })}
+      params={params}
+    />
   );
 }
 
@@ -78,7 +102,7 @@ function Content() {
     | false;
 
   if (gameMatch) {
-    return <Links links={gameSubNav} params={gameMatch} />;
+    return <GameLinks gameId={gameMatch.gameId} params={gameMatch} />;
   }
 
   const groupMatch = matchRoute({ to: "/teams/$groupId", fuzzy: true }) as

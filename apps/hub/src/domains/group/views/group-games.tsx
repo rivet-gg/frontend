@@ -52,6 +52,13 @@ export function GroupGames({ groupId }: GroupGamesProps) {
               </TableRow>
             </TableHeader>
             <TableBody>
+              {data.games.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={3}>
+                    <Text textAlign="center">There's no games yet.</Text>
+                  </TableCell>
+                </TableRow>
+              ) : null}
               {data.games.map((game) => (
                 <TableRow
                   key={game.gameId}

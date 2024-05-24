@@ -52,7 +52,7 @@ export const Users = () => {
 
   return (
     <>
-      {fields.length === 0 ? <Text>There's no users added</Text> : null}
+      {fields.length === 0 ? <Text>There's no users added.</Text> : null}
       {fields.map((field, index) => (
         <Flex key={field.id} gap="4" items="start">
           <FormFieldContext.Provider value={{ name: `users.${index}.user` }}>

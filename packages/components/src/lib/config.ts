@@ -3,6 +3,10 @@ import { createContext, useContext } from "react";
 interface Config {
   apiUrl: string;
   assetsUrl: string;
+  posthog?: {
+    apiHost: string;
+    apiKey: string;
+  };
 }
 
 export const ConfigContext = createContext<Config>({
