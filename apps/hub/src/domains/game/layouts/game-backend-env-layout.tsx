@@ -2,6 +2,22 @@ import { SidebarNavigation, SidebarPageContent } from "@rivet-gg/components";
 import { Link } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 
+const LINKS = [
+  {
+    url: "/games/$gameId/backend/$environmentId",
+    text: "Overview",
+    exact: true,
+  },
+  {
+    url: "/games/$gameId/backend/$environmentId/logs",
+    text: "Logs",
+  },
+  {
+    url: "/games/$gameId/backend/$environmentId/variables",
+    text: "Variables",
+  },
+];
+
 interface GameBackendEnvPageProps {
   gameId: string;
   environmentId: string;
@@ -17,25 +33,20 @@ function GameBackendEnvPage({
     <SidebarPageContent
       sidebar={
         <SidebarNavigation>
-          <Link
-            to="/games/$gameId/backend/$environmentId"
-            params={{ gameId, environmentId }}
-            className="text-foreground font-semibold"
-          >
-            Overview
-          </Link>
-          <Link
-            to="/games/$gameId/backend/$environmentId/logs"
-            params={{ gameId, environmentId }}
-          >
-            Logs
-          </Link>
-          <Link
-            to="/games/$gameId/backend/$environmentId/variables"
-            params={{ gameId, environmentId }}
-          >
-            Variables
-          </Link>
+          {LINKS.map((link) => (
+            <Link
+              key={link.url}
+              to={link.url}
+              params={{
+                gameId,
+                environmentId,
+              }}
+              activeOptions={{ exact: link.exact }}
+              className="data-active:text-foreground data-active:font-semibold"
+            >
+              {link.text}
+            </Link>
+          ))}
         </SidebarNavigation>
       }
     >

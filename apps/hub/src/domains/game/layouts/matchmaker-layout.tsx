@@ -49,7 +49,7 @@ function MatchmakerPage({
                 gameId,
                 namespaceId,
               }}
-              className="data-active:text-foreground font-semibold"
+              className="data-active:text-foreground data-active:font-semibold"
             >
               {link.text}
             </Link>
