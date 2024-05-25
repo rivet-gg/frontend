@@ -3036,7 +3036,6 @@ __metadata:
     eslint-plugin-react-refresh: "npm:^0.4.6"
     input-otp: "npm:^1.2.3"
     lucide-react: "npm:^0.363.0"
-    next-themes: "npm:^0.3.0"
     postcss: "npm:^8.4.38"
     react: "npm:^18.2.0"
     react-dom: "npm:^18.2.0"
@@ -9087,16 +9086,6 @@ __metadata:
   version: 2.6.2
   resolution: "neo-async@npm:2.6.2"
   checksum: 10c0/c2f5a604a54a8ec5438a342e1f356dff4bc33ccccdb6dc668d94fe8e5eccfc9d2c2eea6064b0967a767ba63b33763f51ccf2cd2441b461a7322656c1f06b3f5d
-  languageName: node
-  linkType: hard
-
-"next-themes@npm:^0.3.0":
-  version: 0.3.0
-  resolution: "next-themes@npm:0.3.0"
-  peerDependencies:
-    react: ^16.8 || ^17 || ^18
-    react-dom: ^16.8 || ^17 || ^18
-  checksum: 10c0/72bd670ad6b9f547dc18cece340dfd1ac41e3e7b37eb321d4767db90bfa2c239f937011cd0efe35ca0081f1ea260051bc0868808ef39b0fbff2ddefd7146cec6
   languageName: node
   linkType: hard
 
