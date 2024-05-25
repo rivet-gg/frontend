@@ -1,4 +1,5 @@
 @import "@rivet-gg/components/theme.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

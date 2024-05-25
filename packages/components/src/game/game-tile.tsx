@@ -1,7 +1,7 @@
-import { Flex } from "@/ui/flex";
-import { Text } from "@/ui/typography";
 import type { Rivet } from "@rivet-gg/api";
 import { AssetImage } from "..";
+import { Flex } from "../ui/flex";
+import { Text } from "../ui/typography";
 
 interface GameTileProps
   extends Pick<Rivet.game.Summary, "displayName" | "logoUrl"> {}

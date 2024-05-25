@@ -1,9 +1,9 @@
 import { type VariantProps, cva } from "class-variance-authority";
 import * as React from "react";
 
-import { cn } from "@/lib/utils";
 import { Slot, Slottable } from "@radix-ui/react-slot";
 import { Loader2 } from "lucide-react";
+import { cn } from "../lib/utils";
 import {
   type CommonHelperProps,
   getCommonHelperClass,

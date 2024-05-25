@@ -1,8 +1,8 @@
-// This file is based on the typography components from https://ui.shadcn.com/docs/components/typography
-// with some modifications to fit the project's design system.
-import { cn } from "@/lib/utils";
 import { Slot } from "@radix-ui/react-slot";
 import type { PropsWithChildren } from "react";
+// This file is based on the typography components from https://ui.shadcn.com/docs/components/typography
+// with some modifications to fit the project's design system.
+import { cn } from "../lib/utils";
 import {
   type CommonHelperProps,
   getCommonHelperClass,
