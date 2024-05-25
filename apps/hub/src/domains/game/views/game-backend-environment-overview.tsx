@@ -1,7 +1,10 @@
 import * as AutoscalingConfigForm from "@/domains/game/forms/backend-env-autoscaling-config-form";
-import { ActionCard, Grid, Text } from "@rivet-gg/components";
+import { ActionCard, Flex, Grid, Link, Text } from "@rivet-gg/components";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { gameBackendProjectEnvQueryOptions } from "../queries";
+import {
+  gameBackendProjectEnvQueryOptions,
+  useBackendAutoScalingConfigMutation,
+} from "../queries";
 
 interface OverviewCardProps {
   environmentId: string;
@@ -16,13 +19,43 @@ function OverviewCard({ environmentId, projectId }: OverviewCardProps) {
   return (
     <ActionCard title={"Overview"}>
       <Text>Created {data.createTs.toLocaleString()}</Text>
+      <Text>
+        URL:{" "}
+        <Link href={`https://${data.nameId}.opengb.rivet.gg`}>
+          {data.nameId}.opengb.rivet.gg
+        </Link>
+      </Text>
     </ActionCard>
   );
 }
 
-function ConfigCard() {
+interface ConfigCardProps {
+  environmentId: string;
+  projectId: string;
+}
+
+function ConfigCard({ environmentId, projectId }: ConfigCardProps) {
+  const { mutateAsync } = useBackendAutoScalingConfigMutation();
   return (
-    <AutoscalingConfigForm.Form defaultValues={{}} onSubmit={async () => {}}>
+    <AutoscalingConfigForm.Form
+      defaultValues={{ autoscalling: { min: 0, max: 1 } }}
+      onSubmit={async (values) => {
+        await mutateAsync({
+          projectId,
+          environmentId,
+          config: {
+            autoscalingLimitMinCu:
+              AutoscalingConfigForm.AUTOSCALING_VALUE_MAP[
+                values.autoscalling.min
+              ].value,
+            autoscalingLimitMaxCu:
+              AutoscalingConfigForm.AUTOSCALING_VALUE_MAP[
+                values.autoscalling.max
+              ].value,
+          },
+        });
+      }}
+    >
       <ActionCard
         title={"Config"}
         footer={
@@ -45,9 +78,9 @@ export function GameBackendEnvironmentOverview({
   projectId,
 }: GameBackendEnvironmentOverviewProps) {
   return (
-    <Grid columns={{ initial: "1", md: "2" }} gap="4" items="start">
+    <Flex direction="col" gap="4" items="start">
       <OverviewCard projectId={projectId} environmentId={environmentId} />
-      <ConfigCard />
-    </Grid>
+      <ConfigCard projectId={projectId} environmentId={environmentId} />
+    </Flex>
   );
 }

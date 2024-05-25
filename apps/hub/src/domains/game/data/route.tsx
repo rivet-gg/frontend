@@ -20,10 +20,8 @@ type SubNavLink = {
 };
 
 export const buildGameSubNav = ({
-  project,
   isOpenGbEnabled,
 }: {
-  project?: RivetEe.ee.opengb.Project;
   isOpenGbEnabled?: boolean;
 }): SubNavLink[] => {
   const subNav: SubNavLink[] = [
@@ -34,7 +32,7 @@ export const buildGameSubNav = ({
       icon: <Home />,
     },
   ];
-  if (project && isOpenGbEnabled) {
+  if (isOpenGbEnabled) {
     subNav.push({
       title: "Backend",
       url: "/games/$gameId/backend",

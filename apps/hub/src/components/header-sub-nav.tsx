@@ -42,15 +42,11 @@ function Links({ links, params }: LinksProps) {
   );
 }
 
-function GameLinks({
-  gameId,
-  params,
-}: Omit<LinksProps, "links"> & { gameId: string }) {
-  const { data } = useSuspenseQuery(gameBackendProjectQueryOptions(gameId));
+function GameLinks({ params }: Omit<LinksProps, "links"> & { gameId: string }) {
   const isEnabled = useFeatureFlag("hub-opengb-backend");
   return (
     <Links
-      links={buildGameSubNav({ ...data, isOpenGbEnabled: isEnabled })}
+      links={buildGameSubNav({ isOpenGbEnabled: isEnabled })}
       params={params}
     />
   );

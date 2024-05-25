@@ -1,7 +1,18 @@
 import type { Responsive } from "./types";
 import { getResponsiveValue } from "./utilities";
 
-export const GRID_COLUMNS_VALUES = ["1", "2", "3", "4", "5", "6"] as const;
+export const GRID_COLUMNS_VALUES = [
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  "10",
+] as const;
 
 type GridColumnsValues = (typeof GRID_COLUMNS_VALUES)[number];
 

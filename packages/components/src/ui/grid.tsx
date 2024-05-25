@@ -3,10 +3,13 @@ import type { HTMLAttributes, ReactNode } from "react";
 import {
   type AlignItemsValuesUtilitiesProps,
   type MarginUtilitiesProps,
+  type PaddingUtilitiesProps,
   getAlignItemsClass,
   getMarginClass,
+  getPaddingClass,
   omitAlignItemsProps,
   omitMarginProps,
+  omitPaddingProps,
 } from "./helpers";
 import {
   type GapUtilitiesProps,
@@ -30,13 +33,18 @@ interface GridProps
     Partial<MarginUtilitiesProps>,
     Partial<GapUtilitiesProps>,
     Partial<WidthUtilitiesProps>,
-    Partial<AlignItemsValuesUtilitiesProps> {
+    Partial<AlignItemsValuesUtilitiesProps>,
+    Partial<PaddingUtilitiesProps> {
   children: ReactNode;
 }
 
 const Grid = ({ children, className, ...props }: GridProps) => {
-  const htmlProps = omitAlignItemsProps(
-    omitMarginProps(omitWidthProps(omitGapProps(omitGridColumnsProps(props)))),
+  const htmlProps = omitPaddingProps(
+    omitAlignItemsProps(
+      omitMarginProps(
+        omitWidthProps(omitGapProps(omitGridColumnsProps(props))),
+      ),
+    ),
   );
   return (
     <div
@@ -47,6 +55,7 @@ const Grid = ({ children, className, ...props }: GridProps) => {
         getWidthClass(props),
         getMarginClass(props),
         getAlignItemsClass(props),
+        getPaddingClass(props),
         className,
       )}
       {...htmlProps}

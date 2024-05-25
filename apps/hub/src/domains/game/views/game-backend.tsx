@@ -6,6 +6,7 @@ import {
   CardHeader,
   CardTitle,
   Flex,
+  Link,
   Table,
   TableBody,
   TableCell,
@@ -74,7 +75,11 @@ export function GameBackendView({ projectId, gameId }: GameBackendViewProps) {
                 }}
               >
                 <TableCell>{env.displayName}</TableCell>
-                <TableCell>{/* {env.url} */}</TableCell>
+                <TableCell>
+                  <Link href={`https://${env.nameId}.opengb.rivet.gg`}>
+                    {env.nameId}.opengb.rivet.gg
+                  </Link>
+                </TableCell>
                 <TableCell>
                   <GameBackendEnvTableActions />
                 </TableCell>

@@ -1,7 +1,10 @@
 import { queryClient, rivetEeClient } from "@/queries/global";
 import type { Rivet as RivetEe } from "@rivet-gg/api-ee";
 import { useMutation } from "@tanstack/react-query";
-import { gameBackendProjectEnvsQueryOptions } from "./query-options";
+import {
+  gameBackendProjectEnvQueryOptions,
+  gameBackendProjectEnvsQueryOptions,
+} from "./query-options";
 
 export const useCreateBackendProjectEnvMutation = ({
   onSuccess,
@@ -22,5 +25,27 @@ export const useCreateBackendProjectEnvMutation = ({
         gameBackendProjectEnvsQueryOptions(projectId),
       );
       onSuccess?.(data);
+    },
+  });
+
+export const useBackendAutoScalingConfigMutation = () =>
+  useMutation({
+    mutationFn: ({
+      projectId,
+      environmentId,
+      ...data
+    }: RivetEe.ee.cloud.opengb.projects.envs.UpdateConfigRequest & {
+      projectId: string;
+      environmentId: string;
+    }) =>
+      rivetEeClient.ee.cloud.opengb.projects.envs.updateConfig(
+        projectId,
+        environmentId,
+        data,
+      ),
+    onSuccess: async (data, { projectId, environmentId }) => {
+      await queryClient.invalidateQueries(
+        gameBackendProjectEnvQueryOptions({ projectId, environmentId }),
+      );
     },
   });

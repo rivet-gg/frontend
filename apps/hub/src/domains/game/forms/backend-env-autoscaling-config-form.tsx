@@ -1,11 +1,17 @@
 import { createSchemaForm } from "@/lib/create-schema-form";
 import {
+  Flex,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
+  Grid,
+  Link,
   Slider,
+  SmallText,
+  Text,
 } from "@rivet-gg/components";
 import { type UseFormReturn, useFormContext } from "react-hook-form";
 import z from "zod";
@@ -25,8 +31,14 @@ export const AUTOSCALING_VALUE_MAP = [
 
 export const formSchema = z.object({
   autoscalling: z.object({
-    min: z.coerce.number().min(0).max(AUTOSCALING_VALUE_MAP.length),
-    max: z.coerce.number().min(0).max(AUTOSCALING_VALUE_MAP.length),
+    min: z.coerce
+      .number()
+      .min(0)
+      .max(AUTOSCALING_VALUE_MAP.length - 1),
+    max: z.coerce
+      .number()
+      .min(0)
+      .max(AUTOSCALING_VALUE_MAP.length - 1),
   }),
 });
 
@@ -39,6 +51,24 @@ export type SubmitHandler = (
 const { Form, Submit } = createSchemaForm(formSchema);
 export { Form, Submit };
 
+const AutoscalingLabel = () => {
+  const { watch } = useFormContext<FormValues>();
+  const autoscaling = watch("autoscalling");
+
+  const min = AUTOSCALING_VALUE_MAP[autoscaling.min];
+  const max = AUTOSCALING_VALUE_MAP[autoscaling.max];
+  return (
+    <Flex justify="between" items="center" mb="4" gap="4">
+      <SmallText>
+        Min: {min.vcpu} vCPU, {min.memory} GB of RAM
+      </SmallText>
+      <SmallText>
+        Max: {max.vcpu} vCPU, {max.memory} GB of RAM
+      </SmallText>
+    </Flex>
+  );
+};
+
 export const Autoscaling = () => {
   const { control } = useFormContext<FormValues>();
   return (
@@ -49,15 +79,36 @@ export const Autoscaling = () => {
         <FormItem>
           <FormLabel>Autoscaling</FormLabel>
           <FormControl>
-            <Slider
-              {...field}
-              step={1}
-              min={0}
-              max={AUTOSCALING_VALUE_MAP.length}
-              value={[field.value.min, field.value.max]}
-              defaultValue={[field.value.min, field.value.max]}
-            />
+            <Flex direction="col">
+              <AutoscalingLabel />
+              <Flex direction="col" p="2">
+                <Slider
+                  {...field}
+                  minStepsBetweenThumbs={1}
+                  onValueChange={(value) =>
+                    field.onChange({ min: value[0], max: value[1] })
+                  }
+                  step={1}
+                  min={0}
+                  max={AUTOSCALING_VALUE_MAP.length - 1}
+                  value={[field.value.min, field.value.max]}
+                  defaultValue={[field.value.min, field.value.max]}
+                />
+                <Grid columns="10" mt="4" mx="-2">
+                  {AUTOSCALING_VALUE_MAP.map(({ value }, index) => (
+                    <SmallText textAlign={"center"} key={value}>
+                      {value}
+                    </SmallText>
+                  ))}
+                </Grid>
+              </Flex>
+            </Flex>
           </FormControl>
+
+          <FormDescription>
+            Need more resources?{" "}
+            <Link href="https://rivet.gg/support">Contact support.</Link>
+          </FormDescription>
           <FormMessage />
         </FormItem>
       )}

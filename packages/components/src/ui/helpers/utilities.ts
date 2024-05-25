@@ -13,10 +13,17 @@ export function getResponsiveValue<T extends string>(
         if (breakpoint === "initial") {
           return `${key}${separator}${value}`;
         }
+        if (value.startsWith("-")) {
+          return `${breakpoint}:-${key}${separator}${value.replace("-", "")}`;
+        }
         return `${breakpoint}:${key}${separator}${value}`;
       })
       .join(" ");
   }
 
-  return `${key}-${value}`;
+  if (value?.startsWith("-")) {
+    return `-${key}${separator}${value.replace("-", "")}`;
+  }
+
+  return `${key}${separator}${value}`;
 }
