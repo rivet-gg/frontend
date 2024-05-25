@@ -63,17 +63,15 @@ function LogRow({ timestamp, line }: LogRowProps) {
 interface LogsViewProps {
   timestamps: string[];
   lines: string[];
-  logType: "std_out" | "std_err";
-  onLogTypeChange: (logType: "std_out" | "std_err") => void;
   sidebar?: ReactNode;
+  showFollowToggle?: boolean;
 }
 
 export function LogsView({
   sidebar,
   timestamps,
   lines,
-  logType,
-  onLogTypeChange,
+  showFollowToggle = true,
 }: LogsViewProps) {
   const [follow, setFollow] = useState(true);
   const isEmpty = lines.length === 0 || timestamps.length === 0;
@@ -106,17 +104,6 @@ export function LogsView({
 
   return (
     <Root>
-      <Tabs
-        value={logType}
-        onValueChange={(value) =>
-          onLogTypeChange(value as "std_out" | "std_err")
-        }
-      >
-        <TabsList>
-          <TabsTrigger value="std_out">stdout</TabsTrigger>
-          <TabsTrigger value="std_err">stderr</TabsTrigger>
-        </TabsList>
-      </Tabs>
       <Content>
         <LogsArea>
           {isEmpty ? (
@@ -141,18 +128,22 @@ export function LogsView({
             />
           )}
         </LogsArea>
-        <Sidebar>
-          {sidebar}
-          <Toggle
-            onPressedChange={setFollow}
-            pressed={isEmpty ? false : follow}
-            disabled={isEmpty}
-            variant="outline"
-            aria-label="Toggle follow logs"
-          >
-            <ListEnd className="h-4 w-4" />
-          </Toggle>
-        </Sidebar>
+        {!sidebar && !showFollowToggle ? null : (
+          <Sidebar>
+            {sidebar}
+            {showFollowToggle ? (
+              <Toggle
+                onPressedChange={setFollow}
+                pressed={isEmpty ? false : follow}
+                disabled={isEmpty}
+                variant="outline"
+                aria-label="Toggle follow logs"
+              >
+                <ListEnd className="h-4 w-4" />
+              </Toggle>
+            ) : null}
+          </Sidebar>
+        )}
       </Content>
     </Root>
   );

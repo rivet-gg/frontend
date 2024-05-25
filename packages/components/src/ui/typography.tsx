@@ -257,6 +257,52 @@ const Link = ({
   );
 };
 
+const DescriptionList = ({
+  className,
+  asChild,
+  ...props
+}: TypographyElementProps<"dl">) => {
+  const Comp = asChild ? Slot : "dl";
+  return (
+    <Comp
+      className={cn(
+        "grid grid-cols-[repeat(2,max-content)] gap-2",
+        className,
+        getCommonHelperClass(props),
+      )}
+      {...omitCommonHelperProps(props)}
+    />
+  );
+};
+
+const DescriptionTerm = ({
+  className,
+  asChild,
+  ...props
+}: TypographyElementProps<"dt">) => {
+  const Comp = asChild ? Slot : "dt";
+  return (
+    <Comp
+      className={cn(className, "font-semibold", getCommonHelperClass(props))}
+      {...omitCommonHelperProps(props)}
+    />
+  );
+};
+
+const DescriptionDetails = ({
+  className,
+  asChild,
+  ...props
+}: TypographyElementProps<"dd">) => {
+  const Comp = asChild ? Slot : "dd";
+  return (
+    <Comp
+      className={cn(className, getCommonHelperClass(props))}
+      {...omitCommonHelperProps(props)}
+    />
+  );
+};
+
 export {
   H1,
   H2,
@@ -264,6 +310,12 @@ export {
   H4,
   Paragraph,
   Paragraph as Text,
+  DescriptionList,
+  DescriptionList as Dl,
+  DescriptionTerm,
+  DescriptionTerm as Dt,
+  DescriptionDetails,
+  DescriptionDetails as Dd,
   Quote,
   Ul,
   Ol,

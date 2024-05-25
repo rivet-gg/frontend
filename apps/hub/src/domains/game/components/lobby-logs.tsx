@@ -1,5 +1,11 @@
 import type { Rivet } from "@rivet-gg/api";
-import { Button, LogsView } from "@rivet-gg/components";
+import {
+  Button,
+  LogsView,
+  Tabs,
+  TabsList,
+  TabsTrigger,
+} from "@rivet-gg/components";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { Download } from "lucide-react";
 import { useState } from "react";
@@ -30,24 +36,35 @@ export function LobbyLogs({ gameId, lobbyId }: LobbyLogsProps) {
   const { mutate: download, isPending } = useExportLobbyLogsMutation();
 
   return (
-    <LogsView
-      timestamps={timestamps}
-      lines={lines}
-      logType={logType}
-      onLogTypeChange={setLogType}
-      sidebar={
-        <Button
-          isLoading={isPending}
-          disabled={timestamps.length === 0 || lines.length === 0}
-          variant="outline"
-          aria-label="Download logs"
-          size="icon"
-          onClick={() => download({ lobbyId, gameId, stream: logType })}
-        >
-          <Download />
-        </Button>
-      }
-    />
+    <>
+      <Tabs
+        value={logType}
+        onValueChange={(value) =>
+          setLogType(value as Rivet.cloud.games.LogStream)
+        }
+      >
+        <TabsList>
+          <TabsTrigger value="std_out">stdout</TabsTrigger>
+          <TabsTrigger value="std_err">stderr</TabsTrigger>
+        </TabsList>
+      </Tabs>
+      <LogsView
+        timestamps={timestamps}
+        lines={lines}
+        sidebar={
+          <Button
+            isLoading={isPending}
+            disabled={timestamps.length === 0 || lines.length === 0}
+            variant="outline"
+            aria-label="Download logs"
+            size="icon"
+            onClick={() => download({ lobbyId, gameId, stream: logType })}
+          >
+            <Download />
+          </Button>
+        }
+      />
+    </>
   );
 }
 
