@@ -23,6 +23,11 @@
 yarn install
 ```
 
+```bash
+yarn lefthook install
+```
+to install cross-platform git hooks.
+
 ## 🚀 Getting started
 
 1. Run the following command:
