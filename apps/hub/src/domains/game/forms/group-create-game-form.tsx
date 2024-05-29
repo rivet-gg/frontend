@@ -1,5 +1,4 @@
 import { validateAgainstApi } from "@/lib/async-validation";
-import { createSchemaForm } from "@/lib/create-schema-form";
 import { convertStringToId } from "@/lib/utils";
 import { rivetClient } from "@/queries/global";
 import {
@@ -9,6 +8,7 @@ import {
   FormLabel,
   FormMessage,
   Input,
+  createSchemaForm,
 } from "@rivet-gg/components";
 import { type UseFormReturn, useFormContext } from "react-hook-form";
 import z from "zod";

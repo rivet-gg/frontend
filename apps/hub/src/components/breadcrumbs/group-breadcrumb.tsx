@@ -1,9 +1,9 @@
 import { groupGamesQueryOptions } from "@/domains/game/queries";
 import { GroupAvatar } from "@/domains/group/components/group-avatar";
+import { Header } from "@rivet-gg/components/header";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import { Fragment, useContext } from "react";
-import { NavItem } from "../nav-item";
 import { MobileBreadcrumbsContext } from "./mobile-breadcrumbs";
 
 interface GroupBreadcrumbProps {
@@ -15,7 +15,7 @@ export function GroupBreadcrumb({ groupId }: GroupBreadcrumbProps) {
 
   const isMobile = useContext(MobileBreadcrumbsContext);
 
-  const Element = isMobile ? NavItem : Fragment;
+  const Element = isMobile ? Header.NavItem : Fragment;
 
   return (
     <Element>

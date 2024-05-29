@@ -1,5 +1,5 @@
 {
-  "name": "sandbox",
+  "name": "@rivet-gg/sandbox",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -9,10 +9,19 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@codemirror/lang-json": "^6.0.1",
+    "@codemirror/lint": "^6.8.0",
     "@rivet-gg/api": "^24.1.2",
     "@rivet-gg/components": "workspace:^",
+    "@tanstack/react-query": "^5.40.0",
+    "@tanstack/react-query-devtools": "^5.40.0",
+    "@uiw/codemirror-extensions-basic-setup": "^4.22.1",
+    "@uiw/codemirror-theme-github": "^4.22.1",
+    "@uiw/react-codemirror": "^4.22.1",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-hook-form": "^7.51.5",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@types/react": "^18.2.66",

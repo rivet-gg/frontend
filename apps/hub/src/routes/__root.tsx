@@ -1,9 +1,8 @@
 import { ErrorComponent } from "@/components/error-component";
 import { NotFoundComponent } from "@/components/not-found-component";
 import type { AuthContext } from "@/domains/auth/contexts/auth";
-import * as PageLayout from "@/layouts/page";
-import * as Layout from "@/layouts/root";
 import { FullscreenLoading, Page } from "@rivet-gg/components";
+import { PageLayout, RootLayout } from "@rivet-gg/components/layout";
 import type { QueryClient } from "@tanstack/react-query";
 import {
   type ErrorComponentProps,
@@ -12,6 +11,19 @@ import {
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/router-devtools";
 import { Suspense } from "react";
+import { Header as UiHeader } from "../components/header";
+
+const Header = () => {
+  return <UiHeader />;
+};
+
+const Footer = () => {
+  return (
+    <RootLayout.Footer>
+      &copy; {new Date().getFullYear()} Rivet Gaming, Inc. All rights reserved
+    </RootLayout.Footer>
+  );
+};
 
 function RootNotFoundComponent() {
   return (
@@ -35,13 +47,13 @@ function RootErrorComponent(props: ErrorComponentProps) {
 
 function Root() {
   return (
-    <Layout.Root>
-      <Layout.Header />
-      <Layout.Main>
+    <RootLayout.Root>
+      <Header />
+      <RootLayout.Main>
         <Outlet />
-      </Layout.Main>
-      <Layout.Footer />
-    </Layout.Root>
+      </RootLayout.Main>
+      <Footer />
+    </RootLayout.Root>
   );
 }
 

@@ -1,15 +1,16 @@
-import { Button, ButtonProps, Form } from "@rivet-gg/components";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 import {
   useForm,
-  DefaultValues,
-  UseFormReturn,
-  FieldValues,
+  type DefaultValues,
+  type UseFormReturn,
+  type FieldValues,
   useFormState,
   useFormContext,
 } from "react-hook-form";
-import z from "zod";
+import type z from "zod";
+import { Form } from "../ui/form";
+import { Button, type ButtonProps } from "../ui/button";
 
 interface FormProps<FormValues extends FieldValues> {
   onSubmit: (

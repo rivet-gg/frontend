@@ -1,12 +1,12 @@
 import { Slot } from "@radix-ui/react-slot";
-import { cn } from "@rivet-gg/components";
 import type { PropsWithChildren } from "react";
+import { cn } from "../lib/utils";
 
 interface NavItemProps extends PropsWithChildren<JSX.IntrinsicElements["a"]> {
   asChild?: boolean;
 }
 
-export const NavItem = ({ className, asChild, ...props }: NavItemProps) => {
+export function NavItem({ className, asChild, ...props }: NavItemProps) {
   const Comp = asChild ? Slot : "a";
   return (
     <Comp
@@ -17,4 +17,4 @@ export const NavItem = ({ className, asChild, ...props }: NavItemProps) => {
       {...props}
     />
   );
-};
+}

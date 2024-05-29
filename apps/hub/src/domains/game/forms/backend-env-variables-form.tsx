@@ -1,4 +1,3 @@
-import { createSchemaForm } from "@/lib/create-schema-form";
 import {
   Button,
   Flex,
@@ -9,12 +8,10 @@ import {
   FormLabel,
   FormMessage,
   Input,
-  SmallText,
   Strong,
   Switch,
   Text,
-  Toggle,
-  useFormField,
+  createSchemaForm,
 } from "@rivet-gg/components";
 import { Trash } from "lucide-react";
 import {

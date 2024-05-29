@@ -1,15 +1,15 @@
-import * as Layout from "@/layouts/page";
+import { PageLayout } from "@rivet-gg/components/layout";
 import { Outlet, createFileRoute } from "@tanstack/react-router";
 import { Suspense } from "react";
 
 export const Route = createFileRoute("/_authenticated/_layout")({
   component: () => {
     return (
-      <Layout.Root>
-        <Suspense fallback={<Layout.Root.Skeleton />}>
+      <PageLayout.Root>
+        <Suspense fallback={<PageLayout.Root.Skeleton />}>
           <Outlet />
         </Suspense>
-      </Layout.Root>
+      </PageLayout.Root>
     );
   },
 });

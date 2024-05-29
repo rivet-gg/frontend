@@ -1,9 +1,9 @@
 import { GameAvatar } from "@/domains/game/components/game-avatar";
 import { gameQueryOptions } from "@/domains/game/queries";
+import { Header } from "@rivet-gg/components/header";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import { Fragment, useContext } from "react";
-import { NavItem } from "../nav-item";
 import { GroupBreadcrumb } from "./group-breadcrumb";
 import { MobileBreadcrumbsContext } from "./mobile-breadcrumbs";
 import { Separator } from "./separator";
@@ -17,7 +17,7 @@ export function GameBreadcrumb({ gameId }: GameBreadcrumbProps) {
 
   const isMobile = useContext(MobileBreadcrumbsContext);
 
-  const Element = isMobile ? NavItem : Fragment;
+  const Element = isMobile ? Header.NavItem : Fragment;
 
   return (
     <>

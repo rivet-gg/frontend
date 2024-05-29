@@ -1,5 +1,4 @@
 import { ErrorComponent } from "@/components/error-component";
-import * as Layout from "@/domains/game/layouts/group-layout";
 import { groupGamesQueryOptions } from "@/domains/game/queries";
 import { useDialog } from "@/hooks/use-dialog";
 import {
@@ -11,11 +10,7 @@ import {
 import { z } from "zod";
 
 function GroupIdErrorComponent(props: ErrorComponentProps) {
-  return (
-    <Layout.Root>
-      <ErrorComponent {...props} />
-    </Layout.Root>
-  );
+  return <ErrorComponent {...props} />;
 }
 
 function Modals() {
@@ -54,10 +49,10 @@ function Modals() {
 
 function GroupIdView() {
   return (
-    <Layout.Root>
+    <>
       <Outlet />
       <Modals />
-    </Layout.Root>
+    </>
   );
 }
 

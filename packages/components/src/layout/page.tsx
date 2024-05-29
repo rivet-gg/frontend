@@ -1,17 +1,17 @@
-import { Skeleton } from "@rivet-gg/components";
 import type { ReactNode } from "react";
+import { Skeleton } from "../ui/skeleton";
 
 interface PageRootProps {
   children: ReactNode;
 }
 
 const PageRoot = ({ children }: PageRootProps) => (
-  <div className="container pt-4">{children}</div>
+  <div className="container pt-6">{children}</div>
 );
 
 const PageRootSkeleton = () => {
   return (
-    <div className="container pt-4">
+    <div className="container pt-6">
       <Skeleton className="my-8 h-12 w-1/3" />
       <div className="mb-4 flex flex-row gap-4">
         <Skeleton className="h-64 w-2/3" />
