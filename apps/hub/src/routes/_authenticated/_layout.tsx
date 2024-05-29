@@ -5,11 +5,11 @@ import { Suspense } from "react";
 export const Route = createFileRoute("/_authenticated/_layout")({
   component: () => {
     return (
-      <Layout.Root>
-        <Suspense fallback={<Layout.Root.Skeleton />}>
+      <Suspense fallback={<Layout.Root.Skeleton />}>
+        <Layout.Root>
           <Outlet />
-        </Suspense>
-      </Layout.Root>
+        </Layout.Root>
+      </Suspense>
     );
   },
 });

@@ -10,11 +10,13 @@ import {
 import { useGameCreateMutation } from "../../queries";
 
 interface CreateGameDialogContentProps {
+  groupId?: string;
   onSuccess?: (data: Rivet.cloud.games.CreateGameResponse) => void;
 }
 
 export default function CreateGameDialogContent({
   onSuccess,
+  groupId = "",
 }: CreateGameDialogContentProps) {
   const { mutateAsync } = useGameCreateMutation({
     onSuccess,
@@ -30,7 +32,7 @@ export default function CreateGameDialogContent({
             nameId: slug || convertStringToId(name),
           });
         }}
-        defaultValues={{ name: "", slug: "", developerGroupId: "" }}
+        defaultValues={{ name: "", slug: "", developerGroupId: groupId }}
       >
         <DialogHeader>
           <DialogTitle>Create New Game</DialogTitle>
