@@ -13,7 +13,7 @@ function Modals() {
 
   const CreateGroupGameDialog = useDialog.CreateGame.Dialog;
 
-  if (!search) {
+  if (!search || !("modal" in search)) {
     return;
   }
 
