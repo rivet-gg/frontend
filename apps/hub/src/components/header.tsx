@@ -3,14 +3,17 @@ import {
   AssetImage,
   Button,
   Flex,
+  Input,
   Sheet,
   SheetContent,
   SheetTrigger,
+  cn,
 } from "@rivet-gg/components";
 import { Link } from "@tanstack/react-router";
 import { Menu } from "lucide-react";
 import { Breadcrumbs } from "./breadcrumbs/breadcrumbs";
 import { MobileBreadcrumbs } from "./breadcrumbs/mobile-breadcrumbs";
+import { CommandPanel } from "./command-panel";
 import { HeaderRouteLoader } from "./header-route-loader";
 import { HeaderSubNav } from "./header-sub-nav";
 import { NavItem } from "./nav-item";
@@ -104,6 +107,7 @@ export function Header() {
             </div>
           </nav>
           <div className="gap-6 font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm">
+            <CommandPanel />
             <NavItem asChild className="hidden md:inline-block">
               <a href="https://rivet.gg/docs" target="_blank" rel="noreferrer">
                 Docs

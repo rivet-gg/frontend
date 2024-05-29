@@ -22,7 +22,6 @@ function Authenticated() {
     <>
       <UpgradedHubAlert />
       <Outlet />
-      <CommandPanel />
     </>
   );
 }
