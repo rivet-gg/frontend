@@ -6,8 +6,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@rivet-gg/components";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { computeBackendEnvVariablesDiff } from "../helpers/backend-env-compute-diff-variables";
-import { useBackendUpdateVariablesMutation } from "../queries";
+import {
+  gameBackendProjectEnvVariablesQueryOptions,
+  useBackendUpdateVariablesMutation,
+} from "../queries";
 
 interface GameBackendEnvironmentVariablesProps {
   projectId: string;
@@ -18,6 +22,9 @@ export function GameBackendEnvironmentVariables({
   environmentId,
   projectId,
 }: GameBackendEnvironmentVariablesProps) {
+  const { data } = useSuspenseQuery(
+    gameBackendProjectEnvVariablesQueryOptions({ projectId, environmentId }),
+  );
   const { mutateAsync } = useBackendUpdateVariablesMutation();
   return (
     <GameBackendEnvironmentVariablesForm.Form
@@ -38,7 +45,13 @@ export function GameBackendEnvironmentVariables({
           variables: diff.variables,
         });
       }}
-      defaultValues={{ variables: [] }}
+      defaultValues={{
+        variables: Object.entries(data).map(([key, value]) => ({
+          key,
+          value: value.text,
+          isSecret: value.secret !== undefined,
+        })),
+      }}
     >
       <Card>
         <CardHeader>
