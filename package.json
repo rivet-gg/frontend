@@ -1,9 +1,6 @@
 {
   "private": true,
-  "workspaces": [
-    "packages/*",
-    "apps/*"
-  ],
+  "workspaces": ["packages/*", "apps/*"],
   "scripts": {
     "start": "npx turbo dev",
     "build": "npx turbo build",
@@ -11,8 +8,6 @@
   },
   "devDependencies": {
     "@biomejs/biome": "1.7.3",
-    "eslint-plugin-storybook": "^0.8.0",
-    "eslint-plugin-tailwindcss": "^3.15.1",
     "lefthook": "^1.6.12",
     "prettier-plugin-tailwindcss": "^0.5.14"
   },
