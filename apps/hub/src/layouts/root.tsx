@@ -1,3 +1,4 @@
+import { Link } from "@rivet-gg/components";
 import type { ReactNode } from "react";
 import { Header as UiHeader } from "../components/header";
 
@@ -22,6 +23,7 @@ const Footer = () => {
     <footer className="text-muted-foreground bg-muted/20 p-4 text-center text-sm">
       <div className="container">
         &copy; {new Date().getFullYear()} Rivet Gaming, Inc. All rights reserved
+        &bull; <Link href="https://old.rivet.gg">Old version</Link>
       </div>
     </footer>
   );
