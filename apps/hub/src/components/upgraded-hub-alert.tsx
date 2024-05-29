@@ -13,7 +13,7 @@ export function UpgradedHubAlert() {
   const posthog = usePostHog();
   const isEnabled = useFeatureFlag("hub-upgraded-alert");
 
-  if (isEnabled) {
+  if (!isEnabled) {
     return null;
   }
 
