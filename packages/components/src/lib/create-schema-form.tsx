@@ -13,13 +13,12 @@ import { Form } from "../ui/form";
 import { Button, type ButtonProps } from "../ui/button";
 
 interface FormProps<FormValues extends FieldValues> {
-  onSubmit: (
-    values: FormValues,
-    form: UseFormReturn<FormValues>,
-  ) => Promise<void>;
+  onSubmit?: SubmitHandler<FormValues>;
   defaultValues: DefaultValues<FormValues>;
   children: ReactNode;
 }
+
+type SubmitHandler<FormValues extends FieldValues> = (values: FormValues, form: UseFormReturn<FormValues>) => Promise<void> | void;
 
 export const createSchemaForm = <Schema extends z.ZodSchema>(
   schema: Schema,
@@ -41,7 +40,7 @@ export const createSchemaForm = <Schema extends z.ZodSchema>(
           <form
             onSubmit={(event) => {
               event.stopPropagation();
-              return form.handleSubmit((values) => onSubmit(values, form))(
+              return form.handleSubmit((values) => onSubmit?.(values, form))(
                 event,
               );
             }}
@@ -52,12 +51,14 @@ export const createSchemaForm = <Schema extends z.ZodSchema>(
         </Form>
       );
     },
-    Submit: (props: ButtonProps) => {
+    Submit: ({onSubmit, ...props}: Omit<ButtonProps, "onSubmit"> & {onSubmit?: SubmitHandler<z.TypeOf<Schema>>}) => {
+      const form = useFormContext<z.TypeOf<Schema>>();
       const { isSubmitting, isValidating } = useFormState<z.TypeOf<Schema>>();
       return (
         <Button
           type="submit"
           isLoading={isSubmitting || isValidating}
+          onClick={onSubmit ? form.handleSubmit((values) => onSubmit(values, form)) : undefined}
           {...props}
         />
       );

@@ -16,10 +16,27 @@ import { githubDark } from "@uiw/codemirror-theme-github";
 import ReactCodeMirror from "@uiw/react-codemirror";
 import { useFormContext } from "react-hook-form";
 import { z } from "zod";
-import { regionQueryOptions, regionSelectionQueryOptions } from "../data/rivet";
+import { regionSelectionQueryOptions } from "../data/rivet";
+
+const jsonString = z.custom<string>((val) => {
+  if (typeof val === "string") {
+    try {
+      JSON.parse(val);
+      return true;
+    } catch {
+      return false;
+    }
+  }
+  return false;
+});
 
 export const formSchema = z.object({
-  region: z.string().min(1, "Required"),
+  region: z.array(z.string()).nonempty(),
+  mode: z.array(z.string()).nonempty(),
+  maxPlayers: z.coerce.number(),
+  tags: jsonString,
+  config: jsonString,
+  public: z.coerce.boolean(),
 });
 export type FormValues = z.infer<typeof formSchema>;
 
@@ -39,7 +56,8 @@ export function RegionInput() {
           <FormControl>
             <MultiSelectFormField
               options={data}
-              onValueChange={() => {}}
+              onValueChange={field.onChange}
+              onBlur={field.onBlur}
               placeholder="Choose a region"
             />
           </FormControl>
@@ -55,7 +73,7 @@ export function GameModeInput() {
   return (
     <FormField
       control={control}
-      name="region"
+      name="mode"
       render={({ field }) => (
         <FormItem>
           <FormLabel>Game Mode</FormLabel>
@@ -65,7 +83,8 @@ export function GameModeInput() {
                 { value: "custom", label: "Custom" },
                 { value: "default", label: "Default" },
               ]}
-              onValueChange={() => {}}
+              onValueChange={field.onChange}
+              onBlur={field.onBlur}
               placeholder="Choose a game mode"
             />
           </FormControl>
@@ -108,7 +127,9 @@ export function TagsInput() {
             <ReactCodeMirror
               extensions={[json(), linter(jsonParseLinter())]}
               theme={githubDark}
-              {...field}
+              value={field.value}
+              onChange={field.onChange}
+              onBlur={field.onBlur}
             />
           </FormControl>
           <FormMessage />
@@ -128,30 +149,7 @@ export function PublicInput() {
         <FormItem className="border flex rounded-md px-4 py-2 items-center justify-between space-y-0">
           <FormLabel>Is public?</FormLabel>
           <FormControl>
-            <Switch {...field} />
-          </FormControl>
-          <FormMessage />
-        </FormItem>
-      )}
-    />
-  );
-}
-
-export function ConfigInput() {
-  const { control } = useFormContext<FormValues>();
-  return (
-    <FormField
-      control={control}
-      name="config"
-      render={({ field }) => (
-        <FormItem>
-          <FormLabel>Config</FormLabel>
-          <FormControl>
-            <ReactCodeMirror
-              extensions={[json(), linter(jsonParseLinter())]}
-              theme={githubDark}
-              {...field}
-            />
+            <Switch onCheckedChange={field.onChange} />
           </FormControl>
           <FormMessage />
         </FormItem>

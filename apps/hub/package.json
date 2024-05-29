@@ -14,8 +14,8 @@
     "@rivet-gg/api-ee": "file:vendor/rivet-gg-api-ee.tgz",
     "@rivet-gg/components": "workspace:*",
     "@tanstack/query-sync-storage-persister": "^5.29",
-    "@tanstack/react-query": "^5.32.0",
-    "@tanstack/react-query-devtools": "^5.32.0",
+    "@tanstack/react-query": "^5.40.0",
+    "@tanstack/react-query-devtools": "^5.40.0",
     "@tanstack/react-query-persist-client": "^5.29",
     "@tanstack/react-router": "^1.33.4",
     "@tanstack/router-devtools": "^1.33.4",
@@ -30,7 +30,7 @@
     "superjson": "^2.2.1",
     "tailwind-merge": "^2.2.2",
     "tailwindcss-animate": "^1.0.7",
-    "zod": "^3.22.4"
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@tanstack/router-vite-plugin": "^1.32.7",
