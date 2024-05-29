@@ -13,7 +13,7 @@ export function UpgradedHubAlert() {
   const posthog = usePostHog();
   const isEnabled = useFeatureFlag("hub-upgraded-alert");
 
-  if (!isEnabled) {
+  if (isEnabled) {
     return null;
   }
 
@@ -23,7 +23,7 @@ export function UpgradedHubAlert() {
         <Gem className="size-5" />
         <AlertTitle>The Rivet Hub has been upgraded.</AlertTitle>
         <AlertDescription>
-          Want to swtich back? Visit the old hub{" "}
+          Want to switch back? Visit the old hub{" "}
           <Link href="https://old.rivet.gg">here</Link>.
         </AlertDescription>
         <div className="absolute top-4 right-4">
