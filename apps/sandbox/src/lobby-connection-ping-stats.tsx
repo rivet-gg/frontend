@@ -10,7 +10,6 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-  SmallText,
 } from "@rivet-gg/components";
 import { useState } from "react";
 import { useInterval } from "react-use";
