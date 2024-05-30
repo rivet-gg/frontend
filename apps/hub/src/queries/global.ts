@@ -5,6 +5,7 @@ import { createSyncStoragePersister } from "@tanstack/query-sync-storage-persist
 import { QueryCache, QueryClient } from "@tanstack/react-query";
 import superjson from "superjson";
 import { identityTokenQueryOptions } from "../domains/user/queries";
+import { withQueryWatch } from "./watch";
 
 const opts: RivetClient.Options = {
   environment: getConfig().apiUrl,
@@ -50,6 +51,8 @@ const opts: RivetClient.Options = {
 export const rivetClient = new RivetClient(opts);
 export const rivetEeClient = new RivetEeClient(opts);
 
+const queryCache = new QueryCache(withQueryWatch());
+
 export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -57,20 +60,7 @@ export const queryClient = new QueryClient({
       gcTime: 1000 * 60 * 60 * 24,
     },
   },
-  queryCache: new QueryCache({
-    onSuccess: async (data, query) => {
-      if (query.meta?.watch && data) {
-        // FIXME: is not working as intended
-        // const index = getWatchIndex(data);
-        // await queryClient.fetchQuery({
-        //   ...query.options,
-        //   queryKey: query.options.queryKey || query.queryKey,
-        //   staleTime: 0,
-        //   meta: { watchIndex: index },
-        // });
-      }
-    },
-  }),
+  queryCache: queryCache,
 });
 
 export const queryClientPersister = createSyncStoragePersister({

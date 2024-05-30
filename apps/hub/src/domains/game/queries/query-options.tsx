@@ -19,7 +19,6 @@ export const gamesQueryOptions = () => {
         };
       });
     },
-    meta: { watch: true },
   });
 };
 
@@ -63,7 +62,6 @@ export const gameQueryOptions = (gameId: string) => {
       rivetClient.cloud.games.games.getGameById(gameId, {
         watchIndex: getMetaWatchIndex(meta),
       }),
-    meta: { watch: true },
     select: (data) => ({
       ...data.game,
       namespaces: data.game.namespaces.map((namespace) => ({

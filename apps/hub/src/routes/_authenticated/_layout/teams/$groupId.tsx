@@ -63,9 +63,9 @@ const searchSchema = z.object({
 export const Route = createFileRoute("/_authenticated/_layout/teams/$groupId")({
   validateSearch: (search) => searchSchema.parse(search),
   beforeLoad: async ({ context: { queryClient }, params: { groupId } }) => {
-    const data = await queryClient.ensureQueryData(
-      groupGamesQueryOptions(groupId),
-    );
+    const data = await queryClient.ensureQueryData({
+      ...groupGamesQueryOptions(groupId),
+    });
 
     const group = data.groups.find((group) => group.groupId === groupId);
     if (!group) {
