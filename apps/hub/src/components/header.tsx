@@ -4,6 +4,7 @@ import { Header as RivetHeader } from "@rivet-gg/components/header";
 import { Link } from "@tanstack/react-router";
 import { Breadcrumbs } from "./breadcrumbs/breadcrumbs";
 import { MobileBreadcrumbs } from "./breadcrumbs/mobile-breadcrumbs";
+import { CommandPanel } from "./command-panel";
 import { HeaderRouteLoader } from "./header-route-loader";
 import { HeaderSubNav } from "./header-sub-nav";
 
@@ -33,6 +34,7 @@ export function Header() {
       breadcrumbs={<Breadcrumbs />}
       subnav={<HeaderSubNav />}
       user={<UserProfileButton />}
+      links={<CommandPanel />}
     />
   );
 }

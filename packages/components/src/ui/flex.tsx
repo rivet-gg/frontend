@@ -1,3 +1,4 @@
+import { Slot } from "@radix-ui/react-slot";
 import { type HTMLAttributes, type ReactNode, forwardRef } from "react";
 import { cn } from "../lib/utils";
 import {
@@ -34,6 +35,7 @@ export interface StackProps
     Partial<JustifyContentUtilitiesProps>,
     Partial<AlignItemsValuesUtilitiesProps> {
   children: ReactNode;
+  asChild?: boolean;
 }
 
 const VStack = (props: Omit<StackProps, "direction">) => {
@@ -45,14 +47,16 @@ const HStack = (props: Omit<StackProps, "direction">) => {
 };
 
 const Flex = forwardRef<HTMLDivElement, StackProps>(
-  ({ children, className, ...props }, ref) => {
+  ({ children, className, asChild, ...props }, ref) => {
     const htmlProps = omitAlignItemsProps(
       omitJustifyContentProps(
         omitFlexDirectionProps(omitGapProps(omitCommonHelperProps(props))),
       ),
     );
+
+    const C = asChild ? Slot : "div";
     return (
-      <div
+      <C
         ref={ref}
         className={cn(
           "flex",
@@ -66,7 +70,7 @@ const Flex = forwardRef<HTMLDivElement, StackProps>(
         {...htmlProps}
       >
         {children}
-      </div>
+      </C>
     );
   },
 );

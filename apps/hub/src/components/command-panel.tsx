@@ -1,9 +1,11 @@
 import {
+  Button,
   CommandDialog,
   CommandEmpty,
   CommandInput,
   CommandList,
   CommandLoading,
+  cn,
 } from "@rivet-gg/components";
 import { useMatchRoute } from "@tanstack/react-router";
 import {
@@ -110,42 +112,57 @@ export function CommandPanel() {
   );
 
   return (
-    <CommandDialog
-      commandProps={{
-        onKeyDown: handleKeyDown,
-      }}
-      open={open}
-      onOpenChange={setOpen}
-    >
-      <CommandPanelNavigationBreadcrumbs pages={pages} />
-      <CommandInput
-        value={search}
-        onValueChange={setSearch}
-        placeholder="Type a command or search..."
-      />
-      <CommandPanelNavigationProvider
-        onClose={handleClose}
-        onChangePage={handlePageChange}
+    <>
+      <Button
+        onClick={() => setOpen(true)}
+        variant="outline"
+        className={cn(
+          "relative h-8 w-full justify-start rounded-[0.5rem] bg-background text-sm font-normal text-muted-foreground shadow-none hidden md:flex md:w-40 lg:w-64",
+        )}
       >
-        <CommandList>
-          <Suspense fallback={<CommandLoading>Hang on…</CommandLoading>}>
-            <CommandEmpty>No results found.</CommandEmpty>
-            {!page ? <IndexCommandPanelPage /> : null}
-            {page?.key === "group" ? (
-              <GroupCommandPanelPage groupId={page.params.groupId} />
-            ) : null}
-            {page?.key === "game" ? (
-              <GameCommandPanelPage gameId={page.params.gameId} />
-            ) : null}
-            {page?.key === "namespace" ? (
-              <NamespaceCommandPanelPage
-                gameId={page.params.gameId}
-                namespaceId={page.params.namespaceId}
-              />
-            ) : null}
-          </Suspense>
-        </CommandList>
-      </CommandPanelNavigationProvider>
-    </CommandDialog>
+        <span className="hidden lg:inline-flex">Search...</span>
+        <span className="inline-flex lg:hidden">Search...</span>
+        <kbd className="pointer-events-none absolute right-[0.3rem] top-[0.3rem] hidden h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 sm:flex">
+          <span className="text-xs">⌘</span>K
+        </kbd>
+      </Button>
+      <CommandDialog
+        commandProps={{
+          onKeyDown: handleKeyDown,
+        }}
+        open={open}
+        onOpenChange={setOpen}
+      >
+        <CommandPanelNavigationBreadcrumbs pages={pages} />
+        <CommandInput
+          value={search}
+          onValueChange={setSearch}
+          placeholder="Type a command or search..."
+        />
+        <CommandPanelNavigationProvider
+          onClose={handleClose}
+          onChangePage={handlePageChange}
+        >
+          <CommandList>
+            <Suspense fallback={<CommandLoading>Hang on…</CommandLoading>}>
+              <CommandEmpty>No results found.</CommandEmpty>
+              {!page ? <IndexCommandPanelPage /> : null}
+              {page?.key === "group" ? (
+                <GroupCommandPanelPage groupId={page.params.groupId} />
+              ) : null}
+              {page?.key === "game" ? (
+                <GameCommandPanelPage gameId={page.params.gameId} />
+              ) : null}
+              {page?.key === "namespace" ? (
+                <NamespaceCommandPanelPage
+                  gameId={page.params.gameId}
+                  namespaceId={page.params.namespaceId}
+                />
+              ) : null}
+            </Suspense>
+          </CommandList>
+        </CommandPanelNavigationProvider>
+      </CommandDialog>
+    </>
   );
 }

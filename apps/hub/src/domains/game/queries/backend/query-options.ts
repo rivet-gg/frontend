@@ -32,3 +32,20 @@ export const gameBackendProjectEnvQueryOptions = ({
       rivetEeClient.ee.cloud.opengb.projects.envs.get(projectId, environmentId),
     select: (data) => data.environment,
   });
+
+export const gameBackendProjectEnvVariablesQueryOptions = ({
+  projectId,
+  environmentId,
+}: {
+  projectId: string;
+  environmentId: string;
+}) =>
+  queryOptions({
+    queryKey: ["backend-project", projectId, "env", environmentId, "variables"],
+    queryFn: ({ queryKey: [_, projectId, __, environmentId] }) =>
+      rivetEeClient.ee.cloud.opengb.projects.envs.getVariables(
+        projectId,
+        environmentId,
+      ),
+    select: (data) => data.variables,
+  });

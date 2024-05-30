@@ -39,7 +39,7 @@ export function computeBackendEnvVariablesDiff(
     }
   }
 
-  const finalVariables: Record<string, RivetEe.ee.opengb.Variable> = {};
+  const finalVariables: Record<string, RivetEe.ee.opengb.UpdateVariable> = {};
   for (const variable of [...create, ...update]) {
     finalVariables[variable.key] = variable.isSecret
       ? { secret: variable.value }
