@@ -1,4 +1,3 @@
-import { Link } from "@tanstack/react-router";
 import { Menu } from "lucide-react";
 import type { ReactNode } from "react";
 import { AssetImage } from "../asset-image";

@@ -10,7 +10,6 @@ import {
 } from "react";
 import { cn } from "./lib/utils";
 import { Skeleton } from "./ui/skeleton";
-import { Tabs, TabsList, TabsTrigger } from "./ui/tabs";
 import { Toggle } from "./ui/toggle";
 import { VirtualScrollArea } from "./virtual-scroll-area";
 
