@@ -9,9 +9,6 @@ export const groupMembersQueryOptions = (groupId: string) => {
       rivetClient.group.getMembers(groupId, {
         watchIndex: getMetaWatchIndex(meta),
       }),
-    meta: {
-      watch: true,
-    },
   });
 };
 
