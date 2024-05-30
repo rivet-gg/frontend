@@ -266,7 +266,7 @@ const DescriptionList = ({
   return (
     <Comp
       className={cn(
-        "grid grid-cols-[repeat(2,max-content)] gap-2",
+        "grid grid-cols-[repeat(2,minmax(min-content,max-content))] gap-2",
         className,
         getCommonHelperClass(props),
       )}
@@ -297,7 +297,7 @@ const DescriptionDetails = ({
   const Comp = asChild ? Slot : "dd";
   return (
     <Comp
-      className={cn(className, getCommonHelperClass(props))}
+      className={cn(className, "break-words", getCommonHelperClass(props))}
       {...omitCommonHelperProps(props)}
     />
   );

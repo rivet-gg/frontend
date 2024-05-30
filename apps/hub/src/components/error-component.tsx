@@ -1,4 +1,4 @@
-import { hasMethod, isRivetError } from "@/lib/utils";
+import { hasMethod } from "@/lib/utils";
 import {
   Button,
   Card,
@@ -8,6 +8,7 @@ import {
   CardTitle,
   Code,
   Text,
+  isRivetError,
 } from "@rivet-gg/components";
 import type { ErrorComponentProps } from "@tanstack/react-router";
 import { Bomb } from "lucide-react";

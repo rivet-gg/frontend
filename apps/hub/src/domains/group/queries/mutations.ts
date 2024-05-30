@@ -1,8 +1,7 @@
 import { gamesQueryOptions } from "@/domains/game/queries";
-import { isRivetError } from "@/lib/utils";
 import { queryClient, rivetClient } from "@/queries/global";
 import type { Rivet } from "@rivet-gg/api";
-import { toast } from "@rivet-gg/components";
+import { isRivetError, toast } from "@rivet-gg/components";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
 import { groupMembersQueryOptions } from "./query-options";

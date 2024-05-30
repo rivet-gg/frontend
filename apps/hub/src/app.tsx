@@ -8,7 +8,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
 import { RouterProvider, createRouter } from "@tanstack/react-router";
 import { Suspense } from "react";
-import { ThirdPartyProviders } from "./components/ThirdPartyProviders";
+import { ThirdPartyProviders } from "./components/third-party-providers";
 import { AuthProvider, useAuth } from "./domains/auth/contexts/auth";
 import { routeMasks } from "./lib/route-masks";
 import { queryClient, queryClientPersister } from "./queries/global";

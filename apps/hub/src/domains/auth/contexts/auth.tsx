@@ -1,4 +1,4 @@
-import { IdentifyUser } from "@/components/ThirdPartyProviders";
+import { IdentifyUser } from "@/components/third-party-providers";
 import {
   identityTokenQueryOptions,
   selfProfileQueryOptions,

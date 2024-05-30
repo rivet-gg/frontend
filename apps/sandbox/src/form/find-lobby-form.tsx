@@ -1,6 +1,7 @@
 import { json, jsonParseLinter } from "@codemirror/lang-json";
 import { linter } from "@codemirror/lint";
 import {
+  CodeMirrorContainer,
   FormControl,
   FormField,
   FormItem,
@@ -17,18 +18,7 @@ import ReactCodeMirror from "@uiw/react-codemirror";
 import { useFormContext } from "react-hook-form";
 import { z } from "zod";
 import { regionSelectionQueryOptions } from "../data/rivet";
-
-const jsonString = z.custom<string>((val) => {
-  if (typeof val === "string") {
-    try {
-      JSON.parse(val);
-      return true;
-    } catch {
-      return false;
-    }
-  }
-  return false;
-});
+import { jsonString } from "../lib/zod";
 
 export const formSchema = z.object({
   region: z.array(z.string()).nonempty(),
@@ -124,13 +114,15 @@ export function TagsInput() {
         <FormItem>
           <FormLabel>Tags</FormLabel>
           <FormControl>
-            <ReactCodeMirror
-              extensions={[json(), linter(jsonParseLinter())]}
-              theme={githubDark}
-              value={field.value}
-              onChange={field.onChange}
-              onBlur={field.onBlur}
-            />
+            <CodeMirrorContainer>
+              <ReactCodeMirror
+                extensions={[json(), linter(jsonParseLinter())]}
+                theme={githubDark}
+                value={field.value}
+                onChange={field.onChange}
+                onBlur={field.onBlur}
+              />
+            </CodeMirrorContainer>
           </FormControl>
           <FormMessage />
         </FormItem>
