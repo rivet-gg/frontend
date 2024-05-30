@@ -12,6 +12,7 @@ interface HeaderProps {
   user?: ReactNode;
   subnav?: ReactNode;
   addons?: ReactNode;
+  links?: ReactNode;
 }
 
 export function Header({
@@ -20,6 +21,7 @@ export function Header({
   subnav,
   mobileBreadcrumbs,
   addons,
+  links,
 }: HeaderProps) {
   return (
     <header className="bg-background/60 sticky top-0 z-10 flex items-center gap-4 border-b py-2 backdrop-blur">
@@ -91,6 +93,7 @@ export function Header({
             ) : null}
           </nav>
           <div className="gap-6 font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm">
+            {links}
             <NavItem asChild className="hidden md:inline-block">
               <a href="https://rivet.gg/docs" target="_blank" rel="noreferrer">
                 Docs
