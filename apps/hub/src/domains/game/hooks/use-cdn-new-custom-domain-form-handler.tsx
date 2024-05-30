@@ -1,6 +1,6 @@
 import type { SubmitHandler } from "@/domains/game/forms/cdn-new-custom-domain-form";
-import { isRivetError } from "@/lib/utils";
 import { queryClient } from "@/queries/global";
+import { isRivetError } from "@rivet-gg/components";
 import { useCallback } from "react";
 import {
   gameNamespaceQueryOptions,
