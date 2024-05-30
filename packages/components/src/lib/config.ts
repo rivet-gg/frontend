@@ -3,6 +3,7 @@ import { createContext, useContext } from "react";
 interface Config {
   apiUrl: string;
   assetsUrl: string;
+  identityToken?: string;
   posthog?: {
     apiHost: string;
     apiKey: string;

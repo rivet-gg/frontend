@@ -8,8 +8,8 @@ import {
 } from "@tanstack/react-query";
 
 export const RivetApi = new RivetClient({
-  token:
-    "pub_prod.eyJ0eXAiOiJKV1QiLCJhbGciOiJFZERTQSJ9.COX20ObxMhDlnoyp_DEaEgoQ1CfV-VPdSO-xLavvBNPEsiIWGhQKEgoQNOOQw_A0RBOe42rOFH9dOQ.oGRVLDWtDf8NhrIetzMKJIS7ATa3N8o-96I9-BYRLwqo7q_J0_ZgA0CeaG9Znf9OmtzBjTkRqrZWig9SJdqrAg",
+  // biome-ignore lint/style/noNonNullAssertion: <explanation>
+  token: getConfig().identityToken!,
   environment: getConfig().apiUrl,
 });
 
