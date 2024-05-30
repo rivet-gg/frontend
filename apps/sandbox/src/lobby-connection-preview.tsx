@@ -1,4 +1,4 @@
-import { Grid, Strong } from "@rivet-gg/components";
+import { Code, Grid, Strong } from "@rivet-gg/components";
 import { LobbyConnectionActions } from "./lobby-connection-actions";
 import { useLobbyConnection } from "./lobby-connection-context";
 import { LobbyConnectionCustomConfig } from "./lobby-connection-custom-config";
@@ -9,6 +9,15 @@ import { LobbyConnectionPingStats } from "./lobby-connection-ping-stats";
 
 export function LobbyConnectionPreview() {
   const state = useLobbyConnection();
+
+  if (state?.mutationState?.error) {
+    return (
+      <div className="h-full flex flex-col justify-center items-center gap-2">
+        <Strong>Connection error</Strong>
+        <Code>{state.mutationState.error.message}</Code>
+      </div>
+    );
+  }
 
   if (!state?.connectionState || state.connectionState !== "open") {
     return (

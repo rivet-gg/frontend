@@ -12,7 +12,7 @@ export function FindLobbyCard() {
         config: "{}",
       }}
     >
-      <CardContent>
+      <CardContent className="flex-1">
         <Flex direction="col" gap="4">
           <FindLobbyForm.RegionInput />
           <FindLobbyForm.GameModeInput />

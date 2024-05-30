@@ -25,7 +25,7 @@ function LogAction() {
 
   return (
     <Flex gap="4" className="border rounded-md p-4">
-      <Input ref={ref} placeholder="Log message" />
+      <Input ref={ref} placeholder="Log a message" />
       <Button variant="outline" data-logtype="stdout" onClick={handleLog}>
         &gt; std out
       </Button>
