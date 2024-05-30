@@ -1,7 +1,7 @@
 import { ErrorComponent } from "@/components/error-component";
 import { NotFoundComponent } from "@/components/not-found-component";
 import type { AuthContext } from "@/domains/auth/contexts/auth";
-import { FullscreenLoading, Page } from "@rivet-gg/components";
+import { FullscreenLoading, Link, Page } from "@rivet-gg/components";
 import { PageLayout, RootLayout } from "@rivet-gg/components/layout";
 import type { QueryClient } from "@tanstack/react-query";
 import {
@@ -21,6 +21,7 @@ const Footer = () => {
   return (
     <RootLayout.Footer>
       &copy; {new Date().getFullYear()} Rivet Gaming, Inc. All rights reserved
+      &bull; <Link href="https://old.rivet.gg">Old version</Link>
     </RootLayout.Footer>
   );
 };
