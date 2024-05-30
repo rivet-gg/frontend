@@ -1,4 +1,4 @@
-import { Grid, H1 } from "@rivet-gg/components";
+import { H1 } from "@rivet-gg/components";
 import { LobbyConfigurationCard } from "./lobby-configuration-card";
 import { LobbyPreviewCard } from "./lobby-preview-card";
 
