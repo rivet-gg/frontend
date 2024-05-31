@@ -17,7 +17,12 @@ const REGION_EMOJI: { [key: string]: string } = {
 	dfw: '🇺🇸', // Dallas
 	ewr: '🇺🇸', // Newark
 	lon: '🇬🇧', // London
-	sgp: '🇸🇬' // Singapore
+	sgp: '🇸🇬', // Singapore
+	lax: '🇺🇸', // Los Angeles
+	osa: '🇯🇵', // Osaka
+	gru: '🇧🇷', // Sao Paulo
+	bom: '🇮🇳', // Mumbai
+	sin: '🇸🇬' // Singapore
 } satisfies Record<string, string>;
 
 export function getRegionEmoji(regionId: string) {
