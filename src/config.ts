@@ -5,7 +5,7 @@
 
 let apiEndpoint = localStorage.RIVET_API_ENDPOINT || ENV_RIVET_API_ENDPOINT;
 if (apiEndpoint == '__AUTO__') {
-	if (location.hostname == 'old.rivet.gg') {
+	if (location.hostname == 'old.rivet.gg' || location.hostname == 'old.hub-3av.pages.dev') {
 		apiEndpoint = 'https://api.rivet.gg';
 	} else if (location.hostname.startsWith('hub.')) {
 		// Connect to the corresponding API endpoint
