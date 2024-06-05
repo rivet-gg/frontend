@@ -1,8 +1,8 @@
 {
-	"[rust]": {
-		"editor.formatOnSave": true
-	},
-	"[typescript]": {
-		"editor.formatOnSave": true
-	}
+  "editor.defaultFormatter": "biomejs.biome",
+  "editor.formatOnPaste": true,
+  "editor.formatOnSave": true,
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  }
 }

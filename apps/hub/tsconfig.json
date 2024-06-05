@@ -1,0 +1,17 @@
+{
+  "composite": true,
+  "compilerOptions": {
+    "target": "ESNext",
+    "strict": true,
+    "esModuleInterop": true,
+    "noEmit": true,
+    "moduleResolution": "bundler",
+    "module": "Preserve",
+    "jsx": "react-jsx",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": ["src"]
+}

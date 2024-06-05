@@ -1,9 +1,0 @@
-**/node_modules
-**/dist
-**/gen
-lib/rivet-sdk-js
-.yarn/
-
-# Uses paritals
-html/index.hbs
-

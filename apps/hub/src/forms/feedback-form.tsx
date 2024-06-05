@@ -1,0 +1,84 @@
+import { createSchemaForm } from "@/lib/create-schema-form";
+import { faBug, faConciergeBell } from "@fortawesome/pro-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+  Input,
+  Label,
+  RadioGroup,
+  RadioGroupItem,
+  Textarea,
+} from "@rivet-gg/components";
+import { type UseFormReturn, useFormContext } from "react-hook-form";
+import z from "zod";
+
+export const formSchema = z.object({
+  type: z.union([z.literal("bug"), z.literal("feature")]),
+  feedback: z.string().min(10),
+});
+
+export type FormValues = z.infer<typeof formSchema>;
+export type SubmitHandler = (
+  values: FormValues,
+  form: UseFormReturn<FormValues>,
+) => Promise<void>;
+
+const { Form, Submit } = createSchemaForm(formSchema);
+export { Form, Submit };
+
+export const Type = () => {
+  const { control } = useFormContext<FormValues>();
+  return (
+    <FormField
+      control={control}
+      name="type"
+      render={({ field }) => (
+        <FormItem>
+          <FormLabel>Name</FormLabel>
+          <FormControl>
+            <RadioGroup defaultValue="bug" onValueChange={field.onChange}>
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="bug" id="bug" />
+                <Label htmlFor="bug">
+                  <FontAwesomeIcon icon={faBug} className="mr-2" />
+                  Bug
+                </Label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="feature" id="feature" />
+                <Label htmlFor="feature">
+                  <FontAwesomeIcon icon={faConciergeBell} className="mr-2" />
+                  Feature
+                </Label>
+              </div>
+            </RadioGroup>
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+      )}
+    />
+  );
+};
+
+export const Feedback = () => {
+  const { control } = useFormContext<FormValues>();
+  return (
+    <FormField
+      control={control}
+      name="feedback"
+      render={({ field }) => (
+        <FormItem>
+          <FormLabel>Feedback</FormLabel>
+          <FormControl>
+            <Textarea placeholder="Yo, it's amazing but..." {...field} />
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+      )}
+    />
+  );
+};

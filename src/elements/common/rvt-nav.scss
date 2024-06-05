@@ -1,9 +1,0 @@
-@use '../shared/common';
-@use '../shared/utils';
-@use '../shared/consts';
-// Using :host as styling elements inside the shadow DOM, does not gives proper sizing of the host element, ie:
-// styling nav in rvt-nav results in the rvt-nav having 0 height as the nav has fixed positioning.
-// styling directly rvt-nav results in the rvt-nav having the correct height.
-:host {
-	@apply fixed inset-x-0 top-0 z-navigation;
-}
