@@ -16,10 +16,29 @@ export const ConfigContext = createContext<Config>({
 export const useConfig = () => useContext(ConfigContext);
 export const ConfigProvider = ConfigContext.Provider;
 
+const getApiEndpoint = (apiEndpoint: string) => {
+  if (apiEndpoint == '__AUTO__') {
+    if (location.hostname.startsWith('hub.')) {
+      // Connect to the corresponding API endpoint
+      return 'https://' + location.hostname.replace('hub.', 'api.');
+    } else {
+      // Default to staging servers for all other endpoints
+      return 'https://api.staging2.gameinc.io';
+    }
+  }
+  return apiEndpoint;
+}
+
 export const getConfig = (): Config => {
   const el = document.getElementById("RIVET_CONFIG");
   if (!el) {
     throw new Error("Config element not found");
   }
-  return JSON.parse(el.textContent || "");
+
+  const parsed = JSON.parse(el.textContent || "");
+
+  return {
+    ...parsed,
+    apiUrl: getApiEndpoint(parsed.apiUrl),
+  }
 };
