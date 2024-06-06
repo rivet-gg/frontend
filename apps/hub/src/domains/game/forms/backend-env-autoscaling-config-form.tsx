@@ -110,7 +110,13 @@ export const Autoscaling = () => {
 
           <FormDescription>
             Need more resources?{" "}
-            <Link href="https://rivet.gg/support">Contact support.</Link>
+            <Link
+              href="https://rivet.gg/support"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Contact support.
+            </Link>
           </FormDescription>
           <FormMessage />
         </FormItem>

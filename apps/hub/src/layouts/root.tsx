@@ -23,7 +23,10 @@ const Footer = () => {
   return (
     <footer className="text-muted-foreground bg-muted p-4 text-center text-sm">
       <div className="container">
-        <Link href="https://old.rivet.gg">Old Version</Link> &bull;{" "}
+        <Link href="https://old.rivet.gg" target="_blank" rel="noreferrer">
+          Old Version
+        </Link>{" "}
+        &bull;{" "}
         <Link href="https://rivet.gg/support" target="_blank" rel="noreferrer">
           Support
         </Link>

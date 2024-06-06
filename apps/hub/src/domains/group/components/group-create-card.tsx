@@ -14,15 +14,11 @@ export function GroupCreateCard() {
   return (
     <>
       {dialog}
-      <Card w={{ initial: "full", md: "1/2" }} my="4">
-        <CardHeader>
-          <CardTitle>Create a new team</CardTitle>
-          <CardDescription>
-            Lipsum dolor sit amet, consectetur adipiscing elit.
-          </CardDescription>
-        </CardHeader>
+      <Card w="full" my="4">
         <CardFooter>
-          <Button onClick={openGroupCreateDialog}>Create a new team</Button>
+          <Button onClick={openGroupCreateDialog} variant="secondary">
+            Create a new team
+          </Button>
         </CardFooter>
       </Card>
     </>

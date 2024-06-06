@@ -7,6 +7,10 @@ interface Config {
     apiHost: string;
     apiKey: string;
   };
+  sentry?: {
+    dsn: string;
+    projectId: string;
+  }
 }
 
 export const ConfigContext = createContext<Config>({

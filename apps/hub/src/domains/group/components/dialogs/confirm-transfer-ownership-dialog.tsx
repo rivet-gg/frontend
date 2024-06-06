@@ -56,7 +56,11 @@ export default function ConfirmTransferOwnershipDialogContent({
             </Text>
             <Text>
               Contact{" "}
-              <Link href="https://rivet.gg/support" target="_blank">
+              <Link
+                href="https://rivet.gg/support"
+                target="_blank"
+                rel="noreferrer"
+              >
                 Support
               </Link>{" "}
               for more info.

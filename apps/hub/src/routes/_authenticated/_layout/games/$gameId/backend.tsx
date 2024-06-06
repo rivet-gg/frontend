@@ -28,7 +28,7 @@ export const Route = createFileRoute(
     const { game } = await queryClient.fetchQuery(gameQueryOptions(gameId));
 
     const newProject = await rivetEeClient.ee.cloud.opengb.projects.create({
-      displayName: `${game.displayName} - Backend project`,
+      displayName: `${game.gameId.slice(0, 16)}-opengb`,
       developerGroupId: game.developerGroupId,
     });
     await rivetEeClient.ee.cloud.games.projects.link(gameId, {

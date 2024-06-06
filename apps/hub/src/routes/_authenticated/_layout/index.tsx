@@ -46,18 +46,22 @@ function IndexRoute() {
       <Modals />
       <NarrowPage title={`Welcome to Rivet, ${profile?.identity.displayName}!`}>
         <Grid columns={{ initial: "1", md: "2" }} gap="4">
-          <a href="https://rivet.gg/learn">
+          <a href="https://rivet.gg/learn" target="_blank" rel="noreferrer">
             <CtaCard title="Learn">Get started with your engine</CtaCard>
           </a>
-          <a href="https://rivet.gg/docs">
+          <a href="https://rivet.gg/docs" target="_blank" rel="noreferrer">
             <CtaCard title="Docs">
               Learn more about Rivet and its features
             </CtaCard>
           </a>
-          <a href="https://rivet.gg/discord">
+          <a href="https://rivet.gg/discord" target="_blank" rel="noreferrer">
             <CtaCard title="Discord">Join our community on Discord</CtaCard>
           </a>
-          <a href="https://github.com/rivet-gg">
+          <a
+            href="https://github.com/rivet-gg"
+            target="_blank"
+            rel="noreferrer"
+          >
             <CtaCard title="GitHub">Contribute to Rivet on GitHub</CtaCard>
           </a>
         </Grid>

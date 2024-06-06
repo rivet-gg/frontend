@@ -28,7 +28,7 @@ export function GroupEmptyAlert({
             This group doesn't have any games yet. Get started by creating a new
             one.
             {showCreateButton ? (
-              <Button asChild>
+              <Button asChild variant="secondary">
                 <Link to="/" search={{ modal: "create-game", groupId }}>
                   Create a new game
                 </Link>

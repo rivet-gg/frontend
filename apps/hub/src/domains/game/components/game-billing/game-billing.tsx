@@ -56,7 +56,11 @@ export function GameBilling({ gameId }: GameBillingProps) {
         {dialog}
         <Flex gap="4" items="center" justify="between">
           <Text>Manage servers</Text>
-          <Link href="https://rivet.gg/docs/dynamic-servers/concepts/available-tiers">
+          <Link
+            href="https://rivet.gg/docs/dynamic-servers/concepts/available-tiers"
+            target="_blank"
+            rel="noreferrer"
+          >
             Learn more about pricing & dedicated hardware specs
           </Link>
         </Flex>
