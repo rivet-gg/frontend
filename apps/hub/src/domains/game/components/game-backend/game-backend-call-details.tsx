@@ -24,11 +24,11 @@ export function GameBackendCallDetails({
       <Dd>{new Date(+eventTimestamp).toLocaleString()}</Dd>
       <Dt>Request Headers</Dt>
       <Dd>
-        <div className="grid grid-cols-[repeat(2,max-content)] gap-2 overflow-auto">
+        <div className="grid grid-cols-[minmax(auto,1fr)_minmax(auto,3fr)] gap-2 overflow-auto">
           {Object.entries(event.request.headers).map(([key, value]) => (
             <Fragment key={key}>
               <span>{key}</span>
-              <span>{value}</span>
+              <span className="break-all">{value}</span>
             </Fragment>
           ))}
         </div>

@@ -4,8 +4,10 @@ import {
   type QueryCache,
   type QueryKey,
 } from "@tanstack/react-query";
+import { isArray, mergeWith, omit } from "lodash";
 import { z } from "zod";
 import { queryClient } from "./global";
+import { getWatchIndex, metaHasWatchConfig } from "./utils";
 
 const watchIndexSchemaFragment = z.object({
   watch: z.object({ index: z.string() }),
@@ -18,6 +20,12 @@ const watch = async (query: Query<unknown, unknown, unknown, QueryKey>) => {
       !query.meta ||
       (query.meta && !("watch" in query.meta))
     ) {
+      return;
+    }
+
+    const meta = query.meta;
+
+    if (!metaHasWatchConfig(meta)) {
       return;
     }
 
@@ -49,7 +57,24 @@ const watch = async (query: Query<unknown, unknown, unknown, QueryKey>) => {
       },
     });
 
-    queryClient.setQueryData(query.queryKey, fetchResult);
+    if (meta.watch === true) {
+      queryClient.setQueryData(query.queryKey, fetchResult);
+    } else if (meta.watch.mergeResponses && fetchResult) {
+      queryClient.setQueryData(query.queryKey, (input) => {
+        return {
+          watch: getWatchIndex(fetchResult),
+          ...mergeWith(
+            omit(fetchResult, ["watch"]),
+            input ? omit(input, ["watch"]) : {},
+            function customizer(objValue, srcValue) {
+              if (isArray(objValue)) {
+                return objValue.concat(srcValue);
+              }
+            },
+          ),
+        };
+      });
+    }
 
     // Check if the query is still being observed
     const observerCount = queryClient
