@@ -1,7 +1,6 @@
 import * as FeedbackForm from "@/forms/feedback-form";
 import type { DialogContentProps } from "@/hooks/use-dialog";
 import { FEEDBACK_FORM_ID } from "@/lib/data/constants";
-import { convertStringToId } from "@/lib/utils";
 import {
   DialogFooter,
   DialogHeader,
@@ -9,14 +8,11 @@ import {
   Flex,
 } from "@rivet-gg/components";
 
-import { useNavigate } from "@tanstack/react-router";
 import { usePostHog } from "posthog-js/react";
 
 interface ContentProps extends DialogContentProps {}
 
-export default function CreateNamespaceDialogContent({
-  onClose,
-}: ContentProps) {
+export default function FeedbackDialogContent({ onClose }: ContentProps) {
   const posthog = usePostHog();
 
   return (

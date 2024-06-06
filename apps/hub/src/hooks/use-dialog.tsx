@@ -231,3 +231,7 @@ useDialog.CreateBackendEnv = createDialogHook(
 useDialog.Feedback = createDialogHook(
   import("@//components/dialogs/feedback-dialog"),
 );
+
+useDialog.Secret = createDialogHook(
+  import("@//components/dialogs/secret-dialog"),
+);

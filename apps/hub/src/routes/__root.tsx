@@ -15,6 +15,7 @@ import {
 import { TanStackRouterDevtools } from "@tanstack/router-devtools";
 import { usePostHog } from "posthog-js/react";
 import { Suspense } from "react";
+import { useKonami } from "react-konami-code";
 
 function Modals() {
   const search = Route.useSearch();
@@ -23,6 +24,9 @@ function Modals() {
   const posthog = usePostHog();
 
   const FeedbackDialog = useDialog.Feedback.Dialog;
+  const SecretDialog = useDialog.Secret.Dialog;
+
+  useKonami(() => navigate({ search: { modal: "secret" } }));
 
   if (!search || !("modal" in search)) {
     return;
@@ -43,6 +47,12 @@ function Modals() {
       <FeedbackDialog
         dialogProps={{
           open: modal === "feedback",
+          onOpenChange: handleonOpenChange,
+        }}
+      />
+      <SecretDialog
+        dialogProps={{
+          open: modal === "secret",
           onOpenChange: handleonOpenChange,
         }}
       />
