@@ -9,6 +9,7 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
+  Code,
   Flex,
   Table,
   TableBody,
@@ -16,6 +17,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
+  Text,
 } from "@rivet-gg/components";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
@@ -47,7 +49,8 @@ export function GameNamespacesView({ gameId }: GameNamespacesViewProps) {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead w="full">Name</TableHead>
+              <TableHead w="1/2">Name</TableHead>
+              <TableHead w="1/2">Slug</TableHead>
               <TableHead>Version</TableHead>
               <TableHead />
             </TableRow>
@@ -64,7 +67,12 @@ export function GameNamespacesView({ gameId }: GameNamespacesViewProps) {
                   });
                 }}
               >
-                <TableCell>{namespace.displayName}</TableCell>
+                <TableCell>
+                  <Text>{namespace.displayName}</Text>
+                </TableCell>
+                <TableCell>
+                  <Code>{namespace.nameId}</Code>
+                </TableCell>
                 <TableCell>
                   <Badge>{namespace.version?.displayName}</Badge>
                 </TableCell>
