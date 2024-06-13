@@ -73,15 +73,10 @@ function IndexRoute() {
   );
 }
 
-const searchSchema = z
-  .union([
-    z.object({
-      modal: z.enum(["create-game"]),
-      groupId: z.string(),
-    }),
-    z.object({}),
-  ])
-  .optional();
+const searchSchema = z.object({
+  modal: z.enum(["create-game"]).optional(),
+  groupId: z.string().optional(),
+});
 
 export const Route = createFileRoute("/_authenticated/_layout/")({
   validateSearch: (search) => searchSchema.parse(search),

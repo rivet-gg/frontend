@@ -1,6 +1,7 @@
 import * as FeedbackForm from "@/forms/feedback-form";
 import type { DialogContentProps } from "@/hooks/use-dialog";
 import { FEEDBACK_FORM_ID } from "@/lib/data/constants";
+import { Route } from "@/routes/__root";
 import {
   DialogFooter,
   DialogHeader,
@@ -10,9 +11,14 @@ import {
 
 import { usePostHog } from "posthog-js/react";
 
-interface ContentProps extends DialogContentProps {}
+interface ContentProps extends DialogContentProps {
+  source?: string;
+}
 
-export default function FeedbackDialogContent({ onClose }: ContentProps) {
+export default function FeedbackDialogContent({
+  onClose,
+  source = "web",
+}: ContentProps) {
   const posthog = usePostHog();
 
   return (
@@ -20,8 +26,9 @@ export default function FeedbackDialogContent({ onClose }: ContentProps) {
       <FeedbackForm.Form
         onSubmit={async (values) => {
           posthog.capture("survey sent", {
+            utm_source: source,
             $survey_id: FEEDBACK_FORM_ID,
-            $survey_response: `${values.type}: ${values.feedback}`,
+            $survey_response: `${values.type} from ${source}: ${values.feedback}`,
           });
           onClose?.();
         }}

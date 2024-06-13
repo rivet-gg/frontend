@@ -16,6 +16,7 @@ import { TanStackRouterDevtools } from "@tanstack/router-devtools";
 import { usePostHog } from "posthog-js/react";
 import { Suspense } from "react";
 import { useKonami } from "react-konami-code";
+import { z } from "zod";
 
 function Modals() {
   const search = Route.useSearch();
@@ -32,7 +33,7 @@ function Modals() {
     return;
   }
 
-  const { modal } = search;
+  const { modal, utm_source } = search;
 
   const handleonOpenChange = (value: boolean) => {
     if (!value) {
@@ -45,6 +46,7 @@ function Modals() {
   return (
     <>
       <FeedbackDialog
+        source={utm_source}
         dialogProps={{
           open: modal === "feedback",
           onOpenChange: handleonOpenChange,
@@ -111,7 +113,13 @@ export interface RouterContext {
   subNav?: { title: string; url: string; exact?: boolean }[];
 }
 
+const searchSchema = z.object({
+  modal: z.enum(["secret", "feedback"]).optional(),
+  utm_source: z.string().optional(),
+});
+
 export const Route = createRootRouteWithContext<RouterContext>()({
+  validateSearch: (search) => searchSchema.parse(search),
   component: RootRoute,
   errorComponent: RootErrorComponent,
   notFoundComponent: RootNotFoundComponent,
