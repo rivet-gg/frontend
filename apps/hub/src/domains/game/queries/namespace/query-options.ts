@@ -249,10 +249,15 @@ export const gameNamespaceLobbiesLiveQueryOptions = ({
       ),
     select: (data) => ({
       ...data,
-      lobbies: data.lobbies.map((lobby) => ({
-        ...lobby,
-        readableStatus: getLiveLobbyStatus(lobby),
-      })),
+      lobbies: data.lobbies
+        .map((lobby) => ({
+          ...lobby,
+          readableStatus: getLiveLobbyStatus(lobby),
+        }))
+        .sort((a, b) => {
+          // sort by created time
+          return +b.createTs - +a.createTs;
+        }),
     }),
   });
 };

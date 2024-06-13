@@ -117,21 +117,10 @@ export function NamespaceCommandPanelPage({
       {config.matchmaker ? (
         <CommandGroup heading="Matchmaker">
           <CommandItem
-            onSelect={() => {
-              navigate({
-                to: "/games/$gameId/namespaces/$namespaceId/matchmaker",
-                params: { gameId, namespaceId },
-              });
-            }}
-          >
-            <FontAwesomeIcon icon={faChessKnight} />
-            Matchmaker Overview
-          </CommandItem>
-          <CommandItem
             keywords={["matchmaker", "lobbies"]}
             onSelect={() => {
               navigate({
-                to: "/games/$gameId/namespaces/$namespaceId/matchmaker/lobbies",
+                to: "/games/$gameId/namespaces/$namespaceId/lobbies",
                 params: { gameId, namespaceId },
               });
             }}
@@ -143,7 +132,7 @@ export function NamespaceCommandPanelPage({
             keywords={["matchmaker", "logs"]}
             onSelect={() => {
               navigate({
-                to: "/games/$gameId/namespaces/$namespaceId/matchmaker/logs",
+                to: "/games/$gameId/namespaces/$namespaceId/lobbies/logs",
                 params: { gameId, namespaceId },
               });
             }}
@@ -155,7 +144,7 @@ export function NamespaceCommandPanelPage({
             keywords={["matchmaker", "settings"]}
             onSelect={() => {
               navigate({
-                to: "/games/$gameId/namespaces/$namespaceId/matchmaker/settings",
+                to: "/games/$gameId/namespaces/$namespaceId/lobbies/settings",
                 params: { gameId, namespaceId },
               });
             }}

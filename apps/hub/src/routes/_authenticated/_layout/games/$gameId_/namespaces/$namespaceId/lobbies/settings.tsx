@@ -15,7 +15,7 @@ function MatchmakerSettingsView() {
 }
 
 export const Route = createFileRoute(
-  "/_authenticated/_layout/games/$gameId/namespaces/$namespaceId/matchmaker/settings",
+  "/_authenticated/_layout/games/$gameId/namespaces/$namespaceId/lobbies/settings",
 )({
   staticData: {
     layout: "full",

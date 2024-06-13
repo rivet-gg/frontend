@@ -12,7 +12,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, Skeleton, cn } from "@rivet-gg/components";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { CatchBoundary, Link, useMatchRoute } from "@tanstack/react-router";
-import { type ReactNode, Suspense, useContext } from "react";
+import { Suspense, useContext } from "react";
 import { MobileBreadcrumbsContext } from "./breadcrumbs/mobile-breadcrumbs";
 
 interface LinkButtonProps {

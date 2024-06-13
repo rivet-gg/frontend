@@ -20,17 +20,12 @@ export function NamespaceMatchmakerLogs({
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle>Logs</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <LobbyListLogsPreview
-          lobbies={lobbies}
-          gameId={gameId}
-          namespaceId={namespaceId}
-          lobbyId={lobbyId}
-        />
-      </CardContent>
+      <LobbyListLogsPreview
+        lobbies={lobbies}
+        gameId={gameId}
+        namespaceId={namespaceId}
+        lobbyId={lobbyId}
+      />
     </Card>
   );
 }

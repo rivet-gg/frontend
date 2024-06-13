@@ -77,8 +77,8 @@ export const buildNamespaceSubNav = (config: Rivet.cloud.NamespaceConfig) => {
 
   if (config.matchmaker) {
     subNav.push({
-      title: "Matchmaker",
-      url: "/games/$gameId/namespaces/$namespaceId/matchmaker/",
+      title: "Lobbies",
+      url: "/games/$gameId/namespaces/$namespaceId/lobbies/",
       icon: faChessKnight,
     });
   }

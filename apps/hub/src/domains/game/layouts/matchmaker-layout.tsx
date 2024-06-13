@@ -13,15 +13,16 @@ const LINKS = [
   //   exact: true,
   // },
   {
-    url: "/games/$gameId/namespaces/$namespaceId/matchmaker/lobbies",
+    url: "/games/$gameId/namespaces/$namespaceId/lobbies/",
     text: "Lobbies",
+    exact: true,
   },
   {
-    url: "/games/$gameId/namespaces/$namespaceId/matchmaker/logs",
+    url: "/games/$gameId/namespaces/$namespaceId/lobbies/logs",
     text: "Logs",
   },
   {
-    url: "/games/$gameId/namespaces/$namespaceId/matchmaker/settings",
+    url: "/games/$gameId/namespaces/$namespaceId/lobbies/settings",
     text: "Settings",
   },
 ];
@@ -45,6 +46,7 @@ function MatchmakerPage({
             <Link
               key={link.url}
               to={link.url}
+              activeOptions={{ exact: link.exact, includeSearch: false }}
               params={{
                 gameId,
                 namespaceId,

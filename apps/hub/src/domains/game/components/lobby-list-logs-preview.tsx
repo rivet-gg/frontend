@@ -3,13 +3,17 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Badge,
   Button,
+  CardHeader,
+  CardTitle,
   Flex,
   LogsSelect,
   SmallText,
   Text,
   Uptime,
+  WithTooltip,
 } from "@rivet-gg/components";
 import { Link } from "@tanstack/react-router";
+import type { ReactNode } from "react";
 import type { LiveLobbyLogs, LobbyLogs } from "../queries";
 import { LobbyRegion } from "./lobby-region";
 import { LobbyStatusBadge } from "./lobby-status";
@@ -20,12 +24,14 @@ interface LobbyListLogsPreviewProps {
   lobbyId?: string;
   gameId: string;
   namespaceId: string;
+  sort?: ReactNode;
 }
 
 export function LobbyListLogsPreview({
   lobbies,
   lobbyId,
   gameId,
+  sort,
   namespaceId,
 }: LobbyListLogsPreviewProps) {
   if (lobbies.length === 0) {
@@ -40,57 +46,74 @@ export function LobbyListLogsPreview({
     <LogsSelect
       list={
         <>
-          {lobbies.map((lobby) => (
-            <Button
-              key={lobby.lobbyId}
-              variant={lobbyId === lobby.lobbyId ? "secondary" : "outline"}
-              asChild
-            >
-              <Link search={{ lobbyId: lobby.lobbyId }}>
-                <Flex gap="2" items="center" w="full">
-                  <Badge variant="outline">
-                    <LobbyRegion gameId={gameId} regionId={lobby.regionId} />
-                  </Badge>
-                  <LobbyStatusBadge status={lobby.readableStatus} />
-                  <span className="flex-1 text-left">
-                    {lobby.lobbyGroupNameId}
-                  </span>
-                  {"totalPlayerCount" in lobby ? (
+          <CardHeader>
+            <Flex gap="2" items="center" justify="between">
+              <CardTitle>Lobbies</CardTitle>
+              {sort}
+            </Flex>
+          </CardHeader>
+          <div className="px-6 pb-6 w-full flex flex-col gap-2">
+            {lobbies.map((lobby) => (
+              <Button
+                key={lobby.lobbyId}
+                variant={lobbyId === lobby.lobbyId ? "secondary" : "outline"}
+                asChild
+              >
+                <Link search={(old) => ({ ...old, lobbyId: lobby.lobbyId })}>
+                  <Flex gap="2" items="center" w="full">
                     <Badge variant="outline">
-                      <Flex gap="2">
-                        <span>
-                          {lobby.totalPlayerCount} / {lobby.maxPlayersNormal}
-                        </span>
-
-                        <FontAwesomeIcon className="size-4" icon={faUsers} />
-                      </Flex>
+                      <LobbyRegion gameId={gameId} regionId={lobby.regionId} />
                     </Badge>
-                  ) : null}
-                  <SmallText>
-                    {["closed", "failed"].includes(lobby.readableStatus) ? (
-                      lobby.createTs.toLocaleString()
-                    ) : (
-                      <Uptime createTs={lobby.createTs} />
-                    )}
-                  </SmallText>
-                </Flex>
-              </Link>
-            </Button>
-          ))}
+                    <LobbyStatusBadge status={lobby.readableStatus} />
+                    <span className="flex-1 text-left">
+                      {lobby.lobbyGroupNameId}
+                    </span>
+                    {"totalPlayerCount" in lobby ? (
+                      <Badge variant="outline">
+                        <Flex gap="2">
+                          <span>
+                            {lobby.totalPlayerCount} / {lobby.maxPlayersNormal}
+                          </span>
+
+                          <FontAwesomeIcon className="size-4" icon={faUsers} />
+                        </Flex>
+                      </Badge>
+                    ) : null}
+                    <SmallText>
+                      {["closed", "failed"].includes(lobby.readableStatus) ? (
+                        lobby.createTs.toLocaleString()
+                      ) : (
+                        <WithTooltip
+                          trigger={
+                            <SmallText>
+                              <Uptime createTs={lobby.createTs} />
+                            </SmallText>
+                          }
+                          content={lobby.createTs.toLocaleString()}
+                        />
+                      )}
+                    </SmallText>
+                  </Flex>
+                </Link>
+              </Button>
+            ))}
+          </div>
         </>
       }
       content={
-        !lobbyId ? (
-          <Text my="10" textAlign="center">
-            Please select select lobby.
-          </Text>
-        ) : (
-          <LobbySummary
-            gameId={gameId}
-            namespaceId={namespaceId}
-            lobbyId={lobbyId}
-          />
-        )
+        <div className="p-6">
+          {!lobbyId ? (
+            <Text my="10" textAlign="center">
+              Please select select lobby.
+            </Text>
+          ) : (
+            <LobbySummary
+              gameId={gameId}
+              namespaceId={namespaceId}
+              lobbyId={lobbyId}
+            />
+          )}
+        </div>
       }
     />
   );
