@@ -29,18 +29,23 @@ yarn start
 
 This will open `http://localhost:5080` in your browser. By default, this will connect to Rivet's staging servers (https://staging2.gameinc.io).
 
+## Environment variables configuration
+
+1. Copy `.env.example` to `.env.yarn` and fill appropiate variables.
+2. Copy `apps/hub/.env.example` to `apps/hub/.env.yarn` and change variables if needed.
+
 ## Developing with self-hosted backend
 
 > **Where do I self-host the backend?**
 >
 > See our backend repo [here](https://github.com/rivet-gg/rivet).
 
-### Configuration `RIVET_API_ENDPOINT`
+### API Endpoint Configuration 
 
-To configure the hub to connect to your own server (for example, `mydomain.com`), update the `.env` file in this folder to include the following:
+To configure the hub to connect to your own server (for example, `mydomain.com`), update the `.env` file in `apps/hub` folder to include the following:
 
 ```
-RIVET_API_ENDPOINT=https://api.mydomain.com
+VITE_APP_API_URL=https://api.mydomain.com
 ```
 
 ### Backend configuration
