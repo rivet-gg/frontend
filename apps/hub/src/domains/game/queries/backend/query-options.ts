@@ -18,7 +18,7 @@ export const gameBackendProjectEnvsQueryOptions = (projectId: string) =>
   queryOptions({
     queryKey: ["backend-project", projectId, "envs"],
     queryFn: ({ queryKey: [_, projectId] }) =>
-      rivetEeClient.ee.cloud.opengb.projects.envs.list(projectId),
+      rivetEeClient.ee.cloud.backend.projects.envs.list(projectId),
     select: (data) => data.environments,
   });
 
@@ -32,7 +32,10 @@ export const gameBackendProjectEnvQueryOptions = ({
   queryOptions({
     queryKey: ["backend-project", projectId, "env", environmentId],
     queryFn: ({ queryKey: [_, projectId, __, environmentId] }) =>
-      rivetEeClient.ee.cloud.opengb.projects.envs.get(projectId, environmentId),
+      rivetEeClient.ee.cloud.backend.projects.envs.get(
+        projectId,
+        environmentId,
+      ),
     select: (data) => data.environment,
   });
 
@@ -46,7 +49,7 @@ export const gameBackendProjectEnvVariablesQueryOptions = ({
   queryOptions({
     queryKey: ["backend-project", projectId, "env", environmentId, "variables"],
     queryFn: ({ queryKey: [_, projectId, __, environmentId] }) =>
-      rivetEeClient.ee.cloud.opengb.projects.envs.getVariables(
+      rivetEeClient.ee.cloud.backend.projects.envs.getVariables(
         projectId,
         environmentId,
       ),
@@ -63,7 +66,7 @@ export const gameBackendProjectEnvConfigQueryOptions = ({
   queryOptions({
     queryKey: ["backend-project", projectId, "env", environmentId, "config"],
     queryFn: ({ queryKey: [_, projectId, __, environmentId] }) =>
-      rivetEeClient.ee.cloud.opengb.projects.envs.getConfig(
+      rivetEeClient.ee.cloud.backend.projects.envs.getConfig(
         projectId,
         environmentId,
       ),
@@ -81,7 +84,7 @@ export const gameBackendProjectEnvEventsQueryOptions = ({
     queryKey: ["backend-project", projectId, "env", environmentId, "events"],
     queryFn: async ({ queryKey: [_, projectId, __, environmentId], meta }) => {
       const response =
-        await rivetEeClient.ee.cloud.opengb.projects.envs.getEvents(
+        await rivetEeClient.ee.cloud.backend.projects.envs.getEvents(
           projectId,
           environmentId,
           { watchIndex: getMetaWatchIndex(meta) },

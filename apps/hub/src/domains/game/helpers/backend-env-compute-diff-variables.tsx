@@ -3,7 +3,7 @@ import type { Rivet as RivetEe } from "@rivet-gg/api-ee";
 type NewVariable = { key: string; value: string; isSecret: boolean };
 
 export function computeBackendEnvVariablesDiff(
-  existingVariables: Record<string, RivetEe.ee.opengb.Variable>,
+  existingVariables: Record<string, RivetEe.ee.backend.Variable>,
   newVariables: NewVariable[],
 ) {
   const update: NewVariable[] = [];
@@ -39,7 +39,7 @@ export function computeBackendEnvVariablesDiff(
     }
   }
 
-  const finalVariables: Record<string, RivetEe.ee.opengb.UpdateVariable> = {};
+  const finalVariables: Record<string, RivetEe.ee.backend.UpdateVariable> = {};
   for (const variable of [...create, ...update]) {
     finalVariables[variable.key] = variable.isSecret
       ? { secret: variable.value }

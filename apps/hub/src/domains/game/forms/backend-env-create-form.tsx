@@ -25,13 +25,13 @@ export const formSchema = z
     name: z.string().max(25),
     slug: z.string().max(25).optional(),
     tier: z.union([
-      z.literal(RivetEe.ee.opengb.Tier.Dedicated),
-      z.literal(RivetEe.ee.opengb.Tier.Shared),
+      z.literal(RivetEe.ee.backend.Tier.Dedicated),
+      z.literal(RivetEe.ee.backend.Tier.Shared),
     ]),
     projectId: z.string(),
   })
   .superRefine(async (arg, ctx) => {
-    const res = await rivetEeClient.ee.cloud.opengb.projects.envs.validate(
+    const res = await rivetEeClient.ee.cloud.backend.projects.envs.validate(
       arg.projectId,
       {
         displayName: arg.name,
@@ -133,7 +133,7 @@ export const Tier = () => {
               </SelectTrigger>
             </FormControl>
             <SelectContent>
-              {Object.entries(RivetEe.ee.opengb.Tier).map(([label, value]) => (
+              {Object.entries(RivetEe.ee.backend.Tier).map(([label, value]) => (
                 <SelectItem key={value} value={`${value}`}>
                   {label}
                 </SelectItem>

@@ -10,16 +10,16 @@ export const useCreateBackendProjectEnvMutation = ({
   onSuccess,
 }: {
   onSuccess?: (
-    data: RivetEe.ee.cloud.opengb.projects.envs.CreateResponse,
+    data: RivetEe.ee.cloud.backend.projects.envs.CreateResponse,
   ) => void;
 }) =>
   useMutation({
     mutationFn: ({
       projectId,
       ...data
-    }: RivetEe.ee.cloud.opengb.projects.envs.CreateRequest & {
+    }: RivetEe.ee.cloud.backend.projects.envs.CreateRequest & {
       projectId: string;
-    }) => rivetEeClient.ee.cloud.opengb.projects.envs.create(projectId, data),
+    }) => rivetEeClient.ee.cloud.backend.projects.envs.create(projectId, data),
     onSuccess: async (data, { projectId }) => {
       await queryClient.invalidateQueries(
         gameBackendProjectEnvsQueryOptions(projectId),
@@ -34,11 +34,11 @@ export const useBackendAutoScalingConfigMutation = () =>
       projectId,
       environmentId,
       ...data
-    }: RivetEe.ee.cloud.opengb.projects.envs.UpdateConfigRequest & {
+    }: RivetEe.ee.cloud.backend.projects.envs.UpdateConfigRequest & {
       projectId: string;
       environmentId: string;
     }) =>
-      rivetEeClient.ee.cloud.opengb.projects.envs.updateConfig(
+      rivetEeClient.ee.cloud.backend.projects.envs.updateConfig(
         projectId,
         environmentId,
         data,
@@ -56,11 +56,11 @@ export const useBackendUpdateVariablesMutation = () =>
       projectId,
       environmentId,
       ...data
-    }: RivetEe.ee.cloud.opengb.projects.envs.UpdateVariablesRequest & {
+    }: RivetEe.ee.cloud.backend.projects.envs.UpdateVariablesRequest & {
       projectId: string;
       environmentId: string;
     }) =>
-      rivetEeClient.ee.cloud.opengb.projects.envs.updateVariables(
+      rivetEeClient.ee.cloud.backend.projects.envs.updateVariables(
         projectId,
         environmentId,
         data,
