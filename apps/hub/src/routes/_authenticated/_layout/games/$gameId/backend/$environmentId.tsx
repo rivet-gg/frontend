@@ -3,8 +3,13 @@ import { Outlet, createFileRoute } from "@tanstack/react-router";
 
 function GameBackendEnvIdView() {
   const { gameId, environmentId } = Route.useParams();
+  const { projectId } = Route.useRouteContext();
   return (
-    <Layout.Root gameId={gameId} environmentId={environmentId}>
+    <Layout.Root
+      gameId={gameId}
+      environmentId={environmentId}
+      projectId={projectId}
+    >
       <Outlet />
     </Layout.Root>
   );

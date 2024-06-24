@@ -5,6 +5,7 @@ import { createSyncStoragePersister } from "@tanstack/query-sync-storage-persist
 import { MutationCache, QueryCache, QueryClient } from "@tanstack/react-query";
 import superjson from "superjson";
 import { identityTokenQueryOptions } from "../domains/user/queries";
+import { OuterbaseError } from "./types";
 import { withQueryWatch } from "./watch";
 
 const opts: RivetClient.Options = {

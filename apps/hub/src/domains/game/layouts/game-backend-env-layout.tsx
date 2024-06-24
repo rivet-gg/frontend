@@ -1,6 +1,11 @@
-import { SidebarNavigation, SidebarPageContent } from "@rivet-gg/components";
+import {
+  SidebarNavigation,
+  SidebarPageContent,
+  Skeleton,
+} from "@rivet-gg/components";
 import { Link } from "@tanstack/react-router";
-import type { ReactNode } from "react";
+import { type ReactNode, Suspense } from "react";
+import { GameBackendDatabaseLink } from "../components/game-backend/game-backend-database-link";
 
 const LINKS = [
   {
@@ -21,12 +26,14 @@ const LINKS = [
 interface GameBackendEnvPageProps {
   gameId: string;
   environmentId: string;
+  projectId: string;
   children: ReactNode;
 }
 
 function GameBackendEnvPage({
   children,
   gameId,
+  projectId,
   environmentId,
 }: GameBackendEnvPageProps) {
   return (
@@ -47,10 +54,16 @@ function GameBackendEnvPage({
               {link.text}
             </Link>
           ))}
+          <GameBackendDatabaseLink
+            projectId={projectId}
+            environmentId={environmentId}
+          />
         </SidebarNavigation>
       }
     >
-      {children}
+      <Suspense fallback={<Skeleton className="h-96 w-full" />}>
+        {children}
+      </Suspense>
     </SidebarPageContent>
   );
 }

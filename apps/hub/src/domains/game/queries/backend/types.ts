@@ -65,3 +65,12 @@ export const BackendEvent = z
   });
 
 export type BackendEvent = z.infer<typeof BackendEvent>;
+
+export const OuterbaseStarlinkResponse = z.object({
+  response: z.object({
+    url: z.string(),
+  }),
+});
+export type OuterbaseStarlinkResponse = z.infer<
+  typeof OuterbaseStarlinkResponse
+>;
