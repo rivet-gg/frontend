@@ -16,7 +16,7 @@ export const useGameCreateMutation = ({
       rivetClient.cloud.games.createGame(data),
     onSuccess: async (data) => {
       await queryClient.invalidateQueries(gamesQueryOptions());
-      onSuccess?.(data);
+      await onSuccess?.(data);
     },
   });
 };

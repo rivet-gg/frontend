@@ -114,7 +114,7 @@ export interface RouterContext {
 }
 
 const searchSchema = z.object({
-  modal: z.enum(["secret", "feedback"]).optional(),
+  modal: z.enum(["secret", "feedback"]).or(z.string()).optional(),
   utm_source: z.string().optional(),
 });
 
