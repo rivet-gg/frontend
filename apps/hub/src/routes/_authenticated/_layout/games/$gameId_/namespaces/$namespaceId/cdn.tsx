@@ -93,21 +93,32 @@ function PasswordAuthOption() {
   );
 }
 
-function CustomDomainsOption({ nameId }: { nameId: string }) {
+interface CustomDomainsOptionProps {
+  nameId: string;
+  namespaceNameId: string;
+}
+
+function CustomDomainsOption({
+  nameId,
+  namespaceNameId,
+}: CustomDomainsOptionProps) {
   return (
     <>
       <ActionCard
         title="Custom domains"
         footer={
           <Button asChild>
-            <Link search={{ modal: "cdn-domains" }}> Manage domains</Link>
+            <Link search={{ modal: "cdn-domains" }}>Manage domains</Link>
           </Button>
         }
       >
         <Ol>
           <li>
-            Add a CNAME record pointed at <Code>{nameId}.rivet.game</Code> to
-            your domain's DNS config.
+            Add a CNAME record pointed at{" "}
+            <Code>
+              {nameId}--{namespaceNameId}.rivet.game
+            </Code>{" "}
+            to your domain's DNS config.
           </li>
           <li>Add your domain below.</li>
           <li>
@@ -159,12 +170,16 @@ function Modals() {
 function NamespaceCdnRoute() {
   const { gameId } = Route.useParams();
   const { data: game } = useSuspenseQuery(gameQueryOptions(gameId));
+  const { namespace } = Route.useRouteContext();
 
   return (
     <Grid columns={{ initial: "1", md: "2" }} gap="4" items="start">
       <DomainBasedAuthOption />
       <PasswordAuthOption />
-      <CustomDomainsOption nameId={game.nameId} />
+      <CustomDomainsOption
+        nameId={game.nameId}
+        namespaceNameId={namespace.nameId}
+      />
       <Modals />
     </Grid>
   );

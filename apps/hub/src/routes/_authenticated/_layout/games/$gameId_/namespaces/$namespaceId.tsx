@@ -46,6 +46,8 @@ export const Route = createFileRoute(
     if (!namespace || !game || !version) {
       throw notFound();
     }
+
+    return { namespace, version };
   },
   component: NamespaceIdRoute,
   errorComponent: NamespaceErrorComponent,
