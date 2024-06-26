@@ -25,7 +25,26 @@ export const groupBillingUsageQueryOptions = ({
       }),
   });
 
-export const gameBillingQueryOptions = (gameId: string) => {
+export const gameBillingUsageQueryOptions = ({
+  gameId,
+  groupId,
+  startTs,
+  endTs,
+}: {
+  gameId: string;
+  groupId: string;
+  startTs: Date;
+  endTs: Date;
+}) =>
+  queryOptions({
+    ...groupBillingUsageQueryOptions({ groupId, startTs, endTs }),
+    select: (data) => data.games.find((game) => game.gameId === gameId),
+  });
+
+export const gameBillingQueryOptions = (
+  gameId: string,
+  opts: { enabled?: boolean } = {},
+) => {
   return queryOptions({
     queryKey: ["game", gameId, "billing"],
     queryFn: ({
@@ -35,5 +54,6 @@ export const gameBillingQueryOptions = (gameId: string) => {
         gameId,
       ],
     }) => rivetEeClient.ee.cloud.games.billing.get(gameId),
+    enabled: opts.enabled,
   });
 };

@@ -9,7 +9,7 @@ import {
 
 interface ValueCardProps {
   title: string;
-  value: string;
+  value: ReactNode;
   footer?: ReactNode;
 }
 
@@ -20,7 +20,7 @@ export const ValueCard = ({ title, value, footer }: ValueCardProps) => {
         <CardTitle className="text-sm font-medium">{title}</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="text-2xl font-bold">{value}</div>
+        <div className="text-4xl font-bold">{value}</div>
       </CardContent>
       {footer ? <CardFooter>{footer}</CardFooter> : null}
     </Card>

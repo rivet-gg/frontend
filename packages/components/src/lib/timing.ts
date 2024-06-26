@@ -1,5 +1,3 @@
-import { differenceInMonths } from "date-fns";
-
 export const timing = {
   milliseconds(v: number) {
     return Math.floor(v);
@@ -19,12 +17,8 @@ export const timing = {
 };
 
 export function millisecondsToMonths(milliseconds: number) {
-  // Convert milliseconds to date
-  const startDate = new Date(0);
-  const endDate = new Date(milliseconds);
-
   // Calculate the difference in months
-  const months = differenceInMonths(endDate, startDate);
+  const months = milliseconds / timing.days(31)
 
   return months;
 }

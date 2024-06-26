@@ -3,73 +3,49 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
-  type DateRange,
-  Flex,
-  RangeDatePicker,
-  Skeleton,
-  Text,
+  H2,
 } from "@rivet-gg/components";
-import { useSuspenseQuery } from "@tanstack/react-query";
-import { subMonths } from "date-fns";
-import { Suspense, useState } from "react";
-import { gameQueryOptions, groupBillingUsageQueryOptions } from "../../queries";
-import { UsageChart } from "./charts/usage-chart";
+import { useGameBilling } from "./game-billing-context";
+import { GameBillingUsageProgress } from "./game-billing-usage-progress";
 
-interface BillingUsageProps {
-  groupId: string;
-  startTs: Date;
-  endTs: Date;
-}
-
-function BillingUsage({ groupId, startTs, endTs }: BillingUsageProps) {
-  const f = useSuspenseQuery(
-    groupBillingUsageQueryOptions({
-      groupId,
-      startTs,
-      endTs,
-    }),
-  );
-  return <UsageChart />;
-}
-
-interface GameBillingUsageProps {
-  gameId: string;
-}
-
-const today = new Date();
-const lastMonth = subMonths(today, 1);
-
-export function GameBillingUsage({ gameId }: GameBillingUsageProps) {
+export function GameBillingUsage() {
   const {
-    data: { developerGroupId: groupId },
-  } = useSuspenseQuery(gameQueryOptions(gameId));
-
-  const [date, setDate] = useState<DateRange | undefined>({
-    from: lastMonth,
-    to: today,
-  });
+    activePlan,
+    credits: { max, used, overage },
+  } = useGameBilling();
 
   return (
-    <Card>
-      <CardHeader>
-        <Flex justify="between" items="center">
-          <CardTitle>Usage</CardTitle>
-          <RangeDatePicker date={date} onDateChange={setDate} />
-        </Flex>
-      </CardHeader>
-      <CardContent>
-        {date?.from && date?.to ? (
-          <Suspense fallback={<Skeleton className="h-80 w-full" />}>
-            <BillingUsage
-              groupId={groupId}
-              startTs={date?.from}
-              endTs={date?.to}
-            />
-          </Suspense>
-        ) : (
-          <Text>Please select a date range</Text>
-        )}
-      </CardContent>
-    </Card>
+    <>
+      <H2 mt="8">Usage</H2>
+      <Card>
+        <CardHeader>
+          <CardTitle>Dynamic Servers</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <GameBillingUsageProgress
+            max={max}
+            used={used}
+            overage={overage}
+            plan={activePlan}
+          />
+        </CardContent>
+      </Card>
+      <Card>
+        <CardHeader>
+          <CardTitle>Backend (Database)</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <GameBillingUsageProgress isFree plan={activePlan} />
+        </CardContent>
+      </Card>
+      <Card>
+        <CardHeader>
+          <CardTitle>Backend (Modules)</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <GameBillingUsageProgress isFree plan={activePlan} />
+        </CardContent>
+      </Card>
+    </>
   );
 }

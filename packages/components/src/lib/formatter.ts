@@ -45,3 +45,7 @@ const currencyFormatter = new Intl.NumberFormat("en-US", {
 export function formatCurrency(amount: number) {
   return currencyFormatter.format(amount);
 }
+
+export function formatCurrencyToParts(amount: number) {
+  return currencyFormatter.formatToParts(amount);
+}

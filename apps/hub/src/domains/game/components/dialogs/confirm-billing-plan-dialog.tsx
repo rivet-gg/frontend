@@ -9,10 +9,10 @@ import {
   Text,
 } from "@rivet-gg/components";
 import { useUpdateGameBillingMutation } from "../../queries";
-import { GameBillingPlanLabel } from "../game-billing/game-billing-plan";
+import { GameBillingPlanLabel } from "../game-billing/game-billing-plan-badge";
 
 interface ContentProps extends DialogContentProps {
-  plan: Rivet.ee.cloud.games.billing.Plan;
+  plan: Rivet.ee.billing.Plan;
   gameId: string;
 }
 

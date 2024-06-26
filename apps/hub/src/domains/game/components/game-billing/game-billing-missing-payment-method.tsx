@@ -6,7 +6,7 @@ import {
   AlertTitle,
   Flex,
 } from "@rivet-gg/components";
-import { GameBillingCard } from "./game-billing-card";
+import { GameBillingHeader } from "./game-billing-header";
 import { GameBillingPortalButton } from "./game-billing-portal-button";
 
 interface GameBillingMissingPaymentMethodProps {
@@ -19,7 +19,8 @@ export function GameBillingMissingPaymentMethod({
   gameId,
 }: GameBillingMissingPaymentMethodProps) {
   return (
-    <GameBillingCard gameId={gameId}>
+    <>
+      <GameBillingHeader gameId={gameId} />
       <Alert>
         <FontAwesomeIcon className="size-4" icon={faCreditCard} />
         <AlertTitle>Heads up!</AlertTitle>
@@ -36,6 +37,6 @@ export function GameBillingMissingPaymentMethod({
           </Flex>
         </AlertDescription>
       </Alert>
-    </GameBillingCard>
+    </>
   );
 }

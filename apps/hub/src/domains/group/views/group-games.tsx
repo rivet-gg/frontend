@@ -1,4 +1,4 @@
-import { GameBillingPlan } from "@/domains/game/components/game-billing/game-billing-plan";
+import { GameBillingPlanBadge } from "@/domains/game/components/game-billing/game-billing-plan-badge";
 import { GameTableActions } from "@/domains/game/components/game-table-actions";
 import { groupGamesQueryOptions } from "@/domains/game/queries";
 import { faPlus } from "@fortawesome/pro-solid-svg-icons";
@@ -84,7 +84,7 @@ export function GroupGames({ groupId }: GroupGamesProps) {
                     <Text asChild>
                       <div>
                         {game.displayName}{" "}
-                        <GameBillingPlan gameId={game.gameId} />
+                        <GameBillingPlanBadge gameId={game.gameId} />
                       </div>
                     </Text>
                   </TableCell>

@@ -1,4 +1,6 @@
 import { ErrorComponent } from "@/components/error-component";
+import { GameBillingProvider } from "@/domains/game/components/game-billing/game-billing-context";
+import { GameBillingOverageWarning } from "@/domains/game/components/game-billing/game-billing-overage-warning";
 import * as Layout from "@/domains/game/layouts/game-layout";
 import { gameQueryOptions } from "@/domains/game/queries";
 import { useDialog } from "@/hooks/use-dialog";
@@ -45,9 +47,14 @@ function Modals() {
 }
 
 function GameIdRoute() {
+  const { gameId, developerGroupId } = Route.useRouteContext();
+
   return (
     <Layout.Root>
-      <Outlet />
+      <GameBillingProvider gameId={gameId} groupId={developerGroupId}>
+        <GameBillingOverageWarning />
+        <Outlet />
+      </GameBillingProvider>
       <Modals />
     </Layout.Root>
   );
@@ -60,7 +67,10 @@ const searchSchema = z.object({
 export const Route = createFileRoute("/_authenticated/_layout/games/$gameId")({
   validateSearch: (search) => searchSchema.parse(search),
   beforeLoad: async ({ context: { queryClient }, params: { gameId } }) => {
-    await queryClient.ensureQueryData(gameQueryOptions(gameId));
+    const response = await queryClient.ensureQueryData(
+      gameQueryOptions(gameId),
+    );
+    return { gameId, developerGroupId: response.game.developerGroupId };
   },
   component: GameIdRoute,
   errorComponent: GameIdErrorComponent,

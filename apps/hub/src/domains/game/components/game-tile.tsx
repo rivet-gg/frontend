@@ -1,6 +1,6 @@
 import type { Rivet } from "@rivet-gg/api";
 import { AssetImage, Flex, Text } from "@rivet-gg/components";
-import { GameBillingPlan } from "./game-billing/game-billing-plan";
+import { GameBillingPlanBadge } from "./game-billing/game-billing-plan-badge";
 
 interface GameTileProps
   extends Pick<Rivet.game.Summary, "gameId" | "displayName" | "logoUrl"> {}
@@ -21,7 +21,7 @@ export function GameTile({ gameId, displayName, logoUrl }: GameTileProps) {
         />
       </div>
       <Text className="line-clamp-1 mb-2">{displayName}</Text>
-      <GameBillingPlan gameId={gameId} />
+      <GameBillingPlanBadge gameId={gameId} />
     </Flex>
   );
 }

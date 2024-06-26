@@ -1,211 +1,46 @@
-import { useDialog } from "@/hooks/use-dialog";
-import {
-  faBug,
-  faChartMixed,
-  faClockRotateLeft,
-  faCoins,
-  faComputerClassic,
-  faEarthAmericas,
-  faInfoCircle,
-  faLockA,
-  faMemoPad,
-  faNetworkWired,
-  faPhoneVolume,
-  faServer,
-  faShield,
-  faUpRightAndDownLeftFromCenter,
-} from "@fortawesome/pro-solid-svg-icons";
+import { faExternalLink } from "@fortawesome/pro-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Rivet as RivetEe } from "@rivet-gg/api-ee";
-import { Flex, Grid, WithTooltip } from "@rivet-gg/components";
-import { useSuspenseQuery } from "@tanstack/react-query";
-import { gameBillingQueryOptions } from "../../queries";
-import { LobbyRegionIcon, LobbyRegionName } from "../lobby-region";
-import { GameBillingCard } from "./game-billing-card";
-import { GameBillingCredits } from "./game-billing-credits";
-import { GameBillingPlanCard } from "./game-billing-plan-card";
+import { GameBillingHeader } from "./game-billing-header";
+import { GameBillingPlanPeriod } from "./game-billing-plan-period";
+import { GameBillingPlans } from "./game-billing-plans";
+import { GameBillingPortalButton } from "./game-billing-portal-button";
+import { GameBillingSummary } from "./game-billing-summary";
+import { GameBillingUsage } from "./game-billing-usage";
 
 interface GameBillingProps {
   gameId: string;
   groupId: string;
 }
 export function GameBilling({ gameId, groupId }: GameBillingProps) {
-  const { data } = useSuspenseQuery(gameBillingQueryOptions(gameId));
-
-  const { dialog, open } = useDialog.ConfirmBillingPlan({ gameId });
-
   return (
     <>
-      {dialog}
-      <GameBillingCard gameId={gameId} />
-      <GameBillingCredits groupId={groupId} gameId={gameId} />
-      <Grid columns={{ initial: "1", xl: "3" }} gap="4">
-        <GameBillingPlanCard
-          title="Indie"
-          lead="Fixed price suitable for indies & hobbyists"
-          price="$9"
-          onSubscribe={() =>
-            open({
-              plan: RivetEe.ee.cloud.games.billing.Plan.Indie,
-            })
-          }
-          onCancel={() =>
-            open({
-              plan: RivetEe.ee.cloud.games.billing.Plan.Trial,
-            })
-          }
-          type={
-            data.plan === RivetEe.ee.cloud.games.billing.Plan.Indie
-              ? "active"
-              : undefined
-          }
-          features={[
-            {
-              name: "Run up to 6 flex servers ($48.21 in credits)",
-              icon: faCoins,
-            },
-            {
-              key: "region-support",
-              name: (
-                <>
-                  <div>
-                    Supports{" "}
-                    <WithTooltip
-                      trigger={
-                        <span>
-                          3 regions{" "}
-                          <FontAwesomeIcon
-                            icon={faInfoCircle}
-                            className="size-3 mb-0.5"
-                          />
-                        </span>
-                      }
-                      content={["fra", "lax", "osa"].map((regionNameId) => {
-                        return (
-                          <Flex gap="2" key={regionNameId} items="center">
-                            <LobbyRegionIcon
-                              className="w-3"
-                              regionNameId={regionNameId}
-                            />
-                            <LobbyRegionName regionNameId={regionNameId} />
-                          </Flex>
-                        );
-                      })}
-                    />
-                  </div>
-                </>
-              ),
-              icon: faServer,
-            },
-            { name: "DDoS Mitigation", icon: faShield },
-            { name: "Log & metrics aggregation", icon: faMemoPad },
-            {
-              name: "No downtime deploys & rollbacks",
-              icon: faClockRotateLeft,
-            },
-            { name: "Automatic SSL for WebSockets & TLS", icon: faLockA },
-            { name: "Crash Reporting", icon: faBug },
-            { name: "Analytics", icon: faChartMixed },
-            { name: "Automatic geographic routing", icon: faEarthAmericas },
-          ]}
-        />
-        <GameBillingPlanCard
-          title="Studio"
-          lead="Suitable for most games that need to scale"
-          onSubscribe={() =>
-            open({
-              plan: RivetEe.ee.cloud.games.billing.Plan.Studio,
-            })
-          }
-          onCancel={() =>
-            open({
-              plan: RivetEe.ee.cloud.games.billing.Plan.Indie,
-            })
-          }
-          price="$29"
-          type={
-            data.plan === RivetEe.ee.cloud.games.billing.Plan.Studio
-              ? "active"
-              : undefined
-          }
-          priceLead="+ Resource Usage"
-          features={[
-            {
-              name: "Everything in the Indie Plan and:",
-            },
-            {
-              name: "$29 in usage credits",
-              icon: faCoins,
-            },
-            {
-              name: (
-                <p>
-                  Supports{" "}
-                  <WithTooltip
-                    trigger={
-                      <span>
-                        8 regions{" "}
-                        <FontAwesomeIcon
-                          icon={faInfoCircle}
-                          className="size-3 mb-0.5"
-                        />
-                      </span>
-                    }
-                    content={[
-                      "atl",
-                      "bom",
-                      "fra",
-                      "gru",
-                      "lax",
-                      "osa",
-                      "sin",
-                      "syd",
-                    ].map((regionNameId) => {
-                      return (
-                        <Flex gap="2" key={regionNameId} items="center">
-                          <LobbyRegionIcon
-                            className="w-3"
-                            regionNameId={regionNameId}
-                          />
-                          <LobbyRegionName regionNameId={regionNameId} />
-                        </Flex>
-                      );
-                    })}
-                  />
-                </p>
-              ),
-              icon: faServer,
-            },
-            {
-              name: "No resource scaling limits",
-              icon: faUpRightAndDownLeftFromCenter,
-            },
-          ]}
-        />
-        <GameBillingPlanCard
-          title="Enterprise"
-          lead="Large games & complex projects"
-          price="Custom pricing"
-          features={[
-            {
-              name: "Everything in the Studio Plan and:",
-            },
-            {
-              name: "Self host your own servers",
-              icon: faNetworkWired,
-            },
-            {
-              name: "Bring your own hardware",
-              icon: faComputerClassic,
-            },
-            {
-              name: "Enterprise support",
-              icon: faPhoneVolume,
-            },
-          ]}
-          type="custom"
-        />
-      </Grid>
+      <GameBillingHeader
+        gameId={gameId}
+        lead={<GameBillingPlanPeriod />}
+        actions={
+          <>
+            <GameBillingPortalButton
+              groupId={groupId}
+              intent="general"
+              variant="secondary"
+              endIcon={<FontAwesomeIcon icon={faExternalLink} />}
+            >
+              Invoices
+            </GameBillingPortalButton>
+            <GameBillingPortalButton
+              groupId={groupId}
+              intent="payment_method_update"
+              variant="secondary"
+              endIcon={<FontAwesomeIcon icon={faExternalLink} />}
+            >
+              Payment Method
+            </GameBillingPortalButton>
+          </>
+        }
+      />
+      <GameBillingSummary />
+      <GameBillingPlans gameId={gameId} />
+      <GameBillingUsage />
     </>
   );
 }
