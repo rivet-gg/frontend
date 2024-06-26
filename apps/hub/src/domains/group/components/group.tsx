@@ -11,7 +11,8 @@ import {
   LargeText,
   Skeleton,
 } from "@rivet-gg/components";
-import { GameTile } from "@rivet-gg/components/game";
+
+import { GameTile } from "@/domains/game/components/game-tile";
 import { Link } from "@tanstack/react-router";
 import { GroupAvatar } from "./group-avatar";
 import { GroupEmptyAlert } from "./group-empty-alert";

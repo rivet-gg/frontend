@@ -9,9 +9,10 @@ import {
   Text,
 } from "@rivet-gg/components";
 import { useUpdateGameBillingMutation } from "../../queries";
+import { GameBillingPlanLabel } from "../game-billing/game-billing-plan";
 
 interface ContentProps extends DialogContentProps {
-  plan: Rivet.ee.cloud.games.billing.PlanConfig;
+  plan: Rivet.ee.cloud.games.billing.Plan;
   gameId: string;
 }
 
@@ -29,13 +30,12 @@ export default function ConfirmBillingPlanDialogContent({
   return (
     <>
       <DialogHeader>
-        <DialogTitle>Confirm Purchase</DialogTitle>
+        <DialogTitle>Confirm Billing Plan Change</DialogTitle>
       </DialogHeader>
       <Flex gap="4" direction="col">
         <Text>
-          If you are downgrading the server amount it will reflect the next
-          billing cycle or new servers will be billed immediately at the
-          prorated amount.
+          Are you sure you want to change your current plan to{" "}
+          <GameBillingPlanLabel plan={plan} />?
         </Text>
       </Flex>
       <DialogFooter>
@@ -48,7 +48,7 @@ export default function ConfirmBillingPlanDialogContent({
             mutate({ plan, gameId });
           }}
         >
-          Purchase
+          Confirm
         </Button>
       </DialogFooter>
     </>

@@ -210,19 +210,6 @@ export const gameNamespaceLogsLobbyLogsQueryOptions = ({
   });
 };
 
-export const gameBillingQueryOptions = (gameId: string) => {
-  return queryOptions({
-    queryKey: ["game", gameId, "billing"],
-    queryFn: ({
-      queryKey: [
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        _,
-        gameId,
-      ],
-    }) => rivetEeClient.ee.cloud.games.billing.get(gameId),
-  });
-};
-
 export const gameNamespaceLobbiesLiveQueryOptions = ({
   gameId,
   namespaceId,

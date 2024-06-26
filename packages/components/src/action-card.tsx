@@ -32,7 +32,7 @@ export const ActionCard = ({
         </div>
         {description ? <CardDescription>{description}</CardDescription> : null}
       </CardHeader>
-      <CardContent>{children}</CardContent>
+      {children ? <CardContent>{children}</CardContent> : null}
       {footer ? <CardFooter>{footer}</CardFooter> : null}
     </Card>
   );

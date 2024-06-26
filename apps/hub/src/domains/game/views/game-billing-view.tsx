@@ -18,8 +18,13 @@ export function GameBillingView({ gameId }: GameBillingViewProps) {
   );
 
   if (!groupBilling.group.paymentMethodAttachedTs) {
-    return <GameBillingMissingPaymentMethod groupId={developerGroupId} />;
+    return (
+      <GameBillingMissingPaymentMethod
+        gameId={gameId}
+        groupId={developerGroupId}
+      />
+    );
   }
 
-  return <GameBilling gameId={gameId} />;
+  return <GameBilling gameId={gameId} groupId={developerGroupId} />;
 }

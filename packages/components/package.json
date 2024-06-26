@@ -11,7 +11,6 @@
       "import": "./src/index.ts"
     },
     "./theme.css": "./public/theme.css",
-    "./game": "./src/game/index.ts",
     "./tailwind-base": "./src/tailwind-base.ts"
   },
   "scripts": {
@@ -47,8 +46,10 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "cmdk": "^1.0.0",
+    "date-fns": "^3.6.0",
     "input-otp": "^1.2.3",
     "react": "^18.2.0",
+    "react-day-picker": "^8.10.1",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.51.1",
     "sonner": "^1.4.41",

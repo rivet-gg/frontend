@@ -6,3 +6,5 @@ export * from "./namespace/query-options";
 export * from "./backend/query-options";
 export * from "./backend/mutations";
 export * from "./backend/helpers";
+export * from "./billing/query-options";
+export * from "./billing/mutations";

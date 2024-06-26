@@ -1,9 +1,7 @@
-import { queryClient, rivetClient, rivetEeClient } from "@/queries/global";
+import { queryClient, rivetClient } from "@/queries/global";
 import type { Rivet } from "@rivet-gg/api";
-import type { Rivet as RivetEe } from "@rivet-gg/api-ee";
 import { toast } from "@rivet-gg/components";
 import { useMutation } from "@tanstack/react-query";
-import { gameBillingQueryOptions } from "./namespace/query-options";
 import { gameQueryOptions, gamesQueryOptions } from "./query-options";
 
 export const useGameCreateMutation = ({
@@ -100,45 +98,6 @@ export const useGameLogoUploadMutation = (gameId: string) => {
         gameId,
         uploadId: response.uploadId,
       });
-    },
-  });
-};
-
-export const useUpdateGameBillingMutation = ({
-  onSuccess,
-}: {
-  onSuccess?: () => void;
-}) => {
-  return useMutation({
-    mutationFn: ({
-      gameId,
-      plan,
-    }: {
-      gameId: string;
-    } & RivetEe.ee.cloud.games.billing.UpdatePlanRequest) =>
-      rivetEeClient.ee.cloud.games.billing.updatePlan(gameId, { plan }),
-    onSuccess: async (data, values) => {
-      await queryClient.invalidateQueries(
-        gameBillingQueryOptions(values.gameId),
-      );
-      onSuccess?.();
-    },
-  });
-};
-
-export const useCreateBillingPortalSessionMutation = () => {
-  return useMutation({
-    mutationFn: ({
-      groupId,
-      intent,
-    }: {
-      groupId: string;
-    } & RivetEe.ee.cloud.groups.billing.CreateStripePortalSessionRequest) =>
-      rivetEeClient.ee.cloud.groups.billing.createStripePortalSession(groupId, {
-        intent,
-      }),
-    onSuccess: async (data) => {
-      window.open(data.stripeSessionUrl, "_blank");
     },
   });
 };

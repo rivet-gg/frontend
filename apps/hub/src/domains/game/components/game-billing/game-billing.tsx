@@ -1,124 +1,211 @@
-import * as GameBillingForm from "@/domains/game/forms/game-billing-form";
+import { useDialog } from "@/hooks/use-dialog";
 import {
-  Flex,
-  Grid,
-  Link,
-  Table,
-  TableBody,
-  TableCell,
-  TableFooter,
-  TableHead,
-  TableHeader,
-  TableRow,
-  Text,
-} from "@rivet-gg/components";
-import { useSuspenseQueries } from "@tanstack/react-query";
-import { useGameBillingFormHelpers } from "../../hooks/use-game-billing-form-helpers";
-import { gameBillingQueryOptions, gameQueryOptions } from "../../queries";
-import { LobbyRegion } from "../lobby-region";
+  faBug,
+  faChartMixed,
+  faClockRotateLeft,
+  faCoins,
+  faComputerClassic,
+  faEarthAmericas,
+  faInfoCircle,
+  faLockA,
+  faMemoPad,
+  faNetworkWired,
+  faPhoneVolume,
+  faServer,
+  faShield,
+  faUpRightAndDownLeftFromCenter,
+} from "@fortawesome/pro-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Rivet as RivetEe } from "@rivet-gg/api-ee";
+import { Flex, Grid, WithTooltip } from "@rivet-gg/components";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { gameBillingQueryOptions } from "../../queries";
+import { LobbyRegionIcon, LobbyRegionName } from "../lobby-region";
 import { GameBillingCard } from "./game-billing-card";
+import { GameBillingCredits } from "./game-billing-credits";
+import { GameBillingPlanCard } from "./game-billing-plan-card";
 
 interface GameBillingProps {
   gameId: string;
+  groupId: string;
 }
-export function GameBilling({ gameId }: GameBillingProps) {
-  const [
-    {
-      data: { plan },
-    },
-    {
-      data: { developerGroupId, availableRegions },
-    },
-  ] = useSuspenseQueries({
-    queries: [gameBillingQueryOptions(gameId), gameQueryOptions(gameId)],
-  });
+export function GameBilling({ gameId, groupId }: GameBillingProps) {
+  const { data } = useSuspenseQuery(gameBillingQueryOptions(gameId));
 
-  const { dialog, onSubmit, defaultValues } = useGameBillingFormHelpers({
-    plan,
-    gameId,
-    availableRegions,
-  });
+  const { dialog, open } = useDialog.ConfirmBillingPlan({ gameId });
 
   return (
-    <GameBillingForm.Form onSubmit={onSubmit} defaultValues={defaultValues}>
-      <GameBillingForm.HardwareMultiplier />
-      <GameBillingCard
-        groupId={developerGroupId}
-        footer={
-          <Flex gap="4">
-            <GameBillingForm.Submit>Apply</GameBillingForm.Submit>
-            <GameBillingForm.Reset variant="secondary">
-              Reset
-            </GameBillingForm.Reset>
-          </Flex>
-        }
-      >
-        {dialog}
-        <Flex gap="4" items="center" justify="between">
-          <Text>Manage servers</Text>
-          <Link
-            href="https://rivet.gg/docs/dynamic-servers/concepts/available-tiers"
-            target="_blank"
-            rel="noreferrer"
-          >
-            Learn more about pricing & dedicated hardware specs
-          </Link>
-        </Flex>
-        <Grid columns="4" my="4">
-          <GameBillingForm.HardwareTier />
-        </Grid>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead w="full">Region</TableHead>
-              <TableHead minW="60">Hardware amount</TableHead>
-              <TableHead minW="60" textAlign="right">
-                Price
-              </TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            <GameBillingForm.CapacityValue>
-              {(capacity) =>
-                capacity.map(({ regionId }, index) => {
-                  return (
-                    <TableRow key={regionId}>
-                      <TableCell>
-                        <LobbyRegion
-                          showLabel
-                          gameId={gameId}
-                          regionId={regionId}
-                        />
-                      </TableCell>
-                      <TableCell>
-                        <Flex items="center" gap="4">
-                          <GameBillingForm.Capacity
-                            index={index}
-                            regionId={regionId}
+    <>
+      {dialog}
+      <GameBillingCard gameId={gameId} />
+      <GameBillingCredits groupId={groupId} gameId={gameId} />
+      <Grid columns={{ initial: "1", xl: "3" }} gap="4">
+        <GameBillingPlanCard
+          title="Indie"
+          lead="Fixed price suitable for indies & hobbyists"
+          price="$9"
+          onSubscribe={() =>
+            open({
+              plan: RivetEe.ee.cloud.games.billing.Plan.Indie,
+            })
+          }
+          onCancel={() =>
+            open({
+              plan: RivetEe.ee.cloud.games.billing.Plan.Trial,
+            })
+          }
+          type={
+            data.plan === RivetEe.ee.cloud.games.billing.Plan.Indie
+              ? "active"
+              : undefined
+          }
+          features={[
+            {
+              name: "Run up to 6 flex servers ($48.21 in credits)",
+              icon: faCoins,
+            },
+            {
+              key: "region-support",
+              name: (
+                <>
+                  <div>
+                    Supports{" "}
+                    <WithTooltip
+                      trigger={
+                        <span>
+                          3 regions{" "}
+                          <FontAwesomeIcon
+                            icon={faInfoCircle}
+                            className="size-3 mb-0.5"
                           />
-                          &times; <GameBillingForm.HardwareTierValueLabel />
+                        </span>
+                      }
+                      content={["fra", "lax", "osa"].map((regionNameId) => {
+                        return (
+                          <Flex gap="2" key={regionNameId} items="center">
+                            <LobbyRegionIcon
+                              className="w-3"
+                              regionNameId={regionNameId}
+                            />
+                            <LobbyRegionName regionNameId={regionNameId} />
+                          </Flex>
+                        );
+                      })}
+                    />
+                  </div>
+                </>
+              ),
+              icon: faServer,
+            },
+            { name: "DDoS Mitigation", icon: faShield },
+            { name: "Log & metrics aggregation", icon: faMemoPad },
+            {
+              name: "No downtime deploys & rollbacks",
+              icon: faClockRotateLeft,
+            },
+            { name: "Automatic SSL for WebSockets & TLS", icon: faLockA },
+            { name: "Crash Reporting", icon: faBug },
+            { name: "Analytics", icon: faChartMixed },
+            { name: "Automatic geographic routing", icon: faEarthAmericas },
+          ]}
+        />
+        <GameBillingPlanCard
+          title="Studio"
+          lead="Suitable for most games that need to scale"
+          onSubscribe={() =>
+            open({
+              plan: RivetEe.ee.cloud.games.billing.Plan.Studio,
+            })
+          }
+          onCancel={() =>
+            open({
+              plan: RivetEe.ee.cloud.games.billing.Plan.Indie,
+            })
+          }
+          price="$29"
+          type={
+            data.plan === RivetEe.ee.cloud.games.billing.Plan.Studio
+              ? "active"
+              : undefined
+          }
+          priceLead="+ Resource Usage"
+          features={[
+            {
+              name: "Everything in the Indie Plan and:",
+            },
+            {
+              name: "$29 in usage credits",
+              icon: faCoins,
+            },
+            {
+              name: (
+                <p>
+                  Supports{" "}
+                  <WithTooltip
+                    trigger={
+                      <span>
+                        8 regions{" "}
+                        <FontAwesomeIcon
+                          icon={faInfoCircle}
+                          className="size-3 mb-0.5"
+                        />
+                      </span>
+                    }
+                    content={[
+                      "atl",
+                      "bom",
+                      "fra",
+                      "gru",
+                      "lax",
+                      "osa",
+                      "sin",
+                      "syd",
+                    ].map((regionNameId) => {
+                      return (
+                        <Flex gap="2" key={regionNameId} items="center">
+                          <LobbyRegionIcon
+                            className="w-3"
+                            regionNameId={regionNameId}
+                          />
+                          <LobbyRegionName regionNameId={regionNameId} />
                         </Flex>
-                      </TableCell>
-                      <TableCell textAlign="right">
-                        <GameBillingForm.RegionTotalPrice index={index} />
-                      </TableCell>
-                    </TableRow>
-                  );
-                })
-              }
-            </GameBillingForm.CapacityValue>
-          </TableBody>
-
-          <TableFooter>
-            <TableRow>
-              <TableCell colSpan={2}>Monthly Server Total</TableCell>
-              <TableCell textAlign="right">
-                <GameBillingForm.TotalPrice />
-              </TableCell>
-            </TableRow>
-          </TableFooter>
-        </Table>
-      </GameBillingCard>
-    </GameBillingForm.Form>
+                      );
+                    })}
+                  />
+                </p>
+              ),
+              icon: faServer,
+            },
+            {
+              name: "No resource scaling limits",
+              icon: faUpRightAndDownLeftFromCenter,
+            },
+          ]}
+        />
+        <GameBillingPlanCard
+          title="Enterprise"
+          lead="Large games & complex projects"
+          price="Custom pricing"
+          features={[
+            {
+              name: "Everything in the Studio Plan and:",
+            },
+            {
+              name: "Self host your own servers",
+              icon: faNetworkWired,
+            },
+            {
+              name: "Bring your own hardware",
+              icon: faComputerClassic,
+            },
+            {
+              name: "Enterprise support",
+              icon: faPhoneVolume,
+            },
+          ]}
+          type="custom"
+        />
+      </Grid>
+    </>
   );
 }

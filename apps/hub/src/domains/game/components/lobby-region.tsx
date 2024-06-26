@@ -55,7 +55,7 @@ const REGION_EMOJI: Record<string, string> = {
 const REGION_LABEL: Record<string, string> = {
   local: "Local",
   unknown: "Unknown",
-  atlanta: "Atlanta",
+  atlanta: "Atlanta, Georgia, USA",
   san_francisco: "San Francisco",
   frankfurt: "Frankfurt",
   sydney: "Sydney",
@@ -81,22 +81,22 @@ const REGION_LABEL: Record<string, string> = {
   miami: "Miami",
   jakarta: "Jakarta",
   los_angeles: "Los Angeles",
-  atl: "Atlanta",
-  sfo: "San Francisco",
-  fra: "Frankfurt",
-  syd: "Sydney",
-  tok: "Tokyo",
-  mba: "Mumbai",
-  tor: "Toronto",
-  dca: "Washington DC",
-  dfw: "Dallas",
-  ewr: "Newark",
-  lon: "London",
+  atl: "Atlanta, Georgia, USA",
+  sfo: "San Francisco, California, USA",
+  fra: "Frankfurt, Germany",
+  syd: "Sydney, Australia",
+  tok: "Tokyo, Japan",
+  mba: "Mumbai, India",
+  tor: "Toronto, Canada",
+  dca: "Washington DC, USA",
+  dfw: "Dallas, Texas, USA",
+  ewr: "Newark, New Jersey, USA",
+  lon: "London, UK",
   sgp: "Singapore",
-  lax: "Los Angeles",
-  osa: "Osaka",
+  lax: "Los Angeles, California, USA",
+  osa: "Osaka, Japan",
   gru: "Sao Paulo",
-  bom: "Mumbai",
+  bom: "Mumbai, India",
   sin: "Singapore",
 };
 
@@ -104,6 +104,12 @@ interface LobbyRegionProps {
   regionId: string;
   gameId: string;
   showLabel?: boolean;
+}
+
+function getRegionKey(regionNameId: string | undefined) {
+  // HACK: Remove prefix for old regions with format `lnd-atl`
+  const regionIdSplit = (regionNameId || "").split("-");
+  return regionIdSplit[regionIdSplit.length - 1];
 }
 
 function getRegionEmoji(regionKey: string | undefined = "") {
@@ -116,9 +122,7 @@ export function LobbyRegion({ gameId, regionId, showLabel }: LobbyRegionProps) {
     gameRegionQueryOptions({ gameId, regionId }),
   );
 
-  // HACK: Remove prefix for old regions with format `lnd-atl`
-  const regionIdSplit = (region?.regionNameId || "").split("-");
-  const regionKey = regionIdSplit[regionIdSplit.length - 1];
+  const regionKey = getRegionKey(region?.regionNameId);
 
   return (
     <WithTooltip
@@ -131,4 +135,17 @@ export function LobbyRegion({ gameId, regionId, showLabel }: LobbyRegionProps) {
       }
     />
   );
+}
+
+export function LobbyRegionIcon({
+  regionNameId,
+  className,
+}: { regionNameId: string; className?: string }) {
+  const regionKey = getRegionKey(regionNameId);
+  return <AssetImage className={className} src={getRegionEmoji(regionKey)} />;
+}
+
+export function LobbyRegionName({ regionNameId }: { regionNameId: string }) {
+  const regionKey = getRegionKey(regionNameId);
+  return REGION_LABEL[regionKey] ?? REGION_LABEL.unknown;
 }

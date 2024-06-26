@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@date-fns/utc": "^1.2.0",
     "@fortawesome/fontawesome-svg-core": "^6.5.2",
     "@fortawesome/free-brands-svg-icons": "^6.5.2",
     "@fortawesome/free-solid-svg-icons": "^6.5.2",
@@ -35,6 +36,7 @@
     "react-hook-form": "^7.51.1",
     "react-konami-code": "^2.3.0",
     "react-turnstile": "^1.1.3",
+    "recharts": "^2.12.7",
     "superjson": "^2.2.1",
     "tailwind-merge": "^2.2.2",
     "tailwindcss-animate": "^1.0.7",

@@ -11,13 +11,15 @@ import { GameBillingPortalButton } from "./game-billing-portal-button";
 
 interface GameBillingMissingPaymentMethodProps {
   groupId: string;
+  gameId: string;
 }
 
 export function GameBillingMissingPaymentMethod({
   groupId,
+  gameId,
 }: GameBillingMissingPaymentMethodProps) {
   return (
-    <GameBillingCard groupId={groupId}>
+    <GameBillingCard gameId={gameId}>
       <Alert>
         <FontAwesomeIcon className="size-4" icon={faCreditCard} />
         <AlertTitle>Heads up!</AlertTitle>
