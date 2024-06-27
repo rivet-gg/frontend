@@ -235,3 +235,9 @@ useDialog.Feedback = createDialogHook(
 useDialog.Secret = createDialogHook(
   import("@//components/dialogs/secret-dialog"),
 );
+
+useDialog.ConfirmOuterbaseConnection = createDialogHook(
+  import(
+    "@/domains/game/components/dialogs/confirm-outerbase-connection-dialog"
+  ),
+);

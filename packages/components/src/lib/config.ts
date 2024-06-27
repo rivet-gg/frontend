@@ -11,11 +11,13 @@ interface Config {
     dsn: string;
     projectId: string;
   }
+  outerbaseProviderToken: string,
 }
 
 export const ConfigContext = createContext<Config>({
   apiUrl: "",
   assetsUrl: "",
+  outerbaseProviderToken: '',
 });
 export const useConfig = () => useContext(ConfigContext);
 export const ConfigProvider = ConfigContext.Provider;

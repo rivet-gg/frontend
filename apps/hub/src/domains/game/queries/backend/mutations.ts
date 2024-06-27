@@ -1,8 +1,9 @@
+import { useAuth } from "@/domains/auth/contexts/auth";
 import { queryClient, rivetEeClient } from "@/queries/global";
 import { OuterbaseError } from "@/queries/types";
 import type { Rivet as RivetEe } from "@rivet-gg/api-ee";
-import { toast } from "@rivet-gg/components";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { getConfig, toast } from "@rivet-gg/components";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { usePostHog } from "posthog-js/react";
 import { extractPostgressCredentials } from "../../helpers/extract-postgress-credentials";
 import {
@@ -80,9 +81,12 @@ export const useBackendUpdateVariablesMutation = () =>
     },
   });
 
-export const useGameBackendEnvDatabasePreviewMutation = () => {
+export const useGameBackendEnvDatabasePreviewMutation = (
+  opts: { onSuccess?: (url: string) => void } = {},
+) => {
   const postHog = usePostHog();
   const queryClient = useQueryClient();
+  const { profile } = useAuth();
   return useMutation({
     mutationKey: ["backend-project", "env", "database-preview"],
     mutationFn: async ({
@@ -108,6 +112,7 @@ export const useGameBackendEnvDatabasePreviewMutation = () => {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            "x-provider-token": getConfig().outerbaseProviderToken,
           },
           body: JSON.stringify({
             credentials: {
@@ -116,6 +121,7 @@ export const useGameBackendEnvDatabasePreviewMutation = () => {
                 require: true,
               },
             },
+            providerUniqueId: profile?.identity.identityId,
           }),
         },
       );
@@ -134,6 +140,7 @@ export const useGameBackendEnvDatabasePreviewMutation = () => {
         gameBackendProjectEnvDatabasePreviewQueryOptions(variables).queryKey,
         data,
       );
+      opts.onSuccess?.(data);
     },
     onError: (error, variables) => {
       const result = OuterbaseError.safeParse(error);
