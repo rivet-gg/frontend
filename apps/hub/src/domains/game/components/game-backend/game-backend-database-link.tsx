@@ -1,3 +1,4 @@
+import { useDialog } from "@/hooks/use-dialog";
 import {
   faExternalLink,
   faSpinnerThird,
@@ -21,33 +22,40 @@ export function GameBackendDatabaseLink({
       environmentId,
     });
 
+  const { dialog, open } = useDialog.ConfirmOuterbaseConnection({
+    projectId,
+    environmentId,
+  });
+
   return (
-    <button
-      type="button"
-      onClick={async (e) => {
-        e.preventDefault();
-        if (isLoading) {
-          return;
-        }
-        if (!data) {
-          const value = await mutateAsync({ projectId, environmentId });
-          return window.open(value, "_blank", "noreferrer,noopener");
-        }
-        if (typeof data === "string") {
-          window.open(data, "_blank", "noreferrer,noopener");
-        }
-      }}
-      rel="noopener noreferrer"
-      className={cn(
-        "data-active:text-foreground text-left data-active:font-semibold",
-        isLoading && "opacity-50",
-      )}
-    >
-      Database
-      <FontAwesomeIcon
-        icon={isLoading ? faSpinnerThird : faExternalLink}
-        className={cn("ml-2 size-3", isLoading && "animate-spin")}
-      />
-    </button>
+    <>
+      {dialog}
+      <button
+        type="button"
+        onClick={async (e) => {
+          e.preventDefault();
+          if (isLoading) {
+            return;
+          }
+          if (!data) {
+            return open();
+          }
+          if (typeof data === "string") {
+            window.open(data, "_blank", "noreferrer,noopener");
+          }
+        }}
+        rel="noopener noreferrer"
+        className={cn(
+          "data-active:text-foreground text-left data-active:font-semibold",
+          isLoading && "opacity-50",
+        )}
+      >
+        Database
+        <FontAwesomeIcon
+          icon={isLoading ? faSpinnerThird : faExternalLink}
+          className={cn("ml-2 size-3", isLoading && "animate-spin")}
+        />
+      </button>
+    </>
   );
 }
