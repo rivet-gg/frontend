@@ -1,7 +1,7 @@
 import { safeAsyncValidation } from "@/lib/async-validation";
-import { createSchemaForm } from "@/lib/create-schema-form";
 import { TraversableErrors, VALIDATION_ERRORS } from "@/lib/traversable-errors";
 import { rivetClient } from "@/queries/global";
+import { createSchemaForm } from "@rivet-gg/components";
 import {
   FormControl,
   FormField,

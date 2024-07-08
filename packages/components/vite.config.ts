@@ -17,6 +17,8 @@ export default defineConfig({
       entry: {
         index: path.resolve(__dirname, "src/index.ts"),
         "tailwind-base": path.resolve(__dirname, "src/tailwind-base.ts"),
+        header: path.resolve(__dirname, "src/header/index.tsx"),
+        layout: path.resolve(__dirname, "src/layout/index.ts"),
       },
     },
     rollupOptions: {

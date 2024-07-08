@@ -106,13 +106,15 @@ export const useGameBackendEnvDatabasePreviewMutation = (
 
       const credentials = extractPostgressCredentials(response.url);
 
+      const token = getConfig().outerbaseProviderToken;
+
       const starlinkResponse = await fetch(
         "https://app.outerbase.com/api/v1/starlink",
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            "x-provider-token": getConfig().outerbaseProviderToken,
+            ...(token ? { "x-provider-token": token } : {}),
           },
           body: JSON.stringify({
             credentials: {

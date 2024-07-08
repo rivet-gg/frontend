@@ -12,13 +12,13 @@ import {
 import z from "zod";
 
 interface FormProps<FormValues extends FieldValues> {
-  onSubmit: (
-    values: FormValues,
-    form: UseFormReturn<FormValues>,
-  ) => Promise<void>;
+  onSubmit: SubmitHandler<FormValues>;
   defaultValues: DefaultValues<FormValues>;
   children: ReactNode;
 }
+
+type SubmitHandler<FormValues extends FieldValues> = (values: FormValues, form: UseFormReturn<FormValues>) => Promise<void> | void;
+
 
 export const createSchemaForm = <Schema extends z.ZodSchema>(
   schema: Schema,

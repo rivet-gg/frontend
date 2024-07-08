@@ -1,4 +1,4 @@
-import { createSchemaForm } from "@/lib/create-schema-form";
+import { createSchemaForm } from "@rivet-gg/components";
 import {
   FormControl,
   FormField,

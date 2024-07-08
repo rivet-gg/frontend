@@ -1,5 +1,5 @@
 import { GroupSelect } from "@/domains/group/components/group-select";
-import { createSchemaForm } from "@/lib/create-schema-form";
+import { createSchemaForm } from "@rivet-gg/components";
 import {
   FormField,
   FormItem,

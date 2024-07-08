@@ -1,6 +1,6 @@
 import { GameSelect } from "@/domains/game/components/game-select";
 import { useDialog } from "@/hooks/use-dialog";
-import { createSchemaForm } from "@/lib/create-schema-form";
+import { createSchemaForm } from "@rivet-gg/components";
 import {
   FormField,
   FormItem,

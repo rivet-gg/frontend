@@ -25,6 +25,22 @@ declare module "@tanstack/react-router" {
   }
 }
 
+declare global {
+  namespace RivetApp {
+    interface Config {
+      posthog?: {
+        apiHost: string;
+        apiKey: string;
+      };
+      sentry?: {
+        dsn: string;
+        projectId: string;
+      };
+      outerbaseProviderToken?: string;
+    }
+  }
+}
+
 export const router = createRouter({
   routeTree,
   routeMasks,

@@ -1,7 +1,7 @@
 import { type UseFormReturn, useFormContext } from "react-hook-form";
 import z from "zod";
 
-import { createSchemaForm } from "@/lib/create-schema-form";
+import { createSchemaForm } from "@rivet-gg/components";
 import {
   FormControl,
   FormField,

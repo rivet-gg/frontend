@@ -2,9 +2,9 @@ import {
   safeAsyncValidation,
   validateAgainstApi,
 } from "@/lib/async-validation";
-import { createSchemaForm } from "@/lib/create-schema-form";
 import { convertStringToId } from "@/lib/utils";
 import { rivetClient } from "@/queries/global";
+import { createSchemaForm } from "@rivet-gg/components";
 import {
   FormControl,
   FormField,

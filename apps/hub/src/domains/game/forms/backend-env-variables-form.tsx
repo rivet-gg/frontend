@@ -1,6 +1,6 @@
-import { createSchemaForm } from "@/lib/create-schema-form";
 import { faTrash } from "@fortawesome/pro-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { createSchemaForm } from "@rivet-gg/components";
 import {
   Button,
   Flex,
