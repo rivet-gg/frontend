@@ -19,7 +19,7 @@ export function UpgradedHubAlert() {
   }
 
   return (
-    <div className="container py-4">
+    <div className="container py-4 flex-grow-0 flex-shrink-0">
       <Alert>
         <FontAwesomeIcon icon={faGem} className="size-5" />
         <AlertTitle>The Rivet Hub has been upgraded.</AlertTitle>

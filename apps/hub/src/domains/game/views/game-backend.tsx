@@ -17,7 +17,7 @@ import {
   Text,
 } from "@rivet-gg/components";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { useNavigate } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { GameBackendEnvTableActions } from "../components/game-backend-env-table-actions";
 import { GameBackendDeploymentLink } from "../components/game-backend/game-backend-deployment-link";
 import { gameBackendProjectEnvsQueryOptions } from "../queries";
@@ -32,18 +32,21 @@ export function GameBackendView({ projectId, gameId }: GameBackendViewProps) {
     gameBackendProjectEnvsQueryOptions(projectId),
   );
 
-  const { open, dialog } = useDialog.CreateBackendEnv({ projectId, gameId });
-
   const navigate = useNavigate();
 
   return (
     <Card w="full">
-      {dialog}
       <CardHeader>
         <Flex items="center" gap="4" justify="between">
           <CardTitle>Environments</CardTitle>
-          <Button variant="secondary" size="icon" onClick={open}>
-            <FontAwesomeIcon icon={faPlus} />
+          <Button variant="secondary" size="icon" asChild>
+            <Link
+              to="/games/$gameId/backend"
+              params={{ gameId }}
+              search={{ modal: "create-environment" }}
+            >
+              <FontAwesomeIcon icon={faPlus} />
+            </Link>
           </Button>
         </Flex>
       </CardHeader>

@@ -57,14 +57,20 @@ export const BackendEvent = z
   .transform((data) => {
     const url = new URL(data.event.request.url);
 
+    const backendCall = parseModuleCallUrl(url.pathname);
+
     return {
       ...data,
-      backendCall: parseModuleCallUrl(url.pathname),
+      backendCall,
+      eventDate: new Date(+data.eventTimestamp).toLocaleString(),
       event: {
         ...data.event,
         request: {
           ...data.event.request,
           pathname: url.pathname,
+          fmtUrl: backendCall
+            ? `${backendCall.moduleName}.${backendCall.scriptName}`
+            : url.pathname,
         },
       },
       logTimestamps: [
@@ -75,7 +81,7 @@ export const BackendEvent = z
       ],
       logs: [
         ...data.logs.map((log) => ({
-          type: "log" as const,
+          type: log.level as "error" | "warn" | "log",
           message: log.message.join("\n"),
         })),
         ...(data.exceptions?.map((log) => ({

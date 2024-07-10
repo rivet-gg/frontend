@@ -1,4 +1,6 @@
 import type { DialogContentProps } from "@/hooks/use-dialog";
+import { faExternalLink } from "@fortawesome/pro-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Button,
   DialogFooter,
@@ -51,6 +53,9 @@ export default function ConfirmOuterbaseConnectionDialogContent({
           Cancel
         </Button>
         <Button
+          endIcon={
+            <FontAwesomeIcon icon={faExternalLink} className={"size-4"} />
+          }
           isLoading={isPending}
           onClick={() => {
             mutate({ environmentId, projectId });

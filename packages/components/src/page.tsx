@@ -8,12 +8,27 @@ export interface PageProps {
   className?: string;
   title?: ReactNode;
   header?: ReactNode;
+  layout?: "compact" | "full";
   children: ReactNode;
 }
 
-export const Page = ({ title, header, children, className }: PageProps) => {
+export const Page = ({
+  title,
+  header,
+  children,
+  layout,
+  className,
+}: PageProps) => {
   return (
-    <Flex direction="col" gap="4" className={cn(className, !title && "pt-4")}>
+    <Flex
+      direction="col"
+      gap="4"
+      className={cn(
+        className,
+        !title && "pt-4",
+        layout === "full" && "flex-1 w-full",
+      )}
+    >
       {title ? <H1 className={cn(header ? "mt-8" : "my-8")}>{title}</H1> : null}
       {header}
       {children}

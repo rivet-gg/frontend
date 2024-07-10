@@ -1,3 +1,5 @@
+import twAnmiate from "tailwindcss-animate";
+import type { Config } from "tailwindcss/types/config";
 import * as styleHelpers from "./ui/helpers/index";
 
 const safelistMap: Array<[string, readonly string[], { useDash?: boolean }]> = [
@@ -19,6 +21,7 @@ const safelistMap: Array<[string, readonly string[], { useDash?: boolean }]> = [
 ];
 
 const config = {
+  content: [],
   darkMode: ["class"],
   prefix: "",
   safelist: safelistMap.map(([pattern, values, { useDash = true }]) => {
@@ -65,6 +68,7 @@ const config = {
         muted: {
           DEFAULT: "hsl(var(--muted))",
           foreground: "hsl(var(--muted-foreground))",
+          destructive: "hsl(var(--muted-destructive))",
         },
         accent: {
           DEFAULT: "hsl(var(--accent))",
@@ -125,7 +129,7 @@ const config = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
-};
+  plugins: [twAnmiate],
+} satisfies Config;
 
 export default config;

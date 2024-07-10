@@ -22,11 +22,11 @@ function GameBackendEnvironmentIdLogsRoute() {
   );
 
   return (
-    <Card>
-      <CardHeader>
+    <Card className="h-full max-h-full flex flex-col p-0">
+      <CardHeader className="border-b">
         <CardTitle>Logs</CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent className="flex-1 min-h-0 w-full p-0">
         <GameBackendListEventsPreview
           events={data}
           eventId={eventId}

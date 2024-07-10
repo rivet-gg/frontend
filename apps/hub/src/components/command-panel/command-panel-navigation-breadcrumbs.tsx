@@ -1,10 +1,14 @@
 import { GameAvatar } from "@/domains/game/components/game-avatar";
 import {
+  gameBackendProjectEnvQueryOptions,
+  gameBackendProjectQueryOptions,
   gameNamespaceDisplayNameQueryOptions,
   gameQueryOptions,
   groupGamesQueryOptions,
 } from "@/domains/game/queries";
 import { GroupAvatar } from "@/domains/group/components/group-avatar";
+import { faPuzzle } from "@fortawesome/pro-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Badge, Skeleton } from "@rivet-gg/components";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { Suspense } from "react";
@@ -15,7 +19,7 @@ function GroupBreadcrumbs({ groupId }: { groupId: string }) {
   return (
     <>
       <GroupAvatar
-        className="mr-2 size-6"
+        className="mr-2 size-4"
         displayName={group.displayName}
         avatarUrl={group.avatarUrl}
       />
@@ -29,7 +33,7 @@ function GameBreadcrumb({ gameId }: { gameId: string }) {
   return (
     <>
       <GameAvatar
-        className="mr-2 size-6"
+        className="mr-2 size-4"
         displayName={game.displayName}
         logoUrl={game.logoUrl}
       />
@@ -51,6 +55,36 @@ function NamespaceBreadcrumb({
   return <span>{namespace}</span>;
 }
 
+function BackendBreadcrumb() {
+  return (
+    <>
+      <FontAwesomeIcon icon={faPuzzle} className="mr-2 size-4" /> Backend
+    </>
+  );
+}
+
+function BackendEnvironmentBreadcrumb({
+  environmentId,
+  gameId,
+}: {
+  gameId: string;
+  environmentId: string;
+}) {
+  const {
+    data: { project },
+  } = useSuspenseQuery(gameBackendProjectQueryOptions(gameId));
+
+  if (!project) throw new Error("Project not found");
+
+  const { data: env } = useSuspenseQuery(
+    gameBackendProjectEnvQueryOptions({
+      projectId: project.projectId,
+      environmentId,
+    }),
+  );
+  return <>{env.displayName}</>;
+}
+
 interface CommandPanelNavigationBreadcrumbsProps {
   pages: CommandPanelPage[];
 }
@@ -70,6 +104,10 @@ export function CommandPanelNavigationBreadcrumbs({
             {page.key === "game" && <GameBreadcrumb {...page.params} />}
             {page.key === "namespace" && (
               <NamespaceBreadcrumb {...page.params} />
+            )}{" "}
+            {page.key === "backend" && <BackendBreadcrumb />}
+            {page.key === "environment" && (
+              <BackendEnvironmentBreadcrumb {...page.params} />
             )}
           </Badge>
         ))}

@@ -4,6 +4,7 @@ import {
   faCog,
   faHome,
   faKey,
+  faPuzzle,
 } from "@fortawesome/pro-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { CommandGroup, CommandItem } from "@rivet-gg/components";
@@ -18,7 +19,7 @@ interface GameCommandPanelPage {
 export function GameCommandPanelPage({ gameId }: GameCommandPanelPage) {
   const { data } = useSuspenseQuery(gameQueryOptions(gameId));
 
-  const { navigate } = useCommandPanelNavigation();
+  const { navigate, changePage } = useCommandPanelNavigation();
   return (
     <>
       <CommandGroup heading={data.displayName}>
@@ -37,6 +38,14 @@ export function GameCommandPanelPage({ gameId }: GameCommandPanelPage) {
         >
           <FontAwesomeIcon icon={faCircleDollar} />
           Billing
+        </CommandItem>
+        <CommandItem
+          onSelect={() => {
+            changePage({ key: "backend", params: { gameId } });
+          }}
+        >
+          <FontAwesomeIcon icon={faPuzzle} />
+          Backend
         </CommandItem>
         <CommandItem
           onSelect={() => {

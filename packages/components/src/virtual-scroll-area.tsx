@@ -63,13 +63,16 @@ export function VirtualScrollArea<TItem extends Record<string, any>>({
         {rowVirtualizer.getVirtualItems().map((virtualItem) => (
           <div
             key={virtualItem.key}
-            className="absolute w-full inset-x-0"
+            data-index={virtualItem.index}
+            className="absolute w-full inset-x-0 px-4"
+            ref={rowVirtualizer.measureElement}
             style={{
-              height: `${virtualItem.size}px`,
               transform: `translateY(${virtualItem.start}px)`,
             }}
           >
-            {cloneElement(Row, getRowData(virtualItem.index))}
+            {cloneElement(Row, {
+              ...getRowData(virtualItem.index),
+            })}
           </div>
         ))}
       </div>

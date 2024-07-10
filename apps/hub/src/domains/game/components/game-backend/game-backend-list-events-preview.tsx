@@ -1,19 +1,13 @@
-import { faUsers } from "@fortawesome/pro-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  Badge,
-  Button,
-  Flex,
-  LogsSelect,
-  SmallText,
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
   Text,
-  Uptime,
-  WithTooltip,
+  useBreakpoint,
 } from "@rivet-gg/components";
-import { Link } from "@tanstack/react-router";
-import { ResponseStatus } from "../../data/response-status";
 import type { BackendEvent } from "../../queries";
-import { GameBackendEventSummary } from "./game-backend-event-summary";
+import { GameBackendEventDetailsPanel } from "./game-backend-event-details-panel";
+import { GameBackendEventsListPanel } from "./game-backend-events-list-panel";
 
 interface GameBackendListEventsPreviewProps {
   events: BackendEvent[];
@@ -36,67 +30,29 @@ export function GameBackendListEventsPreview({
     );
   }
 
+  const isMd = useBreakpoint("md");
+
   return (
-    <LogsSelect
-      list={
-        <>
-          {events.map((event) => (
-            <Button
-              key={event.eventTimestamp}
-              variant={
-                eventId === event.eventTimestamp ? "secondary" : "outline"
-              }
-              asChild
-            >
-              <Link search={{ eventId: event.eventTimestamp }}>
-                <Flex gap="2" items="center" w="full">
-                  <ResponseStatus status={event.event.response.status} />
-                  {event.backendCall ? (
-                    <>
-                      <Badge className="hidden md:flex">CALL</Badge>
-                      <span className="flex-1 text-left truncate">
-                        {event.backendCall.moduleName}.
-                        {event.backendCall.scriptName}
-                      </span>
-                    </>
-                  ) : (
-                    <>
-                      <Badge className="hidden md:flex" variant="outline">
-                        {event.event.request.method}
-                      </Badge>
-                      <span className="flex-1 text-left truncate">
-                        {event.event.request.pathname}
-                      </span>
-                    </>
-                  )}
-                  <WithTooltip
-                    trigger={
-                      <SmallText>
-                        <Uptime createTs={new Date(+event.eventTimestamp)} />{" "}
-                        ago
-                      </SmallText>
-                    }
-                    content={new Date(+event.eventTimestamp).toLocaleString()}
-                  />
-                </Flex>
-              </Link>
-            </Button>
-          ))}
-        </>
-      }
-      content={
-        !eventId ? (
-          <Text my="10" textAlign="center">
-            Please select select event.
-          </Text>
-        ) : (
-          <GameBackendEventSummary
-            environmentId={environmentId}
+    <ResizablePanelGroup
+      className="min-w-0 w-full h-full max-h-full"
+      autoSaveId="rivet-game-backend-logs"
+      direction={isMd ? "horizontal" : "vertical"}
+    >
+      <ResizablePanel minSize={25} maxSize={75}>
+        <div className="h-full max-h-full overflow-hidden w-full truncate min-w-0">
+          <GameBackendEventsListPanel events={events} eventId={eventId} />
+        </div>
+      </ResizablePanel>
+      <ResizableHandle withHandle />
+      <ResizablePanel minSize={25} maxSize={75}>
+        <div className="h-full max-h-full overflow-hidden w-full">
+          <GameBackendEventDetailsPanel
             projectId={projectId}
+            environmentId={environmentId}
             eventId={eventId}
           />
-        )
-      }
-    />
+        </div>
+      </ResizablePanel>
+    </ResizablePanelGroup>
   );
 }

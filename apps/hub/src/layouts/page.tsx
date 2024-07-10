@@ -9,7 +9,10 @@ interface PageRootProps {
 const PageRoot = ({ children, layout = "compact" }: PageRootProps) => (
   <div
     className={cn(
-      { container: layout === "compact", "px-8 w-full": layout === "full" },
+      {
+        container: layout === "compact",
+        "px-8 w-full flex-1 h-full flex min-h-0": layout === "full",
+      },
       "pt-4",
     )}
   >
@@ -23,7 +26,10 @@ const PageRootSkeleton = ({
   return (
     <div
       className={cn(
-        { container: layout === "compact", "px-8 w-full": layout === "full" },
+        {
+          container: layout === "compact",
+          "px-8 w-full h-full": layout === "full",
+        },
         "pt-4",
       )}
     >

@@ -21,13 +21,15 @@ import {
   CommandPanelNavigationProvider,
   type CommandPanelPage,
 } from "./command-panel/command-panel-navigation-provider";
+import { BackendCommandPanelPage } from "./command-panel/command-panel-page/backend-command-panel-page";
+import { EnvironmentCommandPanelPage } from "./command-panel/command-panel-page/environment-command-panel-page";
 import { GameCommandPanelPage } from "./command-panel/command-panel-page/game-command-panel-page";
 import { GroupCommandPanelPage } from "./command-panel/command-panel-page/group-command-panel-page";
 import { IndexCommandPanelPage } from "./command-panel/command-panel-page/index-command-panel-page";
 import { NamespaceCommandPanelPage } from "./command-panel/command-panel-page/namespace-command-panel-page";
 
 export function CommandPanel() {
-  const [open, setOpen] = useState(false);
+  const [isOpen, setOpen] = useState(false);
 
   const [search, setSearch] = useState("");
   const [pages, setPages] = useState<CommandPanelPage[]>([]);
@@ -35,46 +37,90 @@ export function CommandPanel() {
   const matchRoute = useMatchRoute();
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: we do not want to run this effect on every change of match route
+  const open = useCallback(() => {
+    startTransition(() => {
+      const isTeam = matchRoute({
+        to: "/teams/$groupId",
+        fuzzy: true,
+      }) as { groupId: string } | false;
+
+      if (isTeam) {
+        setPages([{ key: "group", params: { groupId: isTeam.groupId } }]);
+      }
+
+      const isGame = matchRoute({
+        to: "/games/$gameId",
+        fuzzy: true,
+      }) as { gameId: string } | false;
+      if (isGame) {
+        setPages([{ key: "game", params: { gameId: isGame.gameId } }]);
+      }
+
+      const isNamespace = matchRoute({
+        to: "/games/$gameId/namespaces/$namespaceId",
+        fuzzy: true,
+      }) as { gameId: string; namespaceId: string } | false;
+      if (isNamespace) {
+        setPages([
+          { key: "game", params: { gameId: isNamespace.gameId } },
+          {
+            key: "namespace",
+            params: {
+              gameId: isNamespace.gameId,
+              namespaceId: isNamespace.namespaceId,
+            },
+          },
+        ]);
+      }
+
+      const isBackend = matchRoute({
+        to: "/games/$gameId/backend",
+        fuzzy: true,
+      }) as { gameId: string } | false;
+      if (isBackend) {
+        setPages([
+          { key: "game", params: { gameId: isBackend.gameId } },
+          {
+            key: "backend",
+            params: {
+              gameId: isBackend.gameId,
+            },
+          },
+        ]);
+      }
+
+      const isBackendEnv = matchRoute({
+        to: "/games/$gameId/backend/$environmentId",
+        fuzzy: true,
+      }) as { gameId: string; environmentId: string } | false;
+      if (isBackendEnv) {
+        setPages([
+          { key: "game", params: { gameId: isBackendEnv.gameId } },
+          {
+            key: "backend",
+            params: {
+              gameId: isBackendEnv.gameId,
+            },
+          },
+          {
+            key: "environment",
+            params: {
+              gameId: isBackendEnv.gameId,
+              environmentId: isBackendEnv.environmentId,
+            },
+          },
+        ]);
+      }
+      setOpen((open) => !open);
+    });
+  }, []);
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: we do not want to run this effect on every change of match route
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
       if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
         e.preventDefault();
-        startTransition(() => {
-          const isTeam = matchRoute({
-            to: "/teams/$groupId",
-            fuzzy: true,
-          }) as { groupId: string } | false;
-
-          if (isTeam) {
-            setPages([{ key: "group", params: { groupId: isTeam.groupId } }]);
-          }
-
-          const isGame = matchRoute({
-            to: "/games/$gameId",
-            fuzzy: true,
-          }) as { gameId: string } | false;
-          if (isGame) {
-            setPages([{ key: "game", params: { gameId: isGame.gameId } }]);
-          }
-
-          const isNamespace = matchRoute({
-            to: "/games/$gameId/namespaces/$namespaceId",
-            fuzzy: true,
-          }) as { gameId: string; namespaceId: string } | false;
-          if (isNamespace) {
-            setPages([
-              { key: "game", params: { gameId: isNamespace.gameId } },
-              {
-                key: "namespace",
-                params: {
-                  gameId: isNamespace.gameId,
-                  namespaceId: isNamespace.namespaceId,
-                },
-              },
-            ]);
-          }
-          setOpen((open) => !open);
-        });
+        open();
       }
     };
     document.addEventListener("keydown", down);
@@ -114,7 +160,7 @@ export function CommandPanel() {
   return (
     <>
       <Button
-        onClick={() => setOpen(true)}
+        onClick={open}
         variant="outline"
         className={cn(
           "relative h-8 w-full justify-start rounded-[0.5rem] bg-background text-sm font-normal text-muted-foreground shadow-none hidden md:flex md:w-40 lg:w-64",
@@ -130,7 +176,7 @@ export function CommandPanel() {
         commandProps={{
           onKeyDown: handleKeyDown,
         }}
-        open={open}
+        open={isOpen}
         onOpenChange={setOpen}
       >
         <CommandPanelNavigationBreadcrumbs pages={pages} />
@@ -157,6 +203,15 @@ export function CommandPanel() {
                 <NamespaceCommandPanelPage
                   gameId={page.params.gameId}
                   namespaceId={page.params.namespaceId}
+                />
+              ) : null}
+              {page?.key === "backend" ? (
+                <BackendCommandPanelPage gameId={page.params.gameId} />
+              ) : null}
+              {page?.key === "environment" ? (
+                <EnvironmentCommandPanelPage
+                  gameId={page.params.gameId}
+                  environmentId={page.params.environmentId}
                 />
               ) : null}
             </Suspense>

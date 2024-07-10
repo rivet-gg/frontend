@@ -1,18 +1,31 @@
-import { Feedback } from "@/domains/auth/components/feedback";
-import { Link } from "@rivet-gg/components";
+import { Link, cn } from "@rivet-gg/components";
+import { useMatches } from "@tanstack/react-router";
 import type { ReactNode } from "react";
-import { Header as UiHeader } from "../components/header";
+import { Header as UiHeader } from "../components/header/header";
 
 interface RootProps {
   children: ReactNode;
 }
 
 const Root = ({ children }: RootProps) => {
-  return <div className="flex min-h-screen flex-col">{children}</div>;
+  const matches = useMatches();
+  return (
+    <div
+      className={cn("flex min-h-screen flex-col", {
+        "h-screen": matches[matches.length - 1].staticData.layout === "full",
+      })}
+    >
+      {children}
+    </div>
+  );
 };
 
 const Main = ({ children }: RootProps) => {
-  return <main className="bg-background flex flex-1 flex-col">{children}</main>;
+  return (
+    <main className="bg-background flex flex-col h-full min-h-0">
+      {children}
+    </main>
+  );
 };
 
 const Header = () => {

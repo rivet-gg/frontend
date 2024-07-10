@@ -22,19 +22,33 @@ type NamespaceCommandPanelPage = {
   params: { gameId: string; namespaceId: string };
 };
 
+type BackendCommandPanelPage = {
+  key: "backend";
+  params: { gameId: string };
+};
+
+type BackendEnvironmentPanelPage = {
+  key: "environment";
+  params: { gameId: string; environmentId: string };
+};
+
 type CommandPanelPages =
   | GroupCommandPanelPage
   | GameCommandPanelPage
   | NamespaceCommandPanelPage
+  | BackendCommandPanelPage
+  | BackendEnvironmentPanelPage
   | never;
 
 export type CommandPanelPage = CommandPanelPages;
 
 const CommandPanelNavigationContext = createContext<{
   changePage: (page: CommandPanelPage) => void;
+  close: () => void;
   navigate: UseNavigateResult<string>;
 }>({
   changePage: () => {},
+  close: () => {},
   navigate: async () => {},
 });
 
@@ -61,7 +75,7 @@ export function CommandPanelNavigationProvider({
 
   return (
     <CommandPanelNavigationContext.Provider
-      value={{ changePage: onChangePage, navigate }}
+      value={{ changePage: onChangePage, close: onClose, navigate }}
     >
       {children}
     </CommandPanelNavigationContext.Provider>

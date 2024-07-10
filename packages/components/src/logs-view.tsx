@@ -1,7 +1,4 @@
-import {
-  faDownToLine,
-  faExclamationTriangle,
-} from "@fortawesome/pro-solid-svg-icons";
+import { faDownToLine } from "@fortawesome/pro-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import type { Virtualizer } from "@tanstack/react-virtual";
 import {
@@ -18,11 +15,11 @@ import { Toggle } from "./ui/toggle";
 import { VirtualScrollArea } from "./virtual-scroll-area";
 
 export function Root({ children }: PropsWithChildren) {
-  return <div className="mt-4">{children}</div>;
+  return <div className="h-full">{children}</div>;
 }
 
 export function Content({ children }: PropsWithChildren) {
-  return <div className="my-4 flex gap-4">{children}</div>;
+  return <div className="flex h-full gap-4">{children}</div>;
 }
 
 export function LogsArea({
@@ -31,10 +28,7 @@ export function LogsArea({
 }: PropsWithChildren<{ className?: string }>) {
   return (
     <div
-      className={cn(
-        "h-96 rounded-lg border w-full flex px-4 py-2 gap-1",
-        className,
-      )}
+      className={cn("h-full rounded-lg border w-full flex gap-1", className)}
     >
       {children}
     </div>
@@ -45,7 +39,7 @@ export function Sidebar({ children }: PropsWithChildren) {
   return <div className="flex flex-col gap-2">{children}</div>;
 }
 
-type Line = string | { type: "log" | "error"; message: string };
+type Line = string | { type: "log" | "error" | "warn"; message: string };
 
 interface LogRowProps {
   timestamp?: string;
@@ -55,27 +49,34 @@ interface LogRowProps {
 
 function LogRow({ timestamp, line, isFirst }: LogRowProps) {
   const isError = typeof line === "object" && line.type === "error";
+  const isWarn = typeof line === "object" && line.type === "warn";
 
   return (
-    <div className={cn("text-nowrap p-0.5", isError && "bg-destructive/10")}>
+    <div className="text-nowrap flex flex-col md:flex-row my-1 md:my-0">
       {isFirst ? (
         <span className="font-mono text-sm">
           Only last few lines are visible here. To see all logs, export them.
         </span>
       ) : (
         <>
-          {isError ? (
-            <FontAwesomeIcon
-              className="text-destructive mr-2"
-              icon={faExclamationTriangle}
-            />
-          ) : null}
-          <span className="text-muted-foreground my-1 mr-2 font-mono text-sm">
+          <span
+            className={cn(
+              "text-muted-foreground md:my-1 font-mono text-sm p-0.5 pr-2 inline-block",
+              isError && "bg-destructive/20",
+              isWarn && "bg-warning/20",
+            )}
+          >
             {timestamp}
           </span>
-          <span className="my-1 font-mono text-sm">
+          <pre
+            className={cn(
+              "md:my-1 font-mono text-sm p-0.5 inline-block whitespace-pre-wrap min-w-0 flex-1 break-all",
+              isError && "bg-destructive/20",
+              isWarn && "bg-warning/20",
+            )}
+          >
             {typeof line === "string" ? line : line?.message}
-          </span>
+          </pre>
         </>
       )}
     </div>

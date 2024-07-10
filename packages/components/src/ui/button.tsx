@@ -20,7 +20,7 @@ const buttonVariants = cva(
         destructive:
           "bg-destructive text-destructive-foreground hover:bg-destructive/90",
         outline:
-          "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
+          "border border-input bg-transparent hover:bg-accent hover:text-accent-foreground",
         secondary:
           "border button-secondary bg-secondary text-secondary-foreground hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
@@ -46,7 +46,9 @@ export interface ButtonProps
     React.ComponentPropsWithoutRef<"button"> {
   asChild?: boolean;
   isLoading?: boolean;
+  startIcon?: React.ReactElement;
   endIcon?: React.ReactElement;
+  onClick?: (e?: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
@@ -56,6 +58,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       className,
       variant,
       size,
+      startIcon,
       isLoading,
       endIcon,
       disabled,
@@ -81,11 +84,18 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             icon={faSpinnerThird}
             className={cn("h-4 w-4 animate-spin", size !== "icon" && "mr-2")}
           />
+        ) : startIcon ? (
+          React.cloneElement(startIcon, { className: "mr-2" })
         ) : null}
         {size === "icon" && isLoading ? null : (
           <Slottable>{children}</Slottable>
         )}
-        {endIcon ? React.cloneElement(endIcon, { className: "ml-2" }) : null}
+        {endIcon
+          ? React.cloneElement(endIcon, {
+              ...endIcon.props,
+              className: cn("ml-2", endIcon.props.className),
+            })
+          : null}
       </C>
     );
   },

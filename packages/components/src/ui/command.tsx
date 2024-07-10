@@ -1,11 +1,12 @@
 "use client";
 
-import type { DialogProps } from "@radix-ui/react-dialog";
+import { type DialogProps, DialogTitle } from "@radix-ui/react-dialog";
 import { Command as CommandPrimitive } from "cmdk";
 import * as React from "react";
 
 import { faSearch } from "@fortawesome/pro-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { cn } from "../lib/utils";
 import { Dialog, DialogContent } from "./dialog";
 
@@ -35,6 +36,9 @@ const CommandDialog = ({
 }: CommandDialogProps) => {
   return (
     <Dialog {...props}>
+      <VisuallyHidden>
+        <DialogTitle>Command panel dialog</DialogTitle>
+      </VisuallyHidden>
       <DialogContent hideClose className="overflow-hidden p-0 shadow-lg">
         <Command
           {...commandProps}

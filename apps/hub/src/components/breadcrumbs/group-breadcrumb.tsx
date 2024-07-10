@@ -3,7 +3,7 @@ import { GroupAvatar } from "@/domains/group/components/group-avatar";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import { Fragment, useContext } from "react";
-import { NavItem } from "../nav-item";
+import { NavItem } from "../header/nav-item";
 import { MobileBreadcrumbsContext } from "./mobile-breadcrumbs";
 
 interface GroupBreadcrumbProps {
@@ -27,7 +27,7 @@ export function GroupBreadcrumb({ groupId }: GroupBreadcrumbProps) {
         <GroupAvatar
           avatarUrl={data.avatarUrl}
           displayName={data.displayName}
-          className={isMobile ? "size-10" : "size-5"}
+          className={isMobile ? "size-4" : "size-5"}
         />
         {data.displayName}
       </Link>

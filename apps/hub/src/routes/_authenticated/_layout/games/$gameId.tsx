@@ -61,7 +61,7 @@ function GameIdRoute() {
 }
 
 const searchSchema = z.object({
-  modal: z.enum(["cloud-token"]).optional(),
+  modal: z.enum(["cloud-token"]).or(z.string()).optional(),
 });
 
 export const Route = createFileRoute("/_authenticated/_layout/games/$gameId")({
