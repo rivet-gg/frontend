@@ -56,7 +56,7 @@ export default function CreateGroupInviteDialogContent({
           await mutateAsync({
             groupId,
             ttl: values.expTime,
-            useCount: values.isInfinite ? 0 : values.usageCount,
+            useCount: values.isInfinite ? undefined : values.usageCount,
           });
         }}
         defaultValues={{ isInfinite: true, expTime: timing.minutes(30) }}
