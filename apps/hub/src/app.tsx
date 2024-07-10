@@ -23,7 +23,7 @@ declare module "@tanstack/react-router" {
   }
 }
 
-const router = createRouter({
+export const router = createRouter({
   routeTree,
   routeMasks,
   context: {

@@ -1,22 +1,44 @@
+import { router } from "@/app";
 import { useAuth } from "@/domains/auth/contexts/auth";
 import { getConfig, useConfig } from "@rivet-gg/components";
-import * as Sentry from "@sentry/browser";
-import posthog from "posthog-js";
+import * as Sentry from "@sentry/react";
+import posthog, { type PostHog } from "posthog-js";
 import { PostHogProvider, usePostHog } from "posthog-js/react";
 import { type PropsWithChildren, useEffect } from "react";
 
-const config = getConfig();
-if (config.sentry?.dsn) {
-  Sentry.init({
-    dsn: config.sentry.dsn,
-    integrations: [
-      new posthog.SentryIntegration(
-        posthog,
-        "rivet-gg",
-        Number.parseInt(config.sentry.projectId, 10),
-      ),
-    ],
-  });
+export function initThirdPartyProviders() {
+  const config = getConfig();
+
+  let ph: PostHog | null = null;
+
+  // init posthog
+  if (config.posthog) {
+    ph =
+      posthog.init(config.posthog.apiKey, {
+        api_host: config.posthog.apiHost,
+        debug: import.meta.env.DEV,
+      }) || null;
+  }
+
+  // init sentry
+  if (config.sentry) {
+    const integrations = [
+      Sentry.tanstackRouterBrowserTracingIntegration(router),
+    ];
+    if (ph) {
+      integrations.push(
+        ph.sentryIntegration({
+          organization: "rivet-gg",
+          projectId: Number.parseInt(config.sentry.projectId, 10),
+        }),
+      );
+    }
+
+    Sentry.init({
+      dsn: config.sentry.dsn,
+      integrations,
+    });
+  }
 }
 
 export function IdentifyUser() {
@@ -26,12 +48,15 @@ export function IdentifyUser() {
   useEffect(() => {
     const identity = profile?.identity;
     if (identity) {
-      posthog.identify(`user:${identity.identityId}`, {
+      const user = {
         name: identity.displayName,
         email: identity.linkedAccounts.find((x) => x.email)?.email?.email,
         avatar: identity.avatarUrl,
         isAdmin: identity.isAdmin,
-      });
+      };
+
+      posthog.identify(`user:${identity.identityId}`, user);
+      Sentry.setUser(user);
     }
   }, [posthog, profile]);
 
@@ -41,17 +66,9 @@ export function IdentifyUser() {
 export function ThirdPartyProviders({ children }: PropsWithChildren) {
   const config = useConfig();
 
-  const posthog = config.posthog ? (
-    <PostHogProvider
-      apiKey={config.posthog.apiKey}
-      options={{
-        api_host: config.posthog.apiHost,
-        debug: import.meta.env.DEV,
-      }}
-    >
-      {children}
-    </PostHogProvider>
+  const phProvider = config.posthog ? (
+    <PostHogProvider client={posthog}>{children}</PostHogProvider>
   ) : null;
 
-  return posthog;
+  return phProvider;
 }

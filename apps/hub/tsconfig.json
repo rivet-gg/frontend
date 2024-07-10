@@ -1,6 +1,7 @@
 {
   "composite": true,
   "compilerOptions": {
+    "skipLibCheck": true,
     "target": "ESNext",
     "strict": true,
     "esModuleInterop": true,

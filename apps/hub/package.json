@@ -21,7 +21,7 @@
     "@rivet-gg/api": "https://github.com/rivet-gg/rivet/raw/ebd3c7bd6fdd93b0b9af7e3658c0636e23abaf57/sdks/full/typescript/archive.tgz",
     "@rivet-gg/api-ee": "file:vendor/rivet-gg-api-ee.tgz",
     "@rivet-gg/components": "workspace:*",
-    "@sentry/react": "^7.9.0",
+    "@sentry/react": "^8.14.0",
     "@tanstack/query-sync-storage-persister": "^5.29",
     "@tanstack/react-query": "^5.32.0",
     "@tanstack/react-query-devtools": "^5.32.0",
@@ -32,7 +32,7 @@
     "bcryptjs": "^2.4.3",
     "framer-motion": "^11.2.11",
     "lodash": "^4.17.21",
-    "posthog-js": "^1.135.1",
+    "posthog-js": "^1.144.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.51.1",
@@ -45,6 +45,7 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
+    "@sentry/vite-plugin": "^2.20.1",
     "@tanstack/router-vite-plugin": "^1.32.7",
     "@types/mime": "^4.0.0",
     "@types/node": "^20.11.30",
