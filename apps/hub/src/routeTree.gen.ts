@@ -12,6 +12,7 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as AuthenticatedImport } from './routes/_authenticated'
+import { Route as AuthenticatedBillingImport } from './routes/_authenticated/billing'
 import { Route as AuthenticatedLayoutImport } from './routes/_authenticated/_layout'
 import { Route as AuthenticatedLayoutIndexImport } from './routes/_authenticated/_layout/index'
 import { Route as AuthenticatedInviteInviteCodeImport } from './routes/_authenticated/invite.$inviteCode'
@@ -51,6 +52,11 @@ import { Route as AuthenticatedLayoutGamesGameIdNamespacesNamespaceIdLobbiesLogs
 const AuthenticatedRoute = AuthenticatedImport.update({
   id: '/_authenticated',
   getParentRoute: () => rootRoute,
+} as any)
+
+const AuthenticatedBillingRoute = AuthenticatedBillingImport.update({
+  path: '/billing',
+  getParentRoute: () => AuthenticatedRoute,
 } as any)
 
 const AuthenticatedLayoutRoute = AuthenticatedLayoutImport.update({
@@ -279,6 +285,13 @@ declare module '@tanstack/react-router' {
       path: ''
       fullPath: ''
       preLoaderRoute: typeof AuthenticatedLayoutImport
+      parentRoute: typeof AuthenticatedImport
+    }
+    '/_authenticated/billing': {
+      id: '/_authenticated/billing'
+      path: '/billing'
+      fullPath: '/billing'
+      preLoaderRoute: typeof AuthenticatedBillingImport
       parentRoute: typeof AuthenticatedImport
     }
     '/_authenticated/_layout/my-profile': {
@@ -564,6 +577,7 @@ export const routeTree = rootRoute.addChildren({
           AuthenticatedLayoutGamesGameIdNamespacesNamespaceIdIndexRoute,
         }),
     }),
+    AuthenticatedBillingRoute,
     AuthenticatedInviteInviteCodeRoute,
     AuthenticatedDevicesLinkTokenRoute,
   }),
@@ -584,6 +598,7 @@ export const routeTree = rootRoute.addChildren({
       "filePath": "_authenticated.tsx",
       "children": [
         "/_authenticated/_layout",
+        "/_authenticated/billing",
         "/_authenticated/invite/$inviteCode",
         "/_authenticated/devices/link/$token"
       ]
@@ -598,6 +613,10 @@ export const routeTree = rootRoute.addChildren({
         "/_authenticated/_layout/teams/$groupId",
         "/_authenticated/_layout/games/$gameId/namespaces/$namespaceId"
       ]
+    },
+    "/_authenticated/billing": {
+      "filePath": "_authenticated/billing.tsx",
+      "parent": "/_authenticated"
     },
     "/_authenticated/_layout/my-profile": {
       "filePath": "_authenticated/_layout/my-profile.tsx",
