@@ -25,6 +25,7 @@ function Modals() {
 
   const CreateGroupInviteDialog = useDialog.CreateGroupInvite.Dialog;
   const CreateGroupGameDialog = useDialog.CreateGroupGame.Dialog;
+  const ConfirmLeaveGroupDialog = useDialog.ConfirmLeaveGroup.Dialog;
 
   const handleonOpenChange = (value: boolean) => {
     if (!value) {
@@ -48,6 +49,14 @@ function Modals() {
           onOpenChange: handleonOpenChange,
         }}
       />
+      <ConfirmLeaveGroupDialog
+        groupId={groupId}
+        onSuccess={() => navigate({ to: "/" })}
+        dialogProps={{
+          open: modal === "leave",
+          onOpenChange: handleonOpenChange,
+        }}
+      />
     </>
   );
 }
@@ -62,7 +71,7 @@ function GroupIdView() {
 }
 
 const searchSchema = z.object({
-  modal: z.enum(["invite", "create-game"]).optional(),
+  modal: z.enum(["invite", "create-game", "leave"]).optional(),
 });
 
 export const Route = createFileRoute("/_authenticated/_layout/teams/$groupId")({

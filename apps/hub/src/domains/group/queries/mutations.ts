@@ -190,3 +190,25 @@ export const useGroupInviteAcceptMutation = () => {
     },
   });
 };
+
+export const useGroupLeaveMutation = ({
+  onSuccess,
+}: {
+  onSuccess?: () => void;
+} = {}) => {
+  return useMutation({
+    mutationFn: (groupId: string) => rivetClient.group.leave(groupId),
+    onSuccess: async () => {
+      await queryClient.invalidateQueries(gamesQueryOptions());
+      onSuccess?.();
+    },
+    onError: (error) => {
+      if (isRivetError(error)) {
+        return toast.error("Failed to leave team", {
+          description: error.body.message,
+        });
+      }
+      return toast.error("Failed to leave team.");
+    },
+  });
+};

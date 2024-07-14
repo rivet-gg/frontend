@@ -1,6 +1,6 @@
 import { groupOnwerQueryOptions } from "@/domains/game/queries";
 import { groupMembersQueryOptions } from "@/domains/group/queries";
-import { faCrown } from "@fortawesome/pro-solid-svg-icons";
+import { faCrown, faRightFromBracket } from "@fortawesome/pro-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Button,
@@ -31,9 +31,16 @@ export function GroupMembers({ groupId }: GroupMembersProps) {
       <CardHeader>
         <Flex items="center" gap="4" justify="between">
           <CardTitle>Members</CardTitle>
-          <Button asChild variant="secondary">
-            <Link search={{ modal: "invite" }}>Invite</Link>
-          </Button>
+          <Flex gap="2">
+            <Button asChild variant="secondary">
+              <Link search={{ modal: "invite" }}>Invite</Link>
+            </Button>
+            <Button asChild variant="secondary">
+              <Link search={{ modal: "leave" }}>
+                <FontAwesomeIcon icon={faRightFromBracket} />
+              </Link>
+            </Button>
+          </Flex>
         </Flex>
       </CardHeader>
       <CardContent>

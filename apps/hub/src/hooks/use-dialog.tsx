@@ -241,3 +241,7 @@ useDialog.ConfirmOuterbaseConnection = createDialogHook(
     "@/domains/game/components/dialogs/confirm-outerbase-connection-dialog"
   ),
 );
+
+useDialog.ConfirmLeaveGroup = createDialogHook(
+  import("@/domains/group/components/dialogs/confirm-leave-group-dialog"),
+);
