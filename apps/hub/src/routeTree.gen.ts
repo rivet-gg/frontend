@@ -16,6 +16,7 @@ import { Route as AuthenticatedBillingImport } from './routes/_authenticated/bil
 import { Route as AuthenticatedLayoutImport } from './routes/_authenticated/_layout'
 import { Route as AuthenticatedLayoutIndexImport } from './routes/_authenticated/_layout/index'
 import { Route as AuthenticatedInviteInviteCodeImport } from './routes/_authenticated/invite.$inviteCode'
+import { Route as AuthenticatedAccessTokenTokenImport } from './routes/_authenticated/access-token.$token'
 import { Route as AuthenticatedLayoutMyProfileImport } from './routes/_authenticated/_layout/my-profile'
 import { Route as AuthenticatedDevicesLinkTokenImport } from './routes/_authenticated/devices.link.$token'
 import { Route as AuthenticatedLayoutTeamsGroupIdImport } from './routes/_authenticated/_layout/teams/$groupId'
@@ -72,6 +73,12 @@ const AuthenticatedLayoutIndexRoute = AuthenticatedLayoutIndexImport.update({
 const AuthenticatedInviteInviteCodeRoute =
   AuthenticatedInviteInviteCodeImport.update({
     path: '/invite/$inviteCode',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+
+const AuthenticatedAccessTokenTokenRoute =
+  AuthenticatedAccessTokenTokenImport.update({
+    path: '/access-token/$token',
     getParentRoute: () => AuthenticatedRoute,
   } as any)
 
@@ -300,6 +307,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/my-profile'
       preLoaderRoute: typeof AuthenticatedLayoutMyProfileImport
       parentRoute: typeof AuthenticatedLayoutImport
+    }
+    '/_authenticated/access-token/$token': {
+      id: '/_authenticated/access-token/$token'
+      path: '/access-token/$token'
+      fullPath: '/access-token/$token'
+      preLoaderRoute: typeof AuthenticatedAccessTokenTokenImport
+      parentRoute: typeof AuthenticatedImport
     }
     '/_authenticated/invite/$inviteCode': {
       id: '/_authenticated/invite/$inviteCode'
@@ -578,6 +592,7 @@ export const routeTree = rootRoute.addChildren({
         }),
     }),
     AuthenticatedBillingRoute,
+    AuthenticatedAccessTokenTokenRoute,
     AuthenticatedInviteInviteCodeRoute,
     AuthenticatedDevicesLinkTokenRoute,
   }),
@@ -599,6 +614,7 @@ export const routeTree = rootRoute.addChildren({
       "children": [
         "/_authenticated/_layout",
         "/_authenticated/billing",
+        "/_authenticated/access-token/$token",
         "/_authenticated/invite/$inviteCode",
         "/_authenticated/devices/link/$token"
       ]
@@ -621,6 +637,10 @@ export const routeTree = rootRoute.addChildren({
     "/_authenticated/_layout/my-profile": {
       "filePath": "_authenticated/_layout/my-profile.tsx",
       "parent": "/_authenticated/_layout"
+    },
+    "/_authenticated/access-token/$token": {
+      "filePath": "_authenticated/access-token.$token.tsx",
+      "parent": "/_authenticated"
     },
     "/_authenticated/invite/$inviteCode": {
       "filePath": "_authenticated/invite.$inviteCode.tsx",
