@@ -180,13 +180,8 @@ export const useGroupInviteAcceptMutation = () => {
         navigate({ to: "/teams/$groupId", params: { groupId: data.groupId } });
       }
     },
-    onError: (error) => {
-      if (isRivetError(error)) {
-        return toast.error("Failed to accept invite", {
-          description: error.body.message,
-        });
-      }
-      return toast.error("Failed to accept invite.");
+    meta: {
+      hideErrorToast: true,
     },
   });
 };

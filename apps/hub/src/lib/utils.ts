@@ -7,7 +7,7 @@ export function convertStringToId(x: string): string {
 
 export function isRivetError(
   error: unknown,
-): error is RivetError & { body: { message: string } } {
+): error is RivetError & { body: { message: string, code?: string } } {
   return (
     error instanceof RivetError &&
     typeof error.body === "object" &&

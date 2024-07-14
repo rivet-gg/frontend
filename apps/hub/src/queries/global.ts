@@ -90,6 +90,9 @@ const queryCache = new QueryCache({
 
 const mutationCache = new MutationCache({
   onError(error, variables, context, mutation) {
+    if (mutation.meta?.hideErrorToast) {
+      return;
+    }
     toast.error("An error occurred while performing the operation.");
   },
 });
