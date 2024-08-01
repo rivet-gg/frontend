@@ -1,11 +1,7 @@
 import { useAuth } from "@/domains/auth/contexts/auth";
 import { noop } from "@/lib/utils";
 import { Skeleton, cn } from "@rivet-gg/components";
-import {
-  CatchBoundary,
-  useMatchRoute,
-  useRouteContext,
-} from "@tanstack/react-router";
+import { CatchBoundary, useMatchRoute } from "@tanstack/react-router";
 import { Suspense, useContext } from "react";
 import { BackendEnvironmentBreadcrumb } from "./backend-environment-breadcrumb";
 import { GameBreadcrumb } from "./game-breadcrumb";

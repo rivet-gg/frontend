@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
 import { Slider as SliderCmp } from "@rivet-gg/components";
-import React from "react";
 
 const meta = {
   title: "Slider",

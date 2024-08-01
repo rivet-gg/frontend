@@ -3,7 +3,6 @@ import {
   gameQueryOptions,
 } from "@/domains/game/queries";
 import {
-  faChessKnight,
   faCodeBranch,
   faGear,
   faGlobe,

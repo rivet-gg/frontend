@@ -1,4 +1,3 @@
-import type { BackendEvent } from "@/domains/game/queries";
 import { Text } from "@rivet-gg/components";
 
 export function GameBackendEventDetailsWipTab() {

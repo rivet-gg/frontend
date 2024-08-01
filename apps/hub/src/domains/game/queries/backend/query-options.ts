@@ -1,10 +1,8 @@
 import { rivetEeClient } from "@/queries/global";
 import { getMetaWatchIndex } from "@/queries/utils";
-import { timing } from "@rivet-gg/components";
 import { queryOptions } from "@tanstack/react-query";
 import { z } from "zod";
-import { extractPostgressCredentials } from "../../helpers/extract-postgress-credentials";
-import { BackendEvent, OuterbaseStarlinkResponse } from "./types";
+import { BackendEvent } from "./types";
 
 export const gameBackendProjectQueryOptions = (gameId: string) =>
   queryOptions({

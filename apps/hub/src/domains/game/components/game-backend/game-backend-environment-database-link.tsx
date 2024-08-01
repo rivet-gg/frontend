@@ -1,6 +1,6 @@
 import { faDatabase, faExternalLink } from "@fortawesome/pro-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Slot, Slottable } from "@radix-ui/react-slot";
+import { Slot } from "@radix-ui/react-slot";
 import { Button } from "@rivet-gg/components";
 import { useNavigate } from "@tanstack/react-router";
 import { type ReactNode, forwardRef } from "react";

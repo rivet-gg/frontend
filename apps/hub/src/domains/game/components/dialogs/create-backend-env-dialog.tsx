@@ -8,10 +8,7 @@ import {
   Flex,
 } from "@rivet-gg/components";
 import { useNavigate } from "@tanstack/react-router";
-import {
-  useCreateBackendProjectEnvMutation,
-  useNamespaceCreateMutation,
-} from "../../queries";
+import { useCreateBackendProjectEnvMutation } from "../../queries";
 
 interface ContentProps extends DialogContentProps {
   projectId: string;

@@ -9,7 +9,6 @@ import {
   Button,
   Flex,
 } from "@rivet-gg/components";
-import React from "react";
 
 const meta = {
   title: "Alert",

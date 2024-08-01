@@ -11,7 +11,6 @@ import {
   Link,
   Slider,
   SmallText,
-  Text,
 } from "@rivet-gg/components";
 import { type UseFormReturn, useFormContext } from "react-hook-form";
 import z from "zod";

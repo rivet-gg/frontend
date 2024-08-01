@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
 import { Badge as BadgeCmp } from "@rivet-gg/components";
-import React from "react";
 
 const meta = {
   title: "Badge",

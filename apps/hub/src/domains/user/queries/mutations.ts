@@ -1,5 +1,3 @@
-import { gamesQueryOptions } from "@/domains/game/queries";
-import { groupMembersQueryOptions } from "@/domains/group/queries";
 import { queryClient, rivetClient } from "@/queries/global";
 import type { Rivet } from "@rivet-gg/api";
 import { useMutation } from "@tanstack/react-query";

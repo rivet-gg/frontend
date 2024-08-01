@@ -5,7 +5,6 @@ import {
   AvatarFallback,
   AvatarImage,
 } from "@rivet-gg/components";
-import React from "react";
 
 const meta = {
   title: "Avatar",

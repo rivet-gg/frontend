@@ -1,12 +1,5 @@
 import { useDialog } from "@/hooks/use-dialog";
-import {
-  Button,
-  Card,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@rivet-gg/components";
+import { Button, Card, CardFooter } from "@rivet-gg/components";
 
 export function GroupCreateCard() {
   const { open: openGroupCreateDialog, dialog } = useDialog.CreateGroup({});

@@ -3,7 +3,6 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { faCog } from "@fortawesome/pro-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button as ButtonCmp } from "@rivet-gg/components";
-import React from "react";
 
 const meta = {
   title: "Button",

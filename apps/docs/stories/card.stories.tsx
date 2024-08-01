@@ -14,7 +14,6 @@ import {
   InputOTPSlot,
   Label,
 } from "@rivet-gg/components";
-import React from "react";
 
 const meta = {
   title: "Card",

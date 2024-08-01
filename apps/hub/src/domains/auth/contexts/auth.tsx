@@ -1,12 +1,11 @@
 import { IdentifyUser } from "@/components/third-party-providers";
 import {
-  identityTokenQueryOptions,
   selfProfileQueryOptions,
   useLogoutMutation,
 } from "@/domains/user/queries";
 import type { Rivet } from "@rivet-gg/api";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { createContext, useCallback, useContext, useEffect } from "react";
+import { createContext, useCallback, useContext } from "react";
 import { bootstrapQueryOptions } from "../queries/bootstrap";
 
 export interface AuthContext {

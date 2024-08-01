@@ -1,7 +1,5 @@
 import type { DialogContentProps } from "@/hooks/use-dialog";
-import { converEmojiToUriFriendlyString } from "@/lib/emoji";
 import {
-  AssetImage,
   Code,
   DialogHeader,
   DialogTitle,
