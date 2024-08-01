@@ -11,7 +11,7 @@ export type Namespace = Rivet.cloud.NamespaceSummary & {
   version: Rivet.cloud.version.Summary | undefined;
 };
 
-export type LobbyLogs = Rivet.cloud.LogsLobbySummary & {
+export type LobbySummary = Rivet.cloud.LogsLobbySummary & {
   readableStatus: LobbyStatus;
 };
 

@@ -92,7 +92,7 @@ function NamespaceTokensRoute() {
 }
 
 const searchSchema = z.object({
-  modal: z.enum(["public-token"]).optional(),
+  modal: z.enum(["public-token"]).or(z.string()).optional(),
 });
 
 export const Route = createFileRoute(

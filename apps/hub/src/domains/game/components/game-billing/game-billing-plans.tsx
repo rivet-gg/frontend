@@ -17,8 +17,11 @@ import {
 } from "@fortawesome/pro-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Rivet as RivetEe } from "@rivet-gg/api-ee";
-import { Flex, Grid, H2, SmallText, WithTooltip } from "@rivet-gg/components";
-import { LobbyRegionIcon, LobbyRegionName } from "../lobby-region";
+import { Flex, Grid, H2, WithTooltip } from "@rivet-gg/components";
+import {
+  LobbyRegionIcon,
+  LobbyRegionName,
+} from "../game-matchmaker/lobby-region";
 import { useGameBilling } from "./game-billing-context";
 import { GameBillingPlanCard } from "./game-billing-plan-card";
 import { GameBillingPlanStatus } from "./game-billing-plan-status";

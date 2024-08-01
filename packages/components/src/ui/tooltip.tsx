@@ -34,12 +34,12 @@ interface WithTooltipProps {
 
 const WithTooltip = ({ trigger, content }: WithTooltipProps) => {
   return (
-    <TooltipProvider>
-      <Tooltip>
-        <TooltipTrigger asChild>{trigger}</TooltipTrigger>
+    <Tooltip>
+      <TooltipTrigger asChild>{trigger}</TooltipTrigger>
+      <TooltipPrimitive.TooltipPortal>
         <TooltipContent>{content}</TooltipContent>
-      </Tooltip>
-    </TooltipProvider>
+      </TooltipPrimitive.TooltipPortal>
+    </Tooltip>
   );
 };
 

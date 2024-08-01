@@ -2,8 +2,10 @@ import {
   ConfigProvider,
   FullscreenLoading,
   Toaster,
+  TooltipProvider,
   getConfig,
 } from "@rivet-gg/components";
+import * as Sentry from "@sentry/react";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
 import { RouterProvider, createRouter } from "@tanstack/react-router";
@@ -34,6 +36,9 @@ export const router = createRouter({
   // Since we're using React Query, we don't want loader calls to ever be stale
   // This will ensure that the loader is always called when the route is preloaded or visited
   defaultPreloadStaleTime: 0,
+  defaultOnCatch: (error) => {
+    Sentry.captureException(error);
+  },
 });
 
 function InnerApp() {
@@ -51,7 +56,9 @@ export function App() {
         <ThirdPartyProviders>
           <Suspense fallback={<FullscreenLoading />}>
             <AuthProvider>
-              <InnerApp />
+              <TooltipProvider>
+                <InnerApp />
+              </TooltipProvider>
             </AuthProvider>
           </Suspense>
 

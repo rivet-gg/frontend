@@ -5,7 +5,7 @@ import {
 } from "@fortawesome/pro-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Badge } from "@rivet-gg/components";
-import type { LobbyStatus } from "../data/lobby-status";
+import type { LobbyStatus } from "../../data/lobby-status";
 
 interface LobbyStatusBadgeProps {
   status: LobbyStatus;

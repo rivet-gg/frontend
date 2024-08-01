@@ -18,14 +18,16 @@ export default defineConfig({
   plugins: [
     react(),
     TanStackRouterVite(),
-    sentryVitePlugin({
-      org: "rivet-gaming",
-      project: "hub",
-      authToken: process.env.SENTRY_AUTH_TOKEN,
-      release: {
-        name: `${GIT_BRANCH}@${GIT_SHA}`,
-      },
-    }),
+    process.env.SENTRY_AUTH_TOKEN
+      ? sentryVitePlugin({
+          org: "rivet-gaming",
+          project: "hub",
+          authToken: process.env.SENTRY_AUTH_TOKEN,
+          release: {
+            name: `${GIT_BRANCH}@${GIT_SHA}`,
+          },
+        })
+      : null,
   ],
   server: {
     port: 5080,

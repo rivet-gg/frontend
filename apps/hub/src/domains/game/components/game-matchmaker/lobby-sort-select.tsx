@@ -1,4 +1,5 @@
 import {
+  Label,
   Select,
   SelectContent,
   SelectItem,
@@ -21,8 +22,8 @@ interface LobbySortSelectProps extends ComponentProps<typeof Select> {}
 
 export function LobbySortSelect(props: LobbySortSelectProps) {
   return (
-    <div className="flex gap-2 justify-center items-center">
-      Sort:
+    <div className="flex gap-2 items-center">
+      <Label>Sort</Label>
       <Select {...props}>
         <SelectTrigger>
           <SelectValue placeholder="Select team..." />

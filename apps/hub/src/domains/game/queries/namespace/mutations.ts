@@ -3,7 +3,10 @@ import type { Rivet } from "@rivet-gg/api";
 import { toast } from "@rivet-gg/components";
 import { useMutation } from "@tanstack/react-query";
 import { gameQueryOptions } from "../query-options";
-import { gameNamespaceQueryOptions } from "./query-options";
+import {
+  gameNamespaceLobbyQueryOptions,
+  gameNamespaceQueryOptions,
+} from "./query-options";
 
 export const useNamepsaceMatchmakerUpdateConfigMutation = () => {
   return useMutation({
@@ -27,6 +30,29 @@ export const useNamepsaceMatchmakerUpdateConfigMutation = () => {
         gameNamespaceQueryOptions({
           gameId: values.gameId,
           namespaceId: values.namespaceId,
+        }),
+      );
+    },
+  });
+};
+
+export const useNamespaceMatchmakeDeleteLobbyMutation = () => {
+  return useMutation({
+    mutationFn: ({
+      gameId,
+      lobbyId,
+    }: {
+      gameId: string;
+      namespaceId: string;
+      lobbyId: string;
+    }) =>
+      rivetClient.cloud.games.matchmaker.deleteMatchmakerLobby(gameId, lobbyId),
+    onSuccess: async (_, values) => {
+      await queryClient.invalidateQueries(
+        gameNamespaceLobbyQueryOptions({
+          gameId: values.gameId,
+          namespaceId: values.namespaceId,
+          lobbyId: values.lobbyId,
         }),
       );
     },

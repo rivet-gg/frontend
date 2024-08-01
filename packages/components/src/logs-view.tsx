@@ -1,17 +1,18 @@
-import { faDownToLine } from "@fortawesome/pro-solid-svg-icons";
+import { faArrowsDownToLine } from "@fortawesome/pro-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import type { Virtualizer } from "@tanstack/react-virtual";
 import {
   type PropsWithChildren,
   type ReactNode,
   useCallback,
-  useLayoutEffect,
+  useEffect,
   useRef,
   useState,
 } from "react";
 import { cn } from "./lib/utils";
 import { Skeleton } from "./ui/skeleton";
 import { Toggle } from "./ui/toggle";
+import { WithTooltip } from "./ui/tooltip";
 import { VirtualScrollArea } from "./virtual-scroll-area";
 
 export function Root({ children }: PropsWithChildren) {
@@ -54,14 +55,14 @@ function LogRow({ timestamp, line, isFirst }: LogRowProps) {
   return (
     <div className="text-nowrap flex flex-col md:flex-row my-1 md:my-0">
       {isFirst ? (
-        <span className="font-mono text-sm">
+        <span className="font-mono text-xs">
           Only last few lines are visible here. To see all logs, export them.
         </span>
       ) : (
         <>
           <span
             className={cn(
-              "text-muted-foreground md:my-1 font-mono text-sm p-0.5 pr-2 inline-block",
+              "text-muted-foreground md:my-1 font-mono text-xs p-0.5 pr-2 inline-block",
               isError && "bg-destructive/20",
               isWarn && "bg-warning/20",
             )}
@@ -70,7 +71,7 @@ function LogRow({ timestamp, line, isFirst }: LogRowProps) {
           </span>
           <pre
             className={cn(
-              "md:my-1 font-mono text-sm p-0.5 inline-block whitespace-pre-wrap min-w-0 flex-1 break-all",
+              "md:my-1 font-mono text-xs p-0.5 inline-block whitespace-pre-wrap min-w-0 flex-1 break-all",
               isError && "bg-destructive/20",
               isWarn && "bg-warning/20",
             )}
@@ -105,25 +106,30 @@ export function LogsView({
 
   const ref = useRef<Virtualizer<HTMLDivElement, Element>>(null);
 
-  useLayoutEffect(
-    () => {
-      if (follow) {
-        ref.current?.scrollToIndex(timestamps.length - 1, { align: "start" });
-      }
-    },
-    // we aware of this rule, but we do not need to react to changes of follow state
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [timestamps, follow],
-  );
+  useEffect(() => {
+    if (!follow) {
+      return;
+    }
+    // https://github.com/TanStack/virtual/issues/537
+    const rafId = requestAnimationFrame(() => {
+      ref.current?.scrollToIndex(timestamps.length, { align: "end" });
+    });
+
+    return () => {
+      cancelAnimationFrame(rafId);
+    };
+  }, [timestamps, follow]);
 
   const handleChange = useCallback(
     (instance: Virtualizer<HTMLDivElement, Element>) => {
-      if (instance.scrollDirection === "backward") {
-        setFollow(false);
-      }
-      const isAtBottom = instance.range?.endIndex === timestamps.length - 1;
+      const isAtBottom =
+        (instance.range?.endIndex || 0) >= timestamps.length - 1;
+
       if (isAtBottom) {
-        setFollow(true);
+        return setFollow(true);
+      }
+      if (instance.scrollDirection === "backward") {
+        return setFollow(false);
       }
     },
     [timestamps],
@@ -172,15 +178,25 @@ export function LogsView({
           <Sidebar>
             {sidebar}
             {showFollowToggle ? (
-              <Toggle
-                onPressedChange={setFollow}
-                pressed={isEmpty ? false : follow}
-                disabled={isEmpty}
-                variant="outline"
-                aria-label="Toggle follow logs"
-              >
-                <FontAwesomeIcon className="size-4" icon={faDownToLine} />
-              </Toggle>
+              <WithTooltip
+                content="Follow logs"
+                trigger={
+                  <div>
+                    <Toggle
+                      onPressedChange={setFollow}
+                      pressed={isEmpty ? false : follow}
+                      disabled={isEmpty}
+                      variant="outline"
+                      aria-label="Toggle follow logs"
+                    >
+                      <FontAwesomeIcon
+                        className="size-4"
+                        icon={faArrowsDownToLine}
+                      />
+                    </Toggle>
+                  </div>
+                }
+              />
             ) : null}
           </Sidebar>
         )}
@@ -192,9 +208,8 @@ export function LogsView({
 LogsView.Skeleton = function LogsViewSkeleton() {
   return (
     <Root>
-      <Skeleton className="w-36 h-10" />
       <Content>
-        <LogsArea className="flex-col">
+        <LogsArea className="flex-col p-4">
           <Skeleton className="w-full h-6" />
           <Skeleton className="w-full h-6" />
           <Skeleton className="w-full h-6" />

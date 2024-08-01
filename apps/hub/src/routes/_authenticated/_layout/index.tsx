@@ -80,7 +80,7 @@ function IndexRoute() {
 }
 
 const searchSchema = z.object({
-  modal: z.enum(["create-game"]).optional(),
+  modal: z.enum(["create-game"]).or(z.string()).optional(),
   groupId: z.string().optional(),
 });
 

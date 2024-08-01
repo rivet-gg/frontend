@@ -59,7 +59,7 @@ function MatchmakerPage({
         </SidebarNavigation>
       }
     >
-      <Flex gap="4" direction="col">
+      <Flex gap="4" direction="col" className="w-full min-h-0 h-full md:h-auto">
         {children}
       </Flex>
     </SidebarPageContent>

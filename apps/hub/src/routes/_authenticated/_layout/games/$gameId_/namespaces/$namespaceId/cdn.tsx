@@ -186,7 +186,7 @@ function NamespaceCdnRoute() {
 }
 
 const searchSchema = z.object({
-  modal: z.enum(["cdn-users", "cdn-domains"]).optional(),
+  modal: z.enum(["cdn-users", "cdn-domains"]).or(z.string()).optional(),
 });
 
 export const Route = createFileRoute(

@@ -1,5 +1,4 @@
 import { ErrorComponent } from "@/components/error-component";
-import * as Layout from "@/domains/game/layouts/namespace-layout";
 import {
   gameNamespaceQueryOptions,
   gameQueryOptions,
@@ -13,19 +12,11 @@ import {
 } from "@tanstack/react-router";
 
 function NamespaceErrorComponent(props: ErrorComponentProps) {
-  return (
-    <Layout.EmptyRoot>
-      <ErrorComponent {...props} />
-    </Layout.EmptyRoot>
-  );
+  return <ErrorComponent {...props} />;
 }
 
 function NamespaceIdRoute() {
-  return (
-    <Layout.Root>
-      <Outlet />
-    </Layout.Root>
-  );
+  return <Outlet />;
 }
 
 export const Route = createFileRoute(

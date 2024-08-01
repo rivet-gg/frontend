@@ -4,7 +4,13 @@ import {
   gameBackendProjectEnvEventsQueryOptions,
   gameBackendProjectQueryOptions,
 } from "@/domains/game/queries";
-import { Card, CardContent, CardHeader, CardTitle } from "@rivet-gg/components";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  LiveBadge,
+} from "@rivet-gg/components";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import {
   type ErrorComponentProps,
@@ -24,7 +30,10 @@ function GameBackendEnvironmentIdLogsRoute() {
   return (
     <Card className="h-full max-h-full flex flex-col p-0">
       <CardHeader className="border-b">
-        <CardTitle>Logs</CardTitle>
+        <CardTitle className="flex gap-4">
+          Logs
+          <LiveBadge />
+        </CardTitle>
       </CardHeader>
       <CardContent className="flex-1 min-h-0 w-full p-0">
         <GameBackendListEventsPreview

@@ -1,8 +1,7 @@
 import { converEmojiToUriFriendlyString } from "@/lib/emoji";
-import type { Rivet } from "@rivet-gg/api";
 import { AssetImage, Flex, WithTooltip } from "@rivet-gg/components";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { gameRegionQueryOptions, gameRegionsQueryOptions } from "../queries";
+import { gameRegionQueryOptions } from "../../queries";
 
 const REGION_EMOJI: Record<string, string> = {
   local: "🏠",
@@ -124,13 +123,21 @@ export function LobbyRegion({ gameId, regionId, showLabel }: LobbyRegionProps) {
 
   const regionKey = getRegionKey(region?.regionNameId);
 
+  if (showLabel) {
+    return (
+      <Flex gap="2" items="center" justify="center">
+        <AssetImage className="w-5 min-w-5" src={getRegionEmoji(regionKey)} />
+        {REGION_LABEL[regionKey] ?? REGION_LABEL.unknown}
+      </Flex>
+    );
+  }
+
   return (
     <WithTooltip
       content={REGION_LABEL[regionKey] ?? REGION_LABEL.unknown}
       trigger={
-        <Flex gap="2">
-          <AssetImage className="w-5" src={getRegionEmoji(regionKey)} />
-          {showLabel ? REGION_LABEL[regionKey] : null}
+        <Flex gap="2" items="center" justify="center">
+          <AssetImage className="w-5 min-w-5" src={getRegionEmoji(regionKey)} />
         </Flex>
       }
     />

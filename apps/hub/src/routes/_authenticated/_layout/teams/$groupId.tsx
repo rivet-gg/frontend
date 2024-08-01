@@ -71,7 +71,7 @@ function GroupIdView() {
 }
 
 const searchSchema = z.object({
-  modal: z.enum(["invite", "create-game", "leave"]).optional(),
+  modal: z.enum(["invite", "create-game", "leave"]).or(z.string()).optional(),
 });
 
 export const Route = createFileRoute("/_authenticated/_layout/teams/$groupId")({

@@ -1,4 +1,4 @@
-import { rivetClient, rivetEeClient } from "@/queries/global";
+import { rivetClient } from "@/queries/global";
 import type { Rivet } from "@rivet-gg/api";
 import { queryOptions } from "@tanstack/react-query";
 import { getLiveLobbyStatus, getLobbyStatus } from "../../data/lobby-status";
@@ -71,17 +71,22 @@ export const gameNamespaceVersionQueryOptions = ({
   });
 };
 
-export const gameNamespaceLogsLobbyQueryOptions = ({
-  gameId,
-  namespaceId,
-  lobbyId,
-}: {
-  gameId: string;
-  namespaceId: string;
-  lobbyId: string;
-}) => {
+export const gameNamespaceLobbyQueryOptions = (
+  {
+    gameId,
+    namespaceId,
+    lobbyId,
+  }: {
+    gameId: string;
+    namespaceId: string;
+    lobbyId: string;
+  },
+  opts?: { refetchInterval?: number; throwOnError?: boolean },
+) => {
   return queryOptions({
     queryKey: ["game", gameId, "namespace", namespaceId, "lobby", lobbyId],
+    refetchInterval: opts?.refetchInterval,
+    throwOnError: opts?.throwOnError,
     queryFn: ({
       queryKey: [
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -105,6 +110,7 @@ export const gameNamespaceLogsLobbyQueryOptions = ({
       lobby: {
         ...data.lobby,
         readableStatus: getLobbyStatus(data.lobby.status, data.lobby.startTs),
+        stopTs: data.lobby.status.stopped?.stopTs,
       },
     }),
   });
@@ -170,17 +176,20 @@ export const gameNamespaceLogsLobbiesQueryOptions = ({
   });
 };
 
-export const gameNamespaceLogsLobbyLogsQueryOptions = ({
-  gameId,
-  lobbyId,
-  stream,
-}: {
-  gameId: string;
-  lobbyId: string;
-} & Rivet.cloud.games.GetLobbyLogsRequest) => {
+export const gameNamespaceLogsLobbyLogsQueryOptions = (
+  {
+    gameId,
+    lobbyId,
+    stream,
+  }: {
+    gameId: string;
+    lobbyId: string;
+  } & Rivet.cloud.games.GetLobbyLogsRequest,
+  opts?: { refetchInterval?: number },
+) => {
   return queryOptions({
     // watch does not work on this query
-    refetchInterval: 2000,
+    refetchInterval: opts?.refetchInterval,
     queryKey: ["game", gameId, "lobby", lobbyId, "logs", stream],
     queryFn: async ({
       queryKey: [

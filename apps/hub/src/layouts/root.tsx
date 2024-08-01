@@ -22,7 +22,7 @@ const Root = ({ children }: RootProps) => {
 
 const Main = ({ children }: RootProps) => {
   return (
-    <main className="bg-background flex flex-col h-full min-h-0">
+    <main className="bg-background flex flex-1 flex-col h-full min-h-0">
       {children}
     </main>
   );
