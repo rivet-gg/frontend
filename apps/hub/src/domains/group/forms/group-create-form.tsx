@@ -1,3 +1,4 @@
+import { safeAsyncValidation } from "@/lib/async-validation";
 import { createSchemaForm } from "@/lib/create-schema-form";
 import { TraversableErrors, VALIDATION_ERRORS } from "@/lib/traversable-errors";
 import { rivetClient } from "@/queries/global";
@@ -17,19 +18,21 @@ export const formSchema = z
     name: z.string().max(25),
   })
   .superRefine(async (arg, ctx) => {
-    const res = await rivetClient.cloud.groups.validate({
-      displayName: arg.name,
-    });
-    const errors = new TraversableErrors(VALIDATION_ERRORS.GROUP);
-    errors.load(res.errors.map((e) => e.path));
-
-    if (!errors.isEmpty()) {
-      ctx.addIssue({
-        path: ["name"],
-        code: z.ZodIssueCode.custom,
-        message: errors.findFormatted()[0] || "",
+    await safeAsyncValidation(ctx, async () => {
+      const res = await rivetClient.cloud.groups.validate({
+        displayName: arg.name,
       });
-    }
+      const errors = new TraversableErrors(VALIDATION_ERRORS.GROUP);
+      errors.load(res.errors.map((e) => e.path));
+
+      if (!errors.isEmpty()) {
+        ctx.addIssue({
+          path: ["name"],
+          code: z.ZodIssueCode.custom,
+          message: errors.findFormatted()[0] || "",
+        });
+      }
+    });
 
     return z.NEVER;
   });

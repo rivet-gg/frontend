@@ -12,6 +12,7 @@ function Modals() {
   const search = Route.useSearch();
 
   const CreateGroupGameDialog = useDialog.CreateGame.Dialog;
+  const CreateGroupDialog = useDialog.CreateGroup.Dialog;
 
   if (!search || !("modal" in search)) {
     return;
@@ -37,6 +38,12 @@ function Modals() {
         }
         dialogProps={{
           open: modal === "create-game",
+          onOpenChange: handleonOpenChange,
+        }}
+      />{" "}
+      <CreateGroupDialog
+        dialogProps={{
+          open: modal === "create-group",
           onOpenChange: handleonOpenChange,
         }}
       />
@@ -80,7 +87,7 @@ function IndexRoute() {
 }
 
 const searchSchema = z.object({
-  modal: z.enum(["create-game"]).or(z.string()).optional(),
+  modal: z.enum(["create-game", "create-group"]).or(z.string()).optional(),
   groupId: z.string().optional(),
 });
 

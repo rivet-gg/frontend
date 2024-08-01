@@ -1,16 +1,15 @@
-import { useDialog } from "@/hooks/use-dialog";
 import { Button, Card, CardFooter } from "@rivet-gg/components";
+import { Link } from "@tanstack/react-router";
 
 export function GroupCreateCard() {
-  const { open: openGroupCreateDialog, dialog } = useDialog.CreateGroup({});
-
   return (
     <>
-      {dialog}
       <Card w="full" my="4">
         <CardFooter>
-          <Button onClick={openGroupCreateDialog} variant="secondary">
-            Create a new team
+          <Button asChild variant="secondary">
+            <Link to="/" search={{ modal: "create-group" }}>
+              Create a new team
+            </Link>
           </Button>
         </CardFooter>
       </Card>

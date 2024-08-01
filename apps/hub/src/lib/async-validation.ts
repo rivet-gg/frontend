@@ -6,6 +6,8 @@ import {
 } from "./traversable-errors";
 import { FieldValues, Path, UseFormReturn } from "react-hook-form";
 import z from "zod";
+import { isRivetError } from "./utils";
+import { toast } from "@rivet-gg/components";
 
 export function validateAgainstApi<TGroup extends keyof ValidationPaths>({
   group,
@@ -56,4 +58,24 @@ export function validateAgainstApi<TGroup extends keyof ValidationPaths>({
       return { isValid: traversable.isEmpty() };
     },
   };
+}
+
+export async function safeAsyncValidation(
+  ctx: z.RefinementCtx,
+  fn: () => Promise<void>,
+  opts: { message?: string } = {},
+) {
+  try {
+    await fn();
+  } catch (e) {
+    const msg = opts.message || "An error occurred while validating.";
+
+    toast.error(msg, {
+      description: isRivetError(e) ? e.body.message : undefined,
+    });
+    ctx.addIssue({
+      path: [""],
+      code: z.ZodIssueCode.custom,
+    });
+  }
 }

@@ -1,7 +1,10 @@
 import { queryClient, rivetClient } from "@/queries/global";
 import type { Rivet } from "@rivet-gg/api";
 import { useMutation } from "@tanstack/react-query";
-import { selfProfileQueryOptions } from "./query-options";
+import {
+  identityTokenQueryOptions,
+  selfProfileQueryOptions,
+} from "./query-options";
 
 const useAvatarUploadCompleteMutation = () => {
   return useMutation({
@@ -76,8 +79,14 @@ export const useLogoutMutation = () => {
   return useMutation({
     mutationFn: () =>
       rivetClient.auth.tokens.refreshIdentityToken({ logout: true }),
+    onSuccess(data) {
+      return queryClient.setQueryData(
+        identityTokenQueryOptions().queryKey,
+        data,
+      );
+    },
     onSettled: () => {
-      return queryClient.resetQueries();
+      return queryClient.invalidateQueries();
     },
   });
 };

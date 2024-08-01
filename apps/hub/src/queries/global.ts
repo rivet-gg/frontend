@@ -1,3 +1,4 @@
+import { isRivetError } from "@/lib/utils";
 import { type Rivet, RivetClient } from "@rivet-gg/api";
 import { RivetClient as RivetEeClient } from "@rivet-gg/api-ee";
 import { getConfig, toast } from "@rivet-gg/components";
@@ -94,7 +95,9 @@ const mutationCache = new MutationCache({
     if (mutation.meta?.hideErrorToast) {
       return;
     }
-    toast.error("An error occurred while performing the operation.");
+    toast.error("An error occurred while performing the operation.", {
+      description: isRivetError(error) ? error.body.message : undefined,
+    });
   },
 });
 

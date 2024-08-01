@@ -1,4 +1,7 @@
-import { validateAgainstApi } from "@/lib/async-validation";
+import {
+  safeAsyncValidation,
+  validateAgainstApi,
+} from "@/lib/async-validation";
 import { createSchemaForm } from "@/lib/create-schema-form";
 import { convertStringToId } from "@/lib/utils";
 import { rivetClient } from "@/queries/global";
@@ -19,17 +22,19 @@ export const formSchema = z
     slug: z.string().max(25).optional(),
   })
   .superRefine(async (arg, ctx) => {
-    const res = await rivetClient.cloud.games.validateGame({
-      displayName: arg.name,
-      nameId: arg.slug || convertStringToId(arg.name),
-    });
+    await safeAsyncValidation(ctx, async () => {
+      const res = await rivetClient.cloud.games.validateGame({
+        displayName: arg.name,
+        nameId: arg.slug || convertStringToId(arg.name),
+      });
 
-    validateAgainstApi({
-      group: "GAME",
-      errors: res.errors,
-    }).setSchemaIssues(ctx, {
-      name: "display-name",
-      slug: "name-id",
+      validateAgainstApi({
+        group: "GAME",
+        errors: res.errors,
+      }).setSchemaIssues(ctx, {
+        name: "display-name",
+        slug: "name-id",
+      });
     });
 
     return z.NEVER;

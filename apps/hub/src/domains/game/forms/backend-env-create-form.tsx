@@ -1,4 +1,7 @@
-import { validateAgainstApi } from "@/lib/async-validation";
+import {
+  safeAsyncValidation,
+  validateAgainstApi,
+} from "@/lib/async-validation";
 import { createSchemaForm } from "@/lib/create-schema-form";
 import { convertStringToId } from "@/lib/utils";
 import { rivetEeClient } from "@/queries/global";
@@ -31,20 +34,22 @@ export const formSchema = z
     projectId: z.string(),
   })
   .superRefine(async (arg, ctx) => {
-    const res = await rivetEeClient.ee.cloud.backend.projects.envs.validate(
-      arg.projectId,
-      {
-        displayName: arg.name,
-        nameId: arg.slug || convertStringToId(arg.name),
-      },
-    );
+    await safeAsyncValidation(ctx, async () => {
+      const res = await rivetEeClient.ee.cloud.backend.projects.envs.validate(
+        arg.projectId,
+        {
+          displayName: arg.name,
+          nameId: arg.slug || convertStringToId(arg.name),
+        },
+      );
 
-    validateAgainstApi({
-      group: "GAME_NAMESPACE",
-      errors: res.errors,
-    }).setSchemaIssues(ctx, {
-      name: "display-name",
-      slug: "name-id",
+      validateAgainstApi({
+        group: "GAME_NAMESPACE",
+        errors: res.errors,
+      }).setSchemaIssues(ctx, {
+        name: "display-name",
+        slug: "name-id",
+      });
     });
 
     return z.NEVER;
