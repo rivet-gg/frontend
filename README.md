@@ -31,8 +31,8 @@ This will open `http://localhost:5080` in your browser. By default, this will co
 
 ## Environment variables configuration
 
-1. Copy `.env.example` to `.env.yarn` and fill appropiate variables.
-2. Copy `apps/hub/.env.example` to `apps/hub/.env.yarn` and change variables if needed.
+1. Copy `.env.example` to `.env.yarn` and fill appropriate variables.
+2. Copy `apps/hub/.env.example` to `apps/hub/.env` and change variables if needed.
 
 ## Developing with self-hosted backend
 
