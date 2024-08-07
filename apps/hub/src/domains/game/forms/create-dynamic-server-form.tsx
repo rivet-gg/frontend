@@ -1,4 +1,3 @@
-import { createSchemaForm } from "@/lib/create-schema-form";
 import { findDuplicated } from "@/lib/utils";
 import { faPlus, faTrash } from "@fortawesome/pro-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -26,6 +25,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
+  createSchemaForm,
 } from "@rivet-gg/components";
 import {
   type UseFormReturn,

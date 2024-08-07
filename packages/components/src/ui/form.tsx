@@ -159,7 +159,7 @@ const FormMessage = React.forwardRef<
     ? String(error?.root?.message || error?.message)
     : children;
 
-  if (!body) {
+  if (!error) {
     return null;
   }
 
@@ -177,12 +177,12 @@ const FormMessage = React.forwardRef<
 FormMessage.displayName = "FormMessage";
 
 export {
-  useFormField,
   Form,
-  FormItem,
-  FormLabel,
   FormControl,
   FormDescription,
-  FormMessage,
   FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+  useFormField,
 };
