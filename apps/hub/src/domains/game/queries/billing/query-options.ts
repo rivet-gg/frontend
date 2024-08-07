@@ -18,11 +18,15 @@ export const groupBillingUsageQueryOptions = ({
       "usage",
       { startTs, endTs },
     ] as const,
-    queryFn: ({ queryKey: [_, groupId] }) =>
-      rivetEeClient.ee.cloud.groups.billing.getUsage(groupId, {
-        queryStartTs: startTs,
-        queryEndTs: endTs,
-      }),
+    queryFn: ({ queryKey: [_, groupId], signal }) =>
+      rivetEeClient.ee.cloud.groups.billing.getUsage(
+        groupId,
+        {
+          queryStartTs: startTs,
+          queryEndTs: endTs,
+        },
+        { abortSignal: signal },
+      ),
   });
 
 export const gameBillingUsageQueryOptions = ({
@@ -53,7 +57,15 @@ export const gameBillingQueryOptions = (
         _,
         gameId,
       ],
-    }) => rivetEeClient.ee.cloud.games.billing.get(gameId),
+      signal,
+    }) =>
+      rivetEeClient.ee.cloud.games.billing.get(
+        gameId,
+        {},
+        {
+          abortSignal: signal,
+        },
+      ),
     enabled: opts.enabled,
   });
 };

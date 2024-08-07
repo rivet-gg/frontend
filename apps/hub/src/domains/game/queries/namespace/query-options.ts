@@ -30,10 +30,12 @@ export const gameNamespaceQueryOptions = ({
         __,
         namespaceId,
       ],
+      signal,
     }) =>
       rivetClient.cloud.games.namespaces.getGameNamespaceById(
         gameId,
         namespaceId,
+        { abortSignal: signal },
       ),
   });
 };
@@ -99,11 +101,13 @@ export const gameNamespaceLobbyQueryOptions = (
         ___,
         lobbyId,
       ],
+      signal,
     }) =>
       rivetClient.cloud.games.namespaces.logs.getNamespaceLobby(
         gameId,
         namespaceId,
         lobbyId,
+        { abortSignal: signal },
       ),
     select: (data) => ({
       ...data,
@@ -136,10 +140,12 @@ export const gameNamespaceTokenPublicQueryOptions = ({
         __,
         namespaceId,
       ],
+      signal,
     }) =>
       rivetClient.cloud.games.namespaces.createGameNamespaceTokenPublic(
         gameId,
         namespaceId,
+        { abortSignal: signal },
       ),
     select: (data) => data.token,
   });
@@ -163,10 +169,13 @@ export const gameNamespaceLogsLobbiesQueryOptions = ({
         __,
         namespaceId,
       ],
+      signal,
     }) =>
       rivetClient.cloud.games.namespaces.logs.listNamespaceLobbies(
         gameId,
         namespaceId,
+        {},
+        { abortSignal: signal },
       ),
     select: (data) =>
       data.lobbies.map((lobby) => ({
@@ -203,6 +212,7 @@ export const gameNamespaceLogsLobbyLogsQueryOptions = (
         ___,
         stream,
       ],
+      signal,
     }) => {
       const response = await rivetClient.cloud.games.matchmaker.getLobbyLogs(
         gameId,
@@ -210,6 +220,7 @@ export const gameNamespaceLogsLobbyLogsQueryOptions = (
         {
           stream: stream as Rivet.cloud.games.LogStream,
         },
+        { abortSignal: signal },
       );
       return {
         ...response,
@@ -238,10 +249,12 @@ export const gameNamespaceLobbiesLiveQueryOptions = ({
         __,
         namespaceId,
       ],
+      signal,
     }) =>
       rivetClient.cloud.games.namespaces.analytics.getAnalyticsMatchmakerLive(
         gameId,
         namespaceId,
+        { abortSignal: signal },
       ),
     select: (data) => ({
       ...data,

@@ -1,114 +1,74 @@
+import { isRivetError } from "@/lib/utils";
+import { toast } from "@rivet-gg/components";
+import * as Sentry from "@sentry/react";
 import {
-  CancelledError,
   type Query,
-  type QueryCache,
-  type QueryKey,
+  type QueryClient,
+  isCancelledError,
 } from "@tanstack/react-query";
-import { isArray, mergeWith, omit } from "lodash";
 import { z } from "zod";
-import { queryClient } from "./global";
-import { getWatchIndex, metaHasWatchConfig } from "./utils";
 
-const watchIndexSchemaFragment = z.object({
+const watchedQueries = new Set<string>();
+
+const watchResponseFragment = z.object({
   watch: z.object({ index: z.string() }),
 });
 
-const watch = async (query: Query<unknown, unknown, unknown, QueryKey>) => {
-  try {
-    if (
-      query.queryKey.includes("watch") ||
-      !query.meta ||
-      (query.meta && !("watch" in query.meta))
-    ) {
-      return;
-    }
-
-    const meta = query.meta;
-
-    if (!metaHasWatchConfig(meta)) {
-      return;
-    }
-
-    const isFetching = await queryClient.isFetching({
-      queryKey: [...query.queryKey, "watch"],
-    });
-
-    if (isFetching) {
-      return;
-    }
-
-    const queryData = await queryClient.getQueryData(query.queryKey);
-    // Check if the last query data has a watch index
-    const result = watchIndexSchemaFragment.safeParse(queryData);
-
-    if (!result.success) {
-      return;
-    }
-
-    // Fetch the query with the watch index
-    // Use different queryKey to avoid cache conflicts (e.g. when the query is refetched with different variables)
-    const fetchResult = await queryClient.fetchQuery({
-      ...query.options,
-      queryKey: [...query.queryKey, "watch"],
-      queryHash: undefined,
-      staleTime: 1,
-      meta: {
-        watchIndex: result.data.watch.index,
-      },
-    });
-
-    if (meta.watch === true) {
-      queryClient.setQueryData(query.queryKey, fetchResult);
-    } else if (meta.watch.mergeResponses && fetchResult) {
-      queryClient.setQueryData(query.queryKey, (input) => {
-        return {
-          watch: getWatchIndex(fetchResult),
-          ...mergeWith(
-            omit(fetchResult, ["watch"]),
-            input ? omit(input, ["watch"]) : {},
-            function customizer(objValue, srcValue) {
-              if (isArray(objValue)) {
-                return objValue.concat(srcValue);
-              }
-            },
-          ),
-        };
+async function watch(query: Query) {
+  watchedQueries.add(query.queryHash);
+  while (true) {
+    try {
+      const { watch } = watchResponseFragment.parse(query.state.data);
+      await query.fetch(
+        {
+          ...query.options,
+          meta: { __watcher: { index: watch.index } },
+        },
+        { cancelRefetch: false },
+      );
+    } catch (error) {
+      if (
+        (error instanceof Error && error.name === "AbortError") ||
+        isCancelledError(error)
+      ) {
+        return;
+      }
+      query.cancel({ silent: false, revert: true });
+      watchedQueries.delete(query.queryHash);
+      toast.error("Error occurred while watching a realtime resource.", {
+        description: isRivetError(error) ? error.body.message : undefined,
       });
-    }
-
-    // Check if the query is still being observed
-    const observerCount = queryClient
-      .getQueryCache()
-      .get(query.queryHash)
-      ?.getObserversCount();
-
-    if (observerCount && observerCount > 0) {
-      // If the query is still being observed, watch it again
-      await watch(query);
-    }
-  } catch (e) {
-    if (!(e instanceof CancelledError)) {
-      query.setState({ error: e });
+      Sentry.captureException(error);
+      break;
     }
   }
-};
+}
 
-export const metaWatchQuery = () => ({ watch: true }) as const;
+export function watchBlockingQueries(queryClient: QueryClient) {
+  queryClient.getQueryCache().subscribe((event) => {
+    if (event.type === "observerAdded") {
+      if (event.query.meta?.watch) {
+        if (!event.query.state.data.watch.index) {
+          return;
+        }
+        if (event.query.state.fetchStatus === "fetching") {
+          return;
+        }
 
-export const withQueryWatch = (
-  opts: ConstructorParameters<typeof QueryCache>[0] = {},
-) => {
-  const oldOnSuccess = opts?.onSuccess;
-
-  return {
-    ...opts,
-    onSuccess: (
-      data: unknown,
-      query: Query<unknown, unknown, unknown, QueryKey>,
-    ) => {
-      oldOnSuccess?.(data, query);
-
-      watch(query);
-    },
-  };
-};
+        if (watchedQueries.has(event.query.queryHash)) {
+          return;
+        }
+        watch(event.query);
+      }
+    }
+    if (event.type === "observerRemoved") {
+      if (event.query.meta?.watch) {
+        if (event.query.getObserversCount() > 0) {
+          return;
+        }
+        event.query.cancel();
+        watchedQueries.delete(event.query.queryHash);
+      }
+    }
+  });
+}

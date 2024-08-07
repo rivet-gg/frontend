@@ -163,7 +163,7 @@ export const useGroupCreateMutation = ({
     mutationFn: (data: Rivet.group.CreateRequest) =>
       rivetClient.group.create(data),
     onSuccess: async (data) => {
-      await queryClient.fetchQuery(gamesQueryOptions());
+      await queryClient.invalidateQueries(gamesQueryOptions());
       onSuccess?.(data);
     },
   });

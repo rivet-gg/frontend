@@ -1,4 +1,10 @@
-import { Dialog, DialogContent, type DialogProps } from "@rivet-gg/components";
+import {
+  Dialog,
+  DialogContent,
+  type DialogProps,
+  DialogTitle,
+  VisuallyHidden,
+} from "@rivet-gg/components";
 import {
   type ComponentProps,
   type ComponentType,
@@ -41,6 +47,9 @@ export const createDialogHook = <
             }
           }}
         >
+          <VisuallyHidden>
+            <DialogTitle>Dynamic title</DialogTitle>
+          </VisuallyHidden>
           <Content
             {...props}
             onClose={() => dialogProps?.onOpenChange?.(false)}

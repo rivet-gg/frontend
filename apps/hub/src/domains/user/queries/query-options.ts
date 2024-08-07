@@ -17,10 +17,13 @@ export const selfProfileQueryOptions = (opts: { enabled?: boolean } = {}) => {
   return queryOptions({
     ...opts,
     queryKey: ["selfProfile"],
-    queryFn: ({ meta }) => {
-      return rivetClient.identity.getSelfProfile({
-        watchIndex: getMetaWatchIndex(meta),
-      });
+    queryFn: ({ meta, signal }) => {
+      return rivetClient.identity.getSelfProfile(
+        {
+          watchIndex: getMetaWatchIndex(meta),
+        },
+        { abortSignal: signal },
+      );
     },
     meta: { watch: true },
   });

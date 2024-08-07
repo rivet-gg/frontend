@@ -5,10 +5,13 @@ import { queryOptions } from "@tanstack/react-query";
 export const gamesQueryOptions = () => {
   return queryOptions({
     queryKey: ["games"],
-    queryFn: ({ meta }) =>
-      rivetClient.cloud.games.getGames({
-        watchIndex: getMetaWatchIndex(meta),
-      }),
+    queryFn: ({ meta, signal }) =>
+      rivetClient.cloud.games.getGames(
+        {
+          watchIndex: getMetaWatchIndex(meta),
+        },
+        { abortSignal: signal },
+      ),
     select: (data) => {
       return data.groups.map((group) => {
         return {
@@ -19,6 +22,7 @@ export const gamesQueryOptions = () => {
         };
       });
     },
+    meta: { watch: true },
   });
 };
 

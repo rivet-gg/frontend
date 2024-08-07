@@ -10,7 +10,7 @@ export const useGameCreateMutation = ({
   onSuccess?: (data: Rivet.cloud.games.CreateGameResponse) => void;
 } = {}) => {
   return useMutation({
-    mutationFn: (data: Rivet.cloud.games.CreateGameRequest) =>
+    mutationFn: async (data: Rivet.cloud.games.CreateGameRequest) =>
       rivetClient.cloud.games.createGame(data),
     onSuccess: async (data) => {
       await queryClient.invalidateQueries(gamesQueryOptions());

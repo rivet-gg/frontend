@@ -5,24 +5,36 @@ import { queryOptions } from "@tanstack/react-query";
 export const groupMembersQueryOptions = (groupId: string) => {
   return queryOptions({
     queryKey: ["group", groupId],
-    queryFn: ({ meta }) =>
-      rivetClient.group.getMembers(groupId, {
-        watchIndex: getMetaWatchIndex(meta),
-      }),
+    queryFn: ({ meta, signal }) =>
+      rivetClient.group.getMembers(
+        groupId,
+        {
+          watchIndex: getMetaWatchIndex(meta),
+        },
+        { abortSignal: signal },
+      ),
   });
 };
 
 export const groupBillingQueryOptions = (groupId: string) => {
   return queryOptions({
     queryKey: ["group", groupId, "billing"],
-    queryFn: () => rivetEeClient.ee.cloud.groups.billing.get(groupId),
+    queryFn: ({ signal }) =>
+      rivetEeClient.ee.cloud.groups.billing.get(
+        groupId,
+        {},
+        {
+          abortSignal: signal,
+        },
+      ),
   });
 };
 
 export const groupInviteQueryOptions = (inviteId: string) => {
   return queryOptions({
     queryKey: ["groupInvite", inviteId],
-    queryFn: () => rivetClient.group.invites.getInvite(inviteId),
+    queryFn: ({ signal }) =>
+      rivetClient.group.invites.getInvite(inviteId, { abortSignal: signal }),
   });
 };
 
