@@ -1,12 +1,10 @@
-import { type PropsWithChildren, forwardRef } from "react";
+import { type ComponentProps, forwardRef } from "react";
 
 export const CodeMirrorContainer = forwardRef<
   HTMLDivElement,
-  PropsWithChildren
->(({ children }, ref) => {
+  ComponentProps<"div">
+>((props, ref) => {
   return (
-    <div ref={ref} className="border rounded-md overflow-hidden">
-      {children}
-    </div>
+    <div ref={ref} {...props} className="border rounded-md overflow-hidden" />
   );
 });

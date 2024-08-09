@@ -14,7 +14,7 @@ interface JsonCodeProps extends ReactCodeMirrorProps {}
 export const JsonCode = forwardRef<HTMLDivElement, JsonCodeProps>(
   ({ value, extensions = [], ...props }, ref) => {
     return (
-      <CodeMirrorContainer ref={ref}>
+      <CodeMirrorContainer ref={ref} tabIndex={0}>
         <ReactCodeMirror
           {...props}
           extensions={[json(), linter(jsonParseLinter()), ...extensions]}
