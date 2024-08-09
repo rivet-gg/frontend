@@ -54,7 +54,7 @@ const clientOptions: RivetClient.Options = {
 
 export const rivetClientTokeneless = new RivetClient({
   environment: clientOptions.environment,
-  fetcher: (opts) => fetcher({ ...opts, withCredentials: true }),
+  fetcher: clientOptions.fetcher,
 });
 export const rivetClient = new RivetClient(clientOptions);
 export const rivetEeClient = new RivetEeClient(clientOptions);
