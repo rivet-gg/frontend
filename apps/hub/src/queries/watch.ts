@@ -48,7 +48,7 @@ export function watchBlockingQueries(queryClient: QueryClient) {
   queryClient.getQueryCache().subscribe((event) => {
     if (event.type === "observerAdded") {
       if (event.query.meta?.watch) {
-        if (!event.query.state.data.watch.index) {
+        if (!event.query.state.data?.watch?.index) {
           return;
         }
         if (event.query.state.fetchStatus === "fetching") {

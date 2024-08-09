@@ -6,6 +6,7 @@ import {
   selfProfileQueryOptions,
 } from "@/domains/user/queries";
 import { Rivet } from "@rivet-gg/api";
+import * as Sentry from "@sentry/react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useCallback } from "react";
 
@@ -91,7 +92,8 @@ export const useOtpFormSubmitHandler = ({
         }
 
         return onSuccess?.();
-      } catch {
+      } catch (error) {
+        Sentry.captureException(error);
         return form.setError("otp", {
           type: "manual",
           message: "Invalid verification code",
