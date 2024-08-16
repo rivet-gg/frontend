@@ -42,7 +42,7 @@ export const Route = createFileRoute(
     layout: "full",
   },
   beforeLoad: async ({ params: { gameId, namespaceId }, context }) => {
-    await context.queryClient.ensureQueryData(
+    await context.queryClient.fetchQuery(
       gameNamespaceLogsLobbiesQueryOptions({ gameId, namespaceId }),
     );
   },

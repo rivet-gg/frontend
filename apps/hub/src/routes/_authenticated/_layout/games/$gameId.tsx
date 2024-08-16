@@ -70,9 +70,7 @@ const searchSchema = z.object({
 export const Route = createFileRoute("/_authenticated/_layout/games/$gameId")({
   validateSearch: (search) => searchSchema.parse(search),
   beforeLoad: async ({ context: { queryClient }, params: { gameId } }) => {
-    const response = await queryClient.ensureQueryData(
-      gameQueryOptions(gameId),
-    );
+    const response = await queryClient.fetchQuery(gameQueryOptions(gameId));
     return {
       gameId,
       developerGroupId: response.game.developerGroupId,

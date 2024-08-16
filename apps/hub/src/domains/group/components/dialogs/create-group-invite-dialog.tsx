@@ -55,7 +55,7 @@ export default function CreateGroupInviteDialogContent({
         onSubmit={async (values) => {
           await mutateAsync({
             groupId,
-            ttl: values.expTime,
+            ttl: values.expTime === 0 ? undefined : values.expTime,
             useCount: values.isInfinite ? undefined : values.usageCount,
           });
         }}

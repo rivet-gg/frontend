@@ -14,7 +14,6 @@ import {
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/router-devtools";
 import { usePostHog } from "posthog-js/react";
-import { Suspense } from "react";
 import { useKonami } from "react-konami-code";
 import { z } from "zod";
 
@@ -98,9 +97,9 @@ function Root() {
 function RootRoute() {
   return (
     <>
-      <Suspense fallback={<FullscreenLoading />}>
-        <Root />
-      </Suspense>
+      {/* <Suspense fallback={<FullscreenLoading />}> */}
+      <Root />
+      {/* </Suspense> */}
 
       {import.meta.env.DEV ? <TanStackRouterDevtools /> : null}
     </>
@@ -123,4 +122,6 @@ export const Route = createRootRouteWithContext<RouterContext>()({
   component: RootRoute,
   errorComponent: RootErrorComponent,
   notFoundComponent: RootNotFoundComponent,
+  wrapInSuspense: true,
+  pendingComponent: FullscreenLoading,
 });

@@ -61,7 +61,9 @@ function InviteCodeInviteRoute() {
           </CardHeader>
           <CardFooter>
             <Flex gap="4">
-              <Button>Homepage</Button>
+              <Button asChild>
+                <Link to="/">Homepage</Link>
+              </Button>
             </Flex>
           </CardFooter>
         </Card>
@@ -109,7 +111,7 @@ function InviteCodeInviteRoute() {
 export const Route = createFileRoute("/_authenticated/invite/$inviteCode")({
   component: InviteCodeInviteRoute,
   beforeLoad: async ({ params: { inviteCode } }) => {
-    const invite = await queryClient.ensureQueryData(
+    const invite = await queryClient.fetchQuery(
       groupInviteQueryOptions(inviteCode),
     );
 

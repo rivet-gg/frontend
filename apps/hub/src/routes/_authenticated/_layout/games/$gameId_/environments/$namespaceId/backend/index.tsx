@@ -21,7 +21,7 @@ export const Route = createFileRoute(
     context: { queryClient },
     params: { namespaceId, gameId },
   }) => {
-    await queryClient.ensureQueryData(
+    await queryClient.fetchQuery(
       gameBackendQueryOptions({ gameId, environmentId: namespaceId }),
     );
   },

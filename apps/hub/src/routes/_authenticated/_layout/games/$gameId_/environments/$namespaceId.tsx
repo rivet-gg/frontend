@@ -60,10 +60,8 @@ export const Route = createFileRoute(
 )({
   validateSearch: (search) => searchSchema.parse(search),
   beforeLoad: async ({ params: { gameId, namespaceId } }) => {
-    const { game } = await queryClient.ensureQueryData(
-      gameQueryOptions(gameId),
-    );
-    const { namespace } = await queryClient.ensureQueryData(
+    const { game } = await queryClient.fetchQuery(gameQueryOptions(gameId));
+    const { namespace } = await queryClient.fetchQuery(
       gameNamespaceQueryOptions({ gameId, namespaceId }),
     );
 

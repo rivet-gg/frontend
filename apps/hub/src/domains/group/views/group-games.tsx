@@ -82,10 +82,10 @@ export function GroupGames({ groupId }: GroupGamesProps) {
                   </TableCell>
                   <TableCell>
                     <Text asChild>
-                      <div>
+                      <Flex items="center" gap="2">
                         {game.displayName}{" "}
                         <GameBillingPlanBadge gameId={game.gameId} />
-                      </div>
+                      </Flex>
                     </Text>
                   </TableCell>
                   <TableCell>

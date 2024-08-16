@@ -58,7 +58,7 @@ export const Route = createFileRoute(
     params: { gameId, namespaceId },
     context: { queryClient },
   }) =>
-    queryClient.ensureQueryData(
+    queryClient.fetchQuery(
       gameBackendEnvEventsQueryOptions({ gameId, environmentId: namespaceId }),
     ),
   component: GameBackendEnvironmentIdLogsRoute,
