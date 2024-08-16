@@ -13,12 +13,12 @@ import {
 import { useGameBackendEnvDatabasePreviewMutation } from "../../queries";
 
 interface ContentProps extends DialogContentProps {
-  projectId: string;
+  gameId: string;
   environmentId: string;
 }
 
 export default function ConfirmOuterbaseConnectionDialogContent({
-  projectId,
+  gameId,
   environmentId,
   onClose,
 }: ContentProps) {
@@ -58,7 +58,7 @@ export default function ConfirmOuterbaseConnectionDialogContent({
           }
           isLoading={isPending}
           onClick={() => {
-            mutate({ environmentId, projectId });
+            mutate({ environmentId, gameId });
           }}
         >
           Confirm

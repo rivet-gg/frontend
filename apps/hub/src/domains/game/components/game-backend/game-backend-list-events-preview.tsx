@@ -12,15 +12,15 @@ import { GameBackendEventsListPanel } from "./game-backend-events-list-panel";
 interface GameBackendListEventsPreviewProps {
   events: BackendEvent[];
   environmentId: string;
-  projectId: string;
+  gameId: string;
   eventId?: string;
 }
 
 export function GameBackendListEventsPreview({
   events,
   eventId,
+  gameId,
   environmentId,
-  projectId,
 }: GameBackendListEventsPreviewProps) {
   if (events.length === 0) {
     return (
@@ -47,8 +47,8 @@ export function GameBackendListEventsPreview({
       <ResizablePanel minSize={25} maxSize={75}>
         <div className="h-full max-h-full overflow-hidden w-full">
           <GameBackendEventDetailsPanel
-            projectId={projectId}
             environmentId={environmentId}
+            gameId={gameId}
             eventId={eventId}
           />
         </div>

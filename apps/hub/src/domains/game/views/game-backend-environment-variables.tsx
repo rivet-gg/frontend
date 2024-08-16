@@ -9,21 +9,21 @@ import {
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { computeBackendEnvVariablesDiff } from "../helpers/backend-env-compute-diff-variables";
 import {
-  gameBackendProjectEnvVariablesQueryOptions,
+  gameBackendEnvVariablesQueryOptions,
   useBackendUpdateVariablesMutation,
 } from "../queries";
 
 interface GameBackendEnvironmentVariablesProps {
-  projectId: string;
+  gameId: string;
   environmentId: string;
 }
 
 export function GameBackendEnvironmentVariables({
   environmentId,
-  projectId,
+  gameId,
 }: GameBackendEnvironmentVariablesProps) {
   const { data } = useSuspenseQuery(
-    gameBackendProjectEnvVariablesQueryOptions({ projectId, environmentId }),
+    gameBackendEnvVariablesQueryOptions({ gameId, environmentId }),
   );
   const { mutateAsync } = useBackendUpdateVariablesMutation();
   return (
@@ -40,7 +40,7 @@ export function GameBackendEnvironmentVariables({
           return;
         }
         return mutateAsync({
-          projectId,
+          gameId,
           environmentId,
           variables: diff.variables,
         });

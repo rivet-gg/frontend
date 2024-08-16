@@ -5,26 +5,26 @@ import { serverLogsQueryOptions } from "../../queries";
 
 interface GameServerLogsTabProps {
   gameId: string;
+  environmentId: string;
   serverId: string;
   logType: Rivet.servers.LogStream;
 }
 
 export function GameServerLogsTab({
   gameId,
+  environmentId,
   serverId,
   logType,
 }: GameServerLogsTabProps) {
   const {
     data: { timestamps, lines },
   } = useSuspenseQuery(
-    serverLogsQueryOptions(
-      {
-        gameId,
-        serverId,
-        stream: logType,
-      },
-      { refetchInterval: 1000 },
-    ),
+    serverLogsQueryOptions({
+      gameId,
+      environmentId,
+      serverId,
+      stream: logType,
+    }),
   );
 
   return (

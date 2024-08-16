@@ -1,7 +1,5 @@
 import { GameAvatar } from "@/domains/game/components/game-avatar";
 import {
-  gameBackendProjectEnvQueryOptions,
-  gameBackendProjectQueryOptions,
   gameNamespaceDisplayNameQueryOptions,
   gameQueryOptions,
   groupGamesQueryOptions,
@@ -63,28 +61,6 @@ function BackendBreadcrumb() {
   );
 }
 
-function BackendEnvironmentBreadcrumb({
-  environmentId,
-  gameId,
-}: {
-  gameId: string;
-  environmentId: string;
-}) {
-  const {
-    data: { project },
-  } = useSuspenseQuery(gameBackendProjectQueryOptions(gameId));
-
-  if (!project) throw new Error("Project not found");
-
-  const { data: env } = useSuspenseQuery(
-    gameBackendProjectEnvQueryOptions({
-      projectId: project.projectId,
-      environmentId,
-    }),
-  );
-  return <>{env.displayName}</>;
-}
-
 interface CommandPanelNavigationBreadcrumbsProps {
   pages: CommandPanelPage[];
 }
@@ -104,11 +80,8 @@ export function CommandPanelNavigationBreadcrumbs({
             {page.key === "game" && <GameBreadcrumb {...page.params} />}
             {page.key === "namespace" && (
               <NamespaceBreadcrumb {...page.params} />
-            )}{" "}
-            {page.key === "backend" && <BackendBreadcrumb />}
-            {page.key === "environment" && (
-              <BackendEnvironmentBreadcrumb {...page.params} />
             )}
+            {page.key === "backend" && <BackendBreadcrumb />}
           </Badge>
         ))}
       </Suspense>

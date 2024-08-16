@@ -9,7 +9,7 @@ import {
   Text,
 } from "@rivet-gg/components";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { gameBackendProjectEnvEventQueryOptions } from "../../queries";
+import { gameBackendEnvEventQueryOptions } from "../../queries";
 import { GameBackendEventDetailsHeadersTab } from "./game-backend-event-details/game-backend-event-details-headers-tab";
 import { GameBackendEventDetailsLogsTab } from "./game-backend-event-details/game-backend-event-details-logs-tab";
 import { GameBackendEventDetailsWipTab } from "./game-backend-event-details/game-backend-event-details-wip-tab";
@@ -17,19 +17,19 @@ import { GameBackendResponseBadge } from "./game-backend-response-badge";
 
 interface GameBackendEventDetailsProps {
   eventId: string;
-  projectId: string;
+  gameId: string;
   environmentId: string;
 }
 
 export function GameBackendEventDetails({
   eventId,
-  projectId,
+  gameId,
   environmentId,
 }: GameBackendEventDetailsProps) {
   const { data } = useSuspenseQuery(
-    gameBackendProjectEnvEventQueryOptions({
+    gameBackendEnvEventQueryOptions({
       eventId,
-      projectId,
+      gameId,
       environmentId,
     }),
   );

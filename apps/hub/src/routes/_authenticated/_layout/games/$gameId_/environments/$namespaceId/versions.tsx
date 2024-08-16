@@ -7,7 +7,7 @@ function NamespaceVersionsRoute() {
 }
 
 export const Route = createFileRoute(
-  "/_authenticated/_layout/games/$gameId/namespaces/$namespaceId/versions",
+  "/_authenticated/_layout/games/$gameId/environments/$namespaceId/versions",
 )({
   component: NamespaceVersionsRoute,
 });

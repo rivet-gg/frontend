@@ -39,7 +39,7 @@ export function GameNamespacesView({ gameId }: GameNamespacesViewProps) {
       {dialog}
       <CardHeader>
         <Flex items="center" gap="4" justify="between">
-          <CardTitle>Namespaces</CardTitle>
+          <CardTitle>Environments</CardTitle>
           <Button variant="secondary" size="icon" onClick={open}>
             <FontAwesomeIcon icon={faPlus} />
           </Button>
@@ -62,7 +62,7 @@ export function GameNamespacesView({ gameId }: GameNamespacesViewProps) {
                 isClickable
                 onClick={() => {
                   navigate({
-                    to: "/games/$gameId/namespaces/$namespaceId",
+                    to: "/games/$gameId/environments/$namespaceId",
                     params: { gameId, namespaceId: namespace.namespaceId },
                   });
                 }}

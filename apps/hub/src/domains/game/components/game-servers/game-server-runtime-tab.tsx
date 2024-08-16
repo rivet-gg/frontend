@@ -21,17 +21,20 @@ interface GameServerRuntimeTabProps
   createTs: Date | undefined;
   startTs: Date | undefined;
   destroyTs: Date | undefined;
+  gameId: string;
+  environmentId: string;
 }
 
 export function GameServerRuntimeTab({
-  environment = {},
-  arguments: args,
-  game: gameId,
-  image: imageId,
-  killTimeout,
+  gameId,
+  environmentId,
+  lifecycle,
+  runtime,
   resources,
 }: GameServerRuntimeTabProps) {
-  const { data } = useSuspenseQuery(buildQueryOptions(gameId, imageId));
+  const { data } = useSuspenseQuery(
+    buildQueryOptions({ gameId, environmentId, buildId: runtime.image }),
+  );
 
   const buildId = useId();
 
@@ -40,7 +43,7 @@ export function GameServerRuntimeTab({
       <Flex gap="2" direction="col">
         <Dl>
           <Dt>Kill timeout</Dt>
-          <Dd>{formatDuration(killTimeout || 0)}</Dd>
+          <Dd>{formatDuration(lifecycle.killTimeout || 0)}</Dd>
           <Dt>Resources</Dt>
           <Dd>
             {resources.cpu / 1000} CPU cores, {resources.memory} MB RAM
@@ -74,17 +77,19 @@ export function GameServerRuntimeTab({
           )}
           <Dt>Arguments</Dt>
           <Dd>
-            <Code>{args?.join(" ")}</Code>
+            <Code>{runtime.arguments?.join(" ")}</Code>
           </Dd>
           <Dt>Environment</Dt>
           <Dd>
             <Grid columns="2" gap="2">
-              {Object.entries(environment).map(([name, value]) => (
-                <Fragment key={name}>
-                  <CopyArea variant="discrete" value={name} />
-                  <CopyArea variant="discrete" value={value} />
-                </Fragment>
-              ))}
+              {Object.entries(runtime.environment || {}).map(
+                ([name, value]) => (
+                  <Fragment key={name}>
+                    <CopyArea variant="discrete" value={name} />
+                    <CopyArea variant="discrete" value={value} />
+                  </Fragment>
+                ),
+              )}
             </Grid>
           </Dd>
         </Dl>

@@ -10,7 +10,9 @@ import {
   faJoystick,
   faKey,
   faLink,
+  faPuzzle,
   faScroll,
+  faServer,
   faUserCog,
 } from "@fortawesome/pro-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -49,7 +51,7 @@ export function NamespaceCommandPanelPage({
         <CommandItem
           onSelect={() => {
             navigate({
-              to: "/games/$gameId/namespaces/$namespaceId",
+              to: "/games/$gameId/environments/$namespaceId",
               params: { gameId, namespaceId },
             });
           }}
@@ -60,7 +62,29 @@ export function NamespaceCommandPanelPage({
         <CommandItem
           onSelect={() => {
             navigate({
-              to: "/games/$gameId/namespaces/$namespaceId/versions",
+              to: "/games/$gameId/environments/$namespaceId/servers",
+              params: { gameId, namespaceId },
+            });
+          }}
+        >
+          <FontAwesomeIcon icon={faServer} />
+          Servers
+        </CommandItem>
+        <CommandItem
+          onSelect={() => {
+            navigate({
+              to: "/games/$gameId/environments/$namespaceId/backend",
+              params: { gameId, namespaceId },
+            });
+          }}
+        >
+          <FontAwesomeIcon icon={faPuzzle} />
+          Backend
+        </CommandItem>
+        <CommandItem
+          onSelect={() => {
+            navigate({
+              to: "/games/$gameId/environments/$namespaceId/versions",
               params: { gameId, namespaceId },
             });
           }}
@@ -77,7 +101,7 @@ export function NamespaceCommandPanelPage({
           <CommandItem
             onSelect={() => {
               navigate({
-                to: "/games/$gameId/namespaces/$namespaceId/cdn",
+                to: "/games/$gameId/environments/$namespaceId/cdn",
                 params: { gameId, namespaceId },
               });
             }}
@@ -89,7 +113,7 @@ export function NamespaceCommandPanelPage({
             keywords={["cdn", "auth", "users"]}
             onSelect={() => {
               navigate({
-                to: "/games/$gameId/namespaces/$namespaceId/cdn",
+                to: "/games/$gameId/environments/$namespaceId/cdn",
                 params: { gameId, namespaceId },
                 search: { modal: "cdn-users" },
               });
@@ -102,7 +126,7 @@ export function NamespaceCommandPanelPage({
             keywords={["cdn", "custom", "domains"]}
             onSelect={() => {
               navigate({
-                to: "/games/$gameId/namespaces/$namespaceId/cdn",
+                to: "/games/$gameId/environments/$namespaceId/cdn",
                 params: { gameId, namespaceId },
                 search: { modal: "cdn-domains" },
               });
@@ -119,7 +143,7 @@ export function NamespaceCommandPanelPage({
             keywords={["matchmaker", "lobbies"]}
             onSelect={() => {
               navigate({
-                to: "/games/$gameId/namespaces/$namespaceId/lobbies",
+                to: "/games/$gameId/environments/$namespaceId/lobbies",
                 params: { gameId, namespaceId },
               });
             }}
@@ -131,7 +155,7 @@ export function NamespaceCommandPanelPage({
             keywords={["matchmaker", "logs"]}
             onSelect={() => {
               navigate({
-                to: "/games/$gameId/namespaces/$namespaceId/lobbies/logs",
+                to: "/games/$gameId/environments/$namespaceId/lobbies/logs",
                 params: { gameId, namespaceId },
               });
             }}
@@ -143,7 +167,7 @@ export function NamespaceCommandPanelPage({
             keywords={["matchmaker", "settings"]}
             onSelect={() => {
               navigate({
-                to: "/games/$gameId/namespaces/$namespaceId/lobbies/settings",
+                to: "/games/$gameId/environments/$namespaceId/lobbies/settings",
                 params: { gameId, namespaceId },
               });
             }}
@@ -157,7 +181,7 @@ export function NamespaceCommandPanelPage({
         <CommandItem
           onSelect={() => {
             navigate({
-              to: "/games/$gameId/namespaces/$namespaceId/tokens",
+              to: "/games/$gameId/environments/$namespaceId/tokens",
               params: { gameId, namespaceId },
               search: { modal: "public-token" },
             });
@@ -166,11 +190,26 @@ export function NamespaceCommandPanelPage({
           <FontAwesomeIcon icon={faKey} />
           Generate a public token
         </CommandItem>
-        <CommandItem disabled>
+        <CommandItem
+          onSelect={() => {
+            navigate({
+              to: "/games/$gameId/environments/$namespaceId/tokens",
+              params: { gameId, namespaceId },
+              search: { modal: "service-token" },
+            });
+          }}
+        >
           <FontAwesomeIcon icon={faKey} />
           Generate a service token
         </CommandItem>
-        <CommandItem disabled>
+        <CommandItem
+          onSelect={() => {
+            navigate({
+              to: "/games/$gameId/environments/$namespaceId/tokens",
+              params: { gameId, namespaceId },
+            });
+          }}
+        >
           <FontAwesomeIcon icon={faKey} />
           Generate a development token
         </CommandItem>

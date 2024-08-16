@@ -174,9 +174,9 @@ useDialog.GenerateGameCloudToken = createDialogHook(
     autoFocus: false,
   },
 );
-useDialog.GenerateGameServiceToken = createDialogHook(
+useDialog.GenerateGameEnvServiceToken = createDialogHook(
   import(
-    "@/domains/game/components/dialogs/game-generate-service-token-dialog"
+    "@/domains/game/components/dialogs/game-env-generate-service-token-dialog"
   ),
   {
     autoFocus: false,
@@ -239,10 +239,6 @@ useDialog.CreateGroup = createDialogHook(
 
 useDialog.ConfirmAccountDeletion = createDialogHook(
   import("@/domains/user/components/dialogs/confirm-account-deletion-dialog"),
-);
-
-useDialog.CreateBackendEnv = createDialogHook(
-  import("@/domains/game/components/dialogs/create-backend-env-dialog"),
 );
 
 useDialog.Feedback = createDialogHook(

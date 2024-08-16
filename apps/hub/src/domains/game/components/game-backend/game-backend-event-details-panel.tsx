@@ -3,13 +3,13 @@ import { GameBackendEventDetails } from "./game-backend-event-details";
 
 interface GameBackendEventDetailsPanelProps {
   environmentId: string;
-  projectId: string;
+  gameId: string;
   eventId: string | undefined;
 }
 
 export function GameBackendEventDetailsPanel({
   eventId,
-  projectId,
+  gameId,
   environmentId,
 }: GameBackendEventDetailsPanelProps) {
   if (!eventId) {
@@ -24,7 +24,7 @@ export function GameBackendEventDetailsPanel({
   return (
     <GameBackendEventDetails
       environmentId={environmentId}
-      projectId={projectId}
+      gameId={gameId}
       eventId={eventId}
     />
   );

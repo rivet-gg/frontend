@@ -35,7 +35,7 @@ const searchSchema = z.object({
 });
 
 export const Route = createFileRoute(
-  "/_authenticated/_layout/games/$gameId/namespaces/$namespaceId/lobbies/logs",
+  "/_authenticated/_layout/games/$gameId/environments/$namespaceId/lobbies/logs",
 )({
   validateSearch: (search) => searchSchema.parse(search),
   staticData: {

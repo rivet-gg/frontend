@@ -25,7 +25,7 @@ export function NamespaceBreadcrumb({
 
   const handleNamespaceChange = (namespaceId: string) => {
     navigate({
-      to: "/games/$gameId/namespaces/$namespaceId",
+      to: "/games/$gameId/environments/$namespaceId",
       params: { gameId, namespaceId },
     });
   };
@@ -37,7 +37,7 @@ export function NamespaceBreadcrumb({
       <div>
         <Select value={namespaceId} onValueChange={handleNamespaceChange}>
           <SelectTrigger>
-            <SelectValue placeholder="Select namespace" />
+            <SelectValue placeholder="Select environment..." />
           </SelectTrigger>
           <SelectContent>
             {data.map((namespace) => (

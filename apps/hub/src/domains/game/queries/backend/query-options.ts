@@ -11,111 +11,61 @@ const partialEnvLogsResponse = z
   })
   .passthrough();
 
-export const gameBackendProjectQueryOptions = (gameId: string) =>
-  queryOptions({
-    retry: false,
-    queryKey: ["game", gameId, "backend-project"],
-    // retry only when service is unavailable
-    // retry: (count) => {}
-    queryFn: ({ queryKey: [_, gameId], signal }) =>
-      rivetEeClient.ee.cloud.games.projects.get(gameId, {
-        abortSignal: signal,
-      }),
-  });
-
-export const gameBackendProjectEnvsQueryOptions = (projectId: string) =>
-  queryOptions({
-    queryKey: ["backend-project", projectId, "envs"],
-    queryFn: ({ queryKey: [_, projectId], signal, meta }) =>
-      rivetEeClient.ee.cloud.backend.projects.envs.list(
-        projectId,
-        {
-          watchIndex: getMetaWatchIndex(meta),
-        },
-        {
-          abortSignal: signal,
-        },
-      ),
-    select: (data) => data.environments,
-    meta: { watch: true },
-  });
-
-export const gameBackendProjectEnvQueryOptions = ({
-  projectId,
+export const gameBackendQueryOptions = ({
+  gameId,
   environmentId,
 }: {
-  projectId: string;
+  gameId: string;
   environmentId: string;
 }) =>
   queryOptions({
-    queryKey: ["backend-project", projectId, "env", environmentId],
-    queryFn: ({ queryKey: [_, projectId, __, environmentId], signal }) =>
-      rivetEeClient.ee.cloud.backend.projects.envs.get(
-        projectId,
+    queryKey: ["game", gameId, "namespace", environmentId, "backend"],
+    queryFn: ({ queryKey: [_, gameId, __, environmentId], signal }) =>
+      rivetEeClient.ee.backend.get(
+        gameId,
         environmentId,
         {},
         { abortSignal: signal },
       ),
-    select: (data) => data.environment,
+    select: (data) => data.backend,
   });
 
-export const gameBackendProjectEnvVariablesQueryOptions = ({
-  projectId,
+export const gameBackendEnvVariablesQueryOptions = ({
+  gameId,
   environmentId,
 }: {
-  projectId: string;
+  gameId: string;
   environmentId: string;
 }) =>
   queryOptions({
-    queryKey: ["backend-project", projectId, "env", environmentId, "variables"],
-    queryFn: ({ queryKey: [_, projectId, __, environmentId], signal }) =>
-      rivetEeClient.ee.cloud.backend.projects.envs.getVariables(
-        projectId,
-        environmentId,
-        { abortSignal: signal },
-      ),
+    queryKey: ["game", gameId, "backend-env", environmentId, "variables"],
+    queryFn: ({ queryKey: [_, gameId, __, environmentId], signal }) =>
+      rivetEeClient.ee.backend.getVariables(gameId, environmentId, {
+        abortSignal: signal,
+      }),
     select: (data) => data.variables,
   });
 
-export const gameBackendProjectEnvConfigQueryOptions = ({
-  projectId,
+export const gameBackendEnvEventsQueryOptions = ({
+  gameId,
   environmentId,
 }: {
-  projectId: string;
+  gameId: string;
   environmentId: string;
 }) =>
   queryOptions({
-    queryKey: ["backend-project", projectId, "env", environmentId, "config"],
-    queryFn: ({ queryKey: [_, projectId, __, environmentId], signal }) =>
-      rivetEeClient.ee.cloud.backend.projects.envs.getConfig(
-        projectId,
-        environmentId,
-        { abortSignal: signal },
-      ),
-    select: (data) => data.config,
-  });
-
-export const gameBackendProjectEnvEventsQueryOptions = ({
-  projectId,
-  environmentId,
-}: {
-  projectId: string;
-  environmentId: string;
-}) =>
-  queryOptions({
-    queryKey: ["backend-project", projectId, "env", environmentId, "events"],
+    queryKey: ["game", gameId, "backend-env", environmentId, "events"],
     queryFn: async ({
-      queryKey: [_, projectId, __, environmentId],
+      queryKey: [_, gameId, __, environmentId],
       meta,
       signal,
     }) => {
-      const response =
-        await rivetEeClient.ee.cloud.backend.projects.envs.getEvents(
-          projectId,
-          environmentId,
-          { watchIndex: getMetaWatchIndex(meta) },
-          { abortSignal: signal },
-        );
+      const response = await rivetEeClient.ee.backend.getEvents(
+        gameId,
+        environmentId,
+        { watchIndex: getMetaWatchIndex(meta) },
+        { abortSignal: signal },
+      );
       return {
         ...response,
         events: z.array(BackendEvent).parse(response.events),
@@ -143,45 +93,42 @@ export const gameBackendProjectEnvEventsQueryOptions = ({
     },
   });
 
-export const gameBackendProjectEnvEventQueryOptions = ({
-  projectId,
+export const gameBackendEnvEventQueryOptions = ({
+  gameId,
   environmentId,
   eventId,
 }: {
-  projectId: string;
+  gameId: string;
   environmentId: string;
   eventId: string;
 }) =>
   queryOptions({
-    ...gameBackendProjectEnvEventsQueryOptions({ projectId, environmentId }),
+    ...gameBackendEnvEventsQueryOptions({ gameId, environmentId }),
     select: (data) =>
       data.events.find((event) => event.eventTimestamp === eventId),
   });
 
 export const gameBackendProjectEnvDatabaseQueryOptions = ({
-  projectId,
+  gameId,
   environmentId,
 }: {
-  projectId: string;
+  gameId: string;
   environmentId: string;
 }) =>
   queryOptions({
-    queryKey: ["backend-project", projectId, "env", environmentId, "database"],
-    queryFn: ({ queryKey: [_, projectId, __, environmentId] }) =>
-      rivetEeClient.ee.cloud.backend.projects.envs.getDbUrl(
-        projectId,
-        environmentId,
-      ),
+    queryKey: ["game", gameId, "backend-env", environmentId, "database-url"],
+    queryFn: ({ queryKey: [_, gameId, __, environmentId] }) =>
+      rivetEeClient.ee.backend.getDbUrl(gameId, environmentId),
   });
 
 /**
  * Used only for storing query key
  */
 export const gameBackendProjectEnvDatabasePreviewQueryOptions = ({
-  projectId,
+  gameId,
   environmentId,
 }: {
-  projectId: string;
+  gameId: string;
   environmentId: string;
 }) =>
   queryOptions({
@@ -189,9 +136,9 @@ export const gameBackendProjectEnvDatabasePreviewQueryOptions = ({
     staleTime: Number.POSITIVE_INFINITY,
     enabled: false,
     queryKey: [
-      "backend-project",
-      projectId,
-      "env",
+      "game",
+      gameId,
+      "backend-env",
       environmentId,
       "database",
       "preview",

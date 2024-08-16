@@ -3,7 +3,6 @@ import {
   ResizableHandle,
   ResizablePanel,
   ResizablePanelGroup,
-  Text,
   useBreakpoint,
 } from "@rivet-gg/components";
 import { Suspense } from "react";
@@ -12,23 +11,17 @@ import { GameServersServerDetailsPanel } from "./game-servers-server-details-pan
 
 interface GameServersListPreview {
   gameId: string;
+  environmentId: string;
   servers: Rivet.servers.Server[];
   serverId?: string;
 }
 
 export function GameServersListPreview({
   gameId,
+  environmentId,
   servers,
   serverId,
 }: GameServersListPreview) {
-  if (servers.length === 0) {
-    return (
-      <Text my="10" textAlign="center">
-        No servers found.
-      </Text>
-    );
-  }
-
   const isMd = useBreakpoint("md");
 
   return (
@@ -48,6 +41,7 @@ export function GameServersListPreview({
           <Suspense fallback={<GameServersServerDetailsPanel.Skeleton />}>
             <GameServersServerDetailsPanel
               gameId={gameId}
+              environmentId={environmentId}
               serverId={serverId}
             />
           </Suspense>

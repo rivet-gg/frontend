@@ -144,20 +144,27 @@ export const gameTokenCloudQueryOptions = ({ gameId }: { gameId: string }) => {
   });
 };
 
-export const gameTokenServiceQueryOptions = ({
+export const gameEnvTokenServiceQueryOptions = ({
   gameId,
-}: { gameId: string }) => {
+  environmentId,
+}: { gameId: string; environmentId: string }) => {
   return queryOptions({
     staleTime: 0,
     gcTime: 0,
-    queryKey: ["game", gameId, "token", "cloud"],
+    queryKey: ["game", gameId, "namespace", environmentId, "token", "service"],
     queryFn: ({
       queryKey: [
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         _,
         gameId,
+        __,
+        environmentId,
       ],
-    }) => rivetClient.cloud.games.tokens.createServiceToken(gameId),
+    }) =>
+      rivetClient.games.environments.tokens.createServiceToken(
+        gameId,
+        environmentId,
+      ),
     select: (data) => data.token,
   });
 };

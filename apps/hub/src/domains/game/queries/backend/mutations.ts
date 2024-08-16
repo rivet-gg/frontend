@@ -7,77 +7,51 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { usePostHog } from "posthog-js/react";
 import { extractPostgressCredentials } from "../../helpers/extract-postgress-credentials";
 import {
+  gameBackendEnvVariablesQueryOptions,
   gameBackendProjectEnvDatabasePreviewQueryOptions,
   gameBackendProjectEnvDatabaseQueryOptions,
-  gameBackendProjectEnvQueryOptions,
-  gameBackendProjectEnvsQueryOptions,
+  gameBackendQueryOptions,
 } from "./query-options";
 import { OuterbaseStarlinkResponse } from "./types";
 
-export const useCreateBackendProjectEnvMutation = ({
+export const useCreateBackendMutation = ({
   onSuccess,
 }: {
-  onSuccess?: (
-    data: RivetEe.ee.cloud.backend.projects.envs.CreateResponse,
-  ) => void;
+  onSuccess?: (data: RivetEe.ee.backend.CreateResponse) => void;
 }) =>
   useMutation({
     mutationFn: ({
-      projectId,
-      ...data
-    }: RivetEe.ee.cloud.backend.projects.envs.CreateRequest & {
-      projectId: string;
-    }) => rivetEeClient.ee.cloud.backend.projects.envs.create(projectId, data),
-    onSuccess: async (data, { projectId }) => {
-      await queryClient.invalidateQueries(
-        gameBackendProjectEnvsQueryOptions(projectId),
-      );
-      onSuccess?.(data);
-    },
-  });
-
-export const useBackendAutoScalingConfigMutation = () =>
-  useMutation({
-    mutationFn: ({
-      projectId,
+      gameId,
       environmentId,
       ...data
-    }: RivetEe.ee.cloud.backend.projects.envs.UpdateConfigRequest & {
-      projectId: string;
+    }: RivetEe.ee.backend.CreateRequest & {
+      gameId: string;
       environmentId: string;
-    }) =>
-      rivetEeClient.ee.cloud.backend.projects.envs.updateConfig(
-        projectId,
-        environmentId,
-        data,
-      ),
-    onSuccess: async (data, { projectId, environmentId }) => {
-      await queryClient.invalidateQueries(
-        gameBackendProjectEnvQueryOptions({ projectId, environmentId }),
-      );
+    }) => rivetEeClient.ee.backend.create(gameId, environmentId, data),
+    onSuccess: async (data) => {
+      onSuccess?.(data);
     },
   });
 
 export const useBackendUpdateVariablesMutation = () =>
   useMutation({
     mutationFn: ({
-      projectId,
+      gameId,
       environmentId,
       ...data
-    }: RivetEe.ee.cloud.backend.projects.envs.UpdateVariablesRequest & {
-      projectId: string;
+    }: RivetEe.ee.backend.UpdateVariablesRequest & {
+      gameId: string;
       environmentId: string;
-    }) =>
-      rivetEeClient.ee.cloud.backend.projects.envs.updateVariables(
-        projectId,
-        environmentId,
-        data,
-      ),
-    onSuccess: async (data, { projectId, environmentId }) => {
-      await queryClient.invalidateQueries(
-        gameBackendProjectEnvQueryOptions({ projectId, environmentId }),
-      );
-      // TODO: invalidate variables query
+    }) => rivetEeClient.ee.backend.updateVariables(gameId, environmentId, data),
+    onSuccess: async (data, { gameId, environmentId }) => {
+      await Promise.all([
+        queryClient.invalidateQueries(
+          gameBackendQueryOptions({ gameId, environmentId }),
+        ),
+        queryClient.invalidateQueries(
+          gameBackendEnvVariablesQueryOptions({ gameId, environmentId }),
+        ),
+      ]);
     },
   });
 
@@ -90,14 +64,14 @@ export const useGameBackendEnvDatabasePreviewMutation = (
   return useMutation({
     mutationKey: ["backend-project", "env", "database-preview"],
     mutationFn: async ({
-      projectId,
+      gameId,
       environmentId,
     }: {
-      projectId: string;
+      gameId: string;
       environmentId: string;
     }) => {
       const response = await queryClient.fetchQuery(
-        gameBackendProjectEnvDatabaseQueryOptions({ projectId, environmentId }),
+        gameBackendProjectEnvDatabaseQueryOptions({ gameId, environmentId }),
       );
 
       if (!response.url) {

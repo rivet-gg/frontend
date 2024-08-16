@@ -24,7 +24,7 @@ function NamespaceIdRoute() {
         footer={
           <Button asChild variant="outline">
             <Link
-              to="/games/$gameId/namespaces/$namespaceId/versions"
+              to="/games/$gameId/environments/$namespaceId/versions"
               params={{
                 gameId,
                 namespaceId,
@@ -40,7 +40,7 @@ function NamespaceIdRoute() {
 }
 
 export const Route = createFileRoute(
-  "/_authenticated/_layout/games/$gameId/namespaces/$namespaceId/",
+  "/_authenticated/_layout/games/$gameId/environments/$namespaceId/",
 )({
   component: NamespaceIdRoute,
 });

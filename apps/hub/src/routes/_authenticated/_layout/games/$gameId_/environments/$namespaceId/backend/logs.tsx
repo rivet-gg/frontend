@@ -1,9 +1,6 @@
 import { ErrorComponent } from "@/components/error-component";
 import { GameBackendListEventsPreview } from "@/domains/game/components/game-backend/game-backend-list-events-preview";
-import {
-  gameBackendProjectEnvEventsQueryOptions,
-  gameBackendProjectQueryOptions,
-} from "@/domains/game/queries";
+import { gameBackendEnvEventsQueryOptions } from "@/domains/game/queries";
 import {
   Card,
   CardContent,
@@ -19,12 +16,11 @@ import {
 import { z } from "zod";
 
 function GameBackendEnvironmentIdLogsRoute() {
-  const { environmentId } = Route.useParams();
-  const { projectId } = Route.useRouteContext();
+  const { namespaceId, gameId } = Route.useParams();
   const { eventId } = Route.useSearch();
 
   const { data } = useSuspenseQuery(
-    gameBackendProjectEnvEventsQueryOptions({ projectId, environmentId }),
+    gameBackendEnvEventsQueryOptions({ gameId, environmentId: namespaceId }),
   );
 
   return (
@@ -39,8 +35,8 @@ function GameBackendEnvironmentIdLogsRoute() {
         <GameBackendListEventsPreview
           events={data}
           eventId={eventId}
-          environmentId={environmentId}
-          projectId={projectId}
+          gameId={gameId}
+          environmentId={namespaceId}
         />
       </CardContent>
     </Card>
@@ -52,14 +48,19 @@ const searchSchema = z.object({
 });
 
 export const Route = createFileRoute(
-  "/_authenticated/_layout/games/$gameId/backend/$environmentId/logs",
+  "/_authenticated/_layout/games/$gameId/environments/$namespaceId/backend/logs",
 )({
   validateSearch: (search) => searchSchema.parse(search),
   staticData: {
     layout: "full",
   },
-  loader: async ({ params: { gameId }, context: { queryClient } }) =>
-    queryClient.ensureQueryData(gameBackendProjectQueryOptions(gameId)),
+  loader: async ({
+    params: { gameId, namespaceId },
+    context: { queryClient },
+  }) =>
+    queryClient.ensureQueryData(
+      gameBackendEnvEventsQueryOptions({ gameId, environmentId: namespaceId }),
+    ),
   component: GameBackendEnvironmentIdLogsRoute,
   errorComponent: (props: ErrorComponentProps) => {
     return <ErrorComponent {...props} />;

@@ -5,6 +5,8 @@ import {
   faGlobe,
   faHome,
   faKey,
+  faPuzzle,
+  faServer,
 } from "@fortawesome/pro-solid-svg-icons";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
@@ -27,16 +29,32 @@ export function HeaderNamespaceLinks({
     <>
       <HeaderLink icon={faHome}>
         <Link
-          to="/games/$gameId/namespaces/$namespaceId"
+          to="/games/$gameId/environments/$namespaceId"
           activeOptions={{ exact: true }}
           params={{ gameId, namespaceId }}
         >
           Overview
         </Link>
       </HeaderLink>
+      <HeaderLink icon={faServer}>
+        <Link
+          to="/games/$gameId/environments/$namespaceId/servers"
+          params={{ gameId, namespaceId }}
+        >
+          Servers
+        </Link>
+      </HeaderLink>
+      <HeaderLink icon={faPuzzle}>
+        <Link
+          to="/games/$gameId/environments/$namespaceId/backend"
+          params={{ gameId, namespaceId }}
+        >
+          Backend
+        </Link>
+      </HeaderLink>
       <HeaderLink icon={faCodeBranch}>
         <Link
-          to="/games/$gameId/namespaces/$namespaceId/versions"
+          to="/games/$gameId/environments/$namespaceId/versions"
           params={{ gameId, namespaceId }}
         >
           Versions
@@ -45,7 +63,7 @@ export function HeaderNamespaceLinks({
       {data.namespace.config.matchmaker ? (
         <HeaderLink icon={faChessKnight}>
           <Link
-            to="/games/$gameId/namespaces/$namespaceId/lobbies"
+            to="/games/$gameId/environments/$namespaceId/lobbies"
             params={{ gameId, namespaceId }}
           >
             Lobbies
@@ -55,7 +73,7 @@ export function HeaderNamespaceLinks({
       {data.namespace.config.cdn ? (
         <HeaderLink icon={faGlobe}>
           <Link
-            to="/games/$gameId/namespaces/$namespaceId/cdn"
+            to="/games/$gameId/environments/$namespaceId/cdn"
             params={{ gameId, namespaceId }}
           >
             CDN
@@ -64,7 +82,7 @@ export function HeaderNamespaceLinks({
       ) : null}
       <HeaderLink icon={faKey}>
         <Link
-          to="/games/$gameId/namespaces/$namespaceId/tokens"
+          to="/games/$gameId/environments/$namespaceId/tokens"
           params={{ gameId, namespaceId }}
         >
           Tokens

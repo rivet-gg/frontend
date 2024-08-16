@@ -8,31 +8,23 @@ import type { ReactNode } from "react";
 
 const LINKS = [
   {
-    url: "/games/$gameId/environments/$namespaceId/lobbies/",
-    text: "Lobbies",
+    url: "/games/$gameId/environments/$namespaceId/servers/",
+    text: "Servers",
     exact: true,
   },
   {
-    url: "/games/$gameId/environments/$namespaceId/lobbies/logs",
-    text: "Logs",
-  },
-  {
-    url: "/games/$gameId/environments/$namespaceId/lobbies/settings",
-    text: "Settings",
+    url: "/games/$gameId/environments/$namespaceId/servers/builds",
+    text: "Builds",
   },
 ];
 
-interface MatchmakerPageProps {
+interface ServersPageProps {
   gameId: string;
   namespaceId: string;
   children: ReactNode;
 }
 
-function MatchmakerPage({
-  namespaceId,
-  gameId,
-  children,
-}: MatchmakerPageProps) {
+function ServersPage({ namespaceId, gameId, children }: ServersPageProps) {
   return (
     <SidebarPageContent
       sidebar={
@@ -61,4 +53,4 @@ function MatchmakerPage({
   );
 }
 
-export { MatchmakerPage as Root };
+export { ServersPage as Root };

@@ -4,7 +4,6 @@ import { Skeleton, cn } from "@rivet-gg/components";
 import { CatchBoundary, useMatchRoute } from "@tanstack/react-router";
 import { Suspense, useContext } from "react";
 import { MobileBreadcrumbsContext } from "../breadcrumbs/mobile-breadcrumbs";
-import { BackendEnvironmentLinks } from "./links/header-backend-environment-links";
 import { HeaderGameLinks } from "./links/header-game-links";
 import { HeaderGroupLinks } from "./links/header-group-links";
 import { HeaderNamespaceLinks } from "./links/header-namespace-links";
@@ -19,7 +18,7 @@ function Content() {
   }
 
   const namespaceMatch = matchRoute({
-    to: "/games/$gameId/namespaces/$namespaceId",
+    to: "/games/$gameId/environments/$namespaceId",
     fuzzy: true,
   }) as { gameId: string; namespaceId: string } | false;
 
@@ -28,20 +27,6 @@ function Content() {
       <HeaderNamespaceLinks
         gameId={namespaceMatch.gameId}
         namespaceId={namespaceMatch.namespaceId}
-      />
-    );
-  }
-
-  const backendMatch = matchRoute({
-    to: "/games/$gameId/backend/$environmentId",
-    fuzzy: true,
-  }) as false | { gameId: string; environmentId: string };
-
-  if (backendMatch) {
-    return (
-      <BackendEnvironmentLinks
-        environmentId={backendMatch.environmentId}
-        gameId={backendMatch.gameId}
       />
     );
   }

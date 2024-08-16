@@ -9,21 +9,25 @@ import {
   Text,
 } from "@rivet-gg/components";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { gameTokenServiceQueryOptions } from "../../queries";
+import { gameEnvTokenServiceQueryOptions } from "../../queries";
 
 interface ContentProps extends DialogContentProps {
   gameId: string;
+  environmentId: string;
 }
 
-export default function GameGenerateServiceTokenDialogContent({
+export default function GameEnvGenerateServiceTokenDialogContent({
   gameId,
+  environmentId,
   onClose,
 }: ContentProps) {
-  const { data } = useSuspenseQuery(gameTokenServiceQueryOptions({ gameId }));
+  const { data } = useSuspenseQuery(
+    gameEnvTokenServiceQueryOptions({ gameId, environmentId }),
+  );
   return (
     <>
       <DialogHeader>
-        <DialogTitle>Create Game Service Token</DialogTitle>
+        <DialogTitle>Create Environment Service Token</DialogTitle>
       </DialogHeader>
       <Flex gap="4" direction="col">
         <Text>

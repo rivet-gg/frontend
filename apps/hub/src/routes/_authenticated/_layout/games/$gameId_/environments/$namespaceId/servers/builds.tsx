@@ -18,8 +18,10 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 
 function GameBuildsRoute() {
-  const { gameId } = Route.useParams();
-  const { data: builds } = useSuspenseQuery(gameBuildsQueryOptions(gameId));
+  const { gameId, namespaceId } = Route.useParams();
+  const { data: builds } = useSuspenseQuery(
+    gameBuildsQueryOptions({ gameId, environmentId: namespaceId }),
+  );
 
   return (
     <Card w="full">
@@ -46,9 +48,9 @@ function GameBuildsRoute() {
               </TableRow>
             ) : null}
             {builds.map((build) => (
-              <TableRow key={build.buildId}>
-                <TableCell>{build.displayName}</TableCell>
-                <TableCell>{build.createTs.toLocaleString()}</TableCell>
+              <TableRow key={build.id}>
+                <TableCell>{build.name}</TableCell>
+                <TableCell>{build.createdAt.toLocaleString()}</TableCell>
                 <TableCell>
                   <GameServerTags {...build} />
                 </TableCell>
@@ -62,7 +64,7 @@ function GameBuildsRoute() {
 }
 
 export const Route = createFileRoute(
-  "/_authenticated/_layout/games/$gameId/builds",
+  "/_authenticated/_layout/games/$gameId/environments/$namespaceId/servers/builds",
 )({
   component: GameBuildsRoute,
 });

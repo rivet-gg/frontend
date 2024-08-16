@@ -20,7 +20,7 @@ function NamespaceIdRoute() {
 }
 
 export const Route = createFileRoute(
-  "/_authenticated/_layout/games/$gameId/namespaces/$namespaceId",
+  "/_authenticated/_layout/games/$gameId/environments/$namespaceId",
 )({
   beforeLoad: async ({ params: { gameId, namespaceId } }) => {
     const { game } = await queryClient.ensureQueryData(

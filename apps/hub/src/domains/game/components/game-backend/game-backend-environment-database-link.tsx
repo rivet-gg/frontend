@@ -7,7 +7,7 @@ import { type ReactNode, forwardRef } from "react";
 import { useGameBackendProjectEnvDatabasePreview } from "../../queries";
 
 interface GameBackendEnvironmentDatabaseLinkProps {
-  projectId: string;
+  gameId: string;
   environmentId: string;
   asChild?: boolean;
   children?: ReactNode;
@@ -16,9 +16,9 @@ interface GameBackendEnvironmentDatabaseLinkProps {
 export const GameBackendEnvironmentDatabaseLink = forwardRef<
   HTMLButtonElement,
   GameBackendEnvironmentDatabaseLinkProps
->(({ projectId, environmentId, asChild, children }, ref) => {
+>(({ gameId, environmentId, asChild, children }, ref) => {
   const { isLoading, data } = useGameBackendProjectEnvDatabasePreview({
-    projectId,
+    gameId,
     environmentId,
   });
 

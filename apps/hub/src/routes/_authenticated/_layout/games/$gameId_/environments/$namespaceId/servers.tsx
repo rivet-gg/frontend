@@ -1,12 +1,12 @@
 import { ErrorComponent } from "@/components/error-component";
-import * as Layout from "@/domains/game/layouts/matchmaker-layout";
+import * as Layout from "@/domains/game/layouts/servers-layout";
 import {
   type ErrorComponentProps,
   Outlet,
   createFileRoute,
 } from "@tanstack/react-router";
 
-function MatchmakerLayoutErrorComponent(props: ErrorComponentProps) {
+function ServersLayoutErrorComponent(props: ErrorComponentProps) {
   const { namespaceId, gameId } = Route.useParams();
   return (
     <Layout.Root namespaceId={namespaceId} gameId={gameId}>
@@ -15,7 +15,7 @@ function MatchmakerLayoutErrorComponent(props: ErrorComponentProps) {
   );
 }
 
-function MatchmakerLayoutView() {
+function ServersLayoutView() {
   const { namespaceId, gameId } = Route.useParams();
 
   return (
@@ -26,8 +26,8 @@ function MatchmakerLayoutView() {
 }
 
 export const Route = createFileRoute(
-  "/_authenticated/_layout/games/$gameId/namespaces/$namespaceId/lobbies",
+  "/_authenticated/_layout/games/$gameId/environments/$namespaceId/servers",
 )({
-  component: MatchmakerLayoutView,
-  errorComponent: MatchmakerLayoutErrorComponent,
+  component: ServersLayoutView,
+  errorComponent: ServersLayoutErrorComponent,
 });

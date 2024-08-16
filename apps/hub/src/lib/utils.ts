@@ -1,4 +1,5 @@
 import { RivetError } from "@rivet-gg/api";
+import { RivetError as RivetEeError } from "@rivet-gg/api-ee";
 import { z } from "zod";
 
 export function convertStringToId(x: string): string {
@@ -9,7 +10,7 @@ export function isRivetError(
   error: unknown,
 ): error is RivetError & { body: { message: string; code?: string } } {
   return (
-    error instanceof RivetError &&
+    (error instanceof RivetError || error instanceof RivetEeError) &&
     typeof error.body === "object" &&
     error.body !== null &&
     Object.hasOwn(error.body, "message")

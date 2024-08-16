@@ -42,8 +42,8 @@ function DomainBasedAuthOption() {
     >
       <Text>
         Allows for clients to authenticate with this namespace based on the
-        domain they make requests from. This should only be used for namespaces
-        intended to be publicly accessible.
+        domain they make requests from. This should only be used for
+        environments intended to be publicly accessible.
       </Text>
     </ActionCard>
   );
@@ -190,7 +190,7 @@ const searchSchema = z.object({
 });
 
 export const Route = createFileRoute(
-  "/_authenticated/_layout/games/$gameId/namespaces/$namespaceId/cdn",
+  "/_authenticated/_layout/games/$gameId/environments/$namespaceId/cdn",
 )({
   validateSearch: (search) => searchSchema.parse(search),
   component: NamespaceCdnRoute,

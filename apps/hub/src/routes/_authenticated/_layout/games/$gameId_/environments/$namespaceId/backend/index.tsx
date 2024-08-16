@@ -1,30 +1,28 @@
-import { gameBackendProjectEnvQueryOptions } from "@/domains/game/queries";
+import { gameBackendQueryOptions } from "@/domains/game/queries";
 import { GameBackendEnvironmentOverview } from "@/domains/game/views/game-backend-environment-overview";
 import { createFileRoute } from "@tanstack/react-router";
 
 function GameBackendEnvironmentIdOverviewRoute() {
-  const { environmentId, gameId } = Route.useParams();
-  const { projectId } = Route.useRouteContext();
+  const { namespaceId, gameId } = Route.useParams();
 
   return (
     <GameBackendEnvironmentOverview
-      projectId={projectId}
-      environmentId={environmentId}
+      environmentId={namespaceId}
       gameId={gameId}
     />
   );
 }
 
 export const Route = createFileRoute(
-  "/_authenticated/_layout/games/$gameId/backend/$environmentId/",
+  "/_authenticated/_layout/games/$gameId/environments/$namespaceId/backend/",
 )({
   component: GameBackendEnvironmentIdOverviewRoute,
   beforeLoad: async ({
-    context: { queryClient, projectId },
-    params: { environmentId },
+    context: { queryClient },
+    params: { namespaceId, gameId },
   }) => {
     await queryClient.ensureQueryData(
-      gameBackendProjectEnvQueryOptions({ projectId, environmentId }),
+      gameBackendQueryOptions({ gameId, environmentId: namespaceId }),
     );
   },
 });

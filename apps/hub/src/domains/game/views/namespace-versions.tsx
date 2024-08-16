@@ -59,7 +59,7 @@ function NamespaceVersionRow({
           {deployedNamespaces.map((namespace, index, array) => (
             <Fragment key={namespace.namespaceId}>
               <Link
-                to="/games/$gameId/namespaces/$namespaceId"
+                to="/games/$gameId/environments/$namespaceId"
                 params={{
                   gameId,
                   namespaceId: namespace.namespaceId,

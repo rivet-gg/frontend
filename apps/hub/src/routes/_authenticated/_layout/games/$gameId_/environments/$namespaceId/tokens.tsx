@@ -26,6 +26,27 @@ function PublicTokenCard() {
   );
 }
 
+function ServiceTokenCard() {
+  return (
+    <>
+      <DocsCard
+        title="Service token"
+        href="https://rivet.gg/docs/general/concepts/handling-game-tokens#public-namespace-tokens"
+        footer={
+          <Button asChild>
+            <Link search={{ modal: "service-token" }}>Generate</Link>
+          </Button>
+        }
+      >
+        <Text>
+          Service tokens are used from private API servers. These should never
+          be shared.
+        </Text>
+      </DocsCard>
+    </>
+  );
+}
+
 function Modals() {
   const navigate = Route.useNavigate();
   const { gameId, namespaceId } = Route.useParams();
@@ -33,6 +54,8 @@ function Modals() {
 
   const GenerateNamespacePublicTokenDialog =
     useDialog.GenerateNamespacePublicToken.Dialog;
+  const GenerateGameEnvServiceTokenDialog =
+    useDialog.GenerateGameEnvServiceToken.Dialog;
 
   const handleonOpenChange = (value: boolean) => {
     if (!value) {
@@ -50,6 +73,14 @@ function Modals() {
           onOpenChange: handleonOpenChange,
         }}
       />
+      <GenerateGameEnvServiceTokenDialog
+        gameId={gameId}
+        environmentId={namespaceId}
+        dialogProps={{
+          open: modal === "service-token",
+          onOpenChange: handleonOpenChange,
+        }}
+      />
     </>
   );
 }
@@ -64,6 +95,7 @@ function NamespaceTokensRoute() {
     <>
       <Grid columns={{ initial: "1", md: "2" }} gap="4" items="start">
         <PublicTokenCard />
+        <ServiceTokenCard />
         <DocsCard
           title="Development token"
           href="https://rivet.gg/docs/general/concepts/dev-tokens"
@@ -82,11 +114,11 @@ function NamespaceTokensRoute() {
 }
 
 const searchSchema = z.object({
-  modal: z.enum(["public-token"]).or(z.string()).optional(),
+  modal: z.enum(["public-token", "service-token"]).or(z.string()).optional(),
 });
 
 export const Route = createFileRoute(
-  "/_authenticated/_layout/games/$gameId/namespaces/$namespaceId/tokens",
+  "/_authenticated/_layout/games/$gameId/environments/$namespaceId/tokens",
 )({
   validateSearch: (search) => searchSchema.parse(search),
   component: NamespaceTokensRoute,

@@ -3,7 +3,7 @@ import { useGameBackendEnvDatabasePreviewMutation } from "./mutations";
 import { gameBackendProjectEnvDatabasePreviewQueryOptions } from "./query-options";
 
 export function useGameBackendProjectEnvDatabasePreview(variables: {
-  projectId: string;
+  gameId: string;
   environmentId: string;
 }) {
   const { isPending, mutateAsync } = useGameBackendEnvDatabasePreviewMutation();

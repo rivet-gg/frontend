@@ -3,11 +3,13 @@ import { GameServersServerDetails } from "./game-servers-server-details";
 
 interface GameServersServerDetailsPanelProps {
   gameId: string;
+  environmentId: string;
   serverId: string | undefined;
 }
 
 export function GameServersServerDetailsPanel({
   gameId,
+  environmentId,
   serverId,
 }: GameServersServerDetailsPanelProps) {
   if (!serverId) {
@@ -20,6 +22,12 @@ export function GameServersServerDetailsPanel({
     );
   }
 
-  return <GameServersServerDetails gameId={gameId} serverId={serverId} />;
+  return (
+    <GameServersServerDetails
+      gameId={gameId}
+      environmentId={environmentId}
+      serverId={serverId}
+    />
+  );
 }
 GameServersServerDetailsPanel.Skeleton = GameServersServerDetails.Skeleton;

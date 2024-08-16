@@ -21,8 +21,6 @@ import {
   CommandPanelNavigationProvider,
   type CommandPanelPage,
 } from "./command-panel/command-panel-navigation-provider";
-import { BackendCommandPanelPage } from "./command-panel/command-panel-page/backend-command-panel-page";
-import { EnvironmentCommandPanelPage } from "./command-panel/command-panel-page/environment-command-panel-page";
 import { GameCommandPanelPage } from "./command-panel/command-panel-page/game-command-panel-page";
 import { GroupCommandPanelPage } from "./command-panel/command-panel-page/group-command-panel-page";
 import { IndexCommandPanelPage } from "./command-panel/command-panel-page/index-command-panel-page";
@@ -57,7 +55,7 @@ export function CommandPanel() {
       }
 
       const isNamespace = matchRoute({
-        to: "/games/$gameId/namespaces/$namespaceId",
+        to: "/games/$gameId/environments/$namespaceId",
         fuzzy: true,
       }) as { gameId: string; namespaceId: string } | false;
       if (isNamespace) {
@@ -73,44 +71,6 @@ export function CommandPanel() {
         ]);
       }
 
-      const isBackend = matchRoute({
-        to: "/games/$gameId/backend",
-        fuzzy: true,
-      }) as { gameId: string } | false;
-      if (isBackend) {
-        setPages([
-          { key: "game", params: { gameId: isBackend.gameId } },
-          {
-            key: "backend",
-            params: {
-              gameId: isBackend.gameId,
-            },
-          },
-        ]);
-      }
-
-      const isBackendEnv = matchRoute({
-        to: "/games/$gameId/backend/$environmentId",
-        fuzzy: true,
-      }) as { gameId: string; environmentId: string } | false;
-      if (isBackendEnv) {
-        setPages([
-          { key: "game", params: { gameId: isBackendEnv.gameId } },
-          {
-            key: "backend",
-            params: {
-              gameId: isBackendEnv.gameId,
-            },
-          },
-          {
-            key: "environment",
-            params: {
-              gameId: isBackendEnv.gameId,
-              environmentId: isBackendEnv.environmentId,
-            },
-          },
-        ]);
-      }
       setOpen((open) => !open);
     });
   }, []);
@@ -203,15 +163,6 @@ export function CommandPanel() {
                 <NamespaceCommandPanelPage
                   gameId={page.params.gameId}
                   namespaceId={page.params.namespaceId}
-                />
-              ) : null}
-              {page?.key === "backend" ? (
-                <BackendCommandPanelPage gameId={page.params.gameId} />
-              ) : null}
-              {page?.key === "environment" ? (
-                <EnvironmentCommandPanelPage
-                  gameId={page.params.gameId}
-                  environmentId={page.params.environmentId}
                 />
               ) : null}
             </Suspense>

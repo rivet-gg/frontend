@@ -22,16 +22,20 @@ import { GameServerTags } from "./game-server-tags";
 
 interface GameServersServerDetailsProps {
   gameId: string;
+  environmentId: string;
   serverId: string;
 }
 
 export function GameServersServerDetails({
   gameId,
+  environmentId,
   serverId,
 }: GameServersServerDetailsProps) {
-  const { data } = useSuspenseQuery(serverQueryOptions(gameId, serverId));
+  const { data } = useSuspenseQuery(
+    serverQueryOptions({ gameId, environmentId, serverId }),
+  );
 
-  const { mutate } = useDestroyServerMutation();
+  const { mutate, isPending: isDestroying } = useDestroyServerMutation();
 
   if (!data) {
     return (
@@ -63,8 +67,9 @@ export function GameServersServerDetails({
               </CopyButton>
               {!data.destroyTs ? (
                 <Button
+                  isLoading={isDestroying}
                   variant="destructive"
-                  onClick={() => mutate({ gameId, serverId })}
+                  onClick={() => mutate({ gameId, environmentId, serverId })}
                 >
                   Destroy
                 </Button>
@@ -94,6 +99,7 @@ export function GameServersServerDetails({
             <Suspense fallback={<GameServerLogsTab.Skeleton />}>
               <GameServerLogsTab
                 gameId={gameId}
+                environmentId={environmentId}
                 serverId={serverId}
                 logType="std_out"
               />
@@ -103,13 +109,18 @@ export function GameServersServerDetails({
             <Suspense fallback={<GameServerLogsTab.Skeleton />}>
               <GameServerLogsTab
                 gameId={gameId}
+                environmentId={environmentId}
                 serverId={serverId}
                 logType="std_err"
               />
             </Suspense>
           </TabsContent>
           <TabsContent value="runtime" className="min-h-0 flex-1 mt-0">
-            <GameServerRuntimeTab {...data} />
+            <GameServerRuntimeTab
+              gameId={gameId}
+              environmentId={environmentId}
+              {...data}
+            />
           </TabsContent>
           <TabsContent value="network" className="min-h-0 flex-1 mt-0">
             <GameServerNetworkTab {...data} />
