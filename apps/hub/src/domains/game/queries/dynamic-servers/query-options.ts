@@ -109,9 +109,21 @@ export const serverLogsQueryOptions = (
 export const gameBuildsQueryOptions = ({
   environmentId,
   gameId,
-}: { gameId: string; environmentId: string }) => {
+  tags = {},
+}: {
+  gameId: string;
+  environmentId: string;
+  tags?: Record<string, string>;
+}) => {
   return queryOptions({
-    queryKey: ["game", gameId, "namespace", environmentId, "builds"],
+    queryKey: [
+      "game",
+      gameId,
+      "namespace",
+      environmentId,
+      "builds",
+      tags,
+    ] as const,
     refetchInterval: 5000,
     queryFn: ({
       queryKey: [
@@ -120,17 +132,14 @@ export const gameBuildsQueryOptions = ({
         gameId,
         __,
         environmentId,
+        ___,
+        tags,
       ],
       signal: abortSignal,
     }) =>
-      rivetClient.servers.builds.listBuilds(
-        gameId,
-        environmentId,
-        {},
-        {
-          abortSignal,
-        },
-      ),
+      rivetClient.servers.builds.listBuilds(gameId, environmentId, tags, {
+        abortSignal,
+      }),
     select: (data) => data.builds,
   });
 };

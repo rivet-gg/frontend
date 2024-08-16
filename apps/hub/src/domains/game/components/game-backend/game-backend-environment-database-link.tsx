@@ -1,12 +1,13 @@
 import { faDatabase, faExternalLink } from "@fortawesome/pro-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Slot } from "@radix-ui/react-slot";
-import { Button } from "@rivet-gg/components";
+import { Button, type ButtonProps } from "@rivet-gg/components";
 import { useNavigate } from "@tanstack/react-router";
 import { type ReactNode, forwardRef } from "react";
 import { useGameBackendProjectEnvDatabasePreview } from "../../queries";
 
-interface GameBackendEnvironmentDatabaseLinkProps {
+interface GameBackendEnvironmentDatabaseLinkProps
+  extends Omit<ButtonProps, "onClick"> {
   gameId: string;
   environmentId: string;
   asChild?: boolean;
@@ -16,7 +17,7 @@ interface GameBackendEnvironmentDatabaseLinkProps {
 export const GameBackendEnvironmentDatabaseLink = forwardRef<
   HTMLButtonElement,
   GameBackendEnvironmentDatabaseLinkProps
->(({ gameId, environmentId, asChild, children }, ref) => {
+>(({ gameId, environmentId, asChild, children, ...props }, ref) => {
   const { isLoading, data } = useGameBackendProjectEnvDatabasePreview({
     gameId,
     environmentId,
@@ -47,6 +48,7 @@ export const GameBackendEnvironmentDatabaseLink = forwardRef<
           <FontAwesomeIcon icon={faExternalLink} className={"size-4"} />
         ) : undefined
       }
+      {...props}
     >
       {children}
     </C>
