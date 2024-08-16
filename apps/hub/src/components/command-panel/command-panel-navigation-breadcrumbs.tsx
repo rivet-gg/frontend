@@ -75,7 +75,11 @@ export function CommandPanelNavigationBreadcrumbs({
     <div className="mt-2 flex min-h-8 items-center px-3">
       <Suspense fallback={<Skeleton className="h-4 w-10" />}>
         {pages.map((page) => (
-          <Badge key={page.key} variant="outline" className="mr-2">
+          <Badge
+            key={page.key}
+            variant="outline"
+            className="mr-2 flex items-center"
+          >
             {page.key === "group" && <GroupBreadcrumbs {...page.params} />}
             {page.key === "game" && <GameBreadcrumb {...page.params} />}
             {page.key === "namespace" && (

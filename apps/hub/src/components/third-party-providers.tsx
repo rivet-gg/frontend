@@ -1,5 +1,6 @@
 import { router } from "@/app";
 import { useAuth } from "@/domains/auth/contexts/auth";
+import { UTCDate } from "@date-fns/utc";
 import { getConfig, useConfig } from "@rivet-gg/components";
 import * as Sentry from "@sentry/react";
 import posthog, { type PostHog } from "posthog-js";
@@ -51,6 +52,7 @@ export function IdentifyUser() {
       const user = {
         name: identity.displayName,
         email: identity.linkedAccounts.find((x) => x.email)?.email?.email,
+        joinTs: new UTCDate(identity.joinTs).toISOString(),
         avatar: identity.avatarUrl,
         isAdmin: identity.isAdmin,
       };

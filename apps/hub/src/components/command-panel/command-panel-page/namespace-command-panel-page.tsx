@@ -2,6 +2,7 @@ import {
   gameNamespaceQueryOptions,
   gameQueryOptions,
 } from "@/domains/game/queries";
+import { useFeatureFlag } from "@/hooks/use-feature-flag";
 import {
   faCodeBranch,
   faGear,
@@ -45,6 +46,8 @@ export function NamespaceCommandPanelPage({
     (version) => version.versionId === versionId,
   );
 
+  const hideLegacyLobbies = useFeatureFlag("hub-lobbies-v2");
+
   return (
     <>
       <CommandGroup heading={displayName}>
@@ -81,101 +84,108 @@ export function NamespaceCommandPanelPage({
           <FontAwesomeIcon icon={faPuzzle} />
           Backend
         </CommandItem>
-        <CommandItem
-          onSelect={() => {
-            navigate({
-              to: "/games/$gameId/environments/$namespaceId/versions",
-              params: { gameId, namespaceId },
-            });
-          }}
-        >
-          <FontAwesomeIcon icon={faCodeBranch} />
-          Versions
-          {currentVersion ? (
-            <Badge className="ml-2">{currentVersion?.displayName}</Badge>
-          ) : null}
-        </CommandItem>
+
+        {!hideLegacyLobbies ? (
+          <CommandItem
+            onSelect={() => {
+              navigate({
+                to: "/games/$gameId/environments/$namespaceId/versions",
+                params: { gameId, namespaceId },
+              });
+            }}
+          >
+            <FontAwesomeIcon icon={faCodeBranch} />
+            Versions
+            {currentVersion ? (
+              <Badge className="ml-2">{currentVersion?.displayName}</Badge>
+            ) : null}
+          </CommandItem>
+        ) : null}
       </CommandGroup>
-      {config.cdn ? (
-        <CommandGroup heading="CDN">
-          <CommandItem
-            onSelect={() => {
-              navigate({
-                to: "/games/$gameId/environments/$namespaceId/cdn",
-                params: { gameId, namespaceId },
-              });
-            }}
-          >
-            <FontAwesomeIcon icon={faGlobe} />
-            CDN Overview
-          </CommandItem>
-          <CommandItem
-            keywords={["cdn", "auth", "users"]}
-            onSelect={() => {
-              navigate({
-                to: "/games/$gameId/environments/$namespaceId/cdn",
-                params: { gameId, namespaceId },
-                search: { modal: "cdn-users" },
-              });
-            }}
-          >
-            <FontAwesomeIcon icon={faUserCog} />
-            Manage authenticated users
-          </CommandItem>
-          <CommandItem
-            keywords={["cdn", "custom", "domains"]}
-            onSelect={() => {
-              navigate({
-                to: "/games/$gameId/environments/$namespaceId/cdn",
-                params: { gameId, namespaceId },
-                search: { modal: "cdn-domains" },
-              });
-            }}
-          >
-            <FontAwesomeIcon icon={faLink} />
-            Mange custom domains
-          </CommandItem>
-        </CommandGroup>
-      ) : null}
-      {config.matchmaker ? (
-        <CommandGroup heading="Matchmaker">
-          <CommandItem
-            keywords={["matchmaker", "lobbies"]}
-            onSelect={() => {
-              navigate({
-                to: "/games/$gameId/environments/$namespaceId/lobbies",
-                params: { gameId, namespaceId },
-              });
-            }}
-          >
-            <FontAwesomeIcon icon={faJoystick} />
-            Lobbies
-          </CommandItem>
-          <CommandItem
-            keywords={["matchmaker", "logs"]}
-            onSelect={() => {
-              navigate({
-                to: "/games/$gameId/environments/$namespaceId/lobbies/logs",
-                params: { gameId, namespaceId },
-              });
-            }}
-          >
-            <FontAwesomeIcon icon={faScroll} />
-            Logs
-          </CommandItem>
-          <CommandItem
-            keywords={["matchmaker", "settings"]}
-            onSelect={() => {
-              navigate({
-                to: "/games/$gameId/environments/$namespaceId/lobbies/settings",
-                params: { gameId, namespaceId },
-              });
-            }}
-          >
-            <FontAwesomeIcon icon={faGear} />
-            Settings
-          </CommandItem>
-        </CommandGroup>
+      {!hideLegacyLobbies ? (
+        <>
+          {config.cdn ? (
+            <CommandGroup heading="CDN">
+              <CommandItem
+                onSelect={() => {
+                  navigate({
+                    to: "/games/$gameId/environments/$namespaceId/cdn",
+                    params: { gameId, namespaceId },
+                  });
+                }}
+              >
+                <FontAwesomeIcon icon={faGlobe} />
+                CDN Overview
+              </CommandItem>
+              <CommandItem
+                keywords={["cdn", "auth", "users"]}
+                onSelect={() => {
+                  navigate({
+                    to: "/games/$gameId/environments/$namespaceId/cdn",
+                    params: { gameId, namespaceId },
+                    search: { modal: "cdn-users" },
+                  });
+                }}
+              >
+                <FontAwesomeIcon icon={faUserCog} />
+                Manage authenticated users
+              </CommandItem>
+              <CommandItem
+                keywords={["cdn", "custom", "domains"]}
+                onSelect={() => {
+                  navigate({
+                    to: "/games/$gameId/environments/$namespaceId/cdn",
+                    params: { gameId, namespaceId },
+                    search: { modal: "cdn-domains" },
+                  });
+                }}
+              >
+                <FontAwesomeIcon icon={faLink} />
+                Mange custom domains
+              </CommandItem>
+            </CommandGroup>
+          ) : null}
+          {config.matchmaker ? (
+            <CommandGroup heading="Matchmaker">
+              <CommandItem
+                keywords={["matchmaker", "lobbies"]}
+                onSelect={() => {
+                  navigate({
+                    to: "/games/$gameId/environments/$namespaceId/lobbies",
+                    params: { gameId, namespaceId },
+                  });
+                }}
+              >
+                <FontAwesomeIcon icon={faJoystick} />
+                Lobbies
+              </CommandItem>
+              <CommandItem
+                keywords={["matchmaker", "logs"]}
+                onSelect={() => {
+                  navigate({
+                    to: "/games/$gameId/environments/$namespaceId/lobbies/logs",
+                    params: { gameId, namespaceId },
+                  });
+                }}
+              >
+                <FontAwesomeIcon icon={faScroll} />
+                Logs
+              </CommandItem>
+              <CommandItem
+                keywords={["matchmaker", "settings"]}
+                onSelect={() => {
+                  navigate({
+                    to: "/games/$gameId/environments/$namespaceId/lobbies/settings",
+                    params: { gameId, namespaceId },
+                  });
+                }}
+              >
+                <FontAwesomeIcon icon={faGear} />
+                Settings
+              </CommandItem>
+            </CommandGroup>
+          ) : null}
+        </>
       ) : null}
       <CommandGroup heading="Tokens">
         <CommandItem

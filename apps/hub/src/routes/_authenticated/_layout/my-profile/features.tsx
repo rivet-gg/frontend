@@ -60,12 +60,9 @@ function MyProfileFeaturesRoute() {
           </Text>
         }
         featureFlag="hub-dynamic-servers"
-        onChanged={(checked) =>
-          posthog.updateEarlyAccessFeatureEnrollment(
-            "hub-dynamic-servers",
-            checked,
-          )
-        }
+        onChanged={() => {
+          // FIXME: use internal properties api
+        }}
       />
     </>
   );

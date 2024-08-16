@@ -1,4 +1,5 @@
 import { gameNamespaceQueryOptions } from "@/domains/game/queries";
+import { useFeatureFlag } from "@/hooks/use-feature-flag";
 import {
   faChessKnight,
   faCodeBranch,
@@ -24,6 +25,8 @@ export function HeaderNamespaceLinks({
   const { data } = useSuspenseQuery(
     gameNamespaceQueryOptions({ gameId, namespaceId }),
   );
+
+  const hideLegacyLobbies = useFeatureFlag("hub-lobbies-v2");
 
   return (
     <>
@@ -52,33 +55,37 @@ export function HeaderNamespaceLinks({
           Backend
         </Link>
       </HeaderLink>
-      <HeaderLink icon={faCodeBranch}>
-        <Link
-          to="/games/$gameId/environments/$namespaceId/versions"
-          params={{ gameId, namespaceId }}
-        >
-          Versions
-        </Link>
-      </HeaderLink>
-      {data.namespace.config.matchmaker ? (
-        <HeaderLink icon={faChessKnight}>
-          <Link
-            to="/games/$gameId/environments/$namespaceId/lobbies"
-            params={{ gameId, namespaceId }}
-          >
-            Lobbies
-          </Link>
-        </HeaderLink>
-      ) : null}
-      {data.namespace.config.cdn ? (
-        <HeaderLink icon={faGlobe}>
-          <Link
-            to="/games/$gameId/environments/$namespaceId/cdn"
-            params={{ gameId, namespaceId }}
-          >
-            CDN
-          </Link>
-        </HeaderLink>
+      {!hideLegacyLobbies ? (
+        <>
+          <HeaderLink icon={faCodeBranch}>
+            <Link
+              to="/games/$gameId/environments/$namespaceId/versions"
+              params={{ gameId, namespaceId }}
+            >
+              Versions
+            </Link>
+          </HeaderLink>
+          {data.namespace.config.matchmaker ? (
+            <HeaderLink icon={faChessKnight}>
+              <Link
+                to="/games/$gameId/environments/$namespaceId/lobbies"
+                params={{ gameId, namespaceId }}
+              >
+                Lobbies
+              </Link>
+            </HeaderLink>
+          ) : null}
+          {data.namespace.config.cdn ? (
+            <HeaderLink icon={faGlobe}>
+              <Link
+                to="/games/$gameId/environments/$namespaceId/cdn"
+                params={{ gameId, namespaceId }}
+              >
+                CDN
+              </Link>
+            </HeaderLink>
+          ) : null}
+        </>
       ) : null}
       <HeaderLink icon={faKey}>
         <Link
