@@ -1,5 +1,7 @@
 import { GameServersListPreview } from "@/domains/game/components/game-servers/game-servers-list-preview";
 import { gameServersQueryOptions } from "@/domains/game/queries";
+import { faRefresh } from "@fortawesome/pro-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Button,
   Card,
@@ -27,18 +29,19 @@ function GameServersRoute() {
     <Card w="full" h="full" className="flex flex-col">
       <CardHeader className="border-b flex flex-row justify-between items-center">
         <CardTitle>Servers</CardTitle>
+        <Button
+          size="icon"
+          isLoading={isRefetching}
+          variant="outline"
+          onClick={() => refetch()}
+        >
+          <FontAwesomeIcon icon={faRefresh} />
+        </Button>
       </CardHeader>
       <CardContent className="flex-1 min-h-0 w-full p-0">
         {servers.servers.length === 0 ? (
           <div className="flex items-center mx-auto flex-col gap-2 my-10">
             <Text textAlign="center">No servers found.</Text>
-            <Button
-              isLoading={isRefetching}
-              onClick={() => refetch()}
-              variant="outline"
-            >
-              Refresh
-            </Button>
           </div>
         ) : (
           <GameServersListPreview

@@ -9,6 +9,7 @@ export const gameServersQueryOptions = ({
 }: { gameId: string; environmentId: string }) => {
   return queryOptions({
     queryKey: ["game", gameId, "namespace", environmentId, "servers"],
+    refetchInterval: 5000,
     queryFn: ({
       signal: abortSignal,
       queryKey: [_, gameId, __, environmentId],
@@ -105,13 +106,13 @@ export const serverLogsQueryOptions = (
     },
   });
 };
-
 export const gameBuildsQueryOptions = ({
   environmentId,
   gameId,
 }: { gameId: string; environmentId: string }) => {
   return queryOptions({
     queryKey: ["game", gameId, "namespace", environmentId, "builds"],
+    refetchInterval: 5000,
     queryFn: ({
       queryKey: [
         // eslint-disable-next-line @typescript-eslint/no-unused-vars

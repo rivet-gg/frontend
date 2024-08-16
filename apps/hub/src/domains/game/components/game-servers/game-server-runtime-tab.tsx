@@ -33,7 +33,7 @@ export function GameServerRuntimeTab({
   resources,
 }: GameServerRuntimeTabProps) {
   const { data } = useSuspenseQuery(
-    buildQueryOptions({ gameId, environmentId, buildId: runtime.image }),
+    buildQueryOptions({ gameId, environmentId, buildId: runtime.build }),
   );
 
   const buildId = useId();
