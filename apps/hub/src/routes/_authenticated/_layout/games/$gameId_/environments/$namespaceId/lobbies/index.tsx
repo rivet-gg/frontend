@@ -100,7 +100,7 @@ export const Route = createFileRoute(
     layout: "full",
   },
   beforeLoad: async ({ params: { gameId, namespaceId } }) => {
-    await queryClient.fetchQuery(
+    await queryClient.ensureQueryData(
       gameNamespaceLobbiesLiveQueryOptions({ gameId, namespaceId }),
     );
   },

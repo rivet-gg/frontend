@@ -94,7 +94,10 @@ const searchSchema = z.object({
 export const Route = createFileRoute("/_authenticated/_layout/")({
   validateSearch: (search) => searchSchema.parse(search),
   beforeLoad: async ({ context }) => {
-    await context.queryClient.fetchQuery(gamesQueryOptions());
+    await context.queryClient.ensureQueryData({
+      ...gamesQueryOptions(),
+      revalidateIfStale: true,
+    });
   },
   component: IndexRoute,
 });

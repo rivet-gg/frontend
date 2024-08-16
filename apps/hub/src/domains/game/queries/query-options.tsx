@@ -22,7 +22,6 @@ export const gamesQueryOptions = () => {
         };
       });
     },
-    meta: { watch: true },
   });
 };
 
