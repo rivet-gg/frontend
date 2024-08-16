@@ -1,4 +1,3 @@
-import type { Rivet } from "@rivet-gg/api";
 import {
   ResizableHandle,
   ResizablePanel,
@@ -12,14 +11,12 @@ import { GameServersServerDetailsPanel } from "./game-servers-server-details-pan
 interface GameServersListPreview {
   gameId: string;
   environmentId: string;
-  servers: Rivet.servers.Server[];
   serverId?: string;
 }
 
 export function GameServersListPreview({
   gameId,
   environmentId,
-  servers,
   serverId,
 }: GameServersListPreview) {
   const isMd = useBreakpoint("md");
@@ -32,7 +29,11 @@ export function GameServersListPreview({
     >
       <ResizablePanel minSize={25} maxSize={75}>
         <div className="h-full max-h-full overflow-hidden w-full truncate min-w-0">
-          <GameServersListPanel servers={servers} serverId={serverId} />
+          <GameServersListPanel
+            gameId={gameId}
+            environmentId={environmentId}
+            serverId={serverId}
+          />
         </div>
       </ResizablePanel>
       <ResizableHandle withHandle />

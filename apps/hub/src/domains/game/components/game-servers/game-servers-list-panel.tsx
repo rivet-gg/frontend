@@ -1,4 +1,3 @@
-import type { Rivet } from "@rivet-gg/api";
 import {
   Badge,
   Button,
@@ -8,24 +7,33 @@ import {
   Uptime,
   WithTooltip,
 } from "@rivet-gg/components";
+import { useSuspenseInfiniteQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
+import { gameServersQueryOptions } from "../../queries";
 import { LobbyLifecycle } from "../game-matchmaker/lobby-lifecycle";
 import { GameServerTags } from "./game-server-tags";
 
 interface GameServersListPanelProps {
-  servers: Rivet.servers.Server[];
+  gameId: string;
+  environmentId: string;
   serverId: string | undefined;
 }
 
 export function GameServersListPanel({
   serverId,
-  servers,
+  gameId,
+  environmentId,
 }: GameServersListPanelProps) {
+  const { data, hasNextPage, isFetchingNextPage, fetchNextPage } =
+    useSuspenseInfiniteQuery(
+      gameServersQueryOptions({ gameId, environmentId }),
+    );
+
   return (
     <ScrollArea className="overflow-auto h-full truncate min-w-0">
       <Flex direction="col" gap="2" my="4" mx="4" className="truncate min-w-0">
         <>
-          {servers.map((server) => (
+          {data.map((server) => (
             <WithTooltip
               key={server.id}
               trigger={
@@ -70,6 +78,16 @@ export function GameServersListPanel({
               }
             />
           ))}
+          {hasNextPage ? (
+            <Button
+              variant="outline"
+              mx="4"
+              isLoading={isFetchingNextPage}
+              onClick={() => fetchNextPage()}
+            >
+              Load more
+            </Button>
+          ) : null}
         </>
       </Flex>
     </ScrollArea>

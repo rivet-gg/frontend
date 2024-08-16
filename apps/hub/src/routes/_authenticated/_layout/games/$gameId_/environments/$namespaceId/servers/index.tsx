@@ -10,17 +10,13 @@ import {
   CardTitle,
   Text,
 } from "@rivet-gg/components";
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useSuspenseInfiniteQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { z } from "zod";
 
 function GameServersRoute() {
   const { gameId, namespaceId } = Route.useParams();
-  const {
-    data: servers,
-    refetch,
-    isRefetching,
-  } = useSuspenseQuery(
+  const { data, refetch, isRefetching } = useSuspenseInfiniteQuery(
     gameServersQueryOptions({ gameId, environmentId: namespaceId }),
   );
   const { serverId } = Route.useSearch();
@@ -39,7 +35,7 @@ function GameServersRoute() {
         </Button>
       </CardHeader>
       <CardContent className="flex-1 min-h-0 w-full p-0">
-        {servers.servers.length === 0 ? (
+        {data.length === 0 ? (
           <div className="flex items-center mx-auto flex-col gap-2 my-10">
             <Text textAlign="center">No servers found.</Text>
           </div>
@@ -48,7 +44,6 @@ function GameServersRoute() {
             gameId={gameId}
             environmentId={namespaceId}
             serverId={serverId}
-            servers={servers.servers}
           />
         )}
       </CardContent>

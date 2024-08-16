@@ -1,17 +1,19 @@
 import { rivetClient } from "@/queries/global";
 import { getMetaWatchIndex } from "@/queries/utils";
 import type { Rivet } from "@rivet-gg/api";
-import { queryOptions } from "@tanstack/react-query";
+import { infiniteQueryOptions, queryOptions } from "@tanstack/react-query";
 
 export const gameServersQueryOptions = ({
   gameId,
   environmentId,
 }: { gameId: string; environmentId: string }) => {
-  return queryOptions({
+  return infiniteQueryOptions({
     queryKey: ["game", gameId, "namespace", environmentId, "servers"],
     refetchInterval: 5000,
+    initialPageParam: "",
     queryFn: ({
       signal: abortSignal,
+      pageParam,
       queryKey: [_, gameId, __, environmentId],
     }) =>
       rivetClient.servers.list(
@@ -19,9 +21,13 @@ export const gameServersQueryOptions = ({
         environmentId,
         {
           includeDestroyed: true,
+          cursor: pageParam ? pageParam : undefined,
         },
         { abortSignal },
       ),
+    select: (data) => data.pages.flatMap((page) => page.servers),
+    getNextPageParam: (lastPage) =>
+      lastPage.servers[lastPage.servers?.length - 1]?.id,
   });
 };
 
