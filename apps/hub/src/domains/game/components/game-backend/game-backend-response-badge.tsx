@@ -21,20 +21,33 @@ const getResponseTypeVariant = (type: "warning" | "error" | "success") => {
   return "outline";
 };
 
+const getResponseLabel = (outcome: string, type: string) => {
+  if (outcome === "canceled") {
+    return "CANCELED";
+  }
+  if (type === "error") {
+    return "ERROR";
+  }
+  return "OK";
+};
+
 interface GameBackendResponseBadgeProps extends BackendEvent {}
 
 export function GameBackendResponseBadge({
   backendCall,
   event,
+  outcome,
 }: GameBackendResponseBadgeProps) {
   const type = getResponseType(event);
   const variant = getResponseTypeVariant(type);
+
+  const label = getResponseLabel(outcome, type);
 
   if (backendCall) {
     return (
       <>
         <Badge>CALL</Badge>
-        <Badge variant={variant}>{type === "error" ? "ERROR" : "OK"}</Badge>
+        <Badge variant={variant}>{label}</Badge>
       </>
     );
   }
@@ -42,7 +55,7 @@ export function GameBackendResponseBadge({
     <>
       <Badge>HTTP</Badge>
       <Badge variant={variant}>
-        {event.response.status} {type === "error" ? "ERROR" : "OK"}
+        {event.response.status} {label}
       </Badge>
     </>
   );

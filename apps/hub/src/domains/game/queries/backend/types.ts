@@ -50,7 +50,7 @@ export const BackendEvent = z
         }),
       )
       .optional(),
-    outcome: z.string(),
+    outcome: z.literal("canceled").or(z.string()),
     scriptName: z.string(),
     scriptVersion: z.object({
       id: z.string(),
