@@ -9,6 +9,7 @@ import {
   WithTooltip,
 } from "@rivet-gg/components";
 import { Link } from "@tanstack/react-router";
+import { LobbyLifecycle } from "../game-matchmaker/lobby-lifecycle";
 import { GameServerTags } from "./game-server-tags";
 
 interface GameServersListPanelProps {
@@ -25,32 +26,49 @@ export function GameServersListPanel({
       <Flex direction="col" gap="2" my="4" mx="4" className="truncate min-w-0">
         <>
           {servers.map((server) => (
-            <Button
-              key={server.serverId}
-              className="h-auto justify-between"
-              variant={serverId === server.serverId ? "secondary" : "outline"}
-              asChild
-            >
-              <Link
-                search={{ serverId: server.serverId }}
-                className="min-w-0 flex flex-wrap gap-2"
-              >
-                <span className="flex gap-2 items-start">
-                  <Badge className="truncate inline-block">
-                    {server.serverId.split("-")[0]}
-                  </Badge>
-                  <GameServerTags {...server} />
-                </span>
-                <WithTooltip
-                  trigger={
+            <WithTooltip
+              key={server.id}
+              trigger={
+                <Button
+                  className="h-auto justify-between"
+                  variant={serverId === server.id ? "secondary" : "outline"}
+                  asChild
+                >
+                  <Link
+                    search={{ serverId: server.id }}
+                    className="min-w-0 flex flex-wrap gap-2"
+                  >
+                    <span className="flex gap-2 items-start">
+                      <Badge className="truncate inline-block">
+                        {server.id.split("-")[0]}
+                      </Badge>
+                      <Badge variant="secondary">{server.datacenter}</Badge>
+                    </span>
                     <SmallText>
-                      <Uptime createTs={new Date(server.createTs)} />
+                      <Uptime createTs={new Date(server.createdAt)} />
                     </SmallText>
-                  }
-                  content={new Date(server.createTs).toLocaleString()}
-                />
-              </Link>
-            </Button>
+                  </Link>
+                </Button>
+              }
+              content={
+                <div className="flex flex-col gap-4">
+                  <LobbyLifecycle
+                    createTs={
+                      server.createdAt ? new Date(server.createdAt) : new Date()
+                    }
+                    readyTs={
+                      server.startedAt ? new Date(server.startedAt) : undefined
+                    }
+                    stopTs={
+                      server.destroyedAt
+                        ? new Date(server.destroyedAt)
+                        : undefined
+                    }
+                  />
+                  <GameServerTags {...server} />
+                </div>
+              }
+            />
           ))}
         </>
       </Flex>

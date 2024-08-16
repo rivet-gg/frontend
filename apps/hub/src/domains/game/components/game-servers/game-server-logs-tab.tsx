@@ -4,11 +4,13 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { serverLogsQueryOptions } from "../../queries";
 
 interface GameServerLogsTabProps {
+  gameId: string;
   serverId: string;
   logType: Rivet.servers.LogStream;
 }
 
 export function GameServerLogsTab({
+  gameId,
   serverId,
   logType,
 }: GameServerLogsTabProps) {
@@ -17,6 +19,7 @@ export function GameServerLogsTab({
   } = useSuspenseQuery(
     serverLogsQueryOptions(
       {
+        gameId,
         serverId,
         stream: logType,
       },

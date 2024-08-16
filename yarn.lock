@@ -3544,14 +3544,40 @@ __metadata:
 
 "@rivet-gg/api-ee@file:vendor/rivet-gg-api-ee.tgz::locator=%40rivet-gg%2Fhub%40workspace%3Aapps%2Fhub":
   version: 0.0.1
-  resolution: "@rivet-gg/api-ee@file:vendor/rivet-gg-api-ee.tgz#vendor/rivet-gg-api-ee.tgz::hash=057dbd&locator=%40rivet-gg%2Fhub%40workspace%3Aapps%2Fhub"
+  resolution: "@rivet-gg/api-ee@file:vendor/rivet-gg-api-ee.tgz#vendor/rivet-gg-api-ee.tgz::hash=2a4c50&locator=%40rivet-gg%2Fhub%40workspace%3Aapps%2Fhub"
   dependencies:
     form-data: "npm:^4.0.0"
     js-base64: "npm:^3.7.5"
     node-fetch: "npm:2"
     qs: "npm:^6.11.2"
     url-join: "npm:^5.0.0"
-  checksum: 10c0/c69554e0c9b84f80dba8f7f27af3f29e0cdb8227c5c7aae0f995b385e4d4f85838698c048f73014ec80a3a10282a72948aa0fe955097114a95b4fab3eb953eb8
+  checksum: 10c0/e71c3bcf063407e95c1f4ead985483fa9cf00bcbaeb7a1f97afd58acb8717c85ea9d1635394252ce5ef994420190c6b4f7f70ba9f55dd27436e5ccdafa5d019d
+  languageName: node
+  linkType: hard
+
+"@rivet-gg/api@file:vendor/rivet-gg-api.tgz::locator=%40rivet-gg%2Fhub%40workspace%3Aapps%2Fhub":
+  version: 24.1.0
+  resolution: "@rivet-gg/api@file:vendor/rivet-gg-api.tgz#vendor/rivet-gg-api.tgz::hash=c380a2&locator=%40rivet-gg%2Fhub%40workspace%3Aapps%2Fhub"
+  dependencies:
+    form-data: "npm:^4.0.0"
+    js-base64: "npm:^3.7.5"
+    node-fetch: "npm:2"
+    qs: "npm:^6.11.2"
+    url-join: "npm:^5.0.0"
+  checksum: 10c0/29a4131cb814b53b1c7a3111aaff7f174c1e5ab4b557ad87baaac2f6192c635edcf7d1e4a1ba08de3378e549a4df5f4b29355a96dca3b866fb756c14c511f56a
+  languageName: node
+  linkType: hard
+
+"@rivet-gg/api@file:vendor/rivet-gg-api.tgz::locator=%40rivet-gg%2Fhub%40workspace%3Aapps%2Fhub":
+  version: 24.1.0
+  resolution: "@rivet-gg/api@file:vendor/rivet-gg-api.tgz#vendor/rivet-gg-api.tgz::hash=f84e6f&locator=%40rivet-gg%2Fhub%40workspace%3Aapps%2Fhub"
+  dependencies:
+    form-data: "npm:^4.0.0"
+    js-base64: "npm:^3.7.5"
+    node-fetch: "npm:2"
+    qs: "npm:^6.11.2"
+    url-join: "npm:^5.0.0"
+  checksum: 10c0/b13044402f475548f8dba4e0e8eeceb31056ba89137608c35a9d02ff202f323f6e6246e16779c9a380c3876b21a70435ee9d91710246bfe972ef527e2891e648
   languageName: node
   linkType: hard
 

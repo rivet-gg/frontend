@@ -5,23 +5,24 @@ import { queryOptions } from "@tanstack/react-query";
 export const gameServersQueryOptions = (gameId: string) => {
   return queryOptions({
     queryKey: ["servers"],
-    queryFn: () => rivetClient.servers.list(),
-    select: (data) => data.servers.filter((server) => server.gameId === gameId),
+    queryFn: () => rivetClient.servers.list(gameId),
   });
 };
 
-export const serverQueryOptions = (serverId: string) => {
+export const serverQueryOptions = (gameId: string, serverId: string) => {
   return queryOptions({
     queryKey: ["server", serverId],
-    queryFn: () => rivetClient.servers.get(serverId),
+    queryFn: () => rivetClient.servers.get(gameId, serverId),
     select: (data) => ({
       ...data.server,
-      createTs: data.server.createTs
-        ? new Date(data.server.createTs)
+      createTs: data.server.createdAt
+        ? new Date(data.server.createdAt)
         : new Date(),
-      startTs: data.server.startTs ? new Date(data.server.startTs) : undefined,
-      destroyTs: data.server.destroyTs
-        ? new Date(data.server.destroyTs)
+      startTs: data.server.destroyedAt
+        ? new Date(data.server.destroyedAt)
+        : undefined,
+      destroyTs: data.server.destroyedAt
+        ? new Date(data.server.destroyedAt)
         : undefined,
     }),
   });
@@ -29,9 +30,11 @@ export const serverQueryOptions = (serverId: string) => {
 
 export const serverLogsQueryOptions = (
   {
+    gameId,
     serverId,
     stream,
   }: {
+    gameId: string;
     serverId: string;
     stream: Rivet.servers.LogStream;
   },
@@ -40,7 +43,8 @@ export const serverLogsQueryOptions = (
   return queryOptions({
     ...opts,
     queryKey: ["server", serverId, "logs", stream],
-    queryFn: () => rivetClient.servers.logs.getServerLogs(serverId, { stream }),
+    queryFn: () =>
+      rivetClient.servers.logs.getServerLogs(gameId, serverId, { stream }),
     select: (data) => ({
       ...data,
       lines: data.lines.map((line) => window.atob(line)),
@@ -62,10 +66,10 @@ export const gameBuildsQueryOptions = (gameId: string) => {
   });
 };
 
-export const buildQueryOptions = (buildId: string) => {
+export const buildQueryOptions = (gameId: string, buildId: string) => {
   return queryOptions({
-    queryFn: () => rivetClient.servers.builds.listBuilds(),
-    queryKey: ["build", buildId],
-    select: (data) => data.builds.find((build) => build.buildId === buildId),
+    queryFn: () => rivetClient.servers.builds.getBuild(gameId, buildId),
+    queryKey: ["game", gameId, "build", buildId],
+    select: (data) => data.build,
   });
 };

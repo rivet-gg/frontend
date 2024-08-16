@@ -26,11 +26,12 @@ interface GameServerRuntimeTabProps
 export function GameServerRuntimeTab({
   environment = {},
   arguments: args,
-  imageId,
+  game: gameId,
+  image: imageId,
   killTimeout,
   resources,
 }: GameServerRuntimeTabProps) {
-  const { data } = useSuspenseQuery(buildQueryOptions(imageId));
+  const { data } = useSuspenseQuery(buildQueryOptions(gameId, imageId));
 
   const buildId = useId();
 
@@ -51,9 +52,9 @@ export function GameServerRuntimeTab({
               <div aria-describedby={buildId} className="col-span-2">
                 <Dl className="ml-5">
                   <Dt>Image</Dt>
-                  <Dd>{data.displayName}</Dd>
+                  <Dd>{data.name}</Dd>
                   <Dt>Created At</Dt>
-                  <Dd>{data.createTs.toLocaleString()}</Dd>
+                  <Dd>{data.createdAt.toLocaleString()}</Dd>
                   <Dt>Tags</Dt>
                   <Dd>
                     {Object.keys(data.tags).length > 0 ? (

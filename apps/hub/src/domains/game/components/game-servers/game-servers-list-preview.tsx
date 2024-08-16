@@ -11,11 +11,13 @@ import { GameServersListPanel } from "./game-servers-list-panel";
 import { GameServersServerDetailsPanel } from "./game-servers-server-details-panel";
 
 interface GameServersListPreview {
+  gameId: string;
   servers: Rivet.servers.Server[];
   serverId?: string;
 }
 
 export function GameServersListPreview({
+  gameId,
   servers,
   serverId,
 }: GameServersListPreview) {
@@ -44,7 +46,10 @@ export function GameServersListPreview({
       <ResizablePanel minSize={25} maxSize={75}>
         <div className="h-full max-h-full overflow-hidden w-full">
           <Suspense fallback={<GameServersServerDetailsPanel.Skeleton />}>
-            <GameServersServerDetailsPanel serverId={serverId} />
+            <GameServersServerDetailsPanel
+              gameId={gameId}
+              serverId={serverId}
+            />
           </Suspense>
         </div>
       </ResizablePanel>

@@ -21,13 +21,15 @@ import { GameServerRuntimeTab } from "./game-server-runtime-tab";
 import { GameServerTags } from "./game-server-tags";
 
 interface GameServersServerDetailsProps {
+  gameId: string;
   serverId: string;
 }
 
 export function GameServersServerDetails({
+  gameId,
   serverId,
 }: GameServersServerDetailsProps) {
-  const { data } = useSuspenseQuery(serverQueryOptions(serverId));
+  const { data } = useSuspenseQuery(serverQueryOptions(gameId, serverId));
 
   const { mutate } = useDestroyServerMutation();
 
@@ -56,13 +58,13 @@ export function GameServersServerDetails({
           <Flex direction="col" gap="4" className="flex-1">
             <GameServerTags {...data} />
             <Flex gap="2">
-              <CopyButton value={data.serverId}>
+              <CopyButton value={data.id}>
                 <Button variant="outline">Copy ID</Button>
               </CopyButton>
               {!data.destroyTs ? (
                 <Button
                   variant="destructive"
-                  onClick={() => mutate(data.serverId)}
+                  onClick={() => mutate({ gameId, serverId })}
                 >
                   Destroy
                 </Button>
@@ -90,12 +92,20 @@ export function GameServersServerDetails({
           </TabsList>
           <TabsContent value="output" className="min-h-0 flex-1 mt-0 p-4">
             <Suspense fallback={<GameServerLogsTab.Skeleton />}>
-              <GameServerLogsTab serverId={serverId} logType="std_out" />
+              <GameServerLogsTab
+                gameId={gameId}
+                serverId={serverId}
+                logType="std_out"
+              />
             </Suspense>
           </TabsContent>
           <TabsContent value="errors" className="min-h-0 flex-1 mt-0 p-4">
             <Suspense fallback={<GameServerLogsTab.Skeleton />}>
-              <GameServerLogsTab serverId={serverId} logType="std_err" />
+              <GameServerLogsTab
+                gameId={gameId}
+                serverId={serverId}
+                logType="std_err"
+              />
             </Suspense>
           </TabsContent>
           <TabsContent value="runtime" className="min-h-0 flex-1 mt-0">

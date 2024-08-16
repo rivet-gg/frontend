@@ -2,10 +2,12 @@ import { Flex, Text } from "@rivet-gg/components";
 import { GameServersServerDetails } from "./game-servers-server-details";
 
 interface GameServersServerDetailsPanelProps {
+  gameId: string;
   serverId: string | undefined;
 }
 
 export function GameServersServerDetailsPanel({
+  gameId,
   serverId,
 }: GameServersServerDetailsPanelProps) {
   if (!serverId) {
@@ -18,6 +20,6 @@ export function GameServersServerDetailsPanel({
     );
   }
 
-  return <GameServersServerDetails serverId={serverId} />;
+  return <GameServersServerDetails gameId={gameId} serverId={serverId} />;
 }
 GameServersServerDetailsPanel.Skeleton = GameServersServerDetails.Skeleton;

@@ -3,6 +3,7 @@ import { useMutation } from "@tanstack/react-query";
 
 export function useDestroyServerMutation() {
   return useMutation({
-    mutationFn: (serverId: string) => rivetClient.servers.destroy(serverId),
+    mutationFn: (opts: { gameId: string; serverId: string }) =>
+      rivetClient.servers.destroy(opts.gameId, opts.serverId),
   });
 }

@@ -16,7 +16,11 @@ function GameServersRoute() {
         <CardTitle>Servers</CardTitle>
       </CardHeader>
       <CardContent className="flex-1 min-h-0 w-full p-0">
-        <GameServersListPreview serverId={serverId} servers={servers} />
+        <GameServersListPreview
+          gameId={gameId}
+          serverId={serverId}
+          servers={servers.servers}
+        />
       </CardContent>
     </Card>
   );
