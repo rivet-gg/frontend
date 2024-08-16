@@ -51,12 +51,13 @@ export const createSchemaForm = <Schema extends z.ZodSchema>(
         </Form>
       );
     },
-    Submit: (props: ButtonProps) => {
+    Submit: (props: ButtonProps & {disablePristine?: boolean}) => {
+      const disablePristine = props.disablePristine ?? true;
       const { isSubmitting, isValidating, isDirty } = useFormState<z.TypeOf<Schema>>();
       return (
         <Button
           type="submit"
-          disabled={!isDirty}
+          disabled={disablePristine ? !isDirty : false}
           isLoading={isSubmitting || isValidating}
           {...props}
         />
