@@ -62,7 +62,10 @@ export const rivetEeClient = new RivetEeClient(clientOptions);
 const queryCache = new QueryCache({
   async onError(error) {
     if (isRivetError(error)) {
-      if (error.body.code === "CLAIMS_ENTITLEMENT_EXPIRED") {
+      if (
+        error.body.code === "CLAIMS_ENTITLEMENT_EXPIRED" ||
+        error.body.code === "TOKEN_REVOKED"
+      ) {
         queryClient.invalidateQueries(identityTokenQueryOptions());
         await getToken();
       }
