@@ -59,7 +59,6 @@ export const Captcha = () => {
           <FormControl>
             {data.turnstile?.siteKey ? (
               <Turnstile
-                appearance="interaction-only"
                 sitekey={data.turnstile.siteKey}
                 onVerify={(token) => {
                   field.onChange({ target: { value: token } });

@@ -1,6 +1,6 @@
+import { AuthCard } from "@/components/auth-card";
 import * as LoginForm from "@/domains/auth/forms/login-form";
 import {
-  Card,
   CardContent,
   CardDescription,
   CardFooter,
@@ -18,7 +18,7 @@ interface EmailStepProps {
 export const EmailStep = ({ onSubmit }: EmailStepProps) => {
   return (
     <LoginForm.Form defaultValues={{ email: "" }} onSubmit={onSubmit}>
-      <Card>
+      <AuthCard>
         <CardHeader>
           <CardTitle>Login</CardTitle>
           <CardDescription>
@@ -53,7 +53,7 @@ export const EmailStep = ({ onSubmit }: EmailStepProps) => {
         <CardFooter>
           <LoginForm.Submit w="full">Continue</LoginForm.Submit>
         </CardFooter>
-      </Card>
+      </AuthCard>
     </LoginForm.Form>
   );
 };

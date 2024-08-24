@@ -59,7 +59,16 @@ export const rivetClientTokeneless = new RivetClient({
 export const rivetClient = new RivetClient(clientOptions);
 export const rivetEeClient = new RivetEeClient(clientOptions);
 
-const queryCache = new QueryCache();
+const queryCache = new QueryCache({
+  async onError(error) {
+    if (isRivetError(error)) {
+      if (error.body.code === "CLAIMS_ENTITLEMENT_EXPIRED") {
+        queryClient.invalidateQueries(identityTokenQueryOptions());
+        await getToken();
+      }
+    }
+  },
+});
 
 const mutationCache = new MutationCache({
   onError(error, variables, context, mutation) {
