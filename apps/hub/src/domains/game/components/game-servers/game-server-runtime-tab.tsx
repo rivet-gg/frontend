@@ -8,6 +8,7 @@ import {
   Flex,
   Grid,
   ScrollArea,
+  SmallText,
   formatDuration,
 } from "@rivet-gg/components";
 import { useSuspenseQuery } from "@tanstack/react-query";
@@ -77,20 +78,28 @@ export function GameServerRuntimeTab({
           )}
           <Dt>Arguments</Dt>
           <Dd>
-            <Code>{runtime.arguments?.join(" ")}</Code>
+            {runtime.arguments?.length === 0 ? (
+              <SmallText>No arguments provided.</SmallText>
+            ) : (
+              <Code>{runtime.arguments?.join(" ")}</Code>
+            )}
           </Dd>
           <Dt>Environment</Dt>
           <Dd>
-            <Grid columns="2" gap="2">
-              {Object.entries(runtime.environment || {}).map(
-                ([name, value]) => (
-                  <Fragment key={name}>
-                    <CopyArea variant="discrete" value={name} />
-                    <CopyArea variant="discrete" value={value} />
-                  </Fragment>
-                ),
-              )}
-            </Grid>
+            {Object.keys(runtime.environment || {}).length === 0 ? (
+              <SmallText>No environment variables set.</SmallText>
+            ) : (
+              <Grid columns="2" gap="2">
+                {Object.entries(runtime.environment || {}).map(
+                  ([name, value]) => (
+                    <Fragment key={name}>
+                      <CopyArea variant="discrete" value={name} />
+                      <CopyArea variant="discrete" value={value} />
+                    </Fragment>
+                  ),
+                )}
+              </Grid>
+            )}
           </Dd>
         </Dl>
       </Flex>

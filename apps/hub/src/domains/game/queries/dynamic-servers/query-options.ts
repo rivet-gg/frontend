@@ -58,6 +58,10 @@ export const serverQueryOptions = ({
       destroyTs: data.server.destroyedAt
         ? new Date(data.server.destroyedAt)
         : undefined,
+      runtime: {
+        ...data.server.runtime,
+        arguments: data.server.runtime.arguments?.filter((arg) => arg !== ""),
+      },
     }),
   });
 };
@@ -176,5 +180,40 @@ export const buildQueryOptions = ({
       ),
 
     select: (data) => data.build,
+  });
+};
+
+export const dataCentersQueryOptions = ({
+  gameId,
+  environmentId,
+}: { gameId: string; environmentId: string }) => {
+  return queryOptions({
+    queryKey: ["game", gameId, "namespace", environmentId, "datacenters"],
+    queryFn: ({
+      signal: abortSignal,
+      queryKey: [_, gameId, __, environmentId],
+    }) =>
+      rivetClient.servers.datacenters.listDatacenters(gameId, environmentId, {
+        abortSignal,
+      }),
+    select: (data) => data.datacenters,
+  });
+};
+
+export const dataCenterQueryOptions = ({
+  gameId,
+  environmentId,
+  datacenterId,
+}: {
+  gameId: string;
+  environmentId: string;
+  datacenterId: string;
+}) => {
+  return queryOptions({
+    ...dataCentersQueryOptions({ gameId, environmentId }),
+    select: (data) =>
+      dataCentersQueryOptions({ gameId, environmentId })
+        .select?.(data)
+        .find((datacenter) => datacenter.id === datacenterId),
   });
 };

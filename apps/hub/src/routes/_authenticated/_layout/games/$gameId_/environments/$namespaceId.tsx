@@ -22,6 +22,8 @@ function Modals() {
   const ConfirmOuterbaseConnectionDialog =
     useDialog.ConfirmOuterbaseConnection.Dialog;
 
+  const CreateDynamicServerDialog = useDialog.CreateDynamicServer.Dialog;
+
   const handleonOpenChange = (value: boolean) => {
     if (!value) {
       navigate({ search: { modal: undefined } });
@@ -29,14 +31,24 @@ function Modals() {
   };
 
   return (
-    <ConfirmOuterbaseConnectionDialog
-      environmentId={namespaceId}
-      gameId={gameId}
-      dialogProps={{
-        open: modal === "database",
-        onOpenChange: handleonOpenChange,
-      }}
-    />
+    <>
+      <ConfirmOuterbaseConnectionDialog
+        environmentId={namespaceId}
+        gameId={gameId}
+        dialogProps={{
+          open: modal === "database",
+          onOpenChange: handleonOpenChange,
+        }}
+      />
+      <CreateDynamicServerDialog
+        environmentId={namespaceId}
+        gameId={gameId}
+        dialogProps={{
+          open: modal === "create-server",
+          onOpenChange: handleonOpenChange,
+        }}
+      />
+    </>
   );
 }
 
@@ -53,7 +65,7 @@ function NamespaceIdRoute() {
   );
 }
 const searchSchema = z.object({
-  modal: z.enum(["database"]).or(z.string()).optional(),
+  modal: z.enum(["database", "create-server"]).or(z.string()).optional(),
 });
 export const Route = createFileRoute(
   "/_authenticated/_layout/games/$gameId/environments/$namespaceId",

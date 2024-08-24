@@ -133,11 +133,12 @@ function GameBuildEnabledButton({
   environmentId,
 }: GameBuildActionButtonProps) {
   const { mutate, isPending } = usePatchBuildTagsMutation();
-  if (tags["rivet/enabled"] === "true" || tags.enabled === "true") {
+  if (tags.enabled === "true") {
     return (
       <Button
         variant="outline"
         size="sm"
+        isLoading={isPending}
         onClick={() => {
           mutate({
             buildId: id,
@@ -179,7 +180,7 @@ function GameBuildLatestButton({
 }: GameBuildActionButtonProps) {
   const { mutate, isPending } = usePatchBuildTagsMutation();
 
-  if (tags["rivet/latest"] === "true" || tags.current === "true") {
+  if (tags.current !== "true") {
     return (
       <Button
         variant="outline"

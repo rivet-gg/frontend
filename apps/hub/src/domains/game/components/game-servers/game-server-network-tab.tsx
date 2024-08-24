@@ -7,6 +7,7 @@ import {
   Dt,
   Flex,
   ScrollArea,
+  SmallText,
 } from "@rivet-gg/components";
 import { Fragment } from "react/jsx-runtime";
 
@@ -28,35 +29,39 @@ export function GameServerNetworkTab({ network }: GameServerNetworkTabProps) {
         </Dt>
         <Dl className="ml-5" asChild>
           <div>
-            {Object.entries(network.ports).map(([name, config]) => (
-              <Fragment key={name}>
-                <Dt>{name}</Dt>
-                <Dd>
-                  {config.routing.gameGuard ? (
-                    <Badge variant="secondary">GameGuard</Badge>
-                  ) : null}
-                  {config.routing.host ? (
-                    <Badge variant="secondary">Host</Badge>
-                  ) : null}
-                </Dd>
-                <Dl className="col-span-2 ml-5">
-                  <Dt>Protocol</Dt>
-                  <Dd>{config.protocol}</Dd>
-                </Dl>
-                <Dl className="col-span-2 ml-5">
-                  <Dt>Internal port</Dt>
-                  <Dd>{config.internalPort || "-"}</Dd>
-                </Dl>
-                <Dl className="col-span-2 ml-5">
-                  <Dt>Public port</Dt>
-                  <Dd>{config.publicPort || "-"}</Dd>
-                </Dl>
-                <Dl className="col-span-2 ml-5">
-                  <Dt>Public hostname</Dt>
-                  <Dd>{config.publicHostname || "-"}</Dd>
-                </Dl>
-              </Fragment>
-            ))}
+            {Object.keys(network.ports || {}).length === 0 ? (
+              <SmallText>No ports configured</SmallText>
+            ) : (
+              Object.entries(network.ports).map(([name, config]) => (
+                <Fragment key={name}>
+                  <Dt>{name}</Dt>
+                  <Dd>
+                    {config.routing.gameGuard ? (
+                      <Badge variant="secondary">GameGuard</Badge>
+                    ) : null}
+                    {config.routing.host ? (
+                      <Badge variant="secondary">Host</Badge>
+                    ) : null}
+                  </Dd>
+                  <Dl className="col-span-2 ml-5">
+                    <Dt>Protocol</Dt>
+                    <Dd>{config.protocol}</Dd>
+                  </Dl>
+                  <Dl className="col-span-2 ml-5">
+                    <Dt>Internal port</Dt>
+                    <Dd>{config.internalPort || "-"}</Dd>
+                  </Dl>
+                  <Dl className="col-span-2 ml-5">
+                    <Dt>Public port</Dt>
+                    <Dd>{config.publicPort || "-"}</Dd>
+                  </Dl>
+                  <Dl className="col-span-2 ml-5">
+                    <Dt>Public hostname</Dt>
+                    <Dd>{config.publicHostname || "-"}</Dd>
+                  </Dl>
+                </Fragment>
+              ))
+            )}
           </div>
         </Dl>
       </Flex>

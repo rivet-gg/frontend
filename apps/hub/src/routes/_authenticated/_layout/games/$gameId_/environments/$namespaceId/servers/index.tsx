@@ -1,6 +1,6 @@
 import { GameServersListPreview } from "@/domains/game/components/game-servers/game-servers-list-preview";
 import { gameServersQueryOptions } from "@/domains/game/queries";
-import { faRefresh } from "@fortawesome/pro-solid-svg-icons";
+import { faPlus, faRefresh } from "@fortawesome/pro-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Button,
@@ -8,10 +8,12 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
+  Flex,
   Text,
+  WithTooltip,
 } from "@rivet-gg/components";
 import { useSuspenseInfiniteQuery } from "@tanstack/react-query";
-import { createFileRoute } from "@tanstack/react-router";
+import { Link, createFileRoute } from "@tanstack/react-router";
 import { z } from "zod";
 
 function GameServersRoute() {
@@ -25,14 +27,40 @@ function GameServersRoute() {
     <Card w="full" h="full" className="flex flex-col">
       <CardHeader className="border-b flex flex-row justify-between items-center">
         <CardTitle>Servers</CardTitle>
-        <Button
-          size="icon"
-          isLoading={isRefetching}
-          variant="outline"
-          onClick={() => refetch()}
-        >
-          <FontAwesomeIcon icon={faRefresh} />
-        </Button>
+        <Flex gap="2">
+          <WithTooltip
+            content="Refresh"
+            trigger={
+              <Button
+                size="icon"
+                isLoading={isRefetching}
+                variant="outline"
+                onClick={() => refetch()}
+              >
+                <FontAwesomeIcon icon={faRefresh} />
+              </Button>
+            }
+          />
+          <WithTooltip
+            content="Create a new server"
+            trigger={
+              <Button
+                asChild
+                size="icon"
+                variant="outline"
+                onClick={() => refetch()}
+              >
+                <Link
+                  search={{
+                    modal: "create-server",
+                  }}
+                >
+                  <FontAwesomeIcon icon={faPlus} />
+                </Link>
+              </Button>
+            }
+          />
+        </Flex>
       </CardHeader>
       <CardContent className="flex-1 min-h-0 w-full p-0">
         {data.length === 0 ? (

@@ -3,7 +3,7 @@ import { AssetImage, Flex, WithTooltip } from "@rivet-gg/components";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { gameRegionQueryOptions } from "../../queries";
 
-const REGION_EMOJI: Record<string, string> = {
+export const REGION_EMOJI: Record<string, string> = {
   local: "🏠",
   unknown: "❓",
   atlanta: "🇺🇸", // Atlanta
@@ -51,7 +51,7 @@ const REGION_EMOJI: Record<string, string> = {
   sin: "🇸🇬", // Singapore
 };
 
-const REGION_LABEL: Record<string, string> = {
+export const REGION_LABEL: Record<string, string> = {
   local: "Local",
   unknown: "Unknown",
   atlanta: "Atlanta, Georgia, USA",
@@ -105,13 +105,13 @@ interface LobbyRegionProps {
   showLabel?: boolean;
 }
 
-function getRegionKey(regionNameId: string | undefined) {
+export function getRegionKey(regionNameId: string | undefined) {
   // HACK: Remove prefix for old regions with format `lnd-atl`
   const regionIdSplit = (regionNameId || "").split("-");
   return regionIdSplit[regionIdSplit.length - 1];
 }
 
-function getRegionEmoji(regionKey: string | undefined = "") {
+export function getRegionEmoji(regionKey: string | undefined = "") {
   const regionEmoji = REGION_EMOJI[regionKey] ?? REGION_EMOJI.unknown;
   return `/icons/emoji/${converEmojiToUriFriendlyString(regionEmoji)}.svg`;
 }

@@ -12,7 +12,7 @@ export function GameServerTags({
   excludeBuiltIn = false,
 }: GameServerTagsProps) {
   return (
-    <div className="flex flex-wrap gap-2">
+    <div className="flex flex-wrap gap-2 empty:hidden">
       {tags && typeof tags === "object"
         ? Object.entries(tags)
             .filter(([key]) =>

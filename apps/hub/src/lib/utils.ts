@@ -29,3 +29,19 @@ export function hasMethod<TName extends string>(
 }
 
 export function noop() {}
+
+export function findDuplicated<const Key extends string>(
+  data: Record<Key, unknown>[],
+  key: Key,
+) {
+  const duplicatesIdx: number[] = [];
+  const set = new Set<unknown>();
+  for (const [idx, variable] of [...data].reverse().entries()) {
+    if (set.has(variable[key])) {
+      duplicatesIdx.push(data.length - 1 - idx);
+    }
+    set.add(variable[key]);
+  }
+
+  return duplicatesIdx;
+}

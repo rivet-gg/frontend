@@ -4,6 +4,7 @@ import {
   type DialogProps,
   DialogTitle,
   VisuallyHidden,
+  cn,
 } from "@rivet-gg/components";
 import {
   type ComponentProps,
@@ -20,6 +21,7 @@ export interface DialogContentProps {
 
 interface DialogConfig {
   autoFocus?: boolean;
+  size?: "md" | "lg";
 }
 
 export const createDialogHook = <
@@ -27,7 +29,7 @@ export const createDialogHook = <
   Component extends Promise<{ default: ComponentType<any> }>,
 >(
   component: Component,
-  opts: DialogConfig = {},
+  opts: DialogConfig = { size: "md" },
 ) => {
   const DialogImpl = ({
     dialogProps,
@@ -41,6 +43,10 @@ export const createDialogHook = <
     return (
       <Dialog {...dialogProps}>
         <DialogContent
+          className={cn({
+            "max-w-2xl": opts.size === "lg",
+            "max-w-xl": opts.size === "md",
+          })}
           onOpenAutoFocus={(e) => {
             if (opts.autoFocus === false) {
               return e.preventDefault();
@@ -257,4 +263,9 @@ useDialog.ConfirmOuterbaseConnection = createDialogHook(
 
 useDialog.ConfirmLeaveGroup = createDialogHook(
   import("@/domains/group/components/dialogs/confirm-leave-group-dialog"),
+);
+
+useDialog.CreateDynamicServer = createDialogHook(
+  import("@/domains/game/components/dialogs/create-dynamic-server-dialog"),
+  { size: "lg" },
 );
