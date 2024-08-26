@@ -168,9 +168,12 @@ function Modals() {
 }
 
 function NamespaceCdnRoute() {
+  const route = Route.useRouteContext();
+  if (!route) return <div>Loading...</div>;
+
   const { gameId } = Route.useParams();
   const { data: game } = useSuspenseQuery(gameQueryOptions(gameId));
-  const { namespace } = Route.useRouteContext();
+  const { namespace } = route;
 
   return (
     <Grid columns={{ initial: "1", md: "2" }} gap="4" items="start">
