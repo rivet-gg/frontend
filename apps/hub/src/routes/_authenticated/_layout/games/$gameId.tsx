@@ -47,10 +47,7 @@ function Modals() {
 }
 
 function GameIdRoute() {
-  const route = Route.useRouteContext();
-  if (!route) return <div>Loading...</div>;
-
-  const { gameId, developerGroupId } = route;
+  const { gameId, developerGroupId } = Route.useRouteContext();
 
   return (
     <Layout.Root>
