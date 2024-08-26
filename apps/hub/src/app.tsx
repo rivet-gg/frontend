@@ -50,7 +50,10 @@ export function App() {
   return (
     <PersistQueryClientProvider
       client={queryClient}
-      persistOptions={{ persister: queryClientPersister }}
+      persistOptions={{
+        persister: queryClientPersister,
+        buster: "Mon, 26 Aug 2024 03:02:12 GMT",
+      }}
     >
       <ConfigProvider value={getConfig()}>
         <ThirdPartyProviders>
