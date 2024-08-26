@@ -16,12 +16,14 @@ export async function tryCreateBackend({
     if (isRivetError(error)) {
       if (error.body.code === "BACKEND_NOT_FOUND") {
         await rivetEeClient.ee.backend.create(gameId, environmentId, {});
-        await queryClient.invalidateQueries(
-          gameBackendQueryOptions({ gameId, environmentId }),
-        );
+        await queryClient.invalidateQueries({
+          ...gameBackendQueryOptions({ gameId, environmentId }),
+          refetchType: "all",
+        });
+        return;
       }
     }
     throw error;
   }
-  return {};
+  return;
 }
