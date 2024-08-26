@@ -43,7 +43,7 @@
     "@radix-ui/react-tooltip": "^1.1.1",
     "@radix-ui/react-visually-hidden": "^1.0.3",
     "@rivet-gg/api": "https://github.com/rivet-gg/rivet/raw/539f11efb856bc936576fe593fe051c0d7e1355d/sdks/typescript/archive.tgz",
-    "@tanstack/react-virtual": "^3.8.1",
+    "@tanstack/react-virtual": "^3.10.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "cmdk": "^1.0.0",
@@ -68,7 +68,7 @@
     "autoprefixer": "^10.4.19",
     "postcss": "^8.4.38",
     "tailwindcss": "^3.4.1",
-    "typescript": "^5.2.2",
+    "typescript": "^5.5.4",
     "vite": "^5.2.0",
     "vite-plugin-dts": "^3.8.1"
   }
