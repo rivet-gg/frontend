@@ -44,13 +44,13 @@ export const BackendEvent = z
     exceptions: z
       .array(
         z.object({
-          stack: z.string(),
+          stack: z.string().optional(),
           message: z.string(),
           timestamp: z.string(),
         }),
       )
       .optional(),
-    outcome: z.literal("canceled").or(z.string()),
+    outcome: z.literal("canceled").or(z.literal("exceededCpu")).or(z.string()),
     scriptName: z.string(),
     scriptVersion: z.object({
       id: z.string(),

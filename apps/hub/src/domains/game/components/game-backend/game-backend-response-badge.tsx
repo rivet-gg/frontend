@@ -22,6 +22,9 @@ const getResponseTypeVariant = (type: "warning" | "error" | "success") => {
 };
 
 const getResponseLabel = (outcome: string, type: string) => {
+  if (outcome.startsWith("exceeded")) {
+    return "TIMEOUT";
+  }
   if (outcome === "canceled") {
     return "CANCELED";
   }
