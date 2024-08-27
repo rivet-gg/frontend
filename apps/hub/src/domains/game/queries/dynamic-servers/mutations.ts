@@ -19,6 +19,10 @@ export function useDestroyServerMutation() {
       await queryClient.invalidateQueries(
         serverQueryOptions({ gameId, environmentId, serverId }),
       );
+      await queryClient.invalidateQueries({
+        ...gameServersQueryOptions({ gameId, environmentId }),
+        refetchType: "all",
+      });
     },
   });
 }
