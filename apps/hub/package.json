@@ -31,6 +31,7 @@
     "@tanstack/router-devtools": "^1.33.4",
     "@types/bcryptjs": "^2.4.6",
     "bcryptjs": "^2.4.3",
+    "file-saver": "^2.0.5",
     "framer-motion": "^11.2.11",
     "lodash": "^4.17.21",
     "posthog-js": "^1.144.2",
@@ -48,6 +49,7 @@
   "devDependencies": {
     "@sentry/vite-plugin": "^2.22.2",
     "@tanstack/router-vite-plugin": "^1.48.6",
+    "@types/file-saver": "^2",
     "@types/mime": "^4.0.0",
     "@types/node": "^20.11.30",
     "@types/react": "^18.2.66",

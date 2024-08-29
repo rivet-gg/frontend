@@ -1,6 +1,9 @@
+import { faSave } from "@fortawesome/pro-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import type { Rivet } from "@rivet-gg/api";
-import { LogsView } from "@rivet-gg/components";
+import { Button, LogsView, WithTooltip } from "@rivet-gg/components";
 import { useSuspenseQuery } from "@tanstack/react-query";
+import { saveAs } from "file-saver";
 import { serverLogsQueryOptions } from "../../queries";
 
 interface GameServerLogsTabProps {
@@ -31,8 +34,29 @@ export function GameServerLogsTab({
     <LogsView
       timestamps={timestamps}
       lines={lines}
-      showTurncatedLogsInfo
       empty="No logs available."
+      sidebar={
+        <WithTooltip
+          content="Download logs"
+          trigger={
+            <Button
+              variant="outline"
+              aria-label="Download logs"
+              size="icon"
+              onClick={() =>
+                saveAs(
+                  new Blob([lines.join("\n")], {
+                    type: "text/plain;charset=utf-8",
+                  }),
+                  "logs.txt",
+                )
+              }
+            >
+              <FontAwesomeIcon icon={faSave} />
+            </Button>
+          }
+        />
+      }
     />
   );
 }

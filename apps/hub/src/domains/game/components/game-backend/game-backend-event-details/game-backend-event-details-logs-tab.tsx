@@ -1,4 +1,7 @@
-import { LogsView } from "@rivet-gg/components";
+import { faSave } from "@fortawesome/pro-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Button, LogsView, WithTooltip } from "@rivet-gg/components";
+import saveAs from "file-saver";
 import type { BackendEvent } from "../../../queries";
 
 interface GameBackendEventDetailsLogsTabProps
@@ -15,6 +18,28 @@ export function GameBackendEventDetailsLogsTab({
         lines={logs}
         showFollowToggle={false}
         empty={<p>No logs available.</p>}
+        sidebar={
+          <WithTooltip
+            content="Download logs"
+            trigger={
+              <Button
+                variant="outline"
+                aria-label="Download logs"
+                size="icon"
+                onClick={() =>
+                  saveAs(
+                    new Blob([logs.map((line) => line.message).join("\n")], {
+                      type: "text/plain;charset=utf-8",
+                    }),
+                    "logs.txt",
+                  )
+                }
+              >
+                <FontAwesomeIcon icon={faSave} />
+              </Button>
+            }
+          />
+        }
       />
     </div>
   );
