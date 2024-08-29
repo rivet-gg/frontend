@@ -1,8 +1,8 @@
 import {
+  gameMetadataQueryOptions,
   gameNamespaceQueryOptions,
   gameQueryOptions,
 } from "@/domains/game/queries";
-import { useFeatureFlag } from "@/hooks/use-feature-flag";
 import {
   faCodeBranch,
   faGear,
@@ -18,7 +18,7 @@ import {
 } from "@fortawesome/pro-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Badge, CommandGroup, CommandItem } from "@rivet-gg/components";
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useSuspenseQueries, useSuspenseQuery } from "@tanstack/react-query";
 import { useCommandPanelNavigation } from "../command-panel-navigation-provider";
 
 interface NamespaceCommandPanelPage {
@@ -30,9 +30,16 @@ export function NamespaceCommandPanelPage({
   gameId,
   namespaceId,
 }: NamespaceCommandPanelPage) {
-  const {
-    data: { displayName, versions },
-  } = useSuspenseQuery(gameQueryOptions(gameId));
+  const [
+    {
+      data: { displayName, versions },
+    },
+    {
+      data: { legacyLobbiesEnabled },
+    },
+  ] = useSuspenseQueries({
+    queries: [gameQueryOptions(gameId), gameMetadataQueryOptions({ gameId })],
+  });
 
   const {
     data: {
@@ -45,8 +52,6 @@ export function NamespaceCommandPanelPage({
   const currentVersion = versions.find(
     (version) => version.versionId === versionId,
   );
-
-  const hideLegacyLobbies = useFeatureFlag("hub-lobbies-v2");
 
   return (
     <>
@@ -85,7 +90,7 @@ export function NamespaceCommandPanelPage({
           Backend
         </CommandItem>
 
-        {!hideLegacyLobbies ? (
+        {legacyLobbiesEnabled ? (
           <CommandItem
             onSelect={() => {
               navigate({
@@ -102,7 +107,7 @@ export function NamespaceCommandPanelPage({
           </CommandItem>
         ) : null}
       </CommandGroup>
-      {!hideLegacyLobbies ? (
+      {legacyLobbiesEnabled ? (
         <>
           {config.cdn ? (
             <CommandGroup heading="CDN">

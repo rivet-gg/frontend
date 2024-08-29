@@ -27,7 +27,7 @@ export function HeaderNamespaceLinks({
   const [
     { data },
     {
-      data: { lobbiesV2: lobbiesV2Enabled },
+      data: { legacyLobbiesEnabled },
     },
   ] = useSuspenseQueries({
     queries: [
@@ -47,27 +47,25 @@ export function HeaderNamespaceLinks({
           Overview
         </Link>
       </HeaderLink>
-      {lobbiesV2Enabled ? (
-        <>
-          <HeaderLink icon={faServer}>
-            <Link
-              to="/games/$gameId/environments/$namespaceId/servers"
-              params={{ gameId, namespaceId }}
-            >
-              Servers
-            </Link>
-          </HeaderLink>
-          <HeaderLink icon={faPuzzle}>
-            <Link
-              to="/games/$gameId/environments/$namespaceId/backend"
-              params={{ gameId, namespaceId }}
-            >
-              Backend
-            </Link>
-          </HeaderLink>
-        </>
-      ) : null}
-      {!lobbiesV2Enabled ? (
+      <>
+        <HeaderLink icon={faServer}>
+          <Link
+            to="/games/$gameId/environments/$namespaceId/servers"
+            params={{ gameId, namespaceId }}
+          >
+            Servers
+          </Link>
+        </HeaderLink>
+        <HeaderLink icon={faPuzzle}>
+          <Link
+            to="/games/$gameId/environments/$namespaceId/backend"
+            params={{ gameId, namespaceId }}
+          >
+            Backend
+          </Link>
+        </HeaderLink>
+      </>
+      {legacyLobbiesEnabled ? (
         <>
           <HeaderLink icon={faCodeBranch}>
             <Link

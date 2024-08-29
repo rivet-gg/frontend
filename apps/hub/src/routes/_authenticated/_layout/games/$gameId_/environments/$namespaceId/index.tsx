@@ -18,19 +18,14 @@ import { Link, createFileRoute } from "@tanstack/react-router";
 function NamespaceIdRoute() {
   const { gameId } = Route.useParams();
   const {
-    data: { lobbiesV2: lobbiesV2Enabled },
+    data: { legacyLobbiesEnabled },
   } = useSuspenseQuery(gameMetadataQueryOptions({ gameId }));
 
   return (
     <Grid columns={{ initial: "1", md: "2", lg: "3" }} gap="4">
-      {lobbiesV2Enabled ? (
-        <>
-          <CurrentBuildCard />
-          <BackendEndpointCard />
-        </>
-      ) : (
-        <CurrentVersionCard />
-      )}
+      <CurrentBuildCard />
+      <BackendEndpointCard />
+      {legacyLobbiesEnabled ? <CurrentVersionCard /> : null}
     </Grid>
   );
 }

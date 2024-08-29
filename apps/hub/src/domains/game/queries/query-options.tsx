@@ -1,7 +1,6 @@
 import { rivetClient } from "@/queries/global";
 import { getMetaWatchIndex } from "@/queries/utils";
 import { queryOptions } from "@tanstack/react-query";
-import posthog from "posthog-js";
 
 export const gamesQueryOptions = () => {
   return queryOptions({
@@ -172,11 +171,11 @@ export const gameEnvTokenServiceQueryOptions = ({
 export const gameMetadataQueryOptions = ({ gameId }: { gameId: string }) => {
   return queryOptions({
     queryKey: ["game", gameId, "metadata"],
-    queryFn: async () => {
-      const v2LobbiesEnabled =
-        posthog.featureFlags.getFeatureFlag("hub-lobbies-v2") === true;
+    queryFn: async ({ queryKey: [_, gameId] }) => {
+      const data = await rivetClient.cloud.games.getGameById(gameId);
+
       return {
-        lobbiesV2: v2LobbiesEnabled ?? false,
+        legacyLobbiesEnabled: data.game.versions.length > 1,
       };
     },
   });

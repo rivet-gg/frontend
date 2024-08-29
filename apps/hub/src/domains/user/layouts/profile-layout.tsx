@@ -29,12 +29,12 @@ function ProfilePage({ children }: ProfilePageProps) {
           >
             Your Account
           </InternalLink>
-          <InternalLink
+          {/* <InternalLink
             to="/my-profile/features"
             className="data-active:text-foreground data-activefont-semibold"
           >
             Features
-          </InternalLink>
+          </InternalLink> */}
           <Link
             onClick={logout}
             className="align-center cursor-pointer no-underline"
