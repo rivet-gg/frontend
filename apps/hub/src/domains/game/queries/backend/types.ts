@@ -1,6 +1,10 @@
 import { z } from "zod";
 
-function parseModuleCallUrl(url: string) {
+function getModuleCallOrNull(event: Event, url: string) {
+  if (event.request.method !== "POST") {
+    return null;
+  }
+
   const [modulesLiteral, moduleName, scriptsLiteral, scriptName, callLiteral] =
     url.split("/").slice(1);
 
@@ -18,19 +22,23 @@ function parseModuleCallUrl(url: string) {
   return null;
 }
 
+const Event = z.object({
+  request: z.object({
+    headers: z.record(z.string()),
+    method: z.string(),
+    url: z.string(),
+  }),
+  response: z.object({
+    status: z.number(),
+  }),
+});
+
+type Event = z.infer<typeof Event>;
+
 export const BackendEvent = z
   .object({
     dispatchNamespace: z.string(),
-    event: z.object({
-      request: z.object({
-        headers: z.record(z.string()),
-        method: z.string(),
-        url: z.string(),
-      }),
-      response: z.object({
-        status: z.number(),
-      }),
-    }),
+    event: Event,
     eventTimestamp: z.string(),
     logs: z
       .array(
@@ -59,7 +67,7 @@ export const BackendEvent = z
   .transform((data) => {
     const url = new URL(data.event.request.url);
 
-    const backendCall = parseModuleCallUrl(url.pathname);
+    const backendCall = getModuleCallOrNull(data.event, url.pathname);
 
     return {
       ...data,
