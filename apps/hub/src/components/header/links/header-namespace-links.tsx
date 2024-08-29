@@ -1,5 +1,7 @@
-import { gameNamespaceQueryOptions } from "@/domains/game/queries";
-import { useFeatureFlag } from "@/hooks/use-feature-flag";
+import {
+  gameMetadataQueryOptions,
+  gameNamespaceQueryOptions,
+} from "@/domains/game/queries";
 import {
   faChessKnight,
   faCodeBranch,
@@ -9,7 +11,7 @@ import {
   faPuzzle,
   faServer,
 } from "@fortawesome/pro-solid-svg-icons";
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useSuspenseQueries } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import { HeaderLink } from "../header-link";
 
@@ -22,11 +24,17 @@ export function HeaderNamespaceLinks({
   gameId,
   namespaceId,
 }: NamespaceLinksProps) {
-  const { data } = useSuspenseQuery(
-    gameNamespaceQueryOptions({ gameId, namespaceId }),
-  );
-
-  const hideLegacyLobbies = useFeatureFlag("hub-lobbies-v2");
+  const [
+    { data },
+    {
+      data: { lobbiesV2: lobbiesV2Enabled },
+    },
+  ] = useSuspenseQueries({
+    queries: [
+      gameNamespaceQueryOptions({ gameId, namespaceId }),
+      gameMetadataQueryOptions({ gameId }),
+    ],
+  });
 
   return (
     <>
@@ -39,23 +47,27 @@ export function HeaderNamespaceLinks({
           Overview
         </Link>
       </HeaderLink>
-      <HeaderLink icon={faServer}>
-        <Link
-          to="/games/$gameId/environments/$namespaceId/servers"
-          params={{ gameId, namespaceId }}
-        >
-          Servers
-        </Link>
-      </HeaderLink>
-      <HeaderLink icon={faPuzzle}>
-        <Link
-          to="/games/$gameId/environments/$namespaceId/backend"
-          params={{ gameId, namespaceId }}
-        >
-          Backend
-        </Link>
-      </HeaderLink>
-      {!hideLegacyLobbies ? (
+      {lobbiesV2Enabled ? (
+        <>
+          <HeaderLink icon={faServer}>
+            <Link
+              to="/games/$gameId/environments/$namespaceId/servers"
+              params={{ gameId, namespaceId }}
+            >
+              Servers
+            </Link>
+          </HeaderLink>
+          <HeaderLink icon={faPuzzle}>
+            <Link
+              to="/games/$gameId/environments/$namespaceId/backend"
+              params={{ gameId, namespaceId }}
+            >
+              Backend
+            </Link>
+          </HeaderLink>
+        </>
+      ) : null}
+      {!lobbiesV2Enabled ? (
         <>
           <HeaderLink icon={faCodeBranch}>
             <Link

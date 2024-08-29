@@ -11,6 +11,7 @@ import {
   Code,
   Text,
 } from "@rivet-gg/components";
+import { useQueryClient } from "@tanstack/react-query";
 import type { ErrorComponentProps } from "@tanstack/react-router";
 import { NotFoundComponent } from "./not-found-component";
 
@@ -18,6 +19,8 @@ export const ErrorComponent = ({
   error,
   reset,
 }: Partial<ErrorComponentProps>) => {
+  const queryClient = useQueryClient();
+
   if (isRivetError(error)) {
     if (error.statusCode === 404) {
       return <NotFoundComponent />;
@@ -43,7 +46,14 @@ export const ErrorComponent = ({
         </Code>
       </CardContent>
       <CardFooter>
-        <Button onClick={reset}>Retry</Button>
+        <Button
+          onClick={async () => {
+            await queryClient.invalidateQueries();
+            reset?.();
+          }}
+        >
+          Retry
+        </Button>
       </CardFooter>
     </Card>
   );

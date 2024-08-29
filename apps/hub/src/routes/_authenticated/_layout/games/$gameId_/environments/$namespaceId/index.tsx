@@ -2,10 +2,10 @@ import { GameBackendEnvironmentDatabaseLink } from "@/domains/game/components/ga
 import {
   gameBackendQueryOptions,
   gameBuildsQueryOptions,
+  gameMetadataQueryOptions,
   gameNamespaceQueryOptions,
   gameVersionQueryOptions,
 } from "@/domains/game/queries";
-import { useFeatureFlag } from "@/hooks/use-feature-flag";
 import {
   Button,
   Grid,
@@ -16,13 +16,21 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { Link, createFileRoute } from "@tanstack/react-router";
 
 function NamespaceIdRoute() {
-  const hideLegacyLobbies = useFeatureFlag("hub-lobbies-v2");
+  const { gameId } = Route.useParams();
+  const {
+    data: { lobbiesV2: lobbiesV2Enabled },
+  } = useSuspenseQuery(gameMetadataQueryOptions({ gameId }));
 
   return (
     <Grid columns={{ initial: "1", md: "2", lg: "3" }} gap="4">
-      {!hideLegacyLobbies ? <CurrentVersionCard /> : null}
-      <CurrentBuildCard />
-      <BackendEndpointCard />
+      {lobbiesV2Enabled ? (
+        <>
+          <CurrentBuildCard />
+          <BackendEndpointCard />
+        </>
+      ) : (
+        <CurrentVersionCard />
+      )}
     </Grid>
   );
 }

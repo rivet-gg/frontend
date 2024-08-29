@@ -1,6 +1,7 @@
 import { rivetClient } from "@/queries/global";
 import { getMetaWatchIndex } from "@/queries/utils";
 import { queryOptions } from "@tanstack/react-query";
+import posthog from "posthog-js";
 
 export const gamesQueryOptions = () => {
   return queryOptions({
@@ -165,5 +166,18 @@ export const gameEnvTokenServiceQueryOptions = ({
         environmentId,
       ),
     select: (data) => data.token,
+  });
+};
+
+export const gameMetadataQueryOptions = ({ gameId }: { gameId: string }) => {
+  return queryOptions({
+    queryKey: ["game", gameId, "metadata"],
+    queryFn: async () => {
+      const v2LobbiesEnabled =
+        posthog.featureFlags.getFeatureFlag("hub-lobbies-v2") === true;
+      return {
+        lobbiesV2: v2LobbiesEnabled ?? false,
+      };
+    },
   });
 };
