@@ -3,7 +3,11 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "files": ["dist", "src", "public"],
+  "files": [
+    "dist",
+    "src",
+    "public"
+  ],
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "sideEffects": false,
@@ -33,7 +37,7 @@
     "@radix-ui/react-accordion": "^1.1.2",
     "@radix-ui/react-avatar": "^1.0.4",
     "@radix-ui/react-checkbox": "^1.1.1",
-    "@radix-ui/react-dialog": "^1.0.5",
+    "@radix-ui/react-dialog": "^1.1.1",
     "@radix-ui/react-dropdown-menu": "^2.0.6",
     "@radix-ui/react-label": "^2.0.2",
     "@radix-ui/react-popover": "^1.0.7",

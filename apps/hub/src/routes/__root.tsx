@@ -1,6 +1,6 @@
 import { ErrorComponent } from "@/components/error-component";
 import { NotFoundComponent } from "@/components/not-found-component";
-import type { AuthContext } from "@/domains/auth/contexts/auth";
+import { type AuthContext, AuthProvider } from "@/domains/auth/contexts/auth";
 import { useDialog } from "@/hooks/use-dialog";
 import * as PageLayout from "@/layouts/page";
 import * as Layout from "@/layouts/root";
@@ -97,9 +97,11 @@ function Root() {
 function RootRoute() {
   return (
     <>
-      {/* <Suspense fallback={<FullscreenLoading />}> */}
-      <Root />
-      {/* </Suspense> */}
+      <AuthProvider>
+        {/* <Suspense fallback={<FullscreenLoading />}> */}
+        <Root />
+        {/* </Suspense> */}
+      </AuthProvider>
 
       {import.meta.env.DEV ? <TanStackRouterDevtools /> : null}
     </>

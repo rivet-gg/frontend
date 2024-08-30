@@ -14,19 +14,39 @@ import {
 } from "@rivet-gg/components";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { Link, createFileRoute } from "@tanstack/react-router";
+import { lazy } from "react";
+
+const FeaturedModules = lazy(
+  () => import("@/components/featured-modules-grid"),
+);
 
 function NamespaceIdRoute() {
-  const { gameId } = Route.useParams();
+  const params = Route.useParams();
+  const { gameId } = params;
   const {
     data: { legacyLobbiesEnabled },
   } = useSuspenseQuery(gameMetadataQueryOptions({ gameId }));
 
   return (
-    <Grid columns={{ initial: "1", md: "2", lg: "3" }} gap="4">
-      <CurrentBuildCard />
-      <BackendEndpointCard />
-      {legacyLobbiesEnabled ? <CurrentVersionCard /> : null}
-    </Grid>
+    <>
+      <Grid columns={{ initial: "1", md: "2", lg: "3" }} gap="4">
+        <CurrentBuildCard />
+        <BackendEndpointCard />
+        {legacyLobbiesEnabled ? <CurrentVersionCard /> : null}
+      </Grid>
+      <FeaturedModules
+        footer={
+          <RivetLink asChild>
+            <Link
+              to="/games/$gameId/environments/$namespaceId/modules"
+              params={params}
+            >
+              View all modules
+            </Link>
+          </RivetLink>
+        }
+      />
+    </>
   );
 }
 

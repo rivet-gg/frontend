@@ -1,7 +1,7 @@
-import { isRivetError } from "@/lib/utils";
+import { isLikeRivetError, isRivetError } from "@/lib/utils";
 import { type Rivet, RivetClient } from "@rivet-gg/api";
 import { RivetClient as RivetEeClient } from "@rivet-gg/api-ee";
-import { fetcher } from "@rivet-gg/api/core";
+import { type APIResponse, type Fetcher, fetcher } from "@rivet-gg/api/core";
 import { getConfig, toast } from "@rivet-gg/components";
 import { broadcastQueryClient } from "@tanstack/query-broadcast-client-experimental";
 import { createSyncStoragePersister } from "@tanstack/query-sync-storage-persister";
@@ -48,7 +48,26 @@ export async function getToken() {
 
 const clientOptions: RivetClient.Options = {
   environment: getConfig().apiUrl,
-  fetcher: (args) => fetcher({ ...args, withCredentials: true }),
+  fetcher: async <R = unknown>(
+    args: Fetcher.Args,
+  ): Promise<APIResponse<R, Fetcher.Error>> => {
+    const response = await fetcher<R>({ ...args, withCredentials: true });
+
+    if (!response.ok) {
+      if (
+        isLikeRivetError(response.error) &&
+        (response.error.body.code === "CLAIMS_ENTITLEMENT_EXPIRED" ||
+          response.error.body.code === "TOKEN_REVOKED")
+      ) {
+        await queryClient.invalidateQueries({
+          ...identityTokenQueryOptions(),
+          refetchType: "all",
+        });
+      }
+    }
+
+    return response;
+  },
   token: getToken,
 };
 
@@ -59,19 +78,7 @@ export const rivetClientTokeneless = new RivetClient({
 export const rivetClient = new RivetClient(clientOptions);
 export const rivetEeClient = new RivetEeClient(clientOptions);
 
-const queryCache = new QueryCache({
-  async onError(error) {
-    if (isRivetError(error)) {
-      if (
-        error.body.code === "CLAIMS_ENTITLEMENT_EXPIRED" ||
-        error.body.code === "TOKEN_REVOKED"
-      ) {
-        queryClient.invalidateQueries(identityTokenQueryOptions());
-        await getToken();
-      }
-    }
-  },
-});
+const queryCache = new QueryCache();
 
 const mutationCache = new MutationCache({
   onError(error, variables, context, mutation) {
@@ -90,7 +97,7 @@ export const queryClient = new QueryClient({
     queries: {
       staleTime: 5 * 1000,
       gcTime: 1000 * 60 * 60 * 24,
-      retry: 0,
+      retry: 1,
     },
   },
   queryCache,
