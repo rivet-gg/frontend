@@ -66,7 +66,6 @@ function NamespaceIdRoute() {
 }
 const searchSchema = z.object({
   modal: z.enum(["database", "create-server"]).or(z.string()).optional(),
-  search: z.string().optional(),
 });
 export const Route = createFileRoute(
   "/_authenticated/_layout/games/$gameId/environments/$namespaceId",

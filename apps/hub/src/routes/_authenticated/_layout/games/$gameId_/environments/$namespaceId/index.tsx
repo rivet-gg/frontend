@@ -12,6 +12,7 @@ import {
   Link as RivetLink,
   ValueCard,
 } from "@rivet-gg/components";
+import { Icon, faArrowRight } from "@rivet-gg/icons";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { Link, createFileRoute } from "@tanstack/react-router";
 import { lazy } from "react";
@@ -41,7 +42,8 @@ function NamespaceIdRoute() {
               to="/games/$gameId/environments/$namespaceId/modules"
               params={params}
             >
-              View all modules
+              View All Modules
+              <Icon className="ml-2" icon={faArrowRight} />
             </Link>
           </RivetLink>
         }

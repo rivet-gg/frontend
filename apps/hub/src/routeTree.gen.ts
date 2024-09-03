@@ -41,7 +41,6 @@ import { Route as AuthenticatedLayoutGamesGameIdEnvironmentsNamespaceIdIndexImpo
 import { Route as AuthenticatedLayoutGamesGameIdEnvironmentsNamespaceIdVersionsImport } from './routes/_authenticated/_layout/games/$gameId_/environments/$namespaceId/versions'
 import { Route as AuthenticatedLayoutGamesGameIdEnvironmentsNamespaceIdTokensImport } from './routes/_authenticated/_layout/games/$gameId_/environments/$namespaceId/tokens'
 import { Route as AuthenticatedLayoutGamesGameIdEnvironmentsNamespaceIdServersImport } from './routes/_authenticated/_layout/games/$gameId_/environments/$namespaceId/servers'
-import { Route as AuthenticatedLayoutGamesGameIdEnvironmentsNamespaceIdModulesImport } from './routes/_authenticated/_layout/games/$gameId_/environments/$namespaceId/modules'
 import { Route as AuthenticatedLayoutGamesGameIdEnvironmentsNamespaceIdMatchmakerImport } from './routes/_authenticated/_layout/games/$gameId_/environments/$namespaceId/matchmaker'
 import { Route as AuthenticatedLayoutGamesGameIdEnvironmentsNamespaceIdLobbiesImport } from './routes/_authenticated/_layout/games/$gameId_/environments/$namespaceId/lobbies'
 import { Route as AuthenticatedLayoutGamesGameIdEnvironmentsNamespaceIdCdnImport } from './routes/_authenticated/_layout/games/$gameId_/environments/$namespaceId/cdn'
@@ -241,13 +240,6 @@ const AuthenticatedLayoutGamesGameIdEnvironmentsNamespaceIdTokensRoute =
 const AuthenticatedLayoutGamesGameIdEnvironmentsNamespaceIdServersRoute =
   AuthenticatedLayoutGamesGameIdEnvironmentsNamespaceIdServersImport.update({
     path: '/servers',
-    getParentRoute: () =>
-      AuthenticatedLayoutGamesGameIdEnvironmentsNamespaceIdRoute,
-  } as any)
-
-const AuthenticatedLayoutGamesGameIdEnvironmentsNamespaceIdModulesRoute =
-  AuthenticatedLayoutGamesGameIdEnvironmentsNamespaceIdModulesImport.update({
-    path: '/modules',
     getParentRoute: () =>
       AuthenticatedLayoutGamesGameIdEnvironmentsNamespaceIdRoute,
   } as any)
@@ -552,13 +544,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedLayoutGamesGameIdEnvironmentsNamespaceIdMatchmakerImport
       parentRoute: typeof AuthenticatedLayoutGamesGameIdEnvironmentsNamespaceIdImport
     }
-    '/_authenticated/_layout/games/$gameId/environments/$namespaceId/modules': {
-      id: '/_authenticated/_layout/games/$gameId/environments/$namespaceId/modules'
-      path: '/modules'
-      fullPath: '/games/$gameId/environments/$namespaceId/modules'
-      preLoaderRoute: typeof AuthenticatedLayoutGamesGameIdEnvironmentsNamespaceIdModulesImport
-      parentRoute: typeof AuthenticatedLayoutGamesGameIdEnvironmentsNamespaceIdImport
-    }
     '/_authenticated/_layout/games/$gameId/environments/$namespaceId/servers': {
       id: '/_authenticated/_layout/games/$gameId/environments/$namespaceId/servers'
       path: '/servers'
@@ -705,7 +690,6 @@ export const routeTree = rootRoute.addChildren({
               },
             ),
           AuthenticatedLayoutGamesGameIdEnvironmentsNamespaceIdMatchmakerRoute,
-          AuthenticatedLayoutGamesGameIdEnvironmentsNamespaceIdModulesRoute,
           AuthenticatedLayoutGamesGameIdEnvironmentsNamespaceIdServersRoute:
             AuthenticatedLayoutGamesGameIdEnvironmentsNamespaceIdServersRoute.addChildren(
               {
@@ -865,7 +849,6 @@ export const routeTree = rootRoute.addChildren({
         "/_authenticated/_layout/games/$gameId/environments/$namespaceId/cdn",
         "/_authenticated/_layout/games/$gameId/environments/$namespaceId/lobbies",
         "/_authenticated/_layout/games/$gameId/environments/$namespaceId/matchmaker",
-        "/_authenticated/_layout/games/$gameId/environments/$namespaceId/modules",
         "/_authenticated/_layout/games/$gameId/environments/$namespaceId/servers",
         "/_authenticated/_layout/games/$gameId/environments/$namespaceId/tokens",
         "/_authenticated/_layout/games/$gameId/environments/$namespaceId/versions",
@@ -905,10 +888,6 @@ export const routeTree = rootRoute.addChildren({
     },
     "/_authenticated/_layout/games/$gameId/environments/$namespaceId/matchmaker": {
       "filePath": "_authenticated/_layout/games/$gameId_/environments/$namespaceId/matchmaker.tsx",
-      "parent": "/_authenticated/_layout/games/$gameId/environments/$namespaceId"
-    },
-    "/_authenticated/_layout/games/$gameId/environments/$namespaceId/modules": {
-      "filePath": "_authenticated/_layout/games/$gameId_/environments/$namespaceId/modules.tsx",
       "parent": "/_authenticated/_layout/games/$gameId/environments/$namespaceId"
     },
     "/_authenticated/_layout/games/$gameId/environments/$namespaceId/servers": {

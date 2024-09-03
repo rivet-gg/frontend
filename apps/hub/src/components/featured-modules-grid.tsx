@@ -1,19 +1,15 @@
-import { Grid, H2 } from "@rivet-gg/components";
+import { featuredModulesQueryOptions } from "@/domains/game/queries";
+import { DocumentedModuleCard, Grid, H2 } from "@rivet-gg/components";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import type { ReactNode } from "react";
-import OpenGBMeta from "../../vendor/opengb-modules-meta.json";
-import { ModuleCard } from "./module-card";
-
-const FEATURED_MODULES = ["lobbies", "friends", "analytics"];
 
 interface FeaturesModulesGridProps {
   footer?: ReactNode;
 }
 
 export function FeaturesModulesGrid({ footer }: FeaturesModulesGridProps) {
-  const modules = OpenGBMeta.categories
-    .flatMap((category) => category.modules)
-    .filter((module) => FEATURED_MODULES.includes(module.id));
+  const { data } = useSuspenseQuery(featuredModulesQueryOptions());
 
   return (
     <motion.section
@@ -30,11 +26,16 @@ export function FeaturesModulesGrid({ footer }: FeaturesModulesGridProps) {
         items="start"
         className="my-4"
       >
-        {modules.map((module) => (
-          <ModuleCard key={module.id} layoutAnimation={false} {...module} />
+        {data.map(({ id, module }) => (
+          <DocumentedModuleCard
+            key={id}
+            id={id}
+            layoutAnimation={false}
+            {...module.config}
+          />
         ))}
       </Grid>
-      {footer}
+      {footer ? <div className="text-right">{footer}</div> : null}
     </motion.section>
   );
 }

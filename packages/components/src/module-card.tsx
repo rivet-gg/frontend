@@ -83,6 +83,7 @@ export function ModuleCard({
 
 export function DocumentedModuleCard(props: ModuleCardProps) {
   const { name, id } = props;
+
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -93,7 +94,7 @@ export function DocumentedModuleCard(props: ModuleCardProps) {
           <SheetTitle>{name}</SheetTitle>
           <Text className="text-xs">
             <Link
-              href={`https://rivet.gg/modules/${id}`}
+              href={`https://rivet.gg/modules/${id}?utm_source=hub`}
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -104,7 +105,7 @@ export function DocumentedModuleCard(props: ModuleCardProps) {
             <div>
               <iframe
                 className="w-full h-screen border-t"
-                src={`https://rivet.gg/modules/${id}`}
+                src={`https://rivet.gg/modules/${id}?embed=true`}
                 title={name}
               />
             </div>
