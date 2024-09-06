@@ -58,6 +58,7 @@ export * from "./ui/calendar";
 export * from "./ui/progress";
 export * from "./ui/resizable";
 export * from "./ui/multi-select";
+export * from "./ui/chart";
 export * from "./lib/utils";
 export * from "./lib/filesize";
 export * from "./lib/timing";

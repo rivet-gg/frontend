@@ -1,3 +1,4 @@
+import twContainerQueries from "@tailwindcss/container-queries";
 import twAnmiate from "tailwindcss-animate";
 import type { Config } from "tailwindcss/types/config";
 import * as styleHelpers from "./ui/helpers/index";
@@ -130,7 +131,7 @@ const config = {
       },
     },
   },
-  plugins: [twAnmiate],
+  plugins: [twAnmiate, twContainerQueries],
 } satisfies Config;
 
 export default config;

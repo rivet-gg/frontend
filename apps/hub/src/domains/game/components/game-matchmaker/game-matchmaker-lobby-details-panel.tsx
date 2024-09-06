@@ -12,6 +12,8 @@ import { Suspense } from "react";
 import { gameNamespaceLobbyQueryOptions } from "../../queries";
 import { LobbyLifecycle } from "./lobby-lifecycle";
 import { LobbyLogs } from "./lobby-logs";
+import { LobbyMetrics } from "./lobby-metrics";
+import { LobbyStats } from "./lobby-stats";
 import { LobbySummary } from "./lobby-summary";
 
 interface GameMatchmakerLobbyDetailsPanelProps {
@@ -38,7 +40,8 @@ export function GameMatchmakerLobbyDetailsPanel({
   }
 
   const {
-    data: { lobby },
+    data: { lobby, metrics },
+    dataUpdatedAt,
   } = useSuspenseQuery(
     gameNamespaceLobbyQueryOptions(
       { gameId, namespaceId, lobbyId },
@@ -68,15 +71,25 @@ export function GameMatchmakerLobbyDetailsPanel({
                 readyTs={lobby.readyTs || lobby.startTs}
                 stopTs={lobby.status.stopped?.stopTs}
               />
+
+              {isLive && metrics ? (
+                <LobbyMetrics lobbyId={lobbyId} {...metrics} />
+              ) : null}
             </>
           }
         />
       </Suspense>
 
-      <Tabs defaultValue="logs" className="flex-1 min-h-0 flex flex-col mt-4">
+      <Tabs
+        defaultValue="logs"
+        className="flex-1 min-h-0 flex flex-col mt-4 @container"
+      >
         <TabsList className="overflow-auto">
           <TabsTrigger value="logs">Output</TabsTrigger>
           <TabsTrigger value="errors">Error</TabsTrigger>
+          {isLive && metrics ? (
+            <TabsTrigger value="stats">Stats</TabsTrigger>
+          ) : null}
         </TabsList>
         <TabsContent value="logs" className="min-h-0 flex-1 mt-0 p-4">
           <Suspense fallback={<LobbyLogs.Skeleton />}>
@@ -98,6 +111,17 @@ export function GameMatchmakerLobbyDetailsPanel({
             />
           </Suspense>
         </TabsContent>
+        {isLive && metrics ? (
+          <TabsContent value="stats" className="min-h-0 flex-1 mt-0">
+            <Suspense fallback={<LobbyLogs.Skeleton />}>
+              <LobbyStats
+                lobbyId={lobbyId}
+                metricsAt={dataUpdatedAt}
+                {...metrics}
+              />
+            </Suspense>
+          </TabsContent>
+        ) : null}
       </Tabs>
     </ErrorBoundary>
   );
