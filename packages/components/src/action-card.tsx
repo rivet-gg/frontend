@@ -1,3 +1,4 @@
+"use client";
 import type { ReactNode } from "react";
 import {
   Card,
@@ -14,6 +15,7 @@ export interface ActionCardProps {
   children?: ReactNode;
   action?: ReactNode;
   footer?: ReactNode;
+  className?: string;
 }
 
 export const ActionCard = ({
@@ -21,10 +23,11 @@ export const ActionCard = ({
   action,
   footer,
   description,
+  className,
   children,
 }: ActionCardProps) => {
   return (
-    <Card>
+    <Card className={className}>
       <CardHeader>
         <div className="flex flex-row items-center justify-between space-y-0 gap-2 pb-2">
           <CardTitle className="font-bold">{title}</CardTitle>

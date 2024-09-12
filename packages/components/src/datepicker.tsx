@@ -69,12 +69,7 @@ export function DatePicker({
             </SelectContent>
           </Select>
         ) : null}
-        <Calendar
-          mode="single"
-          selected={date}
-          onSelect={onDateChange}
-          initialFocus
-        />
+        <Calendar mode="single" selected={date} onSelect={onDateChange} />
       </PopoverContent>
     </Popover>
   );
@@ -143,7 +138,6 @@ export function RangeDatePicker({
             </Select>
           ) : null}
           <Calendar
-            initialFocus
             mode="range"
             defaultMonth={date?.from}
             selected={date}

@@ -1,3 +1,4 @@
+"use client";
 import * as ResizablePrimitive from "react-resizable-panels";
 
 import { faGripVertical } from "@fortawesome/pro-solid-svg-icons";

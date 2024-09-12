@@ -1,10 +1,5 @@
+"use client";
 import { DayPicker } from "react-day-picker";
-
-import {
-  faChevronLeft,
-  faChevronRight,
-} from "@fortawesome/pro-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { cn } from "../lib/utils";
 import { buttonVariants } from "./button";
 
@@ -54,14 +49,14 @@ function Calendar({
         day_hidden: "invisible",
         ...classNames,
       }}
-      components={{
-        IconLeft: () => (
-          <FontAwesomeIcon icon={faChevronLeft} className="h-4 w-4" />
-        ),
-        IconRight: () => (
-          <FontAwesomeIcon icon={faChevronRight} className="h-4 w-4" />
-        ),
-      }}
+      // components={{
+      //   IconLeft: () => (
+      //     <FontAwesomeIcon icon={faChevronLeft} className="h-4 w-4" />
+      //   ),
+      //   IconRight: () => (
+      //     <FontAwesomeIcon icon={faChevronRight} className="h-4 w-4" />
+      //   ),
+      // }}
       {...props}
     />
   );

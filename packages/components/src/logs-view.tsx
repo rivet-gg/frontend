@@ -1,3 +1,4 @@
+"use client";
 import { faArrowDownToLine } from "@fortawesome/pro-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import type { Virtualizer } from "@tanstack/react-virtual";
