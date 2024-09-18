@@ -3,8 +3,8 @@
 import { OTPInput, OTPInputContext } from "input-otp";
 import * as React from "react";
 
-import { faPeriod } from "@fortawesome/pro-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPeriod } from "@rivet-gg/icons";
+import { Icon } from "@rivet-gg/icons";
 import { cn } from "../lib/utils";
 
 const InputOTP = React.forwardRef<
@@ -63,9 +63,10 @@ const InputOTPSeparator = React.forwardRef<
   React.ElementRef<"div">,
   React.ComponentPropsWithoutRef<"div">
 >(({ ...props }, ref) => (
-  // biome-ignore lint/a11y/useAriaPropsForRole: this is a separator
+  // biome-ignore lint/a11y/useSemanticElements: <explanation>
+  // biome-ignore lint/a11y/useFocusableInteractive: <explanation>
   <div ref={ref} role="separator" {...props}>
-    <FontAwesomeIcon icon={faPeriod} />
+    <Icon icon={faPeriod} />
   </div>
 ));
 InputOTPSeparator.displayName = "InputOTPSeparator";

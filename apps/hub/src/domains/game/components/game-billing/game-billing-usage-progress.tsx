@@ -1,5 +1,3 @@
-import { faExclamationTriangle } from "@fortawesome/pro-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Rivet as RivetEe } from "@rivet-gg/api-ee";
 import {
   Alert,
@@ -9,6 +7,7 @@ import {
   Text,
   formatCurrency,
 } from "@rivet-gg/components";
+import { Icon, faExclamationTriangle } from "@rivet-gg/icons";
 import { BILLING_PLANS_CREDITS_VISIBILITY as BILLING_PLANS_OVERAGE_ALERT_VISIBILITY } from "../../data/billing-calculate-usage";
 
 // Use a number below 100 to left some space for the overage
@@ -48,7 +47,7 @@ export function GameBillingUsageProgress(props: GameBillingUsageProgressProps) {
     <>
       {overage > 0 && BILLING_PLANS_OVERAGE_ALERT_VISIBILITY.includes(plan) ? (
         <Alert variant="destructive" className="animate-shake">
-          <FontAwesomeIcon className="size-4" icon={faExclamationTriangle} />
+          <Icon className="size-4" icon={faExclamationTriangle} />
           <AlertTitle>You have exceeded the billing credits limit!</AlertTitle>
         </Alert>
       ) : null}

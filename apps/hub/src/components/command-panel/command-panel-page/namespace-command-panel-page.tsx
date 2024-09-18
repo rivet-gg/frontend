@@ -3,7 +3,9 @@ import {
   gameNamespaceQueryOptions,
   gameQueryOptions,
 } from "@/domains/game/queries";
+import { Badge, CommandGroup, CommandItem } from "@rivet-gg/components";
 import {
+  Icon,
   faCodeBranch,
   faGear,
   faGlobe,
@@ -15,9 +17,7 @@ import {
   faScroll,
   faServer,
   faUserCog,
-} from "@fortawesome/pro-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Badge, CommandGroup, CommandItem } from "@rivet-gg/components";
+} from "@rivet-gg/icons";
 import { useSuspenseQueries, useSuspenseQuery } from "@tanstack/react-query";
 import { useCommandPanelNavigation } from "../command-panel-navigation-provider";
 
@@ -64,7 +64,7 @@ export function NamespaceCommandPanelPage({
             });
           }}
         >
-          <FontAwesomeIcon icon={faHome} />
+          <Icon icon={faHome} />
           Overview
         </CommandItem>
         <CommandItem
@@ -75,7 +75,7 @@ export function NamespaceCommandPanelPage({
             });
           }}
         >
-          <FontAwesomeIcon icon={faServer} />
+          <Icon icon={faServer} />
           Servers
         </CommandItem>
         <CommandItem
@@ -86,7 +86,7 @@ export function NamespaceCommandPanelPage({
             });
           }}
         >
-          <FontAwesomeIcon icon={faPuzzle} />
+          <Icon icon={faPuzzle} />
           Backend
         </CommandItem>
 
@@ -99,7 +99,7 @@ export function NamespaceCommandPanelPage({
               });
             }}
           >
-            <FontAwesomeIcon icon={faCodeBranch} />
+            <Icon icon={faCodeBranch} />
             Versions
             {currentVersion ? (
               <Badge className="ml-2">{currentVersion?.displayName}</Badge>
@@ -119,7 +119,7 @@ export function NamespaceCommandPanelPage({
                   });
                 }}
               >
-                <FontAwesomeIcon icon={faGlobe} />
+                <Icon icon={faGlobe} />
                 CDN Overview
               </CommandItem>
               <CommandItem
@@ -132,7 +132,7 @@ export function NamespaceCommandPanelPage({
                   });
                 }}
               >
-                <FontAwesomeIcon icon={faUserCog} />
+                <Icon icon={faUserCog} />
                 Manage authenticated users
               </CommandItem>
               <CommandItem
@@ -145,7 +145,7 @@ export function NamespaceCommandPanelPage({
                   });
                 }}
               >
-                <FontAwesomeIcon icon={faLink} />
+                <Icon icon={faLink} />
                 Mange custom domains
               </CommandItem>
             </CommandGroup>
@@ -161,7 +161,7 @@ export function NamespaceCommandPanelPage({
                   });
                 }}
               >
-                <FontAwesomeIcon icon={faJoystick} />
+                <Icon icon={faJoystick} />
                 Lobbies
               </CommandItem>
               <CommandItem
@@ -173,7 +173,7 @@ export function NamespaceCommandPanelPage({
                   });
                 }}
               >
-                <FontAwesomeIcon icon={faScroll} />
+                <Icon icon={faScroll} />
                 Logs
               </CommandItem>
               <CommandItem
@@ -185,7 +185,7 @@ export function NamespaceCommandPanelPage({
                   });
                 }}
               >
-                <FontAwesomeIcon icon={faGear} />
+                <Icon icon={faGear} />
                 Settings
               </CommandItem>
             </CommandGroup>
@@ -202,7 +202,7 @@ export function NamespaceCommandPanelPage({
             });
           }}
         >
-          <FontAwesomeIcon icon={faKey} />
+          <Icon icon={faKey} />
           Generate a public token
         </CommandItem>
         <CommandItem
@@ -214,7 +214,7 @@ export function NamespaceCommandPanelPage({
             });
           }}
         >
-          <FontAwesomeIcon icon={faKey} />
+          <Icon icon={faKey} />
           Generate a service token
         </CommandItem>
         <CommandItem
@@ -225,7 +225,7 @@ export function NamespaceCommandPanelPage({
             });
           }}
         >
-          <FontAwesomeIcon icon={faKey} />
+          <Icon icon={faKey} />
           Generate a development token
         </CommandItem>
       </CommandGroup>

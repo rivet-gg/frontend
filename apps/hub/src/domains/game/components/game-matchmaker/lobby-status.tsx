@@ -1,10 +1,10 @@
+import { Badge } from "@rivet-gg/components";
 import {
+  Icon,
   faSealExclamation,
   faSealQuestion,
   faSpinnerThird,
-} from "@fortawesome/pro-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Badge } from "@rivet-gg/components";
+} from "@rivet-gg/icons";
 import type { LobbyStatus } from "../../data/lobby-status";
 
 interface LobbyStatusBadgeProps {
@@ -23,7 +23,7 @@ export function LobbyStatusBadge({ status }: LobbyStatusBadgeProps) {
   if (status === "failed") {
     return (
       <Badge variant="destructive">
-        <FontAwesomeIcon className="size-4 mr-1" icon={faSealExclamation} />
+        <Icon className="size-4 mr-1" icon={faSealExclamation} />
         Failed
       </Badge>
     );
@@ -32,10 +32,7 @@ export function LobbyStatusBadge({ status }: LobbyStatusBadgeProps) {
   if (status === "not-started") {
     return (
       <Badge variant="secondary">
-        <FontAwesomeIcon
-          className="size-4 mr-1 animate-spin"
-          icon={faSpinnerThird}
-        />
+        <Icon className="size-4 mr-1 animate-spin" icon={faSpinnerThird} />
         Not Started
       </Badge>
     );
@@ -51,7 +48,7 @@ export function LobbyStatusBadge({ status }: LobbyStatusBadgeProps) {
 
   return (
     <Badge variant="outline">
-      <FontAwesomeIcon className="size-4 mr-1" icon={faSealQuestion} />
+      <Icon className="size-4 mr-1" icon={faSealQuestion} />
       Unknown
     </Badge>
   );

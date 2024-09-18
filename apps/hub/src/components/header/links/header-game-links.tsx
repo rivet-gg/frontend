@@ -1,9 +1,4 @@
-import {
-  faCircleDollar,
-  faFolder,
-  faGear,
-  faKey,
-} from "@fortawesome/pro-solid-svg-icons";
+import { faCircleDollar, faFolder, faGear, faKey } from "@rivet-gg/icons";
 import { Link } from "@tanstack/react-router";
 import { HeaderLink } from "../header-link";
 

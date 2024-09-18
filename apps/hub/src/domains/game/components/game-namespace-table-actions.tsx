@@ -1,5 +1,3 @@
-import { faEllipsisH } from "@fortawesome/pro-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Button,
   DropdownMenu,
@@ -8,13 +6,14 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@rivet-gg/components";
+import { Icon, faEllipsisH } from "@rivet-gg/icons";
 
 export function GameNamespaceTableActions() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button aria-haspopup="true" size="icon" variant="ghost">
-          <FontAwesomeIcon className="size-4" icon={faEllipsisH} />
+          <Icon className="size-4" icon={faEllipsisH} />
           <span className="sr-only">Toggle menu</span>
         </Button>
       </DropdownMenuTrigger>

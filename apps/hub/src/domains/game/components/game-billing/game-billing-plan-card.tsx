@@ -1,5 +1,3 @@
-import type { IconProp } from "@fortawesome/fontawesome-svg-core";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Button,
   Card,
@@ -10,6 +8,7 @@ import {
   SmallText,
   Text,
 } from "@rivet-gg/components";
+import { Icon, type IconProp } from "@rivet-gg/icons";
 import type { ReactNode } from "@tanstack/react-router";
 
 interface GameBillingPlanCardProps {
@@ -52,9 +51,7 @@ export function GameBillingPlanCard({
             {features.map(({ key, name, icon }) => (
               <Flex items="center" gap="2" key={key || name} asChild>
                 <li>
-                  {icon ? (
-                    <FontAwesomeIcon icon={icon} className="size-5 " />
-                  ) : null}
+                  {icon ? <Icon icon={icon} className="size-5 " /> : null}
                   {name}
                 </li>
               </Flex>

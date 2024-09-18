@@ -2,8 +2,8 @@
 
 import { format } from "date-fns";
 
-import { faCalendar } from "@fortawesome/pro-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCalendar } from "@rivet-gg/icons";
+import { Icon } from "@rivet-gg/icons";
 import type { DateRange } from "react-day-picker";
 import { cn } from "./lib/utils";
 import { Button } from "./ui/button";
@@ -43,7 +43,7 @@ export function DatePicker({
             !date && "text-muted-foreground",
           )}
         >
-          <FontAwesomeIcon icon={faCalendar} className="mr-2 h-4 w-4" />
+          <Icon icon={faCalendar} className="mr-2 h-4 w-4" />
           {date ? format(date, "PPP") : <span>Pick a date</span>}
         </Button>
       </PopoverTrigger>
@@ -100,7 +100,7 @@ export function RangeDatePicker({
               !date && "text-muted-foreground",
             )}
           >
-            <FontAwesomeIcon icon={faCalendar} className="mr-2 h-4 w-4" />
+            <Icon icon={faCalendar} className="mr-2 h-4 w-4" />
             {date?.from ? (
               date.to ? (
                 <>

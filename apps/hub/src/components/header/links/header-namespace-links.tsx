@@ -10,7 +10,7 @@ import {
   faKey,
   faPuzzle,
   faServer,
-} from "@fortawesome/pro-solid-svg-icons";
+} from "@rivet-gg/icons";
 import { useSuspenseQueries } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import { HeaderLink } from "../header-link";

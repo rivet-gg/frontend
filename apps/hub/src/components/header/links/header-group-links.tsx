@@ -1,4 +1,4 @@
-import { faGear, faHome, faUsers } from "@fortawesome/pro-solid-svg-icons";
+import { faGear, faHome, faUsers } from "@rivet-gg/icons";
 import { Link } from "@tanstack/react-router";
 import { HeaderLink } from "../header-link";
 

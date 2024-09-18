@@ -1,5 +1,3 @@
-import { faTrash } from "@fortawesome/pro-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Button,
   Flex,
@@ -15,6 +13,7 @@ import {
   Text,
   createSchemaForm,
 } from "@rivet-gg/components";
+import { Icon, faTrash } from "@rivet-gg/icons";
 import {
   type Control,
   type UseFormReturn,
@@ -151,7 +150,7 @@ function Encrypt({ index, onRemove }: { index: number; onRemove: () => void }) {
             size="icon"
             onClick={onRemove}
           >
-            <FontAwesomeIcon icon={faTrash} />
+            <Icon icon={faTrash} />
           </Button>
         </Flex>
       </FormControl>

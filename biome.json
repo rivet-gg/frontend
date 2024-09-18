@@ -8,8 +8,8 @@
       "**/coverage/**",
       "**/lib/**",
       "**/tmp",
-      "**/*.gen.ts",
-      "**/.turbo/**"
+      "**/.turbo/**",
+      "*gen*"
     ]
   },
   "formatter": {

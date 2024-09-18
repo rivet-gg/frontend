@@ -1,9 +1,9 @@
 import { type VariantProps, cva } from "class-variance-authority";
 import * as React from "react";
 
-import { faSpinnerThird } from "@fortawesome/pro-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Slot, Slottable } from "@radix-ui/react-slot";
+import { faSpinnerThird } from "@rivet-gg/icons";
+import { Icon } from "@rivet-gg/icons";
 import { cn } from "../lib/utils";
 import {
   type CommonHelperProps,
@@ -84,7 +84,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         disabled={isLoading || disabled}
       >
         {isLoading ? (
-          <FontAwesomeIcon
+          <Icon
             icon={faSpinnerThird}
             className={cn("h-4 w-4 animate-spin", size !== "icon" && "mr-2")}
           />

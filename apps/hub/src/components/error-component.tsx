@@ -1,6 +1,4 @@
 import { hasMethod, isRivetError } from "@/lib/utils";
-import { faBomb } from "@fortawesome/pro-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Button,
   Card,
@@ -11,6 +9,7 @@ import {
   Code,
   Text,
 } from "@rivet-gg/components";
+import { Icon, faBomb } from "@rivet-gg/icons";
 import { useQueryClient } from "@tanstack/react-query";
 import type { ErrorComponentProps } from "@tanstack/react-router";
 import { NotFoundComponent } from "./not-found-component";
@@ -33,7 +32,7 @@ export const ErrorComponent = ({
     <Card>
       <CardHeader>
         <CardTitle className="flex gap-2">
-          <FontAwesomeIcon icon={faBomb} />
+          <Icon icon={faBomb} />
           Uh, oh!
         </CardTitle>
       </CardHeader>

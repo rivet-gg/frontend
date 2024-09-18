@@ -1,4 +1,3 @@
-"use client";
 import { DayPicker } from "react-day-picker";
 import { cn } from "../lib/utils";
 import { buttonVariants } from "./button";
@@ -51,10 +50,10 @@ function Calendar({
       }}
       // components={{
       //   IconLeft: () => (
-      //     <FontAwesomeIcon icon={faChevronLeft} className="h-4 w-4" />
+      //     <Icon icon={faChevronLeft} className="h-4 w-4" />
       //   ),
       //   IconRight: () => (
-      //     <FontAwesomeIcon icon={faChevronRight} className="h-4 w-4" />
+      //     <Icon icon={faChevronRight} className="h-4 w-4" />
       //   ),
       // }}
       {...props}

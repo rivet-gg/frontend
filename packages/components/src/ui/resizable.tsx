@@ -1,8 +1,8 @@
 "use client";
 import * as ResizablePrimitive from "react-resizable-panels";
 
-import { faGripVertical } from "@fortawesome/pro-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faGripVertical } from "@rivet-gg/icons";
+import { Icon } from "@rivet-gg/icons";
 import { cn } from "../lib/utils";
 
 const ResizablePanelGroup = ({
@@ -36,7 +36,7 @@ const ResizableHandle = ({
   >
     {withHandle && (
       <div className="z-10 flex h-4 w-3 items-center justify-center rounded-sm border bg-border">
-        <FontAwesomeIcon icon={faGripVertical} className="h-2.5 w-2.5" />
+        <Icon icon={faGripVertical} className="h-2.5 w-2.5" />
       </div>
     )}
   </ResizablePrimitive.PanelResizeHandle>

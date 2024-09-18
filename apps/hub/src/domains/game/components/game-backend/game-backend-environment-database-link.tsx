@@ -1,7 +1,6 @@
-import { faDatabase, faExternalLink } from "@fortawesome/pro-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Slot } from "@radix-ui/react-slot";
 import { Button, type ButtonProps } from "@rivet-gg/components";
+import { Icon, faDatabase, faExternalLink } from "@rivet-gg/icons";
 import { useNavigate } from "@tanstack/react-router";
 import { type ReactNode, forwardRef } from "react";
 import { useGameBackendProjectEnvDatabasePreview } from "../../queries";
@@ -42,11 +41,9 @@ export const GameBackendEnvironmentDatabaseLink = forwardRef<
         }
       }}
       isLoading={isLoading}
-      startIcon={<FontAwesomeIcon icon={faDatabase} className={"size-4"} />}
+      startIcon={<Icon icon={faDatabase} className={"size-4"} />}
       endIcon={
-        data ? (
-          <FontAwesomeIcon icon={faExternalLink} className={"size-4"} />
-        ) : undefined
+        data ? <Icon icon={faExternalLink} className={"size-4"} /> : undefined
       }
       {...props}
     >

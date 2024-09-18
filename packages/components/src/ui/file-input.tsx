@@ -1,6 +1,5 @@
 "use client";
-import { faTrash } from "@fortawesome/pro-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Icon, faTrash } from "@rivet-gg/icons";
 import { type ChangeEvent, useState } from "react";
 import type {
   ControllerRenderProps,
@@ -51,7 +50,7 @@ export function FileInput<FormValues extends FieldValues>({
             size="icon"
             onClick={handleRemoveClick}
           >
-            <FontAwesomeIcon icon={faTrash} />
+            <Icon icon={faTrash} />
           </Button>
         </div>
       </Input>

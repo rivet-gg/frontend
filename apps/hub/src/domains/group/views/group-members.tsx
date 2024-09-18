@@ -1,7 +1,5 @@
 import { groupOnwerQueryOptions } from "@/domains/game/queries";
 import { groupMembersQueryOptions } from "@/domains/group/queries";
-import { faCrown, faRightFromBracket } from "@fortawesome/pro-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Button,
   Card,
@@ -12,6 +10,7 @@ import {
   Grid,
   Text,
 } from "@rivet-gg/components";
+import { Icon, faCrown, faRightFromBracket } from "@rivet-gg/icons";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import { UserAvatar } from "../../user/components/user-avatar";
@@ -37,7 +36,7 @@ export function GroupMembers({ groupId }: GroupMembersProps) {
             </Button>
             <Button asChild variant="secondary">
               <Link search={{ modal: "leave" }}>
-                <FontAwesomeIcon icon={faRightFromBracket} />
+                <Icon icon={faRightFromBracket} />
               </Link>
             </Button>
           </Flex>
@@ -56,10 +55,7 @@ export function GroupMembers({ groupId }: GroupMembersProps) {
               <Flex gap="2" items="center">
                 <Text>{member.identity.displayName}</Text>
                 {groupOwnerIdentityId === member.identity.identityId && (
-                  <FontAwesomeIcon
-                    icon={faCrown}
-                    className="text-primary w-4"
-                  />
+                  <Icon icon={faCrown} className="text-primary w-4" />
                 )}
               </Flex>
             </Flex>

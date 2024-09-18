@@ -1,7 +1,5 @@
 import { gameNamespacesQueryOptions } from "@/domains/game/queries";
 import { useDialog } from "@/hooks/use-dialog";
-import { faPlus } from "@fortawesome/pro-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Badge,
   Button,
@@ -19,6 +17,7 @@ import {
   TableRow,
   Text,
 } from "@rivet-gg/components";
+import { Icon, faPlus } from "@rivet-gg/icons";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
 import { GameNamespaceTableActions } from "../components/game-namespace-table-actions";
@@ -41,7 +40,7 @@ export function GameNamespacesView({ gameId }: GameNamespacesViewProps) {
         <Flex items="center" gap="4" justify="between">
           <CardTitle>Environments</CardTitle>
           <Button variant="secondary" size="icon" onClick={open}>
-            <FontAwesomeIcon icon={faPlus} />
+            <Icon icon={faPlus} />
           </Button>
         </Flex>
       </CardHeader>

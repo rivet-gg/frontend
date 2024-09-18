@@ -1,5 +1,8 @@
 import { useDialog } from "@/hooks/use-dialog";
+import { Rivet as RivetEe } from "@rivet-gg/api-ee";
+import { Flex, Grid, H2, WithTooltip } from "@rivet-gg/components";
 import {
+  Icon,
   faBug,
   faChartMixed,
   faClockRotateLeft,
@@ -14,10 +17,7 @@ import {
   faServer,
   faShield,
   faUpRightAndDownLeftFromCenter,
-} from "@fortawesome/pro-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Rivet as RivetEe } from "@rivet-gg/api-ee";
-import { Flex, Grid, H2, WithTooltip } from "@rivet-gg/components";
+} from "@rivet-gg/icons";
 import {
   LobbyRegionIcon,
   LobbyRegionName,
@@ -73,10 +73,7 @@ export function GameBillingPlans({ gameId }: GameBillingPlansProps) {
                       trigger={
                         <span>
                           3 regions{" "}
-                          <FontAwesomeIcon
-                            icon={faInfoCircle}
-                            className="size-3 mb-0.5"
-                          />
+                          <Icon icon={faInfoCircle} className="size-3 mb-0.5" />
                         </span>
                       }
                       content={["fra", "lax", "osa"].map((regionNameId) => {
@@ -141,10 +138,7 @@ export function GameBillingPlans({ gameId }: GameBillingPlansProps) {
                       trigger={
                         <span>
                           8 regions{" "}
-                          <FontAwesomeIcon
-                            icon={faInfoCircle}
-                            className="size-3 mb-0.5"
-                          />
+                          <Icon icon={faInfoCircle} className="size-3 mb-0.5" />
                         </span>
                       }
                       content={[

@@ -1,6 +1,5 @@
 "use client";
-import { faArrowDownToLine } from "@fortawesome/pro-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Icon, faArrowDownToLine } from "@rivet-gg/icons";
 import type { Virtualizer } from "@tanstack/react-virtual";
 import {
   type PropsWithChildren,
@@ -192,10 +191,7 @@ export function LogsView({
                         variant="outline"
                         aria-label="Toggle follow logs"
                       >
-                        <FontAwesomeIcon
-                          className="size-4"
-                          icon={faArrowDownToLine}
-                        />
+                        <Icon className="size-4" icon={faArrowDownToLine} />
                       </Toggle>
                     </div>
                   }

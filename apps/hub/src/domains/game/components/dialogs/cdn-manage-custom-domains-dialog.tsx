@@ -1,11 +1,5 @@
 import * as CdnNewCustomDomainForm from "@/domains/game/forms/cdn-new-custom-domain-form";
 import type { DialogContentProps } from "@/hooks/use-dialog";
-import {
-  faInfoCircle,
-  faPlus,
-  faTrash,
-} from "@fortawesome/pro-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Rivet } from "@rivet-gg/api";
 import {
   Badge,
@@ -22,6 +16,7 @@ import {
   TableRow,
   WithTooltip,
 } from "@rivet-gg/components";
+import { Icon, faInfoCircle, faPlus, faTrash } from "@rivet-gg/icons";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { useCdnNewCustomDomainFormHandler } from "../../hooks/use-cdn-new-custom-domain-form-handler";
 import {
@@ -64,7 +59,7 @@ function DomainConfigRow({
             trigger={
               <Badge variant={VARIANT_MAP[verificationStatus]}>
                 {verificationStatus}
-                <FontAwesomeIcon icon={faInfoCircle} className="ml-2 w-3" />
+                <Icon icon={faInfoCircle} className="ml-2 w-3" />
               </Badge>
             }
           />
@@ -83,7 +78,7 @@ function DomainConfigRow({
             removeDomain({ gameId, namespaceId, domain });
           }}
         >
-          <FontAwesomeIcon icon={faTrash} />
+          <Icon icon={faTrash} />
         </Button>
       </TableCell>
     </TableRow>
@@ -121,7 +116,7 @@ export default function CdnManageCustomDomainsDialogContent({
         <Flex gap="4" direction="row" items="start">
           <CdnNewCustomDomainForm.Name />
           <CdnNewCustomDomainForm.Submit size="icon" type="submit" mt="8">
-            <FontAwesomeIcon icon={faPlus} />
+            <Icon icon={faPlus} />
           </CdnNewCustomDomainForm.Submit>
         </Flex>
       </CdnNewCustomDomainForm.Form>

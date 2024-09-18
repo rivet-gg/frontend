@@ -1,7 +1,5 @@
 import { GameServersListPreview } from "@/domains/game/components/game-servers/game-servers-list-preview";
 import { gameServersQueryOptions } from "@/domains/game/queries";
-import { faPlus, faRefresh } from "@fortawesome/pro-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Button,
   Card,
@@ -12,6 +10,7 @@ import {
   Text,
   WithTooltip,
 } from "@rivet-gg/components";
+import { Icon, faPlus, faRefresh } from "@rivet-gg/icons";
 import { useSuspenseInfiniteQuery } from "@tanstack/react-query";
 import { Link, createFileRoute } from "@tanstack/react-router";
 import { z } from "zod";
@@ -37,7 +36,7 @@ function GameServersRoute() {
                 variant="outline"
                 onClick={() => refetch()}
               >
-                <FontAwesomeIcon icon={faRefresh} />
+                <Icon icon={faRefresh} />
               </Button>
             }
           />
@@ -55,7 +54,7 @@ function GameServersRoute() {
                     modal: "create-server",
                   }}
                 >
-                  <FontAwesomeIcon icon={faPlus} />
+                  <Icon icon={faPlus} />
                 </Link>
               </Button>
             }
