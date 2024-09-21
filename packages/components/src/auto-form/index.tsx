@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { type DefaultValues, type FormState, useForm } from "react-hook-form";
 import type { z } from "zod";

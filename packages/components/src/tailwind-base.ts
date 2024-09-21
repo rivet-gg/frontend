@@ -45,6 +45,9 @@ const config = {
       active: 'status~="active"',
     },
     extend: {
+      aria: {
+        "current-page": "current='page'",
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

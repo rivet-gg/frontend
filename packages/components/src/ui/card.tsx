@@ -10,18 +10,22 @@ import {
 
 const Card = React.forwardRef<
   HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement> & Partial<CommonHelperProps>
->(({ className, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={cn(
-      "rounded-lg border bg-card text-card-foreground shadow-sm",
-      getCommonHelperClass(props),
-      className,
-    )}
-    {...omitCommonHelperProps(props)}
-  />
-));
+  React.HTMLAttributes<HTMLDivElement> &
+    Partial<CommonHelperProps> & { asChild?: boolean }
+>(({ className, asChild, ...props }, ref) => {
+  const Comp = asChild ? Slot : "div";
+  return (
+    <Comp
+      ref={ref}
+      className={cn(
+        "rounded-lg border bg-card text-card-foreground shadow-sm",
+        getCommonHelperClass(props),
+        className,
+      )}
+      {...omitCommonHelperProps(props)}
+    />
+  );
+});
 Card.displayName = "Card";
 
 const CardHeader = React.forwardRef<

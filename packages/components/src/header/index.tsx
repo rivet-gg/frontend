@@ -16,6 +16,7 @@ interface HeaderProps {
   links?: ReactNode;
   suffix?: ReactNode;
   logo?: ReactNode;
+  support?: ReactNode;
 }
 
 export function Header({
@@ -26,6 +27,20 @@ export function Header({
   links,
   suffix,
   logo,
+  support = (
+    <Flex direction="col" justify="end" gap="6">
+      <NavItem asChild>
+        <a href="https://rivet.gg/docs" target="_blank" rel="noreferrer">
+          Docs
+        </a>
+      </NavItem>
+      <NavItem asChild>
+        <a href="https://rivet.gg/support" target="_blank" rel="noreferrer">
+          Support
+        </a>
+      </NavItem>
+    </Flex>
+  ),
 }: HeaderProps) {
   return (
     <header className="bg-background/60 sticky top-0 z-10 flex flex-col items-center border-b py-2 backdrop-blur">
@@ -43,43 +58,20 @@ export function Header({
                 <span className="sr-only">Toggle navigation menu</span>
               </Button>
             </SheetTrigger>
-            <SheetContent side="left">
-              <nav className="grid min-h-full gap-6 text-lg font-medium">
-                <div className="flex-1">
-                  <Flex direction="col" gap="6">
-                    <a
-                      href="/"
-                      className="flex items-center gap-2 text-lg font-semibold"
-                    >
-                      <AssetImage
-                        className="h-6"
-                        src="/logo/cream.svg"
-                        alt="Rivet logo"
-                      />
-                    </a>
+            <SheetContent side="left" className="overflow-auto p-0">
+              <nav className="min-h-full text-lg font-medium h-full max-w-full">
+                <div className="flex flex-col min-h-full">
+                  <a
+                    href="/"
+                    className="flex sticky p-6 top-0 z-10 bg-background/10 backdrop-blur block w-full items-center gap-2 text-lg font-semibold"
+                  >
+                    {logo}
+                  </a>
+                  <div className="flex flex-1 flex-col px-6 gap-6">
                     {mobileBreadcrumbs}
-                  </Flex>
+                  </div>
+                  <div className="px-6 py-6">{support}</div>
                 </div>
-                <Flex direction="col" justify="end" gap="6">
-                  <NavItem asChild>
-                    <a
-                      href="https://rivet.gg/docs"
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      Docs
-                    </a>
-                  </NavItem>
-                  <NavItem asChild>
-                    <a
-                      href="https://rivet.gg/support"
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      Support
-                    </a>
-                  </NavItem>
-                </Flex>
               </nav>
             </SheetContent>
           </Sheet>

@@ -1,3 +1,4 @@
+"use client";
 import { useConfig } from "./lib/config";
 
 export function AssetImage(

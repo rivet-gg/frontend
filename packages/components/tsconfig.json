@@ -7,7 +7,8 @@
     "noEmit": true,
     "moduleResolution": "bundler",
     "jsx": "react-jsx",
-    "baseUrl": "."
+    "baseUrl": ".",
+    "module": "Preserve"
   },
   "include": ["src"]
 }

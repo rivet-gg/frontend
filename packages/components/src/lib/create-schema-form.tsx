@@ -1,3 +1,4 @@
+'use client';
 import { Button, type ButtonProps, Form } from "@rivet-gg/components";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { type ComponentProps, type ReactNode, useEffect } from "react";
