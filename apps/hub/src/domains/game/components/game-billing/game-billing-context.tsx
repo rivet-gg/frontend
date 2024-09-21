@@ -18,6 +18,7 @@ interface GameBillingContextValue {
     used: number;
     overage: number;
     remaining: number;
+    total: number;
   };
   subscription: RivetEe.ee.billing.Subscription | undefined;
 }

@@ -1,6 +1,11 @@
 import { Rivet as RivetEe } from "@rivet-gg/api-ee";
 import { millisecondsToMonths } from "@rivet-gg/components";
 
+export const PRICE_MAP = {
+  [RivetEe.ee.billing.Plan.Trial]: 0,
+  [RivetEe.ee.billing.Plan.Indie]: 9.0,
+  [RivetEe.ee.billing.Plan.Studio]: 29.0,
+};
 const CREIDTS_MAP = {
   [RivetEe.ee.billing.Plan.Trial]: 5.0,
   [RivetEe.ee.billing.Plan.Indie]: 48.21,
@@ -25,10 +30,13 @@ export function calculateUsedCredits({
   const monthsOfUptime = millisecondsToMonths(totalUptime);
   const usedCredits = monthsOfUptime * FACTOR;
 
+  const overage = Math.max(0, usedCredits - CREIDTS_MAP[plan]);
+
   return {
     max: CREIDTS_MAP[plan],
     used: usedCredits,
     remaining: CREIDTS_MAP[plan] - usedCredits,
-    overage: Math.max(0, usedCredits - CREIDTS_MAP[plan]),
+    overage,
+    total: PRICE_MAP[plan] + overage,
   };
 }

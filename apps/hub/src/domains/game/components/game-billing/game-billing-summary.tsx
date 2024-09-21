@@ -3,14 +3,14 @@ import { useGameBilling } from "./game-billing-context";
 
 export function GameBillingSummary() {
   const {
-    credits: { overage, remaining },
+    credits: { total, remaining },
   } = useGameBilling();
 
   return (
     <Grid columns={{ initial: "1", md: "3" }} gap="4">
       <ValueCard
         title="Current bill total"
-        value={<AnimatedCurrency value={overage} />}
+        value={<AnimatedCurrency value={total} />}
       />
       <ValueCard
         title="Credits remaining"

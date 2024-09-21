@@ -18,6 +18,7 @@ import {
   faShield,
   faUpRightAndDownLeftFromCenter,
 } from "@rivet-gg/icons";
+import { PRICE_MAP } from "../../data/billing-calculate-usage";
 import {
   LobbyRegionIcon,
   LobbyRegionName,
@@ -46,7 +47,7 @@ export function GameBillingPlans({ gameId }: GameBillingPlansProps) {
         <GameBillingPlanCard
           title="Indie"
           lead="Fixed price suitable for indies & hobbyists"
-          price="$9"
+          price={`$${PRICE_MAP[RivetEe.ee.billing.Plan.Indie]}`}
           onSubscribe={() =>
             open({
               plan: RivetEe.ee.billing.Plan.Indie,
@@ -118,7 +119,7 @@ export function GameBillingPlans({ gameId }: GameBillingPlansProps) {
               plan: RivetEe.ee.billing.Plan.Trial,
             })
           }
-          price="$29"
+          price={`$${PRICE_MAP[RivetEe.ee.billing.Plan.Studio]}`}
           type={plan === RivetEe.ee.billing.Plan.Studio ? "active" : undefined}
           priceLead="+ Resource Usage"
           features={[
