@@ -64,7 +64,9 @@ function GameServersRoute() {
       <CardContent className="flex-1 min-h-0 w-full p-0">
         {data.length === 0 ? (
           <div className="flex items-center mx-auto flex-col gap-2 my-10">
-            <Text textAlign="center">No servers found.</Text>
+            <Text textAlign="center">
+              Servers will be created automatically when players join.
+            </Text>
           </div>
         ) : (
           <GameServersListPreview
