@@ -1,6 +1,5 @@
-import { faSave } from "@fortawesome/pro-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, LogsView, WithTooltip } from "@rivet-gg/components";
+import { Icon, faSave } from "@rivet-gg/icons";
 import saveAs from "file-saver";
 import type { BackendEvent } from "../../../queries";
 
@@ -35,7 +34,7 @@ export function GameBackendEventDetailsLogsTab({
                   )
                 }
               >
-                <FontAwesomeIcon icon={faSave} />
+                <Icon icon={faSave} />
               </Button>
             }
           />

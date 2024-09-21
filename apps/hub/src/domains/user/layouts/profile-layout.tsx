@@ -1,6 +1,4 @@
 import { useAuth } from "@/domains/auth/contexts/auth";
-import { faRightFromBracket } from "@fortawesome/pro-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Flex,
   Link,
@@ -8,6 +6,7 @@ import {
   SidebarNavigation,
   SidebarPageContent,
 } from "@rivet-gg/components";
+import { Icon, faRightFromBracket } from "@rivet-gg/icons";
 import { Link as InternalLink } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 
@@ -39,7 +38,7 @@ function ProfilePage({ children }: ProfilePageProps) {
             onClick={logout}
             className="align-center cursor-pointer no-underline"
           >
-            <FontAwesomeIcon
+            <Icon
               icon={faRightFromBracket}
               className="mr-2 inline-block size-4"
             />

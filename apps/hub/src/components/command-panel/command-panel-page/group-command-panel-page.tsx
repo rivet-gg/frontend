@@ -1,13 +1,13 @@
 import { groupGamesQueryOptions } from "@/domains/game/queries";
+import { CommandGroup, CommandItem } from "@rivet-gg/components";
 import {
+  Icon,
   faGear,
   faHome,
   faPlus,
   faUserPlus,
   faUsers,
-} from "@fortawesome/pro-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { CommandGroup, CommandItem } from "@rivet-gg/components";
+} from "@rivet-gg/icons";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { useCommandPanelNavigation } from "../command-panel-navigation-provider";
 import { GamesCommandPanelItems } from "../games-command-panel-items";
@@ -28,7 +28,7 @@ export function GroupCommandPanelPage({ groupId }: GroupCommandPanelPageProps) {
             navigate({ to: "/teams/$groupId", params: { groupId } });
           }}
         >
-          <FontAwesomeIcon icon={faHome} />
+          <Icon icon={faHome} />
           Overview
         </CommandItem>
         <CommandItem
@@ -40,7 +40,7 @@ export function GroupCommandPanelPage({ groupId }: GroupCommandPanelPageProps) {
             });
           }}
         >
-          <FontAwesomeIcon icon={faUserPlus} />
+          <Icon icon={faUserPlus} />
           Invite a member
         </CommandItem>
         <CommandItem
@@ -51,7 +51,7 @@ export function GroupCommandPanelPage({ groupId }: GroupCommandPanelPageProps) {
             });
           }}
         >
-          <FontAwesomeIcon icon={faUsers} />
+          <Icon icon={faUsers} />
           Members
         </CommandItem>
         <CommandItem
@@ -62,7 +62,7 @@ export function GroupCommandPanelPage({ groupId }: GroupCommandPanelPageProps) {
             });
           }}
         >
-          <FontAwesomeIcon icon={faGear} />
+          <Icon icon={faGear} />
           Settings
         </CommandItem>
       </CommandGroup>
@@ -77,7 +77,7 @@ export function GroupCommandPanelPage({ groupId }: GroupCommandPanelPageProps) {
             });
           }}
         >
-          <FontAwesomeIcon icon={faPlus} />
+          <Icon icon={faPlus} />
           Create a new game
         </CommandItem>
         <GamesCommandPanelItems groupId={groupId} games={data.games} />

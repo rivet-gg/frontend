@@ -3,9 +3,8 @@
 import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu";
 import * as React from "react";
 
-import { faCircle } from "@fortawesome/pro-regular-svg-icons";
-import { faCheck, faChevronRight } from "@fortawesome/pro-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Icon, faCheck, faChevronRight, faCircle } from "@rivet-gg/icons";
+import {} from "@rivet-gg/icons";
 import { cn } from "../lib/utils";
 
 const DropdownMenu = DropdownMenuPrimitive.Root;
@@ -36,7 +35,7 @@ const DropdownMenuSubTrigger = React.forwardRef<
     {...props}
   >
     {children}
-    <FontAwesomeIcon icon={faChevronRight} className="ml-auto h-4 w-4" />
+    <Icon icon={faChevronRight} className="ml-auto h-4 w-4" />
   </DropdownMenuPrimitive.SubTrigger>
 ));
 DropdownMenuSubTrigger.displayName =
@@ -109,7 +108,7 @@ const DropdownMenuCheckboxItem = React.forwardRef<
   >
     <span className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
       <DropdownMenuPrimitive.ItemIndicator>
-        <FontAwesomeIcon icon={faCheck} className="size-4" />
+        <Icon icon={faCheck} className="size-4" />
       </DropdownMenuPrimitive.ItemIndicator>
     </span>
     {children}
@@ -132,7 +131,7 @@ const DropdownMenuRadioItem = React.forwardRef<
   >
     <span className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
       <DropdownMenuPrimitive.ItemIndicator>
-        <FontAwesomeIcon icon={faCircle} className="h-2 w-2 fill-current" />
+        <Icon icon={faCircle} className="h-2 w-2 fill-current" />
       </DropdownMenuPrimitive.ItemIndicator>
     </span>
     {children}

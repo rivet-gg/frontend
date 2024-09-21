@@ -1,5 +1,3 @@
-import { faTrash } from "@fortawesome/pro-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Button,
   Flex,
@@ -12,6 +10,7 @@ import {
   Text,
   createSchemaForm,
 } from "@rivet-gg/components";
+import { Icon, faTrash } from "@rivet-gg/icons";
 import {
   type UseFormReturn,
   useFieldArray,
@@ -84,7 +83,7 @@ export const Users = () => {
                     size="icon"
                     onClick={() => remove(index)}
                   >
-                    <FontAwesomeIcon icon={faTrash} />
+                    <Icon icon={faTrash} />
                   </Button>
                 </Flex>
               </FormControl>

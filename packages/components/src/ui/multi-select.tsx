@@ -1,13 +1,8 @@
 import { type VariantProps, cva } from "class-variance-authority";
 import * as React from "react";
 
-import {
-  faCheck,
-  faChevronDown,
-  faCircleX,
-  faX,
-} from "@fortawesome/pro-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheck, faChevronDown, faCircleX, faX } from "@rivet-gg/icons";
+import { Icon } from "@rivet-gg/icons";
 import { cn } from "../lib/utils";
 import { Badge } from "./badge";
 import { Button } from "./button";
@@ -142,7 +137,7 @@ const MultiSelectFormField = React.forwardRef<
                         )}
                         {option?.label}
 
-                        <FontAwesomeIcon
+                        <Icon
                           icon={faCircleX}
                           className="ml-2 h-4 w-4 cursor-pointer"
                           onClick={(event) => {
@@ -155,7 +150,7 @@ const MultiSelectFormField = React.forwardRef<
                   })}
                 </div>
                 <div className="flex items-center justify-between">
-                  <FontAwesomeIcon
+                  <Icon
                     icon={faX}
                     className="h-4 mx-2 cursor-pointer text-muted-foreground"
                     onClick={(event) => {
@@ -169,7 +164,7 @@ const MultiSelectFormField = React.forwardRef<
                     orientation="vertical"
                     className="flex min-h-6 h-full"
                   />
-                  <FontAwesomeIcon
+                  <Icon
                     icon={faChevronDown}
                     className="h-4 mx-2 cursor-pointer text-muted-foreground"
                   />
@@ -181,7 +176,7 @@ const MultiSelectFormField = React.forwardRef<
                   {placeholder}
                 </span>
 
-                <FontAwesomeIcon
+                <Icon
                   icon={faChevronDown}
                   className="h-4 cursor-pointer text-muted-foreground mx-2"
                 />
@@ -224,7 +219,7 @@ const MultiSelectFormField = React.forwardRef<
                             : "opacity-50 [&_svg]:invisible",
                         )}
                       >
-                        <FontAwesomeIcon icon={faCheck} className="h-4 w-4" />
+                        <Icon icon={faCheck} className="h-4 w-4" />
                       </div>
                       {option.icon && (
                         <option.icon className="mr-2 h-4 w-4 text-muted-foreground" />

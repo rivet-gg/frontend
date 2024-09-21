@@ -1,7 +1,5 @@
 import { groupOnwerQueryOptions } from "@/domains/game/queries";
 import { selfProfileIdentityIdQueryOptions } from "@/domains/user/queries";
-import { faEllipsisVertical } from "@fortawesome/pro-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Button,
   DropdownMenu,
@@ -9,6 +7,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@rivet-gg/components";
+import { Icon, faEllipsisVertical } from "@rivet-gg/icons";
 import { useSuspenseQuery } from "@tanstack/react-query";
 
 interface GroupMemberInfo {
@@ -45,7 +44,7 @@ export function GroupMemberSettingsMenu({
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button size="icon" variant="outline">
-          <FontAwesomeIcon className="size-3.5" icon={faEllipsisVertical} />
+          <Icon className="size-3.5" icon={faEllipsisVertical} />
           <span className="sr-only">More</span>
         </Button>
       </DropdownMenuTrigger>

@@ -1,6 +1,4 @@
 import { useFeatureFlag } from "@/hooks/use-feature-flag";
-import { faGem, faXmark } from "@fortawesome/pro-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Alert,
   AlertDescription,
@@ -8,6 +6,7 @@ import {
   Button,
   Link,
 } from "@rivet-gg/components";
+import { Icon, faGem, faXmark } from "@rivet-gg/icons";
 import { usePostHog } from "posthog-js/react";
 
 export function UpgradedHubAlert() {
@@ -21,7 +20,7 @@ export function UpgradedHubAlert() {
   return (
     <div className="container py-4 flex-grow-0 flex-shrink-0">
       <Alert>
-        <FontAwesomeIcon icon={faGem} className="size-5" />
+        <Icon icon={faGem} className="size-5" />
         <AlertTitle>The Rivet Hub has been upgraded.</AlertTitle>
         <AlertDescription>
           Want to switch back? Visit the old hub{" "}
@@ -37,7 +36,7 @@ export function UpgradedHubAlert() {
               });
             }}
           >
-            <FontAwesomeIcon icon={faXmark} className="size-5" />
+            <Icon icon={faXmark} className="size-5" />
           </Button>
         </div>
       </Alert>

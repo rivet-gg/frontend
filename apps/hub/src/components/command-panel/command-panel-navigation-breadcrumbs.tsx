@@ -5,9 +5,8 @@ import {
   groupGamesQueryOptions,
 } from "@/domains/game/queries";
 import { GroupAvatar } from "@/domains/group/components/group-avatar";
-import { faPuzzle } from "@fortawesome/pro-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Badge, Skeleton } from "@rivet-gg/components";
+import { Icon, faPuzzle } from "@rivet-gg/icons";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { Suspense } from "react";
 import type { CommandPanelPage } from "./command-panel-navigation-provider";
@@ -56,7 +55,7 @@ function NamespaceBreadcrumb({
 function BackendBreadcrumb() {
   return (
     <>
-      <FontAwesomeIcon icon={faPuzzle} className="mr-2 size-4" /> Backend
+      <Icon icon={faPuzzle} className="mr-2 size-4" /> Backend
     </>
   );
 }

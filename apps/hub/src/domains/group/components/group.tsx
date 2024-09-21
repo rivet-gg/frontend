@@ -1,6 +1,4 @@
 import type { GroupGames } from "@/domains/game/queries";
-import { faArrowRight, faPlus } from "@fortawesome/pro-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Button,
   Card,
@@ -11,6 +9,7 @@ import {
   LargeText,
   Skeleton,
 } from "@rivet-gg/components";
+import { Icon, faArrowRight, faPlus } from "@rivet-gg/icons";
 
 import { GameTile } from "@/domains/game/components/game-tile";
 import { Link } from "@tanstack/react-router";
@@ -36,13 +35,13 @@ export function Group(props: GroupProps) {
             {isDeveloper ? (
               <Button asChild variant="ghost" size="icon">
                 <Link to="/" search={{ modal: "create-game", groupId }}>
-                  <FontAwesomeIcon icon={faPlus} />
+                  <Icon icon={faPlus} />
                 </Link>
               </Button>
             ) : null}
             <Button asChild variant="ghost" size="icon">
               <Link to="/teams/$groupId" params={{ groupId }}>
-                <FontAwesomeIcon icon={faArrowRight} />
+                <Icon icon={faArrowRight} />
               </Link>
             </Button>
           </Flex>

@@ -1,6 +1,4 @@
 import { useAuth } from "@/domains/auth/contexts/auth";
-import { faBars } from "@fortawesome/pro-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   AssetImage,
   Button,
@@ -9,6 +7,7 @@ import {
   SheetContent,
   SheetTrigger,
 } from "@rivet-gg/components";
+import { Icon, faBars } from "@rivet-gg/icons";
 import { Link } from "@tanstack/react-router";
 import { Breadcrumbs } from "../breadcrumbs/breadcrumbs";
 import { MobileBreadcrumbs } from "../breadcrumbs/mobile-breadcrumbs";
@@ -49,7 +48,7 @@ export function Header() {
                 size="icon"
                 className="shrink-0 md:hidden"
               >
-                <FontAwesomeIcon icon={faBars} className="size-5" />
+                <Icon icon={faBars} className="size-5" />
                 <span className="sr-only">Toggle navigation menu</span>
               </Button>
             </SheetTrigger>

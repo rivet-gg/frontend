@@ -6,6 +6,7 @@
   "files": ["dist", "src", "public"],
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
+  "sideEffects": false,
   "exports": {
     ".": {
       "import": "./src/index.ts"
@@ -16,9 +17,9 @@
     "./tailwind-base": "./src/tailwind-base.ts",
     "./layout": "./src/layout/index.ts"
   },
+  "types": "./dist/index.d.ts",
   "scripts": {
-    "dev": "vite build --watch",
-    "build": "tsc && vite build"
+    "dev": "vite build --watch"
   },
   "dependencies": {
     "@codemirror/lang-javascript": "^6.2.2",
@@ -27,8 +28,6 @@
     "@fortawesome/fontawesome-svg-core": "^6.5.2",
     "@fortawesome/free-brands-svg-icons": "^6.5.2",
     "@fortawesome/free-solid-svg-icons": "^6.5.2",
-    "@fortawesome/pro-regular-svg-icons": "^6.5.2",
-    "@fortawesome/pro-solid-svg-icons": "^6.5.2",
     "@fortawesome/react-fontawesome": "^0.2.2",
     "@hookform/resolvers": "^3.9.0",
     "@radix-ui/react-accordion": "^1.1.2",
@@ -51,6 +50,7 @@
     "@radix-ui/react-tooltip": "^1.1.1",
     "@radix-ui/react-visually-hidden": "^1.0.3",
     "@react-hookz/web": "^24.0.4",
+    "@rivet-gg/icons": "workspace:^",
     "@tailwindcss/container-queries": "^0.1.1",
     "@tanstack/react-virtual": "^3.10.1",
     "@uiw/codemirror-extensions-basic-setup": "^4.23.0",

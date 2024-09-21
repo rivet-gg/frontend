@@ -1,7 +1,5 @@
 import { gamesQueryOptions } from "@/domains/game/queries";
 import { GroupAvatar } from "@/domains/group/components/group-avatar";
-import { faCirclePlus } from "@fortawesome/pro-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   AssetImage,
   Flex,
@@ -14,6 +12,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@rivet-gg/components";
+import { Icon, faCirclePlus } from "@rivet-gg/icons";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { type ComponentProps, Fragment, useCallback } from "react";
 
@@ -51,7 +50,7 @@ export function GameSelect({
           <>
             <SelectItem value="create">
               <Flex gap="2" items="center">
-                <FontAwesomeIcon className="size-4" icon={faCirclePlus} />
+                <Icon className="size-4" icon={faCirclePlus} />
                 Create new game
               </Flex>
             </SelectItem>

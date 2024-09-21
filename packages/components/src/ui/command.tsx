@@ -4,9 +4,9 @@ import { type DialogProps, DialogTitle } from "@radix-ui/react-dialog";
 import { Command as CommandPrimitive } from "cmdk";
 import * as React from "react";
 
-import { faSearch } from "@fortawesome/pro-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
+import { faSearch } from "@rivet-gg/icons";
+import { Icon } from "@rivet-gg/icons";
 import { cn } from "../lib/utils";
 import { Dialog, DialogContent } from "./dialog";
 
@@ -56,10 +56,7 @@ const CommandInput = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof CommandPrimitive.Input>
 >(({ className, ...props }, ref) => (
   <div className="flex items-center border-b px-3" cmdk-input-wrapper="">
-    <FontAwesomeIcon
-      icon={faSearch}
-      className="mr-2 h-4 w-4 shrink-0 opacity-50"
-    />
+    <Icon icon={faSearch} className="mr-2 h-4 w-4 shrink-0 opacity-50" />
     <CommandPrimitive.Input
       ref={ref}
       className={cn(

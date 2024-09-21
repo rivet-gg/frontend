@@ -1,8 +1,6 @@
 import { GameBillingPlanBadge } from "@/domains/game/components/game-billing/game-billing-plan-badge";
 import { GameTableActions } from "@/domains/game/components/game-table-actions";
 import { groupGamesQueryOptions } from "@/domains/game/queries";
-import { faPlus } from "@fortawesome/pro-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   AssetImage,
   Button,
@@ -19,6 +17,7 @@ import {
   TableRow,
   Text,
 } from "@rivet-gg/components";
+import { Icon, faPlus } from "@rivet-gg/icons";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { Link, useNavigate } from "@tanstack/react-router";
 
@@ -39,7 +38,7 @@ export function GroupGames({ groupId }: GroupGamesProps) {
             <CardTitle>Games</CardTitle>
             <Button variant="secondary" size="sm">
               <Link search={{ modal: "create-game" }}>
-                <FontAwesomeIcon icon={faPlus} />
+                <Icon icon={faPlus} />
               </Link>
             </Button>
           </Flex>

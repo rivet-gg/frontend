@@ -1,7 +1,7 @@
 import { format } from "date-fns";
 
-import { faCalendar } from "@fortawesome/pro-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCalendar } from "@rivet-gg/icons";
+import { Icon } from "@rivet-gg/icons";
 import { forwardRef } from "react";
 import { cn } from "../lib/utils";
 import { Button } from "./button";
@@ -25,7 +25,7 @@ export const DatePicker = forwardRef<
             !date && "text-muted-foreground",
           )}
         >
-          <FontAwesomeIcon icon={faCalendar} className="mr-2 h-4 w-4" />
+          <Icon icon={faCalendar} className="mr-2 h-4 w-4" />
           {date ? format(date, "PPP") : <span>Pick a date</span>}
         </Button>
       </PopoverTrigger>

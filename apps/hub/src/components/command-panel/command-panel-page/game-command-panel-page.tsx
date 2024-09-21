@@ -1,12 +1,6 @@
 import { gameQueryOptions } from "@/domains/game/queries";
-import {
-  faCircleDollar,
-  faCog,
-  faHome,
-  faKey,
-} from "@fortawesome/pro-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { CommandGroup, CommandItem } from "@rivet-gg/components";
+import { Icon, faCircleDollar, faCog, faHome, faKey } from "@rivet-gg/icons";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { useCommandPanelNavigation } from "../command-panel-navigation-provider";
 import { NamespacesCommandPanelItems } from "../namespaces-command-panel-items";
@@ -28,7 +22,7 @@ export function GameCommandPanelPage({ gameId }: GameCommandPanelPage) {
             navigate({ to: "/games/$gameId", params: { gameId } });
           }}
         >
-          <FontAwesomeIcon icon={faHome} />
+          <Icon icon={faHome} />
           Overview
         </CommandItem>
         <CommandItem
@@ -36,7 +30,7 @@ export function GameCommandPanelPage({ gameId }: GameCommandPanelPage) {
             navigate({ to: "/games/$gameId/billing", params: { gameId } });
           }}
         >
-          <FontAwesomeIcon icon={faCircleDollar} />
+          <Icon icon={faCircleDollar} />
           Billing
         </CommandItem>
         <CommandItem
@@ -44,7 +38,7 @@ export function GameCommandPanelPage({ gameId }: GameCommandPanelPage) {
             navigate({ to: "/games/$gameId/settings", params: { gameId } });
           }}
         >
-          <FontAwesomeIcon icon={faCog} />
+          <Icon icon={faCog} />
           Settings
         </CommandItem>
       </CommandGroup>
@@ -64,7 +58,7 @@ export function GameCommandPanelPage({ gameId }: GameCommandPanelPage) {
             });
           }}
         >
-          <FontAwesomeIcon icon={faKey} />
+          <Icon icon={faKey} />
           Generate a cloud token
         </CommandItem>
       </CommandGroup>

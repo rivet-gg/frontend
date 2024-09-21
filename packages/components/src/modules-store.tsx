@@ -1,10 +1,6 @@
 "use client";
-import {
-  faBellConcierge,
-  faHammer,
-  faPlus,
-} from "@fortawesome/pro-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBellConcierge, faHammer, faPlus } from "@rivet-gg/icons";
+import { Icon } from "@rivet-gg/icons";
 import { LayoutGroup, motion } from "framer-motion";
 import { useState } from "react";
 import type { Category } from "./lib/modules";
@@ -63,7 +59,7 @@ export function ModulesStore({
 
         <Input asChild className="max-w-lg mx-auto">
           <Flex items="center">
-            <FontAwesomeIcon
+            <Icon
               icon="magnifying-glass"
               className="text-muted-foreground mr-2"
             />
@@ -99,7 +95,7 @@ export function ModulesStore({
             <Button
               variant="outline"
               asChild
-              startIcon={<FontAwesomeIcon icon={faPlus} />}
+              startIcon={<Icon icon={faPlus} />}
             >
               <a
                 href="https://opengb.dev/docs/build/overview"
@@ -123,10 +119,7 @@ export function ModulesStore({
                 >
                   <CardHeader className="text-left">
                     <CardTitle>
-                      <FontAwesomeIcon
-                        icon="sad-tear"
-                        className="text-2xl mr-2"
-                      />
+                      <Icon icon="sad-tear" className="text-2xl mr-2" />
                       No modules found
                     </CardTitle>
                   </CardHeader>
@@ -135,10 +128,7 @@ export function ModulesStore({
                     can request a module to be created or build your own module.
                   </CardContent>
                   <CardFooter className="gap-2">
-                    <Button
-                      asChild
-                      startIcon={<FontAwesomeIcon icon={faBellConcierge} />}
-                    >
+                    <Button asChild startIcon={<Icon icon={faBellConcierge} />}>
                       <a
                         href="https://b8v8449klvp.typeform.com/to/kpcSBpuP"
                         target="_blank"
@@ -147,10 +137,7 @@ export function ModulesStore({
                         Request Module
                       </a>
                     </Button>
-                    <Button
-                      asChild
-                      startIcon={<FontAwesomeIcon icon={faHammer} />}
-                    >
+                    <Button asChild startIcon={<Icon icon={faHammer} />}>
                       <a
                         href="https://opengb.dev/docs/build/overview"
                         target="_blank"

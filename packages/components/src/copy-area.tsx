@@ -1,7 +1,7 @@
 "use client";
-import { faCopy } from "@fortawesome/pro-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 import { Slot } from "@radix-ui/react-slot";
+import { Icon, faCopy } from "@rivet-gg/icons";
 import { type ReactNode, forwardRef, useState } from "react";
 import { toast } from "sonner";
 import { cn } from "./lib/utils";
@@ -45,7 +45,7 @@ export const CopyArea = forwardRef<HTMLButtonElement, CopyAreaProps>(
           variant="outline"
           type="button"
           endIcon={
-            <FontAwesomeIcon
+            <Icon
               className="group-hover/button:opacity-100 opacity-0 transition-opacity"
               icon={faCopy}
             />
@@ -84,7 +84,7 @@ export const CopyArea = forwardRef<HTMLButtonElement, CopyAreaProps>(
         )}
 
         <Button variant="secondary" size="icon" onClick={handleClick}>
-          <FontAwesomeIcon icon={faCopy} />
+          <Icon icon={faCopy} />
         </Button>
       </Flex>
     );

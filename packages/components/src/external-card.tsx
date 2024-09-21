@@ -1,5 +1,5 @@
-import { faArrowUpRightFromSquare } from "@fortawesome/pro-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowUpRightFromSquare } from "@rivet-gg/icons";
+import { Icon } from "@rivet-gg/icons";
 import type { ReactNode } from "react";
 import { ActionCard, type ActionCardProps } from "./action-card";
 import { Button } from "./ui/button";
@@ -17,7 +17,7 @@ export const ExternalCard = ({ href, label, ...props }: ExternalCardProps) => {
         <Button
           asChild
           variant="outline"
-          endIcon={<FontAwesomeIcon icon={faArrowUpRightFromSquare} />}
+          endIcon={<Icon icon={faArrowUpRightFromSquare} />}
         >
           <a href={href} target="_blank" rel="noreferrer">
             {label}

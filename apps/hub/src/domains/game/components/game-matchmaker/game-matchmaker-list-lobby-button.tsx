@@ -1,5 +1,3 @@
-import { faUsers } from "@fortawesome/pro-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Badge,
   Button,
@@ -8,6 +6,7 @@ import {
   Uptime,
   WithTooltip,
 } from "@rivet-gg/components";
+import { Icon, faUsers } from "@rivet-gg/icons";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import {
@@ -51,7 +50,7 @@ export function GameMatchmakerListLobbyButton({
                   {props.totalPlayerCount} / {props.maxPlayersNormal}
                 </span>
 
-                <FontAwesomeIcon className="size-4" icon={faUsers} />
+                <Icon className="size-4" icon={faUsers} />
               </Flex>
             </Badge>
           ) : null}

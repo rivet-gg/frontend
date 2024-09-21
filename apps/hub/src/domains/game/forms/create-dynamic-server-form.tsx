@@ -1,6 +1,4 @@
 import { findDuplicated } from "@/lib/utils";
-import { faPlus, faTrash } from "@fortawesome/pro-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Rivet } from "@rivet-gg/api";
 import {
   Button,
@@ -27,6 +25,7 @@ import {
   TableRow,
   createSchemaForm,
 } from "@rivet-gg/components";
+import { Icon, faPlus, faTrash } from "@rivet-gg/icons";
 import {
   type UseFormReturn,
   useFieldArray,
@@ -293,7 +292,7 @@ export const Environment = () => {
                     size="icon"
                     onClick={() => remove(index)}
                   >
-                    <FontAwesomeIcon icon={faTrash} />
+                    <Icon icon={faTrash} />
                   </Button>
                 </TableCell>
               </TableRow>
@@ -303,7 +302,7 @@ export const Environment = () => {
                 <Button
                   type="button"
                   variant="outline"
-                  endIcon={<FontAwesomeIcon icon={faPlus} />}
+                  endIcon={<Icon icon={faPlus} />}
                   onClick={() => append({ key: "", value: "" })}
                 >
                   Add
@@ -439,7 +438,7 @@ export const Ports = () => {
                       size="icon"
                       onClick={() => remove(index)}
                     >
-                      <FontAwesomeIcon icon={faTrash} />
+                      <Icon icon={faTrash} />
                     </Button>
                   </TableCell>
                 </TableRow>
@@ -450,7 +449,7 @@ export const Ports = () => {
                 <Button
                   type="button"
                   variant="outline"
-                  endIcon={<FontAwesomeIcon icon={faPlus} />}
+                  endIcon={<Icon icon={faPlus} />}
                   onClick={() =>
                     append({ name: "", protocol: "tcp", routing: "none" })
                   }

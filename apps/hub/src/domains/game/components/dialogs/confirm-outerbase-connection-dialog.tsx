@@ -1,6 +1,4 @@
 import type { DialogContentProps } from "@/hooks/use-dialog";
-import { faExternalLink } from "@fortawesome/pro-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Button,
   DialogFooter,
@@ -10,6 +8,7 @@ import {
   Link,
   Text,
 } from "@rivet-gg/components";
+import { Icon, faExternalLink } from "@rivet-gg/icons";
 import { useGameBackendEnvDatabasePreviewMutation } from "../../queries";
 
 interface ContentProps extends DialogContentProps {
@@ -53,9 +52,7 @@ export default function ConfirmOuterbaseConnectionDialogContent({
           Cancel
         </Button>
         <Button
-          endIcon={
-            <FontAwesomeIcon icon={faExternalLink} className={"size-4"} />
-          }
+          endIcon={<Icon icon={faExternalLink} className={"size-4"} />}
           isLoading={isPending}
           onClick={() => {
             mutate({ environmentId, gameId });

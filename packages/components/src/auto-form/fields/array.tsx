@@ -1,5 +1,4 @@
-import { faAdd, faTrash } from "@fortawesome/pro-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Icon, faAdd, faTrash } from "@rivet-gg/icons";
 import { useFieldArray, useFormContext } from "react-hook-form";
 import * as z from "zod";
 import {
@@ -76,7 +75,7 @@ export default function AutoFormArray({
                   className="hover:bg-zinc-300 hover:text-black focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 focus-visible:ring-offset-0 dark:bg-white dark:text-black dark:hover:bg-zinc-300 dark:hover:text-black dark:hover:ring-0 dark:hover:ring-offset-0 dark:focus-visible:ring-0 dark:focus-visible:ring-offset-0"
                   onClick={() => remove(index)}
                 >
-                  <FontAwesomeIcon icon={faTrash} className="size-4 " />
+                  <Icon icon={faTrash} className="size-4 " />
                 </Button>
               </div>
 
@@ -90,7 +89,7 @@ export default function AutoFormArray({
           onClick={() => append({})}
           className="mt-4 flex items-center"
         >
-          <FontAwesomeIcon icon={faAdd} className="mr-2 size-4" />
+          <Icon icon={faAdd} className="mr-2 size-4" />
           Add
         </Button>
       </AccordionContent>

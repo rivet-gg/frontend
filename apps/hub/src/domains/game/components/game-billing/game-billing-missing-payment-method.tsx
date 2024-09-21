@@ -1,11 +1,10 @@
-import { faCreditCard } from "@fortawesome/pro-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Alert,
   AlertDescription,
   AlertTitle,
   Flex,
 } from "@rivet-gg/components";
+import { Icon, faCreditCard } from "@rivet-gg/icons";
 import { GameBillingHeader } from "./game-billing-header";
 import { GameBillingPortalButton } from "./game-billing-portal-button";
 
@@ -22,7 +21,7 @@ export function GameBillingMissingPaymentMethod({
     <>
       <GameBillingHeader gameId={gameId} />
       <Alert>
-        <FontAwesomeIcon className="size-4" icon={faCreditCard} />
+        <Icon className="size-4" icon={faCreditCard} />
         <AlertTitle>Heads up!</AlertTitle>
         <AlertDescription>
           <Flex direction="col" items="start" gap="4">

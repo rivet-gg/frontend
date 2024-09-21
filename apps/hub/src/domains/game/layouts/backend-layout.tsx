@@ -1,11 +1,10 @@
-import { faSpinnerThird } from "@fortawesome/pro-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Flex,
   SidebarNavigation,
   SidebarPageContent,
   cn,
 } from "@rivet-gg/components";
+import { Icon, faSpinnerThird } from "@rivet-gg/icons";
 import { Link } from "@tanstack/react-router";
 import type { ComponentProps, ReactNode } from "react";
 import { GameBackendEnvironmentDatabaseLink } from "../components/game-backend/game-backend-environment-database-link";
@@ -37,7 +36,7 @@ const DatabaseLink = ({
       className="text-left inline-block data-active:text-foreground data-active:font-semibold"
     >
       {isLoading ? (
-        <FontAwesomeIcon
+        <Icon
           icon={faSpinnerThird}
           className={cn("h-4 w-4 animate-spin mr-2")}
         />

@@ -1,5 +1,3 @@
-import { faBug, faConciergeBell } from "@fortawesome/pro-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   FormControl,
   FormField,
@@ -12,6 +10,7 @@ import {
   Textarea,
   createSchemaForm,
 } from "@rivet-gg/components";
+import { Icon, faBug, faConciergeBell } from "@rivet-gg/icons";
 import { type UseFormReturn, useFormContext } from "react-hook-form";
 import z from "zod";
 
@@ -43,14 +42,14 @@ export const Type = () => {
               <div className="flex items-center space-x-2">
                 <RadioGroupItem value="bug" id="bug" />
                 <Label htmlFor="bug">
-                  <FontAwesomeIcon icon={faBug} className="mr-2" />
+                  <Icon icon={faBug} className="mr-2" />
                   Bug
                 </Label>
               </div>
               <div className="flex items-center space-x-2">
                 <RadioGroupItem value="feature" id="feature" />
                 <Label htmlFor="feature">
-                  <FontAwesomeIcon icon={faConciergeBell} className="mr-2" />
+                  <Icon icon={faConciergeBell} className="mr-2" />
                   Feature
                 </Label>
               </div>

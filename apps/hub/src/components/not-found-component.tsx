@@ -1,5 +1,3 @@
-import { faFlagCheckered } from "@fortawesome/pro-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Button,
   Card,
@@ -9,6 +7,7 @@ import {
   CardTitle,
   Text,
 } from "@rivet-gg/components";
+import { Icon, faFlagCheckered } from "@rivet-gg/icons";
 import { Link } from "@tanstack/react-router";
 
 export const NotFoundComponent = () => {
@@ -16,7 +15,7 @@ export const NotFoundComponent = () => {
     <Card w="full">
       <CardHeader>
         <CardTitle className="flex gap-2">
-          <FontAwesomeIcon icon={faFlagCheckered} />
+          <Icon icon={faFlagCheckered} />
           Wrong direction!
         </CardTitle>
       </CardHeader>

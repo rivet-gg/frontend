@@ -3,12 +3,6 @@ import {
   gameBuildsQueryOptions,
   usePatchBuildTagsMutation,
 } from "@/domains/game/queries";
-import {
-  faCheckCircle,
-  faInfoCircle,
-  faRefresh,
-} from "@fortawesome/pro-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import type { Rivet } from "@rivet-gg/api";
 import {
   Button,
@@ -26,6 +20,7 @@ import {
   Text,
   WithTooltip,
 } from "@rivet-gg/components";
+import { Icon, faCheckCircle, faInfoCircle, faRefresh } from "@rivet-gg/icons";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 
@@ -50,7 +45,7 @@ function GameBuildsRoute() {
             variant="outline"
             onClick={() => refetch()}
           >
-            <FontAwesomeIcon icon={faRefresh} />
+            <Icon icon={faRefresh} />
           </Button>
         </Flex>
       </CardHeader>
@@ -66,7 +61,7 @@ function GameBuildsRoute() {
                   content="Servers will be created with this build if a version is not explicitly specified."
                   trigger={
                     <span>
-                      Current <FontAwesomeIcon icon={faInfoCircle} />
+                      Current <Icon icon={faInfoCircle} />
                     </span>
                   }
                 />
@@ -76,7 +71,7 @@ function GameBuildsRoute() {
                   content="Determines if game servers can be created with this build."
                   trigger={
                     <span>
-                      Enabled <FontAwesomeIcon icon={faInfoCircle} />
+                      Enabled <Icon icon={faInfoCircle} />
                     </span>
                   }
                 />
@@ -201,7 +196,7 @@ function GameBuildLatestButton({
     );
   }
 
-  return <FontAwesomeIcon icon={faCheckCircle} className="fill-primary" />;
+  return <Icon icon={faCheckCircle} className="fill-primary" />;
 }
 
 export const Route = createFileRoute(

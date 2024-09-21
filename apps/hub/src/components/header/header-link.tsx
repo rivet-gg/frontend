@@ -1,6 +1,5 @@
-import type { IconProp } from "@fortawesome/fontawesome-svg-core";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, type ButtonProps, cn } from "@rivet-gg/components";
+import { Icon, type IconProp } from "@rivet-gg/icons";
 import { type ReactNode, useContext } from "react";
 import { MobileBreadcrumbsContext } from "../breadcrumbs/mobile-breadcrumbs";
 
@@ -32,10 +31,7 @@ export function HeaderLink({
       startIcon={
         startIcon ||
         (icon ? (
-          <FontAwesomeIcon
-            className={cn("size-5", isMobile && "size-4")}
-            icon={icon}
-          />
+          <Icon className={cn("size-5", isMobile && "size-4")} icon={icon} />
         ) : undefined)
       }
     >

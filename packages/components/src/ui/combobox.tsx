@@ -1,7 +1,7 @@
 import * as React from "react";
 
-import { faCheck, faChevronDown } from "@fortawesome/pro-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheck, faChevronDown } from "@rivet-gg/icons";
+import { Icon } from "@rivet-gg/icons";
 import { cn } from "../lib/utils";
 import { Button } from "./button";
 import {
@@ -60,7 +60,7 @@ export const Combobox = React.forwardRef<HTMLButtonElement, ComboboxProps>(
               ? flatOptions.find((option) => option.value === value)?.label
               : placeholder}
 
-            <FontAwesomeIcon
+            <Icon
               className="ml-2 h-4 w-4 shrink-0 opacity-50"
               icon={faChevronDown}
             />
@@ -125,7 +125,7 @@ function ComboboxOption({
         onOpenChange(false);
       }}
     >
-      <FontAwesomeIcon
+      <Icon
         icon={faCheck}
         className={cn(
           "mr-2 h-4 w-4",

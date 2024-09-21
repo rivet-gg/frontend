@@ -1,5 +1,5 @@
-import { faBars } from "@fortawesome/pro-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBars } from "@rivet-gg/icons";
+import { Icon } from "@rivet-gg/icons";
 import type { ReactNode } from "react";
 import { AssetImage } from "../asset-image";
 import { Button } from "../ui/button";
@@ -54,7 +54,7 @@ export function Header({
                 size="icon"
                 className="shrink-0 md:hidden"
               >
-                <FontAwesomeIcon icon={faBars} className="size-5" />
+                <Icon icon={faBars} className="size-5" />
                 <span className="sr-only">Toggle navigation menu</span>
               </Button>
             </SheetTrigger>

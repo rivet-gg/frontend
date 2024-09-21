@@ -1,7 +1,7 @@
 "use client";
 import type { IconProp } from "@fortawesome/fontawesome-svg-core";
-import { faExternalLink } from "@fortawesome/pro-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faExternalLink } from "@rivet-gg/icons";
+import { Icon } from "@rivet-gg/icons";
 import { motion } from "framer-motion";
 import { Suspense, lazy } from "react";
 import { cn } from "./lib/utils";
@@ -97,7 +97,7 @@ export function DocumentedModuleCard(props: ModuleCardProps) {
               target="_blank"
               rel="noopener noreferrer"
             >
-              Open in New Tab <FontAwesomeIcon icon={faExternalLink} />
+              Open in New Tab <Icon icon={faExternalLink} />
             </Link>
           </Text>
           <SheetDescription className="-mx-6" asChild>

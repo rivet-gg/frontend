@@ -1,6 +1,5 @@
-import { faExclamationTriangle } from "@fortawesome/pro-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Alert, AlertTitle, Button, Flex } from "@rivet-gg/components";
+import { Icon, faExclamationTriangle } from "@rivet-gg/icons";
 import { Link } from "@tanstack/react-router";
 import { BILLING_PLANS_CREDITS_VISIBILITY } from "../../data/billing-calculate-usage";
 import { useOptionalGameBilling } from "./game-billing-context";
@@ -24,7 +23,7 @@ export function GameBillingOverageWarning() {
 
   return (
     <Alert variant="destructive" className="animate-shake" mb="8">
-      <FontAwesomeIcon className="size-4" icon={faExclamationTriangle} />
+      <Icon className="size-4" icon={faExclamationTriangle} />
       <Flex justify="between" items="center">
         <AlertTitle className="leading-normal">
           You have exceeded your credit limit for this billing period.

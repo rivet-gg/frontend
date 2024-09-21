@@ -1,6 +1,5 @@
 "use client";
-import { faTrash } from "@fortawesome/pro-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Icon, faTrash } from "@rivet-gg/icons";
 import { type ChangeEvent, useState } from "react";
 import { FormControl, FormItem, FormMessage } from "../../ui/form";
 import { Input } from "../../ui/input";
@@ -63,7 +62,7 @@ export default function AutoFormFile({
             type="button"
             aria-label="Remove image"
           >
-            <FontAwesomeIcon icon={faTrash} />
+            <Icon icon={faTrash} />
           </button>
         </div>
       )}

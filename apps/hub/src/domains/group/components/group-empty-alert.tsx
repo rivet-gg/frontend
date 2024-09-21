@@ -1,5 +1,3 @@
-import { faGhost } from "@fortawesome/pro-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Alert,
   AlertDescription,
@@ -7,6 +5,7 @@ import {
   Button,
   Flex,
 } from "@rivet-gg/components";
+import { Icon, faGhost } from "@rivet-gg/icons";
 import { Link } from "@tanstack/react-router";
 
 interface GroupEmptyAlertProps {
@@ -21,7 +20,7 @@ export function GroupEmptyAlert({
   return (
     <>
       <Alert>
-        <FontAwesomeIcon className="size-4" icon={faGhost} />
+        <Icon className="size-4" icon={faGhost} />
         <AlertTitle>It's a ghost town!</AlertTitle>
         <AlertDescription>
           <Flex direction="col" items="start" gap="4">

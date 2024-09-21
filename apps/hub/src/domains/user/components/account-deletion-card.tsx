@@ -1,7 +1,7 @@
 import { useAuth } from "@/domains/auth/contexts/auth";
 import { useDialog } from "@/hooks/use-dialog";
-import { faTriangleExclamation } from "@fortawesome/pro-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Icon, faTriangleExclamation } from "@rivet-gg/icons";
+
 import {
   Card,
   CardContent,
@@ -44,7 +44,7 @@ export function AccountDeletionCard() {
             <div>
               {profile?.identity.awaitingDeletion ? (
                 <Flex gap="2" items="start">
-                  <FontAwesomeIcon icon={faTriangleExclamation} />
+                  <Icon icon={faTriangleExclamation} />
                   <Strong>Account deletion is pending.</Strong>
                 </Flex>
               ) : null}

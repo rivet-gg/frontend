@@ -1,5 +1,4 @@
-import { faExternalLink } from "@fortawesome/pro-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Icon, faExternalLink } from "@rivet-gg/icons";
 import { GameBillingHeader } from "./game-billing-header";
 import { GameBillingPlanPeriod } from "./game-billing-plan-period";
 import { GameBillingPlans } from "./game-billing-plans";
@@ -23,7 +22,7 @@ export function GameBilling({ gameId, groupId }: GameBillingProps) {
               groupId={groupId}
               intent="general"
               variant="secondary"
-              endIcon={<FontAwesomeIcon icon={faExternalLink} />}
+              endIcon={<Icon icon={faExternalLink} />}
             >
               Invoices
             </GameBillingPortalButton>
@@ -31,7 +30,7 @@ export function GameBilling({ gameId, groupId }: GameBillingProps) {
               groupId={groupId}
               intent="payment_method_update"
               variant="secondary"
-              endIcon={<FontAwesomeIcon icon={faExternalLink} />}
+              endIcon={<Icon icon={faExternalLink} />}
             >
               Payment Method
             </GameBillingPortalButton>

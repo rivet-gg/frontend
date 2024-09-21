@@ -1,5 +1,3 @@
-import { faChevronRight } from "@fortawesome/pro-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Badge,
   RelativeTime,
@@ -7,6 +5,7 @@ import {
   cn,
   formatDuration,
 } from "@rivet-gg/components";
+import { Icon, faChevronRight } from "@rivet-gg/icons";
 import { type PropsWithChildren, forwardRef } from "react";
 
 const Separator = forwardRef<HTMLButtonElement, { isActive?: boolean }>(
@@ -18,7 +17,7 @@ const Separator = forwardRef<HTMLButtonElement, { isActive?: boolean }>(
         className="mx-1 md:p-2 md:mx-2 cursor-default"
         {...rest}
       >
-        <FontAwesomeIcon
+        <Icon
           icon={faChevronRight}
           className={cn(isActive && "text-primary")}
         />
