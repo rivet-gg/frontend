@@ -72,7 +72,10 @@ export const Feedback = () => {
         <FormItem>
           <FormLabel>Feedback</FormLabel>
           <FormControl>
-            <Textarea placeholder="Yo, it's amazing but..." {...field} />
+            <Textarea
+              placeholder="Write anything you want, report an issue, request a feature or just say hi!"
+              {...field}
+            />
           </FormControl>
           <FormMessage />
         </FormItem>
