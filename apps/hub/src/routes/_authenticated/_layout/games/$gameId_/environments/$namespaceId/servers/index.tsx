@@ -4,10 +4,10 @@ import {
   Button,
   Card,
   CardContent,
+  CardDescription,
   CardHeader,
   CardTitle,
   Flex,
-  Text,
   WithTooltip,
 } from "@rivet-gg/components";
 import { Icon, faPlus, faRefresh } from "@rivet-gg/icons";
@@ -24,49 +24,56 @@ function GameServersRoute() {
 
   return (
     <Card w="full" h="full" className="flex flex-col">
-      <CardHeader className="border-b flex flex-row justify-between items-center">
-        <CardTitle>Servers</CardTitle>
-        <Flex gap="2">
-          <WithTooltip
-            content="Refresh"
-            trigger={
-              <Button
-                size="icon"
-                isLoading={isRefetching}
-                variant="outline"
-                onClick={() => refetch()}
-              >
-                <Icon icon={faRefresh} />
-              </Button>
-            }
-          />
-          <WithTooltip
-            content="Create a new server"
-            trigger={
-              <Button
-                asChild
-                size="icon"
-                variant="outline"
-                onClick={() => refetch()}
-              >
-                <Link
-                  search={{
-                    modal: "create-server",
-                  }}
+      <CardHeader className="border-b ">
+        <CardTitle className="flex flex-row justify-between items-center">
+          Servers
+          <Flex gap="2">
+            <WithTooltip
+              content="Refresh"
+              trigger={
+                <Button
+                  size="icon"
+                  isLoading={isRefetching}
+                  variant="outline"
+                  onClick={() => refetch()}
                 >
-                  <Icon icon={faPlus} />
-                </Link>
-              </Button>
-            }
-          />
-        </Flex>
+                  <Icon icon={faRefresh} />
+                </Button>
+              }
+            />
+            <WithTooltip
+              content="Create a new server"
+              trigger={
+                <Button
+                  asChild
+                  size="icon"
+                  variant="outline"
+                  onClick={() => refetch()}
+                >
+                  <Link
+                    search={{
+                      modal: "create-server",
+                    }}
+                  >
+                    <Icon icon={faPlus} />
+                  </Link>
+                </Button>
+              }
+            />
+          </Flex>
+        </CardTitle>
+        <CardDescription>
+          Servers are created & destroyed automatically as players connect &
+          disconnect.
+        </CardDescription>
       </CardHeader>
       <CardContent className="flex-1 min-h-0 w-full p-0">
         {data.length === 0 ? (
           <div className="flex items-center mx-auto flex-col gap-2 my-10">
-            <Text textAlign="center">
-              Servers will be created automatically when players join.
-            </Text>
+            <span>No servers created.</span>
+            <span className="text-xs">
+              Run your game client & connect to start a server.
+            </span>
           </div>
         ) : (
           <GameServersListPreview
