@@ -28,7 +28,7 @@ export const Game = () => {
   const { control, setValue } = useFormContext<FormValues>();
   const { dialog, open, close } = useDialog.CreateGame({
     onSuccess: (data) => {
-      setValue("gameId", data.gameId);
+      setValue("gameId", data.gameId, { shouldDirty: true, shouldTouch: true });
       close();
     },
   });
