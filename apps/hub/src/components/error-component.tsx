@@ -47,7 +47,7 @@ export const ErrorComponent = ({
       <CardFooter>
         <Button
           onClick={async () => {
-            await queryClient.invalidateQueries();
+            await queryClient.invalidateQueries({ refetchType: "all" });
             reset?.();
           }}
         >

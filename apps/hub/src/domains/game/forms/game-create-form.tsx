@@ -1,4 +1,5 @@
 import { GroupSelect } from "@/domains/group/components/group-select";
+import { useDialog } from "@/hooks/use-dialog";
 import {
   FormField,
   FormItem,
@@ -28,22 +29,36 @@ export const Name = GroupCreateGameForm.Name;
 export const Slug = GroupCreateGameForm.Slug;
 
 export const Group = () => {
-  const { control } = useFormContext<FormValues>();
+  const { setValue, control } = useFormContext<FormValues>();
+  const { dialog, open, close } = useDialog.CreateGroup({
+    onSuccess: (data) => {
+      setValue("developerGroupId", data.groupId, {
+        shouldDirty: true,
+        shouldTouch: true,
+      });
+      close();
+    },
+  });
   return (
-    <FormField
-      control={control}
-      name="developerGroupId"
-      render={({ field }) => (
-        <FormItem>
-          <FormLabel>Team</FormLabel>
-          <GroupSelect
-            onValueChange={field.onChange}
-            value={field.value}
-            defaultValue={`${field.value}`}
-          />
-          <FormMessage />
-        </FormItem>
-      )}
-    />
+    <>
+      {dialog}
+      <FormField
+        control={control}
+        name="developerGroupId"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Team</FormLabel>
+            <GroupSelect
+              showCreateGroup
+              onValueChange={field.onChange}
+              onCreateClick={open}
+              value={field.value}
+              defaultValue={`${field.value}`}
+            />
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+    </>
   );
 };
