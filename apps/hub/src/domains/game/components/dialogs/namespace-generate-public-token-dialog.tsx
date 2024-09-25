@@ -27,7 +27,7 @@ export default function NamespaceGeneratePublicTokenDialogContent({
   return (
     <>
       <DialogHeader>
-        <DialogTitle>Create Namespace Public Token</DialogTitle>
+        <DialogTitle>Create Environment Public Token</DialogTitle>
       </DialogHeader>
       <Flex gap="4" direction="col">
         <Text>
