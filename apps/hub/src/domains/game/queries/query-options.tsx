@@ -59,6 +59,13 @@ export const groupOnwerQueryOptions = (groupId: string) => {
   });
 };
 
+export const gamesCountQueryOptions = (groupId: string) => {
+  return queryOptions({
+    ...groupGamesQueryOptions(groupId),
+    select: (data) => data.games.length,
+  });
+};
+
 export const gameQueryOptions = (gameId: string) => {
   return queryOptions({
     queryKey: ["game", gameId],

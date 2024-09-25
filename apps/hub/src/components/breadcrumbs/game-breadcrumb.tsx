@@ -1,7 +1,11 @@
 import { GameAvatar } from "@/domains/game/components/game-avatar";
-import { gameQueryOptions } from "@/domains/game/queries";
+import { GroupGameSelect } from "@/domains/game/components/group-game-select";
+import {
+  gameQueryOptions,
+  gamesCountQueryOptions,
+} from "@/domains/game/queries";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { Link } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { Fragment, useContext } from "react";
 import { NavItem } from "../header/nav-item";
 import { GroupBreadcrumb } from "./group-breadcrumb";
@@ -14,6 +18,16 @@ interface GameBreadcrumbProps {
 
 export function GameBreadcrumb({ gameId }: GameBreadcrumbProps) {
   const { data } = useSuspenseQuery(gameQueryOptions(gameId));
+  const { data: gamesCount } = useSuspenseQuery(
+    gamesCountQueryOptions(data.developerGroupId),
+  );
+
+  const navigate = useNavigate();
+  const handleGameChange = (gameId: string) => {
+    navigate({
+      params: { gameId },
+    });
+  };
 
   const isMobile = useContext(MobileBreadcrumbsContext);
 
@@ -24,18 +38,26 @@ export function GameBreadcrumb({ gameId }: GameBreadcrumbProps) {
       <GroupBreadcrumb groupId={data.developerGroupId} />
       <Separator />
       <Element>
-        <Link
-          to="/games/$gameId"
-          params={{ gameId }}
-          className="flex items-center gap-2"
-        >
-          <GameAvatar
-            displayName={data.displayName}
-            logoUrl={data.logoUrl}
-            className={isMobile ? "size-4" : "size-5"}
+        {gamesCount > 1 ? (
+          <GroupGameSelect
+            groupId={data.developerGroupId}
+            value={gameId}
+            onValueChange={handleGameChange}
           />
-          {data.displayName}
-        </Link>
+        ) : (
+          <Link
+            to="/games/$gameId"
+            params={{ gameId }}
+            className="flex items-center gap-2"
+          >
+            <GameAvatar
+              displayName={data.displayName}
+              logoUrl={data.logoUrl}
+              className={isMobile ? "size-4" : "size-5"}
+            />
+            {data.displayName}
+          </Link>
+        )}
       </Element>
     </>
   );
