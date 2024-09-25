@@ -201,7 +201,7 @@ useDialog.ManageCdnAuthUsers = createDialogHook(
   import("@/domains/game/components/dialogs/cdn-manage-auth-users-dialog"),
 );
 
-useDialog.CreateNamespace = createDialogHook(
+useDialog.CreateEnvironment = createDialogHook(
   import("@/domains/game/components/dialogs/create-namespace-dialog"),
 );
 
