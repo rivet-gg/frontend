@@ -26,6 +26,13 @@ export const gamesQueryOptions = () => {
   });
 };
 
+export const groupsCountQueryOptions = () => {
+  return queryOptions({
+    ...gamesQueryOptions(),
+    select: (data) => data.groups.length,
+  });
+};
+
 export const groupGamesQueryOptions = (groupId: string) => {
   return queryOptions({
     ...gamesQueryOptions(),

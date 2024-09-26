@@ -1,7 +1,11 @@
-import { groupGamesQueryOptions } from "@/domains/game/queries";
+import {
+  groupGamesQueryOptions,
+  groupsCountQueryOptions,
+} from "@/domains/game/queries";
 import { GroupAvatar } from "@/domains/group/components/group-avatar";
-import { useSuspenseQuery } from "@tanstack/react-query";
-import { Link } from "@tanstack/react-router";
+import { GroupSelect } from "@/domains/group/components/group-select";
+import { useSuspenseQueries } from "@tanstack/react-query";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { Fragment, useContext } from "react";
 import { NavItem } from "../header/nav-item";
 import { MobileBreadcrumbsContext } from "./mobile-breadcrumbs";
@@ -11,7 +15,18 @@ interface GroupBreadcrumbProps {
 }
 
 export function GroupBreadcrumb({ groupId }: GroupBreadcrumbProps) {
-  const { data } = useSuspenseQuery(groupGamesQueryOptions(groupId));
+  const [{ data: groupsCount }, { data }] = useSuspenseQueries({
+    queries: [groupsCountQueryOptions(), groupGamesQueryOptions(groupId)],
+  });
+
+  const navigate = useNavigate();
+
+  const handleGroupChange = (groupId: string) => {
+    navigate({
+      to: "/teams/$groupId",
+      params: { groupId },
+    });
+  };
 
   const isMobile = useContext(MobileBreadcrumbsContext);
 
@@ -19,18 +34,22 @@ export function GroupBreadcrumb({ groupId }: GroupBreadcrumbProps) {
 
   return (
     <Element>
-      <Link
-        to="/teams/$groupId"
-        params={{ groupId }}
-        className="flex items-center gap-2"
-      >
-        <GroupAvatar
-          avatarUrl={data.avatarUrl}
-          displayName={data.displayName}
-          className={isMobile ? "size-4" : "size-5"}
-        />
-        {data.displayName}
-      </Link>
+      {groupsCount > 1 ? (
+        <GroupSelect value={groupId} onValueChange={handleGroupChange} />
+      ) : (
+        <Link
+          to="/teams/$groupId"
+          params={{ groupId }}
+          className="flex items-center gap-2"
+        >
+          <GroupAvatar
+            avatarUrl={data.avatarUrl}
+            displayName={data.displayName}
+            className={isMobile ? "size-4" : "size-5"}
+          />
+          {data.displayName}
+        </Link>
+      )}
     </Element>
   );
 }
