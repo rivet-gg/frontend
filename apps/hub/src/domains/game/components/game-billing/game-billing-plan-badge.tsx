@@ -1,8 +1,7 @@
-import { useIntersectionObserver } from "@react-hookz/web";
 import { Rivet } from "@rivet-gg/api-ee";
 import { Badge, Skeleton } from "@rivet-gg/components";
 import { useQuery } from "@tanstack/react-query";
-import { useRef } from "react";
+import { useIntersectionObserver } from "usehooks-ts";
 import { gameBillingQueryOptions } from "../../queries";
 
 const BILLING_PLAN_LABELS = {
@@ -22,9 +21,7 @@ interface GameBillingPlanBadgeProps {
 }
 
 export function GameBillingPlanBadge({ gameId }: GameBillingPlanBadgeProps) {
-  const ref = useRef<HTMLDivElement>(null);
-
-  const intersection = useIntersectionObserver(ref, {
+  const { ref, isIntersecting } = useIntersectionObserver({
     root: null,
     rootMargin: "0px",
     threshold: [1],
@@ -32,7 +29,7 @@ export function GameBillingPlanBadge({ gameId }: GameBillingPlanBadgeProps) {
 
   const { data, isSuccess } = useQuery(
     gameBillingQueryOptions(gameId, {
-      enabled: intersection?.isIntersecting ?? false,
+      enabled: isIntersecting ?? false,
     }),
   );
 

@@ -10,6 +10,7 @@ import { Icon, faBars } from "@rivet-gg/icons";
 import { Link } from "@tanstack/react-router";
 import { Breadcrumbs } from "../breadcrumbs/breadcrumbs";
 import { MobileBreadcrumbs } from "../breadcrumbs/mobile-breadcrumbs";
+import { Changelog } from "./changelog";
 import { HeaderRouteLoader } from "./header-route-loader";
 import { HeaderSubNav } from "./header-sub-nav";
 import { MobileHeaderSubNav } from "./mobile-header-sub-nav";
@@ -122,15 +123,7 @@ export function Header() {
             >
               <Link search={{ modal: "feedback" }}>Feedback</Link>
             </NavItem>
-            <NavItem asChild className="hidden md:inline-block">
-              <a
-                href="https://rivet.gg/changelog"
-                target="_blank"
-                rel="noreferrer"
-              >
-                Changelog
-              </a>
-            </NavItem>
+            <Changelog />
             <NavItem asChild className="hidden md:inline-block">
               <a
                 href="https://rivet.gg/support"
