@@ -67,5 +67,8 @@ export const gameBillingQueryOptions = (
         },
       ),
     enabled: opts.enabled,
+    // HACK: Work around race condition with Stripe API
+    retry: 15,
+    retryDelay: 1000,
   });
 };
