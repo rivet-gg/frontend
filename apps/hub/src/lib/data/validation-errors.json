@@ -137,14 +137,14 @@
   "GAME_NAMESPACE": {
     "display-name": {
       "invalid": "Invalid name",
-      "too-short": "Namespace name is too short",
-      "too-long": "Namespace name is too long"
+      "too-short": "Environment name is too short",
+      "too-long": "Environment name is too long"
     },
     "name-id": {
       "invalid": "Invalid name id",
-      "not-unique": "Namespace name id is already taken",
-      "too-short": "Name id is too short",
-      "too-long": "Name id is too long"
+      "not-unique": "Environment id is already taken",
+      "too-short": "Environment id is too short",
+      "too-long": "Environment id is too long"
     }
   },
   "GAME_NAMESPACE_CONFIG": {

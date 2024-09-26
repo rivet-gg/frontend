@@ -41,7 +41,7 @@ export default function CreateNamespaceDialogContent({ gameId }: ContentProps) {
         defaultValues={{ name: "", slug: "", gameId }}
       >
         <DialogHeader>
-          <DialogTitle>Create New Namespace</DialogTitle>
+          <DialogTitle>Create New Environment</DialogTitle>
         </DialogHeader>
         <Flex gap="4" direction="col">
           <NamespaceCreateForm.Name />
