@@ -25,7 +25,7 @@ export function HeaderLink({
         isMobile &&
           "text-muted-foreground hover:text-foreground text-lg data-active:text-foreground justify-start p-0 h-auto",
         !isMobile &&
-          "relative text-muted-foreground data-active:text-foreground data-active:after:content-[''] rounded-b-none data-active:after:absolute data-active:after:bottom-0 data-active:after:left-0 data-active:after:right-0 data-active:after:h-[2px] data-active:after:bg-primary",
+          "text-muted-foreground px-2 mx-2 aria-current-page:text-foreground after:content-[' '] aria-current-page:after:bg-primary relative mb-1 h-auto py-1 after:absolute after:inset-x-0 after:-bottom-2 after:z-[-1] after:h-[2px] after:rounded-sm",
         props.className,
       )}
       startIcon={
