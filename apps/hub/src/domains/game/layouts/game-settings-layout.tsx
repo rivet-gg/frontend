@@ -14,10 +14,18 @@ function GroupSettingsPage({ children, gameId }: GroupPageProps) {
         <SidebarNavigation>
           <Link
             to="/games/$gameId/settings"
+            activeOptions={{ exact: true }}
             params={{ gameId }}
-            className="text-foreground font-semibold"
+            className="aria-current-page:text-foreground aria-current-page:font-semibold"
           >
             General
+          </Link>
+          <Link
+            to="/games/$gameId/settings/tokens"
+            params={{ gameId }}
+            className="aria-current-page:text-foreground aria-current-page:font-semibold"
+          >
+            Tokens
           </Link>
         </SidebarNavigation>
       }

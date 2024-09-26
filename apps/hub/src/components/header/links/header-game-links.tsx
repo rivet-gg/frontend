@@ -1,4 +1,4 @@
-import { faCircleDollar, faFolder, faGear, faKey } from "@rivet-gg/icons";
+import { faCircleDollar, faFolder, faGear } from "@rivet-gg/icons";
 import { Link } from "@tanstack/react-router";
 import { HeaderLink } from "../header-link";
 
@@ -16,11 +16,6 @@ export function HeaderGameLinks({ gameId }: HeaderGameLinksProps) {
           params={{ gameId }}
         >
           Environments
-        </Link>
-      </HeaderLink>
-      <HeaderLink icon={faKey}>
-        <Link to="/games/$gameId/tokens" params={{ gameId }}>
-          Tokens
         </Link>
       </HeaderLink>
       <HeaderLink icon={faCircleDollar}>

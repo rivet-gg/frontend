@@ -36,6 +36,7 @@ import { Route as AuthenticatedLayoutGamesGameIdBillingImport } from './routes/_
 import { Route as AuthenticatedLayoutTeamsGroupIdSettingsIndexImport } from './routes/_authenticated/_layout/teams/$groupId/settings/index'
 import { Route as AuthenticatedLayoutGamesGameIdSettingsIndexImport } from './routes/_authenticated/_layout/games/$gameId/settings/index'
 import { Route as AuthenticatedLayoutGamesGameIdEnvironmentsNamespaceIdImport } from './routes/_authenticated/_layout/games/$gameId_/environments/$namespaceId'
+import { Route as AuthenticatedLayoutGamesGameIdSettingsTokensImport } from './routes/_authenticated/_layout/games/$gameId/settings/tokens'
 import { Route as AuthenticatedLayoutGamesGameIdNamespacesSplatImport } from './routes/_authenticated/_layout/games/$gameId/namespaces/$'
 import { Route as AuthenticatedLayoutGamesGameIdEnvironmentsNamespaceIdIndexImport } from './routes/_authenticated/_layout/games/$gameId_/environments/$namespaceId/index'
 import { Route as AuthenticatedLayoutGamesGameIdEnvironmentsNamespaceIdVersionsImport } from './routes/_authenticated/_layout/games/$gameId_/environments/$namespaceId/versions'
@@ -195,6 +196,12 @@ const AuthenticatedLayoutGamesGameIdEnvironmentsNamespaceIdRoute =
   AuthenticatedLayoutGamesGameIdEnvironmentsNamespaceIdImport.update({
     path: '/games/$gameId/environments/$namespaceId',
     getParentRoute: () => AuthenticatedLayoutRoute,
+  } as any)
+
+const AuthenticatedLayoutGamesGameIdSettingsTokensRoute =
+  AuthenticatedLayoutGamesGameIdSettingsTokensImport.update({
+    path: '/tokens',
+    getParentRoute: () => AuthenticatedLayoutGamesGameIdSettingsRoute,
   } as any)
 
 const AuthenticatedLayoutGamesGameIdNamespacesSplatRoute =
@@ -495,6 +502,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedLayoutGamesGameIdNamespacesSplatImport
       parentRoute: typeof AuthenticatedLayoutGamesGameIdImport
     }
+    '/_authenticated/_layout/games/$gameId/settings/tokens': {
+      id: '/_authenticated/_layout/games/$gameId/settings/tokens'
+      path: '/tokens'
+      fullPath: '/games/$gameId/settings/tokens'
+      preLoaderRoute: typeof AuthenticatedLayoutGamesGameIdSettingsTokensImport
+      parentRoute: typeof AuthenticatedLayoutGamesGameIdSettingsImport
+    }
     '/_authenticated/_layout/games/$gameId/environments/$namespaceId': {
       id: '/_authenticated/_layout/games/$gameId/environments/$namespaceId'
       path: '/games/$gameId/environments/$namespaceId'
@@ -654,6 +668,7 @@ export const routeTree = rootRoute.addChildren({
           AuthenticatedLayoutGamesGameIdBillingRoute,
           AuthenticatedLayoutGamesGameIdSettingsRoute:
             AuthenticatedLayoutGamesGameIdSettingsRoute.addChildren({
+              AuthenticatedLayoutGamesGameIdSettingsTokensRoute,
               AuthenticatedLayoutGamesGameIdSettingsIndexRoute,
             }),
           AuthenticatedLayoutGamesGameIdTokensRoute,
@@ -807,6 +822,7 @@ export const routeTree = rootRoute.addChildren({
       "filePath": "_authenticated/_layout/games/$gameId/settings.tsx",
       "parent": "/_authenticated/_layout/games/$gameId",
       "children": [
+        "/_authenticated/_layout/games/$gameId/settings/tokens",
         "/_authenticated/_layout/games/$gameId/settings/"
       ]
     },
@@ -840,6 +856,10 @@ export const routeTree = rootRoute.addChildren({
     "/_authenticated/_layout/games/$gameId/namespaces/$": {
       "filePath": "_authenticated/_layout/games/$gameId/namespaces/$.tsx",
       "parent": "/_authenticated/_layout/games/$gameId"
+    },
+    "/_authenticated/_layout/games/$gameId/settings/tokens": {
+      "filePath": "_authenticated/_layout/games/$gameId/settings/tokens.tsx",
+      "parent": "/_authenticated/_layout/games/$gameId/settings"
     },
     "/_authenticated/_layout/games/$gameId/environments/$namespaceId": {
       "filePath": "_authenticated/_layout/games/$gameId_/environments/$namespaceId.tsx",
