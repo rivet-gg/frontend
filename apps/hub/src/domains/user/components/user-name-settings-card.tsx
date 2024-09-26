@@ -6,6 +6,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
+  toast,
 } from "@rivet-gg/components";
 import { useIdentityUpdateProfileMutation } from "../queries";
 
@@ -14,8 +15,10 @@ export function UserNameSettingsCard() {
   const { mutateAsync } = useIdentityUpdateProfileMutation();
   return (
     <UserNameForm.Form
-      onSubmit={(values) => {
-        return mutateAsync({ displayName: values.name });
+      onSubmit={async (values, form) => {
+        await mutateAsync({ displayName: values.name });
+        form.reset(values);
+        toast.success("Profile updated");
       }}
       defaultValues={{ name: profile?.identity.displayName }}
     >

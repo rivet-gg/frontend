@@ -4,6 +4,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
+  toast,
 } from "@rivet-gg/components";
 import * as UserAvatarForm from "../forms/user-avatar-form";
 import { useAvatarUploadMutation } from "../queries";
@@ -15,6 +16,8 @@ export function UserAvatarSettingsCard() {
       onSubmit={async (values, form) => {
         try {
           await mutateAsync({ file: values.image });
+          form.reset();
+          toast.success("Avatar updated");
         } catch {
           form.setError("image", {
             type: "manual",

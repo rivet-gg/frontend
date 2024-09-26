@@ -1,6 +1,6 @@
 "use client";
 import { Icon, faTrash } from "@rivet-gg/icons";
-import { type ChangeEvent, useState } from "react";
+import { type ChangeEvent, useEffect, useState } from "react";
 import type {
   ControllerRenderProps,
   FieldName,
@@ -34,6 +34,13 @@ export function FileInput<FormValues extends FieldValues>({
       reader.readAsDataURL(file);
     }
   };
+
+  useEffect(() => {
+    if (file && !field.value) {
+      setFile(null);
+      setFileName(null);
+    }
+  }, [field.value, file]);
 
   const handleRemoveClick = () => {
     setFile(null);
