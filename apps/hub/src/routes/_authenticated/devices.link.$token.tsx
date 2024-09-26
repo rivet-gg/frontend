@@ -27,10 +27,12 @@ function DeviceLinkTokenRoute() {
       <Layout.Root>
         <Card>
           <CardHeader>
-            <CardTitle>Device link completed!</CardTitle>
+            <CardTitle>Project Linked Successfully</CardTitle>
           </CardHeader>
           <CardContent>
-            <Text>You may safely close this tab and return to the CLI.</Text>
+            <Text>
+              You may safely close this tab and return to your project.
+            </Text>
           </CardContent>
           <CardFooter>
             <Button asChild variant="secondary">
@@ -52,7 +54,7 @@ function DeviceLinkTokenRoute() {
       <Layout.Root>
         <Card>
           <CardHeader>
-            <CardTitle>Link device</CardTitle>
+            <CardTitle>Link project</CardTitle>
             <CardDescription>
               Link your game to your device here to continue with Rivet setup.
             </CardDescription>
