@@ -1,5 +1,4 @@
 import { gameNamespacesQueryOptions } from "@/domains/game/queries";
-import { useDialog } from "@/hooks/use-dialog";
 import {
   Badge,
   Button,
@@ -19,7 +18,7 @@ import {
 } from "@rivet-gg/components";
 import { Icon, faPlus } from "@rivet-gg/icons";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { useNavigate } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { GameNamespaceTableActions } from "../components/game-namespace-table-actions";
 
 interface GameNamespacesViewProps {
@@ -29,18 +28,17 @@ interface GameNamespacesViewProps {
 export function GameNamespacesView({ gameId }: GameNamespacesViewProps) {
   const { data } = useSuspenseQuery(gameNamespacesQueryOptions(gameId));
 
-  const { open, dialog } = useDialog.CreateNamespace({ gameId });
-
   const navigate = useNavigate();
 
   return (
     <Card w="full">
-      {dialog}
       <CardHeader>
         <Flex items="center" gap="4" justify="between">
           <CardTitle>Environments</CardTitle>
-          <Button variant="secondary" size="icon" onClick={open}>
-            <Icon icon={faPlus} />
+          <Button variant="secondary" size="icon" asChild>
+            <Link search={{ modal: "create-environment" }}>
+              <Icon icon={faPlus} />
+            </Link>
           </Button>
         </Flex>
       </CardHeader>

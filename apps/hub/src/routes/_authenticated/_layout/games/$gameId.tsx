@@ -26,6 +26,7 @@ function Modals() {
   const { modal } = Route.useSearch();
 
   const GenerateGameCloudTokenDialog = useDialog.GenerateGameCloudToken.Dialog;
+  const CreateEnvironmentDialog = useDialog.CreateEnvironment.Dialog;
 
   const handleonOpenChange = (value: boolean) => {
     if (!value) {
@@ -39,6 +40,13 @@ function Modals() {
         gameId={gameId}
         dialogProps={{
           open: modal === "cloud-token",
+          onOpenChange: handleonOpenChange,
+        }}
+      />
+      <CreateEnvironmentDialog
+        gameId={gameId}
+        dialogProps={{
+          open: modal === "create-environment",
           onOpenChange: handleonOpenChange,
         }}
       />

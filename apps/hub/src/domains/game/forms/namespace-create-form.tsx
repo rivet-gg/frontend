@@ -65,7 +65,7 @@ export const Name = () => {
           <FormLabel>Name</FormLabel>
           <FormControl>
             <Input
-              placeholder="Enter a namespace name..."
+              placeholder="Enter an environment name..."
               maxLength={25}
               {...field}
             />
