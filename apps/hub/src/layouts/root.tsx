@@ -1,4 +1,6 @@
-import { Link, cn } from "@rivet-gg/components";
+import { NavItem } from "@/components/header/nav-item";
+import { AssetImage, cn } from "@rivet-gg/components";
+import { Icon, faDiscord, faGithub, faXTwitter } from "@rivet-gg/icons";
 import { useMatches } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import { Header as UiHeader } from "../components/header/header";
@@ -34,15 +36,87 @@ const Header = () => {
 
 const Footer = () => {
   return (
-    <footer className="text-muted-foreground bg-background p-4 text-center text-sm">
+    <footer className="text-muted-foreground bg-background p-4 text-center text-sm border-t mt-8">
       <div className="container">
-        <Link href="https://rivet.gg/support" target="_blank" rel="noreferrer">
-          Support
-        </Link>
-        <p>
-          &copy; {new Date().getFullYear()} Rivet Gaming, Inc. All rights
-          reserved
-        </p>
+        <div className="flex items-center justify-between">
+          <div className="flex gap-4 items-center">
+            <div className="flex gap-4 items-center">
+              <AssetImage
+                src="/logo/icon-white.svg"
+                alt="Rivet"
+                className="h-8"
+              />
+              &copy; {new Date().getFullYear()}
+            </div>
+            <a
+              className="flex items-center gap-2 hover:underline"
+              href="https://rivet-gg.betteruptime.com/"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <div className="size-2 animate-pulse bg-green-600 rounded-full" />
+              All services are online
+            </a>
+          </div>
+        </div>
+        <div className="flex items-center justify-between mt-8 mb-4">
+          <div className="text-base flex items-center gap-4">
+            <NavItem
+              href="https://rivet.gg/discord"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <Icon icon={faDiscord} />
+            </NavItem>
+            <NavItem
+              href="https://github.com/rivet-gg"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <Icon icon={faGithub} />
+            </NavItem>
+            <NavItem
+              href="https://x.com/rivet_gg"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <Icon icon={faXTwitter} />
+            </NavItem>
+          </div>
+          <div className="flex items-center gap-8">
+            <NavItem href="https://rivet.gg" target="_blank" rel="noreferrer">
+              Home
+            </NavItem>
+            <NavItem
+              href="https://rivet.gg/support"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Help
+            </NavItem>
+            <NavItem
+              href="https://rivet.gg/pricing"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Pricing
+            </NavItem>
+            <NavItem
+              href="https://rivet.gg/docs"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Docs
+            </NavItem>
+            <NavItem
+              href="https://calendly.com/d/zvq-v4z-84t/rivet-founders-15-minute"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Enterprise
+            </NavItem>
+          </div>
+        </div>
       </div>
     </footer>
   );
