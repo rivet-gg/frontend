@@ -1,5 +1,6 @@
+import { CommandPanel } from "@/components/command-panel";
 import { NavItem } from "@/components/header/nav-item";
-import { AssetImage, cn } from "@rivet-gg/components";
+import { cn } from "@rivet-gg/components";
 import { Icon, faDiscord, faGithub, faXTwitter } from "@rivet-gg/icons";
 import { useMatches } from "@tanstack/react-router";
 import type { ReactNode } from "react";
@@ -39,12 +40,12 @@ const Footer = () => {
     <footer className="text-muted-foreground bg-background p-4 text-center text-sm border-t mt-8">
       <div className="container">
         <div className="flex items-center justify-between">
-          <div className="flex gap-4 items-center">
+          <div className="flex gap-4 items-center justify-between w-full lg:w-auto lg:justify-normal">
             <div className="flex gap-4 items-center">
-              <AssetImage
-                src="/logo/icon-white.svg"
+              <img
+                src="/icon-white-borderless.svg"
                 alt="Rivet"
-                className="h-8"
+                className="h-6"
               />
               &copy; {new Date().getFullYear()}
             </div>
@@ -58,8 +59,11 @@ const Footer = () => {
               All services are online
             </a>
           </div>
+          <div>
+            <CommandPanel />
+          </div>
         </div>
-        <div className="flex items-center justify-between mt-8 mb-4">
+        <div className="flex flex-col lg:flex-row items-center justify-between mt-4 gap-4 lg:gap-0 lg:mt-8 mb-4">
           <div className="text-base flex items-center gap-4">
             <NavItem
               href="https://rivet.gg/discord"
@@ -83,7 +87,7 @@ const Footer = () => {
               <Icon icon={faXTwitter} />
             </NavItem>
           </div>
-          <div className="flex items-center gap-8">
+          <div className="flex items-center flex-wrap justify-between lg:justify-normal w-full lg:w-auto gap-4 lg:gap-8">
             <NavItem href="https://rivet.gg" target="_blank" rel="noreferrer">
               Home
             </NavItem>

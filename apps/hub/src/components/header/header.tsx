@@ -1,6 +1,5 @@
 import { useAuth } from "@/domains/auth/contexts/auth";
 import {
-  AssetImage,
   Button,
   Flex,
   Sheet,
@@ -11,7 +10,6 @@ import { Icon, faBars } from "@rivet-gg/icons";
 import { Link } from "@tanstack/react-router";
 import { Breadcrumbs } from "../breadcrumbs/breadcrumbs";
 import { MobileBreadcrumbs } from "../breadcrumbs/mobile-breadcrumbs";
-import { CommandPanel } from "../command-panel";
 import { HeaderRouteLoader } from "./header-route-loader";
 import { HeaderSubNav } from "./header-sub-nav";
 import { MobileHeaderSubNav } from "./mobile-header-sub-nav";
@@ -60,9 +58,9 @@ export function Header() {
                       href="/"
                       className="flex items-center gap-2 text-lg font-semibold"
                     >
-                      <AssetImage
+                      <img
                         className="h-6"
-                        src="/logo/icon-white.svg"
+                        src="/icon-white-borderless.svg"
                         alt="Rivet logo"
                       />
                     </Link>
@@ -71,6 +69,9 @@ export function Header() {
                   </Flex>
                 </div>
                 <Flex direction="col" justify="end" gap="6">
+                  <NavItem asChild>
+                    <Link search={{ modal: "feedback" }}>Feedback</Link>
+                  </NavItem>
                   <NavItem asChild>
                     <a
                       href="https://rivet.gg/changelog"
@@ -104,10 +105,10 @@ export function Header() {
           </Sheet>
           <nav className="flex-1 font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
             <Link to="/">
-              <AssetImage
-                className="h-8"
-                alt="Rivet Logo"
-                src="/logo/icon-white.svg"
+              <img
+                className="h-6"
+                src="/icon-white-borderless.svg"
+                alt="Rivet logo"
               />
             </Link>
             <div className="hidden md:flex">
@@ -115,8 +116,6 @@ export function Header() {
             </div>
           </nav>
           <div className="gap-6 font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm">
-            <CommandPanel />
-
             <NavItem
               asChild
               className="hidden md:inline-block border px-4 py-2 rounded-md"
@@ -130,6 +129,15 @@ export function Header() {
                 rel="noreferrer"
               >
                 Changelog
+              </a>
+            </NavItem>
+            <NavItem asChild className="hidden md:inline-block">
+              <a
+                href="https://rivet.gg/support"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Help
               </a>
             </NavItem>
             <NavItem asChild className="hidden md:inline-block">
