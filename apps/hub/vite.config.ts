@@ -4,6 +4,7 @@ import { sentryVitePlugin } from "@sentry/vite-plugin";
 import { TanStackRouterVite } from "@tanstack/router-vite-plugin";
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
+import vitePluginFaviconsInject from "vite-plugin-favicons-inject";
 
 const GIT_BRANCH =
   process.env.CF_PAGES_BRANCH ||
@@ -18,6 +19,13 @@ export default defineConfig({
   plugins: [
     react(),
     TanStackRouterVite(),
+    vitePluginFaviconsInject(
+      path.resolve(__dirname, "public", "icon-white.svg"),
+      {
+        appName: "Rivet Hub",
+        theme_color: "#ff4f00",
+      },
+    ),
     process.env.SENTRY_AUTH_TOKEN
       ? sentryVitePlugin({
           org: "rivet-gaming",
