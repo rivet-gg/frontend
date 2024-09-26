@@ -98,7 +98,7 @@ export function ModulesStore({
               startIcon={<Icon icon={faPlus} />}
             >
               <a
-                href="https://opengb.dev/docs/build/overview"
+                href="https://rivet.gg/docs/general/modules/build/overview"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -139,7 +139,7 @@ export function ModulesStore({
                     </Button>
                     <Button asChild startIcon={<Icon icon={faHammer} />}>
                       <a
-                        href="https://opengb.dev/docs/build/overview"
+                        href="https://rivet.gg/docs/general/modules/build/overview"
                         target="_blank"
                         rel="noopener noreferrer"
                       >
