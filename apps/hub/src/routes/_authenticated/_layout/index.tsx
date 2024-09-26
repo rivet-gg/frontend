@@ -40,8 +40,14 @@ function Modals() {
           open: modal === "create-game",
           onOpenChange: handleonOpenChange,
         }}
-      />{" "}
+      />
       <CreateGroupDialog
+        onSuccess={async (data) =>
+          await navigate({
+            to: "/teams/$groupId",
+            params: { groupId: data.groupId },
+          })
+        }
         dialogProps={{
           open: modal === "create-group",
           onOpenChange: handleonOpenChange,

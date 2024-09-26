@@ -1,19 +1,22 @@
 import * as GroupCreateForm from "@/domains/group/forms/group-create-form";
+import type { Rivet } from "@rivet-gg/api";
 import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
   Flex,
 } from "@rivet-gg/components";
-import { useNavigate } from "@tanstack/react-router";
 import { useGroupCreateMutation } from "../../queries";
 
-export default function CreateGroupDialogContent() {
-  const navigate = useNavigate();
+interface CreateGroupDialogContentProps {
+  onSuccess?: (data: Rivet.group.CreateResponse) => void;
+}
+
+export default function CreateGroupDialogContent({
+  onSuccess,
+}: CreateGroupDialogContentProps) {
   const { mutateAsync } = useGroupCreateMutation({
-    onSuccess: (data) => {
-      navigate({ to: "/teams/$groupId", params: { groupId: data.groupId } });
-    },
+    onSuccess,
   });
 
   return (
@@ -27,7 +30,7 @@ export default function CreateGroupDialogContent() {
         defaultValues={{ name: "" }}
       >
         <DialogHeader>
-          <DialogTitle>Create New Group</DialogTitle>
+          <DialogTitle>Create New Team</DialogTitle>
         </DialogHeader>
         <Flex gap="4" direction="col">
           <GroupCreateForm.Name />
