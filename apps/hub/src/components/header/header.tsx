@@ -73,11 +73,11 @@ export function Header() {
                 <Flex direction="col" justify="end" gap="6">
                   <NavItem asChild>
                     <a
-                      href="https://rivet.gg/docs"
+                      href="https://rivet.gg/changelog"
                       target="_blank"
                       rel="noreferrer"
                     >
-                      Docs
+                      Changelog
                     </a>
                   </NavItem>
                   <NavItem asChild>
@@ -86,7 +86,16 @@ export function Header() {
                       target="_blank"
                       rel="noreferrer"
                     >
-                      Support
+                      Help
+                    </a>
+                  </NavItem>
+                  <NavItem asChild>
+                    <a
+                      href="https://rivet.gg/docs"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      Docs
                     </a>
                   </NavItem>
                 </Flex>
@@ -107,13 +116,26 @@ export function Header() {
           </nav>
           <div className="gap-6 font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm">
             <CommandPanel />
+
+            <NavItem
+              asChild
+              className="hidden md:inline-block border px-4 py-2 rounded-md"
+            >
+              <Link search={{ modal: "feedback" }}>Feedback</Link>
+            </NavItem>
+            <NavItem asChild className="hidden md:inline-block">
+              <a
+                href="https://rivet.gg/changelog"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Changelog
+              </a>
+            </NavItem>
             <NavItem asChild className="hidden md:inline-block">
               <a href="https://rivet.gg/docs" target="_blank" rel="noreferrer">
                 Docs
               </a>
-            </NavItem>
-            <NavItem asChild className="hidden md:inline-block">
-              <Link search={{ modal: "feedback" }}>Feedback</Link>
             </NavItem>
             <UserProfileButton />
           </div>
