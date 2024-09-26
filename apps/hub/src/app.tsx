@@ -11,7 +11,6 @@ import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client
 import { RouterProvider, createRouter } from "@tanstack/react-router";
 import { Suspense } from "react";
 import { ThirdPartyProviders } from "./components/third-party-providers";
-import { AuthProvider, useAuth } from "./domains/auth/contexts/auth";
 import { routeMasks } from "./lib/route-masks";
 import { queryClient, queryClientPersister } from "./queries/global";
 import { routeTree } from "./routeTree.gen";
@@ -35,6 +34,7 @@ export const router = createRouter({
   },
   // Since we're using React Query, we don't want loader calls to ever be stale
   // This will ensure that the loader is always called when the route is preloaded or visited
+  defaultPreload: "intent",
   defaultPreloadStaleTime: 0,
   defaultOnCatch: (error) => {
     Sentry.captureException(error);
@@ -42,8 +42,7 @@ export const router = createRouter({
 });
 
 function InnerApp() {
-  const auth = useAuth();
-  return <RouterProvider router={router} context={{ auth }} />;
+  return <RouterProvider router={router} />;
 }
 
 export function App() {
@@ -55,11 +54,9 @@ export function App() {
       <ConfigProvider value={getConfig()}>
         <ThirdPartyProviders>
           <Suspense fallback={<FullscreenLoading />}>
-            <AuthProvider>
-              <TooltipProvider>
-                <InnerApp />
-              </TooltipProvider>
-            </AuthProvider>
+            <TooltipProvider>
+              <InnerApp />
+            </TooltipProvider>
           </Suspense>
 
           <Toaster />

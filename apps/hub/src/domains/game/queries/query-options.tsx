@@ -1,5 +1,6 @@
 import { rivetClient } from "@/queries/global";
 import { getMetaWatchIndex } from "@/queries/utils";
+import { loadModuleCategories } from "@rivet-gg/components";
 import { queryOptions } from "@tanstack/react-query";
 
 export const gamesQueryOptions = () => {
@@ -177,6 +178,27 @@ export const gameMetadataQueryOptions = ({ gameId }: { gameId: string }) => {
       return {
         legacyLobbiesEnabled: data.game.versions.length > 1,
       };
+    },
+  });
+};
+
+export const modulesCategoriesQueryOptions = () => {
+  return queryOptions({
+    queryKey: ["modules", "categories"],
+    queryFn: () => loadModuleCategories(),
+  });
+};
+
+const FEATURED_MODULES = ["lobbies", "friends", "analytics"];
+
+export const featuredModulesQueryOptions = () => {
+  return queryOptions({
+    ...modulesCategoriesQueryOptions(),
+    queryKey: ["modules", "featured"],
+    select: (data) => {
+      return data
+        .flatMap((category) => category.modules)
+        .filter((module) => FEATURED_MODULES.includes(module.id));
     },
   });
 };

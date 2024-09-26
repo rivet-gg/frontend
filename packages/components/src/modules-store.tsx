@@ -167,10 +167,15 @@ export function ModulesStore({
                 <Grid columns={{ initial: "1", sm: "3" }} gap="4" items="start">
                   {category.modules.map(({ id, module }) =>
                     includeModulesDocumentation ? (
-                      <DocumentedModuleCard key={id} {...module.config} />
+                      <DocumentedModuleCard
+                        key={id}
+                        id={id}
+                        {...module.config}
+                      />
                     ) : (
                       <ModuleCard
                         key={id}
+                        id={id}
                         {...module.config}
                         onClick={() => onModuleClick?.(module)}
                       />

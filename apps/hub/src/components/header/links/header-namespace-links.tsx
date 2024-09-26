@@ -9,6 +9,7 @@ import {
   faHome,
   faKey,
   faPuzzle,
+  faPuzzlePiece,
   faServer,
 } from "@rivet-gg/icons";
 import { useSuspenseQueries } from "@tanstack/react-query";
@@ -62,6 +63,14 @@ export function HeaderNamespaceLinks({
             params={{ gameId, namespaceId }}
           >
             Backend
+          </Link>
+        </HeaderLink>
+        <HeaderLink icon={faPuzzlePiece}>
+          <Link
+            to="/games/$gameId/environments/$namespaceId/modules"
+            params={{ gameId, namespaceId }}
+          >
+            Modules
           </Link>
         </HeaderLink>
       </>

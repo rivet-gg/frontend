@@ -7,7 +7,11 @@ export async function tryCreateBackend({
   gameId,
   environmentId,
   queryClient,
-}: { gameId: string; environmentId: string; queryClient: QueryClient }) {
+}: {
+  gameId: string;
+  environmentId: string;
+  queryClient: QueryClient;
+}) {
   try {
     await queryClient.fetchQuery(
       gameBackendQueryOptions({ gameId, environmentId }),

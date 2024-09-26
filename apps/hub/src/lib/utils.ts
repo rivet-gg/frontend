@@ -17,6 +17,20 @@ export function isRivetError(
   );
 }
 
+const rivetLikeObject = z.object({
+  body: z.object({
+    message: z.string(),
+    code: z.string().optional(),
+  }),
+  statusCode: z.number().optional(),
+});
+
+export function isLikeRivetError(
+  error: unknown,
+): error is z.infer<typeof rivetLikeObject> {
+  return rivetLikeObject.safeParse(error).success;
+}
+
 export function hasMethod<TName extends string>(
   obj: unknown,
   methodName: TName,
