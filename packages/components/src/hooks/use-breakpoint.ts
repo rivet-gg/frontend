@@ -1,5 +1,5 @@
-import { useMediaQuery } from "@react-hookz/web";
 import resolveConfig from "tailwindcss/resolveConfig";
+import { useMediaQuery } from "usehooks-ts";
 import config from "../tailwind-base";
 
 const resolvedConfig = resolveConfig(config);

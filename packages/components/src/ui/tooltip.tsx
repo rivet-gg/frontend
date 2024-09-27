@@ -27,14 +27,14 @@ const TooltipContent = React.forwardRef<
 ));
 TooltipContent.displayName = TooltipPrimitive.Content.displayName;
 
-interface WithTooltipProps {
+interface WithTooltipProps extends TooltipPrimitive.TooltipProps {
   trigger: React.ReactNode;
   content: React.ReactNode;
 }
 
-const WithTooltip = ({ trigger, content }: WithTooltipProps) => {
+const WithTooltip = ({ trigger, content, ...rest }: WithTooltipProps) => {
   return (
-    <Tooltip>
+    <Tooltip {...rest}>
       <TooltipTrigger asChild>{trigger}</TooltipTrigger>
       <TooltipPrimitive.TooltipPortal>
         <TooltipContent>{content}</TooltipContent>

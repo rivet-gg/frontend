@@ -41,10 +41,11 @@ const config = {
         "2xl": "1400px",
       },
     },
-    data: {
-      active: 'status~="active"',
-    },
     extend: {
+      data: {
+        active: 'status~="active"',
+        open: 'state*="open"',
+      },
       aria: {
         "current-page": "current='page'",
       },

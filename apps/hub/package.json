@@ -15,7 +15,6 @@
     "@fortawesome/free-solid-svg-icons": "^6.5.2",
     "@fortawesome/react-fontawesome": "^0.2.2",
     "@hookform/resolvers": "^3.3.4",
-    "@react-hookz/web": "^24.0.4",
     "@rivet-gg/api": "file:vendor/rivet-gg-api.tgz",
     "@rivet-gg/api-ee": "file:vendor/rivet-gg-api-ee.tgz",
     "@rivet-gg/components": "workspace:*",
@@ -43,6 +42,7 @@
     "superjson": "^2.2.1",
     "tailwind-merge": "^2.2.2",
     "tailwindcss-animate": "^1.0.7",
+    "usehooks-ts": "^3.1.0",
     "zod": "^3.22.4"
   },
   "devDependencies": {

@@ -4138,29 +4138,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-hookz/deep-equal@npm:^1.0.4":
-  version: 1.0.4
-  resolution: "@react-hookz/deep-equal@npm:1.0.4"
-  checksum: 10c0/f48774ccc63506e8de29eb6f3beff1204a5f51e481329f6b38b578bb43b35391eeacd9908f35a7fcca008e4c7e5144be7092103236042a8bcbbe4e7594ed4eb9
-  languageName: node
-  linkType: hard
-
-"@react-hookz/web@npm:^24.0.4":
-  version: 24.0.4
-  resolution: "@react-hookz/web@npm:24.0.4"
-  dependencies:
-    "@react-hookz/deep-equal": "npm:^1.0.4"
-  peerDependencies:
-    js-cookie: ^3.0.5
-    react: ^16.8 || ^17 || ^18
-    react-dom: ^16.8 || ^17 || ^18
-  peerDependenciesMeta:
-    js-cookie:
-      optional: true
-  checksum: 10c0/894419b88601938b6b2027c8bc77a7e470de4cf196a2d461d53842b037cae57a2abe8e7279edd01ab56d7c671dd155de7795f6e717331c7fdb89734eafac8769
-  languageName: node
-  linkType: hard
-
 "@rivet-gg/api-ee@file:vendor/rivet-gg-api-ee.tgz::locator=%40rivet-gg%2Fhub%40workspace%3Aapps%2Fhub":
   version: 0.0.1
   resolution: "@rivet-gg/api-ee@file:vendor/rivet-gg-api-ee.tgz#vendor/rivet-gg-api-ee.tgz::hash=1f46df&locator=%40rivet-gg%2Fhub%40workspace%3Aapps%2Fhub"
@@ -4218,7 +4195,6 @@ __metadata:
     "@radix-ui/react-toggle": "npm:^1.0.3"
     "@radix-ui/react-tooltip": "npm:^1.1.1"
     "@radix-ui/react-visually-hidden": "npm:^1.0.3"
-    "@react-hookz/web": "npm:^24.0.4"
     "@rivet-gg/icons": "workspace:^"
     "@tailwindcss/container-queries": "npm:^0.1.1"
     "@tanstack/react-virtual": "npm:^3.10.1"
@@ -4250,6 +4226,7 @@ __metadata:
     tailwindcss: "npm:^3.4.1"
     tailwindcss-animate: "npm:^1.0.7"
     typescript: "npm:^5.5.4"
+    usehooks-ts: "npm:^3.1.0"
     vite: "npm:^5.2.0"
     vite-plugin-dts: "npm:^3.8.1"
     zod: "npm:^3.23.8"
@@ -4290,7 +4267,6 @@ __metadata:
     "@fortawesome/free-solid-svg-icons": "npm:^6.5.2"
     "@fortawesome/react-fontawesome": "npm:^0.2.2"
     "@hookform/resolvers": "npm:^3.3.4"
-    "@react-hookz/web": "npm:^24.0.4"
     "@rivet-gg/api": "file:vendor/rivet-gg-api.tgz"
     "@rivet-gg/api-ee": "file:vendor/rivet-gg-api-ee.tgz"
     "@rivet-gg/components": "workspace:*"
@@ -4331,6 +4307,7 @@ __metadata:
     tailwindcss-animate: "npm:^1.0.7"
     turnstile-types: "npm:^1.2.1"
     typescript: "npm:^5.5.4"
+    usehooks-ts: "npm:^3.1.0"
     vite: "npm:^5.2.0"
     vite-plugin-favicons-inject: "npm:^2.2.0"
     zod: "npm:^3.22.4"
@@ -13978,6 +13955,17 @@ __metadata:
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
   checksum: 10c0/23b1597c10adf15b26ade9e8c318d8cc0abc9ec0ab5fc7ca7338da92e89c2536abd150a5891bf076836c352fdfa104fc7231fb48f806fd9960e0cbe03601abaf
+  languageName: node
+  linkType: hard
+
+"usehooks-ts@npm:^3.1.0":
+  version: 3.1.0
+  resolution: "usehooks-ts@npm:3.1.0"
+  dependencies:
+    lodash.debounce: "npm:^4.0.8"
+  peerDependencies:
+    react: ^16.8.0  || ^17 || ^18
+  checksum: 10c0/2204d8c95109302bdaaa51a66bf216f3dba750f1d2795c20ecba75ba1c44a070a253935d537ef536514ab6e363bcc02ccc78b5ad63576ff8d880d577cf3fc48f
   languageName: node
   linkType: hard
 
