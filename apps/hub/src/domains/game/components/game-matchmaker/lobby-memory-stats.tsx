@@ -38,6 +38,8 @@ export function LobbyMemoryStats({
     },
   }));
 
+  const max = allocatedMemory || Math.max(...memory);
+
   const id = useId();
 
   const fillId = `fill-${id}`;
@@ -57,11 +59,8 @@ export function LobbyMemoryStats({
         <YAxis
           dataKey="value"
           axisLine={false}
-          padding={{ top: 10 }}
-          domain={([, dataMax]) => {
-            return [0, allocatedMemory || dataMax];
-          }}
-          tickFormatter={(value) => `${filesize(value)}`}
+          domain={[0, max]}
+          tickFormatter={(value) => `${Math.ceil((value / max) * 100)}%`}
         />
         <ChartTooltip
           content={
@@ -75,7 +74,7 @@ export function LobbyMemoryStats({
                 if (typeof value !== "number") {
                   return "n/a";
                 }
-                return filesize(value);
+                return `${filesize(value)} (${Math.round((value / max) * 100).toFixed(2)}%)`;
               }}
             />
           }

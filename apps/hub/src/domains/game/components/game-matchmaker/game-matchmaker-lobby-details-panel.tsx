@@ -88,7 +88,7 @@ export function GameMatchmakerLobbyDetailsPanel({
           <TabsTrigger value="logs">Output</TabsTrigger>
           <TabsTrigger value="errors">Error</TabsTrigger>
           {isLive && metrics ? (
-            <TabsTrigger value="stats">Stats</TabsTrigger>
+            <TabsTrigger value="stats">Monitor</TabsTrigger>
           ) : null}
         </TabsList>
         <TabsContent value="logs" className="min-h-0 flex-1 mt-0 p-4">
