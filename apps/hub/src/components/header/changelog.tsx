@@ -39,7 +39,7 @@ export function ChangelogEntry({
       <div>
         <img
           src={`https://rivet.gg/${images[0].url}`}
-          alt={images[0].alt}
+          alt={"Changelog entry"}
           className="rounded-md border my-4 h-[200px] object-cover w-full"
         />
 
@@ -95,8 +95,26 @@ export function Changelog() {
   );
 
   const hasNewChangelog = !lastChangelog
-    ? true
+    ? data.length > 0
     : data.some((entry) => new Date(entry.published) > new Date(lastChangelog));
+
+  const trigger = (
+    <NavItem
+      asChild
+      className="hidden md:inline-block relative py-3 data-open:text-foreground"
+    >
+      <a href="https://rivet.gg/changelog" target="_blank" rel="noreferrer">
+        {hasNewChangelog ? (
+          <span className="absolute top-2 -right-1.5 size-1.5 rounded-full bg-primary animate-pulse" />
+        ) : null}
+        Changelog
+      </a>
+    </NavItem>
+  );
+
+  if (data.length === 0) {
+    return trigger;
+  }
 
   return (
     <WithTooltip
@@ -105,19 +123,7 @@ export function Changelog() {
           setLast(data[0].published);
         }
       }}
-      trigger={
-        <NavItem
-          asChild
-          className="hidden md:inline-block relative py-3 data-open:text-foreground"
-        >
-          <a href="https://rivet.gg/changelog" target="_blank" rel="noreferrer">
-            {hasNewChangelog ? (
-              <span className="absolute top-2 -right-1.5 size-1.5 rounded-full bg-primary animate-pulse" />
-            ) : null}
-            Changelog
-          </a>
-        </NavItem>
-      }
+      trigger={trigger}
       content={<ChangelogEntry {...data[0]} />}
     />
   );

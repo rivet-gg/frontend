@@ -31,9 +31,7 @@ export default defineConfig({
           org: "rivet-gaming",
           project: "hub",
           authToken: process.env.SENTRY_AUTH_TOKEN,
-          release: {
-            name: `${GIT_BRANCH}@${GIT_SHA}`,
-          },
+          release: GIT_BRANCH === "main" ? { name: GIT_SHA } : undefined,
         })
       : null,
   ],
