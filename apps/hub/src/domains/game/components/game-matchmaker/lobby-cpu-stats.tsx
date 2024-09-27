@@ -49,10 +49,7 @@ export function LobbyCPUStats({ cpu, metricsAt, syncId }: LobbyCPUStatsProps) {
         <YAxis
           dataKey="value"
           axisLine={false}
-          padding={{ top: 10 }}
-          domain={([, dataMax]) => {
-            return [0, Math.ceil(dataMax * 100) / 100];
-          }}
+          domain={[0, 1]}
           tickFormatter={(value) => `${value * 100}%`}
         />
         <ChartTooltip
