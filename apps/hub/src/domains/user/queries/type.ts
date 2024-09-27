@@ -1,9 +1,8 @@
 import { z } from "zod";
 
 export const ChangelogItem = z.object({
-  id: z.string(),
   published: z.string(),
-  images: z.array(z.object({ url: z.string(), alt: z.string() })),
+  images: z.array(z.object({ url: z.string() })),
   title: z.string(),
   description: z.string(),
   slug: z.string(),

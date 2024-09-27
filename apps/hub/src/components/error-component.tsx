@@ -10,8 +10,10 @@ import {
   Text,
 } from "@rivet-gg/components";
 import { Icon, faBomb } from "@rivet-gg/icons";
+import * as Sentry from "@sentry/react";
 import { useQueryClient } from "@tanstack/react-query";
 import type { ErrorComponentProps } from "@tanstack/react-router";
+import { useEffect } from "react";
 import { NotFoundComponent } from "./not-found-component";
 
 export const ErrorComponent = ({
@@ -19,6 +21,12 @@ export const ErrorComponent = ({
   reset,
 }: Partial<ErrorComponentProps>) => {
   const queryClient = useQueryClient();
+
+  useEffect(() => {
+    if (error) {
+      Sentry.captureException(error);
+    }
+  }, [error]);
 
   if (isRivetError(error)) {
     if (error.statusCode === 404) {
