@@ -43,7 +43,7 @@ export function Header({
   ),
 }: HeaderProps) {
   return (
-    <header className="bg-background/60 sticky top-0 z-10 flex flex-col items-center border-b py-2 backdrop-blur">
+    <header className="bg-background/60 border-b-border sticky top-0 z-10 flex flex-col items-center border-b py-2 backdrop-blur">
       {addons}
       <div className="w-full px-8 flex min-h-10 flex-col justify-center gap-4">
         <div className="flex w-full items-center gap-4">
@@ -52,7 +52,7 @@ export function Header({
               <Button
                 variant="outline"
                 size="icon"
-                className="shrink-0 md:hidden"
+                className="shrink-0 md:hidden text-foreground"
               >
                 <Icon icon={faBars} className="size-5" />
                 <span className="sr-only">Toggle navigation menu</span>
