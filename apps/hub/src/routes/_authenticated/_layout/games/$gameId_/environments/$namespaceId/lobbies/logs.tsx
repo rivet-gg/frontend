@@ -1,8 +1,10 @@
 import { GameMatchmakerListLobbyPreview } from "@/domains/game/components/game-matchmaker/game-matchmaker-list-lobby-preview";
+import * as Layout from "@/domains/game/layouts/matchmaker-layout";
 import { gameNamespaceLogsLobbiesQueryOptions } from "@/domains/game/queries";
 import { Card, CardContent, CardHeader, CardTitle } from "@rivet-gg/components";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
+import { zodSearchValidator } from "@tanstack/router-zod-adapter";
 import { z } from "zod";
 
 function MatchmakerLogsView() {
@@ -37,14 +39,10 @@ const searchSchema = z.object({
 export const Route = createFileRoute(
   "/_authenticated/_layout/games/$gameId/environments/$namespaceId/lobbies/logs",
 )({
-  validateSearch: (search) => searchSchema.parse(search),
+  validateSearch: zodSearchValidator(searchSchema),
   staticData: {
     layout: "full",
   },
-  beforeLoad: async ({ params: { gameId, namespaceId }, context }) => {
-    await context.queryClient.ensureQueryData(
-      gameNamespaceLogsLobbiesQueryOptions({ gameId, namespaceId }),
-    );
-  },
   component: MatchmakerLogsView,
+  pendingComponent: Layout.Content.Skeleton,
 });

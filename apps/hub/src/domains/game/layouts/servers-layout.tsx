@@ -2,9 +2,10 @@ import {
   Flex,
   SidebarNavigation,
   SidebarPageContent,
+  Skeleton,
 } from "@rivet-gg/components";
 import { Link } from "@tanstack/react-router";
-import type { ReactNode } from "react";
+import type { PropsWithChildren, ReactNode } from "react";
 
 const LINKS = [
   {
@@ -53,4 +54,37 @@ function ServersPage({ namespaceId, gameId, children }: ServersPageProps) {
   );
 }
 
-export { ServersPage as Root };
+ServersPage.Skeleton = function ServersPageSkeleton() {
+  return (
+    <SidebarPageContent
+      sidebar={
+        <SidebarNavigation>
+          <Skeleton className="w-full h-5" />
+          <Skeleton className="w-full h-5" />
+          <Skeleton className="w-full h-5" />
+          <Skeleton className="w-full h-5" />
+        </SidebarNavigation>
+      }
+    >
+      <Flex gap="4" direction="col" className="w-full min-h-0 h-full md:h-auto">
+        <Skeleton className="w-full h-56" />
+        <Skeleton className="w-full h-56" />
+      </Flex>
+    </SidebarPageContent>
+  );
+};
+
+function Content({ children }: PropsWithChildren) {
+  return children;
+}
+
+Content.Skeleton = function ContentSkeleton() {
+  return (
+    <>
+      <Skeleton className="w-full h-56" />
+      <Skeleton className="w-full h-56" />
+    </>
+  );
+};
+
+export { ServersPage as Root, Content };

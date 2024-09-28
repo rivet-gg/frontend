@@ -1,5 +1,6 @@
 import { ErrorComponent } from "@/components/error-component";
 import { GameBackendListEventsPreview } from "@/domains/game/components/game-backend/game-backend-list-events-preview";
+import * as Layout from "@/domains/game/layouts/backend-layout";
 import { gameBackendEnvEventsQueryOptions } from "@/domains/game/queries";
 import {
   Card,
@@ -13,6 +14,7 @@ import {
   type ErrorComponentProps,
   createFileRoute,
 } from "@tanstack/react-router";
+import { zodSearchValidator } from "@tanstack/router-zod-adapter";
 import { z } from "zod";
 
 function GameBackendEnvironmentIdLogsRoute() {
@@ -50,19 +52,13 @@ const searchSchema = z.object({
 export const Route = createFileRoute(
   "/_authenticated/_layout/games/$gameId/environments/$namespaceId/backend/logs",
 )({
-  validateSearch: (search) => searchSchema.parse(search),
+  validateSearch: zodSearchValidator(searchSchema),
   staticData: {
     layout: "full",
   },
-  loader: async ({
-    params: { gameId, namespaceId },
-    context: { queryClient },
-  }) =>
-    queryClient.fetchQuery(
-      gameBackendEnvEventsQueryOptions({ gameId, environmentId: namespaceId }),
-    ),
   component: GameBackendEnvironmentIdLogsRoute,
   errorComponent: (props: ErrorComponentProps) => {
     return <ErrorComponent {...props} />;
   },
+  pendingComponent: Layout.Content.Skeleton,
 });

@@ -9,7 +9,9 @@ function CloudTokenCard() {
         href="https://rivet.gg/docs/general/concepts/token-types#cloud"
         footer={
           <Button asChild>
-            <Link search={{ modal: "cloud-token" }}>Generate</Link>
+            <Link to="." search={{ modal: "cloud-token" }}>
+              Generate
+            </Link>
           </Button>
         }
       >

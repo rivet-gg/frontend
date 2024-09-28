@@ -36,7 +36,7 @@ export function GameNamespacesView({ gameId }: GameNamespacesViewProps) {
         <Flex items="center" gap="4" justify="between">
           <CardTitle>Environments</CardTitle>
           <Button variant="secondary" size="icon" asChild>
-            <Link search={{ modal: "create-environment" }}>
+            <Link to="." search={{ modal: "create-environment" }}>
               <Icon icon={faPlus} />
             </Link>
           </Button>

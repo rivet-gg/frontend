@@ -59,6 +59,8 @@ export const Captcha = () => {
           <FormControl>
             {data.turnstile?.siteKey ? (
               <Turnstile
+                refreshExpired="auto"
+                retry="auto"
                 sitekey={data.turnstile.siteKey}
                 onVerify={(token) => {
                   field.onChange({ target: { value: token } });

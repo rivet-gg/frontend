@@ -6,6 +6,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
+  Skeleton,
 } from "@rivet-gg/components";
 
 interface GroupImageSettingsCardProps {
@@ -44,3 +45,7 @@ export function GroupImageSettingsCard({
     </GroupImageForm.Form>
   );
 }
+
+GroupImageSettingsCard.Skeleton = function GroupImageSettingsCard() {
+  return <Skeleton className="w-full h-56" />;
+};

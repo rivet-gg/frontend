@@ -1,4 +1,5 @@
 import { GameBackendEnvironmentDatabaseLink } from "@/domains/game/components/game-backend/game-backend-environment-database-link";
+import * as Layout from "@/domains/game/layouts/game-layout";
 import {
   gameBackendQueryOptions,
   gameBuildsQueryOptions,
@@ -178,4 +179,5 @@ export const Route = createFileRoute(
   "/_authenticated/_layout/games/$gameId/environments/$namespaceId/",
 )({
   component: NamespaceIdRoute,
+  pendingComponent: Layout.Root.Skeleton,
 });

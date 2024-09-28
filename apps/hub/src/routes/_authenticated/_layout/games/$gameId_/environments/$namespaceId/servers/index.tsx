@@ -1,4 +1,5 @@
 import { GameServersListPreview } from "@/domains/game/components/game-servers/game-servers-list-preview";
+import * as Layout from "@/domains/game/layouts/servers-layout";
 import { gameServersQueryOptions } from "@/domains/game/queries";
 import {
   Button,
@@ -13,6 +14,7 @@ import {
 import { Icon, faPlus, faRefresh } from "@rivet-gg/icons";
 import { useSuspenseInfiniteQuery } from "@tanstack/react-query";
 import { Link, createFileRoute } from "@tanstack/react-router";
+import { zodSearchValidator } from "@tanstack/router-zod-adapter";
 import { z } from "zod";
 
 function GameServersRoute() {
@@ -51,6 +53,7 @@ function GameServersRoute() {
                   onClick={() => refetch()}
                 >
                   <Link
+                    to="."
                     search={{
                       modal: "create-server",
                     }}
@@ -94,9 +97,10 @@ const searchSchema = z.object({
 export const Route = createFileRoute(
   "/_authenticated/_layout/games/$gameId/environments/$namespaceId/servers/",
 )({
-  validateSearch: (search) => searchSchema.parse(search),
+  validateSearch: zodSearchValidator(searchSchema),
   staticData: {
     layout: "full",
   },
   component: GameServersRoute,
+  pendingComponent: Layout.Content.Skeleton,
 });

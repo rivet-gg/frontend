@@ -1,4 +1,5 @@
 import { GameServerTags } from "@/domains/game/components/game-servers/game-server-tags";
+import * as Layout from "@/domains/game/layouts/servers-layout";
 import {
   gameBuildsQueryOptions,
   usePatchBuildTagsMutation,
@@ -203,4 +204,5 @@ export const Route = createFileRoute(
   "/_authenticated/_layout/games/$gameId/environments/$namespaceId/servers/builds",
 )({
   component: GameBuildsRoute,
+  pendingComponent: Layout.Content.Skeleton,
 });

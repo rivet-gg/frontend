@@ -1,28 +1,28 @@
 import { Skeleton, cn } from "@rivet-gg/components";
 import type { ReactNode } from "react";
 
-interface PageRootProps {
+interface PageLayoutProps {
   children: ReactNode;
   layout?: "compact" | "full";
 }
 
-const PageRoot = ({ children, layout = "compact" }: PageRootProps) => (
+const PageLayout = ({ children, layout = "compact" }: PageLayoutProps) => (
   <div
     className={cn(
       {
         container: layout === "compact",
         "px-8 w-full flex-1 h-full flex min-h-0": layout === "full",
       },
-      "pt-4",
+      "pt-8",
     )}
   >
     {children}
   </div>
 );
 
-const PageRootSkeleton = ({
+const PageLayoutSkeleton = ({
   layout = "compact",
-}: Pick<PageRootProps, "layout">) => {
+}: Pick<PageLayoutProps, "layout">) => {
   return (
     <div
       className={cn(
@@ -44,6 +44,6 @@ const PageRootSkeleton = ({
   );
 };
 
-PageRoot.Skeleton = PageRootSkeleton;
+PageLayout.Skeleton = PageLayoutSkeleton;
 
-export { PageRoot as Root };
+export { PageLayout as Root };

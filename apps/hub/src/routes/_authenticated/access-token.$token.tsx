@@ -35,7 +35,7 @@ function InviteCodeInviteRoute() {
 
 export const Route = createFileRoute("/_authenticated/access-token/$token")({
   component: InviteCodeInviteRoute,
-  beforeLoad: async ({ params: { token } }) => {
+  loader: async ({ params: { token } }) => {
     await rivetClient.auth.identity.accessToken.completeAccessTokenVerification(
       { accessToken: token },
     );

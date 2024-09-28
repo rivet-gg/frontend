@@ -64,6 +64,7 @@ export * from "./ui/resizable";
 export * from "./ui/multi-select";
 export * from "./ui/chart";
 export * from "./ui/combobox";
+export * from "./ui/picture";
 export * from "./lib/utils";
 export * from "./lib/filesize";
 export * from "./lib/timing";

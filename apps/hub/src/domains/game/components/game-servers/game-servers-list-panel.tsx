@@ -82,6 +82,7 @@ function GameServerRow({
           asChild
         >
           <Link
+            to="."
             search={{ serverId: server.id }}
             className="min-w-0 flex flex-wrap gap-2"
           >

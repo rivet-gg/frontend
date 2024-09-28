@@ -44,7 +44,9 @@ export function GroupDetailedMembers({ groupId }: GroupDetailedMembersProps) {
         <Flex items="center" gap="4" justify="between">
           <CardTitle>Members</CardTitle>
           <Button variant="secondary" asChild>
-            <Link search={{ modal: "invite" }}>Invite</Link>
+            <Link to="." search={{ modal: "invite" }}>
+              Invite
+            </Link>
           </Button>
         </Flex>
       </CardHeader>

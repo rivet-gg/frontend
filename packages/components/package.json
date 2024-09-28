@@ -51,7 +51,7 @@
     "@radix-ui/react-visually-hidden": "^1.0.3",
     "@rivet-gg/icons": "workspace:^",
     "@tailwindcss/container-queries": "^0.1.1",
-    "@tanstack/react-virtual": "^3.10.1",
+    "@tanstack/react-virtual": "^3.10.8",
     "@uiw/codemirror-extensions-basic-setup": "^4.23.0",
     "@uiw/codemirror-theme-github": "^4.23.0",
     "@uiw/react-codemirror": "^4.23.0",

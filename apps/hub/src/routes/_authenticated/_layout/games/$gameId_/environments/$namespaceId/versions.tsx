@@ -1,3 +1,4 @@
+import * as Layout from "@/domains/game/layouts/game-layout";
 import { NamespaceVersions } from "@/domains/game/views/namespace-versions";
 import { createFileRoute } from "@tanstack/react-router";
 
@@ -10,4 +11,5 @@ export const Route = createFileRoute(
   "/_authenticated/_layout/games/$gameId/environments/$namespaceId/versions",
 )({
   component: NamespaceVersionsRoute,
+  pendingComponent: Layout.Root.Skeleton,
 });

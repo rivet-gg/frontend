@@ -1,4 +1,4 @@
-import { gameBackendQueryOptions } from "@/domains/game/queries";
+import * as Layout from "@/domains/game/layouts/backend-layout";
 import { GameBackendEnvironmentOverview } from "@/domains/game/views/game-backend-environment-overview";
 import { createFileRoute } from "@tanstack/react-router";
 
@@ -17,12 +17,5 @@ export const Route = createFileRoute(
   "/_authenticated/_layout/games/$gameId/environments/$namespaceId/backend/",
 )({
   component: GameBackendEnvironmentIdOverviewRoute,
-  beforeLoad: async ({
-    context: { queryClient },
-    params: { namespaceId, gameId },
-  }) => {
-    await queryClient.ensureQueryData(
-      gameBackendQueryOptions({ gameId, environmentId: namespaceId }),
-    );
-  },
+  pendingComponent: Layout.Content.Skeleton,
 });

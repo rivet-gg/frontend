@@ -1,4 +1,5 @@
 import { MatchMakerLobbyConfigSettingsCard } from "@/domains/game/components/matchmaker-lobby-config-settings-card";
+import * as Layout from "@/domains/game/layouts/matchmaker-layout";
 import { Grid } from "@rivet-gg/components";
 import { createFileRoute } from "@tanstack/react-router";
 
@@ -21,4 +22,5 @@ export const Route = createFileRoute(
     layout: "full",
   },
   component: MatchmakerSettingsView,
+  pendingComponent: Layout.Content.Skeleton,
 });

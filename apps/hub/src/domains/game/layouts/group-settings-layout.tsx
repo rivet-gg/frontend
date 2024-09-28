@@ -1,4 +1,8 @@
-import { SidebarNavigation, SidebarPageContent } from "@rivet-gg/components";
+import {
+  SidebarNavigation,
+  SidebarPageContent,
+  Skeleton,
+} from "@rivet-gg/components";
 import { Link } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 
@@ -26,5 +30,23 @@ function GroupSettingsPage({ children, groupId }: GroupPageProps) {
     </SidebarPageContent>
   );
 }
+
+GroupSettingsPage.Skeleton = function GroupSettingsPageSkeleton() {
+  return (
+    <SidebarPageContent
+      sidebar={
+        <SidebarNavigation>
+          <Skeleton className="w-full h-5" />
+          <Skeleton className="w-full h-5" />
+          <Skeleton className="w-full h-5" />
+          <Skeleton className="w-full h-5" />
+        </SidebarNavigation>
+      }
+    >
+      <Skeleton className="w-full h-56" />
+      <Skeleton className="w-full h-56" />
+    </SidebarPageContent>
+  );
+};
 
 export { GroupSettingsPage as Root };

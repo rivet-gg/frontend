@@ -5,7 +5,12 @@ import {
   AvatarFallback,
   AvatarImage,
   Badge,
+  Picture,
+  PictureFallback,
+  PictureImage,
+  Skeleton,
   WithTooltip,
+  cn,
 } from "@rivet-gg/components";
 import { Icon, faExternalLinkAlt, faSparkle } from "@rivet-gg/icons";
 import { useSuspenseQuery } from "@tanstack/react-query";
@@ -37,11 +42,16 @@ export function ChangelogEntry({
       </div>
 
       <div>
-        <img
-          src={`https://rivet.gg/${images[0].url}`}
-          alt={"Changelog entry"}
-          className="rounded-md border my-4 h-[200px] object-cover w-full"
-        />
+        <Picture className="rounded-md border my-4 h-[200px] w-full block overflow-hidden">
+          <PictureFallback>
+            <Skeleton className="size-full" />
+          </PictureFallback>
+          <PictureImage
+            className="size-full object-cover animate-in fade-in-0 duration-300 fill-mode-forwards"
+            src={`https://rivet.gg/${images[0].url}`}
+            alt={"Changelog entry"}
+          />
+        </Picture>
 
         <p className="font-semibold text-sm">{title}</p>
 
@@ -89,9 +99,6 @@ export function Changelog() {
   const [lastChangelog, setLast] = useLocalStorage<string | null>(
     "rivet-lastchangelog",
     null,
-    {
-      initializeWithValue: false,
-    },
   );
 
   const hasNewChangelog = !lastChangelog
@@ -104,9 +111,14 @@ export function Changelog() {
       className="hidden md:inline-block relative py-3 data-open:text-foreground"
     >
       <a href="https://rivet.gg/changelog" target="_blank" rel="noreferrer">
-        {hasNewChangelog ? (
-          <span className="absolute top-2 -right-1.5 size-1.5 rounded-full bg-primary animate-pulse" />
-        ) : null}
+        <span
+          className={cn(
+            "absolute top-2 -right-1.5 duration-300 fill-mode-forwards",
+            hasNewChangelog ? "animate-in fade-in-0" : "animate-out fade-out-0",
+          )}
+        >
+          <span className=" size-1.5 block rounded-full bg-primary animate-pulse" />
+        </span>
         Changelog
       </a>
     </NavItem>

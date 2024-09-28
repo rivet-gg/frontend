@@ -34,6 +34,7 @@ export function GameMatchmakerListLobbyButton({
   return (
     <Button key={lobbyId} variant={isActive ? "secondary" : "outline"} asChild>
       <Link
+        to="."
         search={(old) => ({ ...old, lobbyId: lobbyId })}
         className="truncate min-w-0"
       >

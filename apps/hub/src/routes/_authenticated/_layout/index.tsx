@@ -1,9 +1,9 @@
 import { useAuth } from "@/domains/auth/contexts/auth";
-import { gamesQueryOptions } from "@/domains/game/queries";
 import { GroupListView } from "@/domains/group/views/group-list-view";
 import { useDialog } from "@/hooks/use-dialog";
 import { CtaCard, Grid, NarrowPage } from "@rivet-gg/components";
 import { createFileRoute } from "@tanstack/react-router";
+import { zodSearchValidator } from "@tanstack/router-zod-adapter";
 import { Suspense } from "react";
 import { z } from "zod";
 
@@ -93,17 +93,11 @@ function IndexRoute() {
 }
 
 const searchSchema = z.object({
-  modal: z.enum(["create-game", "create-group"]).or(z.string()).optional(),
-  groupId: z.string().optional(),
+  modal: z.enum(["create-game", "create-group"]).optional().catch(undefined),
+  groupId: z.string().optional().catch(undefined),
 });
 
 export const Route = createFileRoute("/_authenticated/_layout/")({
-  validateSearch: (search) => searchSchema.parse(search),
-  beforeLoad: async ({ context }) => {
-    await context.queryClient.ensureQueryData({
-      ...gamesQueryOptions(),
-      revalidateIfStale: true,
-    });
-  },
+  validateSearch: zodSearchValidator(searchSchema),
   component: IndexRoute,
 });

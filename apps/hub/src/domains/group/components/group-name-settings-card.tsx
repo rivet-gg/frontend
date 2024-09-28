@@ -8,6 +8,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
+  Skeleton,
 } from "@rivet-gg/components";
 import { useSuspenseQuery } from "@tanstack/react-query";
 
@@ -42,3 +43,7 @@ export function GroupNameSettingsCard({ groupId }: GroupNameSettingsCardProps) {
     </GroupNameForm.Form>
   );
 }
+
+GroupNameSettingsCard.Skeleton = function GroupNameSettingsCardSkeleton() {
+  return <Skeleton className="w-full h-56" />;
+};

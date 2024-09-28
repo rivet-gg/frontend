@@ -1,10 +1,6 @@
-import { useAuth } from "@/domains/auth/contexts/auth";
 import type { SubmitHandler as FormSubmitHandler } from "@/domains/auth/forms/otp-form";
 import { useCompleteEmailVerificationMutation } from "@/domains/auth/queries";
-import {
-  identityTokenQueryOptions,
-  selfProfileQueryOptions,
-} from "@/domains/user/queries";
+import { selfProfileQueryOptions } from "@/domains/user/queries";
 import { Rivet } from "@rivet-gg/api";
 import * as Sentry from "@sentry/react";
 import { useQueryClient } from "@tanstack/react-query";
@@ -49,7 +45,6 @@ export const useOtpFormSubmitHandler = ({
   verificationId,
 }: OtpFormSubmitHandlerArgs) => {
   const queryClient = useQueryClient();
-  const { refreshToken } = useAuth();
   const { mutateAsync } = useCompleteEmailVerificationMutation();
 
   const callback: FormSubmitHandler = useCallback(
@@ -79,18 +74,17 @@ export const useOtpFormSubmitHandler = ({
         if (
           translatedResponse.type === Rivet.auth.CompleteStatus.SwitchIdentity
         ) {
-          queryClient.removeQueries({
-            predicate(query) {
-              return (
-                query.queryKey !== selfProfileQueryOptions().queryKey &&
-                query.queryKey !== identityTokenQueryOptions().queryKey
-              );
-            },
+          await queryClient.invalidateQueries({ refetchType: "all" });
+          await queryClient.refetchQueries({
+            ...selfProfileQueryOptions(),
           });
-          await refreshToken();
           return onSuccess?.();
         }
 
+        await queryClient.invalidateQueries({ refetchType: "all" });
+        await queryClient.refetchQueries({
+          ...selfProfileQueryOptions(),
+        });
         return onSuccess?.();
       } catch (error) {
         Sentry.captureException(error);
@@ -101,11 +95,11 @@ export const useOtpFormSubmitHandler = ({
       }
     },
     [
-      refreshToken,
       mutateAsync,
       onSuccess,
       verificationId,
-      queryClient.removeQueries,
+      queryClient.invalidateQueries,
+      queryClient.refetchQueries,
     ],
   );
 

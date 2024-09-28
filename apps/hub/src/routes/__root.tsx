@@ -1,11 +1,11 @@
 import { ErrorComponent } from "@/components/error-component";
 import { NotFoundComponent } from "@/components/not-found-component";
-import { type AuthContext, AuthProvider } from "@/domains/auth/contexts/auth";
+import type { AuthContext } from "@/domains/auth/contexts/auth";
 import { useDialog } from "@/hooks/use-dialog";
-import * as PageLayout from "@/layouts/page";
 import * as Layout from "@/layouts/root";
 import { FEEDBACK_FORM_ID } from "@/lib/data/constants";
 import { FullscreenLoading, Page } from "@rivet-gg/components";
+import { PageLayout } from "@rivet-gg/components/layout";
 import type { QueryClient } from "@tanstack/react-query";
 import {
   type ErrorComponentProps,
@@ -13,6 +13,7 @@ import {
   createRootRouteWithContext,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/router-devtools";
+import { zodSearchValidator } from "@tanstack/router-zod-adapter";
 import { usePostHog } from "posthog-js/react";
 import { useKonami } from "react-konami-code";
 import { z } from "zod";
@@ -97,11 +98,7 @@ function Root() {
 function RootRoute() {
   return (
     <>
-      <AuthProvider>
-        {/* <Suspense fallback={<FullscreenLoading />}> */}
-        <Root />
-        {/* </Suspense> */}
-      </AuthProvider>
+      <Root />
 
       {import.meta.env.DEV ? <TanStackRouterDevtools /> : null}
     </>
@@ -115,15 +112,18 @@ export interface RouterContext {
 }
 
 const searchSchema = z.object({
-  modal: z.enum(["secret", "feedback"]).or(z.string()).optional(),
+  modal: z
+    .enum(["secret", "feedback"])
+    .optional()
+    .catch(({ input }) => input),
   utm_source: z.string().optional(),
 });
 
 export const Route = createRootRouteWithContext<RouterContext>()({
-  validateSearch: (search) => searchSchema.parse(search),
+  validateSearch: zodSearchValidator(searchSchema),
   component: RootRoute,
   errorComponent: RootErrorComponent,
   notFoundComponent: RootNotFoundComponent,
-  wrapInSuspense: true,
   pendingComponent: FullscreenLoading,
+  wrapInSuspense: true,
 });

@@ -110,7 +110,7 @@ function InviteCodeInviteRoute() {
 
 export const Route = createFileRoute("/_authenticated/invite/$inviteCode")({
   component: InviteCodeInviteRoute,
-  beforeLoad: async ({ params: { inviteCode } }) => {
+  loader: async ({ params: { inviteCode } }) => {
     const invite = await queryClient.fetchQuery(
       groupInviteQueryOptions(inviteCode),
     );

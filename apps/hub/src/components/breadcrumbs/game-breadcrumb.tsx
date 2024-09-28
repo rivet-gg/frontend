@@ -25,6 +25,7 @@ export function GameBreadcrumb({ gameId }: GameBreadcrumbProps) {
   const navigate = useNavigate();
   const handleGameChange = (gameId: string) => {
     navigate({
+      to: "/games/$gameId",
       params: { gameId },
     });
   };

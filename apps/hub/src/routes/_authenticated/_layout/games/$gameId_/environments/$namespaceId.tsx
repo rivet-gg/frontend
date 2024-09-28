@@ -1,5 +1,6 @@
 import { ErrorComponent } from "@/components/error-component";
 import { tryCreateBackend } from "@/domains/game/helpers/try-create-backend";
+import * as Layout from "@/domains/game/layouts/game-layout";
 import {
   gameNamespaceQueryOptions,
   gameQueryOptions,
@@ -12,6 +13,7 @@ import {
   createFileRoute,
   notFound,
 } from "@tanstack/react-router";
+import { zodSearchValidator } from "@tanstack/router-zod-adapter";
 import { z } from "zod";
 
 function Modals() {
@@ -65,15 +67,20 @@ function NamespaceIdRoute() {
   );
 }
 const searchSchema = z.object({
-  modal: z.enum(["database", "create-server"]).or(z.string()).optional(),
+  modal: z
+    .enum(["database", "create-server"])
+    .optional()
+    .catch(({ input }) => input),
 });
 export const Route = createFileRoute(
   "/_authenticated/_layout/games/$gameId/environments/$namespaceId",
 )({
-  validateSearch: (search) => searchSchema.parse(search),
-  beforeLoad: async ({ params: { gameId, namespaceId } }) => {
-    const { game } = await queryClient.fetchQuery(gameQueryOptions(gameId));
-    const { namespace } = await queryClient.fetchQuery(
+  validateSearch: zodSearchValidator(searchSchema),
+  loader: async ({ params: { gameId, namespaceId } }) => {
+    const { game } = await queryClient.ensureQueryData(
+      gameQueryOptions(gameId),
+    );
+    const { namespace } = await queryClient.ensureQueryData(
       gameNamespaceQueryOptions({ gameId, namespaceId }),
     );
 
@@ -91,4 +98,5 @@ export const Route = createFileRoute(
   },
   component: NamespaceIdRoute,
   errorComponent: NamespaceErrorComponent,
+  pendingComponent: Layout.Root.Skeleton,
 });

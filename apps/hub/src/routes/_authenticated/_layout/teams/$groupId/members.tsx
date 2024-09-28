@@ -1,3 +1,4 @@
+import * as Layout from "@/domains/game/layouts/group-layout";
 import { GroupDetailedMembers } from "@/domains/group/views/group-detailed-members";
 import { Flex } from "@rivet-gg/components";
 import { createFileRoute } from "@tanstack/react-router";
@@ -16,4 +17,5 @@ export const Route = createFileRoute(
   "/_authenticated/_layout/teams/$groupId/members",
 )({
   component: GroupIdMembersView,
+  pendingComponent: Layout.Content.Skeleton,
 });
