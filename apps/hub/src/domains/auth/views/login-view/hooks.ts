@@ -5,6 +5,7 @@ import { Rivet } from "@rivet-gg/api";
 import * as Sentry from "@sentry/react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useCallback } from "react";
+import { useAuth } from "../../contexts/auth";
 
 const RESPONSE_MAP = {
   [Rivet.auth.CompleteStatus.SwitchIdentity]: {
@@ -44,6 +45,7 @@ export const useOtpFormSubmitHandler = ({
   onSuccess,
   verificationId,
 }: OtpFormSubmitHandlerArgs) => {
+  const { refreshToken } = useAuth();
   const queryClient = useQueryClient();
   const { mutateAsync } = useCompleteEmailVerificationMutation();
 
@@ -71,20 +73,8 @@ export const useOtpFormSubmitHandler = ({
           });
         }
 
-        if (
-          translatedResponse.type === Rivet.auth.CompleteStatus.SwitchIdentity
-        ) {
-          await queryClient.invalidateQueries({ refetchType: "all" });
-          await queryClient.refetchQueries({
-            ...selfProfileQueryOptions(),
-          });
-          return onSuccess?.();
-        }
-
-        await queryClient.invalidateQueries({ refetchType: "all" });
-        await queryClient.refetchQueries({
-          ...selfProfileQueryOptions(),
-        });
+        await refreshToken();
+        await queryClient.refetchQueries(selfProfileQueryOptions());
         return onSuccess?.();
       } catch (error) {
         Sentry.captureException(error);
@@ -97,9 +87,9 @@ export const useOtpFormSubmitHandler = ({
     [
       mutateAsync,
       onSuccess,
-      verificationId,
-      queryClient.invalidateQueries,
       queryClient.refetchQueries,
+      refreshToken,
+      verificationId,
     ],
   );
 

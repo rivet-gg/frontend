@@ -2,6 +2,7 @@ import { LoginView } from "@/domains/auth/views/login-view/login-view";
 import * as Layout from "@/layouts/page-centered";
 import { createFileRoute, redirect, useNavigate } from "@tanstack/react-router";
 import { fallback, zodSearchValidator } from "@tanstack/router-zod-adapter";
+import { startTransition } from "react";
 import { z } from "zod";
 
 const searchSchema = z.object({
@@ -25,11 +26,13 @@ export const Route = createFileRoute("/login")({
     return (
       <Layout.Root>
         <LoginView
-          onSuccess={() =>
-            navigate({
-              to: search.redirect || "/",
-            })
-          }
+          onSuccess={() => {
+            startTransition(() => {
+              navigate({
+                to: search.redirect || "/",
+              });
+            });
+          }}
         />
       </Layout.Root>
     );

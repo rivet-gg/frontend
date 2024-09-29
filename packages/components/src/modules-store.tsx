@@ -23,7 +23,7 @@ import { H1, H2, Lead } from "./ui/typography";
 
 interface ModulesStoreProps {
   categories: Category[];
-  onModuleClick?: (module: Category["modules"][number]) => void;
+  onModuleClick?: (module: Category["modules"][number]["module"]) => void;
   includeModulesDocumentation?: boolean;
 }
 

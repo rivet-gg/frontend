@@ -253,18 +253,18 @@ export const Route = createFileRoute("/_authenticated/_layout/")({
   validateSearch: zodSearchValidator(searchSchema),
   component: IndexRoute,
   beforeLoad: async ({ context: { queryClient } }) => {
+    const lastTeam = ls.get("rivet-lastteam");
+    if (lastTeam) {
+      throw redirect({
+        to: "/teams/$groupId",
+        params: { groupId: lastTeam },
+      });
+    }
+
     const [response] = await safeAsync(
       queryClient.fetchQuery(gamesQueryOptions()),
     );
-
     if (response && response.games.length > 0) {
-      const lastTeam = ls.get("rivet-lastteam");
-      if (lastTeam) {
-        throw redirect({
-          to: "/teams/$groupId",
-          params: { groupId: lastTeam },
-        });
-      }
       throw redirect({
         to: "/teams/$groupId",
         params: { groupId: response.groups[0].groupId },

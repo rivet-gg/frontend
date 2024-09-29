@@ -17,10 +17,10 @@ export function converEmojiToUriFriendlyString(rawText: string) {
  */
 function toCodePoint(unicodeSurrogates: string, sep?: string) {
   /* eslint-disable */
-  let r = [],
-    c = 0,
-    p = 0,
-    i = 0;
+  const r = [];
+  let c = 0;
+  let p = 0;
+  let i = 0;
 
   while (i < unicodeSurrogates.length) {
     c = unicodeSurrogates.charCodeAt(i++);

@@ -1,41 +1,44 @@
 import { IdentifyUser } from "@/components/third-party-providers";
 import {
-  identityTokenQueryOptions,
   selfProfileQueryOptions,
+  useIdentityTokenMutation,
   useLogoutMutation,
 } from "@/domains/user/queries";
 import type { Rivet } from "@rivet-gg/api";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { createContext, useCallback, useContext } from "react";
+import { createContext, useContext } from "react";
 import { bootstrapQueryOptions } from "../queries/bootstrap";
 
 export interface AuthContext {
   profile: Rivet.identity.GetProfileResponse | undefined;
+  isProfileLoading: boolean;
   logout: () => void;
-  refreshToken: () => void;
+  refreshToken: () => Promise<unknown>;
 }
 
 const AuthContext = createContext<AuthContext | null>(null);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  useSuspenseQuery(identityTokenQueryOptions());
-
+  const { mutateAsync } = useIdentityTokenMutation();
   const {
     data: profile,
-    isSuccess,
-    refetch: refetchProfile,
+    isRefetching,
+    isFetching,
   } = useSuspenseQuery(selfProfileQueryOptions());
 
   const { mutate: logout } = useLogoutMutation();
 
-  useSuspenseQuery(bootstrapQueryOptions({ enabled: isSuccess }));
-
-  const refreshToken = useCallback(async () => {
-    await refetchProfile();
-  }, [refetchProfile]);
+  useSuspenseQuery(bootstrapQueryOptions());
 
   return (
-    <AuthContext.Provider value={{ profile, refreshToken, logout }}>
+    <AuthContext.Provider
+      value={{
+        profile,
+        logout,
+        isProfileLoading: isRefetching || isFetching,
+        refreshToken: mutateAsync,
+      }}
+    >
       <IdentifyUser />
       {children}
     </AuthContext.Provider>

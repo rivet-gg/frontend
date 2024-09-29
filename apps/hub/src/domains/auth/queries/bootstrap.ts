@@ -1,13 +1,11 @@
 import { queryOptions } from "@tanstack/react-query";
 import { rivetClient } from "../../../queries/global";
 
-export const bootstrapQueryOptions = ({
-  enabled,
-}: { enabled?: boolean } = {}) => {
+export const bootstrapQueryOptions = () => {
   return queryOptions({
     queryKey: ["bootstrap"],
     queryFn: () => rivetClient.cloud.bootstrap(),
-    enabled,
+    refetchOnWindowFocus: false,
   });
 };
 

@@ -66,7 +66,12 @@ ServersPage.Skeleton = function ServersPageSkeleton() {
         </SidebarNavigation>
       }
     >
-      <Flex gap="4" direction="col" className="w-full min-h-0 h-full md:h-auto">
+      <Flex
+        gap="4"
+        direction="col"
+        w="full"
+        className="w-full min-h-0 h-full md:h-auto"
+      >
         <Skeleton className="w-full h-56" />
         <Skeleton className="w-full h-56" />
       </Flex>

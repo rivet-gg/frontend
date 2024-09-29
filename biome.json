@@ -6,7 +6,6 @@
       "**/dist/**",
       "**/build/**",
       "**/coverage/**",
-      "**/lib/**",
       "**/tmp",
       "**/.turbo/**",
       "*gen*"

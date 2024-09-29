@@ -34,7 +34,7 @@ export const Page = ({
 
 Page.Skeleton = () => {
   return (
-    <Flex direction="col" gap="4">
+    <Flex direction="col" gap="4" w="full">
       <Skeleton className="my-4 h-12 w-1/3" />
       <div className="flex flex-row gap-4">
         <Skeleton className="h-64 w-2/3" />
