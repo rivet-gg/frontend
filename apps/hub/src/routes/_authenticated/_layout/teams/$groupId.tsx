@@ -45,7 +45,7 @@ function Modals() {
       <CreateGroupGameDialog
         groupId={groupId}
         dialogProps={{
-          open: modal === "create-game",
+          open: modal === "create-group-game",
           onOpenChange: handleonOpenChange,
         }}
       />
@@ -71,7 +71,10 @@ function GroupIdView() {
 }
 
 const searchSchema = z.object({
-  modal: z.enum(["invite", "create-game", "leave"]).or(z.string()).optional(),
+  modal: z
+    .enum(["invite", "create-group-game", "leave"])
+    .or(z.string())
+    .optional(),
 });
 
 export const Route = createFileRoute("/_authenticated/_layout/teams/$groupId")({
@@ -79,7 +82,7 @@ export const Route = createFileRoute("/_authenticated/_layout/teams/$groupId")({
   component: GroupIdView,
   errorComponent: GroupIdErrorComponent,
   pendingComponent: Layout.Root.Skeleton,
-  beforeLoad: ({ params: { groupId } }) => {
-    ls.set("rivet-lastteam", groupId);
+  beforeLoad: ({ params: { groupId }, context: { auth } }) => {
+    ls.set(`rivet-lastteam-${auth.profile?.identity.identityId}`, groupId);
   },
 });

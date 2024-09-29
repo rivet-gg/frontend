@@ -46,19 +46,19 @@ export type SubmitHandler = (
 const { Form, Submit } = createSchemaForm(formSchema);
 export { Form, Submit };
 
-export const Name = () => {
+export const Name = ({ className }: { className?: string }) => {
   const { control } = useFormContext<FormValues>();
   return (
     <FormField
       control={control}
       name="name"
       render={({ field }) => (
-        <FormItem>
-          <FormLabel>Name</FormLabel>
+        <FormItem className={className}>
+          <FormLabel className="col-span-2">Team Name</FormLabel>
           <FormControl>
             <Input placeholder="Enter your team name here..." {...field} />
           </FormControl>
-          <FormMessage />
+          <FormMessage className="col-span-2" />
         </FormItem>
       )}
     />

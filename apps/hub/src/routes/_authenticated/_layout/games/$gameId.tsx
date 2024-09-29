@@ -79,6 +79,7 @@ function GameIdRoute() {
 const searchSchema = z.object({
   modal: z
     .enum(["cloud-token", "service-token", "create-environment"])
+    .or(z.string())
     .optional()
     .catch(undefined),
 });
@@ -88,13 +89,19 @@ export const Route = createFileRoute("/_authenticated/_layout/games/$gameId")({
   component: GameIdRoute,
   errorComponent: GameIdErrorComponent,
   pendingComponent: Layout.Root.Skeleton,
-  beforeLoad: async ({ context: { queryClient }, params: { gameId } }) => {
+  beforeLoad: async ({
+    context: { queryClient, auth },
+    params: { gameId },
+  }) => {
     const [response] = await safeAsync(
       queryClient.fetchQuery(gameQueryOptions(gameId)),
     );
 
     if (response) {
-      ls.set("rivet-lastteam", response.game.developerGroupId);
+      ls.set(
+        `rivet-lastteam-${auth.profile?.identity.identityId}`,
+        response.game.developerGroupId,
+      );
     }
   },
 });

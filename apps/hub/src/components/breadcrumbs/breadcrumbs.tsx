@@ -16,9 +16,7 @@ function Content() {
     return null;
   }
 
-  const groupMatch = matchRoute({ to: "/teams/$groupId", fuzzy: true }) as
-    | false
-    | { groupId: string };
+  const groupMatch = matchRoute({ to: "/teams/$groupId", fuzzy: true });
 
   if (groupMatch) {
     return <GroupBreadcrumb groupId={groupMatch.groupId} />;
@@ -27,7 +25,7 @@ function Content() {
   const gameNamespaceMatch = matchRoute({
     to: "/games/$gameId/environments/$namespaceId",
     fuzzy: true,
-  }) as false | { gameId: string; namespaceId: string };
+  });
 
   if (gameNamespaceMatch) {
     return (
@@ -38,9 +36,7 @@ function Content() {
     );
   }
 
-  const gameMatch = matchRoute({ to: "/games/$gameId", fuzzy: true }) as
-    | false
-    | { gameId: string };
+  const gameMatch = matchRoute({ to: "/games/$gameId", fuzzy: true });
 
   if (gameMatch) {
     return <GameBreadcrumb gameId={gameMatch.gameId} />;

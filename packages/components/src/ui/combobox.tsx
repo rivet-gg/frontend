@@ -52,6 +52,7 @@ export const Combobox = React.forwardRef<HTMLButtonElement, ComboboxProps>(
           <Button
             ref={ref}
             variant="outline"
+            // biome-ignore lint/a11y/useSemanticElements: combobox is a custom component
             role="combobox"
             aria-expanded={open}
             className={cn("justify-between", className)}
