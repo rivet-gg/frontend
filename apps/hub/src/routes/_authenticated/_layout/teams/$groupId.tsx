@@ -1,12 +1,11 @@
 import { ErrorComponent } from "@/components/error-component";
 import * as Layout from "@/domains/game/layouts/group-layout";
-import { groupGamesQueryOptions } from "@/domains/game/queries";
 import { useDialog } from "@/hooks/use-dialog";
+import { ls } from "@/lib/ls";
 import {
   type ErrorComponentProps,
   Outlet,
   createFileRoute,
-  notFound,
 } from "@tanstack/react-router";
 import { zodSearchValidator } from "@tanstack/router-zod-adapter";
 import { z } from "zod";
@@ -77,19 +76,10 @@ const searchSchema = z.object({
 
 export const Route = createFileRoute("/_authenticated/_layout/teams/$groupId")({
   validateSearch: zodSearchValidator(searchSchema),
-  loader: async ({ context: { queryClient }, params: { groupId } }) => {
-    const data = await queryClient.ensureQueryData({
-      ...groupGamesQueryOptions(groupId),
-      revalidateIfStale: true,
-    });
-
-    const group = data.groups.find((group) => group.groupId === groupId);
-
-    if (!group) {
-      throw notFound();
-    }
-  },
   component: GroupIdView,
   errorComponent: GroupIdErrorComponent,
   pendingComponent: Layout.Root.Skeleton,
+  beforeLoad: ({ params: { groupId } }) => {
+    ls.set("rivet-lastteam", groupId);
+  },
 });
