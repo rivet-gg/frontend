@@ -1,20 +1,21 @@
-'use client';
-import { Button, type ButtonProps, Form } from "@rivet-gg/components";
+"use client";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Button, type ButtonProps, Form } from "@rivet-gg/components";
 import { type ComponentProps, type ReactNode, useEffect } from "react";
 import {
   type DefaultValues,
   type FieldPath,
   type FieldValues,
   type PathValue,
+  type UseFormReturn,
   useForm,
   useFormContext,
-  type UseFormReturn,
   useFormState,
 } from "react-hook-form";
 import type z from "zod";
 
-interface FormProps<FormValues extends FieldValues> extends Omit<ComponentProps<"form">, "onSubmit"> {
+interface FormProps<FormValues extends FieldValues>
+  extends Omit<ComponentProps<"form">, "onSubmit"> {
   onSubmit: SubmitHandler<FormValues>;
   defaultValues: DefaultValues<FormValues>;
   children: ReactNode;
@@ -47,9 +48,10 @@ export const createSchemaForm = <Schema extends z.ZodSchema>(
             {...props}
             onSubmit={(event) => {
               event.stopPropagation();
-              return form.handleSubmit((values) => onSubmit(values, form), console.error)(
-                event,
-              );
+              return form.handleSubmit(
+                (values) => onSubmit(values, form),
+                console.error,
+              )(event);
             }}
             className="contents"
           >
@@ -58,9 +60,10 @@ export const createSchemaForm = <Schema extends z.ZodSchema>(
         </Form>
       );
     },
-    Submit: (props: ButtonProps & {disablePristine?: boolean}) => {
+    Submit: (props: ButtonProps & { disablePristine?: boolean }) => {
       const disablePristine = props.disablePristine ?? true;
-      const { isSubmitting, isValidating, isDirty } = useFormState<z.TypeOf<Schema>>();
+      const { isSubmitting, isValidating, isDirty } =
+        useFormState<z.TypeOf<Schema>>();
       return (
         <Button
           type="submit"
@@ -82,9 +85,10 @@ export const createSchemaForm = <Schema extends z.ZodSchema>(
         />
       );
     },
-    SetValue: <Path extends FieldPath<z.TypeOf<Schema>>>(
-      props: { name: Path; value: PathValue<z.TypeOf<Schema>, Path> },
-    ) => {
+    SetValue: <Path extends FieldPath<z.TypeOf<Schema>>>(props: {
+      name: Path;
+      value: PathValue<z.TypeOf<Schema>, Path>;
+    }) => {
       const { setValue } = useFormContext<z.TypeOf<Schema>>();
       useEffect(() => {
         setValue(props.name, props.value, { shouldDirty: true });

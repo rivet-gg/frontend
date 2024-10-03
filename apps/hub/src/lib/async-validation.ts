@@ -1,13 +1,13 @@
-import { Rivet } from "@rivet-gg/api";
+import type { Rivet } from "@rivet-gg/api";
+import { toast } from "@rivet-gg/components";
+import type { FieldValues, Path, UseFormReturn } from "react-hook-form";
+import z from "zod";
 import {
   TraversableErrors,
   VALIDATION_ERRORS,
-  ValidationPaths,
+  type ValidationPaths,
 } from "./traversable-errors";
-import { FieldValues, Path, UseFormReturn } from "react-hook-form";
-import z from "zod";
 import { isRivetError } from "./utils";
-import { toast } from "@rivet-gg/components";
 
 export function validateAgainstApi<TGroup extends keyof ValidationPaths>({
   group,

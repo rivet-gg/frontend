@@ -1,7 +1,7 @@
+import { mergeWatchStreams } from "@/lib/watch-utilities";
 import { rivetEeClient } from "@/queries/global";
 import { getMetaWatchIndex } from "@/queries/utils";
 import { queryOptions } from "@tanstack/react-query";
-import _ from "lodash";
 import { z } from "zod";
 import { BackendEvent } from "./types";
 
@@ -72,24 +72,8 @@ export const gameBackendEnvEventsQueryOptions = ({
       };
     },
     select: (data) => data.events,
-    structuralSharing: (oldData, newData) => {
-      const newParseResult = partialEnvLogsResponse.safeParse(newData);
-      const oldParseResult = partialEnvLogsResponse.safeParse(oldData);
-
-      if (newParseResult.success && oldParseResult.success) {
-        return {
-          ...newParseResult.data,
-          events: _.uniqBy(
-            [...newParseResult.data.events, ...oldParseResult.data.events],
-            "eventTimestamp",
-          ),
-        };
-      }
-
-      return newData;
-    },
     meta: {
-      watch: true,
+      watch: mergeWatchStreams,
     },
   });
 

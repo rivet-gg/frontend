@@ -18,7 +18,7 @@ export const timing = {
 
 export function millisecondsToMonths(milliseconds: number) {
   // Calculate the difference in months
-  const months = milliseconds / timing.days(31)
+  const months = milliseconds / timing.days(31);
 
   return months;
 }

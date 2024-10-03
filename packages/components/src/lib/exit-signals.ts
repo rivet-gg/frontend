@@ -44,7 +44,7 @@ export function formatExitCodeMessage(exitCode: number) {
   if (EXIT_CODE_SIG[exitCode - 128]) {
     const signal = EXIT_CODE_SIG[exitCode - 128];
     if (msg != null) {
-      msg = signal + ": " + msg;
+      msg = `${signal}: ${msg}`;
     } else {
       msg = signal;
     }

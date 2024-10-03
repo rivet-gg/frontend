@@ -1,13 +1,14 @@
-
-type LSKey = "rivet-lastteam";
+type LSKey = "rivet-lastteam" | "rivet-token";
 
 export const ls = {
-    set: (key: LSKey, value: any) => {
-        localStorage.setItem(key
-        , JSON.stringify(value));
-    },
-    get: (key: LSKey) => {
-        const value = localStorage.getItem(key);
-        return value ? JSON.parse(value) : null;
-    },
-}
+  set: (key: LSKey, value: unknown) => {
+    localStorage.setItem(key, JSON.stringify(value));
+  },
+  get: (key: LSKey) => {
+    const value = localStorage.getItem(key);
+    return value ? JSON.parse(value) : null;
+  },
+  remove: (key: LSKey) => {
+    localStorage.removeItem(key);
+  },
+};

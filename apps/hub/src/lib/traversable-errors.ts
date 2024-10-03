@@ -74,7 +74,7 @@ export class TraversableErrors {
   }
 
   isEmpty() {
-    return this.count() == 0;
+    return this.count() === 0;
   }
 
   count(...pathQuery: (string | number)[]) {
@@ -83,7 +83,7 @@ export class TraversableErrors {
     const expandedQuery = [...this.prefix, ...pathQuery];
 
     // Return all errors
-    if (expandedQuery.length == 0) {
+    if (expandedQuery.length === 0) {
       return this.errors.length;
     }
 
@@ -91,8 +91,8 @@ export class TraversableErrors {
       if (error.path.length < expandedQuery.length) continue;
 
       for (let i = 0, l = expandedQuery.length; i < l; i++) {
-        if (error.path[i] == expandedQuery[i].toString()) {
-          if (i == l - 1) {
+        if (error.path[i] === expandedQuery[i].toString()) {
+          if (i === l - 1) {
             errors++;
             break;
           }
@@ -111,7 +111,7 @@ export class TraversableErrors {
     const expandedQuery = [...this.prefix, ...pathQuery];
 
     // Return all errors
-    if (expandedQuery.length == 0) {
+    if (expandedQuery.length === 0) {
       return Array.from(this.errors);
     }
 
@@ -119,8 +119,8 @@ export class TraversableErrors {
       if (error.path.length < expandedQuery.length) continue;
 
       for (let i = 0, l = expandedQuery.length; i < l; i++) {
-        if (error.path[i] == expandedQuery[i].toString()) {
-          if (i == l - 1) {
+        if (error.path[i] === expandedQuery[i].toString()) {
+          if (i === l - 1) {
             errors.push(error);
             break;
           }
@@ -143,13 +143,13 @@ export class TraversableErrors {
     const expandedQuery = [...this.prefix, ...pathQuery];
 
     for (const error of this.errors) {
-      if (error.path.length != expandedQuery.length + 1) continue;
+      if (error.path.length !== expandedQuery.length + 1) continue;
 
-      if (expandedQuery.length == 0) {
+      if (expandedQuery.length === 0) {
         errors.push(error);
       } else {
         for (let i = 0, l = expandedQuery.length; i < l; i++) {
-          if (error.path[i] == expandedQuery[i].toString() && i == l - 1) {
+          if (error.path[i] === expandedQuery[i].toString() && i === l - 1) {
             errors.push(error);
             break;
           }
@@ -178,11 +178,11 @@ function formatError(error: string[], traverseStart: TraversableObject) {
 
   for (const topic of error) {
     // Skip indexes
-    if (!isNaN(parseInt(topic))) continue;
+    if (!Number.isNaN(Number.parseInt(topic))) continue;
     // Skip labels
     if (topic.startsWith("*") && topic.endsWith("*")) continue;
 
-    if (typeof traverse == "string") return traverse;
+    if (typeof traverse === "string") return traverse;
 
     // Check if error path exists
     if (Object.prototype.hasOwnProperty.call(traverse, topic)) {
@@ -195,5 +195,5 @@ function formatError(error: string[], traverseStart: TraversableObject) {
     }
   }
 
-  return typeof traverse == "string" ? traverse : null;
+  return typeof traverse === "string" ? traverse : null;
 }

@@ -1,45 +1,78 @@
-import { isRivetError } from "@/lib/utils";
-import { toast } from "@rivet-gg/components";
-import * as Sentry from "@sentry/react";
-import {
-  type Query,
-  type QueryClient,
-  isCancelledError,
-} from "@tanstack/react-query";
+import type { Query, QueryClient } from "@tanstack/react-query";
 import { z } from "zod";
-
-const watchedQueries = new Set<string>();
+import { queryClient } from "./global";
 
 const watchResponseFragment = z.object({
   watch: z.object({ index: z.string() }),
 });
 
 async function watch(query: Query) {
-  watchedQueries.add(query.queryHash);
+  try {
+    await query.promise;
+  } catch (error) {
+    // the query failed/cancelled, we should stop watching
+    return;
+  }
+  const watchQueryState = queryClient.getQueryState([
+    ...query.queryKey,
+    "watch",
+  ]);
+
+  if (watchQueryState?.fetchStatus === "fetching") {
+    // it means the watch query is already being fetched, so we don't need to watch it again
+    return;
+  }
+
   while (true) {
+    const watchOptsParseResult = watchResponseFragment.safeParse(
+      query.state.data,
+    );
+
+    if (!watchOptsParseResult.success) {
+      // last query didn't have watch options, we should stop watching
+      break;
+    }
+
+    const watchOpts = watchOptsParseResult.data;
+
     try {
-      const { watch } = watchResponseFragment.parse(query.state.data);
-      await query.fetch(
-        {
-          ...query.options,
-          meta: { __watcher: { index: watch.index } },
-        },
-        { cancelRefetch: false },
+      const result = await queryClient.fetchQuery({
+        ...query.options,
+        retry: 0,
+        gcTime: 0,
+        staleTime: 0,
+        queryKey: [...query.queryKey, "watch"],
+        queryHash: JSON.stringify([...query.queryKey, "watch"]),
+        meta: { __watcher: { index: watchOpts.watch.index } },
+      });
+
+      if (!result) {
+        break;
+      }
+
+      // update the query with the new data
+      queryClient.setQueryData(
+        query.queryKey,
+        typeof query.meta?.watch === "function"
+          ? query.meta.watch(query.state.data, result)
+          : result,
       );
     } catch (error) {
-      if (
-        (error instanceof Error && error.name === "AbortError") ||
-        isCancelledError(error)
-      ) {
-        return;
-      }
-      query.cancel({ silent: false, revert: true });
-      watchedQueries.delete(query.queryHash);
-      toast.error("Error occurred while watching a realtime resource.", {
-        description: isRivetError(error) ? error.body.message : undefined,
-      });
-      Sentry.captureException(error);
+      // something went wrong, we should stop watching
+      // probably the query was cancelled
       break;
+    }
+  }
+}
+
+async function stopWatching(query: Query) {
+  if (query.getObserversCount() <= 0) {
+    const watchQuery = queryClient
+      .getQueryCache()
+      .find({ queryKey: [...query.queryKey, "watch"] });
+    if (watchQuery) {
+      watchQuery.cancel();
+      watchQuery.destroy();
     }
   }
 }
@@ -48,27 +81,11 @@ export function watchBlockingQueries(queryClient: QueryClient) {
   queryClient.getQueryCache().subscribe((event) => {
     if (event.type === "observerAdded") {
       if (event.query.meta?.watch) {
-        if (!event.query.state.data?.watch?.index) {
-          return;
-        }
-        if (event.query.state.fetchStatus === "fetching") {
-          return;
-        }
-
-        if (watchedQueries.has(event.query.queryHash)) {
-          return;
-        }
         watch(event.query);
       }
     }
     if (event.type === "observerRemoved") {
-      if (event.query.meta?.watch) {
-        if (event.query.getObserversCount() > 0) {
-          return;
-        }
-        event.query.cancel();
-        watchedQueries.delete(event.query.queryHash);
-      }
+      stopWatching(event.query);
     }
   });
 }

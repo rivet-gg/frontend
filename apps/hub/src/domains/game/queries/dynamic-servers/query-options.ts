@@ -1,7 +1,7 @@
+import { mergeWatchStreams } from "@/lib/watch-utilities";
 import { rivetClient } from "@/queries/global";
 import { getMetaWatchIndex } from "@/queries/utils";
 import type { Rivet } from "@rivet-gg/api";
-import * as RivetSerialization from "@rivet-gg/api/serialization";
 import { infiniteQueryOptions, queryOptions } from "@tanstack/react-query";
 
 export const gameServersQueryOptions = ({
@@ -112,26 +112,8 @@ export const serverLogsQueryOptions = (
       ...data,
       lines: data.lines.map((line) => window.atob(line)),
     }),
-    structuralSharing: (oldData, newData) => {
-      const newParsed =
-        RivetSerialization.servers.logs.GetServerLogsResponse.parse(newData);
-      const oldParsed =
-        RivetSerialization.servers.logs.GetServerLogsResponse.parse(oldData);
-
-      if (newParsed.ok && oldParsed.ok) {
-        return {
-          ...newParsed,
-          timestamps: [
-            ...oldParsed.value.timestamps,
-            ...newParsed.value.timestamps,
-          ],
-          lines: [...oldParsed.value.lines, ...newParsed.value.lines],
-        };
-      }
-      return newData;
-    },
     meta: {
-      watch: true,
+      watch: mergeWatchStreams,
     },
   });
 };

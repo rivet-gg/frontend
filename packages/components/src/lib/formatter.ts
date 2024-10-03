@@ -6,12 +6,12 @@ export interface DurationOptions {
 }
 
 export function formatDuration(duration: number, opts: DurationOptions = {}) {
-  const negative = Math.sign(duration) == -1;
-  duration = Math.abs(duration);
+  const negative = Math.sign(duration) === -1;
+  const dur = Math.abs(duration);
 
   // Decompose duration
-  const milliseconds = duration % 1000;
-  const seconds = Math.floor(duration / 1000);
+  const milliseconds = dur % 1000;
+  const seconds = Math.floor(dur / 1000);
   const minutes = Math.floor(seconds / 60);
   const hours = Math.floor(minutes / 60);
   const days = Math.floor(hours / 24);
@@ -32,7 +32,7 @@ export function formatDuration(duration: number, opts: DurationOptions = {}) {
     else if (!s.length) s.push(opts.show0Min ? "0m" : "1m");
   }
 
-  if (opts.showMilliseconds && milliseconds) s.push(`${duration % 1000}ms`);
+  if (opts.showMilliseconds && milliseconds) s.push(`${dur % 1000}ms`);
 
   return `${negative ? "-" : ""}${(opts.shorten ? s.slice(0, 2) : s).join(" ")}`;
 }
