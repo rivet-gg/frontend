@@ -34,7 +34,7 @@ export const GameBackendEnvironmentDatabaseLink = forwardRef<
           return;
         }
         if (!data) {
-          return navigate({ search: { modal: "database" } });
+          return navigate({ to: ".", search: { modal: "database" } });
         }
         if (typeof data === "string") {
           window.open(data, "_blank", "noreferrer,noopener");

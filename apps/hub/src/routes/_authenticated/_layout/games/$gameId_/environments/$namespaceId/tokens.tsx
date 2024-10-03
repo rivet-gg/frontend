@@ -1,9 +1,39 @@
+import * as Layout from "@/domains/game/layouts/game-layout";
 import { gameNamespaceQueryOptions } from "@/domains/game/queries";
 import { useDialog } from "@/hooks/use-dialog";
 import { Button, CopyArea, DocsCard, Grid, Text } from "@rivet-gg/components";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { Link, createFileRoute } from "@tanstack/react-router";
+import { zodSearchValidator } from "@tanstack/router-zod-adapter";
 import { z } from "zod";
+
+function NamespaceTokensRoute() {
+  const { gameId, namespaceId } = Route.useParams();
+  const {
+    data: { namespace },
+  } = useSuspenseQuery(gameNamespaceQueryOptions({ gameId, namespaceId }));
+
+  return (
+    <>
+      <Grid columns={{ initial: "1", md: "2" }} gap="4" items="start">
+        <PublicTokenCard />
+        <ServiceTokenCard />
+        <DocsCard
+          title="Development token"
+          href="https://rivet.gg/docs/general/concepts/dev-tokens"
+        >
+          <Text>
+            Development tokens are built to let you develop your game on your
+            local machine with access to production APIs.
+          </Text>
+          <Text mb="2">Run the following in your terminal:</Text>
+          <CopyArea value={`rivet token create dev -n ${namespace.nameId}`} />
+        </DocsCard>
+        <Modals />
+      </Grid>
+    </>
+  );
+}
 
 function PublicTokenCard() {
   return (
@@ -13,7 +43,9 @@ function PublicTokenCard() {
         href="https://rivet.gg/docs/general/concepts/handling-game-tokens#public-namespace-tokens"
         footer={
           <Button asChild>
-            <Link search={{ modal: "public-token" }}>Generate</Link>
+            <Link to="." search={{ modal: "public-token" }}>
+              Generate
+            </Link>
           </Button>
         }
       >
@@ -34,7 +66,9 @@ function ServiceTokenCard() {
         href="https://rivet.gg/docs/general/concepts/handling-game-tokens#public-namespace-tokens"
         footer={
           <Button asChild>
-            <Link search={{ modal: "service-token" }}>Generate</Link>
+            <Link to="." search={{ modal: "service-token" }}>
+              Generate
+            </Link>
           </Button>
         }
       >
@@ -85,41 +119,14 @@ function Modals() {
   );
 }
 
-function NamespaceTokensRoute() {
-  const { gameId, namespaceId } = Route.useParams();
-  const {
-    data: { namespace },
-  } = useSuspenseQuery(gameNamespaceQueryOptions({ gameId, namespaceId }));
-
-  return (
-    <>
-      <Grid columns={{ initial: "1", md: "2" }} gap="4" items="start">
-        <PublicTokenCard />
-        <ServiceTokenCard />
-        <DocsCard
-          title="Development token"
-          href="https://rivet.gg/docs/general/concepts/dev-tokens"
-        >
-          <Text>
-            Development tokens are built to let you develop your game on your
-            local machine with access to production APIs.
-          </Text>
-          <Text mb="2">Run the following in your terminal:</Text>
-          <CopyArea value={`rivet token create dev -n ${namespace.nameId}`} />
-        </DocsCard>
-        <Modals />
-      </Grid>
-    </>
-  );
-}
-
 const searchSchema = z.object({
-  modal: z.enum(["public-token", "service-token"]).or(z.string()).optional(),
+  modal: z.enum(["public-token", "service-token"]).optional().catch(undefined),
 });
 
 export const Route = createFileRoute(
   "/_authenticated/_layout/games/$gameId/environments/$namespaceId/tokens",
 )({
-  validateSearch: (search) => searchSchema.parse(search),
+  validateSearch: zodSearchValidator(searchSchema),
   component: NamespaceTokensRoute,
+  pendingComponent: Layout.Root.Skeleton,
 });

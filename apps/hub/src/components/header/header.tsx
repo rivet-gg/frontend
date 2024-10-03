@@ -7,7 +7,7 @@ import {
   SheetTrigger,
 } from "@rivet-gg/components";
 import { Icon, faBars } from "@rivet-gg/icons";
-import { Link } from "@tanstack/react-router";
+import { Link, useLocation } from "@tanstack/react-router";
 import { Breadcrumbs } from "../breadcrumbs/breadcrumbs";
 import { MobileBreadcrumbs } from "../breadcrumbs/mobile-breadcrumbs";
 import { Changelog } from "./changelog";
@@ -35,6 +35,7 @@ const UserProfileButton = () => {
 };
 
 export function Header() {
+  const location = useLocation();
   return (
     <header className="bg-background/60 sticky top-0 z-10 flex items-center gap-4 border-b py-2 backdrop-blur">
       <HeaderRouteLoader />
@@ -71,7 +72,9 @@ export function Header() {
                 </div>
                 <Flex direction="col" justify="end" gap="6">
                   <NavItem asChild>
-                    <Link search={{ modal: "feedback" }}>Feedback</Link>
+                    <Link to={"."} search={{ modal: "feedback" }}>
+                      Feedback
+                    </Link>
                   </NavItem>
                   <NavItem asChild>
                     <a
@@ -121,7 +124,9 @@ export function Header() {
               asChild
               className="hidden md:inline-block border px-4 py-2 rounded-md"
             >
-              <Link search={{ modal: "feedback" }}>Feedback</Link>
+              <Link to="." search={{ modal: "feedback" }}>
+                Feedback
+              </Link>
             </NavItem>
             <Changelog />
             <NavItem asChild className="hidden md:inline-block">

@@ -30,4 +30,5 @@ export const Route = createFileRoute(
 )({
   component: BackendLayoutView,
   errorComponent: BackendLayoutErrorComponent,
+  pendingComponent: Layout.Root.Skeleton,
 });

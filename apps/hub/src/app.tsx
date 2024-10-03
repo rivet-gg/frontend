@@ -5,12 +5,14 @@ import {
   TooltipProvider,
   getConfig,
 } from "@rivet-gg/components";
+import { PageLayout } from "@rivet-gg/components/layout";
 import * as Sentry from "@sentry/react";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
 import { RouterProvider, createRouter } from "@tanstack/react-router";
 import { Suspense } from "react";
 import { ThirdPartyProviders } from "./components/third-party-providers";
+import { AuthProvider, useAuth } from "./domains/auth/contexts/auth";
 import { routeMasks } from "./lib/route-masks";
 import { queryClient, queryClientPersister } from "./queries/global";
 import { routeTree } from "./routeTree.gen";
@@ -35,14 +37,15 @@ export const router = createRouter({
   // Since we're using React Query, we don't want loader calls to ever be stale
   // This will ensure that the loader is always called when the route is preloaded or visited
   defaultPreload: "intent",
-  defaultPreloadStaleTime: 0,
+  defaultPendingComponent: PageLayout.Root.Skeleton,
   defaultOnCatch: (error) => {
     Sentry.captureException(error);
   },
 });
 
 function InnerApp() {
-  return <RouterProvider router={router} />;
+  const auth = useAuth();
+  return <RouterProvider router={router} context={{ auth }} />;
 }
 
 export function App() {
@@ -55,7 +58,9 @@ export function App() {
         <ThirdPartyProviders>
           <Suspense fallback={<FullscreenLoading />}>
             <TooltipProvider>
-              <InnerApp />
+              <AuthProvider>
+                <InnerApp />
+              </AuthProvider>
             </TooltipProvider>
           </Suspense>
 

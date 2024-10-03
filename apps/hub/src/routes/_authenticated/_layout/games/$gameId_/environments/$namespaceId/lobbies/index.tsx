@@ -1,7 +1,7 @@
 import { GameMatchmakerListLobbyPreview } from "@/domains/game/components/game-matchmaker/game-matchmaker-list-lobby-preview";
 import { LobbySortSelect } from "@/domains/game/components/game-matchmaker/lobby-sort-select";
+import * as Layout from "@/domains/game/layouts/matchmaker-layout";
 import { gameNamespaceLobbiesLiveQueryOptions } from "@/domains/game/queries";
-import { queryClient } from "@/queries/global";
 import {
   Card,
   CardContent,
@@ -11,6 +11,7 @@ import {
 } from "@rivet-gg/components";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { zodSearchValidator } from "@tanstack/router-zod-adapter";
 import { useMemo } from "react";
 import { z } from "zod";
 
@@ -70,7 +71,7 @@ function MatchmakerLobbiesView() {
           defaultValue="creation-date-newest"
           value={sort}
           onValueChange={(value) => {
-            navigate({ search: (prev) => ({ ...prev, sort: value }) });
+            navigate({ to: ".", search: (prev) => ({ ...prev, sort: value }) });
           }}
         />
       </CardHeader>
@@ -95,14 +96,10 @@ const searchSchema = z.object({
 export const Route = createFileRoute(
   "/_authenticated/_layout/games/$gameId/environments/$namespaceId/lobbies/",
 )({
-  validateSearch: (search) => searchSchema.parse(search),
+  validateSearch: zodSearchValidator(searchSchema),
   staticData: {
     layout: "full",
   },
-  beforeLoad: async ({ params: { gameId, namespaceId } }) => {
-    await queryClient.ensureQueryData(
-      gameNamespaceLobbiesLiveQueryOptions({ gameId, namespaceId }),
-    );
-  },
   component: MatchmakerLobbiesView,
+  pendingComponent: Layout.Content.Skeleton,
 });

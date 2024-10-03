@@ -30,4 +30,5 @@ export const Route = createFileRoute(
 )({
   component: MatchmakerLayoutView,
   errorComponent: MatchmakerLayoutErrorComponent,
+  pendingComponent: Layout.Root.Skeleton,
 });

@@ -23,11 +23,7 @@ export const Page = ({
     <Flex
       direction="col"
       gap="4"
-      className={cn(
-        className,
-        !title && "pt-4",
-        layout === "full" && "flex-1 w-full",
-      )}
+      className={cn(className, layout === "full" && "flex-1 w-full")}
     >
       {title ? <H1 className={cn(header ? "mt-8" : "my-8")}>{title}</H1> : null}
       {header}
@@ -39,8 +35,13 @@ export const Page = ({
 Page.Skeleton = () => {
   return (
     <Flex direction="col" gap="4">
-      <Skeleton className="h-8 w-1/2" />
-      <Skeleton className="h-1/2 w-full" />
+      <Skeleton className="my-4 h-12 w-1/3" />
+      <div className="flex flex-row gap-4">
+        <Skeleton className="h-64 w-2/3" />
+        <Skeleton className="h-64 w-1/3" />
+      </div>
+      <Skeleton className="h-64 w-full" />
+      <Skeleton className="h-64 w-full" />
     </Flex>
   );
 };

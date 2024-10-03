@@ -4,7 +4,9 @@ import { Link } from "@tanstack/react-router";
 export function Feedback() {
   return (
     <LinkCmp asChild>
-      <Link search={{ modal: "feedback" }}>Missing something? Spot a bug?</Link>
+      <Link to="." search={{ modal: "feedback" }}>
+        Missing something? Spot a bug?
+      </Link>
     </LinkCmp>
   );
 }

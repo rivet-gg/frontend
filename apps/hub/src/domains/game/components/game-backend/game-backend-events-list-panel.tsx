@@ -29,6 +29,7 @@ export function GameBackendEventsListPanel({
             asChild
           >
             <Link
+              to="."
               search={{ eventId: event.eventTimestamp }}
               className="truncate min-w-0"
             >

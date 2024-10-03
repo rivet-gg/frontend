@@ -32,10 +32,12 @@ export function GroupMembers({ groupId }: GroupMembersProps) {
           <CardTitle>Members</CardTitle>
           <Flex gap="2">
             <Button asChild variant="secondary">
-              <Link search={{ modal: "invite" }}>Invite</Link>
+              <Link to="." search={{ modal: "invite" }}>
+                Invite
+              </Link>
             </Button>
             <Button asChild variant="secondary">
-              <Link search={{ modal: "leave" }}>
+              <Link to="." search={{ modal: "leave" }}>
                 <Icon icon={faRightFromBracket} />
               </Link>
             </Button>

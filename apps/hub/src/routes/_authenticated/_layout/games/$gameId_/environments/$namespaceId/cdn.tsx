@@ -15,8 +15,9 @@ import {
   Switch,
   Text,
 } from "@rivet-gg/components";
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useSuspenseQueries, useSuspenseQuery } from "@tanstack/react-query";
 import { Link, createFileRoute } from "@tanstack/react-router";
+import { zodSearchValidator } from "@tanstack/router-zod-adapter";
 import { z } from "zod";
 
 function DomainBasedAuthOption() {
@@ -80,7 +81,9 @@ function PasswordAuthOption() {
         }
         footer={
           <Button asChild>
-            <Link search={{ modal: "cdn-users" }}>Manage users</Link>
+            <Link to="." search={{ modal: "cdn-users" }}>
+              Manage users
+            </Link>
           </Button>
         }
       >
@@ -108,7 +111,9 @@ function CustomDomainsOption({
         title="Custom domains"
         footer={
           <Button asChild>
-            <Link search={{ modal: "cdn-domains" }}>Manage domains</Link>
+            <Link to="." search={{ modal: "cdn-domains" }}>
+              Manage domains
+            </Link>
           </Button>
         }
       >
@@ -168,12 +173,18 @@ function Modals() {
 }
 
 function NamespaceCdnRoute() {
-  const route = Route.useRouteContext();
-  if (!route) return <div>Loading...</div>;
-
-  const { gameId } = Route.useParams();
-  const { data: game } = useSuspenseQuery(gameQueryOptions(gameId));
-  const { namespace } = route;
+  const { gameId, namespaceId } = Route.useParams();
+  const [
+    { data: game },
+    {
+      data: { namespace },
+    },
+  ] = useSuspenseQueries({
+    queries: [
+      gameQueryOptions(gameId),
+      gameNamespaceQueryOptions({ gameId, namespaceId }),
+    ],
+  });
 
   return (
     <Grid columns={{ initial: "1", md: "2" }} gap="4" items="start">
@@ -195,6 +206,6 @@ const searchSchema = z.object({
 export const Route = createFileRoute(
   "/_authenticated/_layout/games/$gameId/environments/$namespaceId/cdn",
 )({
-  validateSearch: (search) => searchSchema.parse(search),
+  validateSearch: zodSearchValidator(searchSchema),
   component: NamespaceCdnRoute,
 });

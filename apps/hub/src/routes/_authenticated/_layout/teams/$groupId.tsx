@@ -8,6 +8,7 @@ import {
   createFileRoute,
   notFound,
 } from "@tanstack/react-router";
+import { zodSearchValidator } from "@tanstack/router-zod-adapter";
 import { z } from "zod";
 
 export function GroupIdErrorComponent(props: ErrorComponentProps) {
@@ -75,8 +76,8 @@ const searchSchema = z.object({
 });
 
 export const Route = createFileRoute("/_authenticated/_layout/teams/$groupId")({
-  validateSearch: (search) => searchSchema.parse(search),
-  beforeLoad: async ({ context: { queryClient }, params: { groupId } }) => {
+  validateSearch: zodSearchValidator(searchSchema),
+  loader: async ({ context: { queryClient }, params: { groupId } }) => {
     const data = await queryClient.ensureQueryData({
       ...groupGamesQueryOptions(groupId),
       revalidateIfStale: true,
@@ -90,4 +91,5 @@ export const Route = createFileRoute("/_authenticated/_layout/teams/$groupId")({
   },
   component: GroupIdView,
   errorComponent: GroupIdErrorComponent,
+  pendingComponent: Layout.Root.Skeleton,
 });

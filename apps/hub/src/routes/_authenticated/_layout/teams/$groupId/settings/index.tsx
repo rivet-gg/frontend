@@ -17,4 +17,12 @@ export const Route = createFileRoute(
   "/_authenticated/_layout/teams/$groupId/settings/",
 )({
   component: GroupIdSettingsView,
+  pendingComponent: () => {
+    return (
+      <Flex gap="4" direction="col">
+        <GroupNameSettingsCard.Skeleton />
+        <GroupImageSettingsCard.Skeleton />
+      </Flex>
+    );
+  },
 });

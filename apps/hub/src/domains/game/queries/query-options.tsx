@@ -75,11 +75,16 @@ export const gameQueryOptions = (gameId: string) => {
         _,
         gameId,
       ],
+      signal,
       meta,
     }) =>
-      rivetClient.cloud.games.getGameById(gameId, {
-        watchIndex: getMetaWatchIndex(meta),
-      }),
+      rivetClient.cloud.games.getGameById(
+        gameId,
+        {
+          watchIndex: getMetaWatchIndex(meta),
+        },
+        { abortSignal: signal },
+      ),
     select: (data) => ({
       ...data.game,
       namespaces: data.game.namespaces.map((namespace) => ({

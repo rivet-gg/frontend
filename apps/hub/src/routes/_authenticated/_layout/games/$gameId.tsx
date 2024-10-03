@@ -4,12 +4,14 @@ import { GameBillingOverageWarning } from "@/domains/game/components/game-billin
 import * as Layout from "@/domains/game/layouts/game-layout";
 import { gameQueryOptions } from "@/domains/game/queries";
 import { useDialog } from "@/hooks/use-dialog";
+import { useSuspenseQuery } from "@tanstack/react-query";
 
 import {
   type ErrorComponentProps,
   Outlet,
   createFileRoute,
 } from "@tanstack/react-router";
+import { zodSearchValidator } from "@tanstack/router-zod-adapter";
 import { z } from "zod";
 
 function GameIdErrorComponent(props: ErrorComponentProps) {
@@ -55,7 +57,11 @@ function Modals() {
 }
 
 function GameIdRoute() {
-  const { gameId, developerGroupId } = Route.useRouteContext();
+  const { gameId } = Route.useParams();
+
+  const {
+    data: { developerGroupId },
+  } = useSuspenseQuery(gameQueryOptions(gameId));
 
   return (
     <Layout.Root>
@@ -71,21 +77,13 @@ function GameIdRoute() {
 const searchSchema = z.object({
   modal: z
     .enum(["cloud-token", "service-token", "create-environment"])
-    .or(z.string())
-    .optional(),
+    .optional()
+    .catch(undefined),
 });
 
 export const Route = createFileRoute("/_authenticated/_layout/games/$gameId")({
-  validateSearch: (search) => searchSchema.parse(search),
-  beforeLoad: async ({ context: { queryClient }, params: { gameId } }) => {
-    const response = await queryClient.ensureQueryData(
-      gameQueryOptions(gameId),
-    );
-    return {
-      gameId,
-      developerGroupId: response.game.developerGroupId,
-    };
-  },
+  validateSearch: zodSearchValidator(searchSchema),
   component: GameIdRoute,
   errorComponent: GameIdErrorComponent,
+  pendingComponent: Layout.Root.Skeleton,
 });

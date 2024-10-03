@@ -19,7 +19,9 @@ export function RivetCommandGroup() {
         Docs
       </CommandItem>
 
-      <CommandItem onSelect={() => navigate({ search: { modal: "feedback" } })}>
+      <CommandItem
+        onSelect={() => navigate({ to: ".", search: { modal: "feedback" } })}
+      >
         <Icon icon={faComment} />
         Feedback
       </CommandItem>

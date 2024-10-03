@@ -27,7 +27,6 @@ export async function tryCreateBackend({
         return;
       }
     }
-    throw error;
   }
   return;
 }

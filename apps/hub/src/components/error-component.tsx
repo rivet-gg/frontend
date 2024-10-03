@@ -11,8 +11,11 @@ import {
 } from "@rivet-gg/components";
 import { Icon, faBomb } from "@rivet-gg/icons";
 import * as Sentry from "@sentry/react";
-import { useQueryClient } from "@tanstack/react-query";
-import type { ErrorComponentProps } from "@tanstack/react-router";
+import {
+  useQueryClient,
+  useQueryErrorResetBoundary,
+} from "@tanstack/react-query";
+import { type ErrorComponentProps, useRouter } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { NotFoundComponent } from "./not-found-component";
 
@@ -20,13 +23,19 @@ export const ErrorComponent = ({
   error,
   reset,
 }: Partial<ErrorComponentProps>) => {
+  const router = useRouter();
   const queryClient = useQueryClient();
+  const queryErrorResetBoundary = useQueryErrorResetBoundary();
 
   useEffect(() => {
+    console.dir(error);
     if (error) {
       Sentry.captureException(error);
     }
-  }, [error]);
+
+    // Reset the query error boundary
+    queryErrorResetBoundary.reset();
+  }, [error, queryErrorResetBoundary]);
 
   if (isRivetError(error)) {
     if (error.statusCode === 404) {
@@ -54,8 +63,8 @@ export const ErrorComponent = ({
       </CardContent>
       <CardFooter>
         <Button
-          onClick={async () => {
-            await queryClient.invalidateQueries({ refetchType: "all" });
+          onClick={() => {
+            router.invalidate();
             reset?.();
           }}
         >

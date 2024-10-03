@@ -2,11 +2,12 @@ import {
   Flex,
   SidebarNavigation,
   SidebarPageContent,
+  Skeleton,
   cn,
 } from "@rivet-gg/components";
 import { Icon, faSpinnerThird } from "@rivet-gg/icons";
 import { Link } from "@tanstack/react-router";
-import type { ComponentProps, ReactNode } from "react";
+import type { ComponentProps, PropsWithChildren, ReactNode } from "react";
 import { GameBackendEnvironmentDatabaseLink } from "../components/game-backend/game-backend-environment-database-link";
 
 const LINKS = [
@@ -88,4 +89,37 @@ function BackendPage({ namespaceId, gameId, children }: BackendPageProps) {
   );
 }
 
-export { BackendPage as Root };
+BackendPage.Skeleton = function BackendPageSkeleton() {
+  return (
+    <SidebarPageContent
+      sidebar={
+        <SidebarNavigation>
+          <Skeleton className="w-full h-5" />
+          <Skeleton className="w-full h-5" />
+          <Skeleton className="w-full h-5" />
+          <Skeleton className="w-full h-5" />
+        </SidebarNavigation>
+      }
+    >
+      <Flex gap="4" direction="col" className="w-full min-h-0 h-full md:h-auto">
+        <Skeleton className="w-full h-56" />
+        <Skeleton className="w-full h-56" />
+      </Flex>
+    </SidebarPageContent>
+  );
+};
+
+function Content({ children }: PropsWithChildren) {
+  return children;
+}
+
+Content.Skeleton = function ContentSkeleton() {
+  return (
+    <>
+      <Skeleton className="w-full h-56" />
+      <Skeleton className="w-full h-56" />
+    </>
+  );
+};
+
+export { BackendPage as Root, Content };

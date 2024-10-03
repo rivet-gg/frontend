@@ -1,5 +1,6 @@
 import { IdentifyUser } from "@/components/third-party-providers";
 import {
+  identityTokenQueryOptions,
   selfProfileQueryOptions,
   useLogoutMutation,
 } from "@/domains/user/queries";
@@ -17,6 +18,8 @@ export interface AuthContext {
 const AuthContext = createContext<AuthContext | null>(null);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
+  useSuspenseQuery(identityTokenQueryOptions());
+
   const {
     data: profile,
     isSuccess,

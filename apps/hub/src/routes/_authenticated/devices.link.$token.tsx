@@ -78,7 +78,7 @@ function DeviceLinkTokenRoute() {
 
 export const Route = createFileRoute("/_authenticated/devices/link/$token")({
   component: DeviceLinkTokenRoute,
-  beforeLoad: async ({ params: { token } }) => {
+  loader: async ({ params: { token } }) => {
     try {
       const response = await queryClient.fetchQuery(
         deviceLinkTokenQueryOptions(token),

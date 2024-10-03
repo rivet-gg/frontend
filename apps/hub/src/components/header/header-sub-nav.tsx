@@ -20,7 +20,8 @@ function Content() {
   const namespaceMatch = matchRoute({
     to: "/games/$gameId/environments/$namespaceId",
     fuzzy: true,
-  }) as { gameId: string; namespaceId: string } | false;
+    pending: false,
+  });
 
   if (namespaceMatch) {
     return (
@@ -31,17 +32,19 @@ function Content() {
     );
   }
 
-  const gameMatch = matchRoute({ to: "/games/$gameId", fuzzy: true }) as
-    | { gameId: string }
-    | false;
+  const gameMatch = matchRoute({
+    to: "/games/$gameId",
+    fuzzy: true,
+  });
 
   if (gameMatch) {
     return <HeaderGameLinks gameId={gameMatch.gameId} />;
   }
 
-  const groupMatch = matchRoute({ to: "/teams/$groupId", fuzzy: true }) as
-    | { groupId: string }
-    | false;
+  const groupMatch = matchRoute({
+    to: "/teams/$groupId",
+    fuzzy: true,
+  });
 
   if (groupMatch) {
     return <HeaderGroupLinks groupId={groupMatch.groupId} />;
