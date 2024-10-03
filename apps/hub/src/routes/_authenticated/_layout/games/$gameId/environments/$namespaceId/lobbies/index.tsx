@@ -76,13 +76,22 @@ function MatchmakerLobbiesView() {
         />
       </CardHeader>
       <CardContent className="flex-1 min-h-0 w-full p-0">
-        <GameMatchmakerListLobbyPreview
-          lobbies={sorted}
-          gameId={gameId}
-          namespaceId={namespaceId}
-          lobbyId={lobbyId}
-          isLive
-        />
+        {sorted.length === 0 ? (
+          <div className="flex items-center mx-auto flex-col gap-2 my-10">
+            <span>No lobbies created.</span>
+            <span className="text-xs">
+              Run your game client & connect to start a lobby.
+            </span>
+          </div>
+        ) : (
+          <GameMatchmakerListLobbyPreview
+            lobbies={sorted}
+            gameId={gameId}
+            namespaceId={namespaceId}
+            lobbyId={lobbyId}
+            isLive
+          />
+        )}
       </CardContent>
     </Card>
   );

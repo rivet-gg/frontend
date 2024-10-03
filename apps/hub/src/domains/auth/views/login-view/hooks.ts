@@ -72,9 +72,11 @@ export const useOtpFormSubmitHandler = ({
             message: translatedResponse.message,
           });
         }
-
         await refreshToken();
-        await queryClient.refetchQueries(selfProfileQueryOptions());
+        await queryClient.refetchQueries({
+          ...selfProfileQueryOptions(),
+          exact: true,
+        });
         return onSuccess?.();
       } catch (error) {
         Sentry.captureException(error);

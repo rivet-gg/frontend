@@ -35,7 +35,14 @@ export function GroupBreadcrumb({ groupId }: GroupBreadcrumbProps) {
   return (
     <Element>
       {groupsCount > 1 ? (
-        <GroupSelect value={groupId} onValueChange={handleGroupChange} />
+        <GroupSelect
+          showCreateGroup
+          onCreateClick={() =>
+            navigate({ to: ".", search: { modal: "create-group" } })
+          }
+          value={groupId}
+          onValueChange={handleGroupChange}
+        />
       ) : (
         <Link
           to="/teams/$groupId"

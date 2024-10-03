@@ -49,30 +49,30 @@ export type SubmitHandler = (
 const { Form, Submit } = createSchemaForm(formSchema);
 export { Form, Submit };
 
-export const Name = () => {
+export const Name = ({ className }: { className?: string }) => {
   const { control } = useFormContext<FormValues>();
   return (
     <FormField
       control={control}
       name="name"
       render={({ field }) => (
-        <FormItem>
-          <FormLabel>Name</FormLabel>
-          <FormControl>
+        <FormItem className={className}>
+          <FormLabel className="col-span-1">Game Name</FormLabel>
+          <FormControl className="row-start-2">
             <Input
               placeholder="Enter a game name..."
               maxLength={25}
               {...field}
             />
           </FormControl>
-          <FormMessage />
+          <FormMessage className="col-span-1" />
         </FormItem>
       )}
     />
   );
 };
 
-export const Slug = () => {
+export const Slug = ({ className }: { className?: string }) => {
   const { control, watch } = useFormContext<FormValues>();
 
   const name = watch("name");
@@ -82,22 +82,20 @@ export const Slug = () => {
       control={control}
       name="slug"
       render={({ field }) => (
-        <FormItem>
-          <FormLabel>Slug</FormLabel>
-          <FormControl>
+        <FormItem className={className}>
+          <FormLabel className="col-span-2">Slug</FormLabel>
+          <FormControl className="row-start-2">
             <Input
               placeholder={name ? convertStringToId(name) : "Enter a slug..."}
               maxLength={25}
               {...field}
               onChange={(event) => {
-                const value = event.target.value
-                  .replace(/[\s-]+/g, "-")
-                  .toLowerCase();
+                const value = convertStringToId(event.target.value);
                 field.onChange({ target: { value } });
               }}
             />
           </FormControl>
-          <FormMessage />
+          <FormMessage className="col-span-2" />
         </FormItem>
       )}
     />

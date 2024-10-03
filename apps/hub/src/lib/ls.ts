@@ -1,4 +1,4 @@
-type LSKey = "rivet-lastteam" | "rivet-token";
+type LSKey = `rivet-lastteam-${string}` | "rivet-token";
 
 export const ls = {
   set: (key: LSKey, value: unknown) => {

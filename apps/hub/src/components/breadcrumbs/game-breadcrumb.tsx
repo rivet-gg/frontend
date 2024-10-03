@@ -41,6 +41,16 @@ export function GameBreadcrumb({ gameId }: GameBreadcrumbProps) {
       <Element>
         {gamesCount > 1 ? (
           <GroupGameSelect
+            showCreateGame
+            onCreateClick={() =>
+              navigate({
+                to: ".",
+                search: {
+                  modal: "create-game",
+                  groupId: data.developerGroupId,
+                },
+              })
+            }
             groupId={data.developerGroupId}
             value={gameId}
             onValueChange={handleGameChange}

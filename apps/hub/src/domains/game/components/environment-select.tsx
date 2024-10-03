@@ -1,6 +1,5 @@
-import { groupGamesQueryOptions } from "@/domains/game/queries";
+import { gameNamespacesQueryOptions } from "@/domains/game/queries";
 import {
-  AssetImage,
   Flex,
   Select,
   SelectContent,
@@ -13,20 +12,20 @@ import { Icon, faCirclePlus } from "@rivet-gg/icons";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { type ComponentProps, useCallback } from "react";
 
-interface GroupGameSelectProps extends ComponentProps<typeof Select> {
-  groupId: string;
-  showCreateGame?: boolean;
+interface EnvironmentSelectProps extends ComponentProps<typeof Select> {
+  gameId: string;
+  showCreateEnvironment?: boolean;
   onCreateClick?: () => void;
 }
 
-export function GroupGameSelect({
-  groupId,
-  showCreateGame,
+export function EnvironmentSelect({
+  showCreateEnvironment,
   onCreateClick,
   onValueChange,
+  gameId,
   ...props
-}: GroupGameSelectProps) {
-  const { data } = useSuspenseQuery(groupGamesQueryOptions(groupId));
+}: EnvironmentSelectProps) {
+  const { data } = useSuspenseQuery(gameNamespacesQueryOptions(gameId));
 
   const handleValueChange = useCallback(
     (value: string) => {
@@ -40,32 +39,25 @@ export function GroupGameSelect({
   );
 
   return (
-    <Select onValueChange={handleValueChange} {...props}>
+    <Select {...props} onValueChange={handleValueChange}>
       <SelectTrigger>
-        <SelectValue placeholder="Select game..." />
+        <SelectValue placeholder="Select environment..." />
       </SelectTrigger>
       <SelectContent>
-        {showCreateGame ? (
+        {showCreateEnvironment ? (
           <>
             <SelectItem value="create">
               <Flex gap="2" items="center">
                 <Icon className="size-4" icon={faCirclePlus} />
-                Create new game
+                Create new environment
               </Flex>
             </SelectItem>
             <SelectSeparator />
           </>
         ) : null}
-        {data.games.map((game) => (
-          <SelectItem key={game.gameId} value={game.gameId}>
-            <Flex gap="2" items="center">
-              <AssetImage
-                src={game.logoUrl || "/games/blank/blankgame.svg"}
-                className="mx-auto size-5 object-contain"
-                alt="Game logo"
-              />
-              {game.displayName}
-            </Flex>
+        {data.map((namespace) => (
+          <SelectItem key={namespace.namespaceId} value={namespace.namespaceId}>
+            {namespace.displayName}
           </SelectItem>
         ))}
       </SelectContent>

@@ -32,7 +32,7 @@ export function GameMatchmakerLobbyDetailsPanel({
   if (!lobbyId) {
     return (
       <Flex items="center" justify="center" className="h-full">
-        <Text textAlign="center">
+        <Text textAlign="center" my="8">
           Please select a lobby from the list on the left.
         </Text>
       </Flex>

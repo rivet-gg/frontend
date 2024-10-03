@@ -36,11 +36,11 @@ export function GroupGames({ groupId }: GroupGamesProps) {
         <CardHeader>
           <Flex items="center" gap="4" justify="between">
             <CardTitle>Games</CardTitle>
-            <Button variant="secondary" size="sm">
-              <Link to="." search={{ modal: "create-game" }}>
+            <Link to="." search={{ modal: "create-group-game" }}>
+              <Button variant="secondary" size="sm">
                 <Icon icon={faPlus} />
-              </Link>
-            </Button>
+              </Button>
+            </Link>
           </Flex>
         </CardHeader>
         <CardContent>
