@@ -1,6 +1,7 @@
+import { clusterQueryOptions } from "@/domains/auth/queries/bootstrap";
 import { Rivet } from "@rivet-gg/api-ee";
 import { Badge, Skeleton } from "@rivet-gg/components";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
 import { useIntersectionObserver } from "usehooks-ts";
 import { gameBillingQueryOptions } from "../../queries";
 
@@ -20,7 +21,7 @@ interface GameBillingPlanBadgeProps {
   gameId: string;
 }
 
-export function GameBillingPlanBadge({ gameId }: GameBillingPlanBadgeProps) {
+function Content({ gameId }: GameBillingPlanBadgeProps) {
   const { ref, isIntersecting } = useIntersectionObserver({
     root: null,
     rootMargin: "0px",
@@ -42,6 +43,16 @@ export function GameBillingPlanBadge({ gameId }: GameBillingPlanBadgeProps) {
   }
 
   return <Skeleton ref={ref} className="w-12 h-6" />;
+}
+
+export function GameBillingPlanBadge({ gameId }: GameBillingPlanBadgeProps) {
+  const { data } = useSuspenseQuery(clusterQueryOptions());
+
+  if (data === "oss") {
+    return null;
+  }
+
+  return <Content gameId={gameId} />;
 }
 
 export function GameBillingPlanLabel({

@@ -23,3 +23,10 @@ export const bootstrapCaptchaQueryOptions = () => {
     select: (data) => data.captcha,
   });
 };
+
+export const clusterQueryOptions = () => {
+  return queryOptions({
+    ...bootstrapQueryOptions(),
+    select: (data) => data.cluster,
+  });
+};

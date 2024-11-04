@@ -1,5 +1,6 @@
 import { ErrorComponent } from "@/components/error-component";
 import * as Layout from "@/domains/game/layouts/backend-layout";
+import { guardEnterprise } from "@/lib/guards";
 import {
   type ErrorComponentProps,
   Outlet,
@@ -31,4 +32,7 @@ export const Route = createFileRoute(
   component: BackendLayoutView,
   errorComponent: BackendLayoutErrorComponent,
   pendingComponent: Layout.Root.Skeleton,
+  beforeLoad: async ({ context: { queryClient } }) => {
+    await guardEnterprise({ queryClient });
+  },
 });

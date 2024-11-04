@@ -26,9 +26,11 @@ export const gameServersQueryOptions = ({
         },
         { abortSignal },
       ),
-    select: (data) => data.pages.flatMap((page) => page.servers),
-    getNextPageParam: (lastPage) =>
-      lastPage.servers[lastPage.servers?.length - 1]?.id,
+    select: (data) => data.pages.flatMap((page) => page.servers || []),
+    getNextPageParam: (lastPage) => {
+      if (!lastPage.servers) return null;
+      return lastPage.servers[lastPage.servers?.length - 1]?.id;
+    },
   });
 };
 
