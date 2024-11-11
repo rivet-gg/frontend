@@ -3,30 +3,30 @@ import { isRivetError } from "@/lib/utils";
 import { queryClient } from "@/queries/global";
 import { useCallback } from "react";
 import {
-  gameNamespaceQueryOptions,
+  gameEnvironmentQueryOptions,
   gameQueryOptions,
-  useNamespaceAddDomainMutation,
+  useEnvironmentAddDomainMutation,
 } from "../queries";
 
 interface UseCdnManageAuthUsersProps {
   gameId: string;
-  namespaceId: string;
+  environmentId: string;
   onSuccess?: () => void;
 }
 
 export function useCdnNewCustomDomainFormHandler({
   onSuccess,
   gameId,
-  namespaceId,
+  environmentId,
 }: UseCdnManageAuthUsersProps) {
-  const { mutateAsync } = useNamespaceAddDomainMutation();
+  const { mutateAsync } = useEnvironmentAddDomainMutation();
 
   return useCallback<SubmitHandler>(
     async (values, form) => {
       try {
         await mutateAsync({
           gameId,
-          namespaceId,
+          environmentId,
           domain: values.name,
         });
       } catch (error) {
@@ -43,10 +43,10 @@ export function useCdnNewCustomDomainFormHandler({
       }
       await queryClient.invalidateQueries(gameQueryOptions(gameId));
       await queryClient.invalidateQueries(
-        gameNamespaceQueryOptions({ gameId, namespaceId }),
+        gameEnvironmentQueryOptions({ gameId, environmentId }),
       );
       onSuccess?.();
     },
-    [gameId, mutateAsync, namespaceId, onSuccess],
+    [gameId, mutateAsync, environmentId, onSuccess],
   );
 }

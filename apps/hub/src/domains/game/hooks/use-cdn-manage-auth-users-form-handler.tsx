@@ -4,15 +4,15 @@ import type { Rivet } from "@rivet-gg/api";
 import bcrypt from "bcryptjs";
 import { useCallback } from "react";
 import {
-  gameNamespaceQueryOptions,
+  gameEnvironmentQueryOptions,
   gameQueryOptions,
-  useNamespaceRemoveCdnAuthUserMutation,
-  useNamespaceUpdateCdnAuthUserMutation,
+  useEnvironmentRemoveCdnAuthUserMutation,
+  useEnvironmentUpdateCdnAuthUserMutation,
 } from "../queries";
 
 const SALT = bcrypt.genSaltSync(10);
 
-type CdnNamespaceAuthPasswordUser = Pick<
+type CdnEnvironmentAuthPasswordUser = Pick<
   Rivet.cloud.CdnNamespaceAuthUser,
   "user"
 > & {
@@ -21,10 +21,10 @@ type CdnNamespaceAuthPasswordUser = Pick<
 
 function computeUsersDiff(
   existingUsers: Rivet.cloud.CdnNamespaceAuthUser["user"][],
-  newUsers: CdnNamespaceAuthPasswordUser[],
+  newUsers: CdnEnvironmentAuthPasswordUser[],
 ) {
-  const update: CdnNamespaceAuthPasswordUser[] = [];
-  const create: CdnNamespaceAuthPasswordUser[] = [];
+  const update: CdnEnvironmentAuthPasswordUser[] = [];
+  const create: CdnEnvironmentAuthPasswordUser[] = [];
   const errors: { idx: number; error: string }[] = [];
   const remove: Rivet.cloud.CdnNamespaceAuthUser["user"][] = [];
 
@@ -59,7 +59,7 @@ function computeUsersDiff(
 
 interface UseCdnManageAuthUsersFormHandlerProps {
   gameId: string;
-  namespaceId: string;
+  environmentId: string;
   userList: Rivet.cloud.CdnNamespaceAuthUser[];
   onSuccess?: () => void;
 }
@@ -68,10 +68,10 @@ export function useCdnManageAuthUsersFormHandler({
   onSuccess,
   gameId,
   userList,
-  namespaceId,
+  environmentId,
 }: UseCdnManageAuthUsersFormHandlerProps) {
-  const { mutateAsync: updateUser } = useNamespaceUpdateCdnAuthUserMutation();
-  const { mutateAsync: removeUser } = useNamespaceRemoveCdnAuthUserMutation();
+  const { mutateAsync: updateUser } = useEnvironmentUpdateCdnAuthUserMutation();
+  const { mutateAsync: removeUser } = useEnvironmentRemoveCdnAuthUserMutation();
 
   return useCallback<SubmitHandler>(
     async (values, form) => {
@@ -93,7 +93,7 @@ export function useCdnManageAuthUsersFormHandler({
         ...[...diff.update, ...diff.create].map((user) =>
           updateUser({
             gameId,
-            namespaceId,
+            environmentId,
             user: user.user,
             password: bcrypt.hashSync(user.password, SALT),
           }),
@@ -101,7 +101,7 @@ export function useCdnManageAuthUsersFormHandler({
         ...diff.remove.map((user) =>
           removeUser({
             gameId,
-            namespaceId,
+            environmentId,
             user,
           }),
         ),
@@ -109,10 +109,10 @@ export function useCdnManageAuthUsersFormHandler({
 
       await queryClient.invalidateQueries(gameQueryOptions(gameId));
       await queryClient.invalidateQueries(
-        gameNamespaceQueryOptions({ gameId, namespaceId }),
+        gameEnvironmentQueryOptions({ gameId, environmentId }),
       );
       onSuccess?.();
     },
-    [gameId, namespaceId, onSuccess, removeUser, updateUser, userList],
+    [gameId, environmentId, onSuccess, removeUser, updateUser, userList],
   );
 }

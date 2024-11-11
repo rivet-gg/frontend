@@ -19,7 +19,7 @@ export const gameBackendQueryOptions = ({
   environmentId: string;
 }) =>
   queryOptions({
-    queryKey: ["game", gameId, "namespace", environmentId, "backend"],
+    queryKey: ["game", gameId, "environment", environmentId, "backend"],
     queryFn: ({ queryKey: [_, gameId, __, environmentId], signal }) =>
       rivetEeClient.ee.backend.get(
         gameId,

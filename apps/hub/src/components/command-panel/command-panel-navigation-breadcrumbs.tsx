@@ -1,6 +1,6 @@
 import { GameAvatar } from "@/domains/game/components/game-avatar";
 import {
-  gameNamespaceDisplayNameQueryOptions,
+  gameEnvironmentDisplayNameQueryOptions,
   gameQueryOptions,
   groupGamesQueryOptions,
 } from "@/domains/game/queries";
@@ -39,17 +39,17 @@ function GameBreadcrumb({ gameId }: { gameId: string }) {
   );
 }
 
-function NamespaceBreadcrumb({
+function EnvironmentBreadcrumb({
   gameId,
-  namespaceId,
+  environmentId,
 }: {
   gameId: string;
-  namespaceId: string;
+  environmentId: string;
 }) {
-  const { data: namespace } = useSuspenseQuery(
-    gameNamespaceDisplayNameQueryOptions({ gameId, namespaceId }),
+  const { data: environment } = useSuspenseQuery(
+    gameEnvironmentDisplayNameQueryOptions({ gameId, environmentId }),
   );
-  return <span>{namespace}</span>;
+  return <span>{environment}</span>;
 }
 
 function BackendBreadcrumb() {
@@ -81,8 +81,8 @@ export function CommandPanelNavigationBreadcrumbs({
           >
             {page.key === "group" && <GroupBreadcrumbs {...page.params} />}
             {page.key === "game" && <GameBreadcrumb {...page.params} />}
-            {page.key === "namespace" && (
-              <NamespaceBreadcrumb {...page.params} />
+            {page.key === "environment" && (
+              <EnvironmentBreadcrumb {...page.params} />
             )}
             {page.key === "backend" && <BackendBreadcrumb />}
           </Badge>

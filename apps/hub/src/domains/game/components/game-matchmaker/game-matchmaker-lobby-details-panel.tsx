@@ -9,7 +9,7 @@ import {
 import { ErrorBoundary } from "@sentry/react";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { Suspense } from "react";
-import { gameNamespaceLobbyQueryOptions } from "../../queries";
+import { gameEnvironmentLobbyQueryOptions } from "../../queries";
 import { LobbyLifecycle } from "./lobby-lifecycle";
 import { LobbyLogs } from "./lobby-logs";
 import { LobbyMetrics } from "./lobby-metrics";
@@ -19,14 +19,14 @@ import { LobbySummary } from "./lobby-summary";
 interface GameMatchmakerLobbyDetailsPanelProps {
   lobbyId?: string;
   gameId: string;
-  namespaceId: string;
+  environmentId: string;
   isLive?: boolean;
 }
 
 export function GameMatchmakerLobbyDetailsPanel({
   lobbyId,
   gameId,
-  namespaceId,
+  environmentId,
   isLive,
 }: GameMatchmakerLobbyDetailsPanelProps) {
   if (!lobbyId) {
@@ -43,8 +43,8 @@ export function GameMatchmakerLobbyDetailsPanel({
     data: { lobby, metrics },
     dataUpdatedAt,
   } = useSuspenseQuery(
-    gameNamespaceLobbyQueryOptions(
-      { gameId, namespaceId, lobbyId },
+    gameEnvironmentLobbyQueryOptions(
+      { gameId, environmentId, lobbyId },
       { refetchInterval: isLive ? 1000 : undefined, throwOnError: true },
     ),
   );

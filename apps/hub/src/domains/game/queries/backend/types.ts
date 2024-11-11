@@ -37,7 +37,7 @@ type Event = z.infer<typeof Event>;
 
 export const BackendEvent = z
   .object({
-    dispatchNamespace: z.string(),
+    dispatchEnvironment: z.string(),
     event: Event,
     eventTimestamp: z.string(),
     logs: z

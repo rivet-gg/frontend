@@ -45,10 +45,10 @@ export async function guardOssNewie({
     // In case the game has no namespaces, or we failed to fetch the game, redirect to the game page
     if (namespaces.length > 0) {
       throw redirect({
-        to: "/games/$gameId/environments/$namespaceId",
+        to: "/games/$gameId/environments/$environmentId",
         params: {
           gameId: games[0].gameId,
-          namespaceId: namespaces[0].namespaceId,
+          environmentId: namespaces[0].namespaceId,
         },
       });
     }

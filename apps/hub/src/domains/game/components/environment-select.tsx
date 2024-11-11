@@ -1,4 +1,4 @@
-import { gameNamespacesQueryOptions } from "@/domains/game/queries";
+import { gameEnvironmentsQueryOptions } from "@/domains/game/queries";
 import {
   Flex,
   Select,
@@ -25,7 +25,7 @@ export function EnvironmentSelect({
   gameId,
   ...props
 }: EnvironmentSelectProps) {
-  const { data } = useSuspenseQuery(gameNamespacesQueryOptions(gameId));
+  const { data } = useSuspenseQuery(gameEnvironmentsQueryOptions(gameId));
 
   const handleValueChange = useCallback(
     (value: string) => {
@@ -55,9 +55,12 @@ export function EnvironmentSelect({
             <SelectSeparator />
           </>
         ) : null}
-        {data.map((namespace) => (
-          <SelectItem key={namespace.namespaceId} value={namespace.namespaceId}>
-            {namespace.displayName}
+        {data.map((environment) => (
+          <SelectItem
+            key={environment.namespaceId}
+            value={environment.namespaceId}
+          >
+            {environment.displayName}
           </SelectItem>
         ))}
       </SelectContent>

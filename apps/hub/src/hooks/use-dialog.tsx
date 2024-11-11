@@ -165,9 +165,9 @@ export const createDataDialogHook = <
 
 export function useDialog() {}
 
-useDialog.GenerateNamespacePublicToken = createDialogHook(
+useDialog.GenerateEnvironmentPublicToken = createDialogHook(
   import(
-    "@/domains/game/components/dialogs/namespace-generate-public-token-dialog"
+    "@/domains/game/components/dialogs/environment-generate-public-token-dialog"
   ),
   {
     autoFocus: false,
@@ -202,15 +202,15 @@ useDialog.ManageCdnAuthUsers = createDialogHook(
 );
 
 useDialog.CreateEnvironment = createDialogHook(
-  import("@/domains/game/components/dialogs/create-namespace-dialog"),
+  import("@/domains/game/components/dialogs/create-environment-dialog"),
 );
 
 useDialog.ManageCdnCustomDomains = createDialogHook(
   import("@/domains/game/components/dialogs/cdn-manage-custom-domains-dialog"),
 );
 
-useDialog.DeployNamespaceVersion = createDialogHook(
-  import("@/domains/game/components/dialogs/deploy-namespace-version-dialog"),
+useDialog.DeployEnvironmentVersion = createDialogHook(
+  import("@/domains/game/components/dialogs/deploy-environment-version-dialog"),
 );
 
 useDialog.ConfirmBillingPlan = createDataDialogHook(

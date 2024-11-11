@@ -9,23 +9,23 @@ import type { PropsWithChildren, ReactNode } from "react";
 
 const LINKS = [
   {
-    url: "/games/$gameId/environments/$namespaceId/servers/",
+    url: "/games/$gameId/environments/$environmentId/servers/",
     text: "Servers",
     exact: true,
   },
   {
-    url: "/games/$gameId/environments/$namespaceId/servers/builds",
+    url: "/games/$gameId/environments/$environmentId/servers/builds",
     text: "Builds",
   },
 ];
 
 interface ServersPageProps {
   gameId: string;
-  namespaceId: string;
+  environmentId: string;
   children: ReactNode;
 }
 
-function ServersPage({ namespaceId, gameId, children }: ServersPageProps) {
+function ServersPage({ environmentId, gameId, children }: ServersPageProps) {
   return (
     <SidebarPageContent
       sidebar={
@@ -37,7 +37,7 @@ function ServersPage({ namespaceId, gameId, children }: ServersPageProps) {
               activeOptions={{ exact: link.exact, includeSearch: false }}
               params={{
                 gameId,
-                namespaceId,
+                environmentId,
               }}
               className="data-active:text-foreground data-active:font-semibold"
             >

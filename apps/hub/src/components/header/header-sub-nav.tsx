@@ -4,9 +4,9 @@ import { Skeleton, cn } from "@rivet-gg/components";
 import { CatchBoundary, useMatchRoute } from "@tanstack/react-router";
 import { Suspense, useContext } from "react";
 import { MobileBreadcrumbsContext } from "../breadcrumbs/mobile-breadcrumbs";
+import { HeaderEnvironmentLinks } from "./links/header-environment-links";
 import { HeaderGameLinks } from "./links/header-game-links";
 import { HeaderGroupLinks } from "./links/header-group-links";
-import { HeaderNamespaceLinks } from "./links/header-namespace-links";
 
 function Content() {
   const matchRoute = useMatchRoute();
@@ -18,16 +18,16 @@ function Content() {
   }
 
   const namespaceMatch = matchRoute({
-    to: "/games/$gameId/environments/$namespaceId",
+    to: "/games/$gameId/environments/$environmentId",
     fuzzy: true,
     pending: false,
   });
 
   if (namespaceMatch) {
     return (
-      <HeaderNamespaceLinks
+      <HeaderEnvironmentLinks
         gameId={namespaceMatch.gameId}
-        namespaceId={namespaceMatch.namespaceId}
+        environmentId={namespaceMatch.environmentId}
       />
     );
   }

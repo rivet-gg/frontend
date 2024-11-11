@@ -4,7 +4,7 @@ import { CommandGroup, CommandItem } from "@rivet-gg/components";
 import { Icon, faCircleDollar, faCog, faHome, faKey } from "@rivet-gg/icons";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { useCommandPanelNavigation } from "../command-panel-navigation-provider";
-import { NamespacesCommandPanelItems } from "../namespaces-command-panel-items";
+import { EnvironmentsCommandPanelItems } from "../environments-command-panel-items";
 
 interface GameCommandPanelPage {
   gameId: string;
@@ -45,8 +45,8 @@ export function GameCommandPanelPage({ gameId }: GameCommandPanelPage) {
           Settings
         </CommandItem>
       </CommandGroup>
-      <CommandGroup heading="Namespaces">
-        <NamespacesCommandPanelItems
+      <CommandGroup heading="Environments">
+        <EnvironmentsCommandPanelItems
           gameId={gameId}
           namespaces={data.namespaces}
         />

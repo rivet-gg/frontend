@@ -9,7 +9,7 @@ import {
 import type { PropsWithChildren, ReactNode } from "react";
 import {
   type LobbySummary as LobbySummaryType,
-  useNamespaceMatchmakeDeleteLobbyMutation,
+  useEnvironmentMatchmakeDeleteLobbyMutation,
 } from "../../queries";
 import { LobbyRegion } from "./lobby-region";
 
@@ -33,10 +33,10 @@ export function LobbySummary({
   gameId,
   regionId,
   rightSide,
-  namespaceId,
+  namespaceId: environmentId,
   isLive,
 }: LobbySummaryProps) {
-  const { mutate: deleteLobby } = useNamespaceMatchmakeDeleteLobbyMutation();
+  const { mutate: deleteLobby } = useEnvironmentMatchmakeDeleteLobbyMutation();
 
   return (
     <Container>
@@ -72,7 +72,9 @@ export function LobbySummary({
               {isLive ? (
                 <Button
                   variant="destructive"
-                  onClick={() => deleteLobby({ lobbyId, namespaceId, gameId })}
+                  onClick={() =>
+                    deleteLobby({ lobbyId, environmentId, gameId })
+                  }
                 >
                   Destroy
                 </Button>

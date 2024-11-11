@@ -9,28 +9,28 @@ import type { PropsWithChildren, ReactNode } from "react";
 
 const LINKS = [
   {
-    url: "/games/$gameId/environments/$namespaceId/lobbies/",
+    url: "/games/$gameId/environments/$environmentId/lobbies/",
     text: "Lobbies",
     exact: true,
   },
   {
-    url: "/games/$gameId/environments/$namespaceId/lobbies/logs",
+    url: "/games/$gameId/environments/$environmentId/lobbies/logs",
     text: "Logs",
   },
   {
-    url: "/games/$gameId/environments/$namespaceId/lobbies/settings",
+    url: "/games/$gameId/environments/$environmentId/lobbies/settings",
     text: "Settings",
   },
 ];
 
 interface MatchmakerPageProps {
   gameId: string;
-  namespaceId: string;
+  environmentId: string;
   children: ReactNode;
 }
 
 function MatchmakerPage({
-  namespaceId,
+  environmentId,
   gameId,
   children,
 }: MatchmakerPageProps) {
@@ -45,7 +45,7 @@ function MatchmakerPage({
               activeOptions={{ exact: link.exact, includeSearch: false }}
               params={{
                 gameId,
-                namespaceId,
+                environmentId,
               }}
               className="data-active:text-foreground data-active:font-semibold"
             >

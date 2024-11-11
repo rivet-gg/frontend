@@ -14,7 +14,7 @@ interface GameMatchmakerListLobbyPreviewProps {
   lobbies: (LobbySummary | LiveLobbyLogs)[];
   lobbyId?: string;
   gameId: string;
-  namespaceId: string;
+  environmentId: string;
   isLive?: boolean;
   sort?: ReactNode;
 }
@@ -23,7 +23,7 @@ export function GameMatchmakerListLobbyPreview({
   lobbies,
   lobbyId,
   gameId,
-  namespaceId,
+  environmentId,
   isLive,
 }: GameMatchmakerListLobbyPreviewProps) {
   const isMd = useBreakpoint("md");
@@ -47,7 +47,7 @@ export function GameMatchmakerListLobbyPreview({
               <GameMatchmakerListLobbyPrefilledButton
                 isActive
                 gameId={gameId}
-                namespaceId={namespaceId}
+                environmentId={environmentId}
                 lobbyId={lobbyId}
               />
             ) : null}
@@ -61,7 +61,7 @@ export function GameMatchmakerListLobbyPreview({
             <GameMatchmakerLobbyDetailsPanel
               lobbyId={lobbyId}
               gameId={gameId}
-              namespaceId={namespaceId}
+              environmentId={environmentId}
               isLive={isLive && doesLobbyExist}
             />
           </Suspense>

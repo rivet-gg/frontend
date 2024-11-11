@@ -21,10 +21,10 @@ import {
   CommandPanelNavigationProvider,
   type CommandPanelPage,
 } from "./command-panel/command-panel-navigation-provider";
+import { EnvironmentCommandPanelPage } from "./command-panel/command-panel-page/environment-command-panel-page";
 import { GameCommandPanelPage } from "./command-panel/command-panel-page/game-command-panel-page";
 import { GroupCommandPanelPage } from "./command-panel/command-panel-page/group-command-panel-page";
 import { IndexCommandPanelPage } from "./command-panel/command-panel-page/index-command-panel-page";
-import { NamespaceCommandPanelPage } from "./command-panel/command-panel-page/namespace-command-panel-page";
 
 export function CommandPanel() {
   const [isOpen, setOpen] = useState(false);
@@ -54,18 +54,18 @@ export function CommandPanel() {
         setPages([{ key: "game", params: { gameId: isGame.gameId } }]);
       }
 
-      const isNamespace = matchRoute({
-        to: "/games/$gameId/environments/$namespaceId",
+      const isEnvironment = matchRoute({
+        to: "/games/$gameId/environments/$environmentId",
         fuzzy: true,
-      }) as { gameId: string; namespaceId: string } | false;
-      if (isNamespace) {
+      }) as { gameId: string; environmentId: string } | false;
+      if (isEnvironment) {
         setPages([
-          { key: "game", params: { gameId: isNamespace.gameId } },
+          { key: "game", params: { gameId: isEnvironment.gameId } },
           {
-            key: "namespace",
+            key: "environment",
             params: {
-              gameId: isNamespace.gameId,
-              namespaceId: isNamespace.namespaceId,
+              gameId: isEnvironment.gameId,
+              environmentId: isEnvironment.environmentId,
             },
           },
         ]);
@@ -159,10 +159,10 @@ export function CommandPanel() {
               {page?.key === "game" ? (
                 <GameCommandPanelPage gameId={page.params.gameId} />
               ) : null}
-              {page?.key === "namespace" ? (
-                <NamespaceCommandPanelPage
+              {page?.key === "environment" ? (
+                <EnvironmentCommandPanelPage
                   gameId={page.params.gameId}
-                  namespaceId={page.params.namespaceId}
+                  environmentId={page.params.environmentId}
                 />
               ) : null}
             </Suspense>

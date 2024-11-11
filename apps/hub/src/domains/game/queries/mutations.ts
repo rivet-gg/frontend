@@ -19,7 +19,7 @@ export const useGameCreateMutation = ({
   });
 };
 
-export const useNamespaceCreateMutation = ({
+export const useEnvironmentCreateMutation = ({
   onSuccess,
 }: {
   onSuccess?: (

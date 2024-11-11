@@ -3,7 +3,7 @@ import { Button, LogsView, WithTooltip } from "@rivet-gg/components";
 import { Icon, faSave } from "@rivet-gg/icons";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import {
-  gameNamespaceLogsLobbyLogsQueryOptions,
+  gameEnvironmentLogsLobbyLogsQueryOptions,
   useExportLobbyLogsMutation,
 } from "../../queries";
 
@@ -23,7 +23,7 @@ export function LobbyLogs({
   const {
     data: { timestamps, lines },
   } = useSuspenseQuery(
-    gameNamespaceLogsLobbyLogsQueryOptions(
+    gameEnvironmentLogsLobbyLogsQueryOptions(
       {
         gameId,
         lobbyId,
