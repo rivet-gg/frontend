@@ -43,7 +43,7 @@
   "workspace": {
     "packageJson": {
       "dependencies": [
-        "npm:@biomejs/biome@1.9.1",
+        "npm:@biomejs/biome@1.9.3",
         "npm:lefthook@^1.6.12",
         "npm:turbo@^2.0.1"
       ]
@@ -80,17 +80,17 @@
             "npm:@fortawesome/free-solid-svg-icons@^6.5.2",
             "npm:@fortawesome/react-fontawesome@^0.2.2",
             "npm:@hookform/resolvers@^3.3.4",
-            "npm:@react-hookz/web@^24.0.4",
             "npm:@sentry/react@^8.26.0",
             "npm:@sentry/vite-plugin@^2.22.2",
-            "npm:@tanstack/query-broadcast-client-experimental@^5.51.24",
-            "npm:@tanstack/query-sync-storage-persister@^5.51.24",
-            "npm:@tanstack/react-query-devtools@^5.51.24",
-            "npm:@tanstack/react-query-persist-client@^5.51.24",
-            "npm:@tanstack/react-query@^5.51.24",
-            "npm:@tanstack/react-router@^1.50.1",
-            "npm:@tanstack/router-devtools@^1.33.4",
-            "npm:@tanstack/router-vite-plugin@^1.48.6",
+            "npm:@tanstack/query-broadcast-client-experimental@^5.56.2",
+            "npm:@tanstack/query-sync-storage-persister@^5.56.2",
+            "npm:@tanstack/react-query-devtools@^5.58.0",
+            "npm:@tanstack/react-query-persist-client@^5.56.2",
+            "npm:@tanstack/react-query@^5.56.2",
+            "npm:@tanstack/react-router@^1.58.12",
+            "npm:@tanstack/router-devtools@^1.58.12",
+            "npm:@tanstack/router-vite-plugin@^1.58.12",
+            "npm:@tanstack/router-zod-adapter@^1.58.12",
             "npm:@types/bcryptjs@^2.4.6",
             "npm:@types/file-saver@^2",
             "npm:@types/mime@^4.0.0",
@@ -117,6 +117,8 @@
             "npm:tailwindcss@^3.4.1",
             "npm:turnstile-types@^1.2.1",
             "npm:typescript@^5.5.4",
+            "npm:usehooks-ts@^3.1.0",
+            "npm:vite-plugin-favicons-inject@^2.2.0",
             "npm:vite@^5.2.0",
             "npm:zod@^3.22.4"
           ]
@@ -136,7 +138,7 @@
             "npm:@radix-ui/react-accordion@^1.1.2",
             "npm:@radix-ui/react-avatar@^1.0.4",
             "npm:@radix-ui/react-checkbox@^1.1.1",
-            "npm:@radix-ui/react-dialog@^1.0.5",
+            "npm:@radix-ui/react-dialog@^1.1.1",
             "npm:@radix-ui/react-dropdown-menu@^2.0.6",
             "npm:@radix-ui/react-label@^2.0.2",
             "npm:@radix-ui/react-popover@^1.0.7",
@@ -152,9 +154,8 @@
             "npm:@radix-ui/react-toggle@^1.0.3",
             "npm:@radix-ui/react-tooltip@^1.1.1",
             "npm:@radix-ui/react-visually-hidden@^1.0.3",
-            "npm:@react-hookz/web@^24.0.4",
             "npm:@tailwindcss/container-queries@^0.1.1",
-            "npm:@tanstack/react-virtual@^3.10.1",
+            "npm:@tanstack/react-virtual@^3.10.8",
             "npm:@types/mime@^4.0.0",
             "npm:@types/node@^20.11.30",
             "npm:@types/react-dom@^18.2.22",
@@ -183,6 +184,7 @@
             "npm:tailwindcss-animate@^1.0.7",
             "npm:tailwindcss@^3.4.1",
             "npm:typescript@^5.5.4",
+            "npm:usehooks-ts@^3.1.0",
             "npm:vite-plugin-dts@^3.8.1",
             "npm:vite@^5.2.0",
             "npm:zod@^3.23.8"
