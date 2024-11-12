@@ -5,7 +5,7 @@ import {
   useBreakpoint,
 } from "@rivet-gg/components";
 import { Suspense } from "react";
-import { ProjectServersListPanel } from "./servers-list-panel";
+import { ServersListPanel } from "./servers-list-panel";
 import { ServersServerDetailsPanel } from "./servers-server-details-panel";
 
 interface ServersListPreview {
@@ -29,7 +29,7 @@ export function ServersListPreview({
     >
       <ResizablePanel minSize={25} maxSize={75}>
         <div className="h-full max-h-full overflow-hidden w-full truncate min-w-0">
-          <ProjectServersListPanel
+          <ServersListPanel
             projectId={projectId}
             environmentId={environmentId}
             serverId={serverId}

@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { forwardRef, useMemo } from "react";
 
 interface RelativeTimeProps {
   time: Date;
@@ -18,25 +18,31 @@ function decompose(duration: number) {
   return { years, days, hours, minutes, seconds, milliseconds };
 }
 
-export function RelativeTime({ time }: RelativeTimeProps) {
-  const value = useMemo(() => {
-    const duration = Date.now() - time.getTime();
-    const { years, days, hours, minutes, seconds } = decompose(duration);
+export const RelativeTime = forwardRef<HTMLTimeElement, RelativeTimeProps>(
+  ({ time, ...props }, ref) => {
+    const value = useMemo(() => {
+      const duration = Date.now() - time.getTime();
+      const { years, days, hours, minutes, seconds } = decompose(duration);
 
-    if (years > 0) {
-      return relativeTimeFormat.format(-years, "years");
-    }
-    if (days > 0) {
-      return relativeTimeFormat.format(-days, "days");
-    }
-    if (hours > 0) {
-      return relativeTimeFormat.format(-hours, "hours");
-    }
-    if (minutes > 0) {
-      return relativeTimeFormat.format(-minutes, "minutes");
-    }
-    return relativeTimeFormat.format(-seconds, "seconds");
-  }, [time]);
+      if (years > 0) {
+        return relativeTimeFormat.format(-years, "years");
+      }
+      if (days > 0) {
+        return relativeTimeFormat.format(-days, "days");
+      }
+      if (hours > 0) {
+        return relativeTimeFormat.format(-hours, "hours");
+      }
+      if (minutes > 0) {
+        return relativeTimeFormat.format(-minutes, "minutes");
+      }
+      return relativeTimeFormat.format(-seconds, "seconds");
+    }, [time]);
 
-  return <time>{value}</time>;
-}
+    return (
+      <time ref={ref} {...props}>
+        {value}
+      </time>
+    );
+  },
+);
