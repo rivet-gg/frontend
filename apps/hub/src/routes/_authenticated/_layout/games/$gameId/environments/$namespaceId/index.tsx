@@ -7,6 +7,7 @@ import {
   gameNamespaceQueryOptions,
   gameVersionQueryOptions,
 } from "@/domains/game/queries";
+import { GuardEnterprise } from "@/lib/guards";
 import {
   Button,
   Grid,
@@ -33,22 +34,26 @@ function NamespaceIdRoute() {
     <>
       <Grid columns={{ initial: "1", md: "2", lg: "3" }} gap="4">
         <CurrentBuildCard />
-        <BackendEndpointCard />
+        <GuardEnterprise>
+          <BackendEndpointCard />
+        </GuardEnterprise>
         {legacyLobbiesEnabled ? <CurrentVersionCard /> : null}
       </Grid>
-      <FeaturedModules
-        footer={
-          <RivetLink asChild>
-            <Link
-              to="/games/$gameId/environments/$namespaceId/modules"
-              params={params}
-            >
-              View All Modules
-              <Icon className="ml-2" icon={faArrowRight} />
-            </Link>
-          </RivetLink>
-        }
-      />
+      <GuardEnterprise>
+        <FeaturedModules
+          footer={
+            <RivetLink asChild>
+              <Link
+                to="/games/$gameId/environments/$namespaceId/modules"
+                params={params}
+              >
+                View All Modules
+                <Icon className="ml-2" icon={faArrowRight} />
+              </Link>
+            </RivetLink>
+          }
+        />
+      </GuardEnterprise>
     </>
   );
 }

@@ -30,7 +30,7 @@ export function GameServersListPanel({
     useSuspenseInfiniteQuery(
       gameServersQueryOptions({ gameId, environmentId }),
     );
-
+  console.log(data);
   return (
     <ScrollArea className="overflow-auto h-full truncate min-w-0">
       <Flex direction="col" gap="2" my="4" mx="4" className="truncate min-w-0">

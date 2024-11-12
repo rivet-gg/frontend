@@ -1,5 +1,6 @@
 import { GameSelect } from "@/domains/game/components/game-select";
 import * as Layout from "@/layouts/page-centered";
+import { guardEnterprise } from "@/lib/guards";
 import {
   Button,
   Card,
@@ -41,5 +42,8 @@ function BillingRoute() {
 }
 
 export const Route = createFileRoute("/_authenticated/billing")({
+  beforeLoad: async ({ context: { queryClient } }) => {
+    await guardEnterprise({ queryClient });
+  },
   component: BillingRoute,
 });

@@ -1,4 +1,5 @@
 import { groupGamesQueryOptions } from "@/domains/game/queries";
+import { GuardEnterprise } from "@/lib/guards";
 import {
   Button,
   Code,
@@ -46,14 +47,16 @@ export default function ConfirmTransferOwnershipDialogContent({
               <Code>{group?.displayName}</Code>? This action{" "}
               <Strong>CANNOT</Strong> be undone.
             </Text>
-            <Text>
-              <Strong>
-                As a developer group, transferring ownership will cause all
-                billing related emails to be sent to the new owner. Your bank
-                account information will stay attached to the group unless
-                removed by a Rivet employee.
-              </Strong>
-            </Text>
+            <GuardEnterprise>
+              <Text>
+                <Strong>
+                  As a developer group, transferring ownership will cause all
+                  billing related emails to be sent to the new owner. Your bank
+                  account information will stay attached to the group unless
+                  removed by a Rivet employee.
+                </Strong>
+              </Text>
+            </GuardEnterprise>
             <Text>
               Contact{" "}
               <Link

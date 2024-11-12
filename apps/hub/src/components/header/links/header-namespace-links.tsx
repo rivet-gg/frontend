@@ -2,6 +2,7 @@ import {
   gameMetadataQueryOptions,
   gameNamespaceQueryOptions,
 } from "@/domains/game/queries";
+import { GuardEnterprise } from "@/lib/guards";
 import {
   faChessKnight,
   faCodeBranch,
@@ -57,22 +58,24 @@ export function HeaderNamespaceLinks({
             Servers
           </Link>
         </HeaderLink>
-        <HeaderLink icon={faPuzzle}>
-          <Link
-            to="/games/$gameId/environments/$namespaceId/backend"
-            params={{ gameId, namespaceId }}
-          >
-            Backend
-          </Link>
-        </HeaderLink>
-        <HeaderLink icon={faPuzzlePiece}>
-          <Link
-            to="/games/$gameId/environments/$namespaceId/modules"
-            params={{ gameId, namespaceId }}
-          >
-            Modules
-          </Link>
-        </HeaderLink>
+        <GuardEnterprise>
+          <HeaderLink icon={faPuzzle}>
+            <Link
+              to="/games/$gameId/environments/$namespaceId/backend"
+              params={{ gameId, namespaceId }}
+            >
+              Backend
+            </Link>
+          </HeaderLink>
+          <HeaderLink icon={faPuzzlePiece}>
+            <Link
+              to="/games/$gameId/environments/$namespaceId/modules"
+              params={{ gameId, namespaceId }}
+            >
+              Modules
+            </Link>
+          </HeaderLink>
+        </GuardEnterprise>
       </>
       {legacyLobbiesEnabled ? (
         <>

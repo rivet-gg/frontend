@@ -3,6 +3,7 @@ import {
   gameNamespaceQueryOptions,
   gameQueryOptions,
 } from "@/domains/game/queries";
+import { GuardEnterprise } from "@/lib/guards";
 import { Badge, CommandGroup, CommandItem } from "@rivet-gg/components";
 import {
   Icon,
@@ -78,17 +79,19 @@ export function NamespaceCommandPanelPage({
           <Icon icon={faServer} />
           Servers
         </CommandItem>
-        <CommandItem
-          onSelect={() => {
-            navigate({
-              to: "/games/$gameId/environments/$namespaceId/backend",
-              params: { gameId, namespaceId },
-            });
-          }}
-        >
-          <Icon icon={faPuzzle} />
-          Backend
-        </CommandItem>
+        <GuardEnterprise>
+          <CommandItem
+            onSelect={() => {
+              navigate({
+                to: "/games/$gameId/environments/$namespaceId/backend",
+                params: { gameId, namespaceId },
+              });
+            }}
+          >
+            <Icon icon={faPuzzle} />
+            Backend
+          </CommandItem>
+        </GuardEnterprise>
 
         {legacyLobbiesEnabled ? (
           <CommandItem

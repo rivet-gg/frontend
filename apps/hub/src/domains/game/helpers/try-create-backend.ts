@@ -1,3 +1,4 @@
+import { bootstrapQueryOptions } from "@/domains/auth/queries/bootstrap";
 import { isRivetError } from "@/lib/utils";
 import { rivetEeClient } from "@/queries/global";
 import type { QueryClient } from "@tanstack/react-query";
@@ -12,6 +13,12 @@ export async function tryCreateBackend({
   environmentId: string;
   queryClient: QueryClient;
 }) {
+  const { cluster } = await queryClient.fetchQuery(bootstrapQueryOptions());
+
+  if (cluster === "oss") {
+    return;
+  }
+
   try {
     await queryClient.fetchQuery(
       gameBackendQueryOptions({ gameId, environmentId }),

@@ -1,4 +1,5 @@
 import { gameQueryOptions } from "@/domains/game/queries";
+import { GuardEnterprise } from "@/lib/guards";
 import { CommandGroup, CommandItem } from "@rivet-gg/components";
 import { Icon, faCircleDollar, faCog, faHome, faKey } from "@rivet-gg/icons";
 import { useSuspenseQuery } from "@tanstack/react-query";
@@ -25,14 +26,16 @@ export function GameCommandPanelPage({ gameId }: GameCommandPanelPage) {
           <Icon icon={faHome} />
           Overview
         </CommandItem>
-        <CommandItem
-          onSelect={() => {
-            navigate({ to: "/games/$gameId/billing", params: { gameId } });
-          }}
-        >
-          <Icon icon={faCircleDollar} />
-          Billing
-        </CommandItem>
+        <GuardEnterprise>
+          <CommandItem
+            onSelect={() => {
+              navigate({ to: "/games/$gameId/billing", params: { gameId } });
+            }}
+          >
+            <Icon icon={faCircleDollar} />
+            Billing
+          </CommandItem>
+        </GuardEnterprise>
         <CommandItem
           onSelect={() => {
             navigate({ to: "/games/$gameId/settings", params: { gameId } });

@@ -2,6 +2,7 @@ import type { Rivet as RivetEe } from "@rivet-gg/api-ee";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { type ReactNode, createContext, useContext } from "react";
 
+import { clusterQueryOptions } from "@/domains/auth/queries/bootstrap";
 import { startOfMonth } from "date-fns";
 import { calculateUsedCredits } from "../../data/billing-calculate-usage";
 import {
@@ -66,17 +67,13 @@ function BillingSubscriptionProvider({
     </GameBillingContext.Provider>
   );
 }
+
 interface GameBillingProviderProps {
   gameId: string;
   groupId: string;
   children?: ReactNode;
 }
-
-export const GameBillingProvider = ({
-  gameId,
-  groupId,
-  children,
-}: GameBillingProviderProps) => {
+function Content({ gameId, groupId, children }: GameBillingProviderProps) {
   const { data } = useSuspenseQuery(gameBillingQueryOptions(gameId));
 
   if (data) {
@@ -92,6 +89,24 @@ export const GameBillingProvider = ({
     );
   }
   return children;
+}
+
+export const GameBillingProvider = ({
+  gameId,
+  groupId,
+  children,
+}: GameBillingProviderProps) => {
+  const { data } = useSuspenseQuery(clusterQueryOptions());
+
+  if (data === "oss") {
+    return children;
+  }
+
+  return (
+    <Content gameId={gameId} groupId={groupId}>
+      {children}
+    </Content>
+  );
 };
 
 export const useGameBilling = () => {

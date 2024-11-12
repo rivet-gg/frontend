@@ -1,3 +1,4 @@
+import { GuardEnterprise } from "@/lib/guards";
 import { faCircleDollar, faFolder, faGear } from "@rivet-gg/icons";
 import { Link } from "@tanstack/react-router";
 import { HeaderLink } from "../header-link";
@@ -18,11 +19,13 @@ export function HeaderGameLinks({ gameId }: HeaderGameLinksProps) {
           Environments
         </Link>
       </HeaderLink>
-      <HeaderLink icon={faCircleDollar}>
-        <Link to="/games/$gameId/billing" params={{ gameId }}>
-          Billing
-        </Link>
-      </HeaderLink>
+      <GuardEnterprise>
+        <HeaderLink icon={faCircleDollar}>
+          <Link to="/games/$gameId/billing" params={{ gameId }}>
+            Billing
+          </Link>
+        </HeaderLink>
+      </GuardEnterprise>
       <HeaderLink icon={faGear}>
         <Link to="/games/$gameId/settings" params={{ gameId }}>
           Settings
