@@ -1,5 +1,5 @@
-import { gamesQueryOptions } from "@/domains/game/queries";
 import { GroupAvatar } from "@/domains/group/components/group-avatar";
+import { projectsQueryOptions } from "@/domains/project/queries";
 import {
   Flex,
   Select,
@@ -24,7 +24,7 @@ export function GroupSelect({
   onValueChange,
   ...props
 }: GroupSelectProps) {
-  const { data } = useSuspenseQuery(gamesQueryOptions());
+  const { data } = useSuspenseQuery(projectsQueryOptions());
 
   const handleValueChange = useCallback(
     (value: string) => {

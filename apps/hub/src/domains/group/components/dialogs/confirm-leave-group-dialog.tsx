@@ -1,4 +1,4 @@
-import { groupGamesQueryOptions } from "@/domains/game/queries";
+import { groupProjectsQueryOptions } from "@/domains/project/queries";
 import {
   Button,
   Code,
@@ -20,7 +20,7 @@ export default function ConfirmLeaveGroupDialogContent({
   groupId,
   onSuccess,
 }: ConfirmLeaveGroupDialogContentProps) {
-  const { data: group } = useSuspenseQuery(groupGamesQueryOptions(groupId));
+  const { data: group } = useSuspenseQuery(groupProjectsQueryOptions(groupId));
   const { mutate, isPending } = useGroupLeaveMutation({
     onSuccess,
   });

@@ -4,9 +4,9 @@ import { Skeleton, cn } from "@rivet-gg/components";
 import { CatchBoundary, useMatchRoute } from "@tanstack/react-router";
 import { Suspense, useContext } from "react";
 import { EnvironmentBreadcrumb } from "./environment-breadcrumb";
-import { GameBreadcrumb } from "./game-breadcrumb";
 import { GroupBreadcrumb } from "./group-breadcrumb";
 import { MobileBreadcrumbsContext } from "./mobile-breadcrumbs";
+import { ProjectBreadcrumb } from "./project-breadcrumb";
 
 function Content() {
   const matchRoute = useMatchRoute();
@@ -22,24 +22,24 @@ function Content() {
     return <GroupBreadcrumb groupId={groupMatch.groupId} />;
   }
 
-  const gameEnvMatch = matchRoute({
-    to: "/games/$gameId/environments/$environmentId",
+  const projectEnvMatch = matchRoute({
+    to: "/projects/$projectId/environments/$environmentId",
     fuzzy: true,
   });
 
-  if (gameEnvMatch) {
+  if (projectEnvMatch) {
     return (
       <EnvironmentBreadcrumb
-        environmentId={gameEnvMatch.environmentId}
-        gameId={gameEnvMatch.gameId}
+        environmentId={projectEnvMatch.environmentId}
+        projectId={projectEnvMatch.projectId}
       />
     );
   }
 
-  const gameMatch = matchRoute({ to: "/games/$gameId", fuzzy: true });
+  const projectMatch = matchRoute({ to: "/projects/$projectId", fuzzy: true });
 
-  if (gameMatch) {
-    return <GameBreadcrumb gameId={gameMatch.gameId} />;
+  if (projectMatch) {
+    return <ProjectBreadcrumb projectId={projectMatch.projectId} />;
   }
 
   return null;

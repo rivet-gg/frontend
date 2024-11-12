@@ -30,7 +30,7 @@ function Authenticated() {
 }
 
 const searchSchema = z.object({
-  modal: z.enum(["create-game", "create-group"]).or(z.string()).optional(),
+  modal: z.enum(["create-project", "create-group"]).or(z.string()).optional(),
   groupId: z.string().optional().catch(undefined),
 });
 
@@ -43,7 +43,7 @@ function Modals() {
   const navigate = Route.useNavigate();
   const search = Route.useSearch();
 
-  const CreateGroupGameDialog = useDialog.CreateGame.Dialog;
+  const CreateGroupProjectDialog = useDialog.CreateProject.Dialog;
   const CreateGroupDialog = useDialog.CreateGroup.Dialog;
 
   if (!search || !("modal" in search)) {
@@ -59,16 +59,16 @@ function Modals() {
   };
   return (
     <>
-      <CreateGroupGameDialog
+      <CreateGroupProjectDialog
         groupId={groupId}
         onSuccess={async (data) =>
           await navigate({
-            to: "/games/$gameId",
-            params: { gameId: data.gameId },
+            to: "/projects/$projectId",
+            params: { projectId: data.gameId },
           })
         }
         dialogProps={{
-          open: modal === "create-game",
+          open: modal === "create-project",
           onOpenChange: handleonOpenChange,
         }}
       />

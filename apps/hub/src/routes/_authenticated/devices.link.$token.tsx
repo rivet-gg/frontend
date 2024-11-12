@@ -47,20 +47,24 @@ function DeviceLinkTokenRoute() {
   return (
     <DeviceLinkForm.Form
       onSubmit={async (values) => {
-        await mutateAsync({ deviceLinkToken: token, gameId: values.gameId });
+        await mutateAsync({
+          deviceLinkToken: token,
+          gameId: values.projectId,
+        });
       }}
-      defaultValues={{ token, gameId: "" }}
+      defaultValues={{ token, projectId: "" }}
     >
       <Layout.Root>
         <Card>
           <CardHeader>
             <CardTitle>Link project</CardTitle>
             <CardDescription>
-              Link your game to your device here to continue with Rivet setup.
+              Link your project to your device here to continue with Rivet
+              setup.
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <DeviceLinkForm.Game />
+            <DeviceLinkForm.Project />
           </CardContent>
           <CardFooter>
             <Flex gap="4">

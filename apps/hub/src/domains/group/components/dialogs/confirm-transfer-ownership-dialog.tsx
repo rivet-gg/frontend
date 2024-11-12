@@ -1,4 +1,4 @@
-import { groupGamesQueryOptions } from "@/domains/game/queries";
+import { groupProjectsQueryOptions } from "@/domains/project/queries";
 import { GuardEnterprise } from "@/lib/guards";
 import {
   Button,
@@ -28,7 +28,7 @@ export default function ConfirmTransferOwnershipDialogContent({
   identityId,
   onSuccess,
 }: ContentProps) {
-  const { data: group } = useSuspenseQuery(groupGamesQueryOptions(groupId));
+  const { data: group } = useSuspenseQuery(groupProjectsQueryOptions(groupId));
   const { data: groupMember } = useQuery(
     groupMemberQueryOptions({ identityId, groupId }),
   );

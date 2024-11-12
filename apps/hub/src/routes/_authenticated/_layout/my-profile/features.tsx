@@ -53,9 +53,9 @@ function MyProfileFeaturesRoute() {
         title="Servers and Builds"
         description={
           <Text>
-            Servers and Builds are the new way for managing your game servers.
-            They replace legacy namespaces and versions. Turn this feature off
-            to use the legacy system.{" "}
+            Servers and Builds are the new way for managing your project
+            servers. They replace legacy namespaces and versions. Turn this
+            feature off to use the legacy system.{" "}
             <Strong>Not recommended for new users.</Strong>
           </Text>
         }

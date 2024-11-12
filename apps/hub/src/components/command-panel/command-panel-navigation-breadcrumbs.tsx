@@ -1,10 +1,10 @@
-import { GameAvatar } from "@/domains/game/components/game-avatar";
-import {
-  gameEnvironmentDisplayNameQueryOptions,
-  gameQueryOptions,
-  groupGamesQueryOptions,
-} from "@/domains/game/queries";
 import { GroupAvatar } from "@/domains/group/components/group-avatar";
+import { ProjectAvatar } from "@/domains/project/components/project-avatar";
+import {
+  groupProjectsQueryOptions,
+  projectEnvironmentDisplayNameQueryOptions,
+  projectQueryOptions,
+} from "@/domains/project/queries";
 import { Badge, Skeleton } from "@rivet-gg/components";
 import { Icon, faPuzzle } from "@rivet-gg/icons";
 import { useSuspenseQuery } from "@tanstack/react-query";
@@ -12,7 +12,7 @@ import { Suspense } from "react";
 import type { CommandPanelPage } from "./command-panel-navigation-provider";
 
 function GroupBreadcrumbs({ groupId }: { groupId: string }) {
-  const { data: group } = useSuspenseQuery(groupGamesQueryOptions(groupId));
+  const { data: group } = useSuspenseQuery(groupProjectsQueryOptions(groupId));
   return (
     <>
       <GroupAvatar
@@ -25,29 +25,29 @@ function GroupBreadcrumbs({ groupId }: { groupId: string }) {
   );
 }
 
-function GameBreadcrumb({ gameId }: { gameId: string }) {
-  const { data: game } = useSuspenseQuery(gameQueryOptions(gameId));
+function ProjectBreadcrumb({ projectId }: { projectId: string }) {
+  const { data: project } = useSuspenseQuery(projectQueryOptions(projectId));
   return (
     <>
-      <GameAvatar
+      <ProjectAvatar
         className="mr-2 size-4"
-        displayName={game.displayName}
-        logoUrl={game.logoUrl}
+        displayName={project.displayName}
+        logoUrl={project.logoUrl}
       />
-      {game.displayName}
+      {project.displayName}
     </>
   );
 }
 
 function EnvironmentBreadcrumb({
-  gameId,
+  projectId,
   environmentId,
 }: {
-  gameId: string;
+  projectId: string;
   environmentId: string;
 }) {
   const { data: environment } = useSuspenseQuery(
-    gameEnvironmentDisplayNameQueryOptions({ gameId, environmentId }),
+    projectEnvironmentDisplayNameQueryOptions({ projectId, environmentId }),
   );
   return <span>{environment}</span>;
 }
@@ -80,7 +80,7 @@ export function CommandPanelNavigationBreadcrumbs({
             className="mr-2 flex items-center"
           >
             {page.key === "group" && <GroupBreadcrumbs {...page.params} />}
-            {page.key === "game" && <GameBreadcrumb {...page.params} />}
+            {page.key === "project" && <ProjectBreadcrumb {...page.params} />}
             {page.key === "environment" && (
               <EnvironmentBreadcrumb {...page.params} />
             )}

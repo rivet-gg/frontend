@@ -1,5 +1,5 @@
-import * as Layout from "@/domains/game/layouts/group-layout";
 import { GroupDetailedMembers } from "@/domains/group/views/group-detailed-members";
+import * as Layout from "@/domains/project/layouts/group-layout";
 import { Flex } from "@rivet-gg/components";
 import { createFileRoute } from "@tanstack/react-router";
 

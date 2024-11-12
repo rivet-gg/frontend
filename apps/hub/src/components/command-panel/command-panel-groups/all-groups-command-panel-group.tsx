@@ -1,11 +1,11 @@
-import { gamesQueryOptions } from "@/domains/game/queries";
 import { GroupAvatar } from "@/domains/group/components/group-avatar";
+import { projectsQueryOptions } from "@/domains/project/queries";
 import { CommandGroup, CommandItem } from "@rivet-gg/components";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { useCommandPanelNavigation } from "../command-panel-navigation-provider";
 
 export function AllGroupsCommandGroup() {
-  const { data } = useSuspenseQuery(gamesQueryOptions());
+  const { data } = useSuspenseQuery(projectsQueryOptions());
 
   const { changePage } = useCommandPanelNavigation();
 

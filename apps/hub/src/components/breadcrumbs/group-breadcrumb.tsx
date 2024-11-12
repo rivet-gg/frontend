@@ -1,9 +1,9 @@
-import {
-  groupGamesQueryOptions,
-  groupsCountQueryOptions,
-} from "@/domains/game/queries";
 import { GroupAvatar } from "@/domains/group/components/group-avatar";
 import { GroupSelect } from "@/domains/group/components/group-select";
+import {
+  groupProjectsQueryOptions,
+  groupsCountQueryOptions,
+} from "@/domains/project/queries";
 import { useSuspenseQueries } from "@tanstack/react-query";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { Fragment, useContext } from "react";
@@ -16,7 +16,7 @@ interface GroupBreadcrumbProps {
 
 export function GroupBreadcrumb({ groupId }: GroupBreadcrumbProps) {
   const [{ data: groupsCount }, { data }] = useSuspenseQueries({
-    queries: [groupsCountQueryOptions(), groupGamesQueryOptions(groupId)],
+    queries: [groupsCountQueryOptions(), groupProjectsQueryOptions(groupId)],
   });
 
   const navigate = useNavigate();

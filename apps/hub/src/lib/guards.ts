@@ -3,7 +3,10 @@ import {
   bootstrapQueryOptions,
   clusterQueryOptions,
 } from "@/domains/auth/queries/bootstrap";
-import { gameQueryOptions, gamesQueryOptions } from "@/domains/game/queries";
+import {
+  projectQueryOptions,
+  projectsQueryOptions,
+} from "@/domains/project/queries";
 import { type QueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import { notFound, redirect } from "@tanstack/react-router";
 import type { PropsWithChildren } from "react";
@@ -35,28 +38,30 @@ export async function guardOssNewie({
 }: { queryClient: QueryClient; auth: AuthContext }) {
   const { cluster } = await queryClient.fetchQuery(bootstrapQueryOptions());
 
-  const { games, groups } = await queryClient.fetchQuery(gamesQueryOptions());
+  const { games: projects, groups } = await queryClient.fetchQuery(
+    projectsQueryOptions(),
+  );
 
-  if (cluster === "oss" && games.length === 1) {
+  if (cluster === "oss" && projects.length === 1) {
     const {
       game: { namespaces },
-    } = await queryClient.fetchQuery(gameQueryOptions(games[0].gameId));
+    } = await queryClient.fetchQuery(projectQueryOptions(projects[0].gameId));
 
-    // In case the game has no namespaces, or we failed to fetch the game, redirect to the game page
+    // In case the project has no namespaces, or we failed to fetch the project, redirect to the project page
     if (namespaces.length > 0) {
       throw redirect({
-        to: "/games/$gameId/environments/$environmentId",
+        to: "/projects/$projectId/environments/$environmentId",
         params: {
-          gameId: games[0].gameId,
+          projectId: projects[0].gameId,
           environmentId: namespaces[0].namespaceId,
         },
       });
     }
 
     throw redirect({
-      to: "/games/$gameId",
+      to: "/projects/$projectId",
       params: {
-        gameId: games[0].gameId,
+        projectId: projects[0].gameId,
       },
     });
   }

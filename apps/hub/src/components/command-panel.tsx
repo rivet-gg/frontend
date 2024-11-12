@@ -22,9 +22,9 @@ import {
   type CommandPanelPage,
 } from "./command-panel/command-panel-navigation-provider";
 import { EnvironmentCommandPanelPage } from "./command-panel/command-panel-page/environment-command-panel-page";
-import { GameCommandPanelPage } from "./command-panel/command-panel-page/game-command-panel-page";
 import { GroupCommandPanelPage } from "./command-panel/command-panel-page/group-command-panel-page";
 import { IndexCommandPanelPage } from "./command-panel/command-panel-page/index-command-panel-page";
+import { ProjectCommandPanelPage } from "./command-panel/command-panel-page/project-command-panel-page";
 
 export function CommandPanel() {
   const [isOpen, setOpen] = useState(false);
@@ -46,25 +46,27 @@ export function CommandPanel() {
         setPages([{ key: "group", params: { groupId: isTeam.groupId } }]);
       }
 
-      const isGame = matchRoute({
-        to: "/games/$gameId",
+      const isProject = matchRoute({
+        to: "/projects/$projectId",
         fuzzy: true,
-      }) as { gameId: string } | false;
-      if (isGame) {
-        setPages([{ key: "game", params: { gameId: isGame.gameId } }]);
+      }) as { projectId: string } | false;
+      if (isProject) {
+        setPages([
+          { key: "project", params: { projectId: isProject.projectId } },
+        ]);
       }
 
       const isEnvironment = matchRoute({
-        to: "/games/$gameId/environments/$environmentId",
+        to: "/projects/$projectId/environments/$environmentId",
         fuzzy: true,
-      }) as { gameId: string; environmentId: string } | false;
+      }) as { projectId: string; environmentId: string } | false;
       if (isEnvironment) {
         setPages([
-          { key: "game", params: { gameId: isEnvironment.gameId } },
+          { key: "project", params: { projectId: isEnvironment.projectId } },
           {
             key: "environment",
             params: {
-              gameId: isEnvironment.gameId,
+              projectId: isEnvironment.projectId,
               environmentId: isEnvironment.environmentId,
             },
           },
@@ -156,12 +158,12 @@ export function CommandPanel() {
               {page?.key === "group" ? (
                 <GroupCommandPanelPage groupId={page.params.groupId} />
               ) : null}
-              {page?.key === "game" ? (
-                <GameCommandPanelPage gameId={page.params.gameId} />
+              {page?.key === "project" ? (
+                <ProjectCommandPanelPage projectId={page.params.projectId} />
               ) : null}
               {page?.key === "environment" ? (
                 <EnvironmentCommandPanelPage
-                  gameId={page.params.gameId}
+                  projectId={page.params.projectId}
                   environmentId={page.params.environmentId}
                 />
               ) : null}

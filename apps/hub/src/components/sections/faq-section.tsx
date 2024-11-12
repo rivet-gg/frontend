@@ -19,11 +19,11 @@ export function FaqSection() {
           <AccordionContent>
             <p>
               Rivet is a multiplayert tooling that provides a suite of tools to
-              help you build and deploy multiplayer games. Rivet provides a
+              help you build and deploy multiplayer projects. Rivet provides a
               scalable, secure, and reliable infrastructure for:
             </p>
             <Ul>
-              <li>Dynamic Servers for auto-scaling game lobbies </li>
+              <li>Dynamic Servers for auto-scaling project lobbies </li>
               <li>
                 DDoS mitigation and managed WebSocket SSL & TCP+TLS termination
               </li>
@@ -34,13 +34,15 @@ export function FaqSection() {
           </AccordionContent>
         </AccordionItem>
         <AccordionItem value="item-2">
-          <AccordionTrigger>What Game Engines are supported?</AccordionTrigger>
+          <AccordionTrigger>
+            What Project Engines are supported?
+          </AccordionTrigger>
           <AccordionContent>
             <p>
-              Rivet supports all major game engines including Unity, Unreal
+              Rivet supports all major project engines including Unity, Unreal
               Engine, Godot. It also provides SDKs for popular languages like
-              C#, C++, and JavaScript, so you can use Rivet with any game engine
-              even if it's your own custom engine.
+              C#, C++, and JavaScript, so you can use Rivet with any project
+              engine even if it's your own custom engine.
             </p>
           </AccordionContent>
         </AccordionItem>

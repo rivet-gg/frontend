@@ -1,6 +1,6 @@
-import * as Layout from "@/domains/game/layouts/group-layout";
-import { GroupGames } from "@/domains/group/views/group-games";
 import { GroupMembers } from "@/domains/group/views/group-members";
+import { GroupProjects } from "@/domains/group/views/group-projects";
+import * as Layout from "@/domains/project/layouts/group-layout";
 import { Flex } from "@rivet-gg/components";
 import { createFileRoute } from "@tanstack/react-router";
 import { GroupIdErrorComponent } from "../$groupId";
@@ -10,7 +10,7 @@ function GroupIdView() {
   return (
     <Flex direction={{ initial: "col", md: "row" }} gap="4">
       <Flex w={{ initial: "full", md: "2/3" }} direction="row" items="start">
-        <GroupGames groupId={groupId} />
+        <GroupProjects groupId={groupId} />
       </Flex>
       <Flex w={{ initial: "full", md: "1/3" }} direction="row" items="start">
         <GroupMembers groupId={groupId} />
