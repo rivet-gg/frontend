@@ -1,6 +1,5 @@
 import { projectEnvironmentsQueryOptions } from "@/domains/project/queries";
 import {
-  Badge,
   Button,
   Card,
   CardContent,
@@ -50,7 +49,6 @@ export function ProjectEnvironmentsView({
             <TableRow>
               <TableHead w="1/2">Name</TableHead>
               <TableHead w="1/2">Slug</TableHead>
-              <TableHead>Version</TableHead>
               <TableHead />
             </TableRow>
           </TableHeader>
@@ -74,9 +72,6 @@ export function ProjectEnvironmentsView({
                 </TableCell>
                 <TableCell>
                   <Code>{environment.nameId}</Code>
-                </TableCell>
-                <TableCell>
-                  <Badge>{environment.version?.displayName}</Badge>
                 </TableCell>
                 <TableCell>
                   <ProjectEnvironmentsTableActions />
