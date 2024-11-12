@@ -1,10 +1,10 @@
-import * as GroupCreateGameForm from "@/domains/game/forms/group-create-game-form";
-import {
-  gamesQueryOptions,
-  useGameCreateMutation,
-} from "@/domains/game/queries";
 import * as GroupCreateForm from "@/domains/group/forms/group-create-form";
 import { useGroupCreateMutation } from "@/domains/group/queries";
+import * as GroupCreateProjectForm from "@/domains/project/forms/group-create-project-form";
+import {
+  projectsQueryOptions,
+  useProjectCreateMutation,
+} from "@/domains/project/queries";
 import {
   Button,
   Card,
@@ -19,26 +19,26 @@ import { useState } from "react";
 
 enum Step {
   CreateGroup = 0,
-  CreateGame = 1,
-  LinkGame = 2,
+  CreateProject = 1,
+  LinkProject = 2,
 }
 
 export function Intro() {
   const { mutateAsync, data: createdGroupResponse } = useGroupCreateMutation();
-  const { mutateAsync: createGame } = useGameCreateMutation();
+  const { mutateAsync: createProject } = useProjectCreateMutation();
 
-  const { data } = useSuspenseQuery(gamesQueryOptions());
+  const { data } = useSuspenseQuery(projectsQueryOptions());
 
   const [step, setStep] = useState<Step>(() =>
-    data.length === 0 ? Step.CreateGroup : Step.LinkGame,
+    data.length === 0 ? Step.CreateGroup : Step.LinkProject,
   );
 
-  if (step === Step.LinkGame) {
+  if (step === Step.LinkProject) {
     return (
       <Card asChild>
         <motion.div layoutId="card">
           <motion.div
-            key="link-game"
+            key="link-project"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -46,8 +46,8 @@ export function Intro() {
             <CardHeader>
               <CardTitle>You're all set!</CardTitle>
               <CardDescription>
-                You've created a game! Now you can link your game with game
-                engine of choice and start building.
+                You've created a project! Now you can link your project with
+                project engine of choice and start building.
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -110,48 +110,48 @@ export function Intro() {
     );
   }
 
-  if (step === Step.CreateGame) {
+  if (step === Step.CreateProject) {
     return (
       <Card asChild>
         <motion.div layoutId="card">
           <motion.div
-            key="create-game"
+            key="create-project"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
           >
-            <GroupCreateGameForm.Form
+            <GroupCreateProjectForm.Form
               defaultValues={{ slug: "", name: "" }}
               onSubmit={async (values) => {
-                await createGame({
+                await createProject({
                   displayName: values.name,
                   nameId: values.slug,
                   developerGroupId:
                     createdGroupResponse?.groupId || data[0].groupId,
                 });
-                setStep(Step.LinkGame);
+                setStep(Step.LinkProject);
               }}
             >
               <CardHeader>
                 <CardTitle>Get Started</CardTitle>
                 <CardDescription>
-                  You've created a team! Now you can create games and invite
+                  You've created a team! Now you can create projects and invite
                   teammates.
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-[auto_auto_min-content] items-center gap-4 ">
-                  <GroupCreateGameForm.Name className="contents space-y-0" />
-                  <GroupCreateGameForm.Slug className="contents space-y-0" />
-                  <GroupCreateGameForm.Submit
+                  <GroupCreateProjectForm.Name className="contents space-y-0" />
+                  <GroupCreateProjectForm.Slug className="contents space-y-0" />
+                  <GroupCreateProjectForm.Submit
                     type="submit"
                     className="col-start-3 row-start-2"
                   >
                     Create
-                  </GroupCreateGameForm.Submit>
+                  </GroupCreateProjectForm.Submit>
                 </div>
               </CardContent>
-            </GroupCreateGameForm.Form>
+            </GroupCreateProjectForm.Form>
           </motion.div>
         </motion.div>
       </Card>
@@ -172,7 +172,7 @@ export function Intro() {
               await mutateAsync({
                 displayName: values.name,
               });
-              setStep(Step.CreateGame);
+              setStep(Step.CreateProject);
             }}
             defaultValues={{ name: "" }}
           >
@@ -180,7 +180,7 @@ export function Intro() {
               <CardTitle>Get Started</CardTitle>
               <CardDescription>
                 Before you start, you need to create a team. This will allow you
-                to create games and invite teammates.
+                to create projects and invite teammates.
               </CardDescription>
             </CardHeader>
             <CardContent>

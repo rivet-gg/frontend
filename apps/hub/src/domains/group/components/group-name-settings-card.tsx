@@ -1,6 +1,6 @@
-import { groupGamesQueryOptions } from "@/domains/game/queries";
 import * as GroupNameForm from "@/domains/group/forms/group-name-form";
 import { useGroupUpdateProfileMutation } from "@/domains/group/queries";
+import { groupProjectsQueryOptions } from "@/domains/project/queries";
 import {
   Card,
   CardContent,
@@ -17,7 +17,7 @@ interface GroupNameSettingsCardProps {
 }
 
 export function GroupNameSettingsCard({ groupId }: GroupNameSettingsCardProps) {
-  const { data } = useSuspenseQuery(groupGamesQueryOptions(groupId));
+  const { data } = useSuspenseQuery(groupProjectsQueryOptions(groupId));
   const { mutateAsync } = useGroupUpdateProfileMutation();
   return (
     <GroupNameForm.Form

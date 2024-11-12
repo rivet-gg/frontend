@@ -1,4 +1,4 @@
-import { GameSelect } from "@/domains/game/components/game-select";
+import { ProjectSelect } from "@/domains/project/components/project-select";
 import { useDialog } from "@/hooks/use-dialog";
 import {
   FormField,
@@ -11,7 +11,7 @@ import { type UseFormReturn, useFormContext } from "react-hook-form";
 import z from "zod";
 
 export const formSchema = z.object({
-  gameId: z.string().min(1, "Required"),
+  projectId: z.string().min(1, "Required"),
   token: z.string(),
 });
 
@@ -24,11 +24,14 @@ export type SubmitHandler = (
 const { Form, Submit, Reset } = createSchemaForm(formSchema);
 export { Form, Submit, Reset };
 
-export const Game = () => {
+export const Project = () => {
   const { control, setValue } = useFormContext<FormValues>();
-  const { dialog, open, close } = useDialog.CreateGame({
+  const { dialog, open, close } = useDialog.CreateProject({
     onSuccess: (data) => {
-      setValue("gameId", data.gameId, { shouldDirty: true, shouldTouch: true });
+      setValue("projectId", data.gameId, {
+        shouldDirty: true,
+        shouldTouch: true,
+      });
       close();
     },
   });
@@ -38,12 +41,12 @@ export const Game = () => {
       {dialog}
       <FormField
         control={control}
-        name="gameId"
+        name="projectId"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Game</FormLabel>
-            <GameSelect
-              showCreateGame
+            <FormLabel>Project</FormLabel>
+            <ProjectSelect
+              showCreateProject
               onValueChange={field.onChange}
               value={field.value}
               defaultValue={`${field.value}`}

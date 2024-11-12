@@ -52,13 +52,13 @@
             "too-high": "Time before reverification too high"
           }
         },
-        "game-modes-meta": {
-          "too-few": "Must have at least one game mode",
-          "too-many": "Too many game modes"
+        "project-modes-meta": {
+          "too-few": "Must have at least one project mode",
+          "too-many": "Too many project modes"
         },
-        "game-modes": {
+        "project-modes": {
           "name-id-invalid": "Invalid name (only A-Z, 0-9, and - are allowed)",
-          "name-not-unique": "Game mode name is not unique",
+          "name-not-unique": "Project mode name is not unique",
           "player-counts": {
             "max-players": {
               "too-low": "General player count cannot be below 0",
@@ -94,12 +94,12 @@
             "range-min-gt-max": "Range minimum must be less than or equal to the maximum",
             "port-out-of-range": "Host network port must be within 26000 and 31999",
             "ranges-overlap": "Ranges overlap",
-            "needs-game-guard": "HTTP/HTTPS ports require proxy to be set to Game Guard",
+            "needs-project-guard": "HTTP/HTTPS ports require proxy to be set to Project Guard",
             "unsupported-target-port": "Host networks do not support a target port, use port range instead",
-            "unsupported-port-range": "Game Guard network does not support port range",
+            "unsupported-port-range": "Project Guard network does not support port range",
             "duplicate-port-and-port-range": "Cannot declare both port and port range",
             "missing-port-and-port-range": "Missing port and port range",
-            "needs-host-network": "Ports without Game Gaurd require network mode to be set to host"
+            "needs-host-network": "Ports without Project Gaurd require network mode to be set to host"
           },
           "env-vars-too-many": "Too many env vars",
           "env-vars": {
@@ -159,14 +159,14 @@
   "GAME": {
     "display-name": {
       "invalid": "Invalid display name",
-      "too-short": "Game display name is too short",
-      "too-long": "Game display name is too long"
+      "too-short": "Project display name is too short",
+      "too-long": "Project display name is too long"
     },
     "name-id": {
       "invalid": "Invalid name ID",
-      "not-unique": "Game name ID is already taken",
-      "too-short": "Game name ID is too short",
-      "too-long": "Game name ID is too long"
+      "not-unique": "Project name ID is already taken",
+      "too-short": "Project name ID is too short",
+      "too-long": "Project name ID is too long"
     }
   },
   "GROUP": {

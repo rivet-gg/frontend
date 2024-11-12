@@ -1,4 +1,4 @@
-import { featuredModulesQueryOptions } from "@/domains/game/queries";
+import { featuredModulesQueryOptions } from "@/domains/project/queries";
 import { DocumentedModuleCard, Grid, H2 } from "@rivet-gg/components";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
@@ -18,7 +18,7 @@ export function FeaturesModulesGrid({ footer }: FeaturesModulesGridProps) {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
     >
-      <H2 className="my-4 text-base">Extend your game with modules</H2>
+      <H2 className="my-4 text-base">Extend your project with modules</H2>
 
       <Grid
         columns={{ initial: "1", sm: "3" }}

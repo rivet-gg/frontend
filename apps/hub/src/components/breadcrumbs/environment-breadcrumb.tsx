@@ -1,33 +1,33 @@
-import { EnvironmentSelect } from "@/domains/game/components/environment-select";
+import { EnvironmentSelect } from "@/domains/project/components/environment-select";
 import { useNavigate } from "@tanstack/react-router";
-import { GameBreadcrumb } from "./game-breadcrumb";
+import { ProjectBreadcrumb } from "./project-breadcrumb";
 import { Separator } from "./separator";
 
 interface EnvironmentBreadcrumbProps {
   environmentId: string;
-  gameId: string;
+  projectId: string;
 }
 
 export function EnvironmentBreadcrumb({
   environmentId,
-  gameId,
+  projectId,
 }: EnvironmentBreadcrumbProps) {
   const navigate = useNavigate();
 
   const handleEnvironmentChange = (environmentId: string) => {
     navigate({
-      to: "/games/$gameId/environments/$environmentId",
-      params: { gameId, environmentId },
+      to: "/projects/$projectId/environments/$environmentId",
+      params: { projectId, environmentId },
     });
   };
 
   return (
     <>
-      <GameBreadcrumb gameId={gameId} />
+      <ProjectBreadcrumb projectId={projectId} />
       <Separator />
       <div>
         <EnvironmentSelect
-          gameId={gameId}
+          projectId={projectId}
           value={environmentId}
           onCreateClick={() =>
             navigate({ to: ".", search: { modal: "create-environment" } })

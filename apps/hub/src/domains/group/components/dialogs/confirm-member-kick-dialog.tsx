@@ -1,4 +1,4 @@
-import { groupGamesQueryOptions } from "@/domains/game/queries";
+import { groupProjectsQueryOptions } from "@/domains/project/queries";
 import {
   Button,
   Code,
@@ -26,7 +26,7 @@ export default function ConfirmMemberKickDialogContent({
   identityId,
   onSuccess,
 }: ConfirmMemberKickDialogContentProps) {
-  const { data: group } = useSuspenseQuery(groupGamesQueryOptions(groupId));
+  const { data: group } = useSuspenseQuery(groupProjectsQueryOptions(groupId));
   const { data: groupMember } = useQuery(
     groupMemberQueryOptions({ identityId, groupId }),
   );

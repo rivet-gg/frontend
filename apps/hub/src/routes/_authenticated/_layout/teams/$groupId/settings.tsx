@@ -1,4 +1,4 @@
-import * as Layout from "@/domains/game/layouts/group-settings-layout";
+import * as Layout from "@/domains/project/layouts/group-settings-layout";
 import { Outlet, createFileRoute } from "@tanstack/react-router";
 
 function GroupIdSettingsView() {

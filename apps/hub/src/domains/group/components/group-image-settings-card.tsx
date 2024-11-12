@@ -33,7 +33,7 @@ export function GroupImageSettingsCard({
     >
       <Card>
         <CardHeader>
-          <CardTitle>Team image</CardTitle>
+          <CardTitle>Team Image</CardTitle>
         </CardHeader>
         <CardContent>
           <GroupImageForm.Image />

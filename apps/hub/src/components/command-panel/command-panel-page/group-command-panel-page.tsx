@@ -1,4 +1,4 @@
-import { groupGamesQueryOptions } from "@/domains/game/queries";
+import { groupProjectsQueryOptions } from "@/domains/project/queries";
 import { CommandGroup, CommandItem } from "@rivet-gg/components";
 import {
   Icon,
@@ -10,14 +10,14 @@ import {
 } from "@rivet-gg/icons";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { useCommandPanelNavigation } from "../command-panel-navigation-provider";
-import { GamesCommandPanelItems } from "../games-command-panel-items";
+import { ProjectsCommandPanelItems } from "../projects-command-panel-items";
 
 interface GroupCommandPanelPageProps {
   groupId: string;
 }
 
 export function GroupCommandPanelPage({ groupId }: GroupCommandPanelPageProps) {
-  const { data } = useSuspenseQuery(groupGamesQueryOptions(groupId));
+  const { data } = useSuspenseQuery(groupProjectsQueryOptions(groupId));
 
   const { navigate } = useCommandPanelNavigation();
   return (
@@ -67,20 +67,20 @@ export function GroupCommandPanelPage({ groupId }: GroupCommandPanelPageProps) {
         </CommandItem>
       </CommandGroup>
 
-      <CommandGroup heading="Games">
+      <CommandGroup heading="Projects">
         <CommandItem
           onSelect={() => {
             navigate({
               to: "/teams/$groupId",
               params: { groupId },
-              search: { modal: "create-game" },
+              search: { modal: "create-project" },
             });
           }}
         >
           <Icon icon={faPlus} />
-          Create a new game
+          Create a new project
         </CommandItem>
-        <GamesCommandPanelItems groupId={groupId} games={data.games} />
+        <ProjectsCommandPanelItems groupId={groupId} projects={data.projects} />
       </CommandGroup>
     </>
   );

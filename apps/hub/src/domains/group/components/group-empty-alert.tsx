@@ -24,12 +24,12 @@ export function GroupEmptyAlert({
         <AlertTitle>It's a ghost town!</AlertTitle>
         <AlertDescription>
           <Flex direction="col" items="start" gap="4">
-            This group doesn't have any games yet. Get started by creating a new
-            one.
+            This group doesn't have any projects yet. Get started by creating a
+            new one.
             {showCreateButton ? (
               <Button asChild variant="secondary">
-                <Link to="/" search={{ modal: "create-game", groupId }}>
-                  Create a new game
+                <Link to="/" search={{ modal: "create-project", groupId }}>
+                  Create a new project
                 </Link>
               </Button>
             ) : null}

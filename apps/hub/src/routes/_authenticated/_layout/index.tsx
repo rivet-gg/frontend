@@ -35,11 +35,11 @@ const searchSchema = z.object({
 export const Route = createFileRoute("/_authenticated/_layout/")({
   validateSearch: zodSearchValidator(searchSchema),
   component: IndexRoute,
-  beforeLoad: async ({ context: { queryClient, auth }, search }) => {
-    if (search.newbie) {
+  loaderDeps: ({ search: { newbie } }) => ({ newbie }),
+  loader: async ({ deps, context: { queryClient, auth } }) => {
+    if (deps.newbie) {
       return;
     }
-
     await guardOssNewie({ queryClient, auth });
   },
 });

@@ -1,4 +1,4 @@
-import { GameSelect } from "@/domains/game/components/game-select";
+import { ProjectSelect } from "@/domains/project/components/project-select";
 import * as Layout from "@/layouts/page-centered";
 import { guardEnterprise } from "@/lib/guards";
 import {
@@ -14,7 +14,7 @@ import { Link, createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 
 function BillingRoute() {
-  const [gameId, setGameId] = useState<string | null>(null);
+  const [projectId, setProjectId] = useState<string | null>(null);
 
   return (
     <Layout.Root>
@@ -22,16 +22,19 @@ function BillingRoute() {
         <CardHeader>
           <CardTitle>Billing</CardTitle>
           <CardDescription>
-            Choose a game for which you would like to manage billing.
+            Choose a project for which you would like to manage billing.
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <GameSelect onValueChange={setGameId} />
+          <ProjectSelect onValueChange={setProjectId} />
         </CardContent>
         <CardFooter>
-          <Button asChild disabled={!gameId}>
-            {/* biome-ignore lint/style/noNonNullAssertion: it's safe to assume that gameid exists */}
-            <Link to="/games/$gameId/billing" params={{ gameId: gameId! }}>
+          <Button asChild disabled={!projectId}>
+            <Link
+              to="/projects/$projectId/billing"
+              /* biome-ignore lint/style/noNonNullAssertion: it's safe to assume that projectid exists */
+              params={{ projectId: projectId! }}
+            >
               Manage billing
             </Link>
           </Button>

@@ -1,4 +1,4 @@
-import type { GroupGames } from "@/domains/game/queries";
+import type { GroupProjects } from "@/domains/project/queries";
 import {
   Button,
   Card,
@@ -11,15 +11,15 @@ import {
 } from "@rivet-gg/components";
 import { Icon, faArrowRight, faPlus } from "@rivet-gg/icons";
 
-import { GameTile } from "@/domains/game/components/game-tile";
+import { ProjectTile } from "@/domains/project/components/project-tile";
 import { Link } from "@tanstack/react-router";
 import { GroupAvatar } from "./group-avatar";
 import { GroupEmptyAlert } from "./group-empty-alert";
 
-interface GroupProps extends GroupGames {}
+interface GroupProps extends GroupProjects {}
 
 export function Group(props: GroupProps) {
-  const { groupId, displayName, avatarUrl, games, isDeveloper } = props;
+  const { groupId, displayName, avatarUrl, projects, isDeveloper } = props;
 
   return (
     <Card my="4">
@@ -34,7 +34,7 @@ export function Group(props: GroupProps) {
           <Flex>
             {isDeveloper ? (
               <Button asChild variant="ghost" size="icon">
-                <Link to="/" search={{ modal: "create-game", groupId }}>
+                <Link to="/" search={{ modal: "create-project", groupId }}>
                   <Icon icon={faPlus} />
                 </Link>
               </Button>
@@ -48,17 +48,17 @@ export function Group(props: GroupProps) {
         </Flex>
       </CardHeader>
       <CardContent>
-        {games.length === 0 ? (
+        {projects.length === 0 ? (
           <GroupEmptyAlert groupId={groupId} showCreateButton={isDeveloper} />
         ) : (
           <Grid columns={{ initial: "1", md: "4" }} gap="4">
-            {games.map((game) => (
+            {projects.map((project) => (
               <Link
-                key={game.gameId}
-                to="/games/$gameId"
-                params={{ gameId: game.gameId }}
+                key={project.gameId}
+                to="/projects/$projectId"
+                params={{ projectId: project.gameId }}
               >
-                <GameTile {...game} />
+                <ProjectTile {...project} />
               </Link>
             ))}
           </Grid>

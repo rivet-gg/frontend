@@ -1,5 +1,5 @@
-import { groupOnwerQueryOptions } from "@/domains/game/queries";
 import { groupMembersQueryOptions } from "@/domains/group/queries";
+import { groupOnwerQueryOptions } from "@/domains/project/queries";
 import { useDialog } from "@/hooks/use-dialog";
 import {
   Button,

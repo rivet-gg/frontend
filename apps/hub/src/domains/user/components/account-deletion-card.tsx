@@ -50,7 +50,7 @@ export function AccountDeletionCard() {
               ) : null}
               <Text className="my-0">
                 Mark your account for deletion. After 30 days of this switch
-                being on, your Rivet account and all associated game accounts
+                being on, your Rivet account and all associated project accounts
                 will be <Strong>permanently deleted</Strong>.
               </Text>
             </div>

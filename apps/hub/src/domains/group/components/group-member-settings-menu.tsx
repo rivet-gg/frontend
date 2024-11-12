@@ -1,4 +1,4 @@
-import { groupOnwerQueryOptions } from "@/domains/game/queries";
+import { groupOnwerQueryOptions } from "@/domains/project/queries";
 import { selfProfileIdentityIdQueryOptions } from "@/domains/user/queries";
 import {
   Button,

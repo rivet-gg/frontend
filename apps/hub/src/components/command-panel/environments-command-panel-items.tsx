@@ -1,15 +1,15 @@
-import type { Environment } from "@/domains/game/queries";
+import type { Environment } from "@/domains/project/queries";
 import { Badge, CommandItem } from "@rivet-gg/components";
 import { useCommandPanelNavigation } from "./command-panel-navigation-provider";
 
 interface EnvironmentsCommandPanelItemsProps {
   namespaces: Environment[];
-  gameId: string;
+  projectId: string;
 }
 
 export function EnvironmentsCommandPanelItems({
   namespaces,
-  gameId,
+  projectId,
 }: EnvironmentsCommandPanelItemsProps) {
   const { changePage } = useCommandPanelNavigation();
   return (
@@ -20,7 +20,7 @@ export function EnvironmentsCommandPanelItems({
           onSelect={() => {
             changePage({
               key: "environment",
-              params: { gameId, environmentId: environment.namespaceId },
+              params: { projectId, environmentId: environment.namespaceId },
             });
           }}
         >

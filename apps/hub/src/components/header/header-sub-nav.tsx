@@ -5,8 +5,8 @@ import { CatchBoundary, useMatchRoute } from "@tanstack/react-router";
 import { Suspense, useContext } from "react";
 import { MobileBreadcrumbsContext } from "../breadcrumbs/mobile-breadcrumbs";
 import { HeaderEnvironmentLinks } from "./links/header-environment-links";
-import { HeaderGameLinks } from "./links/header-game-links";
 import { HeaderGroupLinks } from "./links/header-group-links";
+import { HeaderProjectLinks } from "./links/header-project-links";
 
 function Content() {
   const matchRoute = useMatchRoute();
@@ -18,7 +18,7 @@ function Content() {
   }
 
   const namespaceMatch = matchRoute({
-    to: "/games/$gameId/environments/$environmentId",
+    to: "/projects/$projectId/environments/$environmentId",
     fuzzy: true,
     pending: false,
   });
@@ -26,19 +26,19 @@ function Content() {
   if (namespaceMatch) {
     return (
       <HeaderEnvironmentLinks
-        gameId={namespaceMatch.gameId}
+        projectId={namespaceMatch.projectId}
         environmentId={namespaceMatch.environmentId}
       />
     );
   }
 
-  const gameMatch = matchRoute({
-    to: "/games/$gameId",
+  const projectMatch = matchRoute({
+    to: "/projects/$projectId",
     fuzzy: true,
   });
 
-  if (gameMatch) {
-    return <HeaderGameLinks gameId={gameMatch.gameId} />;
+  if (projectMatch) {
+    return <HeaderProjectLinks projectId={projectMatch.projectId} />;
   }
 
   const groupMatch = matchRoute({

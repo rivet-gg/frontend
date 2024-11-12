@@ -12,29 +12,29 @@ type GroupCommandPanelPage = {
   params: { groupId: string };
 };
 
-type GameCommandPanelPage = {
-  key: "game";
-  params: { gameId: string };
+type ProjectCommandPanelPage = {
+  key: "project";
+  params: { projectId: string };
 };
 
 type EnvironmentCommandPanelPage = {
   key: "environment";
-  params: { gameId: string; environmentId: string };
+  params: { projectId: string; environmentId: string };
 };
 
 type BackendCommandPanelPage = {
   key: "backend";
-  params: { gameId: string };
+  params: { projectId: string };
 };
 
 type BackendEnvironmentPanelPage = {
   key: "environment";
-  params: { gameId: string; environmentId: string };
+  params: { projectId: string; environmentId: string };
 };
 
 type CommandPanelPages =
   | GroupCommandPanelPage
-  | GameCommandPanelPage
+  | ProjectCommandPanelPage
   | EnvironmentCommandPanelPage
   | BackendCommandPanelPage
   | BackendEnvironmentPanelPage

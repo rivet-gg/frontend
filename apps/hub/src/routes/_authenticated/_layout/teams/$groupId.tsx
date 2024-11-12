@@ -1,5 +1,5 @@
 import { ErrorComponent } from "@/components/error-component";
-import * as Layout from "@/domains/game/layouts/group-layout";
+import * as Layout from "@/domains/project/layouts/group-layout";
 import { useDialog } from "@/hooks/use-dialog";
 import { ls } from "@/lib/ls";
 import {
@@ -24,7 +24,7 @@ function Modals() {
   const { modal } = Route.useSearch();
 
   const CreateGroupInviteDialog = useDialog.CreateGroupInvite.Dialog;
-  const CreateGroupGameDialog = useDialog.CreateGroupGame.Dialog;
+  const CreateGroupProjectDialog = useDialog.CreateGroupProject.Dialog;
   const ConfirmLeaveGroupDialog = useDialog.ConfirmLeaveGroup.Dialog;
 
   const handleonOpenChange = (value: boolean) => {
@@ -42,10 +42,10 @@ function Modals() {
           onOpenChange: handleonOpenChange,
         }}
       />
-      <CreateGroupGameDialog
+      <CreateGroupProjectDialog
         groupId={groupId}
         dialogProps={{
-          open: modal === "create-group-game",
+          open: modal === "create-group-project",
           onOpenChange: handleonOpenChange,
         }}
       />
@@ -72,7 +72,7 @@ function GroupIdView() {
 
 const searchSchema = z.object({
   modal: z
-    .enum(["invite", "create-group-game", "leave"])
+    .enum(["invite", "create-group-project", "leave"])
     .or(z.string())
     .optional(),
 });

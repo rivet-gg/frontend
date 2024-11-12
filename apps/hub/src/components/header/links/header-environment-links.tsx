@@ -1,7 +1,7 @@
 import {
-  gameEnvironmentQueryOptions,
-  gameMetadataQueryOptions,
-} from "@/domains/game/queries";
+  projectEnvironmentQueryOptions,
+  projectMetadataQueryOptions,
+} from "@/domains/project/queries";
 import { GuardEnterprise } from "@/lib/guards";
 import {
   faChessKnight,
@@ -18,11 +18,11 @@ import { HeaderLink } from "../header-link";
 
 interface EnvironmentLinksProps {
   environmentId: string;
-  gameId: string;
+  projectId: string;
 }
 
 export function HeaderEnvironmentLinks({
-  gameId,
+  projectId,
   environmentId,
 }: EnvironmentLinksProps) {
   const [
@@ -32,8 +32,8 @@ export function HeaderEnvironmentLinks({
     },
   ] = useSuspenseQueries({
     queries: [
-      gameEnvironmentQueryOptions({ gameId, environmentId }),
-      gameMetadataQueryOptions({ gameId }),
+      projectEnvironmentQueryOptions({ projectId, environmentId }),
+      projectMetadataQueryOptions({ projectId }),
     ],
   });
 
@@ -41,8 +41,8 @@ export function HeaderEnvironmentLinks({
     <>
       <HeaderLink icon={faServer}>
         <Link
-          to="/games/$gameId/environments/$environmentId/servers"
-          params={{ gameId, environmentId }}
+          to="/projects/$projectId/environments/$environmentId/servers"
+          params={{ projectId, environmentId }}
         >
           Servers
         </Link>
@@ -50,16 +50,16 @@ export function HeaderEnvironmentLinks({
       <GuardEnterprise>
         <HeaderLink icon={faPuzzle}>
           <Link
-            to="/games/$gameId/environments/$environmentId/backend"
-            params={{ gameId, environmentId }}
+            to="/projects/$projectId/environments/$environmentId/backend"
+            params={{ projectId, environmentId }}
           >
             Backend
           </Link>
         </HeaderLink>
         <HeaderLink icon={faPuzzlePiece}>
           <Link
-            to="/games/$gameId/environments/$environmentId/modules"
-            params={{ gameId, environmentId }}
+            to="/projects/$projectId/environments/$environmentId/modules"
+            params={{ projectId, environmentId }}
           >
             Modules
           </Link>
@@ -69,8 +69,8 @@ export function HeaderEnvironmentLinks({
         <>
           <HeaderLink icon={faCodeBranch}>
             <Link
-              to="/games/$gameId/environments/$environmentId/versions"
-              params={{ gameId, environmentId }}
+              to="/projects/$projectId/environments/$environmentId/versions"
+              params={{ projectId, environmentId }}
             >
               Versions
             </Link>
@@ -78,8 +78,8 @@ export function HeaderEnvironmentLinks({
           {data.namespace.config.matchmaker ? (
             <HeaderLink icon={faChessKnight}>
               <Link
-                to="/games/$gameId/environments/$environmentId/lobbies"
-                params={{ gameId, environmentId }}
+                to="/projects/$projectId/environments/$environmentId/lobbies"
+                params={{ projectId, environmentId }}
               >
                 Lobbies
               </Link>
@@ -88,8 +88,8 @@ export function HeaderEnvironmentLinks({
           {data.namespace.config.cdn ? (
             <HeaderLink icon={faGlobe}>
               <Link
-                to="/games/$gameId/environments/$environmentId/cdn"
-                params={{ gameId, environmentId }}
+                to="/projects/$projectId/environments/$environmentId/cdn"
+                params={{ projectId, environmentId }}
               >
                 CDN
               </Link>
@@ -99,8 +99,8 @@ export function HeaderEnvironmentLinks({
       ) : null}
       <HeaderLink icon={faKey}>
         <Link
-          to="/games/$gameId/environments/$environmentId/tokens"
-          params={{ gameId, environmentId }}
+          to="/projects/$projectId/environments/$environmentId/tokens"
+          params={{ projectId, environmentId }}
         >
           Tokens
         </Link>

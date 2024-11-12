@@ -1,8 +1,8 @@
 import {
-  gameEnvironmentQueryOptions,
-  gameMetadataQueryOptions,
-  gameQueryOptions,
-} from "@/domains/game/queries";
+  projectEnvironmentQueryOptions,
+  projectMetadataQueryOptions,
+  projectQueryOptions,
+} from "@/domains/project/queries";
 import { GuardEnterprise } from "@/lib/guards";
 import { Badge, CommandGroup, CommandItem } from "@rivet-gg/components";
 import {
@@ -22,12 +22,12 @@ import { useSuspenseQueries, useSuspenseQuery } from "@tanstack/react-query";
 import { useCommandPanelNavigation } from "../command-panel-navigation-provider";
 
 interface EnvironmentCommandPanelPage {
-  gameId: string;
+  projectId: string;
   environmentId: string;
 }
 
 export function EnvironmentCommandPanelPage({
-  gameId,
+  projectId,
   environmentId,
 }: EnvironmentCommandPanelPage) {
   const [
@@ -38,14 +38,19 @@ export function EnvironmentCommandPanelPage({
       data: { legacyLobbiesEnabled },
     },
   ] = useSuspenseQueries({
-    queries: [gameQueryOptions(gameId), gameMetadataQueryOptions({ gameId })],
+    queries: [
+      projectQueryOptions(projectId),
+      projectMetadataQueryOptions({ projectId }),
+    ],
   });
 
   const {
     data: {
       namespace: { versionId, config },
     },
-  } = useSuspenseQuery(gameEnvironmentQueryOptions({ environmentId, gameId }));
+  } = useSuspenseQuery(
+    projectEnvironmentQueryOptions({ environmentId, projectId }),
+  );
 
   const { navigate } = useCommandPanelNavigation();
 
@@ -59,8 +64,8 @@ export function EnvironmentCommandPanelPage({
         <CommandItem
           onSelect={() => {
             navigate({
-              to: "/games/$gameId/environments/$environmentId/servers",
-              params: { gameId, environmentId },
+              to: "/projects/$projectId/environments/$environmentId/servers",
+              params: { projectId, environmentId },
             });
           }}
         >
@@ -71,8 +76,8 @@ export function EnvironmentCommandPanelPage({
           <CommandItem
             onSelect={() => {
               navigate({
-                to: "/games/$gameId/environments/$environmentId/backend",
-                params: { gameId, environmentId },
+                to: "/projects/$projectId/environments/$environmentId/backend",
+                params: { projectId, environmentId },
               });
             }}
           >
@@ -85,8 +90,8 @@ export function EnvironmentCommandPanelPage({
           <CommandItem
             onSelect={() => {
               navigate({
-                to: "/games/$gameId/environments/$environmentId/versions",
-                params: { gameId, environmentId },
+                to: "/projects/$projectId/environments/$environmentId/versions",
+                params: { projectId, environmentId },
               });
             }}
           >
@@ -105,8 +110,8 @@ export function EnvironmentCommandPanelPage({
               <CommandItem
                 onSelect={() => {
                   navigate({
-                    to: "/games/$gameId/environments/$environmentId/cdn",
-                    params: { gameId, environmentId },
+                    to: "/projects/$projectId/environments/$environmentId/cdn",
+                    params: { projectId, environmentId },
                   });
                 }}
               >
@@ -117,8 +122,8 @@ export function EnvironmentCommandPanelPage({
                 keywords={["cdn", "auth", "users"]}
                 onSelect={() => {
                   navigate({
-                    to: "/games/$gameId/environments/$environmentId/cdn",
-                    params: { gameId, environmentId },
+                    to: "/projects/$projectId/environments/$environmentId/cdn",
+                    params: { projectId, environmentId },
                     search: { modal: "cdn-users" },
                   });
                 }}
@@ -130,8 +135,8 @@ export function EnvironmentCommandPanelPage({
                 keywords={["cdn", "custom", "domains"]}
                 onSelect={() => {
                   navigate({
-                    to: "/games/$gameId/environments/$environmentId/cdn",
-                    params: { gameId, environmentId },
+                    to: "/projects/$projectId/environments/$environmentId/cdn",
+                    params: { projectId, environmentId },
                     search: { modal: "cdn-domains" },
                   });
                 }}
@@ -147,8 +152,8 @@ export function EnvironmentCommandPanelPage({
                 keywords={["matchmaker", "lobbies"]}
                 onSelect={() => {
                   navigate({
-                    to: "/games/$gameId/environments/$environmentId/lobbies",
-                    params: { gameId, environmentId },
+                    to: "/projects/$projectId/environments/$environmentId/lobbies",
+                    params: { projectId, environmentId },
                   });
                 }}
               >
@@ -159,8 +164,8 @@ export function EnvironmentCommandPanelPage({
                 keywords={["matchmaker", "logs"]}
                 onSelect={() => {
                   navigate({
-                    to: "/games/$gameId/environments/$environmentId/lobbies/logs",
-                    params: { gameId, environmentId },
+                    to: "/projects/$projectId/environments/$environmentId/lobbies/logs",
+                    params: { projectId, environmentId },
                   });
                 }}
               >
@@ -171,8 +176,8 @@ export function EnvironmentCommandPanelPage({
                 keywords={["matchmaker", "settings"]}
                 onSelect={() => {
                   navigate({
-                    to: "/games/$gameId/environments/$environmentId/lobbies/settings",
-                    params: { gameId, environmentId },
+                    to: "/projects/$projectId/environments/$environmentId/lobbies/settings",
+                    params: { projectId, environmentId },
                   });
                 }}
               >
@@ -187,8 +192,8 @@ export function EnvironmentCommandPanelPage({
         <CommandItem
           onSelect={() => {
             navigate({
-              to: "/games/$gameId/environments/$environmentId/tokens",
-              params: { gameId, environmentId },
+              to: "/projects/$projectId/environments/$environmentId/tokens",
+              params: { projectId, environmentId },
               search: { modal: "public-token" },
             });
           }}
@@ -199,8 +204,8 @@ export function EnvironmentCommandPanelPage({
         <CommandItem
           onSelect={() => {
             navigate({
-              to: "/games/$gameId/environments/$environmentId/tokens",
-              params: { gameId, environmentId },
+              to: "/projects/$projectId/environments/$environmentId/tokens",
+              params: { projectId, environmentId },
               search: { modal: "service-token" },
             });
           }}
@@ -211,8 +216,8 @@ export function EnvironmentCommandPanelPage({
         <CommandItem
           onSelect={() => {
             navigate({
-              to: "/games/$gameId/environments/$environmentId/tokens",
-              params: { gameId, environmentId },
+              to: "/projects/$projectId/environments/$environmentId/tokens",
+              params: { projectId, environmentId },
             });
           }}
         >

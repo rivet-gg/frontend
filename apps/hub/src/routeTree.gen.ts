@@ -22,38 +22,39 @@ import { Route as AuthenticatedLayoutMyProfileImport } from './routes/_authentic
 import { Route as AuthenticatedLayoutMyProfileIndexImport } from './routes/_authenticated/_layout/my-profile/index'
 import { Route as AuthenticatedDevicesLinkTokenImport } from './routes/_authenticated/devices.link.$token'
 import { Route as AuthenticatedLayoutTeamsGroupIdImport } from './routes/_authenticated/_layout/teams/$groupId'
+import { Route as AuthenticatedLayoutProjectsProjectIdImport } from './routes/_authenticated/_layout/projects/$projectId'
 import { Route as AuthenticatedLayoutMyProfileFeaturesImport } from './routes/_authenticated/_layout/my-profile/features'
-import { Route as AuthenticatedLayoutGamesGameIdImport } from './routes/_authenticated/_layout/games/$gameId'
+import { Route as AuthenticatedLayoutGamesSplatImport } from './routes/_authenticated/_layout/games/$'
 import { Route as AuthenticatedLayoutTeamsGroupIdIndexImport } from './routes/_authenticated/_layout/teams/$groupId/index'
-import { Route as AuthenticatedLayoutGamesGameIdIndexImport } from './routes/_authenticated/_layout/games/$gameId/index'
+import { Route as AuthenticatedLayoutProjectsProjectIdIndexImport } from './routes/_authenticated/_layout/projects/$projectId/index'
 import { Route as AuthenticatedLayoutTeamsGroupIdSettingsImport } from './routes/_authenticated/_layout/teams/$groupId/settings'
 import { Route as AuthenticatedLayoutTeamsGroupIdMembersImport } from './routes/_authenticated/_layout/teams/$groupId/members'
 import { Route as AuthenticatedLayoutTeamsGroupIdBillingImport } from './routes/_authenticated/_layout/teams/$groupId/billing'
-import { Route as AuthenticatedLayoutGamesGameIdTokensImport } from './routes/_authenticated/_layout/games/$gameId/tokens'
-import { Route as AuthenticatedLayoutGamesGameIdSettingsImport } from './routes/_authenticated/_layout/games/$gameId/settings'
-import { Route as AuthenticatedLayoutGamesGameIdBillingImport } from './routes/_authenticated/_layout/games/$gameId/billing'
+import { Route as AuthenticatedLayoutProjectsProjectIdTokensImport } from './routes/_authenticated/_layout/projects/$projectId/tokens'
+import { Route as AuthenticatedLayoutProjectsProjectIdSettingsImport } from './routes/_authenticated/_layout/projects/$projectId/settings'
+import { Route as AuthenticatedLayoutProjectsProjectIdBillingImport } from './routes/_authenticated/_layout/projects/$projectId/billing'
 import { Route as AuthenticatedLayoutTeamsGroupIdSettingsIndexImport } from './routes/_authenticated/_layout/teams/$groupId/settings/index'
-import { Route as AuthenticatedLayoutGamesGameIdSettingsIndexImport } from './routes/_authenticated/_layout/games/$gameId/settings/index'
-import { Route as AuthenticatedLayoutGamesGameIdSettingsTokensImport } from './routes/_authenticated/_layout/games/$gameId/settings/tokens'
-import { Route as AuthenticatedLayoutGamesGameIdNamespacesSplatImport } from './routes/_authenticated/_layout/games/$gameId/namespaces/$'
-import { Route as AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdImport } from './routes/_authenticated/_layout/games/$gameId/environments/$environmentId'
-import { Route as AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdIndexImport } from './routes/_authenticated/_layout/games/$gameId/environments/$environmentId/index'
-import { Route as AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdVersionsImport } from './routes/_authenticated/_layout/games/$gameId/environments/$environmentId/versions'
-import { Route as AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdTokensImport } from './routes/_authenticated/_layout/games/$gameId/environments/$environmentId/tokens'
-import { Route as AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdServersImport } from './routes/_authenticated/_layout/games/$gameId/environments/$environmentId/servers'
-import { Route as AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdModulesImport } from './routes/_authenticated/_layout/games/$gameId/environments/$environmentId/modules'
-import { Route as AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdMatchmakerImport } from './routes/_authenticated/_layout/games/$gameId/environments/$environmentId/matchmaker'
-import { Route as AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdLobbiesImport } from './routes/_authenticated/_layout/games/$gameId/environments/$environmentId/lobbies'
-import { Route as AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdCdnImport } from './routes/_authenticated/_layout/games/$gameId/environments/$environmentId/cdn'
-import { Route as AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdBackendImport } from './routes/_authenticated/_layout/games/$gameId/environments/$environmentId/backend'
-import { Route as AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdServersIndexImport } from './routes/_authenticated/_layout/games/$gameId/environments/$environmentId/servers/index'
-import { Route as AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdLobbiesIndexImport } from './routes/_authenticated/_layout/games/$gameId/environments/$environmentId/lobbies/index'
-import { Route as AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdBackendIndexImport } from './routes/_authenticated/_layout/games/$gameId/environments/$environmentId/backend/index'
-import { Route as AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdServersBuildsImport } from './routes/_authenticated/_layout/games/$gameId/environments/$environmentId/servers/builds'
-import { Route as AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdLobbiesSettingsImport } from './routes/_authenticated/_layout/games/$gameId/environments/$environmentId/lobbies/settings'
-import { Route as AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdLobbiesLogsImport } from './routes/_authenticated/_layout/games/$gameId/environments/$environmentId/lobbies/logs'
-import { Route as AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdBackendVariablesImport } from './routes/_authenticated/_layout/games/$gameId/environments/$environmentId/backend/variables'
-import { Route as AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdBackendLogsImport } from './routes/_authenticated/_layout/games/$gameId/environments/$environmentId/backend/logs'
+import { Route as AuthenticatedLayoutProjectsProjectIdSettingsIndexImport } from './routes/_authenticated/_layout/projects/$projectId/settings/index'
+import { Route as AuthenticatedLayoutProjectsProjectIdSettingsTokensImport } from './routes/_authenticated/_layout/projects/$projectId/settings/tokens'
+import { Route as AuthenticatedLayoutProjectsProjectIdNamespacesSplatImport } from './routes/_authenticated/_layout/projects/$projectId/namespaces/$'
+import { Route as AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdImport } from './routes/_authenticated/_layout/projects/$projectId/environments/$environmentId'
+import { Route as AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdIndexImport } from './routes/_authenticated/_layout/projects/$projectId/environments/$environmentId/index'
+import { Route as AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdVersionsImport } from './routes/_authenticated/_layout/projects/$projectId/environments/$environmentId/versions'
+import { Route as AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdTokensImport } from './routes/_authenticated/_layout/projects/$projectId/environments/$environmentId/tokens'
+import { Route as AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdServersImport } from './routes/_authenticated/_layout/projects/$projectId/environments/$environmentId/servers'
+import { Route as AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdModulesImport } from './routes/_authenticated/_layout/projects/$projectId/environments/$environmentId/modules'
+import { Route as AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdMatchmakerImport } from './routes/_authenticated/_layout/projects/$projectId/environments/$environmentId/matchmaker'
+import { Route as AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdLobbiesImport } from './routes/_authenticated/_layout/projects/$projectId/environments/$environmentId/lobbies'
+import { Route as AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdCdnImport } from './routes/_authenticated/_layout/projects/$projectId/environments/$environmentId/cdn'
+import { Route as AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdBackendImport } from './routes/_authenticated/_layout/projects/$projectId/environments/$environmentId/backend'
+import { Route as AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdServersIndexImport } from './routes/_authenticated/_layout/projects/$projectId/environments/$environmentId/servers/index'
+import { Route as AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdLobbiesIndexImport } from './routes/_authenticated/_layout/projects/$projectId/environments/$environmentId/lobbies/index'
+import { Route as AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdBackendIndexImport } from './routes/_authenticated/_layout/projects/$projectId/environments/$environmentId/backend/index'
+import { Route as AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdServersBuildsImport } from './routes/_authenticated/_layout/projects/$projectId/environments/$environmentId/servers/builds'
+import { Route as AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdLobbiesSettingsImport } from './routes/_authenticated/_layout/projects/$projectId/environments/$environmentId/lobbies/settings'
+import { Route as AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdLobbiesLogsImport } from './routes/_authenticated/_layout/projects/$projectId/environments/$environmentId/lobbies/logs'
+import { Route as AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdBackendVariablesImport } from './routes/_authenticated/_layout/projects/$projectId/environments/$environmentId/backend/variables'
+import { Route as AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdBackendLogsImport } from './routes/_authenticated/_layout/projects/$projectId/environments/$environmentId/backend/logs'
 
 // Create/Update Routes
 
@@ -118,15 +119,21 @@ const AuthenticatedLayoutTeamsGroupIdRoute =
     getParentRoute: () => AuthenticatedLayoutRoute,
   } as any)
 
+const AuthenticatedLayoutProjectsProjectIdRoute =
+  AuthenticatedLayoutProjectsProjectIdImport.update({
+    path: '/projects/$projectId',
+    getParentRoute: () => AuthenticatedLayoutRoute,
+  } as any)
+
 const AuthenticatedLayoutMyProfileFeaturesRoute =
   AuthenticatedLayoutMyProfileFeaturesImport.update({
     path: '/features',
     getParentRoute: () => AuthenticatedLayoutMyProfileRoute,
   } as any)
 
-const AuthenticatedLayoutGamesGameIdRoute =
-  AuthenticatedLayoutGamesGameIdImport.update({
-    path: '/games/$gameId',
+const AuthenticatedLayoutGamesSplatRoute =
+  AuthenticatedLayoutGamesSplatImport.update({
+    path: '/games/$',
     getParentRoute: () => AuthenticatedLayoutRoute,
   } as any)
 
@@ -136,10 +143,10 @@ const AuthenticatedLayoutTeamsGroupIdIndexRoute =
     getParentRoute: () => AuthenticatedLayoutTeamsGroupIdRoute,
   } as any)
 
-const AuthenticatedLayoutGamesGameIdIndexRoute =
-  AuthenticatedLayoutGamesGameIdIndexImport.update({
+const AuthenticatedLayoutProjectsProjectIdIndexRoute =
+  AuthenticatedLayoutProjectsProjectIdIndexImport.update({
     path: '/',
-    getParentRoute: () => AuthenticatedLayoutGamesGameIdRoute,
+    getParentRoute: () => AuthenticatedLayoutProjectsProjectIdRoute,
   } as any)
 
 const AuthenticatedLayoutTeamsGroupIdSettingsRoute =
@@ -160,22 +167,22 @@ const AuthenticatedLayoutTeamsGroupIdBillingRoute =
     getParentRoute: () => AuthenticatedLayoutTeamsGroupIdRoute,
   } as any)
 
-const AuthenticatedLayoutGamesGameIdTokensRoute =
-  AuthenticatedLayoutGamesGameIdTokensImport.update({
+const AuthenticatedLayoutProjectsProjectIdTokensRoute =
+  AuthenticatedLayoutProjectsProjectIdTokensImport.update({
     path: '/tokens',
-    getParentRoute: () => AuthenticatedLayoutGamesGameIdRoute,
+    getParentRoute: () => AuthenticatedLayoutProjectsProjectIdRoute,
   } as any)
 
-const AuthenticatedLayoutGamesGameIdSettingsRoute =
-  AuthenticatedLayoutGamesGameIdSettingsImport.update({
+const AuthenticatedLayoutProjectsProjectIdSettingsRoute =
+  AuthenticatedLayoutProjectsProjectIdSettingsImport.update({
     path: '/settings',
-    getParentRoute: () => AuthenticatedLayoutGamesGameIdRoute,
+    getParentRoute: () => AuthenticatedLayoutProjectsProjectIdRoute,
   } as any)
 
-const AuthenticatedLayoutGamesGameIdBillingRoute =
-  AuthenticatedLayoutGamesGameIdBillingImport.update({
+const AuthenticatedLayoutProjectsProjectIdBillingRoute =
+  AuthenticatedLayoutProjectsProjectIdBillingImport.update({
     path: '/billing',
-    getParentRoute: () => AuthenticatedLayoutGamesGameIdRoute,
+    getParentRoute: () => AuthenticatedLayoutProjectsProjectIdRoute,
   } as any)
 
 const AuthenticatedLayoutTeamsGroupIdSettingsIndexRoute =
@@ -184,164 +191,180 @@ const AuthenticatedLayoutTeamsGroupIdSettingsIndexRoute =
     getParentRoute: () => AuthenticatedLayoutTeamsGroupIdSettingsRoute,
   } as any)
 
-const AuthenticatedLayoutGamesGameIdSettingsIndexRoute =
-  AuthenticatedLayoutGamesGameIdSettingsIndexImport.update({
+const AuthenticatedLayoutProjectsProjectIdSettingsIndexRoute =
+  AuthenticatedLayoutProjectsProjectIdSettingsIndexImport.update({
     path: '/',
-    getParentRoute: () => AuthenticatedLayoutGamesGameIdSettingsRoute,
+    getParentRoute: () => AuthenticatedLayoutProjectsProjectIdSettingsRoute,
   } as any)
 
-const AuthenticatedLayoutGamesGameIdSettingsTokensRoute =
-  AuthenticatedLayoutGamesGameIdSettingsTokensImport.update({
+const AuthenticatedLayoutProjectsProjectIdSettingsTokensRoute =
+  AuthenticatedLayoutProjectsProjectIdSettingsTokensImport.update({
     path: '/tokens',
-    getParentRoute: () => AuthenticatedLayoutGamesGameIdSettingsRoute,
+    getParentRoute: () => AuthenticatedLayoutProjectsProjectIdSettingsRoute,
   } as any)
 
-const AuthenticatedLayoutGamesGameIdNamespacesSplatRoute =
-  AuthenticatedLayoutGamesGameIdNamespacesSplatImport.update({
+const AuthenticatedLayoutProjectsProjectIdNamespacesSplatRoute =
+  AuthenticatedLayoutProjectsProjectIdNamespacesSplatImport.update({
     path: '/namespaces/$',
-    getParentRoute: () => AuthenticatedLayoutGamesGameIdRoute,
+    getParentRoute: () => AuthenticatedLayoutProjectsProjectIdRoute,
   } as any)
 
-const AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdRoute =
-  AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdImport.update({
+const AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdRoute =
+  AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdImport.update({
     path: '/environments/$environmentId',
-    getParentRoute: () => AuthenticatedLayoutGamesGameIdRoute,
+    getParentRoute: () => AuthenticatedLayoutProjectsProjectIdRoute,
   } as any)
 
-const AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdIndexRoute =
-  AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdIndexImport.update({
-    path: '/',
-    getParentRoute: () =>
-      AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdRoute,
-  } as any)
+const AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdIndexRoute =
+  AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdIndexImport.update(
+    {
+      path: '/',
+      getParentRoute: () =>
+        AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdRoute,
+    } as any,
+  )
 
-const AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdVersionsRoute =
-  AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdVersionsImport.update({
-    path: '/versions',
-    getParentRoute: () =>
-      AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdRoute,
-  } as any)
+const AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdVersionsRoute =
+  AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdVersionsImport.update(
+    {
+      path: '/versions',
+      getParentRoute: () =>
+        AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdRoute,
+    } as any,
+  )
 
-const AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdTokensRoute =
-  AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdTokensImport.update({
-    path: '/tokens',
-    getParentRoute: () =>
-      AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdRoute,
-  } as any)
+const AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdTokensRoute =
+  AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdTokensImport.update(
+    {
+      path: '/tokens',
+      getParentRoute: () =>
+        AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdRoute,
+    } as any,
+  )
 
-const AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdServersRoute =
-  AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdServersImport.update({
-    path: '/servers',
-    getParentRoute: () =>
-      AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdRoute,
-  } as any)
+const AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdServersRoute =
+  AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdServersImport.update(
+    {
+      path: '/servers',
+      getParentRoute: () =>
+        AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdRoute,
+    } as any,
+  )
 
-const AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdModulesRoute =
-  AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdModulesImport.update({
-    path: '/modules',
-    getParentRoute: () =>
-      AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdRoute,
-  } as any)
+const AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdModulesRoute =
+  AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdModulesImport.update(
+    {
+      path: '/modules',
+      getParentRoute: () =>
+        AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdRoute,
+    } as any,
+  )
 
-const AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdMatchmakerRoute =
-  AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdMatchmakerImport.update(
+const AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdMatchmakerRoute =
+  AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdMatchmakerImport.update(
     {
       path: '/matchmaker',
       getParentRoute: () =>
-        AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdRoute,
+        AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdRoute,
     } as any,
   )
 
-const AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdLobbiesRoute =
-  AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdLobbiesImport.update({
-    path: '/lobbies',
-    getParentRoute: () =>
-      AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdRoute,
-  } as any)
+const AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdLobbiesRoute =
+  AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdLobbiesImport.update(
+    {
+      path: '/lobbies',
+      getParentRoute: () =>
+        AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdRoute,
+    } as any,
+  )
 
-const AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdCdnRoute =
-  AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdCdnImport.update({
-    path: '/cdn',
-    getParentRoute: () =>
-      AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdRoute,
-  } as any)
+const AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdCdnRoute =
+  AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdCdnImport.update(
+    {
+      path: '/cdn',
+      getParentRoute: () =>
+        AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdRoute,
+    } as any,
+  )
 
-const AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdBackendRoute =
-  AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdBackendImport.update({
-    path: '/backend',
-    getParentRoute: () =>
-      AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdRoute,
-  } as any)
+const AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdBackendRoute =
+  AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdBackendImport.update(
+    {
+      path: '/backend',
+      getParentRoute: () =>
+        AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdRoute,
+    } as any,
+  )
 
-const AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdServersIndexRoute =
-  AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdServersIndexImport.update(
+const AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdServersIndexRoute =
+  AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdServersIndexImport.update(
     {
       path: '/',
       getParentRoute: () =>
-        AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdServersRoute,
+        AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdServersRoute,
     } as any,
   )
 
-const AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdLobbiesIndexRoute =
-  AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdLobbiesIndexImport.update(
+const AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdLobbiesIndexRoute =
+  AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdLobbiesIndexImport.update(
     {
       path: '/',
       getParentRoute: () =>
-        AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdLobbiesRoute,
+        AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdLobbiesRoute,
     } as any,
   )
 
-const AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdBackendIndexRoute =
-  AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdBackendIndexImport.update(
+const AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdBackendIndexRoute =
+  AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdBackendIndexImport.update(
     {
       path: '/',
       getParentRoute: () =>
-        AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdBackendRoute,
+        AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdBackendRoute,
     } as any,
   )
 
-const AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdServersBuildsRoute =
-  AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdServersBuildsImport.update(
+const AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdServersBuildsRoute =
+  AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdServersBuildsImport.update(
     {
       path: '/builds',
       getParentRoute: () =>
-        AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdServersRoute,
+        AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdServersRoute,
     } as any,
   )
 
-const AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdLobbiesSettingsRoute =
-  AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdLobbiesSettingsImport.update(
+const AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdLobbiesSettingsRoute =
+  AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdLobbiesSettingsImport.update(
     {
       path: '/settings',
       getParentRoute: () =>
-        AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdLobbiesRoute,
+        AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdLobbiesRoute,
     } as any,
   )
 
-const AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdLobbiesLogsRoute =
-  AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdLobbiesLogsImport.update(
+const AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdLobbiesLogsRoute =
+  AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdLobbiesLogsImport.update(
     {
       path: '/logs',
       getParentRoute: () =>
-        AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdLobbiesRoute,
+        AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdLobbiesRoute,
     } as any,
   )
 
-const AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdBackendVariablesRoute =
-  AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdBackendVariablesImport.update(
+const AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdBackendVariablesRoute =
+  AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdBackendVariablesImport.update(
     {
       path: '/variables',
       getParentRoute: () =>
-        AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdBackendRoute,
+        AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdBackendRoute,
     } as any,
   )
 
-const AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdBackendLogsRoute =
-  AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdBackendLogsImport.update(
+const AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdBackendLogsRoute =
+  AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdBackendLogsImport.update(
     {
       path: '/logs',
       getParentRoute: () =>
-        AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdBackendRoute,
+        AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdBackendRoute,
     } as any,
   )
 
@@ -405,11 +428,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedLayoutIndexImport
       parentRoute: typeof AuthenticatedLayoutImport
     }
-    '/_authenticated/_layout/games/$gameId': {
-      id: '/_authenticated/_layout/games/$gameId'
-      path: '/games/$gameId'
-      fullPath: '/games/$gameId'
-      preLoaderRoute: typeof AuthenticatedLayoutGamesGameIdImport
+    '/_authenticated/_layout/games/$': {
+      id: '/_authenticated/_layout/games/$'
+      path: '/games/$'
+      fullPath: '/games/$'
+      preLoaderRoute: typeof AuthenticatedLayoutGamesSplatImport
       parentRoute: typeof AuthenticatedLayoutImport
     }
     '/_authenticated/_layout/my-profile/features': {
@@ -418,6 +441,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/my-profile/features'
       preLoaderRoute: typeof AuthenticatedLayoutMyProfileFeaturesImport
       parentRoute: typeof AuthenticatedLayoutMyProfileImport
+    }
+    '/_authenticated/_layout/projects/$projectId': {
+      id: '/_authenticated/_layout/projects/$projectId'
+      path: '/projects/$projectId'
+      fullPath: '/projects/$projectId'
+      preLoaderRoute: typeof AuthenticatedLayoutProjectsProjectIdImport
+      parentRoute: typeof AuthenticatedLayoutImport
     }
     '/_authenticated/_layout/teams/$groupId': {
       id: '/_authenticated/_layout/teams/$groupId'
@@ -440,26 +470,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedLayoutMyProfileIndexImport
       parentRoute: typeof AuthenticatedLayoutMyProfileImport
     }
-    '/_authenticated/_layout/games/$gameId/billing': {
-      id: '/_authenticated/_layout/games/$gameId/billing'
+    '/_authenticated/_layout/projects/$projectId/billing': {
+      id: '/_authenticated/_layout/projects/$projectId/billing'
       path: '/billing'
-      fullPath: '/games/$gameId/billing'
-      preLoaderRoute: typeof AuthenticatedLayoutGamesGameIdBillingImport
-      parentRoute: typeof AuthenticatedLayoutGamesGameIdImport
+      fullPath: '/projects/$projectId/billing'
+      preLoaderRoute: typeof AuthenticatedLayoutProjectsProjectIdBillingImport
+      parentRoute: typeof AuthenticatedLayoutProjectsProjectIdImport
     }
-    '/_authenticated/_layout/games/$gameId/settings': {
-      id: '/_authenticated/_layout/games/$gameId/settings'
+    '/_authenticated/_layout/projects/$projectId/settings': {
+      id: '/_authenticated/_layout/projects/$projectId/settings'
       path: '/settings'
-      fullPath: '/games/$gameId/settings'
-      preLoaderRoute: typeof AuthenticatedLayoutGamesGameIdSettingsImport
-      parentRoute: typeof AuthenticatedLayoutGamesGameIdImport
+      fullPath: '/projects/$projectId/settings'
+      preLoaderRoute: typeof AuthenticatedLayoutProjectsProjectIdSettingsImport
+      parentRoute: typeof AuthenticatedLayoutProjectsProjectIdImport
     }
-    '/_authenticated/_layout/games/$gameId/tokens': {
-      id: '/_authenticated/_layout/games/$gameId/tokens'
+    '/_authenticated/_layout/projects/$projectId/tokens': {
+      id: '/_authenticated/_layout/projects/$projectId/tokens'
       path: '/tokens'
-      fullPath: '/games/$gameId/tokens'
-      preLoaderRoute: typeof AuthenticatedLayoutGamesGameIdTokensImport
-      parentRoute: typeof AuthenticatedLayoutGamesGameIdImport
+      fullPath: '/projects/$projectId/tokens'
+      preLoaderRoute: typeof AuthenticatedLayoutProjectsProjectIdTokensImport
+      parentRoute: typeof AuthenticatedLayoutProjectsProjectIdImport
     }
     '/_authenticated/_layout/teams/$groupId/billing': {
       id: '/_authenticated/_layout/teams/$groupId/billing'
@@ -482,12 +512,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedLayoutTeamsGroupIdSettingsImport
       parentRoute: typeof AuthenticatedLayoutTeamsGroupIdImport
     }
-    '/_authenticated/_layout/games/$gameId/': {
-      id: '/_authenticated/_layout/games/$gameId/'
+    '/_authenticated/_layout/projects/$projectId/': {
+      id: '/_authenticated/_layout/projects/$projectId/'
       path: '/'
-      fullPath: '/games/$gameId/'
-      preLoaderRoute: typeof AuthenticatedLayoutGamesGameIdIndexImport
-      parentRoute: typeof AuthenticatedLayoutGamesGameIdImport
+      fullPath: '/projects/$projectId/'
+      preLoaderRoute: typeof AuthenticatedLayoutProjectsProjectIdIndexImport
+      parentRoute: typeof AuthenticatedLayoutProjectsProjectIdImport
     }
     '/_authenticated/_layout/teams/$groupId/': {
       id: '/_authenticated/_layout/teams/$groupId/'
@@ -496,33 +526,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedLayoutTeamsGroupIdIndexImport
       parentRoute: typeof AuthenticatedLayoutTeamsGroupIdImport
     }
-    '/_authenticated/_layout/games/$gameId/environments/$environmentId': {
-      id: '/_authenticated/_layout/games/$gameId/environments/$environmentId'
+    '/_authenticated/_layout/projects/$projectId/environments/$environmentId': {
+      id: '/_authenticated/_layout/projects/$projectId/environments/$environmentId'
       path: '/environments/$environmentId'
-      fullPath: '/games/$gameId/environments/$environmentId'
-      preLoaderRoute: typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdImport
-      parentRoute: typeof AuthenticatedLayoutGamesGameIdImport
+      fullPath: '/projects/$projectId/environments/$environmentId'
+      preLoaderRoute: typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdImport
+      parentRoute: typeof AuthenticatedLayoutProjectsProjectIdImport
     }
-    '/_authenticated/_layout/games/$gameId/namespaces/$': {
-      id: '/_authenticated/_layout/games/$gameId/namespaces/$'
+    '/_authenticated/_layout/projects/$projectId/namespaces/$': {
+      id: '/_authenticated/_layout/projects/$projectId/namespaces/$'
       path: '/namespaces/$'
-      fullPath: '/games/$gameId/namespaces/$'
-      preLoaderRoute: typeof AuthenticatedLayoutGamesGameIdNamespacesSplatImport
-      parentRoute: typeof AuthenticatedLayoutGamesGameIdImport
+      fullPath: '/projects/$projectId/namespaces/$'
+      preLoaderRoute: typeof AuthenticatedLayoutProjectsProjectIdNamespacesSplatImport
+      parentRoute: typeof AuthenticatedLayoutProjectsProjectIdImport
     }
-    '/_authenticated/_layout/games/$gameId/settings/tokens': {
-      id: '/_authenticated/_layout/games/$gameId/settings/tokens'
+    '/_authenticated/_layout/projects/$projectId/settings/tokens': {
+      id: '/_authenticated/_layout/projects/$projectId/settings/tokens'
       path: '/tokens'
-      fullPath: '/games/$gameId/settings/tokens'
-      preLoaderRoute: typeof AuthenticatedLayoutGamesGameIdSettingsTokensImport
-      parentRoute: typeof AuthenticatedLayoutGamesGameIdSettingsImport
+      fullPath: '/projects/$projectId/settings/tokens'
+      preLoaderRoute: typeof AuthenticatedLayoutProjectsProjectIdSettingsTokensImport
+      parentRoute: typeof AuthenticatedLayoutProjectsProjectIdSettingsImport
     }
-    '/_authenticated/_layout/games/$gameId/settings/': {
-      id: '/_authenticated/_layout/games/$gameId/settings/'
+    '/_authenticated/_layout/projects/$projectId/settings/': {
+      id: '/_authenticated/_layout/projects/$projectId/settings/'
       path: '/'
-      fullPath: '/games/$gameId/settings/'
-      preLoaderRoute: typeof AuthenticatedLayoutGamesGameIdSettingsIndexImport
-      parentRoute: typeof AuthenticatedLayoutGamesGameIdSettingsImport
+      fullPath: '/projects/$projectId/settings/'
+      preLoaderRoute: typeof AuthenticatedLayoutProjectsProjectIdSettingsIndexImport
+      parentRoute: typeof AuthenticatedLayoutProjectsProjectIdSettingsImport
     }
     '/_authenticated/_layout/teams/$groupId/settings/': {
       id: '/_authenticated/_layout/teams/$groupId/settings/'
@@ -531,124 +561,124 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedLayoutTeamsGroupIdSettingsIndexImport
       parentRoute: typeof AuthenticatedLayoutTeamsGroupIdSettingsImport
     }
-    '/_authenticated/_layout/games/$gameId/environments/$environmentId/backend': {
-      id: '/_authenticated/_layout/games/$gameId/environments/$environmentId/backend'
+    '/_authenticated/_layout/projects/$projectId/environments/$environmentId/backend': {
+      id: '/_authenticated/_layout/projects/$projectId/environments/$environmentId/backend'
       path: '/backend'
-      fullPath: '/games/$gameId/environments/$environmentId/backend'
-      preLoaderRoute: typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdBackendImport
-      parentRoute: typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdImport
+      fullPath: '/projects/$projectId/environments/$environmentId/backend'
+      preLoaderRoute: typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdBackendImport
+      parentRoute: typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdImport
     }
-    '/_authenticated/_layout/games/$gameId/environments/$environmentId/cdn': {
-      id: '/_authenticated/_layout/games/$gameId/environments/$environmentId/cdn'
+    '/_authenticated/_layout/projects/$projectId/environments/$environmentId/cdn': {
+      id: '/_authenticated/_layout/projects/$projectId/environments/$environmentId/cdn'
       path: '/cdn'
-      fullPath: '/games/$gameId/environments/$environmentId/cdn'
-      preLoaderRoute: typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdCdnImport
-      parentRoute: typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdImport
+      fullPath: '/projects/$projectId/environments/$environmentId/cdn'
+      preLoaderRoute: typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdCdnImport
+      parentRoute: typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdImport
     }
-    '/_authenticated/_layout/games/$gameId/environments/$environmentId/lobbies': {
-      id: '/_authenticated/_layout/games/$gameId/environments/$environmentId/lobbies'
+    '/_authenticated/_layout/projects/$projectId/environments/$environmentId/lobbies': {
+      id: '/_authenticated/_layout/projects/$projectId/environments/$environmentId/lobbies'
       path: '/lobbies'
-      fullPath: '/games/$gameId/environments/$environmentId/lobbies'
-      preLoaderRoute: typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdLobbiesImport
-      parentRoute: typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdImport
+      fullPath: '/projects/$projectId/environments/$environmentId/lobbies'
+      preLoaderRoute: typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdLobbiesImport
+      parentRoute: typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdImport
     }
-    '/_authenticated/_layout/games/$gameId/environments/$environmentId/matchmaker': {
-      id: '/_authenticated/_layout/games/$gameId/environments/$environmentId/matchmaker'
+    '/_authenticated/_layout/projects/$projectId/environments/$environmentId/matchmaker': {
+      id: '/_authenticated/_layout/projects/$projectId/environments/$environmentId/matchmaker'
       path: '/matchmaker'
-      fullPath: '/games/$gameId/environments/$environmentId/matchmaker'
-      preLoaderRoute: typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdMatchmakerImport
-      parentRoute: typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdImport
+      fullPath: '/projects/$projectId/environments/$environmentId/matchmaker'
+      preLoaderRoute: typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdMatchmakerImport
+      parentRoute: typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdImport
     }
-    '/_authenticated/_layout/games/$gameId/environments/$environmentId/modules': {
-      id: '/_authenticated/_layout/games/$gameId/environments/$environmentId/modules'
+    '/_authenticated/_layout/projects/$projectId/environments/$environmentId/modules': {
+      id: '/_authenticated/_layout/projects/$projectId/environments/$environmentId/modules'
       path: '/modules'
-      fullPath: '/games/$gameId/environments/$environmentId/modules'
-      preLoaderRoute: typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdModulesImport
-      parentRoute: typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdImport
+      fullPath: '/projects/$projectId/environments/$environmentId/modules'
+      preLoaderRoute: typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdModulesImport
+      parentRoute: typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdImport
     }
-    '/_authenticated/_layout/games/$gameId/environments/$environmentId/servers': {
-      id: '/_authenticated/_layout/games/$gameId/environments/$environmentId/servers'
+    '/_authenticated/_layout/projects/$projectId/environments/$environmentId/servers': {
+      id: '/_authenticated/_layout/projects/$projectId/environments/$environmentId/servers'
       path: '/servers'
-      fullPath: '/games/$gameId/environments/$environmentId/servers'
-      preLoaderRoute: typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdServersImport
-      parentRoute: typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdImport
+      fullPath: '/projects/$projectId/environments/$environmentId/servers'
+      preLoaderRoute: typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdServersImport
+      parentRoute: typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdImport
     }
-    '/_authenticated/_layout/games/$gameId/environments/$environmentId/tokens': {
-      id: '/_authenticated/_layout/games/$gameId/environments/$environmentId/tokens'
+    '/_authenticated/_layout/projects/$projectId/environments/$environmentId/tokens': {
+      id: '/_authenticated/_layout/projects/$projectId/environments/$environmentId/tokens'
       path: '/tokens'
-      fullPath: '/games/$gameId/environments/$environmentId/tokens'
-      preLoaderRoute: typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdTokensImport
-      parentRoute: typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdImport
+      fullPath: '/projects/$projectId/environments/$environmentId/tokens'
+      preLoaderRoute: typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdTokensImport
+      parentRoute: typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdImport
     }
-    '/_authenticated/_layout/games/$gameId/environments/$environmentId/versions': {
-      id: '/_authenticated/_layout/games/$gameId/environments/$environmentId/versions'
+    '/_authenticated/_layout/projects/$projectId/environments/$environmentId/versions': {
+      id: '/_authenticated/_layout/projects/$projectId/environments/$environmentId/versions'
       path: '/versions'
-      fullPath: '/games/$gameId/environments/$environmentId/versions'
-      preLoaderRoute: typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdVersionsImport
-      parentRoute: typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdImport
+      fullPath: '/projects/$projectId/environments/$environmentId/versions'
+      preLoaderRoute: typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdVersionsImport
+      parentRoute: typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdImport
     }
-    '/_authenticated/_layout/games/$gameId/environments/$environmentId/': {
-      id: '/_authenticated/_layout/games/$gameId/environments/$environmentId/'
+    '/_authenticated/_layout/projects/$projectId/environments/$environmentId/': {
+      id: '/_authenticated/_layout/projects/$projectId/environments/$environmentId/'
       path: '/'
-      fullPath: '/games/$gameId/environments/$environmentId/'
-      preLoaderRoute: typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdIndexImport
-      parentRoute: typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdImport
+      fullPath: '/projects/$projectId/environments/$environmentId/'
+      preLoaderRoute: typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdIndexImport
+      parentRoute: typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdImport
     }
-    '/_authenticated/_layout/games/$gameId/environments/$environmentId/backend/logs': {
-      id: '/_authenticated/_layout/games/$gameId/environments/$environmentId/backend/logs'
+    '/_authenticated/_layout/projects/$projectId/environments/$environmentId/backend/logs': {
+      id: '/_authenticated/_layout/projects/$projectId/environments/$environmentId/backend/logs'
       path: '/logs'
-      fullPath: '/games/$gameId/environments/$environmentId/backend/logs'
-      preLoaderRoute: typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdBackendLogsImport
-      parentRoute: typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdBackendImport
+      fullPath: '/projects/$projectId/environments/$environmentId/backend/logs'
+      preLoaderRoute: typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdBackendLogsImport
+      parentRoute: typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdBackendImport
     }
-    '/_authenticated/_layout/games/$gameId/environments/$environmentId/backend/variables': {
-      id: '/_authenticated/_layout/games/$gameId/environments/$environmentId/backend/variables'
+    '/_authenticated/_layout/projects/$projectId/environments/$environmentId/backend/variables': {
+      id: '/_authenticated/_layout/projects/$projectId/environments/$environmentId/backend/variables'
       path: '/variables'
-      fullPath: '/games/$gameId/environments/$environmentId/backend/variables'
-      preLoaderRoute: typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdBackendVariablesImport
-      parentRoute: typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdBackendImport
+      fullPath: '/projects/$projectId/environments/$environmentId/backend/variables'
+      preLoaderRoute: typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdBackendVariablesImport
+      parentRoute: typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdBackendImport
     }
-    '/_authenticated/_layout/games/$gameId/environments/$environmentId/lobbies/logs': {
-      id: '/_authenticated/_layout/games/$gameId/environments/$environmentId/lobbies/logs'
+    '/_authenticated/_layout/projects/$projectId/environments/$environmentId/lobbies/logs': {
+      id: '/_authenticated/_layout/projects/$projectId/environments/$environmentId/lobbies/logs'
       path: '/logs'
-      fullPath: '/games/$gameId/environments/$environmentId/lobbies/logs'
-      preLoaderRoute: typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdLobbiesLogsImport
-      parentRoute: typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdLobbiesImport
+      fullPath: '/projects/$projectId/environments/$environmentId/lobbies/logs'
+      preLoaderRoute: typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdLobbiesLogsImport
+      parentRoute: typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdLobbiesImport
     }
-    '/_authenticated/_layout/games/$gameId/environments/$environmentId/lobbies/settings': {
-      id: '/_authenticated/_layout/games/$gameId/environments/$environmentId/lobbies/settings'
+    '/_authenticated/_layout/projects/$projectId/environments/$environmentId/lobbies/settings': {
+      id: '/_authenticated/_layout/projects/$projectId/environments/$environmentId/lobbies/settings'
       path: '/settings'
-      fullPath: '/games/$gameId/environments/$environmentId/lobbies/settings'
-      preLoaderRoute: typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdLobbiesSettingsImport
-      parentRoute: typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdLobbiesImport
+      fullPath: '/projects/$projectId/environments/$environmentId/lobbies/settings'
+      preLoaderRoute: typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdLobbiesSettingsImport
+      parentRoute: typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdLobbiesImport
     }
-    '/_authenticated/_layout/games/$gameId/environments/$environmentId/servers/builds': {
-      id: '/_authenticated/_layout/games/$gameId/environments/$environmentId/servers/builds'
+    '/_authenticated/_layout/projects/$projectId/environments/$environmentId/servers/builds': {
+      id: '/_authenticated/_layout/projects/$projectId/environments/$environmentId/servers/builds'
       path: '/builds'
-      fullPath: '/games/$gameId/environments/$environmentId/servers/builds'
-      preLoaderRoute: typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdServersBuildsImport
-      parentRoute: typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdServersImport
+      fullPath: '/projects/$projectId/environments/$environmentId/servers/builds'
+      preLoaderRoute: typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdServersBuildsImport
+      parentRoute: typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdServersImport
     }
-    '/_authenticated/_layout/games/$gameId/environments/$environmentId/backend/': {
-      id: '/_authenticated/_layout/games/$gameId/environments/$environmentId/backend/'
+    '/_authenticated/_layout/projects/$projectId/environments/$environmentId/backend/': {
+      id: '/_authenticated/_layout/projects/$projectId/environments/$environmentId/backend/'
       path: '/'
-      fullPath: '/games/$gameId/environments/$environmentId/backend/'
-      preLoaderRoute: typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdBackendIndexImport
-      parentRoute: typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdBackendImport
+      fullPath: '/projects/$projectId/environments/$environmentId/backend/'
+      preLoaderRoute: typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdBackendIndexImport
+      parentRoute: typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdBackendImport
     }
-    '/_authenticated/_layout/games/$gameId/environments/$environmentId/lobbies/': {
-      id: '/_authenticated/_layout/games/$gameId/environments/$environmentId/lobbies/'
+    '/_authenticated/_layout/projects/$projectId/environments/$environmentId/lobbies/': {
+      id: '/_authenticated/_layout/projects/$projectId/environments/$environmentId/lobbies/'
       path: '/'
-      fullPath: '/games/$gameId/environments/$environmentId/lobbies/'
-      preLoaderRoute: typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdLobbiesIndexImport
-      parentRoute: typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdLobbiesImport
+      fullPath: '/projects/$projectId/environments/$environmentId/lobbies/'
+      preLoaderRoute: typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdLobbiesIndexImport
+      parentRoute: typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdLobbiesImport
     }
-    '/_authenticated/_layout/games/$gameId/environments/$environmentId/servers/': {
-      id: '/_authenticated/_layout/games/$gameId/environments/$environmentId/servers/'
+    '/_authenticated/_layout/projects/$projectId/environments/$environmentId/servers/': {
+      id: '/_authenticated/_layout/projects/$projectId/environments/$environmentId/servers/'
       path: '/'
-      fullPath: '/games/$gameId/environments/$environmentId/servers/'
-      preLoaderRoute: typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdServersIndexImport
-      parentRoute: typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdServersImport
+      fullPath: '/projects/$projectId/environments/$environmentId/servers/'
+      preLoaderRoute: typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdServersIndexImport
+      parentRoute: typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdServersImport
     }
   }
 }
@@ -673,151 +703,151 @@ const AuthenticatedLayoutMyProfileRouteWithChildren =
     AuthenticatedLayoutMyProfileRouteChildren,
   )
 
-interface AuthenticatedLayoutGamesGameIdSettingsRouteChildren {
-  AuthenticatedLayoutGamesGameIdSettingsTokensRoute: typeof AuthenticatedLayoutGamesGameIdSettingsTokensRoute
-  AuthenticatedLayoutGamesGameIdSettingsIndexRoute: typeof AuthenticatedLayoutGamesGameIdSettingsIndexRoute
+interface AuthenticatedLayoutProjectsProjectIdSettingsRouteChildren {
+  AuthenticatedLayoutProjectsProjectIdSettingsTokensRoute: typeof AuthenticatedLayoutProjectsProjectIdSettingsTokensRoute
+  AuthenticatedLayoutProjectsProjectIdSettingsIndexRoute: typeof AuthenticatedLayoutProjectsProjectIdSettingsIndexRoute
 }
 
-const AuthenticatedLayoutGamesGameIdSettingsRouteChildren: AuthenticatedLayoutGamesGameIdSettingsRouteChildren =
+const AuthenticatedLayoutProjectsProjectIdSettingsRouteChildren: AuthenticatedLayoutProjectsProjectIdSettingsRouteChildren =
   {
-    AuthenticatedLayoutGamesGameIdSettingsTokensRoute:
-      AuthenticatedLayoutGamesGameIdSettingsTokensRoute,
-    AuthenticatedLayoutGamesGameIdSettingsIndexRoute:
-      AuthenticatedLayoutGamesGameIdSettingsIndexRoute,
+    AuthenticatedLayoutProjectsProjectIdSettingsTokensRoute:
+      AuthenticatedLayoutProjectsProjectIdSettingsTokensRoute,
+    AuthenticatedLayoutProjectsProjectIdSettingsIndexRoute:
+      AuthenticatedLayoutProjectsProjectIdSettingsIndexRoute,
   }
 
-const AuthenticatedLayoutGamesGameIdSettingsRouteWithChildren =
-  AuthenticatedLayoutGamesGameIdSettingsRoute._addFileChildren(
-    AuthenticatedLayoutGamesGameIdSettingsRouteChildren,
+const AuthenticatedLayoutProjectsProjectIdSettingsRouteWithChildren =
+  AuthenticatedLayoutProjectsProjectIdSettingsRoute._addFileChildren(
+    AuthenticatedLayoutProjectsProjectIdSettingsRouteChildren,
   )
 
-interface AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdBackendRouteChildren {
-  AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdBackendLogsRoute: typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdBackendLogsRoute
-  AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdBackendVariablesRoute: typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdBackendVariablesRoute
-  AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdBackendIndexRoute: typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdBackendIndexRoute
+interface AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdBackendRouteChildren {
+  AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdBackendLogsRoute: typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdBackendLogsRoute
+  AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdBackendVariablesRoute: typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdBackendVariablesRoute
+  AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdBackendIndexRoute: typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdBackendIndexRoute
 }
 
-const AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdBackendRouteChildren: AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdBackendRouteChildren =
+const AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdBackendRouteChildren: AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdBackendRouteChildren =
   {
-    AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdBackendLogsRoute:
-      AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdBackendLogsRoute,
-    AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdBackendVariablesRoute:
-      AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdBackendVariablesRoute,
-    AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdBackendIndexRoute:
-      AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdBackendIndexRoute,
+    AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdBackendLogsRoute:
+      AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdBackendLogsRoute,
+    AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdBackendVariablesRoute:
+      AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdBackendVariablesRoute,
+    AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdBackendIndexRoute:
+      AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdBackendIndexRoute,
   }
 
-const AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdBackendRouteWithChildren =
-  AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdBackendRoute._addFileChildren(
-    AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdBackendRouteChildren,
+const AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdBackendRouteWithChildren =
+  AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdBackendRoute._addFileChildren(
+    AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdBackendRouteChildren,
   )
 
-interface AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdLobbiesRouteChildren {
-  AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdLobbiesLogsRoute: typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdLobbiesLogsRoute
-  AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdLobbiesSettingsRoute: typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdLobbiesSettingsRoute
-  AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdLobbiesIndexRoute: typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdLobbiesIndexRoute
+interface AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdLobbiesRouteChildren {
+  AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdLobbiesLogsRoute: typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdLobbiesLogsRoute
+  AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdLobbiesSettingsRoute: typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdLobbiesSettingsRoute
+  AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdLobbiesIndexRoute: typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdLobbiesIndexRoute
 }
 
-const AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdLobbiesRouteChildren: AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdLobbiesRouteChildren =
+const AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdLobbiesRouteChildren: AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdLobbiesRouteChildren =
   {
-    AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdLobbiesLogsRoute:
-      AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdLobbiesLogsRoute,
-    AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdLobbiesSettingsRoute:
-      AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdLobbiesSettingsRoute,
-    AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdLobbiesIndexRoute:
-      AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdLobbiesIndexRoute,
+    AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdLobbiesLogsRoute:
+      AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdLobbiesLogsRoute,
+    AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdLobbiesSettingsRoute:
+      AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdLobbiesSettingsRoute,
+    AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdLobbiesIndexRoute:
+      AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdLobbiesIndexRoute,
   }
 
-const AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdLobbiesRouteWithChildren =
-  AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdLobbiesRoute._addFileChildren(
-    AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdLobbiesRouteChildren,
+const AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdLobbiesRouteWithChildren =
+  AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdLobbiesRoute._addFileChildren(
+    AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdLobbiesRouteChildren,
   )
 
-interface AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdServersRouteChildren {
-  AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdServersBuildsRoute: typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdServersBuildsRoute
-  AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdServersIndexRoute: typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdServersIndexRoute
+interface AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdServersRouteChildren {
+  AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdServersBuildsRoute: typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdServersBuildsRoute
+  AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdServersIndexRoute: typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdServersIndexRoute
 }
 
-const AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdServersRouteChildren: AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdServersRouteChildren =
+const AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdServersRouteChildren: AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdServersRouteChildren =
   {
-    AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdServersBuildsRoute:
-      AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdServersBuildsRoute,
-    AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdServersIndexRoute:
-      AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdServersIndexRoute,
+    AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdServersBuildsRoute:
+      AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdServersBuildsRoute,
+    AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdServersIndexRoute:
+      AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdServersIndexRoute,
   }
 
-const AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdServersRouteWithChildren =
-  AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdServersRoute._addFileChildren(
-    AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdServersRouteChildren,
+const AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdServersRouteWithChildren =
+  AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdServersRoute._addFileChildren(
+    AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdServersRouteChildren,
   )
 
-interface AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdRouteChildren {
-  AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdBackendRoute: typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdBackendRouteWithChildren
-  AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdCdnRoute: typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdCdnRoute
-  AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdLobbiesRoute: typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdLobbiesRouteWithChildren
-  AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdMatchmakerRoute: typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdMatchmakerRoute
-  AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdModulesRoute: typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdModulesRoute
-  AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdServersRoute: typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdServersRouteWithChildren
-  AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdTokensRoute: typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdTokensRoute
-  AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdVersionsRoute: typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdVersionsRoute
-  AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdIndexRoute: typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdIndexRoute
+interface AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdRouteChildren {
+  AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdBackendRoute: typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdBackendRouteWithChildren
+  AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdCdnRoute: typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdCdnRoute
+  AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdLobbiesRoute: typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdLobbiesRouteWithChildren
+  AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdMatchmakerRoute: typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdMatchmakerRoute
+  AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdModulesRoute: typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdModulesRoute
+  AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdServersRoute: typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdServersRouteWithChildren
+  AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdTokensRoute: typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdTokensRoute
+  AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdVersionsRoute: typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdVersionsRoute
+  AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdIndexRoute: typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdIndexRoute
 }
 
-const AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdRouteChildren: AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdRouteChildren =
+const AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdRouteChildren: AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdRouteChildren =
   {
-    AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdBackendRoute:
-      AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdBackendRouteWithChildren,
-    AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdCdnRoute:
-      AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdCdnRoute,
-    AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdLobbiesRoute:
-      AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdLobbiesRouteWithChildren,
-    AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdMatchmakerRoute:
-      AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdMatchmakerRoute,
-    AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdModulesRoute:
-      AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdModulesRoute,
-    AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdServersRoute:
-      AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdServersRouteWithChildren,
-    AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdTokensRoute:
-      AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdTokensRoute,
-    AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdVersionsRoute:
-      AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdVersionsRoute,
-    AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdIndexRoute:
-      AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdIndexRoute,
+    AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdBackendRoute:
+      AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdBackendRouteWithChildren,
+    AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdCdnRoute:
+      AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdCdnRoute,
+    AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdLobbiesRoute:
+      AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdLobbiesRouteWithChildren,
+    AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdMatchmakerRoute:
+      AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdMatchmakerRoute,
+    AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdModulesRoute:
+      AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdModulesRoute,
+    AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdServersRoute:
+      AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdServersRouteWithChildren,
+    AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdTokensRoute:
+      AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdTokensRoute,
+    AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdVersionsRoute:
+      AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdVersionsRoute,
+    AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdIndexRoute:
+      AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdIndexRoute,
   }
 
-const AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdRouteWithChildren =
-  AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdRoute._addFileChildren(
-    AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdRouteChildren,
+const AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdRouteWithChildren =
+  AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdRoute._addFileChildren(
+    AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdRouteChildren,
   )
 
-interface AuthenticatedLayoutGamesGameIdRouteChildren {
-  AuthenticatedLayoutGamesGameIdBillingRoute: typeof AuthenticatedLayoutGamesGameIdBillingRoute
-  AuthenticatedLayoutGamesGameIdSettingsRoute: typeof AuthenticatedLayoutGamesGameIdSettingsRouteWithChildren
-  AuthenticatedLayoutGamesGameIdTokensRoute: typeof AuthenticatedLayoutGamesGameIdTokensRoute
-  AuthenticatedLayoutGamesGameIdIndexRoute: typeof AuthenticatedLayoutGamesGameIdIndexRoute
-  AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdRoute: typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdRouteWithChildren
-  AuthenticatedLayoutGamesGameIdNamespacesSplatRoute: typeof AuthenticatedLayoutGamesGameIdNamespacesSplatRoute
+interface AuthenticatedLayoutProjectsProjectIdRouteChildren {
+  AuthenticatedLayoutProjectsProjectIdBillingRoute: typeof AuthenticatedLayoutProjectsProjectIdBillingRoute
+  AuthenticatedLayoutProjectsProjectIdSettingsRoute: typeof AuthenticatedLayoutProjectsProjectIdSettingsRouteWithChildren
+  AuthenticatedLayoutProjectsProjectIdTokensRoute: typeof AuthenticatedLayoutProjectsProjectIdTokensRoute
+  AuthenticatedLayoutProjectsProjectIdIndexRoute: typeof AuthenticatedLayoutProjectsProjectIdIndexRoute
+  AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdRoute: typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdRouteWithChildren
+  AuthenticatedLayoutProjectsProjectIdNamespacesSplatRoute: typeof AuthenticatedLayoutProjectsProjectIdNamespacesSplatRoute
 }
 
-const AuthenticatedLayoutGamesGameIdRouteChildren: AuthenticatedLayoutGamesGameIdRouteChildren =
+const AuthenticatedLayoutProjectsProjectIdRouteChildren: AuthenticatedLayoutProjectsProjectIdRouteChildren =
   {
-    AuthenticatedLayoutGamesGameIdBillingRoute:
-      AuthenticatedLayoutGamesGameIdBillingRoute,
-    AuthenticatedLayoutGamesGameIdSettingsRoute:
-      AuthenticatedLayoutGamesGameIdSettingsRouteWithChildren,
-    AuthenticatedLayoutGamesGameIdTokensRoute:
-      AuthenticatedLayoutGamesGameIdTokensRoute,
-    AuthenticatedLayoutGamesGameIdIndexRoute:
-      AuthenticatedLayoutGamesGameIdIndexRoute,
-    AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdRoute:
-      AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdRouteWithChildren,
-    AuthenticatedLayoutGamesGameIdNamespacesSplatRoute:
-      AuthenticatedLayoutGamesGameIdNamespacesSplatRoute,
+    AuthenticatedLayoutProjectsProjectIdBillingRoute:
+      AuthenticatedLayoutProjectsProjectIdBillingRoute,
+    AuthenticatedLayoutProjectsProjectIdSettingsRoute:
+      AuthenticatedLayoutProjectsProjectIdSettingsRouteWithChildren,
+    AuthenticatedLayoutProjectsProjectIdTokensRoute:
+      AuthenticatedLayoutProjectsProjectIdTokensRoute,
+    AuthenticatedLayoutProjectsProjectIdIndexRoute:
+      AuthenticatedLayoutProjectsProjectIdIndexRoute,
+    AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdRoute:
+      AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdRouteWithChildren,
+    AuthenticatedLayoutProjectsProjectIdNamespacesSplatRoute:
+      AuthenticatedLayoutProjectsProjectIdNamespacesSplatRoute,
   }
 
-const AuthenticatedLayoutGamesGameIdRouteWithChildren =
-  AuthenticatedLayoutGamesGameIdRoute._addFileChildren(
-    AuthenticatedLayoutGamesGameIdRouteChildren,
+const AuthenticatedLayoutProjectsProjectIdRouteWithChildren =
+  AuthenticatedLayoutProjectsProjectIdRoute._addFileChildren(
+    AuthenticatedLayoutProjectsProjectIdRouteChildren,
   )
 
 interface AuthenticatedLayoutTeamsGroupIdSettingsRouteChildren {
@@ -862,7 +892,8 @@ const AuthenticatedLayoutTeamsGroupIdRouteWithChildren =
 interface AuthenticatedLayoutRouteChildren {
   AuthenticatedLayoutMyProfileRoute: typeof AuthenticatedLayoutMyProfileRouteWithChildren
   AuthenticatedLayoutIndexRoute: typeof AuthenticatedLayoutIndexRoute
-  AuthenticatedLayoutGamesGameIdRoute: typeof AuthenticatedLayoutGamesGameIdRouteWithChildren
+  AuthenticatedLayoutGamesSplatRoute: typeof AuthenticatedLayoutGamesSplatRoute
+  AuthenticatedLayoutProjectsProjectIdRoute: typeof AuthenticatedLayoutProjectsProjectIdRouteWithChildren
   AuthenticatedLayoutTeamsGroupIdRoute: typeof AuthenticatedLayoutTeamsGroupIdRouteWithChildren
 }
 
@@ -870,8 +901,9 @@ const AuthenticatedLayoutRouteChildren: AuthenticatedLayoutRouteChildren = {
   AuthenticatedLayoutMyProfileRoute:
     AuthenticatedLayoutMyProfileRouteWithChildren,
   AuthenticatedLayoutIndexRoute: AuthenticatedLayoutIndexRoute,
-  AuthenticatedLayoutGamesGameIdRoute:
-    AuthenticatedLayoutGamesGameIdRouteWithChildren,
+  AuthenticatedLayoutGamesSplatRoute: AuthenticatedLayoutGamesSplatRoute,
+  AuthenticatedLayoutProjectsProjectIdRoute:
+    AuthenticatedLayoutProjectsProjectIdRouteWithChildren,
   AuthenticatedLayoutTeamsGroupIdRoute:
     AuthenticatedLayoutTeamsGroupIdRouteWithChildren,
 }
@@ -907,41 +939,42 @@ export interface FileRoutesByFullPath {
   '/access-token/$token': typeof AuthenticatedAccessTokenTokenRoute
   '/invite/$inviteCode': typeof AuthenticatedInviteInviteCodeRoute
   '/': typeof AuthenticatedLayoutIndexRoute
-  '/games/$gameId': typeof AuthenticatedLayoutGamesGameIdRouteWithChildren
+  '/games/$': typeof AuthenticatedLayoutGamesSplatRoute
   '/my-profile/features': typeof AuthenticatedLayoutMyProfileFeaturesRoute
+  '/projects/$projectId': typeof AuthenticatedLayoutProjectsProjectIdRouteWithChildren
   '/teams/$groupId': typeof AuthenticatedLayoutTeamsGroupIdRouteWithChildren
   '/devices/link/$token': typeof AuthenticatedDevicesLinkTokenRoute
   '/my-profile/': typeof AuthenticatedLayoutMyProfileIndexRoute
-  '/games/$gameId/billing': typeof AuthenticatedLayoutGamesGameIdBillingRoute
-  '/games/$gameId/settings': typeof AuthenticatedLayoutGamesGameIdSettingsRouteWithChildren
-  '/games/$gameId/tokens': typeof AuthenticatedLayoutGamesGameIdTokensRoute
+  '/projects/$projectId/billing': typeof AuthenticatedLayoutProjectsProjectIdBillingRoute
+  '/projects/$projectId/settings': typeof AuthenticatedLayoutProjectsProjectIdSettingsRouteWithChildren
+  '/projects/$projectId/tokens': typeof AuthenticatedLayoutProjectsProjectIdTokensRoute
   '/teams/$groupId/billing': typeof AuthenticatedLayoutTeamsGroupIdBillingRoute
   '/teams/$groupId/members': typeof AuthenticatedLayoutTeamsGroupIdMembersRoute
   '/teams/$groupId/settings': typeof AuthenticatedLayoutTeamsGroupIdSettingsRouteWithChildren
-  '/games/$gameId/': typeof AuthenticatedLayoutGamesGameIdIndexRoute
+  '/projects/$projectId/': typeof AuthenticatedLayoutProjectsProjectIdIndexRoute
   '/teams/$groupId/': typeof AuthenticatedLayoutTeamsGroupIdIndexRoute
-  '/games/$gameId/environments/$environmentId': typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdRouteWithChildren
-  '/games/$gameId/namespaces/$': typeof AuthenticatedLayoutGamesGameIdNamespacesSplatRoute
-  '/games/$gameId/settings/tokens': typeof AuthenticatedLayoutGamesGameIdSettingsTokensRoute
-  '/games/$gameId/settings/': typeof AuthenticatedLayoutGamesGameIdSettingsIndexRoute
+  '/projects/$projectId/environments/$environmentId': typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdRouteWithChildren
+  '/projects/$projectId/namespaces/$': typeof AuthenticatedLayoutProjectsProjectIdNamespacesSplatRoute
+  '/projects/$projectId/settings/tokens': typeof AuthenticatedLayoutProjectsProjectIdSettingsTokensRoute
+  '/projects/$projectId/settings/': typeof AuthenticatedLayoutProjectsProjectIdSettingsIndexRoute
   '/teams/$groupId/settings/': typeof AuthenticatedLayoutTeamsGroupIdSettingsIndexRoute
-  '/games/$gameId/environments/$environmentId/backend': typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdBackendRouteWithChildren
-  '/games/$gameId/environments/$environmentId/cdn': typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdCdnRoute
-  '/games/$gameId/environments/$environmentId/lobbies': typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdLobbiesRouteWithChildren
-  '/games/$gameId/environments/$environmentId/matchmaker': typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdMatchmakerRoute
-  '/games/$gameId/environments/$environmentId/modules': typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdModulesRoute
-  '/games/$gameId/environments/$environmentId/servers': typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdServersRouteWithChildren
-  '/games/$gameId/environments/$environmentId/tokens': typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdTokensRoute
-  '/games/$gameId/environments/$environmentId/versions': typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdVersionsRoute
-  '/games/$gameId/environments/$environmentId/': typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdIndexRoute
-  '/games/$gameId/environments/$environmentId/backend/logs': typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdBackendLogsRoute
-  '/games/$gameId/environments/$environmentId/backend/variables': typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdBackendVariablesRoute
-  '/games/$gameId/environments/$environmentId/lobbies/logs': typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdLobbiesLogsRoute
-  '/games/$gameId/environments/$environmentId/lobbies/settings': typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdLobbiesSettingsRoute
-  '/games/$gameId/environments/$environmentId/servers/builds': typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdServersBuildsRoute
-  '/games/$gameId/environments/$environmentId/backend/': typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdBackendIndexRoute
-  '/games/$gameId/environments/$environmentId/lobbies/': typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdLobbiesIndexRoute
-  '/games/$gameId/environments/$environmentId/servers/': typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdServersIndexRoute
+  '/projects/$projectId/environments/$environmentId/backend': typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdBackendRouteWithChildren
+  '/projects/$projectId/environments/$environmentId/cdn': typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdCdnRoute
+  '/projects/$projectId/environments/$environmentId/lobbies': typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdLobbiesRouteWithChildren
+  '/projects/$projectId/environments/$environmentId/matchmaker': typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdMatchmakerRoute
+  '/projects/$projectId/environments/$environmentId/modules': typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdModulesRoute
+  '/projects/$projectId/environments/$environmentId/servers': typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdServersRouteWithChildren
+  '/projects/$projectId/environments/$environmentId/tokens': typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdTokensRoute
+  '/projects/$projectId/environments/$environmentId/versions': typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdVersionsRoute
+  '/projects/$projectId/environments/$environmentId/': typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdIndexRoute
+  '/projects/$projectId/environments/$environmentId/backend/logs': typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdBackendLogsRoute
+  '/projects/$projectId/environments/$environmentId/backend/variables': typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdBackendVariablesRoute
+  '/projects/$projectId/environments/$environmentId/lobbies/logs': typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdLobbiesLogsRoute
+  '/projects/$projectId/environments/$environmentId/lobbies/settings': typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdLobbiesSettingsRoute
+  '/projects/$projectId/environments/$environmentId/servers/builds': typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdServersBuildsRoute
+  '/projects/$projectId/environments/$environmentId/backend/': typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdBackendIndexRoute
+  '/projects/$projectId/environments/$environmentId/lobbies/': typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdLobbiesIndexRoute
+  '/projects/$projectId/environments/$environmentId/servers/': typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdServersIndexRoute
 }
 
 export interface FileRoutesByTo {
@@ -951,33 +984,34 @@ export interface FileRoutesByTo {
   '/access-token/$token': typeof AuthenticatedAccessTokenTokenRoute
   '/invite/$inviteCode': typeof AuthenticatedInviteInviteCodeRoute
   '/': typeof AuthenticatedLayoutIndexRoute
+  '/games/$': typeof AuthenticatedLayoutGamesSplatRoute
   '/my-profile/features': typeof AuthenticatedLayoutMyProfileFeaturesRoute
   '/devices/link/$token': typeof AuthenticatedDevicesLinkTokenRoute
   '/my-profile': typeof AuthenticatedLayoutMyProfileIndexRoute
-  '/games/$gameId/billing': typeof AuthenticatedLayoutGamesGameIdBillingRoute
-  '/games/$gameId/tokens': typeof AuthenticatedLayoutGamesGameIdTokensRoute
+  '/projects/$projectId/billing': typeof AuthenticatedLayoutProjectsProjectIdBillingRoute
+  '/projects/$projectId/tokens': typeof AuthenticatedLayoutProjectsProjectIdTokensRoute
   '/teams/$groupId/billing': typeof AuthenticatedLayoutTeamsGroupIdBillingRoute
   '/teams/$groupId/members': typeof AuthenticatedLayoutTeamsGroupIdMembersRoute
-  '/games/$gameId': typeof AuthenticatedLayoutGamesGameIdIndexRoute
+  '/projects/$projectId': typeof AuthenticatedLayoutProjectsProjectIdIndexRoute
   '/teams/$groupId': typeof AuthenticatedLayoutTeamsGroupIdIndexRoute
-  '/games/$gameId/namespaces/$': typeof AuthenticatedLayoutGamesGameIdNamespacesSplatRoute
-  '/games/$gameId/settings/tokens': typeof AuthenticatedLayoutGamesGameIdSettingsTokensRoute
-  '/games/$gameId/settings': typeof AuthenticatedLayoutGamesGameIdSettingsIndexRoute
+  '/projects/$projectId/namespaces/$': typeof AuthenticatedLayoutProjectsProjectIdNamespacesSplatRoute
+  '/projects/$projectId/settings/tokens': typeof AuthenticatedLayoutProjectsProjectIdSettingsTokensRoute
+  '/projects/$projectId/settings': typeof AuthenticatedLayoutProjectsProjectIdSettingsIndexRoute
   '/teams/$groupId/settings': typeof AuthenticatedLayoutTeamsGroupIdSettingsIndexRoute
-  '/games/$gameId/environments/$environmentId/cdn': typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdCdnRoute
-  '/games/$gameId/environments/$environmentId/matchmaker': typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdMatchmakerRoute
-  '/games/$gameId/environments/$environmentId/modules': typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdModulesRoute
-  '/games/$gameId/environments/$environmentId/tokens': typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdTokensRoute
-  '/games/$gameId/environments/$environmentId/versions': typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdVersionsRoute
-  '/games/$gameId/environments/$environmentId': typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdIndexRoute
-  '/games/$gameId/environments/$environmentId/backend/logs': typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdBackendLogsRoute
-  '/games/$gameId/environments/$environmentId/backend/variables': typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdBackendVariablesRoute
-  '/games/$gameId/environments/$environmentId/lobbies/logs': typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdLobbiesLogsRoute
-  '/games/$gameId/environments/$environmentId/lobbies/settings': typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdLobbiesSettingsRoute
-  '/games/$gameId/environments/$environmentId/servers/builds': typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdServersBuildsRoute
-  '/games/$gameId/environments/$environmentId/backend': typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdBackendIndexRoute
-  '/games/$gameId/environments/$environmentId/lobbies': typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdLobbiesIndexRoute
-  '/games/$gameId/environments/$environmentId/servers': typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdServersIndexRoute
+  '/projects/$projectId/environments/$environmentId/cdn': typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdCdnRoute
+  '/projects/$projectId/environments/$environmentId/matchmaker': typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdMatchmakerRoute
+  '/projects/$projectId/environments/$environmentId/modules': typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdModulesRoute
+  '/projects/$projectId/environments/$environmentId/tokens': typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdTokensRoute
+  '/projects/$projectId/environments/$environmentId/versions': typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdVersionsRoute
+  '/projects/$projectId/environments/$environmentId': typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdIndexRoute
+  '/projects/$projectId/environments/$environmentId/backend/logs': typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdBackendLogsRoute
+  '/projects/$projectId/environments/$environmentId/backend/variables': typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdBackendVariablesRoute
+  '/projects/$projectId/environments/$environmentId/lobbies/logs': typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdLobbiesLogsRoute
+  '/projects/$projectId/environments/$environmentId/lobbies/settings': typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdLobbiesSettingsRoute
+  '/projects/$projectId/environments/$environmentId/servers/builds': typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdServersBuildsRoute
+  '/projects/$projectId/environments/$environmentId/backend': typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdBackendIndexRoute
+  '/projects/$projectId/environments/$environmentId/lobbies': typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdLobbiesIndexRoute
+  '/projects/$projectId/environments/$environmentId/servers': typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdServersIndexRoute
 }
 
 export interface FileRoutesById {
@@ -990,41 +1024,42 @@ export interface FileRoutesById {
   '/_authenticated/access-token/$token': typeof AuthenticatedAccessTokenTokenRoute
   '/_authenticated/invite/$inviteCode': typeof AuthenticatedInviteInviteCodeRoute
   '/_authenticated/_layout/': typeof AuthenticatedLayoutIndexRoute
-  '/_authenticated/_layout/games/$gameId': typeof AuthenticatedLayoutGamesGameIdRouteWithChildren
+  '/_authenticated/_layout/games/$': typeof AuthenticatedLayoutGamesSplatRoute
   '/_authenticated/_layout/my-profile/features': typeof AuthenticatedLayoutMyProfileFeaturesRoute
+  '/_authenticated/_layout/projects/$projectId': typeof AuthenticatedLayoutProjectsProjectIdRouteWithChildren
   '/_authenticated/_layout/teams/$groupId': typeof AuthenticatedLayoutTeamsGroupIdRouteWithChildren
   '/_authenticated/devices/link/$token': typeof AuthenticatedDevicesLinkTokenRoute
   '/_authenticated/_layout/my-profile/': typeof AuthenticatedLayoutMyProfileIndexRoute
-  '/_authenticated/_layout/games/$gameId/billing': typeof AuthenticatedLayoutGamesGameIdBillingRoute
-  '/_authenticated/_layout/games/$gameId/settings': typeof AuthenticatedLayoutGamesGameIdSettingsRouteWithChildren
-  '/_authenticated/_layout/games/$gameId/tokens': typeof AuthenticatedLayoutGamesGameIdTokensRoute
+  '/_authenticated/_layout/projects/$projectId/billing': typeof AuthenticatedLayoutProjectsProjectIdBillingRoute
+  '/_authenticated/_layout/projects/$projectId/settings': typeof AuthenticatedLayoutProjectsProjectIdSettingsRouteWithChildren
+  '/_authenticated/_layout/projects/$projectId/tokens': typeof AuthenticatedLayoutProjectsProjectIdTokensRoute
   '/_authenticated/_layout/teams/$groupId/billing': typeof AuthenticatedLayoutTeamsGroupIdBillingRoute
   '/_authenticated/_layout/teams/$groupId/members': typeof AuthenticatedLayoutTeamsGroupIdMembersRoute
   '/_authenticated/_layout/teams/$groupId/settings': typeof AuthenticatedLayoutTeamsGroupIdSettingsRouteWithChildren
-  '/_authenticated/_layout/games/$gameId/': typeof AuthenticatedLayoutGamesGameIdIndexRoute
+  '/_authenticated/_layout/projects/$projectId/': typeof AuthenticatedLayoutProjectsProjectIdIndexRoute
   '/_authenticated/_layout/teams/$groupId/': typeof AuthenticatedLayoutTeamsGroupIdIndexRoute
-  '/_authenticated/_layout/games/$gameId/environments/$environmentId': typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdRouteWithChildren
-  '/_authenticated/_layout/games/$gameId/namespaces/$': typeof AuthenticatedLayoutGamesGameIdNamespacesSplatRoute
-  '/_authenticated/_layout/games/$gameId/settings/tokens': typeof AuthenticatedLayoutGamesGameIdSettingsTokensRoute
-  '/_authenticated/_layout/games/$gameId/settings/': typeof AuthenticatedLayoutGamesGameIdSettingsIndexRoute
+  '/_authenticated/_layout/projects/$projectId/environments/$environmentId': typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdRouteWithChildren
+  '/_authenticated/_layout/projects/$projectId/namespaces/$': typeof AuthenticatedLayoutProjectsProjectIdNamespacesSplatRoute
+  '/_authenticated/_layout/projects/$projectId/settings/tokens': typeof AuthenticatedLayoutProjectsProjectIdSettingsTokensRoute
+  '/_authenticated/_layout/projects/$projectId/settings/': typeof AuthenticatedLayoutProjectsProjectIdSettingsIndexRoute
   '/_authenticated/_layout/teams/$groupId/settings/': typeof AuthenticatedLayoutTeamsGroupIdSettingsIndexRoute
-  '/_authenticated/_layout/games/$gameId/environments/$environmentId/backend': typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdBackendRouteWithChildren
-  '/_authenticated/_layout/games/$gameId/environments/$environmentId/cdn': typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdCdnRoute
-  '/_authenticated/_layout/games/$gameId/environments/$environmentId/lobbies': typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdLobbiesRouteWithChildren
-  '/_authenticated/_layout/games/$gameId/environments/$environmentId/matchmaker': typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdMatchmakerRoute
-  '/_authenticated/_layout/games/$gameId/environments/$environmentId/modules': typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdModulesRoute
-  '/_authenticated/_layout/games/$gameId/environments/$environmentId/servers': typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdServersRouteWithChildren
-  '/_authenticated/_layout/games/$gameId/environments/$environmentId/tokens': typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdTokensRoute
-  '/_authenticated/_layout/games/$gameId/environments/$environmentId/versions': typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdVersionsRoute
-  '/_authenticated/_layout/games/$gameId/environments/$environmentId/': typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdIndexRoute
-  '/_authenticated/_layout/games/$gameId/environments/$environmentId/backend/logs': typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdBackendLogsRoute
-  '/_authenticated/_layout/games/$gameId/environments/$environmentId/backend/variables': typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdBackendVariablesRoute
-  '/_authenticated/_layout/games/$gameId/environments/$environmentId/lobbies/logs': typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdLobbiesLogsRoute
-  '/_authenticated/_layout/games/$gameId/environments/$environmentId/lobbies/settings': typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdLobbiesSettingsRoute
-  '/_authenticated/_layout/games/$gameId/environments/$environmentId/servers/builds': typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdServersBuildsRoute
-  '/_authenticated/_layout/games/$gameId/environments/$environmentId/backend/': typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdBackendIndexRoute
-  '/_authenticated/_layout/games/$gameId/environments/$environmentId/lobbies/': typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdLobbiesIndexRoute
-  '/_authenticated/_layout/games/$gameId/environments/$environmentId/servers/': typeof AuthenticatedLayoutGamesGameIdEnvironmentsEnvironmentIdServersIndexRoute
+  '/_authenticated/_layout/projects/$projectId/environments/$environmentId/backend': typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdBackendRouteWithChildren
+  '/_authenticated/_layout/projects/$projectId/environments/$environmentId/cdn': typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdCdnRoute
+  '/_authenticated/_layout/projects/$projectId/environments/$environmentId/lobbies': typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdLobbiesRouteWithChildren
+  '/_authenticated/_layout/projects/$projectId/environments/$environmentId/matchmaker': typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdMatchmakerRoute
+  '/_authenticated/_layout/projects/$projectId/environments/$environmentId/modules': typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdModulesRoute
+  '/_authenticated/_layout/projects/$projectId/environments/$environmentId/servers': typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdServersRouteWithChildren
+  '/_authenticated/_layout/projects/$projectId/environments/$environmentId/tokens': typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdTokensRoute
+  '/_authenticated/_layout/projects/$projectId/environments/$environmentId/versions': typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdVersionsRoute
+  '/_authenticated/_layout/projects/$projectId/environments/$environmentId/': typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdIndexRoute
+  '/_authenticated/_layout/projects/$projectId/environments/$environmentId/backend/logs': typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdBackendLogsRoute
+  '/_authenticated/_layout/projects/$projectId/environments/$environmentId/backend/variables': typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdBackendVariablesRoute
+  '/_authenticated/_layout/projects/$projectId/environments/$environmentId/lobbies/logs': typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdLobbiesLogsRoute
+  '/_authenticated/_layout/projects/$projectId/environments/$environmentId/lobbies/settings': typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdLobbiesSettingsRoute
+  '/_authenticated/_layout/projects/$projectId/environments/$environmentId/servers/builds': typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdServersBuildsRoute
+  '/_authenticated/_layout/projects/$projectId/environments/$environmentId/backend/': typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdBackendIndexRoute
+  '/_authenticated/_layout/projects/$projectId/environments/$environmentId/lobbies/': typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdLobbiesIndexRoute
+  '/_authenticated/_layout/projects/$projectId/environments/$environmentId/servers/': typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdServersIndexRoute
 }
 
 export interface FileRouteTypes {
@@ -1037,41 +1072,42 @@ export interface FileRouteTypes {
     | '/access-token/$token'
     | '/invite/$inviteCode'
     | '/'
-    | '/games/$gameId'
+    | '/games/$'
     | '/my-profile/features'
+    | '/projects/$projectId'
     | '/teams/$groupId'
     | '/devices/link/$token'
     | '/my-profile/'
-    | '/games/$gameId/billing'
-    | '/games/$gameId/settings'
-    | '/games/$gameId/tokens'
+    | '/projects/$projectId/billing'
+    | '/projects/$projectId/settings'
+    | '/projects/$projectId/tokens'
     | '/teams/$groupId/billing'
     | '/teams/$groupId/members'
     | '/teams/$groupId/settings'
-    | '/games/$gameId/'
+    | '/projects/$projectId/'
     | '/teams/$groupId/'
-    | '/games/$gameId/environments/$environmentId'
-    | '/games/$gameId/namespaces/$'
-    | '/games/$gameId/settings/tokens'
-    | '/games/$gameId/settings/'
+    | '/projects/$projectId/environments/$environmentId'
+    | '/projects/$projectId/namespaces/$'
+    | '/projects/$projectId/settings/tokens'
+    | '/projects/$projectId/settings/'
     | '/teams/$groupId/settings/'
-    | '/games/$gameId/environments/$environmentId/backend'
-    | '/games/$gameId/environments/$environmentId/cdn'
-    | '/games/$gameId/environments/$environmentId/lobbies'
-    | '/games/$gameId/environments/$environmentId/matchmaker'
-    | '/games/$gameId/environments/$environmentId/modules'
-    | '/games/$gameId/environments/$environmentId/servers'
-    | '/games/$gameId/environments/$environmentId/tokens'
-    | '/games/$gameId/environments/$environmentId/versions'
-    | '/games/$gameId/environments/$environmentId/'
-    | '/games/$gameId/environments/$environmentId/backend/logs'
-    | '/games/$gameId/environments/$environmentId/backend/variables'
-    | '/games/$gameId/environments/$environmentId/lobbies/logs'
-    | '/games/$gameId/environments/$environmentId/lobbies/settings'
-    | '/games/$gameId/environments/$environmentId/servers/builds'
-    | '/games/$gameId/environments/$environmentId/backend/'
-    | '/games/$gameId/environments/$environmentId/lobbies/'
-    | '/games/$gameId/environments/$environmentId/servers/'
+    | '/projects/$projectId/environments/$environmentId/backend'
+    | '/projects/$projectId/environments/$environmentId/cdn'
+    | '/projects/$projectId/environments/$environmentId/lobbies'
+    | '/projects/$projectId/environments/$environmentId/matchmaker'
+    | '/projects/$projectId/environments/$environmentId/modules'
+    | '/projects/$projectId/environments/$environmentId/servers'
+    | '/projects/$projectId/environments/$environmentId/tokens'
+    | '/projects/$projectId/environments/$environmentId/versions'
+    | '/projects/$projectId/environments/$environmentId/'
+    | '/projects/$projectId/environments/$environmentId/backend/logs'
+    | '/projects/$projectId/environments/$environmentId/backend/variables'
+    | '/projects/$projectId/environments/$environmentId/lobbies/logs'
+    | '/projects/$projectId/environments/$environmentId/lobbies/settings'
+    | '/projects/$projectId/environments/$environmentId/servers/builds'
+    | '/projects/$projectId/environments/$environmentId/backend/'
+    | '/projects/$projectId/environments/$environmentId/lobbies/'
+    | '/projects/$projectId/environments/$environmentId/servers/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | ''
@@ -1080,33 +1116,34 @@ export interface FileRouteTypes {
     | '/access-token/$token'
     | '/invite/$inviteCode'
     | '/'
+    | '/games/$'
     | '/my-profile/features'
     | '/devices/link/$token'
     | '/my-profile'
-    | '/games/$gameId/billing'
-    | '/games/$gameId/tokens'
+    | '/projects/$projectId/billing'
+    | '/projects/$projectId/tokens'
     | '/teams/$groupId/billing'
     | '/teams/$groupId/members'
-    | '/games/$gameId'
+    | '/projects/$projectId'
     | '/teams/$groupId'
-    | '/games/$gameId/namespaces/$'
-    | '/games/$gameId/settings/tokens'
-    | '/games/$gameId/settings'
+    | '/projects/$projectId/namespaces/$'
+    | '/projects/$projectId/settings/tokens'
+    | '/projects/$projectId/settings'
     | '/teams/$groupId/settings'
-    | '/games/$gameId/environments/$environmentId/cdn'
-    | '/games/$gameId/environments/$environmentId/matchmaker'
-    | '/games/$gameId/environments/$environmentId/modules'
-    | '/games/$gameId/environments/$environmentId/tokens'
-    | '/games/$gameId/environments/$environmentId/versions'
-    | '/games/$gameId/environments/$environmentId'
-    | '/games/$gameId/environments/$environmentId/backend/logs'
-    | '/games/$gameId/environments/$environmentId/backend/variables'
-    | '/games/$gameId/environments/$environmentId/lobbies/logs'
-    | '/games/$gameId/environments/$environmentId/lobbies/settings'
-    | '/games/$gameId/environments/$environmentId/servers/builds'
-    | '/games/$gameId/environments/$environmentId/backend'
-    | '/games/$gameId/environments/$environmentId/lobbies'
-    | '/games/$gameId/environments/$environmentId/servers'
+    | '/projects/$projectId/environments/$environmentId/cdn'
+    | '/projects/$projectId/environments/$environmentId/matchmaker'
+    | '/projects/$projectId/environments/$environmentId/modules'
+    | '/projects/$projectId/environments/$environmentId/tokens'
+    | '/projects/$projectId/environments/$environmentId/versions'
+    | '/projects/$projectId/environments/$environmentId'
+    | '/projects/$projectId/environments/$environmentId/backend/logs'
+    | '/projects/$projectId/environments/$environmentId/backend/variables'
+    | '/projects/$projectId/environments/$environmentId/lobbies/logs'
+    | '/projects/$projectId/environments/$environmentId/lobbies/settings'
+    | '/projects/$projectId/environments/$environmentId/servers/builds'
+    | '/projects/$projectId/environments/$environmentId/backend'
+    | '/projects/$projectId/environments/$environmentId/lobbies'
+    | '/projects/$projectId/environments/$environmentId/servers'
   id:
     | '__root__'
     | '/_authenticated'
@@ -1117,41 +1154,42 @@ export interface FileRouteTypes {
     | '/_authenticated/access-token/$token'
     | '/_authenticated/invite/$inviteCode'
     | '/_authenticated/_layout/'
-    | '/_authenticated/_layout/games/$gameId'
+    | '/_authenticated/_layout/games/$'
     | '/_authenticated/_layout/my-profile/features'
+    | '/_authenticated/_layout/projects/$projectId'
     | '/_authenticated/_layout/teams/$groupId'
     | '/_authenticated/devices/link/$token'
     | '/_authenticated/_layout/my-profile/'
-    | '/_authenticated/_layout/games/$gameId/billing'
-    | '/_authenticated/_layout/games/$gameId/settings'
-    | '/_authenticated/_layout/games/$gameId/tokens'
+    | '/_authenticated/_layout/projects/$projectId/billing'
+    | '/_authenticated/_layout/projects/$projectId/settings'
+    | '/_authenticated/_layout/projects/$projectId/tokens'
     | '/_authenticated/_layout/teams/$groupId/billing'
     | '/_authenticated/_layout/teams/$groupId/members'
     | '/_authenticated/_layout/teams/$groupId/settings'
-    | '/_authenticated/_layout/games/$gameId/'
+    | '/_authenticated/_layout/projects/$projectId/'
     | '/_authenticated/_layout/teams/$groupId/'
-    | '/_authenticated/_layout/games/$gameId/environments/$environmentId'
-    | '/_authenticated/_layout/games/$gameId/namespaces/$'
-    | '/_authenticated/_layout/games/$gameId/settings/tokens'
-    | '/_authenticated/_layout/games/$gameId/settings/'
+    | '/_authenticated/_layout/projects/$projectId/environments/$environmentId'
+    | '/_authenticated/_layout/projects/$projectId/namespaces/$'
+    | '/_authenticated/_layout/projects/$projectId/settings/tokens'
+    | '/_authenticated/_layout/projects/$projectId/settings/'
     | '/_authenticated/_layout/teams/$groupId/settings/'
-    | '/_authenticated/_layout/games/$gameId/environments/$environmentId/backend'
-    | '/_authenticated/_layout/games/$gameId/environments/$environmentId/cdn'
-    | '/_authenticated/_layout/games/$gameId/environments/$environmentId/lobbies'
-    | '/_authenticated/_layout/games/$gameId/environments/$environmentId/matchmaker'
-    | '/_authenticated/_layout/games/$gameId/environments/$environmentId/modules'
-    | '/_authenticated/_layout/games/$gameId/environments/$environmentId/servers'
-    | '/_authenticated/_layout/games/$gameId/environments/$environmentId/tokens'
-    | '/_authenticated/_layout/games/$gameId/environments/$environmentId/versions'
-    | '/_authenticated/_layout/games/$gameId/environments/$environmentId/'
-    | '/_authenticated/_layout/games/$gameId/environments/$environmentId/backend/logs'
-    | '/_authenticated/_layout/games/$gameId/environments/$environmentId/backend/variables'
-    | '/_authenticated/_layout/games/$gameId/environments/$environmentId/lobbies/logs'
-    | '/_authenticated/_layout/games/$gameId/environments/$environmentId/lobbies/settings'
-    | '/_authenticated/_layout/games/$gameId/environments/$environmentId/servers/builds'
-    | '/_authenticated/_layout/games/$gameId/environments/$environmentId/backend/'
-    | '/_authenticated/_layout/games/$gameId/environments/$environmentId/lobbies/'
-    | '/_authenticated/_layout/games/$gameId/environments/$environmentId/servers/'
+    | '/_authenticated/_layout/projects/$projectId/environments/$environmentId/backend'
+    | '/_authenticated/_layout/projects/$projectId/environments/$environmentId/cdn'
+    | '/_authenticated/_layout/projects/$projectId/environments/$environmentId/lobbies'
+    | '/_authenticated/_layout/projects/$projectId/environments/$environmentId/matchmaker'
+    | '/_authenticated/_layout/projects/$projectId/environments/$environmentId/modules'
+    | '/_authenticated/_layout/projects/$projectId/environments/$environmentId/servers'
+    | '/_authenticated/_layout/projects/$projectId/environments/$environmentId/tokens'
+    | '/_authenticated/_layout/projects/$projectId/environments/$environmentId/versions'
+    | '/_authenticated/_layout/projects/$projectId/environments/$environmentId/'
+    | '/_authenticated/_layout/projects/$projectId/environments/$environmentId/backend/logs'
+    | '/_authenticated/_layout/projects/$projectId/environments/$environmentId/backend/variables'
+    | '/_authenticated/_layout/projects/$projectId/environments/$environmentId/lobbies/logs'
+    | '/_authenticated/_layout/projects/$projectId/environments/$environmentId/lobbies/settings'
+    | '/_authenticated/_layout/projects/$projectId/environments/$environmentId/servers/builds'
+    | '/_authenticated/_layout/projects/$projectId/environments/$environmentId/backend/'
+    | '/_authenticated/_layout/projects/$projectId/environments/$environmentId/lobbies/'
+    | '/_authenticated/_layout/projects/$projectId/environments/$environmentId/servers/'
   fileRoutesById: FileRoutesById
 }
 
@@ -1200,7 +1238,8 @@ export const routeTree = rootRoute
       "children": [
         "/_authenticated/_layout/my-profile",
         "/_authenticated/_layout/",
-        "/_authenticated/_layout/games/$gameId",
+        "/_authenticated/_layout/games/$",
+        "/_authenticated/_layout/projects/$projectId",
         "/_authenticated/_layout/teams/$groupId"
       ]
     },
@@ -1228,21 +1267,25 @@ export const routeTree = rootRoute
       "filePath": "_authenticated/_layout/index.tsx",
       "parent": "/_authenticated/_layout"
     },
-    "/_authenticated/_layout/games/$gameId": {
-      "filePath": "_authenticated/_layout/games/$gameId.tsx",
-      "parent": "/_authenticated/_layout",
-      "children": [
-        "/_authenticated/_layout/games/$gameId/billing",
-        "/_authenticated/_layout/games/$gameId/settings",
-        "/_authenticated/_layout/games/$gameId/tokens",
-        "/_authenticated/_layout/games/$gameId/",
-        "/_authenticated/_layout/games/$gameId/environments/$environmentId",
-        "/_authenticated/_layout/games/$gameId/namespaces/$"
-      ]
+    "/_authenticated/_layout/games/$": {
+      "filePath": "_authenticated/_layout/games/$.tsx",
+      "parent": "/_authenticated/_layout"
     },
     "/_authenticated/_layout/my-profile/features": {
       "filePath": "_authenticated/_layout/my-profile/features.tsx",
       "parent": "/_authenticated/_layout/my-profile"
+    },
+    "/_authenticated/_layout/projects/$projectId": {
+      "filePath": "_authenticated/_layout/projects/$projectId.tsx",
+      "parent": "/_authenticated/_layout",
+      "children": [
+        "/_authenticated/_layout/projects/$projectId/billing",
+        "/_authenticated/_layout/projects/$projectId/settings",
+        "/_authenticated/_layout/projects/$projectId/tokens",
+        "/_authenticated/_layout/projects/$projectId/",
+        "/_authenticated/_layout/projects/$projectId/environments/$environmentId",
+        "/_authenticated/_layout/projects/$projectId/namespaces/$"
+      ]
     },
     "/_authenticated/_layout/teams/$groupId": {
       "filePath": "_authenticated/_layout/teams/$groupId.tsx",
@@ -1262,21 +1305,21 @@ export const routeTree = rootRoute
       "filePath": "_authenticated/_layout/my-profile/index.tsx",
       "parent": "/_authenticated/_layout/my-profile"
     },
-    "/_authenticated/_layout/games/$gameId/billing": {
-      "filePath": "_authenticated/_layout/games/$gameId/billing.tsx",
-      "parent": "/_authenticated/_layout/games/$gameId"
+    "/_authenticated/_layout/projects/$projectId/billing": {
+      "filePath": "_authenticated/_layout/projects/$projectId/billing.tsx",
+      "parent": "/_authenticated/_layout/projects/$projectId"
     },
-    "/_authenticated/_layout/games/$gameId/settings": {
-      "filePath": "_authenticated/_layout/games/$gameId/settings.tsx",
-      "parent": "/_authenticated/_layout/games/$gameId",
+    "/_authenticated/_layout/projects/$projectId/settings": {
+      "filePath": "_authenticated/_layout/projects/$projectId/settings.tsx",
+      "parent": "/_authenticated/_layout/projects/$projectId",
       "children": [
-        "/_authenticated/_layout/games/$gameId/settings/tokens",
-        "/_authenticated/_layout/games/$gameId/settings/"
+        "/_authenticated/_layout/projects/$projectId/settings/tokens",
+        "/_authenticated/_layout/projects/$projectId/settings/"
       ]
     },
-    "/_authenticated/_layout/games/$gameId/tokens": {
-      "filePath": "_authenticated/_layout/games/$gameId/tokens.tsx",
-      "parent": "/_authenticated/_layout/games/$gameId"
+    "/_authenticated/_layout/projects/$projectId/tokens": {
+      "filePath": "_authenticated/_layout/projects/$projectId/tokens.tsx",
+      "parent": "/_authenticated/_layout/projects/$projectId"
     },
     "/_authenticated/_layout/teams/$groupId/billing": {
       "filePath": "_authenticated/_layout/teams/$groupId/billing.tsx",
@@ -1293,126 +1336,126 @@ export const routeTree = rootRoute
         "/_authenticated/_layout/teams/$groupId/settings/"
       ]
     },
-    "/_authenticated/_layout/games/$gameId/": {
-      "filePath": "_authenticated/_layout/games/$gameId/index.tsx",
-      "parent": "/_authenticated/_layout/games/$gameId"
+    "/_authenticated/_layout/projects/$projectId/": {
+      "filePath": "_authenticated/_layout/projects/$projectId/index.tsx",
+      "parent": "/_authenticated/_layout/projects/$projectId"
     },
     "/_authenticated/_layout/teams/$groupId/": {
       "filePath": "_authenticated/_layout/teams/$groupId/index.tsx",
       "parent": "/_authenticated/_layout/teams/$groupId"
     },
-    "/_authenticated/_layout/games/$gameId/environments/$environmentId": {
-      "filePath": "_authenticated/_layout/games/$gameId/environments/$environmentId.tsx",
-      "parent": "/_authenticated/_layout/games/$gameId",
+    "/_authenticated/_layout/projects/$projectId/environments/$environmentId": {
+      "filePath": "_authenticated/_layout/projects/$projectId/environments/$environmentId.tsx",
+      "parent": "/_authenticated/_layout/projects/$projectId",
       "children": [
-        "/_authenticated/_layout/games/$gameId/environments/$environmentId/backend",
-        "/_authenticated/_layout/games/$gameId/environments/$environmentId/cdn",
-        "/_authenticated/_layout/games/$gameId/environments/$environmentId/lobbies",
-        "/_authenticated/_layout/games/$gameId/environments/$environmentId/matchmaker",
-        "/_authenticated/_layout/games/$gameId/environments/$environmentId/modules",
-        "/_authenticated/_layout/games/$gameId/environments/$environmentId/servers",
-        "/_authenticated/_layout/games/$gameId/environments/$environmentId/tokens",
-        "/_authenticated/_layout/games/$gameId/environments/$environmentId/versions",
-        "/_authenticated/_layout/games/$gameId/environments/$environmentId/"
+        "/_authenticated/_layout/projects/$projectId/environments/$environmentId/backend",
+        "/_authenticated/_layout/projects/$projectId/environments/$environmentId/cdn",
+        "/_authenticated/_layout/projects/$projectId/environments/$environmentId/lobbies",
+        "/_authenticated/_layout/projects/$projectId/environments/$environmentId/matchmaker",
+        "/_authenticated/_layout/projects/$projectId/environments/$environmentId/modules",
+        "/_authenticated/_layout/projects/$projectId/environments/$environmentId/servers",
+        "/_authenticated/_layout/projects/$projectId/environments/$environmentId/tokens",
+        "/_authenticated/_layout/projects/$projectId/environments/$environmentId/versions",
+        "/_authenticated/_layout/projects/$projectId/environments/$environmentId/"
       ]
     },
-    "/_authenticated/_layout/games/$gameId/namespaces/$": {
-      "filePath": "_authenticated/_layout/games/$gameId/namespaces/$.tsx",
-      "parent": "/_authenticated/_layout/games/$gameId"
+    "/_authenticated/_layout/projects/$projectId/namespaces/$": {
+      "filePath": "_authenticated/_layout/projects/$projectId/namespaces/$.tsx",
+      "parent": "/_authenticated/_layout/projects/$projectId"
     },
-    "/_authenticated/_layout/games/$gameId/settings/tokens": {
-      "filePath": "_authenticated/_layout/games/$gameId/settings/tokens.tsx",
-      "parent": "/_authenticated/_layout/games/$gameId/settings"
+    "/_authenticated/_layout/projects/$projectId/settings/tokens": {
+      "filePath": "_authenticated/_layout/projects/$projectId/settings/tokens.tsx",
+      "parent": "/_authenticated/_layout/projects/$projectId/settings"
     },
-    "/_authenticated/_layout/games/$gameId/settings/": {
-      "filePath": "_authenticated/_layout/games/$gameId/settings/index.tsx",
-      "parent": "/_authenticated/_layout/games/$gameId/settings"
+    "/_authenticated/_layout/projects/$projectId/settings/": {
+      "filePath": "_authenticated/_layout/projects/$projectId/settings/index.tsx",
+      "parent": "/_authenticated/_layout/projects/$projectId/settings"
     },
     "/_authenticated/_layout/teams/$groupId/settings/": {
       "filePath": "_authenticated/_layout/teams/$groupId/settings/index.tsx",
       "parent": "/_authenticated/_layout/teams/$groupId/settings"
     },
-    "/_authenticated/_layout/games/$gameId/environments/$environmentId/backend": {
-      "filePath": "_authenticated/_layout/games/$gameId/environments/$environmentId/backend.tsx",
-      "parent": "/_authenticated/_layout/games/$gameId/environments/$environmentId",
+    "/_authenticated/_layout/projects/$projectId/environments/$environmentId/backend": {
+      "filePath": "_authenticated/_layout/projects/$projectId/environments/$environmentId/backend.tsx",
+      "parent": "/_authenticated/_layout/projects/$projectId/environments/$environmentId",
       "children": [
-        "/_authenticated/_layout/games/$gameId/environments/$environmentId/backend/logs",
-        "/_authenticated/_layout/games/$gameId/environments/$environmentId/backend/variables",
-        "/_authenticated/_layout/games/$gameId/environments/$environmentId/backend/"
+        "/_authenticated/_layout/projects/$projectId/environments/$environmentId/backend/logs",
+        "/_authenticated/_layout/projects/$projectId/environments/$environmentId/backend/variables",
+        "/_authenticated/_layout/projects/$projectId/environments/$environmentId/backend/"
       ]
     },
-    "/_authenticated/_layout/games/$gameId/environments/$environmentId/cdn": {
-      "filePath": "_authenticated/_layout/games/$gameId/environments/$environmentId/cdn.tsx",
-      "parent": "/_authenticated/_layout/games/$gameId/environments/$environmentId"
+    "/_authenticated/_layout/projects/$projectId/environments/$environmentId/cdn": {
+      "filePath": "_authenticated/_layout/projects/$projectId/environments/$environmentId/cdn.tsx",
+      "parent": "/_authenticated/_layout/projects/$projectId/environments/$environmentId"
     },
-    "/_authenticated/_layout/games/$gameId/environments/$environmentId/lobbies": {
-      "filePath": "_authenticated/_layout/games/$gameId/environments/$environmentId/lobbies.tsx",
-      "parent": "/_authenticated/_layout/games/$gameId/environments/$environmentId",
+    "/_authenticated/_layout/projects/$projectId/environments/$environmentId/lobbies": {
+      "filePath": "_authenticated/_layout/projects/$projectId/environments/$environmentId/lobbies.tsx",
+      "parent": "/_authenticated/_layout/projects/$projectId/environments/$environmentId",
       "children": [
-        "/_authenticated/_layout/games/$gameId/environments/$environmentId/lobbies/logs",
-        "/_authenticated/_layout/games/$gameId/environments/$environmentId/lobbies/settings",
-        "/_authenticated/_layout/games/$gameId/environments/$environmentId/lobbies/"
+        "/_authenticated/_layout/projects/$projectId/environments/$environmentId/lobbies/logs",
+        "/_authenticated/_layout/projects/$projectId/environments/$environmentId/lobbies/settings",
+        "/_authenticated/_layout/projects/$projectId/environments/$environmentId/lobbies/"
       ]
     },
-    "/_authenticated/_layout/games/$gameId/environments/$environmentId/matchmaker": {
-      "filePath": "_authenticated/_layout/games/$gameId/environments/$environmentId/matchmaker.tsx",
-      "parent": "/_authenticated/_layout/games/$gameId/environments/$environmentId"
+    "/_authenticated/_layout/projects/$projectId/environments/$environmentId/matchmaker": {
+      "filePath": "_authenticated/_layout/projects/$projectId/environments/$environmentId/matchmaker.tsx",
+      "parent": "/_authenticated/_layout/projects/$projectId/environments/$environmentId"
     },
-    "/_authenticated/_layout/games/$gameId/environments/$environmentId/modules": {
-      "filePath": "_authenticated/_layout/games/$gameId/environments/$environmentId/modules.tsx",
-      "parent": "/_authenticated/_layout/games/$gameId/environments/$environmentId"
+    "/_authenticated/_layout/projects/$projectId/environments/$environmentId/modules": {
+      "filePath": "_authenticated/_layout/projects/$projectId/environments/$environmentId/modules.tsx",
+      "parent": "/_authenticated/_layout/projects/$projectId/environments/$environmentId"
     },
-    "/_authenticated/_layout/games/$gameId/environments/$environmentId/servers": {
-      "filePath": "_authenticated/_layout/games/$gameId/environments/$environmentId/servers.tsx",
-      "parent": "/_authenticated/_layout/games/$gameId/environments/$environmentId",
+    "/_authenticated/_layout/projects/$projectId/environments/$environmentId/servers": {
+      "filePath": "_authenticated/_layout/projects/$projectId/environments/$environmentId/servers.tsx",
+      "parent": "/_authenticated/_layout/projects/$projectId/environments/$environmentId",
       "children": [
-        "/_authenticated/_layout/games/$gameId/environments/$environmentId/servers/builds",
-        "/_authenticated/_layout/games/$gameId/environments/$environmentId/servers/"
+        "/_authenticated/_layout/projects/$projectId/environments/$environmentId/servers/builds",
+        "/_authenticated/_layout/projects/$projectId/environments/$environmentId/servers/"
       ]
     },
-    "/_authenticated/_layout/games/$gameId/environments/$environmentId/tokens": {
-      "filePath": "_authenticated/_layout/games/$gameId/environments/$environmentId/tokens.tsx",
-      "parent": "/_authenticated/_layout/games/$gameId/environments/$environmentId"
+    "/_authenticated/_layout/projects/$projectId/environments/$environmentId/tokens": {
+      "filePath": "_authenticated/_layout/projects/$projectId/environments/$environmentId/tokens.tsx",
+      "parent": "/_authenticated/_layout/projects/$projectId/environments/$environmentId"
     },
-    "/_authenticated/_layout/games/$gameId/environments/$environmentId/versions": {
-      "filePath": "_authenticated/_layout/games/$gameId/environments/$environmentId/versions.tsx",
-      "parent": "/_authenticated/_layout/games/$gameId/environments/$environmentId"
+    "/_authenticated/_layout/projects/$projectId/environments/$environmentId/versions": {
+      "filePath": "_authenticated/_layout/projects/$projectId/environments/$environmentId/versions.tsx",
+      "parent": "/_authenticated/_layout/projects/$projectId/environments/$environmentId"
     },
-    "/_authenticated/_layout/games/$gameId/environments/$environmentId/": {
-      "filePath": "_authenticated/_layout/games/$gameId/environments/$environmentId/index.tsx",
-      "parent": "/_authenticated/_layout/games/$gameId/environments/$environmentId"
+    "/_authenticated/_layout/projects/$projectId/environments/$environmentId/": {
+      "filePath": "_authenticated/_layout/projects/$projectId/environments/$environmentId/index.tsx",
+      "parent": "/_authenticated/_layout/projects/$projectId/environments/$environmentId"
     },
-    "/_authenticated/_layout/games/$gameId/environments/$environmentId/backend/logs": {
-      "filePath": "_authenticated/_layout/games/$gameId/environments/$environmentId/backend/logs.tsx",
-      "parent": "/_authenticated/_layout/games/$gameId/environments/$environmentId/backend"
+    "/_authenticated/_layout/projects/$projectId/environments/$environmentId/backend/logs": {
+      "filePath": "_authenticated/_layout/projects/$projectId/environments/$environmentId/backend/logs.tsx",
+      "parent": "/_authenticated/_layout/projects/$projectId/environments/$environmentId/backend"
     },
-    "/_authenticated/_layout/games/$gameId/environments/$environmentId/backend/variables": {
-      "filePath": "_authenticated/_layout/games/$gameId/environments/$environmentId/backend/variables.tsx",
-      "parent": "/_authenticated/_layout/games/$gameId/environments/$environmentId/backend"
+    "/_authenticated/_layout/projects/$projectId/environments/$environmentId/backend/variables": {
+      "filePath": "_authenticated/_layout/projects/$projectId/environments/$environmentId/backend/variables.tsx",
+      "parent": "/_authenticated/_layout/projects/$projectId/environments/$environmentId/backend"
     },
-    "/_authenticated/_layout/games/$gameId/environments/$environmentId/lobbies/logs": {
-      "filePath": "_authenticated/_layout/games/$gameId/environments/$environmentId/lobbies/logs.tsx",
-      "parent": "/_authenticated/_layout/games/$gameId/environments/$environmentId/lobbies"
+    "/_authenticated/_layout/projects/$projectId/environments/$environmentId/lobbies/logs": {
+      "filePath": "_authenticated/_layout/projects/$projectId/environments/$environmentId/lobbies/logs.tsx",
+      "parent": "/_authenticated/_layout/projects/$projectId/environments/$environmentId/lobbies"
     },
-    "/_authenticated/_layout/games/$gameId/environments/$environmentId/lobbies/settings": {
-      "filePath": "_authenticated/_layout/games/$gameId/environments/$environmentId/lobbies/settings.tsx",
-      "parent": "/_authenticated/_layout/games/$gameId/environments/$environmentId/lobbies"
+    "/_authenticated/_layout/projects/$projectId/environments/$environmentId/lobbies/settings": {
+      "filePath": "_authenticated/_layout/projects/$projectId/environments/$environmentId/lobbies/settings.tsx",
+      "parent": "/_authenticated/_layout/projects/$projectId/environments/$environmentId/lobbies"
     },
-    "/_authenticated/_layout/games/$gameId/environments/$environmentId/servers/builds": {
-      "filePath": "_authenticated/_layout/games/$gameId/environments/$environmentId/servers/builds.tsx",
-      "parent": "/_authenticated/_layout/games/$gameId/environments/$environmentId/servers"
+    "/_authenticated/_layout/projects/$projectId/environments/$environmentId/servers/builds": {
+      "filePath": "_authenticated/_layout/projects/$projectId/environments/$environmentId/servers/builds.tsx",
+      "parent": "/_authenticated/_layout/projects/$projectId/environments/$environmentId/servers"
     },
-    "/_authenticated/_layout/games/$gameId/environments/$environmentId/backend/": {
-      "filePath": "_authenticated/_layout/games/$gameId/environments/$environmentId/backend/index.tsx",
-      "parent": "/_authenticated/_layout/games/$gameId/environments/$environmentId/backend"
+    "/_authenticated/_layout/projects/$projectId/environments/$environmentId/backend/": {
+      "filePath": "_authenticated/_layout/projects/$projectId/environments/$environmentId/backend/index.tsx",
+      "parent": "/_authenticated/_layout/projects/$projectId/environments/$environmentId/backend"
     },
-    "/_authenticated/_layout/games/$gameId/environments/$environmentId/lobbies/": {
-      "filePath": "_authenticated/_layout/games/$gameId/environments/$environmentId/lobbies/index.tsx",
-      "parent": "/_authenticated/_layout/games/$gameId/environments/$environmentId/lobbies"
+    "/_authenticated/_layout/projects/$projectId/environments/$environmentId/lobbies/": {
+      "filePath": "_authenticated/_layout/projects/$projectId/environments/$environmentId/lobbies/index.tsx",
+      "parent": "/_authenticated/_layout/projects/$projectId/environments/$environmentId/lobbies"
     },
-    "/_authenticated/_layout/games/$gameId/environments/$environmentId/servers/": {
-      "filePath": "_authenticated/_layout/games/$gameId/environments/$environmentId/servers/index.tsx",
-      "parent": "/_authenticated/_layout/games/$gameId/environments/$environmentId/servers"
+    "/_authenticated/_layout/projects/$projectId/environments/$environmentId/servers/": {
+      "filePath": "_authenticated/_layout/projects/$projectId/environments/$environmentId/servers/index.tsx",
+      "parent": "/_authenticated/_layout/projects/$projectId/environments/$environmentId/servers"
     }
   }
 }

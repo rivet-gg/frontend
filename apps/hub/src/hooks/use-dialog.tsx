@@ -167,55 +167,61 @@ export function useDialog() {}
 
 useDialog.GenerateEnvironmentPublicToken = createDialogHook(
   import(
-    "@/domains/game/components/dialogs/environment-generate-public-token-dialog"
+    "@/domains/project/components/dialogs/environment-generate-public-token-dialog"
   ),
   {
     autoFocus: false,
   },
 );
 
-useDialog.GenerateGameCloudToken = createDialogHook(
-  import("@/domains/game/components/dialogs/game-generate-cloud-token-dialog"),
-  {
-    autoFocus: false,
-  },
-);
-useDialog.GenerateGameEnvServiceToken = createDialogHook(
+useDialog.GenerateProjectCloudToken = createDialogHook(
   import(
-    "@/domains/game/components/dialogs/game-env-generate-service-token-dialog"
+    "@/domains/project/components/dialogs/project-generate-cloud-token-dialog"
+  ),
+  {
+    autoFocus: false,
+  },
+);
+useDialog.GenerateProjectEnvServiceToken = createDialogHook(
+  import(
+    "@/domains/project/components/dialogs/environment-generate-service-token-dialog"
   ),
   {
     autoFocus: false,
   },
 );
 
-useDialog.CreateGroupGame = createDialogHook(
-  import("@/domains/game/components/dialogs/group-create-game-dialog"),
+useDialog.CreateGroupProject = createDialogHook(
+  import("@/domains/project/components/dialogs/group-create-project-dialog"),
 );
 
-useDialog.CreateGame = createDialogHook(
-  import("@/domains/game/components/dialogs/create-game-dialog"),
+useDialog.CreateProject = createDialogHook(
+  import("@/domains/project/components/dialogs/create-project-dialog"),
 );
 
 useDialog.ManageCdnAuthUsers = createDialogHook(
-  import("@/domains/game/components/dialogs/cdn-manage-auth-users-dialog"),
+  import("@/domains/project/components/dialogs/cdn-manage-auth-users-dialog"),
 );
 
 useDialog.CreateEnvironment = createDialogHook(
-  import("@/domains/game/components/dialogs/create-environment-dialog"),
+  import("@/domains/project/components/dialogs/create-environment-dialog"),
 );
 
 useDialog.ManageCdnCustomDomains = createDialogHook(
-  import("@/domains/game/components/dialogs/cdn-manage-custom-domains-dialog"),
+  import(
+    "@/domains/project/components/dialogs/cdn-manage-custom-domains-dialog"
+  ),
 );
 
 useDialog.DeployEnvironmentVersion = createDialogHook(
-  import("@/domains/game/components/dialogs/deploy-environment-version-dialog"),
+  import(
+    "@/domains/project/components/dialogs/deploy-environment-version-dialog"
+  ),
 );
 
 useDialog.ConfirmBillingPlan = createDataDialogHook(
   ["plan"],
-  import("@/domains/game/components/dialogs/confirm-billing-plan-dialog"),
+  import("@/domains/project/components/dialogs/confirm-billing-plan-dialog"),
 );
 
 useDialog.CreateGroupInvite = createDialogHook(
@@ -257,7 +263,7 @@ useDialog.Secret = createDialogHook(
 
 useDialog.ConfirmOuterbaseConnection = createDialogHook(
   import(
-    "@/domains/game/components/dialogs/confirm-outerbase-connection-dialog"
+    "@/domains/project/components/dialogs/confirm-outerbase-connection-dialog"
   ),
 );
 
@@ -266,6 +272,6 @@ useDialog.ConfirmLeaveGroup = createDialogHook(
 );
 
 useDialog.CreateDynamicServer = createDialogHook(
-  import("@/domains/game/components/dialogs/create-dynamic-server-dialog"),
+  import("@/domains/project/components/dialogs/create-dynamic-server-dialog"),
   { size: "lg" },
 );
