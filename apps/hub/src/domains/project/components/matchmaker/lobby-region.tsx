@@ -102,7 +102,7 @@ export const REGION_LABEL: Record<string, string> = {
 interface LobbyRegionProps {
   regionId: string;
   projectId: string;
-  showLabel?: boolean;
+  showLabel?: boolean | "abbreviated";
 }
 
 export function getRegionKey(regionNameId: string | undefined) {
@@ -131,7 +131,9 @@ export function LobbyRegion({
     return (
       <Flex gap="2" items="center" justify="center">
         <AssetImage className="w-5 min-w-5" src={getRegionEmoji(regionKey)} />
-        {REGION_LABEL[regionKey] ?? REGION_LABEL.unknown}
+        {showLabel === "abbreviated"
+          ? regionKey
+          : (REGION_LABEL[regionKey] ?? REGION_LABEL.unknown)}
       </Flex>
     );
   }

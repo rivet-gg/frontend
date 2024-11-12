@@ -14,10 +14,10 @@ import { ErrorBoundary } from "@sentry/react";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { Suspense } from "react";
 import { serverQueryOptions, useDestroyServerMutation } from "../../queries";
-import { LobbyLifecycle } from "../matchmaker/lobby-lifecycle";
 import { ServerLogsTab } from "./server-logs-tab";
 import { ServerNetworkTab } from "./server-network-tab";
 import { ServerRuntimeTab } from "./server-runtime-tab";
+import { ServerStatus } from "./server-status";
 import { ServerTags } from "./server-tags";
 
 interface ServersServerDetailsProps {
@@ -59,32 +59,27 @@ export function ServersServerDetails({
     >
       <Flex direction="col" className="h-full w-full" pt="4">
         <Flex items="start" gap="2" px="4">
-          <Flex direction="col" gap="4" className="flex-1">
-            <ServerTags {...data} />
-            <Flex gap="2">
-              <CopyButton value={data.id}>
-                <Button variant="outline">Copy ID</Button>
-              </CopyButton>
-              {!data.destroyTs ? (
-                <Button
-                  isLoading={isDestroying}
-                  variant="destructive"
-                  onClick={() => mutate({ projectId, environmentId, serverId })}
-                >
-                  Destroy
-                </Button>
-              ) : null}
-            </Flex>
+          <Flex gap="2">
+            <ServerStatus {...data} />
+            <CopyButton value={data.id}>
+              <Button variant="outline">Copy ID</Button>
+            </CopyButton>
+            {!data.destroyTs ? (
+              <Button
+                isLoading={isDestroying}
+                variant="destructive"
+                onClick={() => mutate({ projectId, environmentId, serverId })}
+              >
+                Destroy
+              </Button>
+            ) : null}
           </Flex>
 
-          <Flex>
-            <LobbyLifecycle
-              createTs={data.createTs}
-              readyTs={data.startTs}
-              stopTs={data.destroyTs}
-            />
+          <Flex direction="col" gap="4" className="flex-1">
+            <ServerTags {...data} />
           </Flex>
         </Flex>
+
         <Tabs
           defaultValue="output"
           className="flex-1 min-h-0 flex flex-col mt-4"

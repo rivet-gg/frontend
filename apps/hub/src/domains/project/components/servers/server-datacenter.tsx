@@ -11,7 +11,7 @@ interface ServerDatacenterProps {
   datacenterId: string;
   projectId: string;
   environmentId: string;
-  showLabel?: boolean;
+  showLabel?: boolean | "abbreviated";
 }
 
 export function ServerDatacenter({
@@ -30,7 +30,9 @@ export function ServerDatacenter({
     return (
       <Flex gap="2" items="center" justify="center">
         <AssetImage className="w-4 min-w-4" src={getRegionEmoji(regionKey)} />
-        {REGION_LABEL[regionKey] ?? REGION_LABEL.unknown}
+        {showLabel === "abbreviated"
+          ? regionKey.toUpperCase()
+          : (REGION_LABEL[regionKey] ?? REGION_LABEL.unknown)}
       </Flex>
     );
   }
