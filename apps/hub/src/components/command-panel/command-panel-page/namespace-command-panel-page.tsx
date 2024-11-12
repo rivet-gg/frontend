@@ -10,7 +10,6 @@ import {
   faCodeBranch,
   faGear,
   faGlobe,
-  faHome,
   faJoystick,
   faKey,
   faLink,
@@ -57,17 +56,6 @@ export function NamespaceCommandPanelPage({
   return (
     <>
       <CommandGroup heading={displayName}>
-        <CommandItem
-          onSelect={() => {
-            navigate({
-              to: "/games/$gameId/environments/$namespaceId",
-              params: { gameId, namespaceId },
-            });
-          }}
-        >
-          <Icon icon={faHome} />
-          Overview
-        </CommandItem>
         <CommandItem
           onSelect={() => {
             navigate({

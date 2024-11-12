@@ -7,7 +7,6 @@ import {
   faChessKnight,
   faCodeBranch,
   faGlobe,
-  faHome,
   faKey,
   faPuzzle,
   faPuzzlePiece,
@@ -40,43 +39,32 @@ export function HeaderNamespaceLinks({
 
   return (
     <>
-      <HeaderLink icon={faHome}>
+      <HeaderLink icon={faServer}>
         <Link
-          to="/games/$gameId/environments/$namespaceId"
-          activeOptions={{ exact: true }}
+          to="/games/$gameId/environments/$namespaceId/servers"
           params={{ gameId, namespaceId }}
         >
-          Overview
+          Servers
         </Link>
       </HeaderLink>
-      <>
-        <HeaderLink icon={faServer}>
+      <GuardEnterprise>
+        <HeaderLink icon={faPuzzle}>
           <Link
-            to="/games/$gameId/environments/$namespaceId/servers"
+            to="/games/$gameId/environments/$namespaceId/backend"
             params={{ gameId, namespaceId }}
           >
-            Servers
+            Backend
           </Link>
         </HeaderLink>
-        <GuardEnterprise>
-          <HeaderLink icon={faPuzzle}>
-            <Link
-              to="/games/$gameId/environments/$namespaceId/backend"
-              params={{ gameId, namespaceId }}
-            >
-              Backend
-            </Link>
-          </HeaderLink>
-          <HeaderLink icon={faPuzzlePiece}>
-            <Link
-              to="/games/$gameId/environments/$namespaceId/modules"
-              params={{ gameId, namespaceId }}
-            >
-              Modules
-            </Link>
-          </HeaderLink>
-        </GuardEnterprise>
-      </>
+        <HeaderLink icon={faPuzzlePiece}>
+          <Link
+            to="/games/$gameId/environments/$namespaceId/modules"
+            params={{ gameId, namespaceId }}
+          >
+            Modules
+          </Link>
+        </HeaderLink>
+      </GuardEnterprise>
       {legacyLobbiesEnabled ? (
         <>
           <HeaderLink icon={faCodeBranch}>

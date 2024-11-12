@@ -16,7 +16,7 @@ import {
 } from "@rivet-gg/components";
 import { Icon, faArrowRight } from "@rivet-gg/icons";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { Link, createFileRoute } from "@tanstack/react-router";
+import { Link, createFileRoute, redirect } from "@tanstack/react-router";
 import { lazy } from "react";
 
 const FeaturedModules = lazy(
@@ -183,6 +183,12 @@ function CurrentVersionCard() {
 export const Route = createFileRoute(
   "/_authenticated/_layout/games/$gameId/environments/$namespaceId/",
 )({
+  beforeLoad: ({ params }) => {
+    throw redirect({
+      to: "/games/$gameId/environments/$namespaceId/servers",
+      params,
+    });
+  },
   component: NamespaceIdRoute,
   pendingComponent: Layout.Root.Skeleton,
 });
