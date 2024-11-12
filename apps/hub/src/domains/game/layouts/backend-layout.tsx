@@ -12,16 +12,16 @@ import { GameBackendEnvironmentDatabaseLink } from "../components/game-backend/g
 
 const LINKS = [
   {
-    url: "/games/$gameId/environments/$namespaceId/backend/",
+    url: "/games/$gameId/environments/$environmentId/backend/",
     text: "Overview",
     exact: true,
   },
   {
-    url: "/games/$gameId/environments/$namespaceId/backend/logs",
+    url: "/games/$gameId/environments/$environmentId/backend/logs",
     text: "Logs",
   },
   {
-    url: "/games/$gameId/environments/$namespaceId/backend/variables",
+    url: "/games/$gameId/environments/$environmentId/backend/variables",
     text: "Variables",
   },
 ];
@@ -49,11 +49,11 @@ const DatabaseLink = ({
 
 interface BackendPageProps {
   gameId: string;
-  namespaceId: string;
+  environmentId: string;
   children: ReactNode;
 }
 
-function BackendPage({ namespaceId, gameId, children }: BackendPageProps) {
+function BackendPage({ environmentId, gameId, children }: BackendPageProps) {
   return (
     <SidebarPageContent
       sidebar={
@@ -65,7 +65,7 @@ function BackendPage({ namespaceId, gameId, children }: BackendPageProps) {
               activeOptions={{ exact: link.exact, includeSearch: false }}
               params={{
                 gameId,
-                namespaceId,
+                environmentId,
               }}
               className="data-active:text-foreground data-active:font-semibold"
             >
@@ -75,7 +75,7 @@ function BackendPage({ namespaceId, gameId, children }: BackendPageProps) {
           <GameBackendEnvironmentDatabaseLink
             asChild
             gameId={gameId}
-            environmentId={namespaceId}
+            environmentId={environmentId}
           >
             <DatabaseLink />
           </GameBackendEnvironmentDatabaseLink>

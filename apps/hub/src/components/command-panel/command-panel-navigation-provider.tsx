@@ -17,9 +17,9 @@ type GameCommandPanelPage = {
   params: { gameId: string };
 };
 
-type NamespaceCommandPanelPage = {
-  key: "namespace";
-  params: { gameId: string; namespaceId: string };
+type EnvironmentCommandPanelPage = {
+  key: "environment";
+  params: { gameId: string; environmentId: string };
 };
 
 type BackendCommandPanelPage = {
@@ -35,7 +35,7 @@ type BackendEnvironmentPanelPage = {
 type CommandPanelPages =
   | GroupCommandPanelPage
   | GameCommandPanelPage
-  | NamespaceCommandPanelPage
+  | EnvironmentCommandPanelPage
   | BackendCommandPanelPage
   | BackendEnvironmentPanelPage
   | never;

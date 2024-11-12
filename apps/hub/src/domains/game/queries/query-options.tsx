@@ -87,10 +87,10 @@ export const gameQueryOptions = (gameId: string) => {
       ),
     select: (data) => ({
       ...data.game,
-      namespaces: data.game.namespaces.map((namespace) => ({
-        ...namespace,
+      namespaces: data.game.namespaces.map((environment) => ({
+        ...environment,
         version: data.game.versions.find(
-          (version) => version.versionId === namespace.versionId,
+          (version) => version.versionId === environment.versionId,
         ),
       })),
     }),
@@ -170,7 +170,14 @@ export const gameEnvTokenServiceQueryOptions = ({
   return queryOptions({
     staleTime: 0,
     gcTime: 0,
-    queryKey: ["game", gameId, "namespace", environmentId, "token", "service"],
+    queryKey: [
+      "game",
+      gameId,
+      "environment",
+      environmentId,
+      "token",
+      "service",
+    ],
     queryFn: ({
       queryKey: [
         // eslint-disable-next-line @typescript-eslint/no-unused-vars

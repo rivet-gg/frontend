@@ -7,7 +7,7 @@ export type Game = Rivet.game.Summary & {
   namespaces: Rivet.cloud.NamespaceSummary[];
 };
 
-export type Namespace = Rivet.cloud.NamespaceSummary & {
+export type Environment = Rivet.cloud.NamespaceSummary & {
   version: Rivet.cloud.version.Summary | undefined;
 };
 

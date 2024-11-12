@@ -9,7 +9,7 @@ export const gameServersQueryOptions = ({
   environmentId,
 }: { gameId: string; environmentId: string }) => {
   return infiniteQueryOptions({
-    queryKey: ["game", gameId, "namespace", environmentId, "servers"],
+    queryKey: ["game", gameId, "environment", environmentId, "servers"],
     refetchInterval: 5000,
     initialPageParam: "",
     queryFn: ({
@@ -44,7 +44,14 @@ export const serverQueryOptions = ({
   serverId: string;
 }) => {
   return queryOptions({
-    queryKey: ["game", gameId, "namespace", environmentId, "server", serverId],
+    queryKey: [
+      "game",
+      gameId,
+      "environment",
+      environmentId,
+      "server",
+      serverId,
+    ],
     queryFn: ({
       signal: abortSignal,
       queryKey: [_, gameId, __, environmentId, ___, serverId],
@@ -88,7 +95,7 @@ export const serverLogsQueryOptions = (
     queryKey: [
       "game",
       gameId,
-      "namespace",
+      "environment",
       environmentId,
       "server",
       serverId,
@@ -132,7 +139,7 @@ export const gameBuildsQueryOptions = ({
     queryKey: [
       "game",
       gameId,
-      "namespace",
+      "environment",
       environmentId,
       "builds",
       tags,
@@ -167,7 +174,7 @@ export const buildQueryOptions = ({
   buildId: string;
 }) => {
   return queryOptions({
-    queryKey: ["game", gameId, "namespace", environmentId, "build", buildId],
+    queryKey: ["game", gameId, "environment", environmentId, "build", buildId],
     queryFn: ({
       signal: abortSignal,
       queryKey: [_, gameId, __, environmentId, ___, buildId],
@@ -191,7 +198,7 @@ export const dataCentersQueryOptions = ({
   environmentId,
 }: { gameId: string; environmentId: string }) => {
   return queryOptions({
-    queryKey: ["game", gameId, "namespace", environmentId, "datacenters"],
+    queryKey: ["game", gameId, "environment", environmentId, "datacenters"],
     queryFn: ({
       signal: abortSignal,
       queryKey: [_, gameId, __, environmentId],

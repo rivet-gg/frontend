@@ -1,0 +1,208 @@
+import { GameServerTags } from "@/domains/game/components/game-servers/game-server-tags";
+import * as Layout from "@/domains/game/layouts/servers-layout";
+import {
+  gameBuildsQueryOptions,
+  usePatchBuildTagsMutation,
+} from "@/domains/game/queries";
+import type { Rivet } from "@rivet-gg/api";
+import {
+  Button,
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  Flex,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+  Text,
+  WithTooltip,
+} from "@rivet-gg/components";
+import { Icon, faCheckCircle, faInfoCircle, faRefresh } from "@rivet-gg/icons";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { createFileRoute } from "@tanstack/react-router";
+
+function GameBuildsRoute() {
+  const { gameId, environmentId } = Route.useParams();
+  const {
+    data: builds,
+    isRefetching,
+    refetch,
+  } = useSuspenseQuery(
+    gameBuildsQueryOptions({ gameId, environmentId: environmentId }),
+  );
+
+  return (
+    <Card w="full">
+      <CardHeader>
+        <Flex items="center" gap="4" justify="between">
+          <CardTitle>Builds</CardTitle>
+          <Button
+            size="icon"
+            isLoading={isRefetching}
+            variant="outline"
+            onClick={() => refetch()}
+          >
+            <Icon icon={faRefresh} />
+          </Button>
+        </Flex>
+      </CardHeader>
+      <CardContent>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Name</TableHead>
+              <TableHead>Created at</TableHead>
+              <TableHead>Tags</TableHead>
+              <TableHead>
+                <WithTooltip
+                  content="Servers will be created with this build if a version is not explicitly specified."
+                  trigger={
+                    <span>
+                      Current <Icon icon={faInfoCircle} />
+                    </span>
+                  }
+                />
+              </TableHead>
+              <TableHead>
+                <WithTooltip
+                  content="Determines if game servers can be created with this build."
+                  trigger={
+                    <span>
+                      Enabled <Icon icon={faInfoCircle} />
+                    </span>
+                  }
+                />
+              </TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {builds.length === 0 ? (
+              <TableRow>
+                <TableCell colSpan={6}>
+                  <Text className="text-center">There's no builds yet.</Text>
+                </TableCell>
+              </TableRow>
+            ) : null}
+            {builds.map((build) => (
+              <TableRow key={build.id}>
+                <TableCell>{build.name}</TableCell>
+                <TableCell>{build.createdAt.toLocaleString()}</TableCell>
+                <TableCell>
+                  <GameServerTags {...build} excludeBuiltIn />
+                </TableCell>
+                <TableCell>
+                  <GameBuildLatestButton
+                    gameId={gameId}
+                    environmentId={environmentId}
+                    {...build}
+                  />
+                </TableCell>
+                <TableCell>
+                  <GameBuildEnabledButton
+                    gameId={gameId}
+                    environmentId={environmentId}
+                    {...build}
+                  />
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </CardContent>
+    </Card>
+  );
+}
+
+interface GameBuildActionButtonProps extends Rivet.servers.Build {
+  gameId: string;
+  environmentId: string;
+}
+
+function GameBuildEnabledButton({
+  tags,
+  id,
+  gameId,
+  environmentId,
+}: GameBuildActionButtonProps) {
+  const { mutate, isPending } = usePatchBuildTagsMutation();
+  if (tags.enabled === "true") {
+    return (
+      <Button
+        variant="outline"
+        size="sm"
+        isLoading={isPending}
+        onClick={() => {
+          mutate({
+            buildId: id,
+            gameId,
+            environmentId,
+            tags: { enabled: null },
+          });
+        }}
+      >
+        Disable
+      </Button>
+    );
+  }
+
+  return (
+    <Button
+      variant="outline"
+      size="sm"
+      isLoading={isPending}
+      onClick={() => {
+        mutate({
+          buildId: id,
+          gameId,
+          environmentId,
+          tags: { enabled: "true" },
+        });
+      }}
+    >
+      Enable
+    </Button>
+  );
+}
+
+function GameBuildLatestButton({
+  tags,
+  id,
+  gameId,
+  environmentId,
+}: GameBuildActionButtonProps) {
+  const { mutate, isPending } = usePatchBuildTagsMutation();
+
+  if (tags.current !== "true") {
+    return (
+      <Button
+        variant="outline"
+        size="sm"
+        isLoading={isPending}
+        onClick={() => {
+          mutate({
+            buildId: id,
+            gameId,
+            environmentId,
+            tags: { current: "true" },
+            exclusiveTags: ["current"],
+          });
+        }}
+      >
+        Make current
+      </Button>
+    );
+  }
+
+  return <Icon icon={faCheckCircle} className="fill-primary" />;
+}
+
+export const Route = createFileRoute(
+  "/_authenticated/_layout/games/$gameId/environments/$environmentId/servers/builds",
+)({
+  component: GameBuildsRoute,
+  pendingComponent: Layout.Content.Skeleton,
+});

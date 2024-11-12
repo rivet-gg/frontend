@@ -12,7 +12,7 @@ import { Link } from "@tanstack/react-router";
 import {
   type LiveLobbyLogs,
   type LobbySummary,
-  gameNamespaceLobbyQueryOptions,
+  gameEnvironmentLobbyQueryOptions,
 } from "../../queries";
 import { LobbyRegion } from "./lobby-region";
 import { LobbyStatusBadge } from "./lobby-status";
@@ -77,21 +77,21 @@ export function GameMatchmakerListLobbyButton({
 
 interface GameMatchmakerListLobbyPrefilledButtonProps {
   gameId: string;
-  namespaceId: string;
+  environmentId: string;
   lobbyId: string;
   isActive?: boolean;
 }
 
 export function GameMatchmakerListLobbyPrefilledButton({
   gameId,
-  namespaceId,
+  environmentId,
   lobbyId,
   isActive,
 }: GameMatchmakerListLobbyPrefilledButtonProps) {
   const {
     data: { lobby },
   } = useSuspenseQuery(
-    gameNamespaceLobbyQueryOptions({ gameId, namespaceId, lobbyId }),
+    gameEnvironmentLobbyQueryOptions({ gameId, environmentId, lobbyId }),
   );
 
   return (

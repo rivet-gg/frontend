@@ -20,8 +20,8 @@ import { Icon, faInfoCircle, faPlus, faTrash } from "@rivet-gg/icons";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { useCdnNewCustomDomainFormHandler } from "../../hooks/use-cdn-new-custom-domain-form-handler";
 import {
-  gameNamespaceQueryOptions,
-  useNamespaceRemoveDomainMutation,
+  gameEnvironmentQueryOptions,
+  useEnvironmentRemoveDomainMutation,
 } from "../../queries";
 
 const VARIANT_MAP = {
@@ -34,7 +34,7 @@ const VARIANT_MAP = {
 
 interface DomainConfigRowProps extends Rivet.cloud.CdnNamespaceDomain {
   gameId: string;
-  namespaceId: string;
+  environmentId: string;
 }
 
 function DomainConfigRow({
@@ -43,10 +43,10 @@ function DomainConfigRow({
   verificationErrors,
   verificationStatus,
   gameId,
-  namespaceId,
+  environmentId,
 }: DomainConfigRowProps) {
   const { mutate: removeDomain, isPending } =
-    useNamespaceRemoveDomainMutation();
+    useEnvironmentRemoveDomainMutation();
 
   return (
     <TableRow key={domain}>
@@ -75,7 +75,7 @@ function DomainConfigRow({
           size="icon"
           isLoading={isPending}
           onClick={() => {
-            removeDomain({ gameId, namespaceId, domain });
+            removeDomain({ gameId, environmentId, domain });
           }}
         >
           <Icon icon={faTrash} />
@@ -87,20 +87,20 @@ function DomainConfigRow({
 
 interface ContentProps extends DialogContentProps {
   gameId: string;
-  namespaceId: string;
+  environmentId: string;
 }
 
 export default function CdnManageCustomDomainsDialogContent({
   gameId,
-  namespaceId,
+  environmentId,
   onClose,
 }: ContentProps) {
   const { data, refetch, isRefetching } = useSuspenseQuery(
-    gameNamespaceQueryOptions({ gameId, namespaceId }),
+    gameEnvironmentQueryOptions({ gameId, environmentId }),
   );
 
   const handleSubmit = useCdnNewCustomDomainFormHandler({
-    namespaceId,
+    environmentId,
     gameId,
   });
 
@@ -133,7 +133,7 @@ export default function CdnManageCustomDomainsDialogContent({
           {data.namespace.config.cdn.domains.map((domainConfig) => (
             <DomainConfigRow
               key={domainConfig.domain}
-              namespaceId={namespaceId}
+              environmentId={environmentId}
               gameId={gameId}
               {...domainConfig}
             />

@@ -3,10 +3,10 @@ import { noop } from "@/lib/utils";
 import { Skeleton, cn } from "@rivet-gg/components";
 import { CatchBoundary, useMatchRoute } from "@tanstack/react-router";
 import { Suspense, useContext } from "react";
+import { EnvironmentBreadcrumb } from "./environment-breadcrumb";
 import { GameBreadcrumb } from "./game-breadcrumb";
 import { GroupBreadcrumb } from "./group-breadcrumb";
 import { MobileBreadcrumbsContext } from "./mobile-breadcrumbs";
-import { NamespaceBreadcrumb } from "./namespace-breadcrumb";
 
 function Content() {
   const matchRoute = useMatchRoute();
@@ -22,16 +22,16 @@ function Content() {
     return <GroupBreadcrumb groupId={groupMatch.groupId} />;
   }
 
-  const gameNamespaceMatch = matchRoute({
-    to: "/games/$gameId/environments/$namespaceId",
+  const gameEnvMatch = matchRoute({
+    to: "/games/$gameId/environments/$environmentId",
     fuzzy: true,
   });
 
-  if (gameNamespaceMatch) {
+  if (gameEnvMatch) {
     return (
-      <NamespaceBreadcrumb
-        namespaceId={gameNamespaceMatch.namespaceId}
-        gameId={gameNamespaceMatch.gameId}
+      <EnvironmentBreadcrumb
+        environmentId={gameEnvMatch.environmentId}
+        gameId={gameEnvMatch.gameId}
       />
     );
   }

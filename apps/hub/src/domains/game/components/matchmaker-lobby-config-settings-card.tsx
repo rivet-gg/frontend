@@ -9,23 +9,23 @@ import {
 } from "@rivet-gg/components";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { useMatchmakerLobbyConfigFormHandler } from "../hooks/use-matchmaker-lobby-config-form-handler";
-import { gameNamespaceQueryOptions } from "../queries";
+import { gameEnvironmentQueryOptions } from "../queries";
 
 interface MatchMakerLobbyConfigSettingsCardProps {
   gameId: string;
-  namespaceId: string;
+  environmentId: string;
 }
 
 export function MatchMakerLobbyConfigSettingsCard({
-  namespaceId,
+  environmentId,
   gameId,
 }: MatchMakerLobbyConfigSettingsCardProps) {
   const { data } = useSuspenseQuery(
-    gameNamespaceQueryOptions({ gameId, namespaceId }),
+    gameEnvironmentQueryOptions({ gameId, environmentId }),
   );
 
   const handleSubmit = useMatchmakerLobbyConfigFormHandler({
-    namespaceId,
+    environmentId,
     gameId,
   });
 

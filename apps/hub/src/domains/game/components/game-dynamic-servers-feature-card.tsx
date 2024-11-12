@@ -12,7 +12,7 @@ export function GameDynamicServersFeatureCard() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Legacy Lobbies and Namespaces</CardTitle>
+        <CardTitle>Legacy Lobbies and Environments</CardTitle>
       </CardHeader>
       <CardContent>
         <Text>

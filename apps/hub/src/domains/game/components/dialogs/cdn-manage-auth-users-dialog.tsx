@@ -9,24 +9,24 @@ import {
 } from "@rivet-gg/components";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { useCdnManageAuthUsersFormHandler } from "../../hooks/use-cdn-manage-auth-users-form-handler";
-import { gameNamespaceQueryOptions } from "../../queries";
+import { gameEnvironmentQueryOptions } from "../../queries";
 
 interface ContentProps extends DialogContentProps {
   gameId: string;
-  namespaceId: string;
+  environmentId: string;
 }
 
 export default function CdnManageAuthUsersDialogContent({
   gameId,
-  namespaceId,
+  environmentId,
   onClose,
 }: ContentProps) {
   const { data } = useSuspenseQuery(
-    gameNamespaceQueryOptions({ gameId, namespaceId }),
+    gameEnvironmentQueryOptions({ gameId, environmentId }),
   );
 
   const handleSubmit = useCdnManageAuthUsersFormHandler({
-    namespaceId,
+    environmentId,
     gameId,
     onSuccess: onClose,
     userList: data.namespace.config.cdn.authUserList,
