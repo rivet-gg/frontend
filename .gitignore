@@ -36,7 +36,6 @@ dist
 !.yarn/sdks
 !.yarn/versions
 
-.env
 .env.test
 .env.yarn
 .env*.local
