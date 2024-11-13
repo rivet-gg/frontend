@@ -27,7 +27,7 @@ export function ServersListPreview({
       autoSaveId="rivet-project-backend-logs"
       direction={isMd ? "horizontal" : "vertical"}
     >
-      <ResizablePanel minSize={25} maxSize={75}>
+      <ResizablePanel minSize={40} maxSize={75}>
         <div className="h-full max-h-full overflow-hidden w-full truncate min-w-0">
           <ServersListPanel
             projectId={projectId}
@@ -37,7 +37,7 @@ export function ServersListPreview({
         </div>
       </ResizablePanel>
       <ResizableHandle withHandle />
-      <ResizablePanel minSize={25} maxSize={75}>
+      <ResizablePanel minSize={40} maxSize={75}>
         <div className="h-full max-h-full overflow-hidden w-full">
           <Suspense fallback={<ServersServerDetailsPanel.Skeleton />}>
             <ServersServerDetailsPanel

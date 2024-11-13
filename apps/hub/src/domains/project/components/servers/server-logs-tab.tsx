@@ -2,6 +2,7 @@ import type { Rivet } from "@rivet-gg/api";
 import { Button, LogsView, WithTooltip } from "@rivet-gg/components";
 import { Icon, faSave } from "@rivet-gg/icons";
 import { useSuspenseQuery } from "@tanstack/react-query";
+import { differenceInHours } from "date-fns";
 import { saveAs } from "file-saver";
 import { serverLogsQueryOptions } from "../../queries";
 
@@ -10,6 +11,7 @@ interface ServerLogsTabProps {
   environmentId: string;
   serverId: string;
   logType: Rivet.servers.LogStream;
+  createdAt: number;
 }
 
 export function ServerLogsTab({
@@ -17,6 +19,7 @@ export function ServerLogsTab({
   environmentId,
   serverId,
   logType,
+  createdAt,
 }: ServerLogsTabProps) {
   const {
     data: { timestamps, lines },
@@ -29,32 +32,38 @@ export function ServerLogsTab({
     }),
   );
 
+  const areLogsRetained = differenceInHours(Date.now(), createdAt) < 24 * 3;
+
   return (
     <LogsView
       timestamps={timestamps}
       lines={lines}
-      empty="No logs available."
+      empty={
+        areLogsRetained ? "No logs available." : "Logs are retained for 3 days."
+      }
       sidebar={
-        <WithTooltip
-          content="Download logs"
-          trigger={
-            <Button
-              variant="outline"
-              aria-label="Download logs"
-              size="icon"
-              onClick={() =>
-                saveAs(
-                  new Blob([lines.join("\n")], {
-                    type: "text/plain;charset=utf-8",
-                  }),
-                  "logs.txt",
-                )
-              }
-            >
-              <Icon icon={faSave} />
-            </Button>
-          }
-        />
+        lines.length > 0 ? (
+          <WithTooltip
+            content="Download logs"
+            trigger={
+              <Button
+                variant="outline"
+                aria-label="Download logs"
+                size="icon"
+                onClick={() =>
+                  saveAs(
+                    new Blob([lines.join("\n")], {
+                      type: "text/plain;charset=utf-8",
+                    }),
+                    "logs.txt",
+                  )
+                }
+              >
+                <Icon icon={faSave} />
+              </Button>
+            }
+          />
+        ) : null
       }
     />
   );

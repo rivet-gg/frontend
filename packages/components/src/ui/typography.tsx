@@ -196,8 +196,8 @@ const SmallText = forwardRef<HTMLSpanElement, TypographyElementProps<"span">>(
       <Comp
         ref={ref}
         className={cn(
-          className,
           "text-sm font-medium leading-none",
+          className,
           getCommonHelperClass(props),
         )}
         {...omitCommonHelperProps(props)}

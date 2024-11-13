@@ -2,7 +2,13 @@
 
 import { Slot } from "@radix-ui/react-slot";
 import { Icon, faCopy } from "@rivet-gg/icons";
-import { type ReactNode, forwardRef, useState } from "react";
+import {
+  type ComponentProps,
+  type MouseEventHandler,
+  type ReactNode,
+  forwardRef,
+  useState,
+} from "react";
 import { toast } from "sonner";
 import { cn } from "./lib/utils";
 import { Button, type ButtonProps } from "./ui/button";
@@ -91,15 +97,40 @@ export const CopyArea = forwardRef<HTMLButtonElement, CopyAreaProps>(
   },
 );
 
-interface CopyButtonProps {
+interface CopyButtonProps extends ComponentProps<typeof Slot> {
   children: ReactNode;
   value: string;
 }
 
-export function CopyButton({ children, value }: CopyButtonProps) {
+export const CopyButton = forwardRef<HTMLElement, CopyButtonProps>(
+  ({ children, value, ...props }, ref) => {
+    const handleClick: MouseEventHandler<HTMLElement> = (event) => {
+      navigator.clipboard.writeText(value);
+      toast.success("Copied to clipboard");
+      props.onClick?.(event);
+    };
+    return (
+      <Slot ref={ref} {...props} onClick={handleClick}>
+        {children}
+      </Slot>
+    );
+  },
+);
+
+interface ClickToCopyProps {
+  children: ReactNode;
+  value: string;
+}
+
+export function ClickToCopy({ children, value }: ClickToCopyProps) {
   const handleClick = () => {
     navigator.clipboard.writeText(value);
     toast.success("Copied to clipboard");
   };
-  return <Slot onClick={handleClick}>{children}</Slot>;
+  return (
+    <WithTooltip
+      content="Click to copy"
+      trigger={<Slot onClick={handleClick}>{children}</Slot>}
+    />
+  );
 }

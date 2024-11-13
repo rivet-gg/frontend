@@ -15,9 +15,7 @@ export function ServersServerDetailsPanel({
   if (!serverId) {
     return (
       <Flex items="center" justify="center" className="h-full">
-        <Text textAlign="center">
-          Please select a server from the list on the left.
-        </Text>
+        <Text textAlign="center">Please select a server from the list.</Text>
       </Flex>
     );
   }
