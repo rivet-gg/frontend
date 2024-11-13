@@ -1,6 +1,5 @@
 import type { Rivet } from "@rivet-gg/api";
 import {
-  Badge,
   Button,
   RelativeTime,
   ScrollArea,
@@ -99,20 +98,21 @@ function ServerRow({
         <div className="w-full flex justify-center">
           <ServerStatusIndicator {...server} />
         </div>
-        <Badge variant="outline">
+        <SmallText className="font-semibold">
           <ServerDatacenter
             showLabel="abbreviated"
             projectId={projectId}
             environmentId={environmentId}
             datacenterId={server.datacenter}
           />
-        </Badge>
+        </SmallText>
         <SmallText>{server.id.split("-")[0]}</SmallText>
         <WithTooltip
           trigger={
             <div className="relative overflow-r-gradient">
               <ServerTags
                 className="flex-nowrap empty:block overflow-hidden"
+                truncate={false}
                 {...server}
               />
             </div>
@@ -120,7 +120,11 @@ function ServerRow({
           content={
             <>
               <p className="pb-2 font-bold text-xs">Tags</p>
-              <ServerTags className="empty:block" {...server} />
+              <ServerTags
+                className="empty:block"
+                truncate={false}
+                {...server}
+              />
             </>
           }
         />
