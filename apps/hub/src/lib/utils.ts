@@ -59,3 +59,12 @@ export function findDuplicated<const Key extends string>(
 
   return duplicatesIdx;
 }
+
+export const publicUrl = (path: string) => {
+  const filename = path.startsWith("/") ? path.slice(1) : path;
+  const url = import.meta.env.BASE_URL.endsWith("/")
+    ? import.meta.env.BASE_URL
+    : `${import.meta.env.BASE_URL}/`;
+
+  return `${url}${filename}`;
+};

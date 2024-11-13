@@ -1,5 +1,6 @@
 import { CommandPanel } from "@/components/command-panel";
 import { NavItem } from "@/components/header/nav-item";
+import { publicUrl } from "@/lib/utils";
 import { cn } from "@rivet-gg/components";
 import { Icon, faDiscord, faGithub, faXTwitter } from "@rivet-gg/icons";
 import { useMatches } from "@tanstack/react-router";
@@ -43,7 +44,7 @@ const Footer = () => {
           <div className="flex gap-4 items-center justify-between w-full lg:w-auto lg:justify-normal">
             <div className="flex gap-4 items-center">
               <img
-                src="/icon-white-borderless.svg"
+                src={publicUrl("/icon-white-borderless.svg")}
                 alt="Rivet"
                 className="h-6"
               />

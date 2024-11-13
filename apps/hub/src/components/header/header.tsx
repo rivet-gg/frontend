@@ -1,4 +1,5 @@
 import { useAuth } from "@/domains/auth/contexts/auth";
+import { publicUrl } from "@/lib/utils";
 import {
   Button,
   Flex,
@@ -62,7 +63,7 @@ export function Header() {
                     >
                       <img
                         className="h-6"
-                        src="/icon-white-borderless.svg"
+                        src={publicUrl("/icon-white-borderless.svg")}
                         alt="Rivet logo"
                       />
                     </Link>
@@ -111,7 +112,7 @@ export function Header() {
             <Link to="/">
               <img
                 className="h-6"
-                src="/icon-white-borderless.svg"
+                src={publicUrl("/icon-white-borderless.svg")}
                 alt="Rivet logo"
               />
             </Link>
