@@ -59,7 +59,11 @@ export default function CreateGroupInviteDialogContent({
             useCount: values.isInfinite ? undefined : values.usageCount,
           });
         }}
-        defaultValues={{ isInfinite: true, expTime: timing.minutes(30) }}
+        defaultValues={{
+          isInfinite: true,
+          expTime: timing.minutes(30),
+          usageCount: 10,
+        }}
       >
         <DialogHeader>
           <DialogTitle>Create Group Invite</DialogTitle>
