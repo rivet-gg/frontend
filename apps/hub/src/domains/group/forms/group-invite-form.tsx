@@ -29,21 +29,11 @@ const expirationValues = [
   { label: "never", value: 0 },
 ];
 
-const infiniteSchema = z.object({
+export const formSchema = z.object({
   expTime: z.coerce.number(),
-  isInfinite: z.literal(true),
+  isInfinite: z.boolean(),
+  usageCount: z.coerce.number().min(1).max(5000).default(10),
 });
-
-const finiteSchema = z.object({
-  expTime: z.coerce.number(),
-  isInfinite: z.literal(false),
-  usageCount: z.coerce.number().min(1).max(5000),
-});
-
-export const formSchema = z.discriminatedUnion("isInfinite", [
-  infiniteSchema,
-  finiteSchema,
-]);
 
 export type FormValues = z.infer<typeof formSchema>;
 export type SubmitHandler = (
