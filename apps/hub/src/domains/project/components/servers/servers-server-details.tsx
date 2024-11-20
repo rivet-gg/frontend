@@ -89,7 +89,7 @@ export function ServersServerDetails({
                   showLabel="abbreviated"
                   projectId={projectId}
                   environmentId={environmentId}
-                  datacenterId={data.datacenter}
+                  regionId={data.datacenter}
                 />
               </SmallText>
             </div>

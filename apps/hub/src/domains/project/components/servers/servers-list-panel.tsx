@@ -103,7 +103,7 @@ function ServerRow({
             showLabel="abbreviated"
             projectId={projectId}
             environmentId={environmentId}
-            datacenterId={server.datacenter}
+            regionId={server.datacenter}
           />
         </SmallText>
         <SmallText>{server.id.split("-")[0]}</SmallText>
