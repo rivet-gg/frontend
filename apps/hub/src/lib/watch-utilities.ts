@@ -6,7 +6,7 @@ export function mergeWatchStreams(
 ): unknown {
   return _.mergeWith({}, oldData, newChunk, (objValue, srcValue) => {
     if (_.isArray(objValue)) {
-      return srcValue.concat(objValue);
+      return objValue.concat(srcValue);
     }
   });
 }
