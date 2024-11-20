@@ -50,11 +50,11 @@ function InnerApp() {
   return <RouterProvider router={router} context={{ auth }} />;
 }
 
-export function App() {
+export function App({ cacheKey }: { cacheKey?: string }) {
   return (
     <PersistQueryClientProvider
       client={queryClient}
-      persistOptions={{ persister: queryClientPersister }}
+      persistOptions={{ persister: queryClientPersister, buster: cacheKey }}
     >
       <ConfigProvider value={getConfig()}>
         <ThirdPartyProviders>
