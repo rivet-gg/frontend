@@ -1,4 +1,4 @@
-import { dataCentersQueryOptions } from "@/domains/project/queries";
+import { regionsQueryOptions } from "@/domains/project/queries";
 import {
   Flex,
   Select,
@@ -22,7 +22,7 @@ export function ServerDatacenterSelect({
   ...props
 }: ServerDatacenterSelectProps) {
   const { data } = useSuspenseQuery(
-    dataCentersQueryOptions({ projectId, environmentId }),
+    regionsQueryOptions({ projectId, environmentId }),
   );
 
   return (
@@ -38,7 +38,7 @@ export function ServerDatacenterSelect({
                 showLabel
                 projectId={projectId}
                 environmentId={environmentId}
-                datacenterId={datacenter.id}
+                regionId={datacenter.id}
               />
             </Flex>
           </SelectItem>

@@ -1,5 +1,4 @@
 import * as Layout from "@/layouts/page-centered";
-import { rivetClient } from "@/queries/global";
 import {
   Button,
   Card,
@@ -35,9 +34,4 @@ function InviteCodeInviteRoute() {
 
 export const Route = createFileRoute("/_authenticated/access-token/$token")({
   component: InviteCodeInviteRoute,
-  loader: async ({ params: { token } }) => {
-    await rivetClient.auth.identity.accessToken.completeAccessTokenVerification(
-      { accessToken: token },
-    );
-  },
 });

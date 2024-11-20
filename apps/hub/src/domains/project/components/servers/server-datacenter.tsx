@@ -1,6 +1,6 @@
 import { AssetImage, Flex, WithTooltip } from "@rivet-gg/components";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { dataCenterQueryOptions } from "../../queries";
+import { regionQueryOptions } from "../../queries";
 import {
   REGION_LABEL,
   getRegionEmoji,
@@ -8,7 +8,7 @@ import {
 } from "../matchmaker/lobby-region";
 
 interface ServerDatacenterProps {
-  datacenterId: string;
+  regionId: string;
   projectId: string;
   environmentId: string;
   showLabel?: boolean | "abbreviated";
@@ -16,15 +16,15 @@ interface ServerDatacenterProps {
 
 export function ServerDatacenter({
   projectId,
-  datacenterId,
+  regionId,
   environmentId,
   showLabel,
 }: ServerDatacenterProps) {
   const { data: region } = useSuspenseQuery(
-    dataCenterQueryOptions({ projectId, environmentId, datacenterId }),
+    regionQueryOptions({ projectId, environmentId, regionId }),
   );
 
-  const regionKey = getRegionKey(region?.slug);
+  const regionKey = getRegionKey(region?.name);
 
   if (showLabel) {
     return (
