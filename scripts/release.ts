@@ -35,7 +35,7 @@ async function getGitHash(): Promise<string> {
   return new TextDecoder().decode(gitOutput.stdout).trim();
 }
 
-async function runBuild() {
+async function runBuild(baseUrl = "/") {
   console.log("Running yarn install");
   const installOutput = await new Deno.Command("yarn", {
     args: ["install"],
@@ -47,9 +47,11 @@ async function runBuild() {
   }).output();
   assert(installOutput.success, "Failed to run yarn install");
 
-  console.log("Running yarn build");
+  console.log(
+    `Running yarn build${baseUrl ? ` with base URL: ${baseUrl}` : ""}`,
+  );
   const buildOutput = await new Deno.Command("yarn", {
-    args: ["run", "build"],
+    args: ["run", "build:prod", `--base=${baseUrl}`],
     stdout: "inherit",
     stderr: "inherit",
     env: {
@@ -66,14 +68,17 @@ async function runBuild() {
   assert(buildOutput.success, "Failed to run yarn build");
 }
 
-async function generateZipFile(): Promise<string> {
+async function generateZipFile(variant: string): Promise<string> {
   const gitHash = await getGitHash();
   const timestamp = format(new Date(), "yyyy-MM-dd-HH-mm-ss", {
     timeZone: "UTC",
   });
-  const fileName = `${timestamp}-${gitHash}.zip`;
-  console.log("Generating zip file");
-  const zipPath = resolve(fileName);
+  const fileName = `${timestamp}-${gitHash}-${variant}.zip`;
+  console.log(`Generating zip file: ${fileName}`);
+
+  const tempDir = await Deno.makeTempDir();
+  const zipPath = resolve(tempDir, fileName);
+
   const zipOutput = await new Deno.Command("zip", {
     args: ["-r", zipPath, "."],
     cwd: DIST_DIR,
@@ -111,10 +116,17 @@ async function uploadZipToS3(zipPath: string): Promise<string> {
 }
 
 async function main() {
+  // Build and upload the normal variant
   await runBuild();
-  const zipPath = await generateZipFile();
-  const zipUrl = await uploadZipToS3(zipPath);
-  console.log("Uploaded zip URL:", zipUrl);
+  const normalZipPath = await generateZipFile("default");
+  const normalZipUrl = await uploadZipToS3(normalZipPath);
+  console.log("Uploaded normal variant zip URL:", normalZipUrl);
+
+  // Build and upload the variant with VITE_BASE_URL="/ui/"
+  await runBuild("/ui/");
+  const uiBaseZipPath = await generateZipFile("embed");
+  const uiBaseZipUrl = await uploadZipToS3(uiBaseZipPath);
+  console.log("Uploaded UI base variant zip URL:", uiBaseZipUrl);
 }
 
 if (import.meta.main) {
