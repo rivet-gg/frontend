@@ -1,7 +1,7 @@
 import { Intro } from "@/components/intro";
 import { DeepDiveSection } from "@/components/sections/deep-dive-section";
 import { FaqSection } from "@/components/sections/faq-section";
-import { guardOssNewie } from "@/lib/guards";
+import { guardOssNewbie } from "@/lib/guards";
 import { H1, NarrowPage, Separator } from "@rivet-gg/components";
 import { createFileRoute } from "@tanstack/react-router";
 import { zodSearchValidator } from "@tanstack/router-zod-adapter";
@@ -35,10 +35,11 @@ const searchSchema = z.object({
 export const Route = createFileRoute("/_authenticated/_layout/")({
   validateSearch: zodSearchValidator(searchSchema),
   component: IndexRoute,
-  beforeLoad: async ({ search, context: { queryClient, auth } }) => {
+  beforeLoad: ({ search, context: { queryClient, auth } }) => {
     if (search.newbie === true) {
       return;
     }
-    await guardOssNewie({ queryClient, auth });
+    return guardOssNewbie({ queryClient, auth });
   },
+  shouldReload: true,
 });

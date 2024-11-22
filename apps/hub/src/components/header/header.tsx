@@ -8,7 +8,7 @@ import {
   SheetTrigger,
 } from "@rivet-gg/components";
 import { Icon, faBars } from "@rivet-gg/icons";
-import { Link, useLocation } from "@tanstack/react-router";
+import { Link } from "@tanstack/react-router";
 import { Breadcrumbs } from "../breadcrumbs/breadcrumbs";
 import { MobileBreadcrumbs } from "../breadcrumbs/mobile-breadcrumbs";
 import { Changelog } from "./changelog";
@@ -36,7 +36,6 @@ const UserProfileButton = () => {
 };
 
 export function Header() {
-  const location = useLocation();
   return (
     <header className="bg-background/60 sticky top-0 z-10 flex items-center gap-4 border-b py-2 backdrop-blur">
       <HeaderRouteLoader />
