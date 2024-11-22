@@ -1,4 +1,5 @@
 import type { DialogContentProps } from "@/hooks/use-dialog";
+import { publicUrl } from "@/lib/utils";
 import {
   Code,
   DialogHeader,
@@ -19,7 +20,7 @@ export default function SecretDialogContent(props: ContentProps) {
       <Flex gap="4" direction="col" textAlign="center">
         <img
           className="w-20 mx-auto"
-          src="/greg.svg"
+          src={publicUrl("/greg.svg")}
           alt="Mysterious Rivet Frog"
         />
         <Text>
