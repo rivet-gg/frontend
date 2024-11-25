@@ -10,6 +10,7 @@ import {
   faCodeBranch,
   faGear,
   faGlobe,
+  faHammer,
   faJoystick,
   faKey,
   faLink,
@@ -71,6 +72,17 @@ export function EnvironmentCommandPanelPage({
         >
           <Icon icon={faServer} />
           Servers
+        </CommandItem>
+        <CommandItem
+          onSelect={() => {
+            navigate({
+              to: "/projects/$projectId/environments/$environmentId/builds",
+              params: { projectId, environmentId },
+            });
+          }}
+        >
+          <Icon icon={faHammer} />
+          Builds
         </CommandItem>
         <GuardEnterprise>
           <CommandItem

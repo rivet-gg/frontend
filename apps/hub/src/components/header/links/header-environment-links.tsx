@@ -7,6 +7,7 @@ import {
   faChessKnight,
   faCodeBranch,
   faGlobe,
+  faHammer,
   faKey,
   faPuzzle,
   faPuzzlePiece,
@@ -45,6 +46,14 @@ export function HeaderEnvironmentLinks({
           params={{ projectId, environmentId }}
         >
           Servers
+        </Link>
+      </HeaderLink>
+      <HeaderLink icon={faHammer}>
+        <Link
+          to="/projects/$projectId/environments/$environmentId/builds"
+          params={{ projectId, environmentId }}
+        >
+          Builds
         </Link>
       </HeaderLink>
       <GuardEnterprise>
