@@ -32,7 +32,7 @@ export async function guardEnterprise({
   }
 }
 
-export async function guardOssNewie({
+export async function guardOssNewbie({
   queryClient,
   auth,
 }: { queryClient: QueryClient; auth: AuthContext }) {
@@ -55,14 +55,15 @@ export async function guardOssNewie({
           projectId: projects[0].gameId,
           environmentId: namespaces[0].namespaceId,
         },
+        from: "/",
       });
     }
-
     throw redirect({
       to: "/projects/$projectId",
       params: {
         projectId: projects[0].gameId,
       },
+      from: "/",
     });
   }
 
@@ -74,6 +75,7 @@ export async function guardOssNewie({
     throw redirect({
       to: "/teams/$groupId",
       params: { groupId: lastTeam },
+      from: "/",
     });
   }
 
@@ -81,6 +83,7 @@ export async function guardOssNewie({
     throw redirect({
       to: "/teams/$groupId",
       params: { groupId: groups[0].groupId },
+      from: "/",
     });
   }
 }
