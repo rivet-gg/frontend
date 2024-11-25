@@ -1,3 +1,4 @@
+import { computePageLayout } from "@/lib/compute-page-layout";
 import { Page, Skeleton } from "@rivet-gg/components";
 import { useMatches } from "@tanstack/react-router";
 import type { PropsWithChildren, ReactNode } from "react";
@@ -8,11 +9,7 @@ interface ProjectPageProps {
 
 function ProjectPage({ children }: ProjectPageProps) {
   const matches = useMatches();
-  return (
-    <Page layout={matches[matches.length - 1].staticData.layout}>
-      {children}
-    </Page>
-  );
+  return <Page layout={computePageLayout(matches)}>{children}</Page>;
 }
 
 ProjectPage.Skeleton = Page.Skeleton;
@@ -37,11 +34,7 @@ Content.Skeleton = function ContentSkeleton() {
 
 function EmptyProjectPage({ children }: PropsWithChildren) {
   const matches = useMatches();
-  return (
-    <Page layout={matches[matches.length - 1].staticData.layout}>
-      {children}
-    </Page>
-  );
+  return <Page layout={computePageLayout(matches)}>{children}</Page>;
 }
 
 export { ProjectPage as Root, EmptyProjectPage as EmptyRoot, Content };
