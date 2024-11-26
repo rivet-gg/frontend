@@ -16,6 +16,7 @@ interface EnvironmentSelectProps extends ComponentProps<typeof Select> {
   projectId: string;
   showCreateEnvironment?: boolean;
   onCreateClick?: () => void;
+  variant?: ComponentProps<typeof SelectTrigger>["variant"];
 }
 
 export function EnvironmentSelect({
@@ -23,6 +24,7 @@ export function EnvironmentSelect({
   onCreateClick,
   onValueChange,
   projectId,
+  variant,
   ...props
 }: EnvironmentSelectProps) {
   const { data } = useSuspenseQuery(projectEnvironmentsQueryOptions(projectId));
@@ -40,7 +42,7 @@ export function EnvironmentSelect({
 
   return (
     <Select {...props} onValueChange={handleValueChange}>
-      <SelectTrigger>
+      <SelectTrigger variant={variant}>
         <SelectValue placeholder="Select environment..." />
       </SelectTrigger>
       <SelectContent>

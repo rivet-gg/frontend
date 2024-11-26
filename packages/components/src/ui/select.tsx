@@ -3,7 +3,7 @@
 import * as SelectPrimitive from "@radix-ui/react-select";
 import * as React from "react";
 
-import { faCheck, faChevronDown, faChevronUp } from "@rivet-gg/icons";
+import { faCheck, faChevronDown, faChevronUp, faSelect } from "@rivet-gg/icons";
 import { Icon } from "@rivet-gg/icons";
 import { cn } from "../lib/utils";
 
@@ -16,19 +16,30 @@ const SelectValue = SelectPrimitive.Value;
 
 const SelectTrigger = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Trigger>,
-  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger>
->(({ className, children, ...props }, ref) => (
+  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger> & {
+    variant?: "discrete";
+  }
+>(({ className, children, variant, ...props }, ref) => (
   <SelectPrimitive.Trigger
     ref={ref}
     className={cn(
-      "flex whitespace-nowrap h-10 w-full items-center justify-between gap-2 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1",
+      "flex group/select whitespace-nowrap hover:bg-secondary transition-colors h-10 w-full items-center justify-between gap-2 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1",
+      {
+        "border-0 w-auto ring-0 px-1 focus:ring-0 focus:ring-transparent aria-expanded:bg-secondary":
+          variant === "discrete",
+      },
       className,
     )}
     {...props}
   >
-    {children}
+    {variant === "discrete" ? null : children}
     <SelectPrimitive.Icon asChild>
-      <Icon icon={faChevronDown} className="h-4 w-4 opacity-50" />
+      <Icon
+        icon={variant === "discrete" ? faSelect : faChevronDown}
+        className={cn(
+          "h-4 w-4 group-hover/select:opacity-100 transition-opacity group-aria-expanded/select:opacity-100 opacity-50",
+        )}
+      />
     </SelectPrimitive.Icon>
   </SelectPrimitive.Trigger>
 ));
