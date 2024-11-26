@@ -17,6 +17,7 @@ interface GroupProjectSelectProps extends ComponentProps<typeof Select> {
   groupId: string;
   showCreateProject?: boolean;
   onCreateClick?: () => void;
+  variant?: ComponentProps<typeof SelectTrigger>["variant"];
 }
 
 export function GroupProjectSelect({
@@ -24,6 +25,7 @@ export function GroupProjectSelect({
   showCreateProject,
   onCreateClick,
   onValueChange,
+  variant,
   ...props
 }: GroupProjectSelectProps) {
   const { data } = useSuspenseQuery(groupProjectsQueryOptions(groupId));
@@ -41,7 +43,7 @@ export function GroupProjectSelect({
 
   return (
     <Select onValueChange={handleValueChange} {...props}>
-      <SelectTrigger>
+      <SelectTrigger variant={variant}>
         <SelectValue placeholder="Select project..." />
       </SelectTrigger>
       <SelectContent>
