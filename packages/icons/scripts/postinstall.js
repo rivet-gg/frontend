@@ -26,6 +26,10 @@ if (process.env.FONTAWESOME_PACKAGE_TOKEN) {
           npmAlwaysAuth: true
           npmRegistryServer: 'https://npm.fontawesome.com/'
           npmAuthToken: \${FONTAWESOME_PACKAGE_TOKEN}
+      awesome.me:
+          npmAlwaysAuth: true
+          npmRegistryServer: "https://npm.fontawesome.com/"
+          npmAuthToken: \${FONTAWESOME_PACKAGE_TOKEN}
       `,
   );
 
@@ -74,6 +78,18 @@ let indexTsSource = dedent`
 
 for (const [pkg, { icons }] of Object.entries(manifest)) {
   const pkgExists = pkg.includes("pro") ? isPro : true;
+  const isCustom = pkg.startsWith("@awesome.me/kit-");
+
+  if (isCustom) {
+    if (!pkgExists) {
+      const iconNames = icons.map(({ icon }) => icon);
+      const exp = iconNames.map((icon) => `definition as ${icon}`).join(", ");
+      indexTsSource += `export { ${exp} } from "@fortawesome/free-solid-svg-icons/faSquare";\n`;
+    } else {
+      indexTsSource += `export * from "${pkg}";\n`;
+    }
+    continue;
+  }
 
   for (const { icon, aliases } of icons) {
     if (!indexTsSource.includes(`export { definition as ${icon} }`)) {
@@ -101,6 +117,18 @@ import {type IconPack} from "@fortawesome/fontawesome-common-types";\n`;
 
 for (const [pkg, { icons }] of Object.entries(manifest)) {
   const pkgExists = pkg.includes("pro") ? isPro : true;
+  const isCustom = pkg.startsWith("@awesome.me/kit-");
+
+  if (isCustom) {
+    const iconNames = icons.map(({ icon }) => icon);
+    if (!pkgExists) {
+      const exp = iconNames.map((icon) => `definition as ${icon}`).join(", ");
+      iconsPackTsSource += `import {${exp}} from "@fortawesome/free-solid-svg-icons/faSquare";\n`;
+    } else {
+      iconsPackTsSource += `import {${iconNames.join(",")}} from "${pkg}";\n`;
+    }
+    continue;
+  }
 
   for (const { icon } of icons) {
     if (iconsPackTsSource.includes(`import {definition as ${icon}}`)) {

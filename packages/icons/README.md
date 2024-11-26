@@ -16,10 +16,17 @@ Rivet Icons are a set of SVG icons that are used in Rivet products. This package
 
 ## Contributing
 
+### Prerequisites
+
+Obtain a Font Awesome Pro license and set the `FONTAWESOME_PACKAGE_TOKEN` environment variable to your Font Awesome Pro token. This is required to download the premium icons.
+
 ### Adding new icons
 
-Modify `generateManifest.js` to include new icons. The script will generate a new icon set with the new icons. Commit the changes to the `manifest.json` file.
-
+1. Modify `generateManifest.js` to include new icons.
+2. Run `./scripts/generateManifest.js` to generate a new `manifest.json` file.
+    - If you're getting an error: `Could not find package @fortawesome/pro-solid-svg-icons`, 
+3. Commit the changes to the `manifest.json` file.
+4. Run `yarn rebuild @rivet-gg/icons` to generate a new icon set with the new icons.
 
 ## Troubleshooting
 
@@ -30,3 +37,6 @@ Some icons used in the open-source Rivet products are part of the premium Font A
 ### Can't start/build project
 The description of these kinds of errors may vary. This package heavily depends on [postinstall scripts](https://yarnpkg.com/advanced/lifecycle-scripts#postinstall) from  Yarn/npm. Make sure you didn't disable them accidentally. Turn on post-installation script support and run `yarn install` or `yarn rebuild @rivet-gg/cions` again. If there is still a problem, please contact us on [Discord](https://rivet.gg/discord").
 
+
+### `Could not find package @fortawesome/pro-solid-svg-icons` when generating manifest
+Make sure you have installed pro icons. If you're getting an error, you can try to install them manually by running `yarn add @fortawesome/pro-solid-svg-icons`, or run `yarn install` in `src` folder. Finally run `./scripts/generateManifest.js` again.

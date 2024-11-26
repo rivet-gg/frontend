@@ -19,7 +19,9 @@ export default function ProjectGenerateCloudTokenDialogContent({
   projectId,
   onClose,
 }: ContentProps) {
-  const { data } = useSuspenseQuery(projectTokenCloudQueryOptions({ projectId }));
+  const { data } = useSuspenseQuery(
+    projectTokenCloudQueryOptions({ projectId }),
+  );
   return (
     <>
       <DialogHeader>
