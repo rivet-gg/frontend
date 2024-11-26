@@ -85,11 +85,13 @@ function RootErrorComponent(props: ErrorComponentProps) {
 function Root() {
   return (
     <Layout.Root>
-      <Layout.Header />
-      <Layout.Main>
-        <Modals />
-        <Outlet />
-      </Layout.Main>
+      <Layout.VisibleInFull>
+        <Layout.Header />
+        <Layout.Main>
+          <Modals />
+          <Outlet />
+        </Layout.Main>
+      </Layout.VisibleInFull>
       <Layout.Footer />
     </Layout.Root>
   );

@@ -1,10 +1,11 @@
 import { CommandPanel } from "@/components/command-panel";
 import { NavItem } from "@/components/header/nav-item";
+import { computePageLayout } from "@/lib/compute-page-layout";
 import { publicUrl } from "@/lib/utils";
 import { cn } from "@rivet-gg/components";
 import { Icon, faDiscord, faGithub, faXTwitter } from "@rivet-gg/icons";
 import { useMatches } from "@tanstack/react-router";
-import type { ReactNode } from "react";
+import type { PropsWithChildren, ReactNode } from "react";
 import { Header as UiHeader } from "../components/header/header";
 
 interface RootProps {
@@ -12,16 +13,7 @@ interface RootProps {
 }
 
 const Root = ({ children }: RootProps) => {
-  const matches = useMatches();
-  return (
-    <div
-      className={cn("flex min-h-screen flex-col", {
-        "h-screen": matches[matches.length - 1].staticData.layout === "full",
-      })}
-    >
-      {children}
-    </div>
-  );
+  return <div className={cn("flex min-h-screen flex-col")}>{children}</div>;
 };
 
 const Main = ({ children }: RootProps) => {
@@ -29,6 +21,21 @@ const Main = ({ children }: RootProps) => {
     <main className="bg-background flex flex-1 flex-col h-full min-h-0">
       {children}
     </main>
+  );
+};
+
+const VisibleInFull = ({ children }: PropsWithChildren) => {
+  const matches = useMatches();
+  const layout = computePageLayout(matches);
+  return (
+    <div
+      className={cn({
+        "min-h-screen grid grid-rows-[auto,1fr]": layout === "full",
+        contents: layout !== "full",
+      })}
+    >
+      {children}
+    </div>
   );
 };
 
@@ -127,4 +134,4 @@ const Footer = () => {
   );
 };
 
-export { Root, Main, Header, Footer };
+export { Root, Main, Header, Footer, VisibleInFull };

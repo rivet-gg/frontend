@@ -8,13 +8,10 @@ interface PageLayoutProps {
 
 const PageLayout = ({ children, layout = "compact" }: PageLayoutProps) => (
   <div
-    className={cn(
-      {
-        container: layout === "compact",
-        "px-8 w-full flex-1 h-full flex min-h-0": layout === "full",
-      },
-      "pt-8",
-    )}
+    className={cn({
+      "p-8 container": layout === "compact",
+      "px-4 w-full h-full py-4": layout === "full",
+    })}
   >
     {children}
   </div>
