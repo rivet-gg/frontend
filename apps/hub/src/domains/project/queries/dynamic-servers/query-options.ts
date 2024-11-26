@@ -1,7 +1,7 @@
 import { mergeWatchStreams } from "@/lib/watch-utilities";
 import { rivetClient } from "@/queries/global";
 import { getMetaWatchIndex } from "@/queries/utils";
-import type { Rivet } from "@rivet-gg/api";
+import { Rivet } from "@rivet-gg/api";
 import {
   type InfiniteData,
   infiniteQueryOptions,
@@ -159,6 +159,27 @@ export const serverLogsQueryOptions = (
     },
   });
 };
+
+export const serverErrorsQueryOptions = ({
+  projectId,
+  environmentId,
+  serverId,
+}: {
+  projectId: string;
+  environmentId: string;
+  serverId: string;
+}) => {
+  return queryOptions({
+    ...serverLogsQueryOptions({
+      projectId,
+      environmentId,
+      serverId,
+      stream: Rivet.servers.LogStream.StdErr,
+    }),
+    select: (data) => data.lines.length > 0,
+  });
+};
+
 export const projectBuildsQueryOptions = ({
   environmentId,
   projectId,

@@ -1,6 +1,7 @@
 import {
   Button,
   ClickToCopy,
+  ErrorPing,
   Flex,
   LogsView,
   Skeleton,
@@ -12,10 +13,14 @@ import {
   Text,
 } from "@rivet-gg/components";
 import { ErrorBoundary } from "@sentry/react";
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
 import { formatISO } from "date-fns";
 import { Suspense } from "react";
-import { serverQueryOptions, useDestroyServerMutation } from "../../queries";
+import {
+  serverErrorsQueryOptions,
+  serverQueryOptions,
+  useDestroyServerMutation,
+} from "../../queries";
 import { ServerDatacenter } from "./server-datacenter";
 import { ServerLogsTab } from "./server-logs-tab";
 import { ServerNetworkTab } from "./server-network-tab";
@@ -36,6 +41,10 @@ export function ServersServerDetails({
 }: ServersServerDetailsProps) {
   const { data } = useSuspenseQuery(
     serverQueryOptions({ projectId, environmentId, serverId }),
+  );
+
+  const { data: hasError } = useQuery(
+    serverErrorsQueryOptions({ projectId, environmentId, serverId }),
   );
 
   const { mutate, isPending: isDestroying } = useDestroyServerMutation();
@@ -138,7 +147,12 @@ export function ServersServerDetails({
         >
           <TabsList className="overflow-auto">
             <TabsTrigger value="output">Output</TabsTrigger>
-            <TabsTrigger value="errors">Error</TabsTrigger>
+            <TabsTrigger value="errors">
+              <span className="relative">
+                Error
+                {hasError ? <ErrorPing /> : null}
+              </span>
+            </TabsTrigger>
             <TabsTrigger value="runtime">Runtime</TabsTrigger>
             <TabsTrigger value="network">Network</TabsTrigger>
           </TabsList>
