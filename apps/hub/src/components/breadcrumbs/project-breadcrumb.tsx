@@ -39,8 +39,21 @@ export function ProjectBreadcrumb({ projectId }: ProjectBreadcrumbProps) {
       <GroupBreadcrumb groupId={data.developerGroupId} />
       <Separator />
       <Element>
+        <Link
+          to="/projects/$projectId"
+          params={{ projectId }}
+          className="flex items-center gap-2"
+        >
+          <ProjectAvatar
+            displayName={data.displayName}
+            logoUrl={data.logoUrl}
+            className={isMobile ? "size-4" : "size-5"}
+          />
+          {data.displayName}
+        </Link>
         {projectsCount > 1 ? (
           <GroupProjectSelect
+            variant="discrete"
             showCreateProject
             onCreateClick={() =>
               navigate({
@@ -55,20 +68,7 @@ export function ProjectBreadcrumb({ projectId }: ProjectBreadcrumbProps) {
             value={projectId}
             onValueChange={handleProjectChange}
           />
-        ) : (
-          <Link
-            to="/projects/$projectId"
-            params={{ projectId }}
-            className="flex items-center gap-2"
-          >
-            <ProjectAvatar
-              displayName={data.displayName}
-              logoUrl={data.logoUrl}
-              className={isMobile ? "size-4" : "size-5"}
-            />
-            {data.displayName}
-          </Link>
-        )}
+        ) : null}
       </Element>
     </>
   );

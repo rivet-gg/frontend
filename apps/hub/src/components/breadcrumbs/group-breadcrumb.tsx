@@ -34,8 +34,21 @@ export function GroupBreadcrumb({ groupId }: GroupBreadcrumbProps) {
 
   return (
     <Element>
+      <Link
+        to="/teams/$groupId"
+        params={{ groupId }}
+        className="flex items-center gap-2"
+      >
+        <GroupAvatar
+          avatarUrl={data.avatarUrl}
+          displayName={data.displayName}
+          className={isMobile ? "size-4" : "size-5"}
+        />
+        {data.displayName}
+      </Link>
       {groupsCount > 1 ? (
         <GroupSelect
+          variant="discrete"
           showCreateGroup
           onCreateClick={() =>
             navigate({ to: ".", search: { modal: "create-group" } })
@@ -43,20 +56,7 @@ export function GroupBreadcrumb({ groupId }: GroupBreadcrumbProps) {
           value={groupId}
           onValueChange={handleGroupChange}
         />
-      ) : (
-        <Link
-          to="/teams/$groupId"
-          params={{ groupId }}
-          className="flex items-center gap-2"
-        >
-          <GroupAvatar
-            avatarUrl={data.avatarUrl}
-            displayName={data.displayName}
-            className={isMobile ? "size-4" : "size-5"}
-          />
-          {data.displayName}
-        </Link>
-      )}
+      ) : null}
     </Element>
   );
 }

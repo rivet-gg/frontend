@@ -16,12 +16,14 @@ import { type ComponentProps, useCallback } from "react";
 interface GroupSelectProps extends ComponentProps<typeof Select> {
   showCreateGroup?: boolean;
   onCreateClick?: () => void;
+  variant?: ComponentProps<typeof SelectTrigger>["variant"];
 }
 
 export function GroupSelect({
   showCreateGroup,
   onCreateClick,
   onValueChange,
+  variant,
   ...props
 }: GroupSelectProps) {
   const { data } = useSuspenseQuery(projectsQueryOptions());
@@ -39,7 +41,7 @@ export function GroupSelect({
 
   return (
     <Select {...props} onValueChange={handleValueChange}>
-      <SelectTrigger>
+      <SelectTrigger variant={variant}>
         <SelectValue placeholder="Select team..." />
       </SelectTrigger>
       <SelectContent>
