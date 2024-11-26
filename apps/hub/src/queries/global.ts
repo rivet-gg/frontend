@@ -40,10 +40,24 @@ declare module "@tanstack/react-query" {
   }
 }
 
+const logout = async () => {
+  await queryClient.cancelQueries();
+  queryClient.clear();
+  ls.remove("rivet-token");
+  window.location.reload();
+};
+
 const queryCache = new QueryCache({
   onSuccess: async (data, query) => {
     if (query.meta?.updateCache) {
       await query.meta.updateCache(data, queryClient);
+    }
+  },
+  onError: (error) => {
+    if (isRivetError(error)) {
+      if (error.statusCode === 403 || error.body.code === "TOKEN_REVOKED") {
+        logout();
+      }
     }
   },
 });
