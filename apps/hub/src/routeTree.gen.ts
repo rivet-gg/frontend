@@ -17,10 +17,11 @@ import { Route as AuthenticatedBillingImport } from './routes/_authenticated/bil
 import { Route as AuthenticatedLayoutImport } from './routes/_authenticated/_layout'
 import { Route as AuthenticatedLayoutIndexImport } from './routes/_authenticated/_layout/index'
 import { Route as AuthenticatedInviteInviteCodeImport } from './routes/_authenticated/invite.$inviteCode'
+import { Route as AuthenticatedDevicesLinkImport } from './routes/_authenticated/devices.link'
 import { Route as AuthenticatedAccessTokenTokenImport } from './routes/_authenticated/access-token.$token'
 import { Route as AuthenticatedLayoutMyProfileImport } from './routes/_authenticated/_layout/my-profile'
 import { Route as AuthenticatedLayoutMyProfileIndexImport } from './routes/_authenticated/_layout/my-profile/index'
-import { Route as AuthenticatedDevicesLinkTokenImport } from './routes/_authenticated/devices.link.$token'
+import { Route as AuthenticatedDevicesLinkTokenImport } from './routes/_authenticated/devices.link_.$token'
 import { Route as AuthenticatedLayoutTeamsGroupIdImport } from './routes/_authenticated/_layout/teams/$groupId'
 import { Route as AuthenticatedLayoutProjectsProjectIdImport } from './routes/_authenticated/_layout/projects/$projectId'
 import { Route as AuthenticatedLayoutMyProfileFeaturesImport } from './routes/_authenticated/_layout/my-profile/features'
@@ -88,6 +89,11 @@ const AuthenticatedInviteInviteCodeRoute =
     path: '/invite/$inviteCode',
     getParentRoute: () => AuthenticatedRoute,
   } as any)
+
+const AuthenticatedDevicesLinkRoute = AuthenticatedDevicesLinkImport.update({
+  path: '/devices/link',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
 
 const AuthenticatedAccessTokenTokenRoute =
   AuthenticatedAccessTokenTokenImport.update({
@@ -412,6 +418,13 @@ declare module '@tanstack/react-router' {
       path: '/access-token/$token'
       fullPath: '/access-token/$token'
       preLoaderRoute: typeof AuthenticatedAccessTokenTokenImport
+      parentRoute: typeof AuthenticatedImport
+    }
+    '/_authenticated/devices/link': {
+      id: '/_authenticated/devices/link'
+      path: '/devices/link'
+      fullPath: '/devices/link'
+      preLoaderRoute: typeof AuthenticatedDevicesLinkImport
       parentRoute: typeof AuthenticatedImport
     }
     '/_authenticated/invite/$inviteCode': {
@@ -915,6 +928,7 @@ interface AuthenticatedRouteChildren {
   AuthenticatedLayoutRoute: typeof AuthenticatedLayoutRouteWithChildren
   AuthenticatedBillingRoute: typeof AuthenticatedBillingRoute
   AuthenticatedAccessTokenTokenRoute: typeof AuthenticatedAccessTokenTokenRoute
+  AuthenticatedDevicesLinkRoute: typeof AuthenticatedDevicesLinkRoute
   AuthenticatedInviteInviteCodeRoute: typeof AuthenticatedInviteInviteCodeRoute
   AuthenticatedDevicesLinkTokenRoute: typeof AuthenticatedDevicesLinkTokenRoute
 }
@@ -923,6 +937,7 @@ const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedLayoutRoute: AuthenticatedLayoutRouteWithChildren,
   AuthenticatedBillingRoute: AuthenticatedBillingRoute,
   AuthenticatedAccessTokenTokenRoute: AuthenticatedAccessTokenTokenRoute,
+  AuthenticatedDevicesLinkRoute: AuthenticatedDevicesLinkRoute,
   AuthenticatedInviteInviteCodeRoute: AuthenticatedInviteInviteCodeRoute,
   AuthenticatedDevicesLinkTokenRoute: AuthenticatedDevicesLinkTokenRoute,
 }
@@ -937,6 +952,7 @@ export interface FileRoutesByFullPath {
   '/billing': typeof AuthenticatedBillingRoute
   '/my-profile': typeof AuthenticatedLayoutMyProfileRouteWithChildren
   '/access-token/$token': typeof AuthenticatedAccessTokenTokenRoute
+  '/devices/link': typeof AuthenticatedDevicesLinkRoute
   '/invite/$inviteCode': typeof AuthenticatedInviteInviteCodeRoute
   '/': typeof AuthenticatedLayoutIndexRoute
   '/games/$': typeof AuthenticatedLayoutGamesSplatRoute
@@ -982,6 +998,7 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/billing': typeof AuthenticatedBillingRoute
   '/access-token/$token': typeof AuthenticatedAccessTokenTokenRoute
+  '/devices/link': typeof AuthenticatedDevicesLinkRoute
   '/invite/$inviteCode': typeof AuthenticatedInviteInviteCodeRoute
   '/': typeof AuthenticatedLayoutIndexRoute
   '/games/$': typeof AuthenticatedLayoutGamesSplatRoute
@@ -1023,6 +1040,7 @@ export interface FileRoutesById {
   '/_authenticated/billing': typeof AuthenticatedBillingRoute
   '/_authenticated/_layout/my-profile': typeof AuthenticatedLayoutMyProfileRouteWithChildren
   '/_authenticated/access-token/$token': typeof AuthenticatedAccessTokenTokenRoute
+  '/_authenticated/devices/link': typeof AuthenticatedDevicesLinkRoute
   '/_authenticated/invite/$inviteCode': typeof AuthenticatedInviteInviteCodeRoute
   '/_authenticated/_layout/': typeof AuthenticatedLayoutIndexRoute
   '/_authenticated/_layout/games/$': typeof AuthenticatedLayoutGamesSplatRoute
@@ -1071,6 +1089,7 @@ export interface FileRouteTypes {
     | '/billing'
     | '/my-profile'
     | '/access-token/$token'
+    | '/devices/link'
     | '/invite/$inviteCode'
     | '/'
     | '/games/$'
@@ -1115,6 +1134,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/billing'
     | '/access-token/$token'
+    | '/devices/link'
     | '/invite/$inviteCode'
     | '/'
     | '/games/$'
@@ -1154,6 +1174,7 @@ export interface FileRouteTypes {
     | '/_authenticated/billing'
     | '/_authenticated/_layout/my-profile'
     | '/_authenticated/access-token/$token'
+    | '/_authenticated/devices/link'
     | '/_authenticated/invite/$inviteCode'
     | '/_authenticated/_layout/'
     | '/_authenticated/_layout/games/$'
@@ -1227,6 +1248,7 @@ export const routeTree = rootRoute
         "/_authenticated/_layout",
         "/_authenticated/billing",
         "/_authenticated/access-token/$token",
+        "/_authenticated/devices/link",
         "/_authenticated/invite/$inviteCode",
         "/_authenticated/devices/link/$token"
       ]
@@ -1259,6 +1281,10 @@ export const routeTree = rootRoute
     },
     "/_authenticated/access-token/$token": {
       "filePath": "_authenticated/access-token.$token.tsx",
+      "parent": "/_authenticated"
+    },
+    "/_authenticated/devices/link": {
+      "filePath": "_authenticated/devices.link.tsx",
       "parent": "/_authenticated"
     },
     "/_authenticated/invite/$inviteCode": {
@@ -1300,7 +1326,7 @@ export const routeTree = rootRoute
       ]
     },
     "/_authenticated/devices/link/$token": {
-      "filePath": "_authenticated/devices.link.$token.tsx",
+      "filePath": "_authenticated/devices.link_.$token.tsx",
       "parent": "/_authenticated"
     },
     "/_authenticated/_layout/my-profile/": {
