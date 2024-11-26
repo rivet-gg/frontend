@@ -88,6 +88,7 @@ function ProjectServersRoute() {
 
 const searchSchema = z.object({
   serverId: z.string().optional(),
+  tab: z.string().optional(),
 });
 
 export const Route = createFileRoute(

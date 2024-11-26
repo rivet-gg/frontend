@@ -10,7 +10,10 @@ import { useSuspenseInfiniteQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import { projectServersQueryOptions } from "../../queries";
 import { ServerDatacenter } from "./server-datacenter";
-import { ServerStatusIndicator } from "./server-status-indicator";
+import {
+  ServerStatusIndicator,
+  getServerStatus,
+} from "./server-status-indicator";
 import { ServerTags } from "./server-tags";
 
 interface ServersListPanelProps {
@@ -92,7 +95,10 @@ function ServerRow({
     >
       <Link
         to="."
-        search={{ serverId: server.id }}
+        search={{
+          serverId: server.id,
+          tab: getServerStatus(server) === "crashed" ? "error" : "output",
+        }}
         className="min-w-0 flex-wrap gap-2"
       >
         <div className="w-full flex justify-center">

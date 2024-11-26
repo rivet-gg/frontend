@@ -1,6 +1,30 @@
 import type { Rivet } from "@rivet-gg/api";
 import { cn } from "@rivet-gg/components";
 
+export function getServerStatus(
+  server: Pick<Rivet.servers.Server, "createdAt" | "startedAt" | "destroyedAt">,
+) {
+  const { createdAt, startedAt, destroyedAt } = server;
+
+  if (createdAt && !startedAt && !destroyedAt) {
+    return "starting";
+  }
+
+  if (createdAt && startedAt && !destroyedAt) {
+    return "running";
+  }
+
+  if (createdAt && startedAt && destroyedAt) {
+    return "stopped";
+  }
+
+  if (createdAt && !startedAt && destroyedAt) {
+    return "crashed";
+  }
+
+  return "unknown";
+}
+
 interface ServerStatusIndicatorProps extends Rivet.servers.Server {}
 
 export const ServerStatusIndicator = ({
@@ -8,18 +32,15 @@ export const ServerStatusIndicator = ({
   startedAt,
   destroyedAt,
 }: ServerStatusIndicatorProps) => {
-  const isStarting = createdAt && !startedAt && !destroyedAt;
-  const isRunning = createdAt && startedAt && !destroyedAt;
-  const isStopped = createdAt && startedAt && destroyedAt;
-  const isCrashed = createdAt && !startedAt && destroyedAt;
+  const status = getServerStatus({ createdAt, startedAt, destroyedAt });
 
   return (
     <div
       className={cn("size-3 rounded-full", {
-        "bg-green-600": isRunning,
-        "bg-blue-600 animate-pulse": isStarting,
-        "bg-destructive": isCrashed,
-        "bg-foreground/10": isStopped,
+        "bg-green-600": status === "running",
+        "bg-blue-600 animate-pulse": status === "starting",
+        "bg-destructive": status === "crashed",
+        "bg-foreground/10": status === "stopped",
       })}
     />
   );

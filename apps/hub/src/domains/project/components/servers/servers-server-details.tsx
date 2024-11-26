@@ -14,6 +14,7 @@ import {
 } from "@rivet-gg/components";
 import { ErrorBoundary } from "@sentry/react";
 import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
+import { useNavigate, useSearch } from "@tanstack/react-router";
 import { formatISO } from "date-fns";
 import { Suspense } from "react";
 import {
@@ -46,6 +47,12 @@ export function ServersServerDetails({
   const { data: hasError } = useQuery(
     serverErrorsQueryOptions({ projectId, environmentId, serverId }),
   );
+
+  const currentTab = useSearch({
+    from: "/_authenticated/_layout/projects/$projectId/environments/$environmentId/servers",
+    select: (state) => state.tab,
+  });
+  const navigate = useNavigate();
 
   const { mutate, isPending: isDestroying } = useDestroyServerMutation();
 
@@ -142,12 +149,22 @@ export function ServersServerDetails({
         </Flex>
 
         <Tabs
+          value={currentTab}
+          onValueChange={(tab) => {
+            navigate({
+              to: ".",
+              search: (old) => ({
+                ...old,
+                tab,
+              }),
+            });
+          }}
           defaultValue="output"
           className="flex-1 min-h-0 flex flex-col mt-4"
         >
           <TabsList className="overflow-auto">
             <TabsTrigger value="output">Output</TabsTrigger>
-            <TabsTrigger value="errors">
+            <TabsTrigger value="error">
               <span className="relative">
                 Error
                 {hasError ? <ErrorPing /> : null}
@@ -177,7 +194,7 @@ export function ServersServerDetails({
               </Suspense>
             </ErrorBoundary>
           </TabsContent>
-          <TabsContent value="errors" className="min-h-0 flex-1 mt-0 p-4">
+          <TabsContent value="error" className="min-h-0 flex-1 mt-0 p-4">
             <ErrorBoundary
               fallback={
                 <Flex items="center" justify="center" className="h-full">
