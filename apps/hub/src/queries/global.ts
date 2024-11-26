@@ -27,11 +27,26 @@ declare module "@tanstack/react-query" {
        * If true, the query will be watched for a response
        */
       watch?: true | ((oldData: unknown, streamChunk: unknown) => unknown);
+
+      /**
+       * Runs when the query is updated
+       */
+      updateCache?: (
+        // biome-ignore lint/suspicious/noExplicitAny: we don't know the shape of the data, it's up to the user to define it
+        data: any,
+        queryClient: QueryClient,
+      ) => Promise<void> | void;
     };
   }
 }
 
-const queryCache = new QueryCache();
+const queryCache = new QueryCache({
+  onSuccess: async (data, query) => {
+    if (query.meta?.updateCache) {
+      await query.meta.updateCache(data, queryClient);
+    }
+  },
+});
 
 const mutationCache = new MutationCache({
   onError(error, variables, context, mutation) {
