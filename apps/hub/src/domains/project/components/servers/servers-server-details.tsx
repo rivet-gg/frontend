@@ -143,26 +143,46 @@ export function ServersServerDetails({
             <TabsTrigger value="network">Network</TabsTrigger>
           </TabsList>
           <TabsContent value="output" className="min-h-0 flex-1 mt-0 p-4">
-            <Suspense fallback={<ServerLogsTab.Skeleton />}>
-              <ServerLogsTab
-                createdAt={data.createdAt}
-                projectId={projectId}
-                environmentId={environmentId}
-                serverId={serverId}
-                logType="std_out"
-              />
-            </Suspense>
+            <ErrorBoundary
+              fallback={
+                <Flex items="center" justify="center" className="h-full">
+                  <Text textAlign="center">
+                    An error occurred while fetching server's logs.
+                  </Text>
+                </Flex>
+              }
+            >
+              <Suspense fallback={<ServerLogsTab.Skeleton />}>
+                <ServerLogsTab
+                  createdAt={data.createdAt}
+                  projectId={projectId}
+                  environmentId={environmentId}
+                  serverId={serverId}
+                  logType="std_out"
+                />
+              </Suspense>
+            </ErrorBoundary>
           </TabsContent>
           <TabsContent value="errors" className="min-h-0 flex-1 mt-0 p-4">
-            <Suspense fallback={<ServerLogsTab.Skeleton />}>
-              <ServerLogsTab
-                createdAt={data.createdAt}
-                projectId={projectId}
-                environmentId={environmentId}
-                serverId={serverId}
-                logType="std_err"
-              />
-            </Suspense>
+            <ErrorBoundary
+              fallback={
+                <Flex items="center" justify="center" className="h-full">
+                  <Text textAlign="center">
+                    An error occurred while fetching server's logs.
+                  </Text>
+                </Flex>
+              }
+            >
+              <Suspense fallback={<ServerLogsTab.Skeleton />}>
+                <ServerLogsTab
+                  createdAt={data.createdAt}
+                  projectId={projectId}
+                  environmentId={environmentId}
+                  serverId={serverId}
+                  logType="std_err"
+                />
+              </Suspense>
+            </ErrorBoundary>
           </TabsContent>
           <TabsContent value="runtime" className="min-h-0 flex-1 mt-0">
             <ServerRuntimeTab
