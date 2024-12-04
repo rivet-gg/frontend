@@ -2,6 +2,7 @@ import { faBars } from "@rivet-gg/icons";
 import { Icon } from "@rivet-gg/icons";
 import type { ReactNode } from "react";
 import { AssetImage } from "../asset-image";
+import { cn } from "../lib/utils";
 import { Button } from "../ui/button";
 import { Flex } from "../ui/flex";
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
@@ -9,6 +10,7 @@ import { HeaderProgress } from "./header-progress";
 import { NavItem } from "./nav-item";
 
 interface HeaderProps {
+  className?: string;
   mobileBreadcrumbs?: ReactNode;
   breadcrumbs?: ReactNode;
   subnav?: ReactNode;
@@ -20,6 +22,7 @@ interface HeaderProps {
 }
 
 export function Header({
+  className,
   breadcrumbs,
   subnav,
   mobileBreadcrumbs,
@@ -43,7 +46,12 @@ export function Header({
   ),
 }: HeaderProps) {
   return (
-    <header className="bg-background/60 border-b-border sticky top-0 z-10 flex flex-col items-center border-b py-2 backdrop-blur">
+    <header
+      className={cn(
+        "bg-background/60 border-b-border sticky top-0 z-10 flex flex-col items-center border-b py-2 backdrop-blur",
+        className,
+      )}
+    >
       {addons}
       <div className="w-full px-8 flex min-h-10 flex-col justify-center gap-4">
         <div className="flex w-full items-center gap-4">
