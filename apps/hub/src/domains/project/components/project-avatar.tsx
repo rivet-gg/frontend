@@ -5,6 +5,7 @@ import {
   AvatarImage,
   type AvatarProps,
 } from "@rivet-gg/components";
+import { Icon, faProject } from "@rivet-gg/icons";
 
 interface ProjectAvatarProps
   extends Pick<Rivet.game.Summary, "logoUrl" | "displayName">,
@@ -18,7 +19,9 @@ export function ProjectAvatar({
   return (
     <Avatar {...props}>
       <AvatarImage src={logoUrl} />
-      <AvatarFallback>{displayName[0]}</AvatarFallback>
+      <AvatarFallback>
+        <Icon icon={faProject} className="!size-full !m-0" />
+      </AvatarFallback>
     </Avatar>
   );
 }

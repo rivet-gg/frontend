@@ -8,6 +8,7 @@ module.exports = {
     "./src/**/hooks/**/*.{ts,tsx}",
     "./src/**/forms/**/*.{ts,tsx}",
     "./src/**/layouts/**/*.{ts,tsx}",
+    "./src/**/views/**/*.{ts,tsx}",
     "../../node_modules/@rivet-gg/components/**/*.{ts,tsx}",
   ],
   presets: [require("@rivet-gg/components/tailwind-base")],
