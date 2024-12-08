@@ -218,6 +218,41 @@ export const projectBuildsQueryOptions = ({
   });
 };
 
+export const projectBuildQueryOptions = ({
+  projectId,
+  environmentId,
+  buildId,
+}: {
+  projectId: string;
+  environmentId: string;
+  buildId: string;
+}) => {
+  return queryOptions({
+    queryKey: [
+      "project",
+      projectId,
+      "environment",
+      environmentId,
+      "build",
+      buildId,
+    ],
+    queryFn: ({
+      signal: abortSignal,
+      queryKey: [_, projectId, __, environmentId, ___, buildId],
+    }) =>
+      rivetClient.servers.builds.getBuild(
+        projectId,
+        environmentId,
+        buildId,
+        {},
+        {
+          abortSignal,
+        },
+      ),
+    select: (data) => data.build,
+  });
+};
+
 export const buildQueryOptions = ({
   projectId,
   environmentId,

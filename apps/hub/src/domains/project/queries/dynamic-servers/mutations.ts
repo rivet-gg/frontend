@@ -2,6 +2,8 @@ import { queryClient, rivetClient } from "@/queries/global";
 import type { Rivet } from "@rivet-gg/api";
 import { useMutation } from "@tanstack/react-query";
 import {
+  projectBuildQueryOptions,
+  projectBuildsQueryOptions,
   projectServersQueryOptions,
   serverQueryOptions,
 } from "./query-options";
@@ -68,6 +70,40 @@ export function useCreateDynamicServerMutation({
       await queryClient.invalidateQueries(
         projectServersQueryOptions({ projectId, environmentId }),
       );
+      onSuccess?.();
+    },
+  });
+}
+
+export function useUpdateBuildTagsMutation({
+  onSuccess,
+}: { onSuccess?: () => void } = {}) {
+  return useMutation({
+    mutationFn: ({
+      projectId,
+      environmentId,
+      buildId,
+      ...request
+    }: {
+      projectId: string;
+      environmentId: string;
+      buildId: string;
+    } & Rivet.servers.PatchBuildTagsRequest) =>
+      rivetClient.servers.builds.patchTags(
+        projectId,
+        environmentId,
+        buildId,
+        request,
+      ),
+    onSuccess: async (_, { projectId, environmentId, buildId }) => {
+      await Promise.allSettled([
+        queryClient.invalidateQueries(
+          projectBuildsQueryOptions({ projectId, environmentId }),
+        ),
+        queryClient.invalidateQueries(
+          projectBuildQueryOptions({ buildId, projectId, environmentId }),
+        ),
+      ]);
       onSuccess?.();
     },
   });

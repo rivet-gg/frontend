@@ -19,14 +19,15 @@ import { z } from "zod";
 function Modals() {
   const navigate = Route.useNavigate();
   const { projectId, environmentId } = Route.useParams();
-  const { modal } = Route.useSearch();
+  const { modal, buildId } = Route.useSearch();
 
   const ConfirmOuterbaseConnectionDialog =
     useDialog.ConfirmOuterbaseConnection.Dialog;
 
   const CreateDynamicServerDialog = useDialog.CreateDynamicServer.Dialog;
+  const EditBuildTagsDialog = useDialog.EditBuildTags.Dialog;
 
-  const handleonOpenChange = (value: boolean) => {
+  const handleOpenChange = (value: boolean) => {
     if (!value) {
       navigate({ search: { modal: undefined } });
     }
@@ -39,7 +40,7 @@ function Modals() {
         projectId={projectId}
         dialogProps={{
           open: modal === "database",
-          onOpenChange: handleonOpenChange,
+          onOpenChange: handleOpenChange,
         }}
       />
       <CreateDynamicServerDialog
@@ -47,7 +48,17 @@ function Modals() {
         projectId={projectId}
         dialogProps={{
           open: modal === "create-server",
-          onOpenChange: handleonOpenChange,
+          onOpenChange: handleOpenChange,
+        }}
+      />
+      <EditBuildTagsDialog
+        // biome-ignore lint/style/noNonNullAssertion: at this point we know buildId is defined
+        buildId={buildId!}
+        environmentId={environmentId}
+        projectId={projectId}
+        dialogProps={{
+          open: modal === "edit-tags",
+          onOpenChange: handleOpenChange,
         }}
       />
     </>
@@ -68,10 +79,11 @@ function environmentIdRoute() {
 }
 const searchSchema = z.object({
   modal: z
-    .enum(["database", "create-server"])
+    .enum(["database", "create-server", "edit-tags"])
     .or(z.string())
     .optional()
     .catch(undefined),
+  buildId: z.string().optional().catch(undefined),
 });
 export const Route = createFileRoute(
   "/_authenticated/_layout/projects/$projectId/environments/$environmentId",
