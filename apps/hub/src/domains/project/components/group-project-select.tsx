@@ -1,6 +1,5 @@
 import { groupProjectsQueryOptions } from "@/domains/project/queries";
 import {
-  AssetImage,
   Flex,
   Select,
   SelectContent,
@@ -12,6 +11,7 @@ import {
 import { Icon, faCirclePlus } from "@rivet-gg/icons";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { type ComponentProps, useCallback } from "react";
+import { ProjectAvatar } from "./project-avatar";
 
 interface GroupProjectSelectProps extends ComponentProps<typeof Select> {
   groupId: string;
@@ -61,11 +61,7 @@ export function GroupProjectSelect({
         {data.projects.map((project) => (
           <SelectItem key={project.gameId} value={project.gameId}>
             <Flex gap="2" items="center">
-              <AssetImage
-                src={project.logoUrl || "/games/blank/blankgame.svg"}
-                className="mx-auto size-5 object-contain"
-                alt="Project logo"
-              />
+              <ProjectAvatar {...project} className="size-4" />
               {project.displayName}
             </Flex>
           </SelectItem>

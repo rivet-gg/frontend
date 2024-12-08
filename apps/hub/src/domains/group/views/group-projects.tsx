@@ -1,8 +1,8 @@
 import { BillingPlanBadge } from "@/domains/project/components/billing/billing-plan-badge";
+import { ProjectAvatar } from "@/domains/project/components/project-avatar";
 import { ProjectTableActions } from "@/domains/project/components/project-table-actions";
 import { groupProjectsQueryOptions } from "@/domains/project/queries";
 import {
-  AssetImage,
   Button,
   Card,
   CardContent,
@@ -60,30 +60,25 @@ export function GroupProjects({ groupId }: GroupProjectsProps) {
                   </TableCell>
                 </TableRow>
               ) : null}
-              {data.projects.map((game) => (
+              {data.projects.map((project) => (
                 <TableRow
-                  key={game.gameId}
+                  key={project.gameId}
                   isClickable
                   onClick={() => {
                     navigate({
                       to: "/projects/$projectId",
-                      params: { projectId: game.gameId },
+                      params: { projectId: project.gameId },
                     });
                   }}
                 >
-                  <TableCell w="16">
-                    <AssetImage
-                      src={game.logoUrl || "/games/blank/blankgame.svg"}
-                      alt={`${game.displayName} logo`}
-                      width={64}
-                      height={64}
-                    />
+                  <TableCell className="w-10">
+                    <ProjectAvatar {...project} />
                   </TableCell>
                   <TableCell>
                     <Text asChild>
                       <Flex items="center" gap="2">
-                        {game.displayName}{" "}
-                        <BillingPlanBadge projectId={game.gameId} />
+                        {project.displayName}{" "}
+                        <BillingPlanBadge projectId={project.gameId} />
                       </Flex>
                     </Text>
                   </TableCell>
