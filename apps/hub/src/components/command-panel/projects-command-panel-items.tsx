@@ -1,4 +1,3 @@
-import { ProjectAvatar } from "@/domains/project/components/project-avatar";
 import type { Rivet } from "@rivet-gg/api";
 import { CommandItem } from "@rivet-gg/components";
 import { useCommandPanelNavigation } from "./command-panel-navigation-provider";
@@ -26,11 +25,6 @@ export function ProjectsCommandPanelItems({
             });
           }}
         >
-          <ProjectAvatar
-            className="mr-2 size-4"
-            displayName={project.displayName}
-            logoUrl={project.logoUrl}
-          />
           {project.displayName}
         </CommandItem>
       ))}

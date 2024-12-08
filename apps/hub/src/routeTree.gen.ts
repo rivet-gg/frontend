@@ -36,7 +36,6 @@ import { Route as AuthenticatedLayoutProjectsProjectIdSettingsImport } from './r
 import { Route as AuthenticatedLayoutProjectsProjectIdBillingImport } from './routes/_authenticated/_layout/projects/$projectId/billing'
 import { Route as AuthenticatedLayoutTeamsGroupIdSettingsIndexImport } from './routes/_authenticated/_layout/teams/$groupId/settings/index'
 import { Route as AuthenticatedLayoutProjectsProjectIdSettingsIndexImport } from './routes/_authenticated/_layout/projects/$projectId/settings/index'
-import { Route as AuthenticatedLayoutProjectsProjectIdSettingsTokensImport } from './routes/_authenticated/_layout/projects/$projectId/settings/tokens'
 import { Route as AuthenticatedLayoutProjectsProjectIdNamespacesSplatImport } from './routes/_authenticated/_layout/projects/$projectId/namespaces/$'
 import { Route as AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdImport } from './routes/_authenticated/_layout/projects/$projectId/environments/$environmentId'
 import { Route as AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdIndexImport } from './routes/_authenticated/_layout/projects/$projectId/environments/$environmentId/index'
@@ -200,12 +199,6 @@ const AuthenticatedLayoutTeamsGroupIdSettingsIndexRoute =
 const AuthenticatedLayoutProjectsProjectIdSettingsIndexRoute =
   AuthenticatedLayoutProjectsProjectIdSettingsIndexImport.update({
     path: '/',
-    getParentRoute: () => AuthenticatedLayoutProjectsProjectIdSettingsRoute,
-  } as any)
-
-const AuthenticatedLayoutProjectsProjectIdSettingsTokensRoute =
-  AuthenticatedLayoutProjectsProjectIdSettingsTokensImport.update({
-    path: '/tokens',
     getParentRoute: () => AuthenticatedLayoutProjectsProjectIdSettingsRoute,
   } as any)
 
@@ -553,13 +546,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedLayoutProjectsProjectIdNamespacesSplatImport
       parentRoute: typeof AuthenticatedLayoutProjectsProjectIdImport
     }
-    '/_authenticated/_layout/projects/$projectId/settings/tokens': {
-      id: '/_authenticated/_layout/projects/$projectId/settings/tokens'
-      path: '/tokens'
-      fullPath: '/projects/$projectId/settings/tokens'
-      preLoaderRoute: typeof AuthenticatedLayoutProjectsProjectIdSettingsTokensImport
-      parentRoute: typeof AuthenticatedLayoutProjectsProjectIdSettingsImport
-    }
     '/_authenticated/_layout/projects/$projectId/settings/': {
       id: '/_authenticated/_layout/projects/$projectId/settings/'
       path: '/'
@@ -717,14 +703,11 @@ const AuthenticatedLayoutMyProfileRouteWithChildren =
   )
 
 interface AuthenticatedLayoutProjectsProjectIdSettingsRouteChildren {
-  AuthenticatedLayoutProjectsProjectIdSettingsTokensRoute: typeof AuthenticatedLayoutProjectsProjectIdSettingsTokensRoute
   AuthenticatedLayoutProjectsProjectIdSettingsIndexRoute: typeof AuthenticatedLayoutProjectsProjectIdSettingsIndexRoute
 }
 
 const AuthenticatedLayoutProjectsProjectIdSettingsRouteChildren: AuthenticatedLayoutProjectsProjectIdSettingsRouteChildren =
   {
-    AuthenticatedLayoutProjectsProjectIdSettingsTokensRoute:
-      AuthenticatedLayoutProjectsProjectIdSettingsTokensRoute,
     AuthenticatedLayoutProjectsProjectIdSettingsIndexRoute:
       AuthenticatedLayoutProjectsProjectIdSettingsIndexRoute,
   }
@@ -971,7 +954,6 @@ export interface FileRoutesByFullPath {
   '/teams/$groupId/': typeof AuthenticatedLayoutTeamsGroupIdIndexRoute
   '/projects/$projectId/environments/$environmentId': typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdRouteWithChildren
   '/projects/$projectId/namespaces/$': typeof AuthenticatedLayoutProjectsProjectIdNamespacesSplatRoute
-  '/projects/$projectId/settings/tokens': typeof AuthenticatedLayoutProjectsProjectIdSettingsTokensRoute
   '/projects/$projectId/settings/': typeof AuthenticatedLayoutProjectsProjectIdSettingsIndexRoute
   '/teams/$groupId/settings/': typeof AuthenticatedLayoutTeamsGroupIdSettingsIndexRoute
   '/projects/$projectId/environments/$environmentId/backend': typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdBackendRouteWithChildren
@@ -1012,7 +994,6 @@ export interface FileRoutesByTo {
   '/projects/$projectId': typeof AuthenticatedLayoutProjectsProjectIdIndexRoute
   '/teams/$groupId': typeof AuthenticatedLayoutTeamsGroupIdIndexRoute
   '/projects/$projectId/namespaces/$': typeof AuthenticatedLayoutProjectsProjectIdNamespacesSplatRoute
-  '/projects/$projectId/settings/tokens': typeof AuthenticatedLayoutProjectsProjectIdSettingsTokensRoute
   '/projects/$projectId/settings': typeof AuthenticatedLayoutProjectsProjectIdSettingsIndexRoute
   '/teams/$groupId/settings': typeof AuthenticatedLayoutTeamsGroupIdSettingsIndexRoute
   '/projects/$projectId/environments/$environmentId/builds': typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdBuildsRoute
@@ -1059,7 +1040,6 @@ export interface FileRoutesById {
   '/_authenticated/_layout/teams/$groupId/': typeof AuthenticatedLayoutTeamsGroupIdIndexRoute
   '/_authenticated/_layout/projects/$projectId/environments/$environmentId': typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdRouteWithChildren
   '/_authenticated/_layout/projects/$projectId/namespaces/$': typeof AuthenticatedLayoutProjectsProjectIdNamespacesSplatRoute
-  '/_authenticated/_layout/projects/$projectId/settings/tokens': typeof AuthenticatedLayoutProjectsProjectIdSettingsTokensRoute
   '/_authenticated/_layout/projects/$projectId/settings/': typeof AuthenticatedLayoutProjectsProjectIdSettingsIndexRoute
   '/_authenticated/_layout/teams/$groupId/settings/': typeof AuthenticatedLayoutTeamsGroupIdSettingsIndexRoute
   '/_authenticated/_layout/projects/$projectId/environments/$environmentId/backend': typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdBackendRouteWithChildren
@@ -1108,7 +1088,6 @@ export interface FileRouteTypes {
     | '/teams/$groupId/'
     | '/projects/$projectId/environments/$environmentId'
     | '/projects/$projectId/namespaces/$'
-    | '/projects/$projectId/settings/tokens'
     | '/projects/$projectId/settings/'
     | '/teams/$groupId/settings/'
     | '/projects/$projectId/environments/$environmentId/backend'
@@ -1148,7 +1127,6 @@ export interface FileRouteTypes {
     | '/projects/$projectId'
     | '/teams/$groupId'
     | '/projects/$projectId/namespaces/$'
-    | '/projects/$projectId/settings/tokens'
     | '/projects/$projectId/settings'
     | '/teams/$groupId/settings'
     | '/projects/$projectId/environments/$environmentId/builds'
@@ -1193,7 +1171,6 @@ export interface FileRouteTypes {
     | '/_authenticated/_layout/teams/$groupId/'
     | '/_authenticated/_layout/projects/$projectId/environments/$environmentId'
     | '/_authenticated/_layout/projects/$projectId/namespaces/$'
-    | '/_authenticated/_layout/projects/$projectId/settings/tokens'
     | '/_authenticated/_layout/projects/$projectId/settings/'
     | '/_authenticated/_layout/teams/$groupId/settings/'
     | '/_authenticated/_layout/projects/$projectId/environments/$environmentId/backend'
@@ -1341,7 +1318,6 @@ export const routeTree = rootRoute
       "filePath": "_authenticated/_layout/projects/$projectId/settings.tsx",
       "parent": "/_authenticated/_layout/projects/$projectId",
       "children": [
-        "/_authenticated/_layout/projects/$projectId/settings/tokens",
         "/_authenticated/_layout/projects/$projectId/settings/"
       ]
     },
@@ -1391,10 +1367,6 @@ export const routeTree = rootRoute
     "/_authenticated/_layout/projects/$projectId/namespaces/$": {
       "filePath": "_authenticated/_layout/projects/$projectId/namespaces/$.tsx",
       "parent": "/_authenticated/_layout/projects/$projectId"
-    },
-    "/_authenticated/_layout/projects/$projectId/settings/tokens": {
-      "filePath": "_authenticated/_layout/projects/$projectId/settings/tokens.tsx",
-      "parent": "/_authenticated/_layout/projects/$projectId/settings"
     },
     "/_authenticated/_layout/projects/$projectId/settings/": {
       "filePath": "_authenticated/_layout/projects/$projectId/settings/index.tsx",
