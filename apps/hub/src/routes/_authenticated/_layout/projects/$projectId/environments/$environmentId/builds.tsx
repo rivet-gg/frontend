@@ -1,3 +1,4 @@
+import { ProjectBuildsTableActions } from "@/domains/project/components/project-builds-table-actions";
 import { ServerTags } from "@/domains/project/components/servers/server-tags";
 import * as Layout from "@/domains/project/layouts/servers-layout";
 import {
@@ -77,6 +78,7 @@ function ProjectBuildsRoute() {
                   }
                 />
               </TableHead>
+              <TableHead />
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -107,6 +109,9 @@ function ProjectBuildsRoute() {
                     environmentId={environmentId}
                     {...build}
                   />
+                </TableCell>
+                <TableCell>
+                  <ProjectBuildsTableActions buildId={build.id} />
                 </TableCell>
               </TableRow>
             ))}
