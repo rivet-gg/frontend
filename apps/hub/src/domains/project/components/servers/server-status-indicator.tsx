@@ -19,7 +19,7 @@ export const ServerStatusIndicator = ({
         "bg-green-600": isRunning,
         "bg-blue-600 animate-pulse": isStarting,
         "bg-destructive": isCrashed,
-        "bg-border": isStopped,
+        "bg-foreground/10": isStopped,
       })}
     />
   );
