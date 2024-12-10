@@ -5,7 +5,7 @@ export const Route = createFileRoute(
 )({
   loader: ({ params }) => {
     throw redirect({
-      to: "/projects/$projectId/settings/tokens",
+      to: "/projects/$projectId/settings",
       params,
     });
   },

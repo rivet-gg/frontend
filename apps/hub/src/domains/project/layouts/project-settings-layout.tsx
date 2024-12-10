@@ -18,13 +18,6 @@ function GroupSettingsPage({ children, projectId }: GroupPageProps) {
             params={{ projectId }}
             className="aria-current-page:text-foreground aria-current-page:font-semibold"
           >
-            General
-          </Link>
-          <Link
-            to="/projects/$projectId/settings/tokens"
-            params={{ projectId }}
-            className="aria-current-page:text-foreground aria-current-page:font-semibold"
-          >
             Tokens
           </Link>
         </SidebarNavigation>

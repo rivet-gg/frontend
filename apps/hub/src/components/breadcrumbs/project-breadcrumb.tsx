@@ -1,5 +1,4 @@
 import { GroupProjectSelect } from "@/domains/project/components/group-project-select";
-import { ProjectAvatar } from "@/domains/project/components/project-avatar";
 import {
   projectQueryOptions,
   projectsCountQueryOptions,
@@ -44,11 +43,6 @@ export function ProjectBreadcrumb({ projectId }: ProjectBreadcrumbProps) {
           params={{ projectId }}
           className="flex items-center gap-2"
         >
-          <ProjectAvatar
-            displayName={data.displayName}
-            logoUrl={data.logoUrl}
-            className={isMobile ? "size-4" : "size-5"}
-          />
           {data.displayName}
         </Link>
         {projectsCount > 1 ? (

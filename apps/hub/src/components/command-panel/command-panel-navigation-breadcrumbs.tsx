@@ -1,5 +1,4 @@
 import { GroupAvatar } from "@/domains/group/components/group-avatar";
-import { ProjectAvatar } from "@/domains/project/components/project-avatar";
 import {
   groupProjectsQueryOptions,
   projectEnvironmentDisplayNameQueryOptions,
@@ -27,16 +26,7 @@ function GroupBreadcrumbs({ groupId }: { groupId: string }) {
 
 function ProjectBreadcrumb({ projectId }: { projectId: string }) {
   const { data: project } = useSuspenseQuery(projectQueryOptions(projectId));
-  return (
-    <>
-      <ProjectAvatar
-        className="mr-2 size-4"
-        displayName={project.displayName}
-        logoUrl={project.logoUrl}
-      />
-      {project.displayName}
-    </>
-  );
+  return <>{project.displayName}</>;
 }
 
 function EnvironmentBreadcrumb({
