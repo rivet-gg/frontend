@@ -17,8 +17,11 @@ import {
   Text,
 } from "@rivet-gg/components";
 import { Link, createFileRoute, notFound } from "@tanstack/react-router";
+import { zodSearchValidator } from "@tanstack/router-zod-adapter";
+import { z } from "zod";
+
 function DeviceLinkTokenRoute() {
-  const { token } = Route.useParams();
+  const { token } = Route.useSearch();
 
   const { mutateAsync, isSuccess } = useCompleteDeviceLinkMutation();
 
@@ -80,9 +83,14 @@ function DeviceLinkTokenRoute() {
   );
 }
 
-export const Route = createFileRoute("/_authenticated/devices/link/$token")({
+export const searchSchema = z.object({
+  token: z.string(),
+});
+
+export const Route = createFileRoute("/_authenticated/devices/link")({
+  validateSearch: zodSearchValidator(searchSchema),
   component: DeviceLinkTokenRoute,
-  loader: async ({ params: { token } }) => {
+  beforeLoad: async ({ search: { token } }) => {
     try {
       const response = await queryClient.fetchQuery(
         deviceLinkTokenQueryOptions(token),
