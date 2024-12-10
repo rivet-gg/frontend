@@ -1,19 +1,39 @@
-import { ProjectLogoSettingsCard } from "@/domains/project/components/project-logo-settings-card";
-import { Flex } from "@rivet-gg/components";
-import { createFileRoute } from "@tanstack/react-router";
+import { Button, DocsCard, Grid, Text } from "@rivet-gg/components";
+import { Link, createFileRoute } from "@tanstack/react-router";
 
-function ProjectIdSettingsView() {
-  const { projectId } = Route.useParams();
+function CloudTokenCard() {
   return (
-    <Flex gap="4" direction="col">
-      {/* <ProjectDynamicServersFeatureCard /> */}
-      <ProjectLogoSettingsCard projectId={projectId} />
-    </Flex>
+    <>
+      <DocsCard
+        title="Cloud token"
+        href="https://rivet.gg/docs/general/concepts/token-types#cloud"
+        footer={
+          <Button asChild>
+            <Link to="." search={{ modal: "cloud-token" }}>
+              Generate
+            </Link>
+          </Button>
+        }
+      >
+        <Text>
+          Cloud tokens are used to access Rivet Cloud. They are used by the
+          client to access Rivet Cloud.
+        </Text>
+      </DocsCard>
+    </>
+  );
+}
+
+function ProjectTokensRoute() {
+  return (
+    <Grid columns={{ initial: "1", md: "2" }} gap="4" items="start">
+      <CloudTokenCard />
+    </Grid>
   );
 }
 
 export const Route = createFileRoute(
   "/_authenticated/_layout/projects/$projectId/settings/",
 )({
-  component: ProjectIdSettingsView,
+  component: ProjectTokensRoute,
 });

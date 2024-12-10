@@ -1,7 +1,6 @@
 import { GroupAvatar } from "@/domains/group/components/group-avatar";
 import { projectsQueryOptions } from "@/domains/project/queries";
 import {
-  AssetImage,
   Flex,
   Select,
   SelectContent,
@@ -72,14 +71,7 @@ export function ProjectSelect({
               </SelectLabel>
               {group.projects.map((project) => (
                 <SelectItem key={project.gameId} value={project.gameId}>
-                  <Flex gap="2" items="center">
-                    <AssetImage
-                      src={project.logoUrl || "/games/blank/blankgame.svg"}
-                      className="mx-auto size-5 object-contain"
-                      alt="Project logo"
-                    />
-                    {project.displayName}
-                  </Flex>
+                  {project.displayName}
                 </SelectItem>
               ))}
             </SelectGroup>

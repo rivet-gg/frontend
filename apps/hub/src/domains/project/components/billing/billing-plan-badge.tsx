@@ -34,6 +34,10 @@ function Content({ projectId }: BillingPlanBadgeProps) {
     }),
   );
 
+  if (!data?.plan) {
+    return null;
+  }
+
   if (isSuccess) {
     return (
       <Badge variant={BILLING_PLAN_COLORS[data.plan]}>
