@@ -4,30 +4,30 @@ import { Icon, faSave } from "@rivet-gg/icons";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { differenceInHours } from "date-fns";
 import { saveAs } from "file-saver";
-import { serverLogsQueryOptions } from "../../queries";
+import { actorLogsQueryOptions } from "../../queries";
 
-interface ServerLogsTabProps {
+interface ActorLogsTabProps {
   projectId: string;
   environmentId: string;
-  serverId: string;
-  logType: Rivet.servers.LogStream;
-  createdAt: number;
+  actorId: string;
+  logType: Rivet.actor.LogStream;
+  createdAt: Rivet.Timestamp;
 }
 
-export function ServerLogsTab({
+export function ActorLogsTab({
   projectId,
   environmentId,
-  serverId,
+  actorId,
   logType,
   createdAt,
-}: ServerLogsTabProps) {
+}: ActorLogsTabProps) {
   const {
     data: { timestamps, lines },
   } = useSuspenseQuery(
-    serverLogsQueryOptions({
+    actorLogsQueryOptions({
       projectId,
       environmentId,
-      serverId,
+      actorId,
       stream: logType,
     }),
   );
@@ -69,7 +69,7 @@ export function ServerLogsTab({
   );
 }
 
-ServerLogsTab.Skeleton = () => {
+ActorLogsTab.Skeleton = () => {
   return (
     <div className="px-4 pt-4">
       <LogsView.Skeleton />

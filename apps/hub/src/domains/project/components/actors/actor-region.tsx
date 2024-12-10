@@ -1,30 +1,30 @@
 import { AssetImage, Flex, WithTooltip } from "@rivet-gg/components";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { dataCenterQueryOptions } from "../../queries";
+import { actorRegionQueryOptions } from "../../queries";
 import {
   REGION_LABEL,
   getRegionEmoji,
   getRegionKey,
 } from "../matchmaker/lobby-region";
 
-interface ServerDatacenterProps {
-  datacenterId: string;
+interface ActorRegionProps {
+  regionId: string;
   projectId: string;
   environmentId: string;
   showLabel?: boolean | "abbreviated";
 }
 
-export function ServerDatacenter({
+export function ActorRegion({
   projectId,
-  datacenterId,
+  regionId,
   environmentId,
   showLabel,
-}: ServerDatacenterProps) {
+}: ActorRegionProps) {
   const { data: region } = useSuspenseQuery(
-    dataCenterQueryOptions({ projectId, environmentId, datacenterId }),
+    actorRegionQueryOptions({ projectId, environmentId, regionId }),
   );
 
-  const regionKey = getRegionKey(region?.slug);
+  const regionKey = getRegionKey(region?.name);
 
   if (showLabel) {
     return (
@@ -47,17 +47,4 @@ export function ServerDatacenter({
       }
     />
   );
-}
-
-export function LobbyRegionIcon({
-  regionNameId,
-  className,
-}: { regionNameId: string; className?: string }) {
-  const regionKey = getRegionKey(regionNameId);
-  return <AssetImage className={className} src={getRegionEmoji(regionKey)} />;
-}
-
-export function LobbyRegionName({ regionNameId }: { regionNameId: string }) {
-  const regionKey = getRegionKey(regionNameId);
-  return REGION_LABEL[regionKey] ?? REGION_LABEL.unknown;
 }

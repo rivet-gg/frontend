@@ -7,6 +7,7 @@ import { GuardEnterprise } from "@/lib/guards";
 import { Badge, CommandGroup, CommandItem } from "@rivet-gg/components";
 import {
   Icon,
+  faActorsBorderless,
   faCodeBranch,
   faGear,
   faGlobe,
@@ -16,7 +17,6 @@ import {
   faLink,
   faPuzzle,
   faScroll,
-  faServer,
   faUserCog,
 } from "@rivet-gg/icons";
 import { useSuspenseQueries, useSuspenseQuery } from "@tanstack/react-query";
@@ -36,12 +36,12 @@ export function EnvironmentCommandPanelPage({
       data: { displayName, versions },
     },
     {
-      data: { legacyLobbiesEnabled },
+      data: { legacyLobbiesEnabled, backendModulesEnabled },
     },
   ] = useSuspenseQueries({
     queries: [
       projectQueryOptions(projectId),
-      projectMetadataQueryOptions({ projectId }),
+      projectMetadataQueryOptions({ projectId, environmentId }),
     ],
   });
 
@@ -65,13 +65,13 @@ export function EnvironmentCommandPanelPage({
         <CommandItem
           onSelect={() => {
             navigate({
-              to: "/projects/$projectId/environments/$environmentId/servers",
+              to: "/projects/$projectId/environments/$environmentId/actors",
               params: { projectId, environmentId },
             });
           }}
         >
-          <Icon icon={faServer} />
-          Servers
+          <Icon icon={faActorsBorderless} />
+          Actors
         </CommandItem>
         <CommandItem
           onSelect={() => {
@@ -84,19 +84,21 @@ export function EnvironmentCommandPanelPage({
           <Icon icon={faHammer} />
           Builds
         </CommandItem>
-        <GuardEnterprise>
-          <CommandItem
-            onSelect={() => {
-              navigate({
-                to: "/projects/$projectId/environments/$environmentId/backend",
-                params: { projectId, environmentId },
-              });
-            }}
-          >
-            <Icon icon={faPuzzle} />
-            Backend
-          </CommandItem>
-        </GuardEnterprise>
+        {backendModulesEnabled ? (
+          <GuardEnterprise>
+            <CommandItem
+              onSelect={() => {
+                navigate({
+                  to: "/projects/$projectId/environments/$environmentId/backend",
+                  params: { projectId, environmentId },
+                });
+              }}
+            >
+              <Icon icon={faPuzzle} />
+              Backend
+            </CommandItem>
+          </GuardEnterprise>
+        ) : null}
 
         {legacyLobbiesEnabled ? (
           <CommandItem

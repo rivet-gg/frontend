@@ -8,53 +8,48 @@ import {
   queryOptions,
 } from "@tanstack/react-query";
 
-export const projectServersQueryOptions = ({
+export const projectActorsQueryOptions = ({
   projectId,
   environmentId,
 }: { projectId: string; environmentId: string }) => {
   return infiniteQueryOptions({
-    queryKey: ["project", projectId, "environment", environmentId, "servers"],
+    queryKey: ["project", projectId, "environment", environmentId, "actors"],
     refetchInterval: 5000,
     initialPageParam: "",
     queryFn: ({
       signal: abortSignal,
       pageParam,
-      queryKey: [_, projectId, __, environmentId],
+      queryKey: [_, project, __, environment],
     }) =>
-      rivetClient.servers.list(
-        projectId,
-        environmentId,
-        {
-          includeDestroyed: true,
-          cursor: pageParam ? pageParam : undefined,
-        },
+      rivetClient.actor.list(
+        { project, environment, cursor: pageParam ? pageParam : undefined },
         { abortSignal },
       ),
-    select: (data) => data.pages.flatMap((page) => page.servers || []),
+    select: (data) => data.pages.flatMap((page) => page.actors || []),
     getNextPageParam: (lastPage) => {
-      if (!lastPage.servers) return null;
-      return lastPage.servers[lastPage.servers?.length - 1]?.id;
+      if (!lastPage.actors) return null;
+      return lastPage.actors[lastPage.actors?.length - 1]?.id;
     },
     meta: {
       updateCache: (
-        data: InfiniteData<Rivet.servers.ListServersResponse>,
+        data: InfiniteData<Rivet.actor.ListActorsResponse>,
         client,
       ) => {
         for (const page of data.pages) {
-          for (const server of page.servers) {
+          for (const actor of page.actors) {
             client.setQueryData(
               [
                 "project",
                 projectId,
                 "environment",
                 environmentId,
-                "server",
-                server.id,
+                "actor",
+                actor.id,
               ],
               (oldData) => {
                 if (!oldData) return oldData;
                 return {
-                  server,
+                  actor,
                 };
               },
             );
@@ -65,14 +60,14 @@ export const projectServersQueryOptions = ({
   });
 };
 
-export const serverQueryOptions = ({
+export const actorQueryOptions = ({
   projectId,
   environmentId,
-  serverId,
+  actorId,
 }: {
   projectId: string;
   environmentId: string;
-  serverId: string;
+  actorId: string;
 }) => {
   return queryOptions({
     queryKey: [
@@ -80,46 +75,50 @@ export const serverQueryOptions = ({
       projectId,
       "environment",
       environmentId,
-      "server",
-      serverId,
+      "actor",
+      actorId,
     ],
     queryFn: ({
       signal: abortSignal,
-      queryKey: [_, projectId, __, environmentId, ___, serverId],
+      queryKey: [_, project, __, environment, ___, actorId],
     }) =>
-      rivetClient.servers.get(projectId, environmentId, serverId, {
-        abortSignal,
-      }),
+      rivetClient.actor.get(
+        actorId,
+        { project, environment },
+        {
+          abortSignal,
+        },
+      ),
     select: (data) => ({
-      ...data.server,
-      createTs: data.server.createdAt
-        ? new Date(data.server.createdAt)
+      ...data.actor,
+      createTs: data.actor.createdAt
+        ? new Date(data.actor.createdAt)
         : new Date(),
-      startTs: data.server.startedAt
-        ? new Date(data.server.startedAt)
+      startTs: data.actor.startedAt
+        ? new Date(data.actor.startedAt)
         : undefined,
-      destroyTs: data.server.destroyedAt
-        ? new Date(data.server.destroyedAt)
+      destroyTs: data.actor.destroyedAt
+        ? new Date(data.actor.destroyedAt)
         : undefined,
       runtime: {
-        ...data.server.runtime,
-        arguments: data.server.runtime.arguments?.filter((arg) => arg !== ""),
+        ...data.actor.runtime,
+        arguments: data.actor.runtime.arguments?.filter((arg) => arg !== ""),
       },
     }),
   });
 };
 
-export const serverLogsQueryOptions = (
+export const actorLogsQueryOptions = (
   {
     projectId,
     environmentId,
-    serverId,
+    actorId,
     stream,
   }: {
     projectId: string;
     environmentId: string;
-    serverId: string;
-    stream: Rivet.servers.LogStream;
+    actorId: string;
+    stream: Rivet.actor.LogStream;
   },
   opts: { refetchInterval?: number } = {},
 ) => {
@@ -130,28 +129,29 @@ export const serverLogsQueryOptions = (
       projectId,
       "environment",
       environmentId,
-      "server",
-      serverId,
+      "actor",
+      actorId,
       "logs",
       stream,
     ],
     queryFn: ({
       signal: abortSignal,
       meta,
-      queryKey: [_, projectId, __, environmentId, ___, serverId, ____, stream],
+      queryKey: [_, project, __, environment, ___, actorId, ____, stream],
     }) =>
-      rivetClient.servers.logs.getServerLogs(
-        projectId,
-        environmentId,
-        serverId,
+      rivetClient.actor.logs.get(
+        actorId,
         {
-          stream: stream as Rivet.servers.LogStream,
+          project,
+          environment,
+          stream: stream as Rivet.actor.LogStream,
           watchIndex: getMetaWatchIndex(meta),
         },
         { abortSignal },
       ),
     select: (data) => ({
       ...data,
+      timestamps: data.timestamps.map((ts) => ts.toISOString()),
       lines: data.lines.map((line) => window.atob(line)),
     }),
     meta: {
@@ -160,27 +160,27 @@ export const serverLogsQueryOptions = (
   });
 };
 
-export const serverErrorsQueryOptions = ({
+export const actorErrorsQueryOptions = ({
   projectId,
   environmentId,
-  serverId,
+  actorId,
 }: {
   projectId: string;
   environmentId: string;
-  serverId: string;
+  actorId: string;
 }) => {
   return queryOptions({
-    ...serverLogsQueryOptions({
+    ...actorLogsQueryOptions({
       projectId,
       environmentId,
-      serverId,
-      stream: Rivet.servers.LogStream.StdErr,
+      actorId,
+      stream: Rivet.actor.LogStream.StdErr,
     }),
     select: (data) => data.lines.length > 0,
   });
 };
 
-export const projectBuildsQueryOptions = ({
+export const actorBuildsQueryOptions = ({
   environmentId,
   projectId,
   tags = {},
@@ -195,7 +195,7 @@ export const projectBuildsQueryOptions = ({
       projectId,
       "environment",
       environmentId,
-      "builds",
+      "actor-builds",
       tags,
     ] as const,
     refetchInterval: 5000,
@@ -203,22 +203,25 @@ export const projectBuildsQueryOptions = ({
       queryKey: [
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         _,
-        projectId,
+        project,
         __,
-        environmentId,
+        environment,
         ___,
-        tags,
+        tagsJson,
       ],
       signal: abortSignal,
     }) =>
-      rivetClient.servers.builds.listBuilds(projectId, environmentId, tags, {
-        abortSignal,
-      }),
+      rivetClient.actor.builds.list(
+        { project, environment },
+        {
+          abortSignal,
+        },
+      ),
     select: (data) => data.builds,
   });
 };
 
-export const projectBuildQueryOptions = ({
+export const actorBuildQueryOptions = ({
   projectId,
   environmentId,
   buildId,
@@ -233,18 +236,16 @@ export const projectBuildQueryOptions = ({
       projectId,
       "environment",
       environmentId,
-      "build",
+      "actor-build",
       buildId,
     ],
     queryFn: ({
       signal: abortSignal,
-      queryKey: [_, projectId, __, environmentId, ___, buildId],
+      queryKey: [_, project, __, environment, ___, build],
     }) =>
-      rivetClient.servers.builds.getBuild(
-        projectId,
-        environmentId,
-        buildId,
-        {},
+      rivetClient.actor.builds.get(
+        build,
+        { project, environment },
         {
           abortSignal,
         },
@@ -253,83 +254,40 @@ export const projectBuildQueryOptions = ({
   });
 };
 
-export const buildQueryOptions = ({
-  projectId,
-  environmentId,
-  buildId,
-}: {
-  projectId: string;
-  environmentId: string;
-  buildId: string;
-}) => {
-  return queryOptions({
-    queryKey: [
-      "project",
-      projectId,
-      "environment",
-      environmentId,
-      "build",
-      buildId,
-    ],
-    queryFn: ({
-      signal: abortSignal,
-      queryKey: [_, projectId, __, environmentId, ___, buildId],
-    }) =>
-      rivetClient.servers.builds.getBuild(
-        projectId,
-        environmentId,
-        buildId,
-        {},
-        {
-          abortSignal,
-        },
-      ),
-
-    select: (data) => data.build,
-  });
-};
-
-export const dataCentersQueryOptions = ({
+export const actorRegionsQueryOptions = ({
   projectId,
   environmentId,
 }: { projectId: string; environmentId: string }) => {
   return queryOptions({
-    queryKey: [
-      "project",
-      projectId,
-      "environment",
-      environmentId,
-      "datacenters",
-    ],
+    queryKey: ["project", projectId, "environment", environmentId, "regions"],
     queryFn: ({
       signal: abortSignal,
-      queryKey: [_, projectId, __, environmentId],
+      queryKey: [_, project, __, environment],
     }) =>
-      rivetClient.servers.datacenters.listDatacenters(
-        projectId,
-        environmentId,
+      rivetClient.actor.regions.list(
+        { project, environment },
         {
           abortSignal,
         },
       ),
-    select: (data) => data.datacenters,
+    select: (data) => data.regions,
   });
 };
 
-export const dataCenterQueryOptions = ({
+export const actorRegionQueryOptions = ({
   projectId,
   environmentId,
-  datacenterId,
+  regionId,
 }: {
   projectId: string;
   environmentId: string;
-  datacenterId: string;
+  regionId: string;
 }) => {
   return queryOptions({
-    ...dataCentersQueryOptions({ projectId, environmentId }),
+    ...actorRegionsQueryOptions({ projectId, environmentId }),
     select: (data) =>
-      dataCentersQueryOptions({ projectId, environmentId })
+      actorRegionsQueryOptions({ projectId, environmentId })
         .select?.(data)
-        .find((datacenter) => datacenter.id === datacenterId),
+        .find((region) => region.id === regionId),
   });
 };

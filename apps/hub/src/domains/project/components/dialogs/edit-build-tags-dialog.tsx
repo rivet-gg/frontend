@@ -9,9 +9,9 @@ import {
 import { useSuspenseQueries } from "@tanstack/react-query";
 import { useState } from "react";
 import {
-  projectBuildQueryOptions,
-  projectBuildsQueryOptions,
-  useUpdateBuildTagsMutation,
+  actorBuildQueryOptions,
+  actorBuildsQueryOptions,
+  usePatchActorBuildTagsMutation,
 } from "../../queries";
 
 interface ContentProps extends DialogContentProps {
@@ -31,11 +31,11 @@ export default function EditBuildTagsDialogContent(props: ContentProps) {
 function Content({ buildId, projectId, environmentId, onClose }: ContentProps) {
   const [{ data }, { data: builds }] = useSuspenseQueries({
     queries: [
-      projectBuildQueryOptions({ buildId, projectId, environmentId }),
-      projectBuildsQueryOptions({ projectId, environmentId }),
+      actorBuildQueryOptions({ buildId, projectId, environmentId }),
+      actorBuildsQueryOptions({ projectId, environmentId }),
     ],
   });
-  const { mutateAsync } = useUpdateBuildTagsMutation();
+  const { mutateAsync } = usePatchActorBuildTagsMutation();
 
   const [tagKeys, setTagKeys] = useState(() =>
     Array.from(

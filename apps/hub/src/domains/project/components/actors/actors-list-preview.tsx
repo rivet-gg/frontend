@@ -5,45 +5,45 @@ import {
   useBreakpoint,
 } from "@rivet-gg/components";
 import { Suspense } from "react";
-import { ServersListPanel } from "./servers-list-panel";
-import { ServersServerDetailsPanel } from "./servers-server-details-panel";
+import { ActorsActorDetailsPanel } from "./actors-actor-details-panel";
+import { ActorsListPanel } from "./actors-list-panel";
 
-interface ServersListPreview {
+interface ActorsListPreview {
   projectId: string;
   environmentId: string;
-  serverId?: string;
+  actorId?: string;
 }
 
-export function ServersListPreview({
+export function ActorsListPreview({
   projectId,
   environmentId,
-  serverId,
-}: ServersListPreview) {
+  actorId,
+}: ActorsListPreview) {
   const isMd = useBreakpoint("md");
 
   return (
     <ResizablePanelGroup
       className="min-w-0 w-full h-full max-h-full"
-      autoSaveId="rivet-project-backend-logs"
+      autoSaveId="rivet-project-actor-logs"
       direction={isMd ? "horizontal" : "vertical"}
     >
       <ResizablePanel minSize={40} maxSize={75}>
         <div className="h-full max-h-full overflow-hidden w-full truncate min-w-0">
-          <ServersListPanel
+          <ActorsListPanel
             projectId={projectId}
             environmentId={environmentId}
-            serverId={serverId}
+            actorId={actorId}
           />
         </div>
       </ResizablePanel>
       <ResizableHandle withHandle />
       <ResizablePanel minSize={40} maxSize={75}>
         <div className="h-full max-h-full overflow-hidden w-full">
-          <Suspense fallback={<ServersServerDetailsPanel.Skeleton />}>
-            <ServersServerDetailsPanel
+          <Suspense fallback={<ActorsActorDetailsPanel.Skeleton />}>
+            <ActorsActorDetailsPanel
               projectId={projectId}
               environmentId={environmentId}
-              serverId={serverId}
+              actorId={actorId}
             />
           </Suspense>
         </div>
