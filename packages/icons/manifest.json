@@ -2000,6 +2000,7 @@
       { "icon": "faTableCellsColumnLock", "aliases": [] },
       { "icon": "faTableCellsLarge", "aliases": ["faThLarge"] },
       { "icon": "faTableCellsRowLock", "aliases": [] },
+      { "icon": "faTableCellsRowUnlock", "aliases": [] },
       { "icon": "faTableColumns", "aliases": ["faColumns"] },
       { "icon": "faTableList", "aliases": ["faThList"] },
       {
@@ -2176,6 +2177,7 @@
       { "icon": "faThumbsDown", "aliases": [] },
       { "icon": "faThumbsUp", "aliases": [] },
       { "icon": "faThumbtack", "aliases": ["faThumbTack"] },
+      { "icon": "faThumbtackSlash", "aliases": ["faThumbTackSlash"] },
       { "icon": "faThunderstorm", "aliases": ["faThunderstorm"] },
       { "icon": "faTicket", "aliases": [] },
       { "icon": "faTicketAlt", "aliases": ["faTicketAlt"] },
@@ -2403,6 +2405,7 @@
         "aliases": ["faLadderWater", "faSwimmingPool"]
       },
       { "icon": "faWaveSquare", "aliases": [] },
+      { "icon": "faWebAwesome", "aliases": [] },
       { "icon": "faWeight", "aliases": ["faWeight"] },
       { "icon": "faWeightHanging", "aliases": [] },
       { "icon": "faWeightScale", "aliases": ["faWeight"] },
@@ -2561,6 +2564,7 @@
       { "icon": "faDAndD", "aliases": [] },
       { "icon": "faDAndDBeyond", "aliases": [] },
       { "icon": "faDailymotion", "aliases": [] },
+      { "icon": "faDartLang", "aliases": [] },
       { "icon": "faDashcube", "aliases": [] },
       { "icon": "faDebian", "aliases": [] },
       { "icon": "faDeezer", "aliases": [] },
@@ -2612,6 +2616,7 @@
       { "icon": "faFirstdraft", "aliases": [] },
       { "icon": "faFlickr", "aliases": [] },
       { "icon": "faFlipboard", "aliases": [] },
+      { "icon": "faFlutter", "aliases": [] },
       { "icon": "faFly", "aliases": [] },
       {
         "icon": "faFontAwesome",
@@ -4431,6 +4436,7 @@
       { "icon": "faDiamondHalf", "aliases": [] },
       { "icon": "faDiamondHalfStroke", "aliases": [] },
       { "icon": "faDiamondTurnRight", "aliases": ["faDirections"] },
+      { "icon": "faDiamonds4", "aliases": [] },
       { "icon": "faDice", "aliases": [] },
       { "icon": "faDiceD10", "aliases": [] },
       { "icon": "faDiceD12", "aliases": [] },
@@ -5092,6 +5098,7 @@
       { "icon": "faGlobePointer", "aliases": [] },
       { "icon": "faGlobeSnow", "aliases": [] },
       { "icon": "faGlobeStand", "aliases": [] },
+      { "icon": "faGlobeWifi", "aliases": [] },
       { "icon": "faGloveBoxing", "aliases": ["faGloveBoxing"] },
       { "icon": "faGoalNet", "aliases": [] },
       { "icon": "faGolfBall", "aliases": ["faGolfBall"] },
@@ -5449,6 +5456,7 @@
       { "icon": "faHumidity", "aliases": ["faHumidity"] },
       { "icon": "faHundredPoints", "aliases": ["fa100"] },
       { "icon": "faHurricane", "aliases": [] },
+      { "icon": "faHydra", "aliases": [] },
       { "icon": "faHyphen", "aliases": [] },
       { "icon": "faI", "aliases": [] },
       { "icon": "faICursor", "aliases": [] },
@@ -5625,6 +5633,7 @@
       { "icon": "faLightbulbExclamation", "aliases": [] },
       { "icon": "faLightbulbExclamationOn", "aliases": [] },
       { "icon": "faLightbulbGear", "aliases": [] },
+      { "icon": "faLightbulbMessage", "aliases": [] },
       { "icon": "faLightbulbOn", "aliases": [] },
       { "icon": "faLightbulbSlash", "aliases": [] },
       { "icon": "faLighthouse", "aliases": [] },
@@ -6033,6 +6042,7 @@
         "icon": "faOctagonXmark",
         "aliases": ["faTimesOctagon", "faXmarkOctagon"]
       },
+      { "icon": "faOctopus", "aliases": [] },
       { "icon": "faOilCan", "aliases": [] },
       { "icon": "faOilCanDrip", "aliases": [] },
       { "icon": "faOilTemp", "aliases": ["faOilTemp"] },
@@ -7201,9 +7211,12 @@
       { "icon": "faTable", "aliases": [] },
       { "icon": "faTableCells", "aliases": ["faTh"] },
       { "icon": "faTableCellsColumnLock", "aliases": [] },
+      { "icon": "faTableCellsColumnUnlock", "aliases": [] },
       { "icon": "faTableCellsLarge", "aliases": ["faThLarge"] },
       { "icon": "faTableCellsLock", "aliases": [] },
       { "icon": "faTableCellsRowLock", "aliases": [] },
+      { "icon": "faTableCellsRowUnlock", "aliases": [] },
+      { "icon": "faTableCellsUnlock", "aliases": [] },
       { "icon": "faTableColumns", "aliases": ["faColumns"] },
       { "icon": "faTableLayout", "aliases": [] },
       { "icon": "faTableList", "aliases": ["faThList"] },
@@ -7424,6 +7437,7 @@
       { "icon": "faThumbsDown", "aliases": [] },
       { "icon": "faThumbsUp", "aliases": [] },
       { "icon": "faThumbtack", "aliases": ["faThumbTack"] },
+      { "icon": "faThumbtackSlash", "aliases": ["faThumbTackSlash"] },
       { "icon": "faThunderstorm", "aliases": ["faThunderstorm"] },
       { "icon": "faThunderstormMoon", "aliases": ["faThunderstormMoon"] },
       { "icon": "faThunderstormSun", "aliases": ["faThunderstormSun"] },
@@ -7748,6 +7762,7 @@
       { "icon": "faUserAlt", "aliases": ["faUserAlt"] },
       { "icon": "faUserAltSlash", "aliases": ["faUserAltSlash"] },
       { "icon": "faUserAstronaut", "aliases": [] },
+      { "icon": "faUserBeardBolt", "aliases": [] },
       { "icon": "faUserBountyHunter", "aliases": [] },
       { "icon": "faUserChart", "aliases": ["faUserChart"] },
       { "icon": "faUserCheck", "aliases": [] },
@@ -7788,6 +7803,7 @@
         "icon": "faUserHelmetSafety",
         "aliases": ["faUserConstruction", "faUserHardHat"]
       },
+      { "icon": "faUserHoodie", "aliases": [] },
       { "icon": "faUserInjured", "aliases": [] },
       { "icon": "faUserLarge", "aliases": ["faUserAlt"] },
       { "icon": "faUserLargeSlash", "aliases": ["faUserAltSlash"] },
@@ -8040,5 +8056,11 @@
       { "icon": "faZzz", "aliases": ["faZzz"] }
     ],
     "prefix": "fas"
+  },
+  "@awesome.me/kit-63db24046b/icons/kit/custom": {
+    "icons": [
+      { "icon": "faActors", "aliases": [] },
+      { "icon": "faSelect", "aliases": [] }
+    ]
   }
 }
