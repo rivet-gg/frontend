@@ -3,7 +3,13 @@ import { NavItem } from "@/components/header/nav-item";
 import { computePageLayout } from "@/lib/compute-page-layout";
 import { publicUrl } from "@/lib/utils";
 import { cn } from "@rivet-gg/components";
-import { Icon, faDiscord, faGithub, faXTwitter } from "@rivet-gg/icons";
+import {
+  Icon,
+  faBluesky,
+  faDiscord,
+  faGithub,
+  faXTwitter,
+} from "@rivet-gg/icons";
 import { useMatches } from "@tanstack/react-router";
 import type { PropsWithChildren, ReactNode } from "react";
 import { Header as UiHeader } from "../components/header/header";
@@ -86,6 +92,13 @@ const Footer = () => {
               rel="noreferrer"
             >
               <Icon icon={faGithub} />
+            </NavItem>
+            <NavItem
+              href="https://bsky.app/profile/rivet-gg.bsky.social"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <Icon icon={faBluesky} />
             </NavItem>
             <NavItem
               href="https://x.com/rivet_gg"
