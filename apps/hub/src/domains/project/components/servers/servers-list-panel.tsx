@@ -61,10 +61,10 @@ export function ServersListPanel({
               </Button>
             </div>
           ) : (
-            <SmallText className="text-muted-foreground text-center col-span-full">
+            <SmallText className="text-muted-foreground text-center col-span-full my-4">
               {data.length === 0
-                ? "No servers found"
-                : "No more servers to load"}
+                ? "No servers found."
+                : "No more servers to load."}
             </SmallText>
           )}
         </>

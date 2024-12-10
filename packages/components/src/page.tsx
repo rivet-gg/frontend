@@ -23,7 +23,7 @@ export const Page = ({
     <Flex
       direction="col"
       gap="4"
-      className={cn(className, layout === "full" && "flex-1 w-full")}
+      className={cn(className, { "h-full": layout === "full" })}
     >
       {title ? <H1 className={cn(header ? "mt-8" : "my-8")}>{title}</H1> : null}
       {header}
