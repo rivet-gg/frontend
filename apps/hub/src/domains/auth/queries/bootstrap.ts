@@ -12,8 +12,7 @@ export const bootstrapQueryOptions = () => {
 export const bootstrapOpenGbQueryOptions = () => {
   return queryOptions({
     ...bootstrapQueryOptions(),
-    select: (data) =>
-      data.domains?.opengb || data.domains?.main || window.location.host,
+    select: (data) => data.domains?.opengb || window.location.host,
   });
 };
 

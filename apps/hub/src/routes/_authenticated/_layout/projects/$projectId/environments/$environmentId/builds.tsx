@@ -1,5 +1,5 @@
+import { ActorTags } from "@/domains/project/components/actors/actor-tags";
 import { ProjectBuildsTableActions } from "@/domains/project/components/project-builds-table-actions";
-import { ServerTags } from "@/domains/project/components/servers/server-tags";
 import * as Layout from "@/domains/project/layouts/servers-layout";
 import {
   projectBuildsQueryOptions,
@@ -94,7 +94,7 @@ function ProjectBuildsRoute() {
                 <TableCell>{build.name}</TableCell>
                 <TableCell>{build.createdAt.toLocaleString()}</TableCell>
                 <TableCell>
-                  <ServerTags {...build} excludeBuiltIn />
+                  <ActorTags {...build} excludeBuiltIn />
                 </TableCell>
                 <TableCell>
                   <ProjectBuildLatestButton

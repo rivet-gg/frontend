@@ -24,7 +24,6 @@ function Modals() {
   const ConfirmOuterbaseConnectionDialog =
     useDialog.ConfirmOuterbaseConnection.Dialog;
 
-  const CreateDynamicServerDialog = useDialog.CreateDynamicServer.Dialog;
   const EditBuildTagsDialog = useDialog.EditBuildTags.Dialog;
 
   const handleOpenChange = (value: boolean) => {
@@ -40,14 +39,6 @@ function Modals() {
         projectId={projectId}
         dialogProps={{
           open: modal === "database",
-          onOpenChange: handleOpenChange,
-        }}
-      />
-      <CreateDynamicServerDialog
-        environmentId={environmentId}
-        projectId={projectId}
-        dialogProps={{
-          open: modal === "create-server",
           onOpenChange: handleOpenChange,
         }}
       />
@@ -79,7 +70,7 @@ function environmentIdRoute() {
 }
 const searchSchema = z.object({
   modal: z
-    .enum(["database", "create-server", "edit-tags"])
+    .enum(["database", "edit-tags"])
     .or(z.string())
     .optional()
     .catch(undefined),

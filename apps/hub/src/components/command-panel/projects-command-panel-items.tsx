@@ -3,7 +3,7 @@ import { CommandItem } from "@rivet-gg/components";
 import { useCommandPanelNavigation } from "./command-panel-navigation-provider";
 
 interface ProjectsCommandPanelItemsProps {
-  projects: Rivet.game.Summary[];
+  projects: Rivet.game.GameSummary[];
   groupId: string;
 }
 

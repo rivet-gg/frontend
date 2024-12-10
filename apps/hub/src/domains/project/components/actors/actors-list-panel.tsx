@@ -8,28 +8,25 @@ import {
 } from "@rivet-gg/components";
 import { useSuspenseInfiniteQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
-import { projectServersQueryOptions } from "../../queries";
-import { ServerDatacenter } from "./server-datacenter";
-import {
-  ServerStatusIndicator,
-  getServerStatus,
-} from "./server-status-indicator";
-import { ServerTags } from "./server-tags";
+import { projectActorsQueryOptions } from "../../queries";
+import { ActorRegion } from "./actor-region";
+import { ActorStatusIndicator, getActorStatus } from "./actor-status-indicator";
+import { ActorTags } from "./actor-tags";
 
-interface ServersListPanelProps {
+interface ActorsListPanelProps {
   projectId: string;
   environmentId: string;
-  serverId: string | undefined;
+  actorId: string | undefined;
 }
 
-export function ServersListPanel({
-  serverId,
+export function ActorsListPanel({
+  actorId,
   projectId,
   environmentId,
-}: ServersListPanelProps) {
+}: ActorsListPanelProps) {
   const { data, hasNextPage, isFetchingNextPage, fetchNextPage } =
     useSuspenseInfiniteQuery(
-      projectServersQueryOptions({ projectId, environmentId }),
+      projectActorsQueryOptions({ projectId, environmentId }),
     );
   return (
     <ScrollArea className="overflow-auto h-full truncate min-w-0">
@@ -43,13 +40,13 @@ export function ServersListPanel({
           <div>Destroyed</div>
         </div>
         <>
-          {data.map((server) => (
-            <ServerRow
-              key={server.id}
-              server={server}
+          {data.map((actor) => (
+            <ActorRow
+              key={actor.id}
+              actor={actor}
               projectId={projectId}
               environmentId={environmentId}
-              isCurrent={serverId === server.id}
+              isCurrent={actorId === actor.id}
             />
           ))}
           {hasNextPage ? (
@@ -66,8 +63,8 @@ export function ServersListPanel({
           ) : (
             <SmallText className="text-muted-foreground text-center col-span-full my-4">
               {data.length === 0
-                ? "No servers found."
-                : "No more servers to load."}
+                ? "No actors found."
+                : "No more actors to load."}
             </SmallText>
           )}
         </>
@@ -76,13 +73,13 @@ export function ServersListPanel({
   );
 }
 
-function ServerRow({
-  server,
+function ActorRow({
+  actor,
   projectId,
   environmentId,
   isCurrent,
 }: {
-  server: Rivet.servers.Server;
+  actor: Rivet.actor.Actor;
   isCurrent?: boolean;
   projectId: string;
   environmentId: string;
@@ -96,56 +93,52 @@ function ServerRow({
       <Link
         to="."
         search={{
-          serverId: server.id,
-          tab: getServerStatus(server) === "crashed" ? "error" : "output",
+          actorId: actor.id,
+          tab: getActorStatus(actor) === "crashed" ? "error" : "output",
         }}
         className="min-w-0 flex-wrap gap-2"
       >
         <div className="w-full flex justify-center">
-          <ServerStatusIndicator {...server} />
+          <ActorStatusIndicator {...actor} />
         </div>
         <SmallText className="font-semibold">
-          <ServerDatacenter
+          <ActorRegion
             showLabel="abbreviated"
             projectId={projectId}
             environmentId={environmentId}
-            datacenterId={server.datacenter}
+            regionId={actor.region}
           />
         </SmallText>
-        <SmallText>{server.id.split("-")[0]}</SmallText>
+        <SmallText>{actor.id.split("-")[0]}</SmallText>
         <WithTooltip
           trigger={
             <div className="relative overflow-r-gradient">
-              <ServerTags
+              <ActorTags
                 className="flex-nowrap empty:block overflow-hidden"
                 truncate={false}
-                {...server}
+                {...actor}
               />
             </div>
           }
           content={
             <>
               <p className="pb-2 font-bold text-xs">Tags</p>
-              <ServerTags
-                className="empty:block"
-                truncate={false}
-                {...server}
-              />
+              <ActorTags className="empty:block" truncate={false} {...actor} />
             </>
           }
         />
         <SmallText className="mx-1">
           <WithTooltip
-            trigger={<RelativeTime time={new Date(server.createdAt)} />}
-            content={new Date(server.createdAt).toLocaleString()}
+            trigger={<RelativeTime time={new Date(actor.createdAt)} />}
+            content={new Date(actor.createdAt).toLocaleString()}
           />
         </SmallText>
 
         <SmallText className="mx-1">
-          {server.destroyedAt ? (
+          {actor.destroyedAt ? (
             <WithTooltip
-              trigger={<RelativeTime time={new Date(server.destroyedAt)} />}
-              content={new Date(server.destroyedAt).toLocaleString()}
+              trigger={<RelativeTime time={new Date(actor.destroyedAt)} />}
+              content={new Date(actor.destroyedAt).toLocaleString()}
             />
           ) : (
             <span>-</span>

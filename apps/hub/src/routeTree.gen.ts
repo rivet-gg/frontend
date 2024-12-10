@@ -18,7 +18,6 @@ import { Route as AuthenticatedLayoutImport } from './routes/_authenticated/_lay
 import { Route as AuthenticatedLayoutIndexImport } from './routes/_authenticated/_layout/index'
 import { Route as AuthenticatedInviteInviteCodeImport } from './routes/_authenticated/invite.$inviteCode'
 import { Route as AuthenticatedDevicesLinkImport } from './routes/_authenticated/devices.link'
-import { Route as AuthenticatedAccessTokenTokenImport } from './routes/_authenticated/access-token.$token'
 import { Route as AuthenticatedLayoutMyProfileImport } from './routes/_authenticated/_layout/my-profile'
 import { Route as AuthenticatedLayoutMyProfileIndexImport } from './routes/_authenticated/_layout/my-profile/index'
 import { Route as AuthenticatedDevicesLinkTokenImport } from './routes/_authenticated/devices.link_.$token'
@@ -48,6 +47,7 @@ import { Route as AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdL
 import { Route as AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdCdnImport } from './routes/_authenticated/_layout/projects/$projectId/environments/$environmentId/cdn'
 import { Route as AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdBuildsImport } from './routes/_authenticated/_layout/projects/$projectId/environments/$environmentId/builds'
 import { Route as AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdBackendImport } from './routes/_authenticated/_layout/projects/$projectId/environments/$environmentId/backend'
+import { Route as AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdActorsImport } from './routes/_authenticated/_layout/projects/$projectId/environments/$environmentId/actors'
 import { Route as AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdLobbiesIndexImport } from './routes/_authenticated/_layout/projects/$projectId/environments/$environmentId/lobbies/index'
 import { Route as AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdBackendIndexImport } from './routes/_authenticated/_layout/projects/$projectId/environments/$environmentId/backend/index'
 import { Route as AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdServersSplatImport } from './routes/_authenticated/_layout/projects/$projectId/environments/$environmentId/servers/$'
@@ -93,12 +93,6 @@ const AuthenticatedDevicesLinkRoute = AuthenticatedDevicesLinkImport.update({
   path: '/devices/link',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
-
-const AuthenticatedAccessTokenTokenRoute =
-  AuthenticatedAccessTokenTokenImport.update({
-    path: '/access-token/$token',
-    getParentRoute: () => AuthenticatedRoute,
-  } as any)
 
 const AuthenticatedLayoutMyProfileRoute =
   AuthenticatedLayoutMyProfileImport.update({
@@ -304,6 +298,15 @@ const AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdBackendRoute 
     } as any,
   )
 
+const AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdActorsRoute =
+  AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdActorsImport.update(
+    {
+      path: '/actors',
+      getParentRoute: () =>
+        AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdRoute,
+    } as any,
+  )
+
 const AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdLobbiesIndexRoute =
   AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdLobbiesIndexImport.update(
     {
@@ -405,13 +408,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/my-profile'
       preLoaderRoute: typeof AuthenticatedLayoutMyProfileImport
       parentRoute: typeof AuthenticatedLayoutImport
-    }
-    '/_authenticated/access-token/$token': {
-      id: '/_authenticated/access-token/$token'
-      path: '/access-token/$token'
-      fullPath: '/access-token/$token'
-      preLoaderRoute: typeof AuthenticatedAccessTokenTokenImport
-      parentRoute: typeof AuthenticatedImport
     }
     '/_authenticated/devices/link': {
       id: '/_authenticated/devices/link'
@@ -559,6 +555,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/teams/$groupId/settings/'
       preLoaderRoute: typeof AuthenticatedLayoutTeamsGroupIdSettingsIndexImport
       parentRoute: typeof AuthenticatedLayoutTeamsGroupIdSettingsImport
+    }
+    '/_authenticated/_layout/projects/$projectId/environments/$environmentId/actors': {
+      id: '/_authenticated/_layout/projects/$projectId/environments/$environmentId/actors'
+      path: '/actors'
+      fullPath: '/projects/$projectId/environments/$environmentId/actors'
+      preLoaderRoute: typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdActorsImport
+      parentRoute: typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdImport
     }
     '/_authenticated/_layout/projects/$projectId/environments/$environmentId/backend': {
       id: '/_authenticated/_layout/projects/$projectId/environments/$environmentId/backend'
@@ -775,6 +778,7 @@ const AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdServersRouteW
   )
 
 interface AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdRouteChildren {
+  AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdActorsRoute: typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdActorsRoute
   AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdBackendRoute: typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdBackendRouteWithChildren
   AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdBuildsRoute: typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdBuildsRoute
   AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdCdnRoute: typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdCdnRoute
@@ -789,6 +793,8 @@ interface AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdRouteChil
 
 const AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdRouteChildren: AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdRouteChildren =
   {
+    AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdActorsRoute:
+      AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdActorsRoute,
     AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdBackendRoute:
       AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdBackendRouteWithChildren,
     AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdBuildsRoute:
@@ -910,7 +916,6 @@ const AuthenticatedLayoutRouteWithChildren =
 interface AuthenticatedRouteChildren {
   AuthenticatedLayoutRoute: typeof AuthenticatedLayoutRouteWithChildren
   AuthenticatedBillingRoute: typeof AuthenticatedBillingRoute
-  AuthenticatedAccessTokenTokenRoute: typeof AuthenticatedAccessTokenTokenRoute
   AuthenticatedDevicesLinkRoute: typeof AuthenticatedDevicesLinkRoute
   AuthenticatedInviteInviteCodeRoute: typeof AuthenticatedInviteInviteCodeRoute
   AuthenticatedDevicesLinkTokenRoute: typeof AuthenticatedDevicesLinkTokenRoute
@@ -919,7 +924,6 @@ interface AuthenticatedRouteChildren {
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedLayoutRoute: AuthenticatedLayoutRouteWithChildren,
   AuthenticatedBillingRoute: AuthenticatedBillingRoute,
-  AuthenticatedAccessTokenTokenRoute: AuthenticatedAccessTokenTokenRoute,
   AuthenticatedDevicesLinkRoute: AuthenticatedDevicesLinkRoute,
   AuthenticatedInviteInviteCodeRoute: AuthenticatedInviteInviteCodeRoute,
   AuthenticatedDevicesLinkTokenRoute: AuthenticatedDevicesLinkTokenRoute,
@@ -934,7 +938,6 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/billing': typeof AuthenticatedBillingRoute
   '/my-profile': typeof AuthenticatedLayoutMyProfileRouteWithChildren
-  '/access-token/$token': typeof AuthenticatedAccessTokenTokenRoute
   '/devices/link': typeof AuthenticatedDevicesLinkRoute
   '/invite/$inviteCode': typeof AuthenticatedInviteInviteCodeRoute
   '/': typeof AuthenticatedLayoutIndexRoute
@@ -956,6 +959,7 @@ export interface FileRoutesByFullPath {
   '/projects/$projectId/namespaces/$': typeof AuthenticatedLayoutProjectsProjectIdNamespacesSplatRoute
   '/projects/$projectId/settings/': typeof AuthenticatedLayoutProjectsProjectIdSettingsIndexRoute
   '/teams/$groupId/settings/': typeof AuthenticatedLayoutTeamsGroupIdSettingsIndexRoute
+  '/projects/$projectId/environments/$environmentId/actors': typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdActorsRoute
   '/projects/$projectId/environments/$environmentId/backend': typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdBackendRouteWithChildren
   '/projects/$projectId/environments/$environmentId/builds': typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdBuildsRoute
   '/projects/$projectId/environments/$environmentId/cdn': typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdCdnRoute
@@ -979,7 +983,6 @@ export interface FileRoutesByTo {
   '': typeof AuthenticatedRouteWithChildren
   '/login': typeof LoginRoute
   '/billing': typeof AuthenticatedBillingRoute
-  '/access-token/$token': typeof AuthenticatedAccessTokenTokenRoute
   '/devices/link': typeof AuthenticatedDevicesLinkRoute
   '/invite/$inviteCode': typeof AuthenticatedInviteInviteCodeRoute
   '/': typeof AuthenticatedLayoutIndexRoute
@@ -996,6 +999,7 @@ export interface FileRoutesByTo {
   '/projects/$projectId/namespaces/$': typeof AuthenticatedLayoutProjectsProjectIdNamespacesSplatRoute
   '/projects/$projectId/settings': typeof AuthenticatedLayoutProjectsProjectIdSettingsIndexRoute
   '/teams/$groupId/settings': typeof AuthenticatedLayoutTeamsGroupIdSettingsIndexRoute
+  '/projects/$projectId/environments/$environmentId/actors': typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdActorsRoute
   '/projects/$projectId/environments/$environmentId/builds': typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdBuildsRoute
   '/projects/$projectId/environments/$environmentId/cdn': typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdCdnRoute
   '/projects/$projectId/environments/$environmentId/matchmaker': typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdMatchmakerRoute
@@ -1020,7 +1024,6 @@ export interface FileRoutesById {
   '/_authenticated/_layout': typeof AuthenticatedLayoutRouteWithChildren
   '/_authenticated/billing': typeof AuthenticatedBillingRoute
   '/_authenticated/_layout/my-profile': typeof AuthenticatedLayoutMyProfileRouteWithChildren
-  '/_authenticated/access-token/$token': typeof AuthenticatedAccessTokenTokenRoute
   '/_authenticated/devices/link': typeof AuthenticatedDevicesLinkRoute
   '/_authenticated/invite/$inviteCode': typeof AuthenticatedInviteInviteCodeRoute
   '/_authenticated/_layout/': typeof AuthenticatedLayoutIndexRoute
@@ -1042,6 +1045,7 @@ export interface FileRoutesById {
   '/_authenticated/_layout/projects/$projectId/namespaces/$': typeof AuthenticatedLayoutProjectsProjectIdNamespacesSplatRoute
   '/_authenticated/_layout/projects/$projectId/settings/': typeof AuthenticatedLayoutProjectsProjectIdSettingsIndexRoute
   '/_authenticated/_layout/teams/$groupId/settings/': typeof AuthenticatedLayoutTeamsGroupIdSettingsIndexRoute
+  '/_authenticated/_layout/projects/$projectId/environments/$environmentId/actors': typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdActorsRoute
   '/_authenticated/_layout/projects/$projectId/environments/$environmentId/backend': typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdBackendRouteWithChildren
   '/_authenticated/_layout/projects/$projectId/environments/$environmentId/builds': typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdBuildsRoute
   '/_authenticated/_layout/projects/$projectId/environments/$environmentId/cdn': typeof AuthenticatedLayoutProjectsProjectIdEnvironmentsEnvironmentIdCdnRoute
@@ -1068,7 +1072,6 @@ export interface FileRouteTypes {
     | '/login'
     | '/billing'
     | '/my-profile'
-    | '/access-token/$token'
     | '/devices/link'
     | '/invite/$inviteCode'
     | '/'
@@ -1090,6 +1093,7 @@ export interface FileRouteTypes {
     | '/projects/$projectId/namespaces/$'
     | '/projects/$projectId/settings/'
     | '/teams/$groupId/settings/'
+    | '/projects/$projectId/environments/$environmentId/actors'
     | '/projects/$projectId/environments/$environmentId/backend'
     | '/projects/$projectId/environments/$environmentId/builds'
     | '/projects/$projectId/environments/$environmentId/cdn'
@@ -1112,7 +1116,6 @@ export interface FileRouteTypes {
     | ''
     | '/login'
     | '/billing'
-    | '/access-token/$token'
     | '/devices/link'
     | '/invite/$inviteCode'
     | '/'
@@ -1129,6 +1132,7 @@ export interface FileRouteTypes {
     | '/projects/$projectId/namespaces/$'
     | '/projects/$projectId/settings'
     | '/teams/$groupId/settings'
+    | '/projects/$projectId/environments/$environmentId/actors'
     | '/projects/$projectId/environments/$environmentId/builds'
     | '/projects/$projectId/environments/$environmentId/cdn'
     | '/projects/$projectId/environments/$environmentId/matchmaker'
@@ -1151,7 +1155,6 @@ export interface FileRouteTypes {
     | '/_authenticated/_layout'
     | '/_authenticated/billing'
     | '/_authenticated/_layout/my-profile'
-    | '/_authenticated/access-token/$token'
     | '/_authenticated/devices/link'
     | '/_authenticated/invite/$inviteCode'
     | '/_authenticated/_layout/'
@@ -1173,6 +1176,7 @@ export interface FileRouteTypes {
     | '/_authenticated/_layout/projects/$projectId/namespaces/$'
     | '/_authenticated/_layout/projects/$projectId/settings/'
     | '/_authenticated/_layout/teams/$groupId/settings/'
+    | '/_authenticated/_layout/projects/$projectId/environments/$environmentId/actors'
     | '/_authenticated/_layout/projects/$projectId/environments/$environmentId/backend'
     | '/_authenticated/_layout/projects/$projectId/environments/$environmentId/builds'
     | '/_authenticated/_layout/projects/$projectId/environments/$environmentId/cdn'
@@ -1224,7 +1228,6 @@ export const routeTree = rootRoute
       "children": [
         "/_authenticated/_layout",
         "/_authenticated/billing",
-        "/_authenticated/access-token/$token",
         "/_authenticated/devices/link",
         "/_authenticated/invite/$inviteCode",
         "/_authenticated/devices/link/$token"
@@ -1255,10 +1258,6 @@ export const routeTree = rootRoute
         "/_authenticated/_layout/my-profile/features",
         "/_authenticated/_layout/my-profile/"
       ]
-    },
-    "/_authenticated/access-token/$token": {
-      "filePath": "_authenticated/access-token.$token.tsx",
-      "parent": "/_authenticated"
     },
     "/_authenticated/devices/link": {
       "filePath": "_authenticated/devices.link.tsx",
@@ -1352,6 +1351,7 @@ export const routeTree = rootRoute
       "filePath": "_authenticated/_layout/projects/$projectId/environments/$environmentId.tsx",
       "parent": "/_authenticated/_layout/projects/$projectId",
       "children": [
+        "/_authenticated/_layout/projects/$projectId/environments/$environmentId/actors",
         "/_authenticated/_layout/projects/$projectId/environments/$environmentId/backend",
         "/_authenticated/_layout/projects/$projectId/environments/$environmentId/builds",
         "/_authenticated/_layout/projects/$projectId/environments/$environmentId/cdn",
@@ -1375,6 +1375,10 @@ export const routeTree = rootRoute
     "/_authenticated/_layout/teams/$groupId/settings/": {
       "filePath": "_authenticated/_layout/teams/$groupId/settings/index.tsx",
       "parent": "/_authenticated/_layout/teams/$groupId/settings"
+    },
+    "/_authenticated/_layout/projects/$projectId/environments/$environmentId/actors": {
+      "filePath": "_authenticated/_layout/projects/$projectId/environments/$environmentId/actors.tsx",
+      "parent": "/_authenticated/_layout/projects/$projectId/environments/$environmentId"
     },
     "/_authenticated/_layout/projects/$projectId/environments/$environmentId/backend": {
       "filePath": "_authenticated/_layout/projects/$projectId/environments/$environmentId/backend.tsx",

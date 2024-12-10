@@ -7,7 +7,7 @@ import {
 } from "@rivet-gg/components";
 
 interface GroupAvatarProps
-  extends Pick<Rivet.group.Summary, "avatarUrl" | "displayName">,
+  extends Pick<Rivet.group.GroupSummary, "avatarUrl" | "displayName">,
     AvatarProps {}
 
 export function GroupAvatar({

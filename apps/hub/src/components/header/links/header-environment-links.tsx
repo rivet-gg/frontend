@@ -4,6 +4,7 @@ import {
 } from "@/domains/project/queries";
 import { GuardEnterprise } from "@/lib/guards";
 import {
+  faActorsBorderless,
   faChessKnight,
   faCodeBranch,
   faGlobe,
@@ -11,7 +12,6 @@ import {
   faKey,
   faPuzzle,
   faPuzzlePiece,
-  faServer,
 } from "@rivet-gg/icons";
 import { useSuspenseQueries } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
@@ -29,23 +29,23 @@ export function HeaderEnvironmentLinks({
   const [
     { data },
     {
-      data: { legacyLobbiesEnabled },
+      data: { legacyLobbiesEnabled, backendModulesEnabled },
     },
   ] = useSuspenseQueries({
     queries: [
       projectEnvironmentQueryOptions({ projectId, environmentId }),
-      projectMetadataQueryOptions({ projectId }),
+      projectMetadataQueryOptions({ projectId, environmentId }),
     ],
   });
 
   return (
     <>
-      <HeaderLink icon={faServer}>
+      <HeaderLink icon={faActorsBorderless}>
         <Link
-          to="/projects/$projectId/environments/$environmentId/servers"
+          to="/projects/$projectId/environments/$environmentId/actors"
           params={{ projectId, environmentId }}
         >
-          Servers
+          Actors
         </Link>
       </HeaderLink>
       <HeaderLink icon={faHammer}>
@@ -56,24 +56,26 @@ export function HeaderEnvironmentLinks({
           Builds
         </Link>
       </HeaderLink>
-      <GuardEnterprise>
-        <HeaderLink icon={faPuzzle}>
-          <Link
-            to="/projects/$projectId/environments/$environmentId/backend"
-            params={{ projectId, environmentId }}
-          >
-            Backend
-          </Link>
-        </HeaderLink>
-        <HeaderLink icon={faPuzzlePiece}>
-          <Link
-            to="/projects/$projectId/environments/$environmentId/modules"
-            params={{ projectId, environmentId }}
-          >
-            Modules
-          </Link>
-        </HeaderLink>
-      </GuardEnterprise>
+      {backendModulesEnabled ? (
+        <GuardEnterprise>
+          <HeaderLink icon={faPuzzle}>
+            <Link
+              to="/projects/$projectId/environments/$environmentId/backend"
+              params={{ projectId, environmentId }}
+            >
+              Backend
+            </Link>
+          </HeaderLink>
+          <HeaderLink icon={faPuzzlePiece}>
+            <Link
+              to="/projects/$projectId/environments/$environmentId/modules"
+              params={{ projectId, environmentId }}
+            >
+              Modules
+            </Link>
+          </HeaderLink>
+        </GuardEnterprise>
+      ) : null}
       {legacyLobbiesEnabled ? (
         <>
           <HeaderLink icon={faCodeBranch}>
