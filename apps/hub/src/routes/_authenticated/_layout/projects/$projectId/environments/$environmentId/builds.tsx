@@ -201,7 +201,7 @@ function ProjectBuildLatestButton({
 }
 
 export const Route = createFileRoute(
-  "/_authenticated/_layout/projects/$projectId/environments/$environmentId/servers/builds",
+  "/_authenticated/_layout/projects/$projectId/environments/$environmentId/builds",
 )({
   component: ProjectBuildsRoute,
   pendingComponent: Layout.Content.Skeleton,

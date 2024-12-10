@@ -1,34 +1,106 @@
-import { ErrorComponent } from "@/components/error-component";
+import { ServersListPreview } from "@/domains/project/components/servers/servers-list-preview";
 import * as Layout from "@/domains/project/layouts/servers-layout";
+import { projectServersQueryOptions } from "@/domains/project/queries";
 import {
-  type ErrorComponentProps,
-  Outlet,
-  createFileRoute,
-} from "@tanstack/react-router";
+  Button,
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+  Flex,
+  WithTooltip,
+} from "@rivet-gg/components";
+import { Icon, faPlus, faRefresh } from "@rivet-gg/icons";
+import { useSuspenseInfiniteQuery } from "@tanstack/react-query";
+import { Link, createFileRoute } from "@tanstack/react-router";
+import { zodSearchValidator } from "@tanstack/router-zod-adapter";
+import { z } from "zod";
 
-function ServersLayoutErrorComponent(props: ErrorComponentProps) {
-  const { environmentId, projectId } = Route.useParams();
+function ProjectServersRoute() {
+  const { projectId, environmentId } = Route.useParams();
+  const { data, refetch, isRefetching } = useSuspenseInfiniteQuery(
+    projectServersQueryOptions({ projectId, environmentId: environmentId }),
+  );
+  const { serverId } = Route.useSearch();
+
   return (
-    <Layout.Root environmentId={environmentId} projectId={projectId}>
-      <ErrorComponent {...props} />
-    </Layout.Root>
+    <Card w="full" h="full" className="flex flex-col">
+      <CardHeader className="border-b ">
+        <CardTitle className="flex flex-row justify-between items-center">
+          Servers
+          <Flex gap="2">
+            <WithTooltip
+              content="Refresh"
+              trigger={
+                <Button
+                  size="icon"
+                  isLoading={isRefetching}
+                  variant="outline"
+                  onClick={() => refetch()}
+                >
+                  <Icon icon={faRefresh} />
+                </Button>
+              }
+            />
+            <WithTooltip
+              content="Create a new server"
+              trigger={
+                <Button
+                  asChild
+                  size="icon"
+                  variant="outline"
+                  onClick={() => refetch()}
+                >
+                  <Link
+                    to="."
+                    search={{
+                      modal: "create-server",
+                    }}
+                  >
+                    <Icon icon={faPlus} />
+                  </Link>
+                </Button>
+              }
+            />
+          </Flex>
+        </CardTitle>
+        <CardDescription>
+          Servers are created & destroyed automatically as players connect &
+          disconnect.
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="flex-1 min-h-0 w-full p-0">
+        {data.length === 0 ? (
+          <div className="flex items-center mx-auto flex-col gap-2 my-10">
+            <span>No servers created.</span>
+            <span className="text-xs">
+              Run your project client & connect to start a server.
+            </span>
+          </div>
+        ) : (
+          <ServersListPreview
+            projectId={projectId}
+            environmentId={environmentId}
+            serverId={serverId}
+          />
+        )}
+      </CardContent>
+    </Card>
   );
 }
 
-function ServersLayoutView() {
-  const { environmentId, projectId } = Route.useParams();
-
-  return (
-    <Layout.Root environmentId={environmentId} projectId={projectId}>
-      <Outlet />
-    </Layout.Root>
-  );
-}
+const searchSchema = z.object({
+  serverId: z.string().optional(),
+});
 
 export const Route = createFileRoute(
   "/_authenticated/_layout/projects/$projectId/environments/$environmentId/servers",
 )({
-  component: ServersLayoutView,
-  errorComponent: ServersLayoutErrorComponent,
-  pendingComponent: Layout.Root.Skeleton,
+  validateSearch: zodSearchValidator(searchSchema),
+  staticData: {
+    layout: "full",
+  },
+  component: ProjectServersRoute,
+  pendingComponent: Layout.Content.Skeleton,
 });

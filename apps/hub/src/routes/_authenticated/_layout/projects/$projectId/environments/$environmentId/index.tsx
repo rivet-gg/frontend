@@ -135,7 +135,7 @@ function CurrentBuildCard() {
           </Button>
           <Button asChild variant="outline">
             <Link
-              to="/projects/$projectId/environments/$environmentId/servers/builds"
+              to="/projects/$projectId/environments/$environmentId/builds"
               params={{
                 projectId,
                 environmentId: environmentId,
