@@ -11,9 +11,9 @@ import {
 } from "@rivet-gg/components";
 import { Fragment } from "react/jsx-runtime";
 
-interface ServerNetworkTabProps extends Pick<Rivet.servers.Server, "network"> {}
+interface ActorNetworkTabProps extends Pick<Rivet.actor.Actor, "network"> {}
 
-export function ServerNetworkTab({ network }: ServerNetworkTabProps) {
+export function ActorNetworkTab({ network }: ActorNetworkTabProps) {
   return (
     <ScrollArea className="overflow-auto h-full px-4 my-2">
       <Flex gap="2" direction="col">
@@ -35,8 +35,8 @@ export function ServerNetworkTab({ network }: ServerNetworkTabProps) {
                 <Fragment key={name}>
                   <Dt>{name}</Dt>
                   <Dd>
-                    {config.routing.gameGuard ? (
-                      <Badge variant="secondary">Game Guard</Badge>
+                    {config.routing.guard ? (
+                      <Badge variant="secondary">Guard</Badge>
                     ) : null}
                     {config.routing.host ? (
                       <Badge variant="secondary">Host</Badge>
@@ -49,14 +49,6 @@ export function ServerNetworkTab({ network }: ServerNetworkTabProps) {
                   <Dl className="col-span-2 ml-5">
                     <Dt>Internal port</Dt>
                     <Dd>{config.internalPort || "-"}</Dd>
-                  </Dl>
-                  <Dl className="col-span-2 ml-5">
-                    <Dt>Public port</Dt>
-                    <Dd>{config.publicPort || "-"}</Dd>
-                  </Dl>
-                  <Dl className="col-span-2 ml-5">
-                    <Dt>Public hostname</Dt>
-                    <Dd>{config.publicHostname || "-"}</Dd>
                   </Dl>
                 </Fragment>
               ))

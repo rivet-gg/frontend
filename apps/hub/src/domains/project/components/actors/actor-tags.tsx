@@ -20,19 +20,19 @@ const Tag = forwardRef<
   </Slot>
 ));
 
-interface ServerTagsProps {
+interface ActorTagsProps {
   tags?: unknown;
   excludeBuiltIn?: boolean;
   className?: string;
   truncate?: boolean;
 }
 
-export function ServerTags({
+export function ActorTags({
   tags = {},
   excludeBuiltIn = false,
   truncate = true,
   className,
-}: ServerTagsProps) {
+}: ActorTagsProps) {
   return (
     <div
       className={cn(

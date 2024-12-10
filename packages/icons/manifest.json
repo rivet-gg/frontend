@@ -8060,6 +8060,7 @@
   "@awesome.me/kit-63db24046b/icons/kit/custom": {
     "icons": [
       { "icon": "faActors", "aliases": [] },
+      { "icon": "faActorsBorderless", "aliases": [] },
       { "icon": "faGb", "aliases": [] },
       { "icon": "faProject", "aliases": [] },
       { "icon": "faRivet", "aliases": [] },

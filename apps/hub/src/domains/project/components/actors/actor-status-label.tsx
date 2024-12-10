@@ -1,12 +1,12 @@
 import type { Rivet } from "@rivet-gg/api";
 
-interface ServerStatusLabelProps extends Rivet.servers.Server {}
+interface ActorStatusLabelProps extends Rivet.actor.Actor {}
 
-export const ServerStatusLabel = ({
+export const ActorStatusLabel = ({
   createdAt,
   startedAt,
   destroyedAt,
-}: ServerStatusLabelProps) => {
+}: ActorStatusLabelProps) => {
   const isStarting = createdAt && !startedAt && !destroyedAt;
   const isRunning = createdAt && startedAt && !destroyedAt;
   const isStopped = createdAt && startedAt && destroyedAt;

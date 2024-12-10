@@ -1,4 +1,4 @@
-import { rivetClient } from "@/queries/global";
+import { rivetClient, rivetEeClient } from "@/queries/global";
 import { getMetaWatchIndex } from "@/queries/utils";
 import { loadModuleCategories } from "@rivet-gg/components";
 import { queryOptions } from "@tanstack/react-query";
@@ -200,14 +200,31 @@ export const projectEnvTokenServiceQueryOptions = ({
 
 export const projectMetadataQueryOptions = ({
   projectId,
-}: { projectId: string }) => {
+  environmentId,
+}: { projectId: string; environmentId: string }) => {
   return queryOptions({
-    queryKey: ["project", projectId, "metadata"],
-    queryFn: async ({ queryKey: [_, projectId] }) => {
-      const data = await rivetClient.cloud.games.getGameById(projectId);
+    queryKey: ["project", projectId, "environment", environmentId, "metadata"],
+    queryFn: async ({ queryKey: [_, projectId, __, environmentId] }) => {
+      const { game } = await rivetClient.cloud.games.getGameById(projectId);
+      const legacyLobbiesEnabled = game.versions.length > 1;
+
+      const bootstrap = await rivetClient.cloud.bootstrap();
+      try {
+        if (bootstrap.cluster === "enterprise") {
+          const { backend } = await rivetEeClient.ee.backend.get(
+            projectId,
+            environmentId,
+          );
+          return {
+            legacyLobbiesEnabled,
+            backendModulesEnabled: backend,
+          };
+        }
+      } catch {}
 
       return {
-        legacyLobbiesEnabled: data.game.versions.length > 1,
+        legacyLobbiesEnabled,
+        backendModulesEnabled: false,
       };
     },
   });

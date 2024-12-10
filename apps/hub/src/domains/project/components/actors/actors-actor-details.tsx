@@ -18,49 +18,49 @@ import { useNavigate, useSearch } from "@tanstack/react-router";
 import { formatISO } from "date-fns";
 import { Suspense } from "react";
 import {
-  serverErrorsQueryOptions,
-  serverQueryOptions,
-  useDestroyServerMutation,
+  actorErrorsQueryOptions,
+  actorQueryOptions,
+  useDestroyActorMutation,
 } from "../../queries";
-import { ServerDatacenter } from "./server-datacenter";
-import { ServerLogsTab } from "./server-logs-tab";
-import { ServerNetworkTab } from "./server-network-tab";
-import { ServerRuntimeTab } from "./server-runtime-tab";
-import { ServerStatus } from "./server-status";
-import { ServerTags } from "./server-tags";
+import { ActorLogsTab } from "./actor-logs-tab";
+import { ActorNetworkTab } from "./actor-network-tab";
+import { ActorRegion } from "./actor-region";
+import { ActorRuntimeTab } from "./actor-runtime-tab";
+import { ActorStatus } from "./actor-status";
+import { ActorTags } from "./actor-tags";
 
-interface ServersServerDetailsProps {
+interface ActorsActorDetailsProps {
   projectId: string;
   environmentId: string;
-  serverId: string;
+  actorId: string;
 }
 
-export function ServersServerDetails({
+export function ActorsActorDetails({
   projectId,
   environmentId,
-  serverId,
-}: ServersServerDetailsProps) {
+  actorId,
+}: ActorsActorDetailsProps) {
   const { data } = useSuspenseQuery(
-    serverQueryOptions({ projectId, environmentId, serverId }),
+    actorQueryOptions({ projectId, environmentId, actorId }),
   );
 
   const { data: hasError } = useQuery(
-    serverErrorsQueryOptions({ projectId, environmentId, serverId }),
+    actorErrorsQueryOptions({ projectId, environmentId, actorId }),
   );
 
   const currentTab = useSearch({
-    from: "/_authenticated/_layout/projects/$projectId/environments/$environmentId/servers",
+    from: "/_authenticated/_layout/projects/$projectId/environments/$environmentId/actors",
     select: (state) => state.tab,
   });
   const navigate = useNavigate();
 
-  const { mutate, isPending: isDestroying } = useDestroyServerMutation();
+  const { mutate, isPending: isDestroying } = useDestroyActorMutation();
 
   if (!data) {
     return (
       <Flex items="center" justify="center" className="h-full">
         <Text my="10" textAlign="center">
-          No server found.
+          Actor not found.
         </Text>
       </Flex>
     );
@@ -71,7 +71,7 @@ export function ServersServerDetails({
       fallback={
         <Flex items="center" justify="center" className="h-full">
           <Text textAlign="center">
-            An error occurred while fetching server data.
+            An error occurred while fetching actor data.
           </Text>
         </Flex>
       }
@@ -79,13 +79,13 @@ export function ServersServerDetails({
       <Flex direction="col" className="h-full w-full" pt="4">
         <Flex items="start" gap="4" px="6" className="flex-col">
           <Flex gap="2" justify="between" w="full">
-            <ServerStatus className="text-sm" {...data} />
+            <ActorStatus className="text-sm" {...data} />
             {!data.destroyTs ? (
               <Button
                 isLoading={isDestroying}
                 variant="destructive"
                 size="sm"
-                onClick={() => mutate({ projectId, environmentId, serverId })}
+                onClick={() => mutate({ projectId, environmentId, actorId })}
               >
                 Stop
               </Button>
@@ -94,18 +94,18 @@ export function ServersServerDetails({
 
           <div className="w-full">
             <Flex direction="col" gap="2" className="flex-1 min-w-0" w="full">
-              <ServerTags className="justify-start" {...data} />
+              <ActorTags className="justify-start" {...data} />
             </Flex>
           </div>
           <div className="flex  w-full flex-wrap text-sm gap-4 border px-3 py-2 rounded-md -mx-3 box-content">
             <div className="shrink-0 flex gap-2 items-center justify-center">
               <p className="">Region </p>
               <SmallText className="text-xs text-muted-foreground">
-                <ServerDatacenter
+                <ActorRegion
                   showLabel="abbreviated"
                   projectId={projectId}
                   environmentId={environmentId}
-                  datacenterId={data.datacenter}
+                  regionId={data.region}
                 />
               </SmallText>
             </div>
@@ -178,17 +178,17 @@ export function ServersServerDetails({
               fallback={
                 <Flex items="center" justify="center" className="h-full">
                   <Text textAlign="center">
-                    An error occurred while fetching server's logs.
+                    An error occurred while fetching actors's logs.
                   </Text>
                 </Flex>
               }
             >
-              <Suspense fallback={<ServerLogsTab.Skeleton />}>
-                <ServerLogsTab
+              <Suspense fallback={<ActorLogsTab.Skeleton />}>
+                <ActorLogsTab
                   createdAt={data.createdAt}
                   projectId={projectId}
                   environmentId={environmentId}
-                  serverId={serverId}
+                  actorId={actorId}
                   logType="std_out"
                 />
               </Suspense>
@@ -199,31 +199,31 @@ export function ServersServerDetails({
               fallback={
                 <Flex items="center" justify="center" className="h-full">
                   <Text textAlign="center">
-                    An error occurred while fetching server's logs.
+                    An error occurred while fetching actor's logs.
                   </Text>
                 </Flex>
               }
             >
-              <Suspense fallback={<ServerLogsTab.Skeleton />}>
-                <ServerLogsTab
+              <Suspense fallback={<ActorLogsTab.Skeleton />}>
+                <ActorLogsTab
                   createdAt={data.createdAt}
                   projectId={projectId}
                   environmentId={environmentId}
-                  serverId={serverId}
+                  actorId={actorId}
                   logType="std_err"
                 />
               </Suspense>
             </ErrorBoundary>
           </TabsContent>
           <TabsContent value="runtime" className="min-h-0 flex-1 mt-0">
-            <ServerRuntimeTab
+            <ActorRuntimeTab
               projectId={projectId}
               environmentId={environmentId}
               {...data}
             />
           </TabsContent>
           <TabsContent value="network" className="min-h-0 flex-1 mt-0">
-            <ServerNetworkTab {...data} />
+            <ActorNetworkTab {...data} />
           </TabsContent>
         </Tabs>
       </Flex>
@@ -231,7 +231,7 @@ export function ServersServerDetails({
   );
 }
 
-ServersServerDetails.Skeleton = () => {
+ActorsActorDetails.Skeleton = () => {
   return (
     <Flex className="h-full flex-col">
       <div className="flex flex-col gap-4 px-4 flex-wrap">

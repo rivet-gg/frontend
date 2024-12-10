@@ -1,8 +1,8 @@
 import { BackendEnvironmentDatabaseLink } from "@/domains/project/components/backend/backend-environment-database-link";
 import * as Layout from "@/domains/project/layouts/project-layout";
 import {
+  actorBuildsQueryOptions,
   projectBackendQueryOptions,
-  projectBuildsQueryOptions,
   projectEnvironmentQueryOptions,
   projectMetadataQueryOptions,
   projectVersionQueryOptions,
@@ -25,18 +25,22 @@ const FeaturedModules = lazy(
 
 function environmentIdRoute() {
   const params = Route.useParams();
-  const { projectId } = params;
+  const { projectId, environmentId } = params;
   const {
-    data: { legacyLobbiesEnabled },
-  } = useSuspenseQuery(projectMetadataQueryOptions({ projectId }));
+    data: { legacyLobbiesEnabled, backendModulesEnabled },
+  } = useSuspenseQuery(
+    projectMetadataQueryOptions({ projectId, environmentId }),
+  );
 
   return (
     <>
       <Grid columns={{ initial: "1", md: "2", lg: "3" }} gap="4">
         <CurrentBuildCard />
-        <GuardEnterprise>
-          <BackendEndpointCard />
-        </GuardEnterprise>
+        {backendModulesEnabled ? (
+          <GuardEnterprise>
+            <BackendEndpointCard />
+          </GuardEnterprise>
+        ) : null}
         {legacyLobbiesEnabled ? <CurrentVersionCard /> : null}
       </Grid>
       <GuardEnterprise>
@@ -109,7 +113,7 @@ function CurrentBuildCard() {
   const {
     data: [build],
   } = useSuspenseQuery(
-    projectBuildsQueryOptions({
+    actorBuildsQueryOptions({
       projectId,
       environmentId,
       tags: { current: "true" },

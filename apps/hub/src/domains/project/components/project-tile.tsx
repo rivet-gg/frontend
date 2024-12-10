@@ -3,7 +3,7 @@ import { AssetImage, Flex, Text } from "@rivet-gg/components";
 import { BillingPlanBadge } from "./billing/billing-plan-badge";
 
 interface ProjectTileProps
-  extends Pick<Rivet.game.Summary, "gameId" | "displayName" | "logoUrl"> {}
+  extends Pick<Rivet.game.GameSummary, "gameId" | "displayName" | "logoUrl"> {}
 
 export function ProjectTile({
   gameId: projectId,

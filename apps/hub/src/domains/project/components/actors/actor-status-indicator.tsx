@@ -1,10 +1,10 @@
 import type { Rivet } from "@rivet-gg/api";
 import { cn } from "@rivet-gg/components";
 
-export function getServerStatus(
-  server: Pick<Rivet.servers.Server, "createdAt" | "startedAt" | "destroyedAt">,
+export function getActorStatus(
+  actor: Pick<Rivet.actor.Actor, "createdAt" | "startedAt" | "destroyedAt">,
 ) {
-  const { createdAt, startedAt, destroyedAt } = server;
+  const { createdAt, startedAt, destroyedAt } = actor;
 
   if (createdAt && !startedAt && !destroyedAt) {
     return "starting";
@@ -25,14 +25,14 @@ export function getServerStatus(
   return "unknown";
 }
 
-interface ServerStatusIndicatorProps extends Rivet.servers.Server {}
+interface ActorStatusIndicatorProps extends Rivet.actor.Actor {}
 
-export const ServerStatusIndicator = ({
+export const ActorStatusIndicator = ({
   createdAt,
   startedAt,
   destroyedAt,
-}: ServerStatusIndicatorProps) => {
-  const status = getServerStatus({ createdAt, startedAt, destroyedAt });
+}: ActorStatusIndicatorProps) => {
+  const status = getActorStatus({ createdAt, startedAt, destroyedAt });
 
   return (
     <div

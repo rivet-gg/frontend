@@ -14,11 +14,11 @@ import {
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { useId } from "react";
 import { Fragment } from "react/jsx-runtime";
-import { buildQueryOptions } from "../../queries";
-import { ServerTags } from "./server-tags";
+import { actorBuildQueryOptions } from "../../queries";
+import { ActorTags } from "./actor-tags";
 
-interface ServerRuntimeTabProps
-  extends Omit<Rivet.servers.Server, "createTs" | "startTs" | "destroyTs"> {
+interface ActorRuntimeTabProps
+  extends Omit<Rivet.actor.Actor, "createTs" | "startTs" | "destroyTs"> {
   createTs: Date | undefined;
   startTs: Date | undefined;
   destroyTs: Date | undefined;
@@ -26,15 +26,19 @@ interface ServerRuntimeTabProps
   environmentId: string;
 }
 
-export function ServerRuntimeTab({
+export function ActorRuntimeTab({
   projectId,
   environmentId,
   lifecycle,
   runtime,
   resources,
-}: ServerRuntimeTabProps) {
+}: ActorRuntimeTabProps) {
   const { data } = useSuspenseQuery(
-    buildQueryOptions({ projectId, environmentId, buildId: runtime.build }),
+    actorBuildQueryOptions({
+      projectId,
+      environmentId,
+      buildId: runtime.build,
+    }),
   );
 
   const buildId = useId();
@@ -62,7 +66,7 @@ export function ServerRuntimeTab({
                   <Dt>Tags</Dt>
                   <Dd>
                     {Object.keys(data.tags).length > 0 ? (
-                      <ServerTags tags={data.tags} />
+                      <ActorTags tags={data.tags} />
                     ) : (
                       "None"
                     )}

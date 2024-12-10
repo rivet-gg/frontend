@@ -1,11 +1,11 @@
 import type { Rivet } from "@rivet-gg/api";
 import type { LobbyStatus } from "../data/lobby-status";
 
-export type GroupProjects = Rivet.group.Summary & {
-  projects: Rivet.game.Summary[];
+export type GroupProjects = Rivet.group.GroupSummary & {
+  projects: Rivet.game.GameSummary[];
 };
 
-export type Project = Rivet.game.Summary & {
+export type Project = Rivet.game.GameSummary & {
   namespaces: Rivet.cloud.NamespaceSummary[];
 };
 

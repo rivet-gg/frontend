@@ -271,11 +271,6 @@ useDialog.ConfirmLeaveGroup = createDialogHook(
   import("@/domains/group/components/dialogs/confirm-leave-group-dialog"),
 );
 
-useDialog.CreateDynamicServer = createDialogHook(
-  import("@/domains/project/components/dialogs/create-dynamic-server-dialog"),
-  { size: "lg" },
-);
-
 useDialog.EditBuildTags = createDialogHook(
   import("@/domains/project/components/dialogs/edit-build-tags-dialog"),
 );
