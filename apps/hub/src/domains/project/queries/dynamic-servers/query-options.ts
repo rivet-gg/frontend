@@ -2,7 +2,11 @@ import { mergeWatchStreams } from "@/lib/watch-utilities";
 import { rivetClient } from "@/queries/global";
 import { getMetaWatchIndex } from "@/queries/utils";
 import type { Rivet } from "@rivet-gg/api";
-import { infiniteQueryOptions, queryOptions } from "@tanstack/react-query";
+import {
+  type InfiniteData,
+  infiniteQueryOptions,
+  queryOptions,
+} from "@tanstack/react-query";
 
 export const projectServersQueryOptions = ({
   projectId,
@@ -30,6 +34,33 @@ export const projectServersQueryOptions = ({
     getNextPageParam: (lastPage) => {
       if (!lastPage.servers) return null;
       return lastPage.servers[lastPage.servers?.length - 1]?.id;
+    },
+    meta: {
+      updateCache: (
+        data: InfiniteData<Rivet.servers.ListServersResponse>,
+        client,
+      ) => {
+        for (const page of data.pages) {
+          for (const server of page.servers) {
+            client.setQueryData(
+              [
+                "project",
+                projectId,
+                "environment",
+                environmentId,
+                "server",
+                server.id,
+              ],
+              (oldData) => {
+                if (!oldData) return oldData;
+                return {
+                  server,
+                };
+              },
+            );
+          }
+        }
+      },
     },
   });
 };
