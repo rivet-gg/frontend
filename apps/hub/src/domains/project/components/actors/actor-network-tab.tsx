@@ -43,12 +43,24 @@ export function ActorNetworkTab({ network }: ActorNetworkTabProps) {
                     ) : null}
                   </Dd>
                   <Dl className="col-span-2 ml-5">
+                    <Dt>Internal port</Dt>
+                    <Dd>{config.internalPort || "-"}</Dd>
+                  </Dl>
+                  <Dl className="col-span-2 ml-5">
                     <Dt>Protocol</Dt>
                     <Dd>{config.protocol}</Dd>
                   </Dl>
                   <Dl className="col-span-2 ml-5">
-                    <Dt>Internal port</Dt>
-                    <Dd>{config.internalPort || "-"}</Dd>
+                    <Dt>Hostname</Dt>
+                    <Dd>{config.hostname || "-"}</Dd>
+                  </Dl>
+                  <Dl className="col-span-2 ml-5">
+                    <Dt>Path</Dt>
+                    <Dd>{config.path || "-"}</Dd>
+                  </Dl>
+                  <Dl className="col-span-2 ml-5">
+                    <Dt>Port</Dt>
+                    <Dd>{config.port || "-"}</Dd>
                   </Dl>
                 </Fragment>
               ))
