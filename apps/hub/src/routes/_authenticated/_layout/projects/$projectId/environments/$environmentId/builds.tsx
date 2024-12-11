@@ -3,7 +3,7 @@ import { ProjectBuildsTableActions } from "@/domains/project/components/project-
 import * as Layout from "@/domains/project/layouts/servers-layout";
 import {
   projectBuildsQueryOptions,
-  usePatchBuildTagsMutation,
+  usePatchActorBuildTagsMutation,
 } from "@/domains/project/queries";
 import type { Rivet } from "@rivet-gg/api";
 import {
@@ -12,6 +12,7 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
+  CopyButton,
   Flex,
   Table,
   TableBody,
@@ -55,25 +56,15 @@ function ProjectBuildsRoute() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Name</TableHead>
+              <TableHead>Id</TableHead>
               <TableHead>Created at</TableHead>
               <TableHead>Tags</TableHead>
               <TableHead>
                 <WithTooltip
-                  content="Servers will be created with this build if a version is not explicitly specified."
+                  content="Actors will be created with this build if a version is not explicitly specified."
                   trigger={
                     <span>
                       Current <Icon icon={faInfoCircle} />
-                    </span>
-                  }
-                />
-              </TableHead>
-              <TableHead>
-                <WithTooltip
-                  content="Determines if project servers can be created with this build."
-                  trigger={
-                    <span>
-                      Enabled <Icon icon={faInfoCircle} />
                     </span>
                   }
                 />
@@ -91,20 +82,22 @@ function ProjectBuildsRoute() {
             ) : null}
             {builds.map((build) => (
               <TableRow key={build.id}>
-                <TableCell>{build.name}</TableCell>
+                <TableCell>
+                  <WithTooltip
+                    content={build.id}
+                    trigger={
+                      <CopyButton value={build.id}>
+                        <button type="button">{build.id.split("-")[0]}</button>
+                      </CopyButton>
+                    }
+                  />
+                </TableCell>
                 <TableCell>{build.createdAt.toLocaleString()}</TableCell>
                 <TableCell>
                   <ActorTags {...build} excludeBuiltIn />
                 </TableCell>
                 <TableCell>
                   <ProjectBuildLatestButton
-                    projectId={projectId}
-                    environmentId={environmentId}
-                    {...build}
-                  />
-                </TableCell>
-                <TableCell>
-                  <ProjectBuildEnabledButton
                     projectId={projectId}
                     environmentId={environmentId}
                     {...build}
@@ -122,55 +115,9 @@ function ProjectBuildsRoute() {
   );
 }
 
-interface ProjectBuildActionButtonProps extends Rivet.servers.Build {
+interface ProjectBuildLatestButtonProps extends Rivet.actor.Build {
   projectId: string;
   environmentId: string;
-}
-
-function ProjectBuildEnabledButton({
-  tags,
-  id,
-  projectId,
-  environmentId,
-}: ProjectBuildActionButtonProps) {
-  const { mutate, isPending } = usePatchBuildTagsMutation();
-  if (tags.enabled === "true") {
-    return (
-      <Button
-        variant="outline"
-        size="sm"
-        isLoading={isPending}
-        onClick={() => {
-          mutate({
-            buildId: id,
-            projectId,
-            environmentId,
-            tags: { enabled: null },
-          });
-        }}
-      >
-        Disable
-      </Button>
-    );
-  }
-
-  return (
-    <Button
-      variant="outline"
-      size="sm"
-      isLoading={isPending}
-      onClick={() => {
-        mutate({
-          buildId: id,
-          projectId,
-          environmentId,
-          tags: { enabled: "true" },
-        });
-      }}
-    >
-      Enable
-    </Button>
-  );
 }
 
 function ProjectBuildLatestButton({
@@ -178,8 +125,8 @@ function ProjectBuildLatestButton({
   id,
   projectId,
   environmentId,
-}: ProjectBuildActionButtonProps) {
-  const { mutate, isPending } = usePatchBuildTagsMutation();
+}: ProjectBuildLatestButtonProps) {
+  const { mutate, isPending } = usePatchActorBuildTagsMutation();
 
   if (tags.current !== "true") {
     return (
