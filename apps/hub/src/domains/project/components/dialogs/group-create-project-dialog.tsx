@@ -6,8 +6,9 @@ import {
   DialogTitle,
   Flex,
 } from "@rivet-gg/components";
+import { useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
-import { useProjectCreateMutation } from "../../queries";
+import { projectQueryOptions, useProjectCreateMutation } from "../../queries";
 
 interface ContentProps {
   groupId: string;
@@ -16,12 +17,16 @@ interface ContentProps {
 export default function CreateGroupProjectDialogContent({
   groupId,
 }: ContentProps) {
+  const queryClient = useQueryClient();
   const navigate = useNavigate();
   const { mutateAsync } = useProjectCreateMutation({
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
+      const project = await queryClient.ensureQueryData(
+        projectQueryOptions(data.gameId),
+      );
       navigate({
-        to: "/projects/$projectId",
-        params: { projectId: data.gameId },
+        to: "/projects/$projectNameId",
+        params: { projectNameId: project.game.nameId },
       });
     },
   });

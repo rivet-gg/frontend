@@ -22,10 +22,12 @@ import { ProjectEnvironmentsTableActions } from "../components/project-environme
 
 interface ProjectEnvironmentsViewProps {
   projectId: string;
+  projectNameId: string;
 }
 
 export function ProjectEnvironmentsView({
   projectId,
+  projectNameId,
 }: ProjectEnvironmentsViewProps) {
   const { data } = useSuspenseQuery(projectEnvironmentsQueryOptions(projectId));
 
@@ -59,10 +61,10 @@ export function ProjectEnvironmentsView({
                 isClickable
                 onClick={() => {
                   navigate({
-                    to: "/projects/$projectId/environments/$environmentId",
+                    to: "/projects/$projectNameId/environments/$environmentNameId",
                     params: {
-                      projectId,
-                      environmentId: environment.namespaceId,
+                      projectNameId,
+                      environmentNameId: environment.nameId,
                     },
                   });
                 }}

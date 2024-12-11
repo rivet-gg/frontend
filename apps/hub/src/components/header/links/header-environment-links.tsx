@@ -1,4 +1,6 @@
 import {
+  environmentByIdQueryOptions,
+  projectByIdQueryOptions,
   projectEnvironmentQueryOptions,
   projectMetadataQueryOptions,
 } from "@/domains/project/queries";
@@ -13,19 +15,29 @@ import {
   faPuzzle,
   faPuzzlePiece,
 } from "@rivet-gg/icons";
-import { useSuspenseQueries } from "@tanstack/react-query";
+import { useSuspenseQueries, useSuspenseQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import { HeaderLink } from "../header-link";
 
 interface EnvironmentLinksProps {
-  environmentId: string;
-  projectId: string;
+  projectNameId: string;
+  environmentNameId: string;
 }
 
 export function HeaderEnvironmentLinks({
-  projectId,
-  environmentId,
+  projectNameId,
+  environmentNameId,
 }: EnvironmentLinksProps) {
+  const {
+    data: { gameId: projectId },
+  } = useSuspenseQuery(projectByIdQueryOptions(projectNameId));
+
+  const {
+    data: { namespaceId: environmentId },
+  } = useSuspenseQuery(
+    environmentByIdQueryOptions({ projectId, environmentNameId }),
+  );
+
   const [
     { data },
     {
@@ -42,16 +54,16 @@ export function HeaderEnvironmentLinks({
     <>
       <HeaderLink icon={faActorsBorderless}>
         <Link
-          to="/projects/$projectId/environments/$environmentId/actors"
-          params={{ projectId, environmentId }}
+          to="/projects/$projectNameId/environments/$environmentNameId/actors"
+          params={{ projectNameId, environmentNameId }}
         >
           Actors
         </Link>
       </HeaderLink>
       <HeaderLink icon={faHammer}>
         <Link
-          to="/projects/$projectId/environments/$environmentId/builds"
-          params={{ projectId, environmentId }}
+          to="/projects/$projectNameId/environments/$environmentNameId/builds"
+          params={{ projectNameId, environmentNameId }}
         >
           Builds
         </Link>
@@ -60,16 +72,16 @@ export function HeaderEnvironmentLinks({
         <GuardEnterprise>
           <HeaderLink icon={faPuzzle}>
             <Link
-              to="/projects/$projectId/environments/$environmentId/backend"
-              params={{ projectId, environmentId }}
+              to="/projects/$projectNameId/environments/$environmentNameId/backend"
+              params={{ projectNameId, environmentNameId }}
             >
               Backend
             </Link>
           </HeaderLink>
           <HeaderLink icon={faPuzzlePiece}>
             <Link
-              to="/projects/$projectId/environments/$environmentId/modules"
-              params={{ projectId, environmentId }}
+              to="/projects/$projectNameId/environments/$environmentNameId/modules"
+              params={{ projectNameId, environmentNameId }}
             >
               Modules
             </Link>
@@ -80,8 +92,8 @@ export function HeaderEnvironmentLinks({
         <>
           <HeaderLink icon={faCodeBranch}>
             <Link
-              to="/projects/$projectId/environments/$environmentId/versions"
-              params={{ projectId, environmentId }}
+              to="/projects/$projectNameId/environments/$environmentNameId/versions"
+              params={{ projectNameId, environmentNameId }}
             >
               Versions
             </Link>
@@ -89,8 +101,8 @@ export function HeaderEnvironmentLinks({
           {data.namespace.config.matchmaker ? (
             <HeaderLink icon={faChessKnight}>
               <Link
-                to="/projects/$projectId/environments/$environmentId/lobbies"
-                params={{ projectId, environmentId }}
+                to="/projects/$projectNameId/environments/$environmentNameId/lobbies"
+                params={{ projectNameId, environmentNameId }}
               >
                 Lobbies
               </Link>
@@ -99,8 +111,8 @@ export function HeaderEnvironmentLinks({
           {data.namespace.config.cdn ? (
             <HeaderLink icon={faGlobe}>
               <Link
-                to="/projects/$projectId/environments/$environmentId/cdn"
-                params={{ projectId, environmentId }}
+                to="/projects/$projectNameId/environments/$environmentNameId/cdn"
+                params={{ projectNameId, environmentNameId }}
               >
                 CDN
               </Link>
@@ -110,8 +122,8 @@ export function HeaderEnvironmentLinks({
       ) : null}
       <HeaderLink icon={faKey}>
         <Link
-          to="/projects/$projectId/environments/$environmentId/tokens"
-          params={{ projectId, environmentId }}
+          to="/projects/$projectNameId/environments/$environmentNameId/tokens"
+          params={{ projectNameId, environmentNameId }}
         >
           Tokens
         </Link>

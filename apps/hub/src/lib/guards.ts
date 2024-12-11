@@ -4,13 +4,20 @@ import {
   clusterQueryOptions,
 } from "@/domains/auth/queries/bootstrap";
 import {
+  projectByIdQueryOptions,
+  projectEnvironmentQueryOptions,
   projectQueryOptions,
-  projectsQueryOptions,
+  projectsByGroupQueryOptions,
 } from "@/domains/project/queries";
 import { type QueryClient, useSuspenseQuery } from "@tanstack/react-query";
-import { notFound, redirect } from "@tanstack/react-router";
+import {
+  type ParsedLocation,
+  notFound,
+  redirect,
+} from "@tanstack/react-router";
 import type { PropsWithChildren } from "react";
 import { ls } from "./ls";
+import { isUuid } from "./utils";
 
 export function GuardEnterprise({ children }: PropsWithChildren) {
   const { data: cluster } = useSuspenseQuery(clusterQueryOptions());
@@ -39,7 +46,7 @@ export async function guardOssNewbie({
   const { cluster } = await queryClient.fetchQuery(bootstrapQueryOptions());
 
   const { games: projects, groups } = await queryClient.fetchQuery(
-    projectsQueryOptions(),
+    projectsByGroupQueryOptions(),
   );
 
   if (cluster === "oss" && projects.length === 1) {
@@ -50,18 +57,18 @@ export async function guardOssNewbie({
     // In case the project has no namespaces, or we failed to fetch the project, redirect to the project page
     if (namespaces.length > 0) {
       throw redirect({
-        to: "/projects/$projectId/environments/$environmentId",
+        to: "/projects/$projectNameId/environments/$environmentNameId",
         params: {
-          projectId: projects[0].gameId,
-          environmentId: namespaces[0].namespaceId,
+          projectNameId: projects[0].nameId,
+          environmentNameId: namespaces[0].nameId,
         },
         from: "/",
       });
     }
     throw redirect({
-      to: "/projects/$projectId",
+      to: "/projects/$projectNameId",
       params: {
-        projectId: projects[0].gameId,
+        projectNameId: projects[0].nameId,
       },
       from: "/",
     });
@@ -84,6 +91,64 @@ export async function guardOssNewbie({
       to: "/teams/$groupId",
       params: { groupId: groups[0].groupId },
       from: "/",
+    });
+  }
+}
+
+export async function guardUuids({
+  queryClient,
+  projectNameId,
+  environmentNameId,
+  location,
+}: {
+  queryClient: QueryClient;
+  projectNameId: string;
+  environmentNameId: string | undefined;
+  location: ParsedLocation;
+}) {
+  let pathname = location.pathname;
+
+  if (isUuid(projectNameId)) {
+    const response = await queryClient.fetchQuery(
+      projectsByGroupQueryOptions(),
+    );
+    const project = response?.games.find((p) => p.gameId === projectNameId);
+    if (project) {
+      pathname = pathname.replace(projectNameId, project.nameId);
+    }
+  }
+
+  if (environmentNameId && isUuid(environmentNameId)) {
+    const { games: projects } = await queryClient.fetchQuery(
+      projectByIdQueryOptions(projectNameId),
+    );
+
+    const envProject = projects.find((p) => p.nameId === projectNameId);
+
+    if (!envProject) {
+      // bail out if we can't find the project
+      return;
+    }
+
+    const { namespace: environment } = await queryClient.fetchQuery(
+      projectEnvironmentQueryOptions({
+        projectId: envProject.gameId,
+        environmentId: environmentNameId,
+      }),
+    );
+
+    if (!environment) {
+      // bail out if we can't find the environment
+      return;
+    }
+
+    pathname = pathname.replace(environmentNameId, environment.nameId);
+  }
+
+  if (pathname !== location.pathname) {
+    throw redirect({
+      to: pathname,
+      replace: true,
     });
   }
 }

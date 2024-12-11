@@ -1,5 +1,5 @@
 import { GroupAvatar } from "@/domains/group/components/group-avatar";
-import { projectsQueryOptions } from "@/domains/project/queries";
+import { projectsByGroupQueryOptions } from "@/domains/project/queries";
 import {
   Flex,
   Select,
@@ -26,7 +26,7 @@ export function ProjectSelect({
   onValueChange,
   ...props
 }: ProjectSelectProps) {
-  const { data } = useSuspenseQuery(projectsQueryOptions());
+  const { data } = useSuspenseQuery(projectsByGroupQueryOptions());
 
   const handleValueChange = useCallback(
     (value: string) => {

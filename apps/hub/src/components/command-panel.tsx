@@ -47,27 +47,33 @@ export function CommandPanel() {
       }
 
       const isProject = matchRoute({
-        to: "/projects/$projectId",
+        to: "/projects/$projectNameId",
         fuzzy: true,
-      }) as { projectId: string } | false;
+      });
       if (isProject) {
         setPages([
-          { key: "project", params: { projectId: isProject.projectId } },
+          {
+            key: "project",
+            params: { projectNameId: isProject.projectNameId },
+          },
         ]);
       }
 
       const isEnvironment = matchRoute({
-        to: "/projects/$projectId/environments/$environmentId",
+        to: "/projects/$projectNameId/environments/$environmentNameId",
         fuzzy: true,
-      }) as { projectId: string; environmentId: string } | false;
+      });
       if (isEnvironment) {
         setPages([
-          { key: "project", params: { projectId: isEnvironment.projectId } },
+          {
+            key: "project",
+            params: { projectNameId: isEnvironment.projectNameId },
+          },
           {
             key: "environment",
             params: {
-              projectId: isEnvironment.projectId,
-              environmentId: isEnvironment.environmentId,
+              projectNameId: isEnvironment.projectNameId,
+              environmentNameId: isEnvironment.environmentNameId,
             },
           },
         ]);
@@ -159,12 +165,14 @@ export function CommandPanel() {
                 <GroupCommandPanelPage groupId={page.params.groupId} />
               ) : null}
               {page?.key === "project" ? (
-                <ProjectCommandPanelPage projectId={page.params.projectId} />
+                <ProjectCommandPanelPage
+                  projectNameId={page.params.projectNameId}
+                />
               ) : null}
               {page?.key === "environment" ? (
                 <EnvironmentCommandPanelPage
-                  projectId={page.params.projectId}
-                  environmentId={page.params.environmentId}
+                  projectNameId={page.params.projectNameId}
+                  environmentNameId={page.params.environmentNameId}
                 />
               ) : null}
             </Suspense>

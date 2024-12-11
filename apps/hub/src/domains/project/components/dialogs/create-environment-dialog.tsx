@@ -7,9 +7,10 @@ import {
   DialogTitle,
   Flex,
 } from "@rivet-gg/components";
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
 import {
+  projectEnvironmentQueryOptions,
   projectQueryOptions,
   useEnvironmentCreateMutation,
 } from "../../queries";
@@ -21,13 +22,23 @@ interface ContentProps extends DialogContentProps {
 export default function CreateEnvironmentDialogContent({
   projectId,
 }: ContentProps) {
+  const queryClient = useQueryClient();
   const navigate = useNavigate();
   const { data: project } = useSuspenseQuery(projectQueryOptions(projectId));
   const { mutateAsync } = useEnvironmentCreateMutation({
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
+      const env = await queryClient.ensureQueryData(
+        projectEnvironmentQueryOptions({
+          projectId,
+          environmentId: data.namespaceId,
+        }),
+      );
       navigate({
-        to: "/projects/$projectId/environments/$environmentId",
-        params: { projectId: projectId, environmentId: data.namespaceId },
+        to: "/projects/$projectNameId/environments/$environmentNameId",
+        params: {
+          projectNameId: project.nameId,
+          environmentNameId: env.namespace.nameId,
+        },
       });
     },
   });

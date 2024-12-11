@@ -9,11 +9,17 @@ import {
 } from "@tanstack/react-query";
 
 export const projectActorsQueryOptions = ({
-  projectId,
-  environmentId,
-}: { projectId: string; environmentId: string }) => {
+  projectNameId,
+  environmentNameId,
+}: { projectNameId: string; environmentNameId: string }) => {
   return infiniteQueryOptions({
-    queryKey: ["project", projectId, "environment", environmentId, "actors"],
+    queryKey: [
+      "project",
+      projectNameId,
+      "environment",
+      environmentNameId,
+      "actors",
+    ],
     refetchInterval: 5000,
     initialPageParam: "",
     queryFn: ({
@@ -22,7 +28,12 @@ export const projectActorsQueryOptions = ({
       queryKey: [_, project, __, environment],
     }) =>
       rivetClient.actor.list(
-        { project, environment, cursor: pageParam ? pageParam : undefined },
+        {
+          project,
+          environment,
+          includeDestroyed: true,
+          cursor: pageParam ? pageParam : undefined,
+        },
         { abortSignal },
       ),
     select: (data) => data.pages.flatMap((page) => page.actors || []),
@@ -40,9 +51,9 @@ export const projectActorsQueryOptions = ({
             client.setQueryData(
               [
                 "project",
-                projectId,
+                projectNameId,
                 "environment",
-                environmentId,
+                environmentNameId,
                 "actor",
                 actor.id,
               ],
@@ -61,20 +72,20 @@ export const projectActorsQueryOptions = ({
 };
 
 export const actorQueryOptions = ({
-  projectId,
-  environmentId,
+  projectNameId,
+  environmentNameId,
   actorId,
 }: {
-  projectId: string;
-  environmentId: string;
+  projectNameId: string;
+  environmentNameId: string;
   actorId: string;
 }) => {
   return queryOptions({
     queryKey: [
       "project",
-      projectId,
+      projectNameId,
       "environment",
-      environmentId,
+      environmentNameId,
       "actor",
       actorId,
     ],
@@ -110,13 +121,13 @@ export const actorQueryOptions = ({
 
 export const actorLogsQueryOptions = (
   {
-    projectId,
-    environmentId,
+    projectNameId,
+    environmentNameId,
     actorId,
     stream,
   }: {
-    projectId: string;
-    environmentId: string;
+    projectNameId: string;
+    environmentNameId: string;
     actorId: string;
     stream: Rivet.actor.LogStream;
   },
@@ -126,9 +137,9 @@ export const actorLogsQueryOptions = (
     ...opts,
     queryKey: [
       "project",
-      projectId,
+      projectNameId,
       "environment",
-      environmentId,
+      environmentNameId,
       "actor",
       actorId,
       "logs",
@@ -161,18 +172,18 @@ export const actorLogsQueryOptions = (
 };
 
 export const actorErrorsQueryOptions = ({
-  projectId,
-  environmentId,
+  projectNameId,
+  environmentNameId,
   actorId,
 }: {
-  projectId: string;
-  environmentId: string;
+  projectNameId: string;
+  environmentNameId: string;
   actorId: string;
 }) => {
   return queryOptions({
     ...actorLogsQueryOptions({
-      projectId,
-      environmentId,
+      projectNameId,
+      environmentNameId,
       actorId,
       stream: Rivet.actor.LogStream.StdErr,
     }),
@@ -181,20 +192,20 @@ export const actorErrorsQueryOptions = ({
 };
 
 export const actorBuildsQueryOptions = ({
-  environmentId,
-  projectId,
+  projectNameId,
+  environmentNameId,
   tags = {},
 }: {
-  projectId: string;
-  environmentId: string;
+  projectNameId: string;
+  environmentNameId: string;
   tags?: Record<string, string>;
 }) => {
   return queryOptions({
     queryKey: [
       "project",
-      projectId,
+      projectNameId,
       "environment",
-      environmentId,
+      environmentNameId,
       "actor-builds",
       tags,
     ] as const,
@@ -222,20 +233,20 @@ export const actorBuildsQueryOptions = ({
 };
 
 export const actorBuildQueryOptions = ({
-  projectId,
-  environmentId,
+  projectNameId,
+  environmentNameId,
   buildId,
 }: {
-  projectId: string;
-  environmentId: string;
+  projectNameId: string;
+  environmentNameId: string;
   buildId: string;
 }) => {
   return queryOptions({
     queryKey: [
       "project",
-      projectId,
+      projectNameId,
       "environment",
-      environmentId,
+      environmentNameId,
       "actor-build",
       buildId,
     ],
@@ -255,11 +266,17 @@ export const actorBuildQueryOptions = ({
 };
 
 export const actorRegionsQueryOptions = ({
-  projectId,
-  environmentId,
-}: { projectId: string; environmentId: string }) => {
+  projectNameId,
+  environmentNameId,
+}: { projectNameId: string; environmentNameId: string }) => {
   return queryOptions({
-    queryKey: ["project", projectId, "environment", environmentId, "regions"],
+    queryKey: [
+      "project",
+      projectNameId,
+      "environment",
+      environmentNameId,
+      "regions",
+    ],
     queryFn: ({
       signal: abortSignal,
       queryKey: [_, project, __, environment],
@@ -275,18 +292,18 @@ export const actorRegionsQueryOptions = ({
 };
 
 export const actorRegionQueryOptions = ({
-  projectId,
-  environmentId,
+  projectNameId,
+  environmentNameId,
   regionId,
 }: {
-  projectId: string;
-  environmentId: string;
+  projectNameId: string;
+  environmentNameId: string;
   regionId: string;
 }) => {
   return queryOptions({
-    ...actorRegionsQueryOptions({ projectId, environmentId }),
+    ...actorRegionsQueryOptions({ projectNameId, environmentNameId }),
     select: (data) =>
-      actorRegionsQueryOptions({ projectId, environmentId })
+      actorRegionsQueryOptions({ projectNameId, environmentNameId })
         .select?.(data)
         .find((region) => region.id === regionId),
   });

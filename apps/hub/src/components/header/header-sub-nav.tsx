@@ -1,5 +1,5 @@
 import { useAuth } from "@/domains/auth/contexts/auth";
-import { noop } from "@/lib/utils";
+import { RestOnRouteChange } from "@/lib/utils";
 import { Skeleton, cn } from "@rivet-gg/components";
 import { CatchBoundary, useMatchRoute } from "@tanstack/react-router";
 import { Suspense, useContext } from "react";
@@ -18,7 +18,7 @@ function Content() {
   }
 
   const namespaceMatch = matchRoute({
-    to: "/projects/$projectId/environments/$environmentId",
+    to: "/projects/$projectNameId/environments/$environmentNameId",
     fuzzy: true,
     pending: false,
   });
@@ -26,24 +26,26 @@ function Content() {
   if (namespaceMatch) {
     return (
       <HeaderEnvironmentLinks
-        projectId={namespaceMatch.projectId}
-        environmentId={namespaceMatch.environmentId}
+        projectNameId={namespaceMatch.projectNameId}
+        environmentNameId={namespaceMatch.environmentNameId}
       />
     );
   }
 
   const projectMatch = matchRoute({
-    to: "/projects/$projectId",
+    to: "/projects/$projectNameId",
     fuzzy: true,
+    pending: false,
   });
 
   if (projectMatch) {
-    return <HeaderProjectLinks projectId={projectMatch.projectId} />;
+    return <HeaderProjectLinks projectNameId={projectMatch.projectNameId} />;
   }
 
   const groupMatch = matchRoute({
     to: "/teams/$groupId",
     fuzzy: true,
+    pending: false,
   });
 
   if (groupMatch) {
@@ -55,8 +57,12 @@ function Content() {
 
 export function HeaderSubNav() {
   const isMobile = useContext(MobileBreadcrumbsContext);
+
   return (
-    <CatchBoundary getResetKey={() => "reset"} errorComponent={noop}>
+    <CatchBoundary
+      getResetKey={() => Date.now()}
+      errorComponent={RestOnRouteChange}
+    >
       <Suspense
         fallback={
           <div className="-mb-2 hidden md:flex min-h-10 items-center gap-6">

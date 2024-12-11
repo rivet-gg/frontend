@@ -2,19 +2,25 @@ import { queryClient, rivetClient } from "@/queries/global";
 import type { Rivet } from "@rivet-gg/api";
 import { toast } from "@rivet-gg/components";
 import { useMutation } from "@tanstack/react-query";
-import { projectQueryOptions, projectsQueryOptions } from "./query-options";
+import {
+  projectQueryOptions,
+  projectsByGroupQueryOptions,
+} from "./query-options";
 
 export const useProjectCreateMutation = ({
   onSuccess,
 }: {
-  onSuccess?: (data: Rivet.cloud.games.CreateGameResponse) => void;
+  onSuccess?: (data: Rivet.cloud.GameFull) => void;
 } = {}) => {
   return useMutation({
     mutationFn: async (data: Rivet.cloud.games.CreateGameRequest) =>
       rivetClient.cloud.games.createGame(data),
     onSuccess: async (data) => {
-      await queryClient.invalidateQueries(projectsQueryOptions());
-      await onSuccess?.(data);
+      await queryClient.invalidateQueries(projectsByGroupQueryOptions());
+      const project = await queryClient.ensureQueryData(
+        projectQueryOptions(data.gameId),
+      );
+      await onSuccess?.(project.game);
     },
   });
 };
@@ -37,7 +43,7 @@ export const useEnvironmentCreateMutation = ({
     onSuccess: async (data, values) => {
       await Promise.all([
         queryClient.invalidateQueries(projectQueryOptions(values.projectId)),
-        queryClient.invalidateQueries(projectsQueryOptions()),
+        queryClient.invalidateQueries(projectsByGroupQueryOptions()),
       ]);
       onSuccess?.(data);
     },
@@ -74,7 +80,7 @@ const useProjectLogoUploadCompleteMutation = () => {
     onSuccess(_, variables) {
       return Promise.all([
         queryClient.invalidateQueries(projectQueryOptions(variables.projectId)),
-        queryClient.invalidateQueries(projectsQueryOptions()),
+        queryClient.invalidateQueries(projectsByGroupQueryOptions()),
       ]);
     },
   });

@@ -3,19 +3,19 @@ import { Link } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 
 interface GroupPageProps {
-  projectId: string;
+  projectNameId: string;
   children: ReactNode;
 }
 
-function GroupSettingsPage({ children, projectId }: GroupPageProps) {
+function GroupSettingsPage({ children, projectNameId }: GroupPageProps) {
   return (
     <SidebarPageContent
       sidebar={
         <SidebarNavigation>
           <Link
-            to="/projects/$projectId/settings"
+            to="/projects/$projectNameId/settings"
             activeOptions={{ exact: true }}
-            params={{ projectId }}
+            params={{ projectNameId }}
             className="aria-current-page:text-foreground aria-current-page:font-semibold"
           >
             Tokens

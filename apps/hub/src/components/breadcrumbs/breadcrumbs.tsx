@@ -1,5 +1,5 @@
 import { useAuth } from "@/domains/auth/contexts/auth";
-import { noop } from "@/lib/utils";
+import { RestOnRouteChange } from "@/lib/utils";
 import { Skeleton, cn } from "@rivet-gg/components";
 import { CatchBoundary, useMatchRoute } from "@tanstack/react-router";
 import { Suspense, useContext } from "react";
@@ -23,23 +23,26 @@ function Content() {
   }
 
   const projectEnvMatch = matchRoute({
-    to: "/projects/$projectId/environments/$environmentId",
+    to: "/projects/$projectNameId/environments/$environmentNameId",
     fuzzy: true,
   });
 
   if (projectEnvMatch) {
     return (
       <EnvironmentBreadcrumb
-        environmentId={projectEnvMatch.environmentId}
-        projectId={projectEnvMatch.projectId}
+        environmentNameId={projectEnvMatch.environmentNameId}
+        projectNameId={projectEnvMatch.projectNameId}
       />
     );
   }
 
-  const projectMatch = matchRoute({ to: "/projects/$projectId", fuzzy: true });
+  const projectMatch = matchRoute({
+    to: "/projects/$projectNameId",
+    fuzzy: true,
+  });
 
   if (projectMatch) {
-    return <ProjectBreadcrumb projectId={projectMatch.projectId} />;
+    return <ProjectBreadcrumb projectNameId={projectMatch.projectNameId} />;
   }
 
   return null;
@@ -55,7 +58,10 @@ export function Breadcrumbs() {
         !isMobile && "items-center gap-2",
       )}
     >
-      <CatchBoundary getResetKey={() => "reset"} errorComponent={noop}>
+      <CatchBoundary
+        getResetKey={() => Date.now()}
+        errorComponent={RestOnRouteChange}
+      >
         <Suspense
           fallback={
             <>

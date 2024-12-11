@@ -4,12 +4,12 @@ import { useCommandPanelNavigation } from "./command-panel-navigation-provider";
 
 interface EnvironmentsCommandPanelItemsProps {
   namespaces: Environment[];
-  projectId: string;
+  projectNameId: string;
 }
 
 export function EnvironmentsCommandPanelItems({
   namespaces,
-  projectId,
+  projectNameId,
 }: EnvironmentsCommandPanelItemsProps) {
   const { changePage } = useCommandPanelNavigation();
   return (
@@ -20,7 +20,7 @@ export function EnvironmentsCommandPanelItems({
           onSelect={() => {
             changePage({
               key: "environment",
-              params: { projectId, environmentId: environment.namespaceId },
+              params: { projectNameId, environmentNameId: environment.nameId },
             });
           }}
         >

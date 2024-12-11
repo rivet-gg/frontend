@@ -11,7 +11,7 @@ import { useProjectCreateMutation } from "../../queries";
 
 interface CreateProjectDialogContentProps {
   groupId?: string;
-  onSuccess?: (data: Rivet.cloud.games.CreateGameResponse) => void;
+  onSuccess?: (data: Rivet.cloud.GameFull) => void;
 }
 
 export default function CreateProjectDialogContent({

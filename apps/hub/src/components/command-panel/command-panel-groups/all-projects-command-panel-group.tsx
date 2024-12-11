@@ -1,10 +1,10 @@
-import { projectsQueryOptions } from "@/domains/project/queries";
+import { projectsByGroupQueryOptions } from "@/domains/project/queries";
 import { CommandGroup } from "@rivet-gg/components";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { ProjectsCommandPanelItems } from "../projects-command-panel-items";
 
 export function AllProjectsProjectsCommandGroup() {
-  const { data } = useSuspenseQuery(projectsQueryOptions());
+  const { data } = useSuspenseQuery(projectsByGroupQueryOptions());
 
   return (
     <CommandGroup heading="Projects">
