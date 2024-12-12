@@ -1,3 +1,4 @@
+import * as Sentry from "@sentry/react";
 import { z } from "zod";
 
 function getModuleCallOrNull(event: Event, url: string) {
@@ -63,6 +64,11 @@ export const BackendEvent = z
     scriptVersion: z.object({
       id: z.string(),
     }),
+  })
+  .catch((ctx) => {
+    console.error(ctx.error);
+    Sentry.captureException(ctx.error);
+    return ctx.input;
   })
   .transform((data) => {
     const url = new URL(data.event.request.url);
