@@ -229,6 +229,9 @@ export const projectMetadataQueryOptions = ({
   environmentId,
 }: { projectId: string; environmentId: string }) => {
   return queryOptions({
+    // no need to refetch this often
+    // the metadata is not expected to change often
+    staleTime: 24 * 60 * 60 * 1000,
     queryKey: ["project", projectId, "environment", environmentId, "metadata"],
     queryFn: async ({ queryKey: [_, projectId, __, environmentId] }) => {
       const { game } = await rivetClient.cloud.games.getGameById(projectId);
@@ -237,13 +240,21 @@ export const projectMetadataQueryOptions = ({
       const bootstrap = await rivetClient.cloud.bootstrap();
       try {
         if (bootstrap.cluster === "enterprise") {
-          const { backend } = await rivetEeClient.ee.backend.get(
+          // should throw when there is no backend
+          await rivetEeClient.ee.backend.get(projectId, environmentId);
+
+          // sometimes even if there is a backend, there are no variables
+          // that means the user has not used the backend yet
+          // so its safe to disable the backend modules
+          const { variables } = await rivetEeClient.ee.backend.getVariables(
             projectId,
             environmentId,
           );
+          const backendModulesEnabled = Object.keys(variables).length > 0;
+
           return {
             legacyLobbiesEnabled,
-            backendModulesEnabled: backend,
+            backendModulesEnabled,
           };
         }
       } catch {}

@@ -1,10 +1,8 @@
 import { ErrorComponent } from "@/components/error-component";
-import { tryCreateBackend } from "@/domains/project/helpers/try-create-backend";
 import * as Layout from "@/domains/project/layouts/project-layout";
 import { projectQueryOptions } from "@/domains/project/queries";
 import { useDialog } from "@/hooks/use-dialog";
 import { guardUuids } from "@/lib/guards";
-import { queryClient } from "@/queries/global";
 import {
   type ErrorComponentProps,
   Outlet,
@@ -114,12 +112,6 @@ export const Route = createFileRoute(
     if (!environment || !project) {
       throw notFound();
     }
-
-    await tryCreateBackend({
-      projectId: project.gameId,
-      environmentId: environment.namespaceId,
-      queryClient,
-    });
 
     return { environment };
   },
