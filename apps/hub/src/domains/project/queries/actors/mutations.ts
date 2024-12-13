@@ -16,8 +16,8 @@ export function useDestroyActorMutation() {
       actorId: string;
     }) =>
       rivetClient.actor.destroy(opts.actorId, {
-        environment: opts.projectNameId,
-        project: opts.environmentNameId,
+        environment: opts.environmentNameId,
+        project: opts.projectNameId,
       }),
     onSuccess: async (_, { projectNameId, environmentNameId, actorId }) => {
       await queryClient.invalidateQueries(
