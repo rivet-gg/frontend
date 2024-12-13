@@ -4,30 +4,33 @@ import { Link } from "@tanstack/react-router";
 import { HeaderLink } from "../header-link";
 
 interface HeaderProjectLinksProps {
-  projectId: string;
+  projectNameId: string;
 }
 
-export function HeaderProjectLinks({ projectId }: HeaderProjectLinksProps) {
+export function HeaderProjectLinks({ projectNameId }: HeaderProjectLinksProps) {
   return (
     <>
       <HeaderLink icon={faFolder}>
         <Link
-          to="/projects/$projectId"
+          to="/projects/$projectNameId"
           activeOptions={{ exact: true }}
-          params={{ projectId }}
+          params={{ projectNameId }}
         >
           Environments
         </Link>
       </HeaderLink>
       <GuardEnterprise>
         <HeaderLink icon={faCircleDollar}>
-          <Link to="/projects/$projectId/billing" params={{ projectId }}>
+          <Link
+            to="/projects/$projectNameId/billing"
+            params={{ projectNameId }}
+          >
             Billing
           </Link>
         </HeaderLink>
       </GuardEnterprise>
       <HeaderLink icon={faGear}>
-        <Link to="/projects/$projectId/settings" params={{ projectId }}>
+        <Link to="/projects/$projectNameId/settings" params={{ projectNameId }}>
           Settings
         </Link>
       </HeaderLink>

@@ -7,16 +7,16 @@ import { saveAs } from "file-saver";
 import { actorLogsQueryOptions } from "../../queries";
 
 interface ActorLogsTabProps {
-  projectId: string;
-  environmentId: string;
+  projectNameId: string;
+  environmentNameId: string;
   actorId: string;
   logType: Rivet.actor.LogStream;
   createdAt: Rivet.Timestamp;
 }
 
 export function ActorLogsTab({
-  projectId,
-  environmentId,
+  projectNameId,
+  environmentNameId,
   actorId,
   logType,
   createdAt,
@@ -25,8 +25,8 @@ export function ActorLogsTab({
     data: { timestamps, lines },
   } = useSuspenseQuery(
     actorLogsQueryOptions({
-      projectId,
-      environmentId,
+      projectNameId,
+      environmentNameId,
       actorId,
       stream: logType,
     }),

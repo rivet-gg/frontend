@@ -63,8 +63,8 @@ function Modals() {
         groupId={groupId}
         onSuccess={async (data) =>
           await navigate({
-            to: "/projects/$projectId",
-            params: { projectId: data.gameId },
+            to: "/projects/$projectNameId",
+            params: { projectNameId: data.nameId },
           })
         }
         dialogProps={{

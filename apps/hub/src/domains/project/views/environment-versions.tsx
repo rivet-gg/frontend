@@ -28,6 +28,7 @@ interface EnvironmentVersionRowProps extends Rivet.cloud.version.Summary {
   isCurrent: boolean;
   deployedEnvironments: Rivet.cloud.NamespaceSummary[];
   projectId: string;
+  projectNameId: string;
   environmentId: string;
 }
 
@@ -36,6 +37,7 @@ function EnvironmentVersionRow({
   displayName,
   versionId,
   projectId,
+  projectNameId,
   environmentId,
   createTs,
   deployedEnvironments,
@@ -59,10 +61,10 @@ function EnvironmentVersionRow({
           {deployedEnvironments.map((environment, index, array) => (
             <Fragment key={environment.namespaceId}>
               <Link
-                to="/projects/$projectId/environments/$environmentId"
+                to="/projects/$projectNameId/environments/$environmentNameId"
                 params={{
-                  projectId,
-                  environmentId: environment.namespaceId,
+                  projectNameId,
+                  environmentNameId: environment.nameId,
                 }}
               >
                 {environment.displayName}
@@ -91,11 +93,13 @@ function EnvironmentVersionRow({
 
 interface EnvironmentVersionsProps {
   projectId: string;
+  projectNameId: string;
   environmentId: string;
 }
 
 export function EnvironmentVersions({
   projectId,
+  projectNameId,
   environmentId,
 }: EnvironmentVersionsProps) {
   const { data: versions } = useSuspenseQuery(
@@ -145,6 +149,7 @@ export function EnvironmentVersions({
                   {...version}
                   isCurrent={isCurrentVersion}
                   projectId={projectId}
+                  projectNameId={projectNameId}
                   environmentId={environmentId}
                   deployedEnvironments={deployedEnvironments}
                 />

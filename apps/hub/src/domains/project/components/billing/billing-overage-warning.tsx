@@ -12,7 +12,7 @@ export function BillingOverageWarning() {
   }
 
   const {
-    projectId,
+    project: { nameId: projectNameId },
     activePlan,
     credits: { overage },
   } = billing;
@@ -31,7 +31,10 @@ export function BillingOverageWarning() {
           Please upgrade your plan to avoid service interruption.
         </AlertTitle>
         <Button size="sm" variant="destructive" asChild>
-          <Link to="/projects/$projectId/billing" params={{ projectId }}>
+          <Link
+            to="/projects/$projectNameId/billing"
+            params={{ projectNameId }}
+          >
             Manage Billing
           </Link>
         </Button>

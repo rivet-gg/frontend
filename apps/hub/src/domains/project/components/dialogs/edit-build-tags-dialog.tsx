@@ -15,8 +15,8 @@ import {
 } from "../../queries";
 
 interface ContentProps extends DialogContentProps {
-  projectId: string;
-  environmentId: string;
+  projectNameId: string;
+  environmentNameId: string;
   buildId: string;
 }
 
@@ -28,11 +28,16 @@ export default function EditBuildTagsDialogContent(props: ContentProps) {
   return <Content {...props} />;
 }
 
-function Content({ buildId, projectId, environmentId, onClose }: ContentProps) {
+function Content({
+  buildId,
+  projectNameId,
+  environmentNameId,
+  onClose,
+}: ContentProps) {
   const [{ data }, { data: builds }] = useSuspenseQueries({
     queries: [
-      actorBuildQueryOptions({ buildId, projectId, environmentId }),
-      actorBuildsQueryOptions({ projectId, environmentId }),
+      actorBuildQueryOptions({ buildId, projectNameId, environmentNameId }),
+      actorBuildsQueryOptions({ projectNameId, environmentNameId }),
     ],
   });
   const { mutateAsync } = usePatchActorBuildTagsMutation();
@@ -66,8 +71,8 @@ function Content({ buildId, projectId, environmentId, onClose }: ContentProps) {
         );
 
         await mutateAsync({
-          projectId,
-          environmentId,
+          projectNameId,
+          environmentNameId,
           buildId,
           tags,
         });

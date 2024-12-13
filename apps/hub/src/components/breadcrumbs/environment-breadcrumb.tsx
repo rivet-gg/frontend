@@ -1,5 +1,9 @@
 import { EnvironmentSelect } from "@/domains/project/components/environment-select";
-import { projectEnvironmentQueryOptions } from "@/domains/project/queries";
+import {
+  environmentByIdQueryOptions,
+  projectByIdQueryOptions,
+  projectQueryOptions,
+} from "@/domains/project/queries";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { useContext } from "react";
@@ -10,23 +14,39 @@ import { ProjectBreadcrumb } from "./project-breadcrumb";
 import { Separator } from "./separator";
 
 interface EnvironmentBreadcrumbProps {
-  environmentId: string;
-  projectId: string;
+  environmentNameId: string;
+  projectNameId: string;
 }
 
 export function EnvironmentBreadcrumb({
-  environmentId,
-  projectId,
+  environmentNameId,
+  projectNameId,
 }: EnvironmentBreadcrumbProps) {
-  const { data } = useSuspenseQuery(
-    projectEnvironmentQueryOptions({ projectId, environmentId }),
+  const {
+    data: { gameId: projectId },
+  } = useSuspenseQuery(projectByIdQueryOptions(projectNameId));
+
+  const {
+    data: { namespaceId: environmentId, displayName },
+  } = useSuspenseQuery(
+    environmentByIdQueryOptions({ projectId, environmentNameId }),
   );
+
+  const {
+    data: { namespaces: environments },
+  } = useSuspenseQuery(projectQueryOptions(projectId));
+
   const navigate = useNavigate();
 
   const handleEnvironmentChange = (environmentId: string) => {
+    const environmentNameId = environments.find(
+      (env) => env.namespaceId === environmentId,
+    )?.nameId;
+
+    if (!environmentNameId) return;
     navigate({
-      to: "/projects/$projectId/environments/$environmentId",
-      params: { projectId, environmentId },
+      to: "/projects/$projectNameId/environments/$environmentNameId",
+      params: { projectNameId, environmentNameId },
     });
   };
   const isMobile = useContext(MobileBreadcrumbsContext);
@@ -35,15 +55,15 @@ export function EnvironmentBreadcrumb({
 
   return (
     <>
-      <ProjectBreadcrumb projectId={projectId} />
+      <ProjectBreadcrumb projectNameId={projectNameId} />
       <Separator />
       <Element>
         <Link
-          to="/projects/$projectId/environments/$environmentId"
-          params={{ projectId, environmentId }}
+          to="/projects/$projectNameId/environments/$environmentNameId"
+          params={{ projectNameId, environmentNameId }}
           className="flex items-center gap-2"
         >
-          {data.namespace.displayName}
+          {displayName}
         </Link>
         <EnvironmentSelect
           variant="discrete"

@@ -1,7 +1,8 @@
 import { GroupProjectSelect } from "@/domains/project/components/group-project-select";
 import {
+  projectByIdQueryOptions,
   projectQueryOptions,
-  projectsCountQueryOptions,
+  projectsQueryOptions,
 } from "@/domains/project/queries";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { Link, useNavigate } from "@tanstack/react-router";
@@ -12,20 +13,27 @@ import { MobileBreadcrumbsContext } from "./mobile-breadcrumbs";
 import { Separator } from "./separator";
 
 interface ProjectBreadcrumbProps {
-  projectId: string;
+  projectNameId: string;
 }
 
-export function ProjectBreadcrumb({ projectId }: ProjectBreadcrumbProps) {
+export function ProjectBreadcrumb({ projectNameId }: ProjectBreadcrumbProps) {
+  const {
+    data: { gameId: projectId },
+  } = useSuspenseQuery(projectByIdQueryOptions(projectNameId));
   const { data } = useSuspenseQuery(projectQueryOptions(projectId));
-  const { data: projectsCount } = useSuspenseQuery(
-    projectsCountQueryOptions(data.developerGroupId),
-  );
+  const { data: projects } = useSuspenseQuery(projectsQueryOptions());
 
   const navigate = useNavigate();
   const handleProjectChange = (projectId: string) => {
+    const projectNameId = projects.find(
+      (project) => project.gameId === projectId,
+    )?.nameId;
+
+    if (!projectNameId) return;
+
     navigate({
-      to: "/projects/$projectId",
-      params: { projectId },
+      to: "/projects/$projectNameId",
+      params: { projectNameId },
     });
   };
 
@@ -39,13 +47,13 @@ export function ProjectBreadcrumb({ projectId }: ProjectBreadcrumbProps) {
       <Separator />
       <Element>
         <Link
-          to="/projects/$projectId"
-          params={{ projectId }}
+          to="/projects/$projectNameId"
+          params={{ projectNameId }}
           className="flex items-center gap-2"
         >
           {data.displayName}
         </Link>
-        {projectsCount > 1 ? (
+        {projects.length > 1 ? (
           <GroupProjectSelect
             variant="discrete"
             showCreateProject

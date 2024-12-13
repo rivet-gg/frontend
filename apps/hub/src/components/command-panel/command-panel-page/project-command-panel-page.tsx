@@ -1,4 +1,7 @@
-import { projectQueryOptions } from "@/domains/project/queries";
+import {
+  projectByIdQueryOptions,
+  projectQueryOptions,
+} from "@/domains/project/queries";
 import { GuardEnterprise } from "@/lib/guards";
 import { CommandGroup, CommandItem } from "@rivet-gg/components";
 import { Icon, faCircleDollar, faCog, faHome, faKey } from "@rivet-gg/icons";
@@ -7,13 +10,15 @@ import { useCommandPanelNavigation } from "../command-panel-navigation-provider"
 import { EnvironmentsCommandPanelItems } from "../environments-command-panel-items";
 
 interface ProjectCommandPanelPage {
-  projectId: string;
+  projectNameId: string;
 }
 
 export function ProjectCommandPanelPage({
-  projectId,
+  projectNameId,
 }: ProjectCommandPanelPage) {
-  const { data } = useSuspenseQuery(projectQueryOptions(projectId));
+  const { data } = useSuspenseQuery(projectByIdQueryOptions(projectNameId));
+
+  const { data: project } = useSuspenseQuery(projectQueryOptions(data.gameId));
 
   const { navigate } = useCommandPanelNavigation();
 
@@ -22,7 +27,10 @@ export function ProjectCommandPanelPage({
       <CommandGroup heading={data.displayName}>
         <CommandItem
           onSelect={() => {
-            navigate({ to: "/projects/$projectId", params: { projectId } });
+            navigate({
+              to: "/projects/$projectNameId",
+              params: { projectNameId },
+            });
           }}
         >
           <Icon icon={faHome} />
@@ -32,8 +40,8 @@ export function ProjectCommandPanelPage({
           <CommandItem
             onSelect={() => {
               navigate({
-                to: "/projects/$projectId/billing",
-                params: { projectId },
+                to: "/projects/$projectNameId/billing",
+                params: { projectNameId },
               });
             }}
           >
@@ -44,8 +52,8 @@ export function ProjectCommandPanelPage({
         <CommandItem
           onSelect={() => {
             navigate({
-              to: "/projects/$projectId/settings",
-              params: { projectId },
+              to: "/projects/$projectNameId/settings",
+              params: { projectNameId },
             });
           }}
         >
@@ -55,16 +63,16 @@ export function ProjectCommandPanelPage({
       </CommandGroup>
       <CommandGroup heading="Environments">
         <EnvironmentsCommandPanelItems
-          projectId={projectId}
-          namespaces={data.namespaces}
+          projectNameId={projectNameId}
+          namespaces={project.namespaces}
         />
       </CommandGroup>
       <CommandGroup heading="Tokens">
         <CommandItem
           onSelect={() => {
             navigate({
-              to: "/projects/$projectId",
-              params: { projectId },
+              to: "/projects/$projectNameId",
+              params: { projectNameId },
               search: { modal: "cloud-token" },
             });
           }}

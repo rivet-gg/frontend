@@ -13,6 +13,13 @@ export const projectsQueryOptions = () => {
         },
         { abortSignal: signal },
       ),
+    select: (data) => data.games,
+  });
+};
+
+export const projectsByGroupQueryOptions = () => {
+  return queryOptions({
+    ...projectsQueryOptions(),
     select: (data) => {
       return data.groups.map((group) => {
         return {
@@ -28,14 +35,14 @@ export const projectsQueryOptions = () => {
 
 export const groupsCountQueryOptions = () => {
   return queryOptions({
-    ...projectsQueryOptions(),
+    ...projectsByGroupQueryOptions(),
     select: (data) => data.groups.length,
   });
 };
 
 export const groupProjectsQueryOptions = (groupId: string) => {
   return queryOptions({
-    ...projectsQueryOptions(),
+    ...projectsByGroupQueryOptions(),
     select: (data) => {
       // biome-ignore lint/style/noNonNullAssertion: when we get here, we know the group exists
       const group = data.groups.find((group) => group.groupId === groupId)!;
@@ -66,18 +73,18 @@ export const projectsCountQueryOptions = (groupId: string) => {
   });
 };
 
+export const projectByIdQueryOptions = (projectNameId: string) => {
+  return queryOptions({
+    ...projectsByGroupQueryOptions(),
+    // biome-ignore lint/style/noNonNullAssertion: when we get here, we know the project exists
+    select: (data) => data.games.find((game) => game.nameId === projectNameId)!,
+  });
+};
+
 export const projectQueryOptions = (projectId: string) => {
   return queryOptions({
     queryKey: ["project", projectId],
-    queryFn: ({
-      queryKey: [
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        _,
-        projectId,
-      ],
-      signal,
-      meta,
-    }) =>
+    queryFn: ({ queryKey: [_, projectId], signal, meta }) =>
       rivetClient.cloud.games.getGameById(
         projectId,
         {
@@ -94,6 +101,25 @@ export const projectQueryOptions = (projectId: string) => {
         ),
       })),
     }),
+  });
+};
+
+export const environmentByIdQueryOptions = ({
+  projectId,
+  environmentNameId,
+}: {
+  projectId: string;
+  environmentNameId: string;
+}) => {
+  return queryOptions({
+    ...projectQueryOptions(projectId),
+    select: (data) =>
+      // biome-ignore lint/style/noNonNullAssertion: when we get here, we know the environment exists
+      projectQueryOptions(projectId)
+        .select?.(data)
+        .namespaces.find(
+          (namespace) => namespace.nameId === environmentNameId,
+        )!,
   });
 };
 

@@ -9,22 +9,22 @@ import {
 
 interface ActorRegionProps {
   regionId: string;
-  projectId: string;
-  environmentId: string;
+  projectNameId: string;
+  environmentNameId: string;
   showLabel?: boolean | "abbreviated";
 }
 
 export function ActorRegion({
-  projectId,
+  projectNameId,
   regionId,
-  environmentId,
+  environmentNameId,
   showLabel,
 }: ActorRegionProps) {
   const { data: region } = useSuspenseQuery(
-    actorRegionQueryOptions({ projectId, environmentId, regionId }),
+    actorRegionQueryOptions({ projectNameId, environmentNameId, regionId }),
   );
 
-  const regionKey = getRegionKey(region?.name);
+  const regionKey = getRegionKey(region?.id);
 
   if (showLabel) {
     return (

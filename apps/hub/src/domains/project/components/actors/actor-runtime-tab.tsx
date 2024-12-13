@@ -2,6 +2,7 @@ import type { Rivet } from "@rivet-gg/api";
 import {
   Code,
   CopyArea,
+  CopyButton,
   Dd,
   Dl,
   Dt,
@@ -9,10 +10,10 @@ import {
   Grid,
   ScrollArea,
   SmallText,
+  WithTooltip,
   formatDuration,
 } from "@rivet-gg/components";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { useId } from "react";
 import { Fragment } from "react/jsx-runtime";
 import { actorBuildQueryOptions } from "../../queries";
 import { ActorTags } from "./actor-tags";
@@ -22,26 +23,24 @@ interface ActorRuntimeTabProps
   createTs: Date | undefined;
   startTs: Date | undefined;
   destroyTs: Date | undefined;
-  projectId: string;
-  environmentId: string;
+  projectNameId: string;
+  environmentNameId: string;
 }
 
 export function ActorRuntimeTab({
-  projectId,
-  environmentId,
+  projectNameId,
+  environmentNameId,
   lifecycle,
   runtime,
   resources,
 }: ActorRuntimeTabProps) {
   const { data } = useSuspenseQuery(
     actorBuildQueryOptions({
-      projectId,
-      environmentId,
+      projectNameId,
+      environmentNameId,
       buildId: runtime.build,
     }),
   );
-
-  const buildId = useId();
 
   return (
     <ScrollArea className="overflow-auto h-full px-4 my-2">
@@ -55,12 +54,21 @@ export function ActorRuntimeTab({
           </Dd>
           {data ? (
             <>
-              <Dt id={buildId}>Build</Dt>
+              <Dt id={runtime.build}>Build</Dt>
               <Dd />
-              <div aria-describedby={buildId} className="col-span-2">
+              <div aria-describedby={runtime.build} className="col-span-2">
                 <Dl className="ml-5">
-                  <Dt>Image</Dt>
-                  <Dd>{data.name}</Dd>
+                  <Dt>Id</Dt>
+                  <Dd>
+                    <WithTooltip
+                      content={data.id}
+                      trigger={
+                        <CopyButton value={data.id}>
+                          <button type="button">{data.id.split("-")[0]}</button>
+                        </CopyButton>
+                      }
+                    />
+                  </Dd>
                   <Dt>Created At</Dt>
                   <Dd>{data.createdAt.toLocaleString()}</Dd>
                   <Dt>Tags</Dt>

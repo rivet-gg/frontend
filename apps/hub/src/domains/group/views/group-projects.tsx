@@ -64,8 +64,8 @@ export function GroupProjects({ groupId }: GroupProjectsProps) {
                   isClickable
                   onClick={() => {
                     navigate({
-                      to: "/projects/$projectId",
-                      params: { projectId: project.gameId },
+                      to: "/projects/$projectNameId",
+                      params: { projectNameId: project.nameId },
                     });
                   }}
                 >

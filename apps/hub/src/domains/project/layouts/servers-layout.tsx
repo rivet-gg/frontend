@@ -4,40 +4,44 @@ import {
   SidebarPageContent,
   Skeleton,
 } from "@rivet-gg/components";
-import { Link } from "@tanstack/react-router";
+import { Link, type LinkOptions } from "@tanstack/react-router";
 import type { PropsWithChildren, ReactNode } from "react";
 
 const LINKS = [
   {
-    url: "/projects/$projectId/environments/$environmentId/servers/",
+    to: "/projects/$projectNameId/environments/$environmentNameId/servers",
     text: "Servers",
     exact: true,
   },
   {
-    url: "/projects/$projectId/environments/$environmentId/servers/builds",
+    to: "/projects/$projectNameId/environments/$environmentNameId/builds",
     text: "Builds",
   },
-];
+] satisfies ({ text: string; exact?: boolean } & LinkOptions)[];
 
 interface ServersPageProps {
-  projectId: string;
-  environmentId: string;
+  projectNameId: string;
+  environmentNameId: string;
   children: ReactNode;
 }
 
-function ServersPage({ environmentId, projectId, children }: ServersPageProps) {
+function ServersPage({
+  projectNameId,
+  environmentNameId,
+  children,
+}: ServersPageProps) {
   return (
     <SidebarPageContent
       sidebar={
         <SidebarNavigation>
           {LINKS.map((link) => (
             <Link
-              key={link.url}
-              to={link.url}
+              key={link.to}
+              to={link.to}
               activeOptions={{ exact: link.exact, includeSearch: false }}
               params={{
-                projectId,
-                environmentId,
+                projectNameId,
+                environmentNameId,
               }}
               className="data-active:text-foreground data-active:font-semibold"
             >

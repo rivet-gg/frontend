@@ -1,5 +1,7 @@
 import { RivetError } from "@rivet-gg/api";
 import { RivetError as RivetEeError } from "@rivet-gg/api-ee";
+import { type ErrorComponentProps, useRouter } from "@tanstack/react-router";
+import { useEffect } from "react";
 import { z } from "zod";
 
 export function convertStringToId(x: string): string {
@@ -68,3 +70,30 @@ export const publicUrl = (path: string) => {
 
   return `${url}${filename}`;
 };
+
+const uuidSchema = z.string().uuid();
+
+export const isUuid = (
+  uuid: string,
+): uuid is `${string}-${string}-${string}-${string}-${string}` => {
+  return uuidSchema.safeParse(uuid).success;
+};
+
+export const findUuidInUrl = (text: string) => {
+  for (const part of text.split("/")) {
+    if (isUuid(part)) {
+      return part;
+    }
+  }
+};
+
+export function RestOnRouteChange(props: ErrorComponentProps) {
+  const router = useRouter();
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: it's a router subscription
+  useEffect(() => {
+    return router.subscribe("onResolved", () => {
+      props.reset();
+    });
+  }, [router]);
+}

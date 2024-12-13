@@ -2,14 +2,14 @@ import { Flex, Text } from "@rivet-gg/components";
 import { ActorsActorDetails } from "./actors-actor-details";
 
 interface ActorsActorDetailsPanelProps {
-  projectId: string;
-  environmentId: string;
+  projectNameId: string;
+  environmentNameId: string;
   actorId: string | undefined;
 }
 
 export function ActorsActorDetailsPanel({
-  projectId,
-  environmentId,
+  projectNameId,
+  environmentNameId,
   actorId,
 }: ActorsActorDetailsPanelProps) {
   if (!actorId) {
@@ -22,8 +22,8 @@ export function ActorsActorDetailsPanel({
 
   return (
     <ActorsActorDetails
-      projectId={projectId}
-      environmentId={environmentId}
+      projectNameId={projectNameId}
+      environmentNameId={environmentNameId}
       actorId={actorId}
     />
   );

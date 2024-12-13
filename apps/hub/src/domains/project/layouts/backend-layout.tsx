@@ -6,25 +6,25 @@ import {
   cn,
 } from "@rivet-gg/components";
 import { Icon, faSpinnerThird } from "@rivet-gg/icons";
-import { Link } from "@tanstack/react-router";
+import { Link, type LinkOptions } from "@tanstack/react-router";
 import type { ComponentProps, PropsWithChildren, ReactNode } from "react";
 import { BackendEnvironmentDatabaseLink } from "../components/backend/backend-environment-database-link";
 
 const LINKS = [
   {
-    url: "/projects/$projectId/environments/$environmentId/backend/",
+    to: "/projects/$projectNameId/environments/$environmentNameId/backend",
     text: "Overview",
     exact: true,
   },
   {
-    url: "/projects/$projectId/environments/$environmentId/backend/logs",
+    to: "/projects/$projectNameId/environments/$environmentNameId/backend/logs",
     text: "Logs",
   },
   {
-    url: "/projects/$projectId/environments/$environmentId/backend/variables",
+    to: "/projects/$projectNameId/environments/$environmentNameId/backend/variables",
     text: "Variables",
   },
-];
+] satisfies ({ text: string; exact?: boolean } & LinkOptions)[];
 
 const DatabaseLink = ({
   isLoading,
@@ -49,23 +49,31 @@ const DatabaseLink = ({
 
 interface BackendPageProps {
   projectId: string;
+  projectNameId: string;
   environmentId: string;
+  environmentNameId: string;
   children: ReactNode;
 }
 
-function BackendPage({ environmentId, projectId, children }: BackendPageProps) {
+function BackendPage({
+  environmentNameId,
+  environmentId,
+  projectId,
+  projectNameId,
+  children,
+}: BackendPageProps) {
   return (
     <SidebarPageContent
       sidebar={
         <SidebarNavigation>
           {LINKS.map((link) => (
             <Link
-              key={link.url}
-              to={link.url}
+              key={link.to}
+              to={link.to}
               activeOptions={{ exact: link.exact, includeSearch: false }}
               params={{
-                projectId,
-                environmentId,
+                projectNameId,
+                environmentNameId,
               }}
               className="data-active:text-foreground data-active:font-semibold"
             >

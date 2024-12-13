@@ -2,7 +2,7 @@ import * as GroupCreateForm from "@/domains/group/forms/group-create-form";
 import { useGroupCreateMutation } from "@/domains/group/queries";
 import * as GroupCreateProjectForm from "@/domains/project/forms/group-create-project-form";
 import {
-  projectsQueryOptions,
+  projectsByGroupQueryOptions,
   useProjectCreateMutation,
 } from "@/domains/project/queries";
 import {
@@ -27,7 +27,7 @@ export function Intro() {
   const { mutateAsync, data: createdGroupResponse } = useGroupCreateMutation();
   const { mutateAsync: createProject } = useProjectCreateMutation();
 
-  const { data } = useSuspenseQuery(projectsQueryOptions());
+  const { data } = useSuspenseQuery(projectsByGroupQueryOptions());
 
   const [step, setStep] = useState<Step>(() =>
     data.length === 0 ? Step.CreateGroup : Step.LinkProject,

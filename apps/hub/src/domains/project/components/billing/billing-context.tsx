@@ -3,15 +3,17 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { type ReactNode, createContext, useContext } from "react";
 
 import { clusterQueryOptions } from "@/domains/auth/queries/bootstrap";
+import type { Rivet } from "@rivet-gg/api";
 import { startOfMonth } from "date-fns";
 import { calculateUsedCredits } from "../../data/billing-calculate-usage";
 import {
   projectBillingQueryOptions,
   projectBillingUsageQueryOptions,
+  projectQueryOptions,
 } from "../../queries";
 
 interface BillingContextValue {
-  projectId: string;
+  project: Rivet.cloud.GameFull;
   activePlan: RivetEe.ee.billing.Plan;
   plan: RivetEe.ee.billing.Plan;
   credits: {
@@ -29,8 +31,7 @@ export const BillingContext = createContext<BillingContextValue | undefined>(
 );
 
 interface BillingSubscriptionProviderProps {
-  projectId: string;
-  groupId: string;
+  project: Rivet.cloud.GameFull;
   subscription: RivetEe.ee.billing.Subscription | undefined;
   plan: RivetEe.ee.billing.Plan;
   activePlan: RivetEe.ee.billing.Plan;
@@ -41,17 +42,19 @@ const today = new Date();
 const firstDayOfMonth = startOfMonth(today);
 
 function BillingSubscriptionProvider({
-  projectId,
-  subscription,
-  plan,
-  activePlan,
-  groupId,
   children,
+  ...rest
 }: BillingSubscriptionProviderProps) {
+  const {
+    project: { gameId, developerGroupId },
+    subscription,
+    activePlan,
+    plan,
+  } = rest;
   const { data: usage } = useSuspenseQuery(
     projectBillingUsageQueryOptions({
-      projectId,
-      groupId,
+      projectId: gameId,
+      groupId: developerGroupId,
       startTs: subscription?.periodStartTs || firstDayOfMonth,
       endTs: subscription?.periodEndTs || today,
     }),
@@ -60,9 +63,7 @@ function BillingSubscriptionProvider({
   const credits = calculateUsedCredits({ usage, plan: activePlan });
 
   return (
-    <BillingContext.Provider
-      value={{ projectId, plan, credits, subscription, activePlan }}
-    >
+    <BillingContext.Provider value={{ credits, ...rest }}>
       {children}
     </BillingContext.Provider>
   );
@@ -74,14 +75,14 @@ interface BillingProviderProps {
   children?: ReactNode;
 }
 function Content({ projectId, groupId, children }: BillingProviderProps) {
+  const { data: project } = useSuspenseQuery(projectQueryOptions(projectId));
   const { data } = useSuspenseQuery(projectBillingQueryOptions(projectId));
 
   if (data) {
     return (
       <BillingSubscriptionProvider
-        groupId={groupId}
-        projectId={projectId}
         subscription={data.subscription}
+        project={project}
         {...data}
       >
         {children}

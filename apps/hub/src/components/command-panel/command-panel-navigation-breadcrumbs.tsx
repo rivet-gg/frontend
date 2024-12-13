@@ -1,6 +1,8 @@
 import { GroupAvatar } from "@/domains/group/components/group-avatar";
 import {
+  environmentByIdQueryOptions,
   groupProjectsQueryOptions,
+  projectByIdQueryOptions,
   projectEnvironmentDisplayNameQueryOptions,
   projectQueryOptions,
 } from "@/domains/project/queries";
@@ -24,18 +26,32 @@ function GroupBreadcrumbs({ groupId }: { groupId: string }) {
   );
 }
 
-function ProjectBreadcrumb({ projectId }: { projectId: string }) {
+function ProjectBreadcrumb({ projectNameId }: { projectNameId: string }) {
+  const {
+    data: { gameId: projectId },
+  } = useSuspenseQuery(projectByIdQueryOptions(projectNameId));
   const { data: project } = useSuspenseQuery(projectQueryOptions(projectId));
+
   return <>{project.displayName}</>;
 }
 
 function EnvironmentBreadcrumb({
-  projectId,
-  environmentId,
+  projectNameId,
+  environmentNameId,
 }: {
-  projectId: string;
-  environmentId: string;
+  projectNameId: string;
+  environmentNameId: string;
 }) {
+  const {
+    data: { gameId: projectId },
+  } = useSuspenseQuery(projectByIdQueryOptions(projectNameId));
+
+  const {
+    data: { namespaceId: environmentId },
+  } = useSuspenseQuery(
+    environmentByIdQueryOptions({ projectId, environmentNameId }),
+  );
+
   const { data: environment } = useSuspenseQuery(
     projectEnvironmentDisplayNameQueryOptions({ projectId, environmentId }),
   );

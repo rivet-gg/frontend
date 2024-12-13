@@ -14,19 +14,19 @@ import { ActorStatusIndicator, getActorStatus } from "./actor-status-indicator";
 import { ActorTags } from "./actor-tags";
 
 interface ActorsListPanelProps {
-  projectId: string;
-  environmentId: string;
+  projectNameId: string;
+  environmentNameId: string;
   actorId: string | undefined;
 }
 
 export function ActorsListPanel({
   actorId,
-  projectId,
-  environmentId,
+  projectNameId,
+  environmentNameId,
 }: ActorsListPanelProps) {
   const { data, hasNextPage, isFetchingNextPage, fetchNextPage } =
     useSuspenseInfiniteQuery(
-      projectActorsQueryOptions({ projectId, environmentId }),
+      projectActorsQueryOptions({ projectNameId, environmentNameId }),
     );
   return (
     <ScrollArea className="overflow-auto h-full truncate min-w-0">
@@ -43,10 +43,10 @@ export function ActorsListPanel({
           {data.map((actor) => (
             <ActorRow
               key={actor.id}
-              actor={actor}
-              projectId={projectId}
-              environmentId={environmentId}
+              projectNameId={projectNameId}
+              environmentNameId={environmentNameId}
               isCurrent={actorId === actor.id}
+              {...actor}
             />
           ))}
           {hasNextPage ? (
@@ -74,16 +74,15 @@ export function ActorsListPanel({
 }
 
 function ActorRow({
-  actor,
-  projectId,
-  environmentId,
+  projectNameId,
+  environmentNameId,
   isCurrent,
+  ...actor
 }: {
-  actor: Rivet.actor.Actor;
   isCurrent?: boolean;
-  projectId: string;
-  environmentId: string;
-}) {
+  projectNameId: string;
+  environmentNameId: string;
+} & Rivet.actor.Actor) {
   return (
     <Button
       className="h-auto grid grid-cols-subgrid col-span-full py-2 px-0 group"
@@ -104,8 +103,8 @@ function ActorRow({
         <SmallText className="font-semibold">
           <ActorRegion
             showLabel="abbreviated"
-            projectId={projectId}
-            environmentId={environmentId}
+            projectNameId={projectNameId}
+            environmentNameId={environmentNameId}
             regionId={actor.region}
           />
         </SmallText>

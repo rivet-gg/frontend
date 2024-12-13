@@ -1,4 +1,5 @@
 import { ProjectSelect } from "@/domains/project/components/project-select";
+import { projectQueryOptions } from "@/domains/project/queries";
 import * as Layout from "@/layouts/page-centered";
 import { guardEnterprise } from "@/lib/guards";
 import {
@@ -10,11 +11,18 @@ import {
   CardHeader,
   CardTitle,
 } from "@rivet-gg/components";
+import { useQuery } from "@tanstack/react-query";
 import { Link, createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 
 function BillingRoute() {
   const [projectId, setProjectId] = useState<string | null>(null);
+
+  const { data, isLoading } = useQuery({
+    // biome-ignore lint/style/noNonNullAssertion: it's safe to assume that projectId exists
+    ...projectQueryOptions(projectId!),
+    enabled: !!projectId,
+  });
 
   return (
     <Layout.Root>
@@ -29,11 +37,11 @@ function BillingRoute() {
           <ProjectSelect onValueChange={setProjectId} />
         </CardContent>
         <CardFooter>
-          <Button asChild disabled={!projectId}>
+          <Button asChild disabled={!projectId} isLoading={isLoading}>
             <Link
-              to="/projects/$projectId/billing"
+              to="/projects/$projectNameId/billing"
               /* biome-ignore lint/style/noNonNullAssertion: it's safe to assume that projectid exists */
-              params={{ projectId: projectId! }}
+              params={{ projectNameId: data?.nameId! }}
             >
               Manage billing
             </Link>

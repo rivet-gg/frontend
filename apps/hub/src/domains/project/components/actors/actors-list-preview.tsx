@@ -9,14 +9,14 @@ import { ActorsActorDetailsPanel } from "./actors-actor-details-panel";
 import { ActorsListPanel } from "./actors-list-panel";
 
 interface ActorsListPreview {
-  projectId: string;
-  environmentId: string;
+  projectNameId: string;
+  environmentNameId: string;
   actorId?: string;
 }
 
 export function ActorsListPreview({
-  projectId,
-  environmentId,
+  projectNameId,
+  environmentNameId,
   actorId,
 }: ActorsListPreview) {
   const isMd = useBreakpoint("md");
@@ -30,8 +30,8 @@ export function ActorsListPreview({
       <ResizablePanel minSize={40} maxSize={75}>
         <div className="h-full max-h-full overflow-hidden w-full truncate min-w-0">
           <ActorsListPanel
-            projectId={projectId}
-            environmentId={environmentId}
+            projectNameId={projectNameId}
+            environmentNameId={environmentNameId}
             actorId={actorId}
           />
         </div>
@@ -41,8 +41,8 @@ export function ActorsListPreview({
         <div className="h-full max-h-full overflow-hidden w-full">
           <Suspense fallback={<ActorsActorDetailsPanel.Skeleton />}>
             <ActorsActorDetailsPanel
-              projectId={projectId}
-              environmentId={environmentId}
+              projectNameId={projectNameId}
+              environmentNameId={environmentNameId}
               actorId={actorId}
             />
           </Suspense>

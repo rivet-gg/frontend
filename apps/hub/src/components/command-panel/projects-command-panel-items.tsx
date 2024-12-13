@@ -21,7 +21,7 @@ export function ProjectsCommandPanelItems({
           onSelect={() => {
             changePage({
               key: "project",
-              params: { projectId: project.gameId },
+              params: { projectNameId: project.nameId },
             });
           }}
         >

@@ -14,22 +14,22 @@ type GroupCommandPanelPage = {
 
 type ProjectCommandPanelPage = {
   key: "project";
-  params: { projectId: string };
+  params: { projectNameId: string };
 };
 
 type EnvironmentCommandPanelPage = {
   key: "environment";
-  params: { projectId: string; environmentId: string };
+  params: { projectNameId: string; environmentNameId: string };
 };
 
 type BackendCommandPanelPage = {
   key: "backend";
-  params: { projectId: string };
+  params: { projectNameId: string };
 };
 
 type BackendEnvironmentPanelPage = {
   key: "environment";
-  params: { projectId: string; environmentId: string };
+  params: { projectNameId: string; environmentNameId: string };
 };
 
 type CommandPanelPages =

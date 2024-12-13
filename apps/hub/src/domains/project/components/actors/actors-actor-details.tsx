@@ -30,26 +30,26 @@ import { ActorStatus } from "./actor-status";
 import { ActorTags } from "./actor-tags";
 
 interface ActorsActorDetailsProps {
-  projectId: string;
-  environmentId: string;
+  projectNameId: string;
+  environmentNameId: string;
   actorId: string;
 }
 
 export function ActorsActorDetails({
-  projectId,
-  environmentId,
+  projectNameId,
+  environmentNameId,
   actorId,
 }: ActorsActorDetailsProps) {
   const { data } = useSuspenseQuery(
-    actorQueryOptions({ projectId, environmentId, actorId }),
+    actorQueryOptions({ projectNameId, environmentNameId, actorId }),
   );
 
   const { data: hasError } = useQuery(
-    actorErrorsQueryOptions({ projectId, environmentId, actorId }),
+    actorErrorsQueryOptions({ projectNameId, environmentNameId, actorId }),
   );
 
   const currentTab = useSearch({
-    from: "/_authenticated/_layout/projects/$projectId/environments/$environmentId/actors",
+    from: "/_authenticated/_layout/projects/$projectNameId/environments/$environmentNameId/actors",
     select: (state) => state.tab,
   });
   const navigate = useNavigate();
@@ -85,7 +85,9 @@ export function ActorsActorDetails({
                 isLoading={isDestroying}
                 variant="destructive"
                 size="sm"
-                onClick={() => mutate({ projectId, environmentId, actorId })}
+                onClick={() =>
+                  mutate({ projectNameId, environmentNameId, actorId })
+                }
               >
                 Stop
               </Button>
@@ -103,8 +105,8 @@ export function ActorsActorDetails({
               <SmallText className="text-xs text-muted-foreground">
                 <ActorRegion
                   showLabel="abbreviated"
-                  projectId={projectId}
-                  environmentId={environmentId}
+                  projectNameId={projectNameId}
+                  environmentNameId={environmentNameId}
                   regionId={data.region}
                 />
               </SmallText>
@@ -186,8 +188,8 @@ export function ActorsActorDetails({
               <Suspense fallback={<ActorLogsTab.Skeleton />}>
                 <ActorLogsTab
                   createdAt={data.createdAt}
-                  projectId={projectId}
-                  environmentId={environmentId}
+                  projectNameId={projectNameId}
+                  environmentNameId={environmentNameId}
                   actorId={actorId}
                   logType="std_out"
                 />
@@ -207,8 +209,8 @@ export function ActorsActorDetails({
               <Suspense fallback={<ActorLogsTab.Skeleton />}>
                 <ActorLogsTab
                   createdAt={data.createdAt}
-                  projectId={projectId}
-                  environmentId={environmentId}
+                  projectNameId={projectNameId}
+                  environmentNameId={environmentNameId}
                   actorId={actorId}
                   logType="std_err"
                 />
@@ -217,8 +219,8 @@ export function ActorsActorDetails({
           </TabsContent>
           <TabsContent value="runtime" className="min-h-0 flex-1 mt-0">
             <ActorRuntimeTab
-              projectId={projectId}
-              environmentId={environmentId}
+              projectNameId={projectNameId}
+              environmentNameId={environmentNameId}
               {...data}
             />
           </TabsContent>

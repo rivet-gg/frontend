@@ -1,4 +1,4 @@
-import { projectsQueryOptions } from "@/domains/project/queries";
+import { projectsByGroupQueryOptions } from "@/domains/project/queries";
 import { isRivetError } from "@/lib/utils";
 import { queryClient, rivetClient } from "@/queries/global";
 import type { Rivet } from "@rivet-gg/api";
@@ -19,7 +19,7 @@ export const useGroupUpdateProfileMutation = () => {
         queryClient.invalidateQueries(
           groupMembersQueryOptions(variables.groupId),
         ),
-        queryClient.invalidateQueries(projectsQueryOptions()),
+        queryClient.invalidateQueries(projectsByGroupQueryOptions()),
       ]);
     },
   });
@@ -39,7 +39,7 @@ const useAvatarUploadCompleteMutation = () => {
         queryClient.invalidateQueries(
           groupMembersQueryOptions(variables.groupId),
         ),
-        queryClient.invalidateQueries(projectsQueryOptions()),
+        queryClient.invalidateQueries(projectsByGroupQueryOptions()),
       ]);
     },
   });
@@ -84,7 +84,7 @@ export const useGroupTransferOwnershipMutation = ({
       rivetClient.group.transferOwnership(groupId, rest),
     onSuccess: async (_, variables) => {
       await Promise.all([
-        queryClient.invalidateQueries(projectsQueryOptions()),
+        queryClient.invalidateQueries(projectsByGroupQueryOptions()),
         queryClient.invalidateQueries(
           groupMembersQueryOptions(variables.groupId),
         ),
@@ -109,7 +109,7 @@ export const useGroupKickMemberMutation = ({
     }) => rivetClient.group.kickMember(groupId, identityId),
     onSuccess: async (_, variables) => {
       await Promise.all([
-        queryClient.invalidateQueries(projectsQueryOptions()),
+        queryClient.invalidateQueries(projectsByGroupQueryOptions()),
         queryClient.invalidateQueries(
           groupMembersQueryOptions(variables.groupId),
         ),
@@ -134,7 +134,7 @@ export const useGroupBanMemberMutation = ({
     }) => rivetClient.group.banIdentity(groupId, identityId),
     onSuccess: async (_, variables) => {
       await Promise.all([
-        queryClient.invalidateQueries(projectsQueryOptions()),
+        queryClient.invalidateQueries(projectsByGroupQueryOptions()),
         queryClient.invalidateQueries(
           groupMembersQueryOptions(variables.groupId),
         ),
@@ -164,7 +164,7 @@ export const useGroupCreateMutation = ({
       rivetClient.group.create(data),
     onSuccess: async (data) => {
       await queryClient.invalidateQueries({
-        ...projectsQueryOptions(),
+        ...projectsByGroupQueryOptions(),
         refetchType: "all",
       });
       onSuccess?.(data);
@@ -178,7 +178,7 @@ export const useGroupInviteAcceptMutation = () => {
     mutationFn: (inviteId: string) =>
       rivetClient.group.invites.consumeInvite(inviteId),
     onSuccess: async (data) => {
-      await queryClient.invalidateQueries(projectsQueryOptions());
+      await queryClient.invalidateQueries(projectsByGroupQueryOptions());
       if (data.groupId) {
         navigate({ to: "/teams/$groupId", params: { groupId: data.groupId } });
       }
@@ -197,7 +197,7 @@ export const useGroupLeaveMutation = ({
   return useMutation({
     mutationFn: (groupId: string) => rivetClient.group.leave(groupId),
     onSuccess: async () => {
-      await queryClient.invalidateQueries(projectsQueryOptions());
+      await queryClient.invalidateQueries(projectsByGroupQueryOptions());
       onSuccess?.();
     },
     onError: (error) => {

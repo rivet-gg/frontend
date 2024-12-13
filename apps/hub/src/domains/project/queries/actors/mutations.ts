@@ -10,20 +10,20 @@ import {
 export function useDestroyActorMutation() {
   return useMutation({
     mutationFn: (opts: {
-      projectId: string;
-      environmentId: string;
+      projectNameId: string;
+      environmentNameId: string;
       actorId: string;
     }) =>
       rivetClient.actor.destroy(opts.actorId, {
-        environment: opts.environmentId,
-        project: opts.projectId,
+        environment: opts.projectNameId,
+        project: opts.environmentNameId,
       }),
-    onSuccess: async (_, { projectId, environmentId, actorId }) => {
+    onSuccess: async (_, { projectNameId, environmentNameId, actorId }) => {
       await queryClient.invalidateQueries(
-        actorQueryOptions({ projectId, environmentId, actorId }),
+        actorQueryOptions({ projectNameId, environmentNameId, actorId }),
       );
       await queryClient.invalidateQueries({
-        ...projectActorsQueryOptions({ projectId, environmentId }),
+        ...projectActorsQueryOptions({ projectNameId, environmentNameId }),
         refetchType: "all",
       });
     },
@@ -35,27 +35,27 @@ export function usePatchActorBuildTagsMutation({
 }: { onSuccess?: () => void } = {}) {
   return useMutation({
     mutationFn: ({
-      projectId,
-      environmentId,
+      projectNameId,
+      environmentNameId,
       buildId,
       ...request
     }: {
-      projectId: string;
-      environmentId: string;
+      projectNameId: string;
+      environmentNameId: string;
       buildId: string;
     } & Rivet.servers.PatchBuildTagsRequest) =>
       rivetClient.actor.builds.patchTags(buildId, {
-        project: projectId,
-        environment: environmentId,
+        project: projectNameId,
+        environment: environmentNameId,
         body: request,
       }),
-    onSuccess: async (_, { projectId, environmentId, buildId }) => {
+    onSuccess: async (_, { projectNameId, environmentNameId, buildId }) => {
       await Promise.allSettled([
         queryClient.invalidateQueries(
-          projectActorsQueryOptions({ projectId, environmentId }),
+          projectActorsQueryOptions({ projectNameId, environmentNameId }),
         ),
         queryClient.invalidateQueries(
-          actorBuildQueryOptions({ buildId, projectId, environmentId }),
+          actorBuildQueryOptions({ buildId, projectNameId, environmentNameId }),
         ),
       ]);
       onSuccess?.();

@@ -4,34 +4,34 @@ import {
   SidebarPageContent,
   Skeleton,
 } from "@rivet-gg/components";
-import { Link } from "@tanstack/react-router";
+import { Link, type LinkOptions } from "@tanstack/react-router";
 import type { PropsWithChildren, ReactNode } from "react";
 
 const LINKS = [
   {
-    url: "/projects/$projectId/environments/$environmentId/lobbies/",
+    to: "/projects/$projectNameId/environments/$environmentNameId/lobbies",
     text: "Lobbies",
     exact: true,
   },
   {
-    url: "/projects/$projectId/environments/$environmentId/lobbies/logs",
+    to: "/projects/$projectNameId/environments/$environmentNameId/lobbies/logs",
     text: "Logs",
   },
   {
-    url: "/projects/$projectId/environments/$environmentId/lobbies/settings",
+    to: "/projects/$projectNameId/environments/$environmentNameId/lobbies/settings",
     text: "Settings",
   },
-];
+] satisfies ({ text: string; exact?: boolean } & LinkOptions)[];
 
 interface MatchmakerPageProps {
-  projectId: string;
-  environmentId: string;
+  projectNameId: string;
+  environmentNameId: string;
   children: ReactNode;
 }
 
 function MatchmakerPage({
-  environmentId,
-  projectId,
+  projectNameId,
+  environmentNameId,
   children,
 }: MatchmakerPageProps) {
   return (
@@ -40,12 +40,12 @@ function MatchmakerPage({
         <SidebarNavigation>
           {LINKS.map((link) => (
             <Link
-              key={link.url}
-              to={link.url}
+              key={link.to}
+              to={link.to}
               activeOptions={{ exact: link.exact, includeSearch: false }}
               params={{
-                projectId,
-                environmentId,
+                projectNameId,
+                environmentNameId,
               }}
               className="data-active:text-foreground data-active:font-semibold"
             >
