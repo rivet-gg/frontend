@@ -211,10 +211,31 @@ export const projectBuildsQueryOptions = ({
       ],
       signal: abortSignal,
     }) =>
-      rivetClient.servers.builds.list(projectId, environmentId, tags, {
-        abortSignal,
-      }),
+      rivetClient.servers.builds.list(
+        projectId,
+        environmentId,
+        { tagsJson: JSON.stringify(tags) },
+        {
+          abortSignal,
+        },
+      ),
     select: (data) => data.builds,
+  });
+};
+
+export const projectCurrentBuildsQueryOptions = ({
+  projectId,
+  environmentId,
+}: {
+  projectId: string;
+  environmentId: string;
+}) => {
+  return queryOptions({
+    ...projectBuildsQueryOptions({
+      projectId,
+      environmentId,
+    }),
+    select: (data) => data.builds.filter((build) => build.tags?.current),
   });
 };
 
