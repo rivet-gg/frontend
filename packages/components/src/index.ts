@@ -25,7 +25,7 @@ export * from "./code";
 export * from "./modules-store";
 export * from "./module-icon";
 export * from "./module-card";
-export * from "./error-ping";
+export * from "./ping";
 export * from "./ui/typography";
 export * from "./ui/skeleton";
 export * from "./ui/sheet";

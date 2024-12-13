@@ -1,9 +1,9 @@
 import {
   Button,
   ClickToCopy,
-  ErrorPing,
   Flex,
   LogsView,
+  Ping,
   Skeleton,
   SmallText,
   Tabs,
@@ -167,7 +167,7 @@ export function ActorsActorDetails({
             <TabsTrigger value="error">
               <span className="relative">
                 Error
-                {hasError ? <ErrorPing /> : null}
+                {hasError ? <Ping variant="destructive" /> : null}
               </span>
             </TabsTrigger>
             <TabsTrigger value="runtime">Runtime</TabsTrigger>

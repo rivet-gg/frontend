@@ -113,6 +113,12 @@ const clientOptions: RivetClient.Options = {
   fetcher: async <R = unknown>(
     args: Fetcher.Args,
   ): Promise<APIResponse<R, Fetcher.Error>> => {
+    const headers = args.headers || {};
+
+    headers["X-Fern-Language"] = undefined;
+    headers["X-Fern-Runtime"] = undefined;
+    headers["X-Fern-Runtime-Version"] = undefined;
+
     const response = await fetcher<R>({
       ...args,
       withCredentials: true,

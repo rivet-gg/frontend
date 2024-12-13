@@ -8,9 +8,9 @@ import {
   Picture,
   PictureFallback,
   PictureImage,
+  Ping,
   Skeleton,
   WithTooltip,
-  cn,
 } from "@rivet-gg/components";
 import { Icon, faExternalLinkAlt, faSparkle } from "@rivet-gg/icons";
 import { useSuspenseQuery } from "@tanstack/react-query";
@@ -108,17 +108,10 @@ export function Changelog() {
   const trigger = (
     <NavItem
       asChild
-      className="hidden md:inline-block relative py-3 data-open:text-foreground"
+      className="hidden md:inline-block relative py- 2data-open:text-foreground"
     >
       <a href="https://rivet.gg/changelog" target="_blank" rel="noreferrer">
-        <span
-          className={cn(
-            "absolute top-2 -right-1.5 duration-300 fill-mode-forwards",
-            hasNewChangelog ? "animate-in fade-in-0" : "animate-out fade-out-0",
-          )}
-        >
-          <span className=" size-1.5 block rounded-full bg-primary animate-pulse" />
-        </span>
+        {hasNewChangelog ? <Ping /> : null}
         Changelog
       </a>
     </NavItem>
@@ -130,6 +123,7 @@ export function Changelog() {
 
   return (
     <WithTooltip
+      delayDuration={0}
       onOpenChange={(isOpen) => {
         if (isOpen) {
           setLast(data[0].published);
