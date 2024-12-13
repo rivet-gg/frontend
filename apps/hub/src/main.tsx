@@ -10,8 +10,7 @@ initThirdPartyProviders();
 rivetClient.cloud
   .bootstrap()
   .then((response) => {
-    // @ts-ignore
-    run({ cacheKey: [response.deploy_hash, __APP_GIT_COMMIT__].join("-") });
+    run({ cacheKey: [response.deployHash, __APP_GIT_COMMIT__].join("-") });
   })
   .catch(() => {
     run();

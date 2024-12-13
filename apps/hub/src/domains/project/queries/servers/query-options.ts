@@ -289,43 +289,43 @@ export const buildQueryOptions = ({
   });
 };
 
-export const dataCentersQueryOptions = ({
+export const regionsQueryOptions = ({
   projectId,
   environmentId,
 }: { projectId: string; environmentId: string }) => {
   return queryOptions({
-    queryKey: [
-      "project",
-      projectId,
-      "environment",
-      environmentId,
-      "datacenters",
-    ],
+    queryKey: ["project", projectId, "environment", environmentId, "regions"],
     queryFn: ({
       signal: abortSignal,
       queryKey: [_, projectId, __, environmentId],
     }) =>
-      rivetClient.servers.datacenters.list(projectId, environmentId, {
-        abortSignal,
-      }),
-    select: (data) => data.datacenters,
+      rivetClient.actor.regions.list(
+        {
+          project: projectId,
+          environment: environmentId,
+        },
+        {
+          abortSignal,
+        },
+      ),
+    select: (data) => data.regions,
   });
 };
 
-export const dataCenterQueryOptions = ({
+export const regionQueryOptions = ({
   projectId,
   environmentId,
-  datacenterId,
+  regionId,
 }: {
   projectId: string;
   environmentId: string;
-  datacenterId: string;
+  regionId: string;
 }) => {
   return queryOptions({
-    ...dataCentersQueryOptions({ projectId, environmentId }),
+    ...regionsQueryOptions({ projectId, environmentId }),
     select: (data) =>
-      dataCentersQueryOptions({ projectId, environmentId })
+      regionsQueryOptions({ projectId, environmentId })
         .select?.(data)
-        .find((datacenter) => datacenter.id === datacenterId),
+        .find((region) => region.id === regionId),
   });
 };
