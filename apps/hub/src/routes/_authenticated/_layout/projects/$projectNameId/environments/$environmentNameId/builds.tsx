@@ -3,7 +3,7 @@ import { ProjectBuildsTableActions } from "@/domains/project/components/project-
 import * as Layout from "@/domains/project/layouts/servers-layout";
 import {
   projectBuildsQueryOptions,
-  usePatchActorBuildTagsMutation,
+  useUpgradeAllActorsMutation,
 } from "@/domains/project/queries";
 import type { Rivet } from "@rivet-gg/api";
 import {
@@ -129,7 +129,7 @@ function ProjectBuildLatestButton({
   projectNameId,
   environmentNameId,
 }: ProjectBuildLatestButtonProps) {
-  const { mutate, isPending } = usePatchActorBuildTagsMutation();
+  const { mutate, isPending } = useUpgradeAllActorsMutation();
 
   if (tags.current !== "true") {
     return (
@@ -139,11 +139,9 @@ function ProjectBuildLatestButton({
         isLoading={isPending}
         onClick={() => {
           mutate({
-            buildId: id,
             projectNameId,
             environmentNameId,
-            tags: { current: "true" },
-            exclusiveTags: ["current"],
+            build: id,
           });
         }}
       >
