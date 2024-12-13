@@ -4,7 +4,6 @@ import { BillingPlanPeriod } from "./billing-plan-period";
 import { BillingPlans } from "./billing-plans";
 import { BillingPortalButton } from "./billing-portal-button";
 import { BillingSummary } from "./billing-summary";
-import { BillingUsage } from "./billing-usage";
 
 interface BillingProps {
   projectId: string;
@@ -39,7 +38,6 @@ export function Billing({ projectId, groupId }: BillingProps) {
       />
       <BillingSummary />
       <BillingPlans projectId={projectId} />
-      <BillingUsage />
     </>
   );
 }
