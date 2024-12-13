@@ -3,6 +3,7 @@ import type { Rivet } from "@rivet-gg/api";
 import { useMutation } from "@tanstack/react-query";
 import {
   actorBuildQueryOptions,
+  actorBuildsQueryOptions,
   actorQueryOptions,
   projectActorsQueryOptions,
 } from "./query-options";
@@ -56,6 +57,37 @@ export function usePatchActorBuildTagsMutation({
         ),
         queryClient.invalidateQueries(
           actorBuildQueryOptions({ buildId, projectNameId, environmentNameId }),
+        ),
+      ]);
+      onSuccess?.();
+    },
+  });
+}
+
+export function useUpgradeAllActorsMutation({
+  onSuccess,
+}: { onSuccess?: () => void } = {}) {
+  return useMutation({
+    mutationFn: ({
+      projectNameId,
+      environmentNameId,
+      ...request
+    }: {
+      projectNameId: string;
+      environmentNameId: string;
+    } & Rivet.actor.UpgradeAllActorsRequest) =>
+      rivetClient.actor.upgradeAll({
+        project: projectNameId,
+        environment: environmentNameId,
+        body: request,
+      }),
+    onSuccess: async (_, { projectNameId, environmentNameId }) => {
+      await Promise.allSettled([
+        queryClient.invalidateQueries(
+          projectActorsQueryOptions({ projectNameId, environmentNameId }),
+        ),
+        queryClient.invalidateQueries(
+          actorBuildsQueryOptions({ projectNameId, environmentNameId }),
         ),
       ]);
       onSuccess?.();
