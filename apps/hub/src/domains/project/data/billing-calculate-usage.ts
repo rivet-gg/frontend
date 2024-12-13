@@ -3,8 +3,8 @@ import { millisecondsToMonths } from "@rivet-gg/components";
 
 export const PRICE_MAP = {
   [RivetEe.ee.billing.Plan.Trial]: 0,
-  [RivetEe.ee.billing.Plan.Indie]: 9.0,
-  [RivetEe.ee.billing.Plan.Studio]: 29.0,
+  [RivetEe.ee.billing.Plan.Indie]: 20.0,
+  [RivetEe.ee.billing.Plan.Studio]: 200.0,
 };
 const CREIDTS_MAP = {
   [RivetEe.ee.billing.Plan.Trial]: 5.0,

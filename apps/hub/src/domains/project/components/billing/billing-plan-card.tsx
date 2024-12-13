@@ -13,7 +13,7 @@ import type { ReactNode } from "@tanstack/react-router";
 
 interface BillingPlanCardProps {
   title: string;
-  lead: string;
+  lead?: string;
   price: string;
   priceLead?: string;
   features: { key?: string; name: ReactNode; icon?: IconProp }[];
@@ -36,13 +36,17 @@ export function BillingPlanCard({
     <Card className="flex flex-col">
       <CardHeader>
         <Text className="font-bold text-3xl">{title}</Text>
-        <SmallText>{lead}</SmallText>
+        {lead ? <SmallText>{lead}</SmallText> : null}
         <div className="pt-8 min-h-[7rem]">
           <p>
             <span className="text-5xl font-bold mr-1 ">{price}</span>
-            {type !== "custom" ? "/month" : null}
+            <span className="text-muted-foreground">
+              {type !== "custom" ? "/month" : null}
+            </span>
           </p>
-          {priceLead ? <SmallText>{priceLead}</SmallText> : null}
+          {priceLead ? (
+            <SmallText className="text-muted-foreground">{priceLead}</SmallText>
+          ) : null}
         </div>
       </CardHeader>
       <CardContent className="flex-1">
@@ -52,7 +56,7 @@ export function BillingPlanCard({
               <Flex items="center" gap="2" key={key || name} asChild>
                 <li>
                   {icon ? <Icon icon={icon} className="size-5 " /> : null}
-                  {name}
+                  <span className="text-muted-foreground">{name}</span>
                 </li>
               </Flex>
             ))}
@@ -69,7 +73,7 @@ export function BillingPlanCard({
             <Button>Contact</Button>
           </a>
         ) : null}
-        {type === "active" ? (
+        {type === "active" && onCancel ? (
           <Button variant="secondary" onClick={onCancel}>
             Cancel Plan
           </Button>
