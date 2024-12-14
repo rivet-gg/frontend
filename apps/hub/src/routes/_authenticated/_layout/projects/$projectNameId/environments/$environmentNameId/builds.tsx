@@ -3,7 +3,9 @@ import { ProjectBuildsTableActions } from "@/domains/project/components/project-
 import * as Layout from "@/domains/project/layouts/servers-layout";
 import {
   projectBuildsQueryOptions,
+  projectCurrentBuildsQueryOptions,
   usePatchActorBuildTagsMutation,
+  useUpgradeAllActorsMutation,
 } from "@/domains/project/queries";
 import type { Rivet } from "@rivet-gg/api";
 import {
@@ -103,6 +105,8 @@ function ProjectBuildsRoute() {
                   <ProjectBuildLatestButton
                     projectNameId={projectNameId}
                     environmentNameId={environmentNameId}
+                    projectId={projectId}
+                    environmentId={environmentId}
                     {...build}
                   />
                 </TableCell>
@@ -121,15 +125,23 @@ function ProjectBuildsRoute() {
 interface ProjectBuildLatestButtonProps extends Rivet.actor.Build {
   projectNameId: string;
   environmentNameId: string;
+  projectId: string;
+  environmentId: string;
 }
 
 function ProjectBuildLatestButton({
   tags,
   id,
+  projectId,
+  environmentId,
   projectNameId,
   environmentNameId,
 }: ProjectBuildLatestButtonProps) {
-  const { mutate, isPending } = usePatchActorBuildTagsMutation();
+  const { mutateAsync } = usePatchActorBuildTagsMutation();
+  const { mutate, isPending } = useUpgradeAllActorsMutation();
+  const { data: latestBulds } = useSuspenseQuery(
+    projectCurrentBuildsQueryOptions({ projectId, environmentId }),
+  );
 
   if (tags.current !== "true") {
     return (
@@ -137,14 +149,22 @@ function ProjectBuildLatestButton({
         variant="outline"
         size="sm"
         isLoading={isPending}
-        onClick={() => {
-          mutate({
-            buildId: id,
+        onClick={async () => {
+          await mutateAsync({
             projectNameId,
             environmentNameId,
+            buildId: id,
             tags: { current: "true" },
             exclusiveTags: ["current"],
           });
+          if (latestBulds.length > 0) {
+            mutate({
+              projectNameId,
+              environmentNameId,
+              buildTags: { current: "true" },
+              tags: { name: latestBulds[0].name },
+            });
+          }
         }}
       >
         Make current
