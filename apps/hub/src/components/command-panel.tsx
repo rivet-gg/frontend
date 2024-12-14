@@ -7,6 +7,7 @@ import {
   CommandLoading,
   cn,
 } from "@rivet-gg/components";
+import { useIsFetching } from "@tanstack/react-query";
 import { useMatchRoute } from "@tanstack/react-router";
 import {
   type KeyboardEventHandler,
@@ -25,6 +26,7 @@ import { EnvironmentCommandPanelPage } from "./command-panel/command-panel-page/
 import { GroupCommandPanelPage } from "./command-panel/command-panel-page/group-command-panel-page";
 import { IndexCommandPanelPage } from "./command-panel/command-panel-page/index-command-panel-page";
 import { ProjectCommandPanelPage } from "./command-panel/command-panel-page/project-command-panel-page";
+import { ShimmerLine } from "./shimmer-line";
 
 export function CommandPanel() {
   const [isOpen, setOpen] = useState(false);
@@ -125,6 +127,11 @@ export function CommandPanel() {
     [pages.length, search],
   );
 
+  const isLoading =
+    useIsFetching({
+      predicate: (query) => !query.queryKey.includes("watch"),
+    }) > 0;
+
   return (
     <>
       <Button
@@ -143,6 +150,7 @@ export function CommandPanel() {
       <CommandDialog
         commandProps={{
           onKeyDown: handleKeyDown,
+          shouldFilter: !isLoading,
         }}
         open={isOpen}
         onOpenChange={setOpen}
@@ -154,11 +162,13 @@ export function CommandPanel() {
           placeholder="Type a command or search..."
         />
         <CommandPanelNavigationProvider
+          isLoading={isLoading}
           onClose={handleClose}
           onChangePage={handlePageChange}
         >
           <CommandList>
             <Suspense fallback={<CommandLoading>Hang on…</CommandLoading>}>
+              {isLoading ? <ShimmerLine className="-top-[1px]" /> : null}
               <CommandEmpty>No results found.</CommandEmpty>
               {!page ? <IndexCommandPanelPage /> : null}
               {page?.key === "group" ? (

@@ -56,10 +56,12 @@ export function CommandPanelNavigationProvider({
   children,
   onClose,
   onChangePage,
+  isLoading,
 }: {
   children: ReactNode;
   onClose: () => void;
   onChangePage: (page: CommandPanelPage) => void;
+  isLoading: boolean;
 }) {
   const routerNavigate = useNavigate();
 
@@ -73,9 +75,16 @@ export function CommandPanelNavigationProvider({
     [onClose, routerNavigate],
   );
 
+  const handleChangePage = (page: CommandPanelPage) => {
+    if (isLoading) {
+      return;
+    }
+    onChangePage(page);
+  };
+
   return (
     <CommandPanelNavigationContext.Provider
-      value={{ changePage: onChangePage, close: onClose, navigate }}
+      value={{ changePage: handleChangePage, close: onClose, navigate }}
     >
       {children}
     </CommandPanelNavigationContext.Provider>

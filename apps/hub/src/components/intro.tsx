@@ -16,8 +16,9 @@ import {
   CardTitle,
   Skeleton,
 } from "@rivet-gg/components";
+import * as Sentry from "@sentry/react";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { useNavigate } from "@tanstack/react-router";
+import { Navigate, useNavigate } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import { Suspense, useState } from "react";
 
@@ -27,7 +28,12 @@ enum Step {
   ChoosePlan = 2,
 }
 
-export function Intro({ initialStep }: { initialStep?: Step }) {
+interface IntroProps {
+  initialStep?: Step;
+  initialProjectName?: string;
+}
+
+export function Intro({ initialStep, initialProjectName }: IntroProps) {
   const { mutateAsync, data: createdGroupResponse } = useGroupCreateMutation();
   const { mutateAsync: createProject, data: projectCreationData } =
     useProjectCreateMutation();
@@ -38,14 +44,13 @@ export function Intro({ initialStep }: { initialStep?: Step }) {
     data
       .flatMap((team) => team.projects)
       .find((project) => project.gameId === projectCreationData?.gameId) ||
-    // biome-ignore lint/style/noNonNullAssertion: at this point user should have at least one project
-    data.find((team) => team.projects.length > 0)!.projects[0]!;
+    data.find((team) => team.projects.length > 0)?.projects[0];
 
   const [step, setStep] = useState<Step>(
     () => initialStep ?? (!project ? Step.CreateGroup : Step.CreateProject),
   );
 
-  const groupId = createdGroupResponse?.groupId || project.developer.groupId;
+  const groupId = createdGroupResponse?.groupId || project?.developer.groupId;
 
   const navigate = useNavigate();
 
@@ -60,7 +65,10 @@ export function Intro({ initialStep }: { initialStep?: Step }) {
             exit={{ opacity: 0 }}
           >
             <GroupCreateProjectForm.Form
-              defaultValues={{ slug: "", name: "" }}
+              defaultValues={{
+                slug: "",
+                name: initialProjectName ?? "",
+              }}
               onSubmit={async (values) => {
                 await createProject({
                   displayName: values.name,
@@ -80,6 +88,12 @@ export function Intro({ initialStep }: { initialStep?: Step }) {
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-[auto_auto_min-content] items-center gap-4 ">
+                  {initialProjectName ? (
+                    <GroupCreateProjectForm.SetValue
+                      name="name"
+                      value={initialProjectName}
+                    />
+                  ) : null}
                   <GroupCreateProjectForm.Name className="contents space-y-0" />
                   <GroupCreateProjectForm.Slug className="contents space-y-0" />
                   <GroupCreateProjectForm.Submit
@@ -98,6 +112,15 @@ export function Intro({ initialStep }: { initialStep?: Step }) {
   }
 
   if (step === Step.ChoosePlan) {
+    if (!groupId || !project) {
+      // At this point those values should be defined, if not, we should redirect to the home page
+      // It's unlikely that this will happen, but it's better to be safe than sorry
+      Sentry.captureMessage(
+        "Group or project not defined in Intro component",
+        "fatal",
+      );
+      return <Navigate to="/" replace />;
+    }
     return (
       <Suspense
         fallback={
