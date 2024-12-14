@@ -6,6 +6,7 @@ import {
   Sheet,
   SheetContent,
   SheetTrigger,
+  cn,
 } from "@rivet-gg/components";
 import { Icon, faBars } from "@rivet-gg/icons";
 import { Link } from "@tanstack/react-router";
@@ -35,9 +36,21 @@ const UserProfileButton = () => {
   );
 };
 
-export function Header() {
+interface HeaderProps {
+  variant: "default" | "opaque";
+}
+
+export function Header({ variant = "opaque" }: HeaderProps) {
   return (
-    <header className="bg-background/60 sticky top-0 z-10 flex items-center gap-4 border-b py-2 backdrop-blur">
+    <header
+      className={cn(
+        " sticky top-0 z-10 flex items-center gap-4 border-b py-2",
+        {
+          "bg-background/60 backdrop-blur": variant === "default",
+          "bg-background": variant === "opaque",
+        },
+      )}
+    >
       <HeaderRouteLoader />
       <div className="w-full px-8 flex min-h-10 flex-col justify-center gap-4">
         <div className="flex w-full items-center gap-4">

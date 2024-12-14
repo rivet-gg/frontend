@@ -13,8 +13,8 @@ export const NavItem = forwardRef<HTMLAnchorElement, NavItemProps>(
       <Comp
         ref={ref}
         className={cn(
-          className,
           "text-muted-foreground hover:text-foreground transition-colors",
+          className,
         )}
         {...props}
       />

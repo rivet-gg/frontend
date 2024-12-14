@@ -1,6 +1,6 @@
 import { CommandPanel } from "@/components/command-panel";
 import { NavItem } from "@/components/header/nav-item";
-import { computePageLayout } from "@/lib/compute-page-layout";
+import { usePageLayout } from "@/lib/compute-page-layout";
 import { publicUrl } from "@/lib/utils";
 import { cn } from "@rivet-gg/components";
 import {
@@ -10,7 +10,6 @@ import {
   faGithub,
   faXTwitter,
 } from "@rivet-gg/icons";
-import { useMatches } from "@tanstack/react-router";
 import type { PropsWithChildren, ReactNode } from "react";
 import { Header as UiHeader } from "../components/header/header";
 
@@ -24,20 +23,20 @@ const Root = ({ children }: RootProps) => {
 
 const Main = ({ children }: RootProps) => {
   return (
-    <main className="bg-background flex flex-1 flex-col h-full min-h-0">
+    <main className="bg-background flex flex-1 flex-col h-full min-h-0 relative">
       {children}
     </main>
   );
 };
 
 const VisibleInFull = ({ children }: PropsWithChildren) => {
-  const matches = useMatches();
-  const layout = computePageLayout(matches);
+  const layout = usePageLayout();
   return (
     <div
-      className={cn({
-        "min-h-screen grid grid-rows-[auto,1fr]": layout === "full",
-        contents: layout !== "full",
+      className={cn("relative", {
+        "min-h-screen grid grid-rows-[auto,1fr]":
+          layout === "full" || layout === "onboarding",
+        contents: layout === "compact",
       })}
     >
       {children}
@@ -46,12 +45,13 @@ const VisibleInFull = ({ children }: PropsWithChildren) => {
 };
 
 const Header = () => {
-  return <UiHeader />;
+  const layout = usePageLayout();
+  return <UiHeader variant={layout === "onboarding" ? "opaque" : "default"} />;
 };
 
 const Footer = () => {
   return (
-    <footer className="text-muted-foreground bg-background p-4 text-center text-sm border-t mt-8">
+    <footer className="text-muted-foreground bg-background p-4 text-center text-sm border-t mt-8 relative">
       <div className="container">
         <div className="flex items-center justify-between">
           <div className="flex gap-4 items-center justify-between w-full lg:w-auto lg:justify-normal">

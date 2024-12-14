@@ -22,7 +22,7 @@ declare module "@tanstack/react-router" {
     router: typeof router;
   }
   interface StaticDataRouteOption {
-    layout?: "full" | "compact";
+    layout?: "full" | "compact" | "onboarding";
   }
 }
 

@@ -11,7 +11,7 @@ import {
 import { Icon, type IconProp } from "@rivet-gg/icons";
 import type { ReactNode } from "@tanstack/react-router";
 
-interface BillingPlanCardProps {
+export interface BillingPlanCardProps {
   title: string;
   lead?: string;
   price: string;
@@ -20,6 +20,7 @@ interface BillingPlanCardProps {
   type?: "custom" | "active";
   onSubscribe?: () => void;
   onCancel?: () => void;
+  cancelLabel?: string;
 }
 
 export function BillingPlanCard({
@@ -29,11 +30,12 @@ export function BillingPlanCard({
   priceLead,
   type,
   features,
+  cancelLabel,
   onSubscribe,
   onCancel,
 }: BillingPlanCardProps) {
   return (
-    <Card className="flex flex-col">
+    <Card className="flex flex-col group hover:border-primary transition-colors">
       <CardHeader>
         <Text className="font-bold text-3xl">{title}</Text>
         {lead ? <SmallText>{lead}</SmallText> : null}
@@ -75,7 +77,7 @@ export function BillingPlanCard({
         ) : null}
         {type === "active" && onCancel ? (
           <Button variant="secondary" onClick={onCancel}>
-            Cancel Plan
+            {cancelLabel || "Cancel"}
           </Button>
         ) : null}
         {!type ? <Button onClick={onSubscribe}>Subscribe</Button> : null}
