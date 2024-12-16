@@ -3,14 +3,14 @@ import type { ReactNode } from "react";
 
 interface PageLayoutProps {
   children: ReactNode;
-  layout?: "compact" | "full";
+  layout?: "compact" | "full" | "onboarding";
 }
 
 const PageLayout = ({ children, layout = "compact" }: PageLayoutProps) => (
   <div
     className={cn({
       "p-8 container": layout === "compact",
-      "px-4 w-full h-full py-4": layout === "full",
+      "px-4 w-full h-full py-4": layout === "full" || layout === "onboarding",
     })}
   >
     {children}

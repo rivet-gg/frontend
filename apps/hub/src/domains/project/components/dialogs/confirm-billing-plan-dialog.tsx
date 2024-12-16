@@ -14,15 +14,18 @@ import { ProjectBillingPlanLabel } from "../billing/billing-plan-badge";
 interface ContentProps extends DialogContentProps {
   plan: Rivet.ee.billing.Plan;
   projectId: string;
+  onSuccess?: () => void;
 }
 
 export default function ConfirmBillingPlanDialogContent({
   plan,
   projectId,
+  onSuccess,
   onClose,
 }: ContentProps) {
   const { mutate, isPending } = useUpdateProjectBillingMutation({
-    onSuccess: () => {
+    onSuccess: async () => {
+      await onSuccess?.();
       onClose?.();
     },
   });

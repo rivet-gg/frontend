@@ -11,6 +11,7 @@ import {
   Ping,
   Skeleton,
   WithTooltip,
+  cn,
 } from "@rivet-gg/components";
 import { Icon, faExternalLinkAlt, faSparkle } from "@rivet-gg/icons";
 import { useSuspenseQuery } from "@tanstack/react-query";
@@ -92,8 +93,11 @@ export function ChangelogEntry({
     </div>
   );
 }
+interface ChangelogProps {
+  className?: string;
+}
 
-export function Changelog() {
+export function Changelog({ className }: ChangelogProps) {
   const { data } = useSuspenseQuery(changelogQueryOptions());
 
   const [lastChangelog, setLast] = useLocalStorage<string | null>(
@@ -108,7 +112,10 @@ export function Changelog() {
   const trigger = (
     <NavItem
       asChild
-      className="hidden md:inline-block relative py- 2data-open:text-foreground"
+      className={cn(
+        "hidden md:inline-block relative py- 2data-open:text-foreground",
+        className,
+      )}
     >
       <a href="https://rivet.gg/changelog" target="_blank" rel="noreferrer">
         {hasNewChangelog ? <Ping /> : null}

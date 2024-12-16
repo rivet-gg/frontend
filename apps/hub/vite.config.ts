@@ -1,9 +1,11 @@
 import { execSync } from "node:child_process";
 import path from "node:path";
 import { sentryVitePlugin } from "@sentry/vite-plugin";
+import { transformerNotationFocus } from "@shikijs/transformers";
 import { TanStackRouterVite } from "@tanstack/router-vite-plugin";
 import react from "@vitejs/plugin-react";
-import { defineConfig } from "vite";
+import * as shiki from "shiki";
+import { type Plugin, defineConfig } from "vite";
 import vitePluginFaviconsInject from "vite-plugin-favicons-inject";
 
 const GIT_BRANCH =
@@ -27,6 +29,7 @@ export default defineConfig({
         theme_color: "#ff4f00",
       },
     ),
+    shikiTransformer(),
     process.env.SENTRY_AUTH_TOKEN
       ? sentryVitePlugin({
           org: "rivet-gaming",
@@ -56,3 +59,52 @@ export default defineConfig({
     },
   },
 });
+
+async function shikiTransformer(): Promise<Plugin> {
+  const cssVariableTheme = shiki.createCssVariablesTheme({
+    name: "css-variables",
+    variablePrefix: "--shiki-",
+    variableDefaults: {},
+    fontStyle: true,
+  });
+
+  let highlighter: shiki.Highlighter | undefined;
+
+  return {
+    name: "shiki",
+    async transform(code, id) {
+      if (id.includes("?shiki")) {
+        highlighter ??= await shiki.getSingletonHighlighter({
+          themes: [cssVariableTheme],
+          langs: [
+            "bash",
+            "batch",
+            "cpp",
+            "csharp",
+            "docker",
+            "gdscript",
+            "html",
+            "ini",
+            "js",
+            "json",
+            "json",
+            "powershell",
+            "ts",
+            "typescript",
+            "yaml",
+            "http",
+            "prisma",
+          ],
+        });
+
+        const params = new URLSearchParams(id.split("?")[1]);
+        const output = highlighter.codeToHtml(code, {
+          lang: params.get("lang") ?? "bash",
+          theme: "css-variables",
+          transformers: [transformerNotationFocus()],
+        });
+        return `export default ${JSON.stringify(output)};export const source = ${JSON.stringify(code)}`;
+      }
+    },
+  };
+}

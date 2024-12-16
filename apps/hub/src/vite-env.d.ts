@@ -13,3 +13,9 @@ declare module "vite-plugin-favicons-inject" {
     options: Record<string, any>,
   ): Plugin;
 }
+
+declare module "*?shiki&lang=bash" {
+  const src: string;
+  export default src;
+  export const source: string;
+}

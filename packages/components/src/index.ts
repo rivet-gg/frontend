@@ -26,6 +26,7 @@ export * from "./modules-store";
 export * from "./module-icon";
 export * from "./module-card";
 export * from "./ping";
+export * from "./docs-sheet";
 export * from "./ui/typography";
 export * from "./ui/skeleton";
 export * from "./ui/sheet";

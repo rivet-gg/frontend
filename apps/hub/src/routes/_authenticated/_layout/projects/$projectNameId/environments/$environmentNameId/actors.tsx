@@ -1,3 +1,4 @@
+import { GetStarted } from "@/components/get-started";
 import { ActorsListPreview } from "@/domains/project/components/actors/actors-list-preview";
 import * as Layout from "@/domains/project/layouts/servers-layout";
 import { projectActorsQueryOptions } from "@/domains/project/queries";
@@ -10,7 +11,7 @@ import {
   Flex,
   WithTooltip,
 } from "@rivet-gg/components";
-import { Icon, faRefresh } from "@rivet-gg/icons";
+import { Icon, faActors, faRefresh } from "@rivet-gg/icons";
 import { useSuspenseInfiniteQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { zodSearchValidator } from "@tanstack/router-zod-adapter";
@@ -25,6 +26,22 @@ function ProjectActorsRoute() {
     projectActorsQueryOptions({ projectNameId, environmentNameId }),
   );
   const { actorId } = Route.useSearch();
+
+  if (data.length === 0) {
+    return (
+      <div className="w-full h-full flex flex-col justify-center">
+        <Icon icon={faActors} className="text-6xl mx-auto my-4" />
+        <h3 className="text-center font-bold text-xl max-w-md mb-2 mx-auto">
+          Deploy your first Actor
+        </h3>
+        <p className="text-center text-muted-foreground max-w-sm mx-auto">
+          Install Rivet to get started or use an existing template to get
+          started.
+        </p>
+        <GetStarted />
+      </div>
+    );
+  }
 
   return (
     <Card w="full" h="full" className="flex flex-col">
@@ -49,17 +66,11 @@ function ProjectActorsRoute() {
         </CardTitle>
       </CardHeader>
       <CardContent className="flex-1 min-h-0 w-full p-0">
-        {data.length === 0 ? (
-          <div className="flex items-center mx-auto flex-col gap-2 my-10">
-            <span>No actors created.</span>
-          </div>
-        ) : (
-          <ActorsListPreview
-            projectNameId={projectNameId}
-            environmentNameId={environmentNameId}
-            actorId={actorId}
-          />
-        )}
+        <ActorsListPreview
+          projectNameId={projectNameId}
+          environmentNameId={environmentNameId}
+          actorId={actorId}
+        />
       </CardContent>
     </Card>
   );

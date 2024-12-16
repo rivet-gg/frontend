@@ -1,7 +1,13 @@
-import type {
-  MakeRouteMatchUnion,
-  StaticDataRouteOption,
+import {
+  type MakeRouteMatchUnion,
+  type StaticDataRouteOption,
+  useMatches,
 } from "@tanstack/react-router";
+
+export function usePageLayout(): StaticDataRouteOption["layout"] {
+  const matches = useMatches();
+  return computePageLayout(matches);
+}
 
 export function computePageLayout(
   matches: MakeRouteMatchUnion[],

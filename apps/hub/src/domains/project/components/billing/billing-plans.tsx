@@ -17,24 +17,42 @@ import {
 } from "@rivet-gg/icons";
 import { PRICE_MAP } from "../../data/billing-calculate-usage";
 import { useBilling } from "./billing-context";
-import { BillingPlanCard } from "./billing-plan-card";
+import {
+  BillingPlanCard,
+  type BillingPlanCardProps,
+} from "./billing-plan-card";
 import { BillingPlanStatus } from "./billing-plan-status";
 
 interface BillingPlansProps {
   projectId: string;
+  showHeader?: boolean;
+  onChoosePlan?: () => void;
+  config?: Partial<
+    Record<RivetEe.ee.billing.Plan, Partial<BillingPlanCardProps>>
+  >;
 }
 
-export function BillingPlans({ projectId }: BillingPlansProps) {
-  const { dialog, open } = useDialog.ConfirmBillingPlan({ projectId });
+export function BillingPlans({
+  projectId,
+  onChoosePlan,
+  showHeader = true,
+  config,
+}: BillingPlansProps) {
+  const { dialog, open } = useDialog.ConfirmBillingPlan({
+    projectId,
+    onSuccess: onChoosePlan,
+  });
 
   const { plan } = useBilling();
 
   return (
     <>
-      <Flex direction="col" mt="8" gap="2">
-        <H2>Plan</H2>
-        <BillingPlanStatus />
-      </Flex>
+      {showHeader ? (
+        <Flex direction="col" mt="8" mb="4" gap="2">
+          <H2>Plan</H2>
+          <BillingPlanStatus />
+        </Flex>
+      ) : null}
       {dialog}
       <Grid columns={{ initial: "1", xl: "4" }} gap="4">
         <BillingPlanCard
@@ -45,6 +63,7 @@ export function BillingPlans({ projectId }: BillingPlansProps) {
               plan: RivetEe.ee.billing.Plan.Trial,
             })
           }
+          onCancel={onChoosePlan}
           type={plan === RivetEe.ee.billing.Plan.Trial ? "active" : undefined}
           features={[
             {
@@ -55,6 +74,7 @@ export function BillingPlans({ projectId }: BillingPlansProps) {
             { name: "Automatic SSL", icon: faLockA },
             { name: "Community Support", icon: faComments },
           ]}
+          {...config?.[RivetEe.ee.billing.Plan.Trial]}
         />
         <BillingPlanCard
           title="Pro"
@@ -80,6 +100,7 @@ export function BillingPlans({ projectId }: BillingPlansProps) {
             { name: "Email Support", icon: faEnvelope },
             { name: "Share Features", icon: faShareFromSquare },
           ]}
+          {...config?.[RivetEe.ee.billing.Plan.Indie]}
         />
         <BillingPlanCard
           title="Team"
@@ -105,6 +126,7 @@ export function BillingPlans({ projectId }: BillingPlansProps) {
             { name: "Advanced Support", icon: faHeadset },
             { name: "Share Features", icon: faShareFromSquare },
           ]}
+          {...config?.[RivetEe.ee.billing.Plan.Studio]}
         />
         <BillingPlanCard
           title="Enterprise"
