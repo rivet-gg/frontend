@@ -65,6 +65,8 @@ export const ErrorComponent = ({
         <Button
           onClick={() => {
             router.invalidate();
+            queryClient.resetQueries();
+            queryClient.invalidateQueries();
             reset?.();
           }}
         >

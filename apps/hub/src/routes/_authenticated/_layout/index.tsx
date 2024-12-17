@@ -8,7 +8,7 @@ import { LayoutGroup, motion } from "framer-motion";
 import { z } from "zod";
 
 function IndexRoute() {
-  const { initialStep } = Route.useSearch();
+  const { initialStep, project_name: projectName } = Route.useSearch();
   return (
     <>
       <OnboardingBackground />
@@ -34,7 +34,10 @@ function IndexRoute() {
             animate={{ opacity: 1, transition: { delay: 0.5 } }}
           >
             <LayoutGroup>
-              <Intro initialStep={initialStep} />
+              <Intro
+                initialProjectName={projectName}
+                initialStep={initialStep}
+              />
             </LayoutGroup>
           </motion.div>
         </div>
@@ -46,6 +49,7 @@ function IndexRoute() {
 const searchSchema = z.object({
   newbie: z.coerce.boolean().optional(),
   initialStep: z.coerce.number().optional(),
+  project_name: z.coerce.string().optional(),
 });
 
 export const Route = createFileRoute("/_authenticated/_layout/")({

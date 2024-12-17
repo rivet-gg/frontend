@@ -51,7 +51,7 @@ export function EnvironmentCommandPanelPage({
     },
   ] = useSuspenseQueries({
     queries: [
-      projectQueryOptions(projectNameId),
+      projectQueryOptions(projectId),
       projectMetadataQueryOptions({ projectId, environmentId }),
     ],
   });

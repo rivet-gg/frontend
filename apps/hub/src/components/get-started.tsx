@@ -19,12 +19,9 @@ import {
   faChevronRight,
   faCircleNodes,
   faCode,
-  faCog,
   faDiagramNext,
   faGamepadAlt,
-  faHandWave,
   faSparkles,
-  faToolbox,
   faUpRightAndDownLeftFromCenter,
   faWifiSlash,
 } from "@rivet-gg/icons";
@@ -70,7 +67,7 @@ export function GetStarted() {
         <Button
           onClick={() => {
             document
-              .getElementById("getting-started")
+              .getElementById("examples")
               ?.scrollIntoView({ behavior: "smooth" });
           }}
           endIcon={<Icon icon={faChevronDoubleDown} />}
@@ -109,49 +106,7 @@ export function GetStarted() {
           </div>
         </CardContent>
       </Card>
-      <Card
-        id="getting-started"
-        asChild
-        className="max-w-xl w-full mx-auto my-6 scroll-mt-28"
-      >
-        <motion.div>
-          <CardHeader>
-            <CardTitle>Getting Started</CardTitle>
-            <CardDescription>
-              Learn how Rivet works and how you can customize it to suit your
-              needs.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <motion.div
-              variants={containerVariants}
-              initial="hidden"
-              whileInView="show"
-              className="grid md:grid-cols-3 gap-4"
-            >
-              <ExampleLink
-                href="examples"
-                title="Intro to Rivet"
-                size="md"
-                icon={faHandWave}
-              />
-              <ExampleLink
-                href="examples"
-                title="Initial Setup"
-                size="md"
-                icon={faToolbox}
-              />
-              <ExampleLink
-                href="examples"
-                title="Configuration"
-                size="md"
-                icon={faCog}
-              />
-            </motion.div>
-          </CardContent>
-        </motion.div>
-      </Card>
-      <Card asChild className="max-w-xl w-full mx-auto my-6">
+      <Card id="examples" asChild className="max-w-xl w-full mx-auto my-6">
         <motion.div>
           <CardHeader>
             <CardTitle>Examples</CardTitle>
@@ -165,6 +120,7 @@ export function GetStarted() {
               variants={containerVariants}
               initial="hidden"
               whileInView="show"
+              viewport={{ once: true }}
               className="grid md:grid-cols-3 gap-4"
             >
               <ExampleLink
@@ -214,6 +170,7 @@ export function GetStarted() {
               variants={containerVariants}
               initial="hidden"
               whileInView="show"
+              viewport={{ once: true }}
               className="grid md:grid-cols-2 gap-4"
             >
               <ExampleLink

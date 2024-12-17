@@ -89,10 +89,11 @@ export const createSchemaForm = <Schema extends z.ZodSchema>(
       name: Path;
       value: PathValue<z.TypeOf<Schema>, Path>;
     }) => {
-      const { setValue } = useFormContext<z.TypeOf<Schema>>();
+      const { setValue, reset } = useFormContext<z.TypeOf<Schema>>();
       useEffect(() => {
         setValue(props.name, props.value, { shouldDirty: true });
-      }, [props.name, setValue, props.value]);
+        reset({}, { keepDirty: true, keepValues: true, keepDirtyValues: true });
+      }, [props.name, setValue, reset, props.value]);
       return null;
     },
     useContext: () => useFormContext<z.TypeOf<Schema>>(),

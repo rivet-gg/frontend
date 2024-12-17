@@ -30,14 +30,16 @@ function ProjectActorsRoute() {
   if (data.length === 0) {
     return (
       <div className="w-full h-full flex flex-col justify-center">
-        <Icon icon={faActors} className="text-6xl mx-auto my-4" />
-        <h3 className="text-center font-bold text-xl max-w-md mb-2 mx-auto">
-          Deploy your first Actor
-        </h3>
-        <p className="text-center text-muted-foreground max-w-sm mx-auto">
-          Install Rivet to get started or use an existing template to get
-          started.
-        </p>
+        <div className="flex flex-col justify-center my-8">
+          <Icon icon={faActors} className="text-6xl mx-auto my-4" />
+          <h3 className="text-center font-bold text-xl max-w-md mb-2 mx-auto">
+            Deploy your first Actor
+          </h3>
+          <p className="text-center text-muted-foreground max-w-sm mx-auto">
+            Install Rivet to get started or use an existing template to get
+            started.
+          </p>
+        </div>
         <GetStarted />
       </div>
     );
