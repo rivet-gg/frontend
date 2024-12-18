@@ -28,33 +28,56 @@ import {
 import { Icon, faCheckCircle, faInfoCircle, faRefresh } from "@rivet-gg/icons";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
+import { zodSearchValidator } from "@tanstack/router-zod-adapter";
+import { z } from "zod";
 
 function ProjectBuildsRoute() {
   const {
     environment: { namespaceId: environmentId, nameId: environmentNameId },
     project: { gameId: projectId, nameId: projectNameId },
   } = Route.useRouteContext();
+
+  const search = Route.useSearch();
+  const tags = "tags" in search ? Object.fromEntries(search.tags || []) : {};
   const {
     data: builds,
     isRefetching,
     refetch,
   } = useSuspenseQuery(
-    projectBuildsQueryOptions({ projectId, environmentId: environmentId }),
+    projectBuildsQueryOptions({ projectId, environmentId, tags }),
   );
+
+  const navigate = Route.useNavigate();
 
   return (
     <Card w="full">
       <CardHeader>
         <Flex items="center" gap="4" justify="between">
           <CardTitle>Builds</CardTitle>
-          <Button
-            size="icon"
-            isLoading={isRefetching}
-            variant="outline"
-            onClick={() => refetch()}
-          >
-            <Icon icon={faRefresh} />
-          </Button>
+          <div className="flex gap-2">
+            {/* <TagsSelect
+              value={tags}
+              projectId={projectId}
+              environmentId={environmentId}
+              onValueChange={(newTags) => {
+                navigate({
+                  search: {
+                    tags: Object.entries(newTags).map(
+                      ([key, value]) => [key, value] as [string, string],
+                    ),
+                  },
+                });
+              }}
+            /> */}
+            <Button
+              size="icon"
+              isLoading={isRefetching}
+              variant="outline"
+              onClick={() => refetch()}
+            >
+              <Icon icon={faRefresh} />
+            </Button>
+          </div>
         </Flex>
       </CardHeader>
       <CardContent>
@@ -175,9 +198,14 @@ function ProjectBuildLatestButton({
   return <Icon icon={faCheckCircle} className="fill-primary text-primary" />;
 }
 
+const f = z.object({
+  tags: z.array(z.tuple([z.string(), z.string()])).optional(),
+});
+
 export const Route = createFileRoute(
   "/_authenticated/_layout/projects/$projectNameId/environments/$environmentNameId/builds",
 )({
+  validateSearch: zodSearchValidator(f),
   component: ProjectBuildsRoute,
   pendingComponent: Layout.Content.Skeleton,
 });
