@@ -10,7 +10,7 @@ import { type ReactNode, forwardRef } from "react";
 
 const BUILT_IN_TAGS = ["current", "rivet/latest", "enabled", "rivet/enabled"];
 
-const Tag = forwardRef<
+export const ActorTag = forwardRef<
   HTMLSpanElement,
   { children: ReactNode; className?: string }
 >(({ children, className, ...props }, ref) => (
@@ -53,20 +53,20 @@ export function ActorTags({
                   content={`${key}=${value}`}
                   trigger={
                     <CopyButton value={`${key}=${value}`}>
-                      <Tag className="flex-shrink-0 truncate max-w-52 cursor-pointer">
+                      <ActorTag className="flex-shrink-0 truncate max-w-52 cursor-pointer">
                         <button type="button">
                           {key}={value}
                         </button>
-                      </Tag>
+                      </ActorTag>
                     </CopyButton>
                   }
                 />
               ) : (
-                <Tag key={key} className="flex-shrink-0">
+                <ActorTag key={key} className="flex-shrink-0">
                   <span>
                     {key}={value}
                   </span>
-                </Tag>
+                </ActorTag>
               ),
             )
         : null}
