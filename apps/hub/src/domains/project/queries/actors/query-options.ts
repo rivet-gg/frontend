@@ -232,6 +232,82 @@ export const actorBuildsQueryOptions = ({
   });
 };
 
+export const actorBuildTagsQueryOptions = ({
+  projectId,
+  environmentId,
+}: {
+  projectId: string;
+  environmentId: string;
+}) => {
+  return queryOptions({
+    queryKey: [
+      "project",
+      projectId,
+      "environment",
+      environmentId,
+      "builds",
+      {},
+      "all",
+    ] as const,
+    queryFn: async ({
+      queryKey: [_, projectId, __, environmentId, ___, tags],
+      signal: abortSignal,
+    }) => {
+      const response = await rivetClient.servers.builds.list(
+        projectId,
+        environmentId,
+        { tagsJson: JSON.stringify({}) },
+        {
+          abortSignal,
+        },
+      );
+
+      return response.builds.flatMap((build) =>
+        Object.entries(build.tags).map(([key, value], index) => ({
+          key,
+          value,
+          index: `${index}`,
+        })),
+      );
+    },
+    structuralSharing(oldData, newData) {
+      const response = (newData as { key: string; value: string }[]) || [];
+
+      const tags = new Map<string, Set<string>>();
+
+      if (oldData && Array.isArray(oldData)) {
+        for (const build of oldData) {
+          for (const [key, value] of Object.entries(build.tags)) {
+            if (!tags.has(key)) {
+              tags.set(key, new Set<string>());
+            }
+            if (typeof value === "string") {
+              tags.get(key)?.add(value);
+            }
+          }
+        }
+      }
+
+      for (const { key, value } of response) {
+        if (!tags.has(key)) {
+          tags.set(key, new Set<string>());
+        }
+        tags.get(key)?.add(value);
+      }
+
+      const allTags = [...tags.entries()].flatMap(([key, values], keyIdx) =>
+        [...values.values()].map((value, valIdx) => ({
+          key,
+          value,
+          index: [keyIdx, valIdx].join(":"),
+        })),
+      );
+
+      return allTags;
+    },
+  });
+};
+
 export const actorBuildQueryOptions = ({
   projectNameId,
   environmentNameId,
