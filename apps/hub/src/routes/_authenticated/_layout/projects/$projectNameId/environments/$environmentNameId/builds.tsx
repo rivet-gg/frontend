@@ -172,7 +172,7 @@ function ProjectBuildLatestButton({
     );
   }
 
-  return <Icon icon={faCheckCircle} className="fill-primary" />;
+  return <Icon icon={faCheckCircle} className="fill-primary text-primary" />;
 }
 
 export const Route = createFileRoute(
