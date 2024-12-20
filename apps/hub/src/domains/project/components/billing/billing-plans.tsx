@@ -3,17 +3,18 @@ import { Rivet as RivetEe } from "@rivet-gg/api-ee";
 import { Flex, Grid, H2, Link } from "@rivet-gg/components";
 import {
   faBadgeCheck,
-  faChartMixed,
+  faCheckCircle,
+  faClock,
   faComments,
-  faComputerClassic,
+  faDatabase,
   faEnvelope,
   faGift,
+  faGlobe,
   faHeadset,
   faInfinity,
   faLockA,
+  faRocketLaunch,
   faServer,
-  faShareFromSquare,
-  faShield,
 } from "@rivet-gg/icons";
 import { PRICE_MAP } from "../../data/billing-calculate-usage";
 import { useBilling } from "./billing-context";
@@ -67,11 +68,17 @@ export function BillingPlans({
           type={plan === RivetEe.ee.billing.Plan.Trial ? "active" : undefined}
           features={[
             {
-              name: "50,000 Free Actors",
+              name: (
+                <span>
+                  50,000 Free Actors
+                  <span className="text-xs text-muted-foreground font-normal ml-0.5">
+                    /mo
+                  </span>
+                </span>
+              ),
+              bold: true,
               icon: faGift,
             },
-            { name: "DDoS Mitigation", icon: faShield },
-            { name: "Automatic SSL", icon: faLockA },
             { name: "Community Support", icon: faComments },
           ]}
           {...config?.[RivetEe.ee.billing.Plan.Trial]}
@@ -93,12 +100,20 @@ export function BillingPlans({
           priceLead="+ Actor Usage"
           features={[
             {
-              name: "200,000 Free Actors",
+              name: (
+                <span>
+                  200,000 Free Actors
+                  <span className="text-xs text-muted-foreground font-normal ml-0.5">
+                    /mo
+                  </span>
+                </span>
+              ),
+              bold: true,
               icon: faGift,
             },
-            { name: "Analytics", icon: faChartMixed },
+            { name: "Everything in Community", icon: faCheckCircle },
+            { name: "No Usage Limits", icon: faInfinity },
             { name: "Email Support", icon: faEnvelope },
-            { name: "Share Features", icon: faShareFromSquare },
           ]}
           {...config?.[RivetEe.ee.billing.Plan.Indie]}
         />
@@ -119,12 +134,25 @@ export function BillingPlans({
           priceLead="+ Actor Usage"
           features={[
             {
-              name: "AWS + G Cloud + Azure",
+              name: (
+                <span>
+                  200,000 Free Actors
+                  <span className="text-xs text-muted-foreground font-normal ml-0.5">
+                    /mo
+                  </span>
+                </span>
+              ),
+              bold: true,
+              icon: faGift,
+            },
+            { name: "Everything in Pro", icon: faCheckCircle },
+            { name: "No Usage Limits", icon: faInfinity },
+            { name: "Advanced Support", icon: faHeadset },
+            {
+              name: "Dedicated Hardware",
               icon: faServer,
             },
-            { name: "Analytics", icon: faChartMixed },
-            { name: "Advanced Support", icon: faHeadset },
-            { name: "Share Features", icon: faShareFromSquare },
+            { name: "Custom Regions", icon: faGlobe },
           ]}
           {...config?.[RivetEe.ee.billing.Plan.Studio]}
         />
@@ -132,25 +160,32 @@ export function BillingPlans({
           title="Enterprise"
           price="Custom"
           features={[
-            {
-              name: "Unlimited Projects",
-              icon: faInfinity,
-            },
+            { name: "Everything in Team", icon: faCheckCircle },
             {
               name: "Priority Support",
               icon: faHeadset,
             },
             {
-              name: "99.99% SLA",
+              name: "SLA",
               icon: faBadgeCheck,
             },
+            { name: "No Usage Limits", icon: faInfinity },
             {
               name: "OIDC SSO Provider",
               icon: faLockA,
             },
             {
-              name: "Dedicated Hardware",
-              icon: faComputerClassic,
+              name: "On-Perm Deployment",
+              icon: faRocketLaunch,
+            },
+            {
+              name: "Custom Storage Reads, Writes and Stored Data",
+              icon: faDatabase,
+            },
+
+            {
+              name: "Custom Log Retention",
+              icon: faClock,
             },
           ]}
           type="custom"

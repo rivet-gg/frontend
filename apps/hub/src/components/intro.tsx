@@ -180,7 +180,7 @@ export function Intro({ initialStep, initialProjectName }: IntroProps) {
                   }}
                   config={{
                     [RivetEe.ee.billing.Plan.Trial]: {
-                      cancelLabel: "Continue",
+                      cancelLabel: "Get Started",
                       onCancel: () => {
                         navigate({
                           to: "/projects/$projectNameId/environments/$environmentNameId",

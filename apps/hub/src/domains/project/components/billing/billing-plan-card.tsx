@@ -7,6 +7,7 @@ import {
   Flex,
   SmallText,
   Text,
+  cn,
 } from "@rivet-gg/components";
 import { Icon, type IconProp } from "@rivet-gg/icons";
 import type { ReactNode } from "@tanstack/react-router";
@@ -16,7 +17,12 @@ export interface BillingPlanCardProps {
   lead?: string;
   price: string;
   priceLead?: string;
-  features: { key?: string; name: ReactNode; icon?: IconProp }[];
+  features: {
+    key?: string;
+    name: ReactNode;
+    icon?: IconProp;
+    bold?: boolean;
+  }[];
   type?: "custom" | "active";
   onSubscribe?: () => void;
   onCancel?: () => void;
@@ -37,13 +43,13 @@ export function BillingPlanCard({
   return (
     <Card className="flex flex-col group hover:border-primary transition-colors">
       <CardHeader>
-        <Text className="font-bold text-3xl">{title}</Text>
+        <Text className="font-semibold text-2xl">{title}</Text>
         {lead ? <SmallText>{lead}</SmallText> : null}
         <div className="pt-8 min-h-[7rem]">
           <p>
             <span className="text-5xl font-bold mr-1 ">{price}</span>
             <span className="text-muted-foreground">
-              {type !== "custom" ? "/month" : null}
+              {type !== "custom" ? "/mo" : null}
             </span>
           </p>
           {priceLead ? (
@@ -52,13 +58,18 @@ export function BillingPlanCard({
         </div>
       </CardHeader>
       <CardContent className="flex-1">
-        <Flex direction="col" gap="2" asChild>
+        <Flex direction="col" gap="4" asChild>
           <ul>
-            {features.map(({ key, name, icon }) => (
+            {features.map(({ key, name, bold, icon }) => (
               <Flex items="center" gap="2" key={key || name} asChild>
-                <li>
+                <li
+                  className={cn(
+                    bold && "font-semibold",
+                    bold ? "text-foreground" : "text-muted-foreground",
+                  )}
+                >
                   {icon ? <Icon icon={icon} className="size-5 " /> : null}
-                  <span className="text-muted-foreground">{name}</span>
+                  <span>{name}</span>
                 </li>
               </Flex>
             ))}
@@ -80,7 +91,7 @@ export function BillingPlanCard({
             {cancelLabel || "Cancel"}
           </Button>
         ) : null}
-        {!type ? <Button onClick={onSubscribe}>Subscribe</Button> : null}
+        {!type ? <Button onClick={onSubscribe}>Upgrade</Button> : null}
       </CardFooter>
     </Card>
   );
