@@ -1,7 +1,7 @@
 import { useAuth } from "@/domains/auth/contexts/auth";
-import { RestOnRouteChange } from "@/lib/utils";
 import { Skeleton, cn } from "@rivet-gg/components";
-import { CatchBoundary, useMatchRoute } from "@tanstack/react-router";
+import { ErrorBoundary } from "@sentry/react";
+import { useMatchRoute } from "@tanstack/react-router";
 import { Suspense, useContext } from "react";
 import { MobileBreadcrumbsContext } from "../breadcrumbs/mobile-breadcrumbs";
 import { HeaderEnvironmentLinks } from "./links/header-environment-links";
@@ -59,10 +59,7 @@ export function HeaderSubNav() {
   const isMobile = useContext(MobileBreadcrumbsContext);
 
   return (
-    <CatchBoundary
-      getResetKey={() => Date.now()}
-      errorComponent={RestOnRouteChange}
-    >
+    <ErrorBoundary>
       <Suspense
         fallback={
           <div className="-mb-2 hidden md:flex min-h-10 items-center gap-6">
@@ -82,6 +79,6 @@ export function HeaderSubNav() {
           <Content />
         </div>
       </Suspense>
-    </CatchBoundary>
+    </ErrorBoundary>
   );
 }

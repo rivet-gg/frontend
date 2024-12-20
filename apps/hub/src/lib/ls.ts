@@ -11,4 +11,7 @@ export const ls = {
   remove: (key: LSKey) => {
     localStorage.removeItem(key);
   },
+  clear: () => {
+    localStorage.clear();
+  },
 };

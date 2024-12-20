@@ -32,6 +32,10 @@ export function GroupBreadcrumb({ groupId }: GroupBreadcrumbProps) {
 
   const Element = isMobile ? NavItem : Fragment;
 
+  if (!data) {
+    return null;
+  }
+
   return (
     <Element>
       <Link

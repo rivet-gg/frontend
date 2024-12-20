@@ -56,7 +56,6 @@ const queryCache = new QueryCache({
   onError: (error) => {
     if (isRivetError(error)) {
       if (
-        error.statusCode === 403 ||
         error.body.code === "TOKEN_REVOKED" ||
         error.body.code === "TOKEN_INVALID"
       ) {

@@ -1,7 +1,8 @@
 import { useAuth } from "@/domains/auth/contexts/auth";
-import { RestOnRouteChange } from "@/lib/utils";
+
 import { Skeleton, cn } from "@rivet-gg/components";
-import { CatchBoundary, useMatchRoute } from "@tanstack/react-router";
+import { ErrorBoundary } from "@sentry/react";
+import { useMatchRoute } from "@tanstack/react-router";
 import { Suspense, useContext } from "react";
 import { EnvironmentBreadcrumb } from "./environment-breadcrumb";
 import { GroupBreadcrumb } from "./group-breadcrumb";
@@ -58,9 +59,10 @@ export function Breadcrumbs() {
         !isMobile && "items-center gap-2",
       )}
     >
-      <CatchBoundary
-        getResetKey={() => Date.now()}
-        errorComponent={RestOnRouteChange}
+      <ErrorBoundary
+        onError={(...args) => {
+          console.log("Error occurred while rendering breadcrumbs.", ...args);
+        }}
       >
         <Suspense
           fallback={
@@ -73,7 +75,7 @@ export function Breadcrumbs() {
         >
           <Content />
         </Suspense>
-      </CatchBoundary>
+      </ErrorBoundary>
     </div>
   );
 }
