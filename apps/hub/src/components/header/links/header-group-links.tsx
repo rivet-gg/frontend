@@ -1,4 +1,6 @@
+import { groupProjectsQueryOptions } from "@/domains/project/queries";
 import { faGear, faHome, faUsers } from "@rivet-gg/icons";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import { HeaderLink } from "../header-link";
 
@@ -7,6 +9,7 @@ interface HeaderLinksLinkProps {
 }
 
 export function HeaderGroupLinks({ groupId }: HeaderLinksLinkProps) {
+  useSuspenseQuery(groupProjectsQueryOptions(groupId));
   return (
     <>
       <HeaderLink icon={faHome}>

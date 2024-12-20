@@ -1,5 +1,7 @@
+import { isRivetError } from "@/lib/utils";
 import { rivetClient, rivetEeClient } from "@/queries/global";
 import { getMetaWatchIndex } from "@/queries/utils";
+import { RivetError } from "@rivet-gg/api";
 import { loadModuleCategories } from "@rivet-gg/components";
 import { queryOptions } from "@tanstack/react-query";
 
@@ -42,10 +44,31 @@ export const groupsCountQueryOptions = () => {
 
 export const groupProjectsQueryOptions = (groupId: string) => {
   return queryOptions({
-    ...projectsByGroupQueryOptions(),
-    select: (data) => {
-      // biome-ignore lint/style/noNonNullAssertion: when we get here, we know the group exists
-      const group = data.groups.find((group) => group.groupId === groupId)!;
+    queryKey: ["team", groupId, "projects"],
+    retry(failureCount, error) {
+      if (isRivetError(error) && error.statusCode === 404) {
+        return false;
+      }
+      return failureCount < 3;
+    },
+    queryFn: async ({ signal, meta }) => {
+      const data = await rivetClient.cloud.games.getGames(
+        {
+          watchIndex: getMetaWatchIndex(meta),
+        },
+        { abortSignal: signal },
+      );
+
+      const group = data.groups.find((group) => group.groupId === groupId);
+      if (!group) {
+        throw new RivetError({
+          statusCode: 404,
+          body: {
+            message: "Group not found",
+          },
+        });
+      }
+
       const projects = data.games.filter(
         (game) => game.developer.groupId === group.groupId,
       );
@@ -60,16 +83,14 @@ export const groupProjectsQueryOptions = (groupId: string) => {
 export const groupOnwerQueryOptions = (groupId: string) => {
   return queryOptions({
     ...groupProjectsQueryOptions(groupId),
-    select: (data) => {
-      return groupProjectsQueryOptions(groupId).select?.(data).ownerIdentityId;
-    },
+    select: (data) => data.ownerIdentityId,
   });
 };
 
 export const projectsCountQueryOptions = (groupId: string) => {
   return queryOptions({
     ...groupProjectsQueryOptions(groupId),
-    select: (data) => data.games.length,
+    select: (data) => data.projects.length,
   });
 };
 

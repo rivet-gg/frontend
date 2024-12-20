@@ -1,3 +1,4 @@
+import { ls } from "@/lib/ls";
 import { hasMethod, isRivetError } from "@/lib/utils";
 import {
   Button,
@@ -9,7 +10,7 @@ import {
   Code,
   Text,
 } from "@rivet-gg/components";
-import { Icon, faBomb } from "@rivet-gg/icons";
+import { Icon, faBomb, faLock } from "@rivet-gg/icons";
 import * as Sentry from "@sentry/react";
 import {
   useQueryClient,
@@ -38,6 +39,31 @@ export const ErrorComponent = ({
   }, [error, queryErrorResetBoundary]);
 
   if (isRivetError(error)) {
+    if (error.statusCode === 403 && error.body.code === "GROUP_NOT_MEMBER") {
+      return (
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex gap-2">
+              <Icon icon={faLock} />
+              Unauthorized
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <Text>You are not a member of this group.</Text>
+          </CardContent>
+          <CardFooter>
+            <Button
+              onClick={() => {
+                ls.clear();
+                router.navigate({ to: "/" });
+              }}
+            >
+              Go Home
+            </Button>
+          </CardFooter>
+        </Card>
+      );
+    }
     if (error.statusCode === 404) {
       return <NotFoundComponent />;
     }
@@ -65,6 +91,7 @@ export const ErrorComponent = ({
         <Button
           onClick={() => {
             router.invalidate();
+            ls.clear();
             queryClient.resetQueries();
             queryClient.invalidateQueries();
             reset?.();

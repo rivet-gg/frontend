@@ -1,5 +1,6 @@
 import { ErrorComponent } from "@/components/error-component";
 import * as Layout from "@/domains/project/layouts/group-layout";
+import { groupProjectsQueryOptions } from "@/domains/project/queries";
 import { useDialog } from "@/hooks/use-dialog";
 import { ls } from "@/lib/ls";
 import {
@@ -82,7 +83,11 @@ export const Route = createFileRoute("/_authenticated/_layout/teams/$groupId")({
   component: GroupIdView,
   errorComponent: GroupIdErrorComponent,
   pendingComponent: Layout.Root.Skeleton,
-  beforeLoad: ({ params: { groupId }, context: { auth } }) => {
+  beforeLoad: async ({
+    params: { groupId },
+    context: { auth, queryClient },
+  }) => {
+    await queryClient.ensureQueryData(groupProjectsQueryOptions(groupId));
     ls.set(`rivet-lastteam-${auth.profile?.identity.identityId}`, groupId);
   },
 });
