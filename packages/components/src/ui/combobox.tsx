@@ -2,6 +2,7 @@ import * as React from "react";
 
 import { faCheck, faChevronDown } from "@rivet-gg/icons";
 import { Icon } from "@rivet-gg/icons";
+import { Fragment } from "react";
 import { cn } from "../lib/utils";
 import { Button } from "./button";
 import { Command, CommandInput, CommandItem, CommandList } from "./command";
@@ -22,14 +23,25 @@ interface ComboboxDefaultProps {
   onCreateOption?: never;
 }
 
+interface ComboboxSingleProps {
+  multiple?: false;
+  value: string;
+  onValueChange: (value: string) => void;
+}
+
+interface ComboboxMultipleProps {
+  multiple: true;
+  value: string[];
+  onValueChange: (value: string[]) => void;
+}
+
 export type ComboboxProps = {
   options: Option[];
   placeholder?: string;
   notFoundMessage?: string;
   className?: string;
-  onValueChange: (value: string) => void;
-  value: string;
-} & (ComboboxNewOptionsProps | ComboboxDefaultProps);
+} & (ComboboxNewOptionsProps | ComboboxDefaultProps) &
+  (ComboboxSingleProps | ComboboxMultipleProps);
 
 export const Combobox = React.forwardRef<HTMLButtonElement, ComboboxProps>(
   (
@@ -39,6 +51,7 @@ export const Combobox = React.forwardRef<HTMLButtonElement, ComboboxProps>(
       notFoundMessage,
       className,
       value,
+      multiple,
       onValueChange,
       ...props
     },
@@ -51,22 +64,34 @@ export const Combobox = React.forwardRef<HTMLButtonElement, ComboboxProps>(
       option.value.toLowerCase().includes(search.toLowerCase()),
     );
 
-    const handleSelect = (value: string) => {
-      onValueChange(value);
+    const handleSelect = (newValue: string) => {
+      if (multiple) {
+        const newValues = Array.isArray(value) ? value : [];
+        if (newValues.includes(newValue)) {
+          onValueChange(newValues.filter((v) => v !== newValue));
+        } else {
+          onValueChange([...newValues, newValue]);
+        }
+      } else {
+        onValueChange(newValue);
+      }
       onOpenChange(false);
     };
 
     const handleNewSelect = (value: string) => {
       if (props.allowCreate) {
         React.startTransition(() => {
-          onValueChange(value);
+          handleSelect(value);
           props.onCreateOption(value);
-          onOpenChange(false);
         });
       }
     };
 
-    const currentOption = options.find((option) => option.value === value);
+    const currentOptions = options.filter((option) =>
+      Array.isArray(value)
+        ? value.includes(option.value)
+        : option.value === value,
+    );
 
     return (
       <Popover open={open} onOpenChange={onOpenChange}>
@@ -79,11 +104,15 @@ export const Combobox = React.forwardRef<HTMLButtonElement, ComboboxProps>(
             aria-expanded={open}
             className={cn(
               "justify-between",
-              !currentOption && "text-muted-foreground/50",
+              currentOptions.length === 0 && "text-muted-foreground/50",
               className,
             )}
           >
-            {currentOption ? currentOption.label : placeholder}
+            {currentOptions.length > 0
+              ? currentOptions.map((option) => (
+                  <Fragment key={option.value}>{option.label}</Fragment>
+                ))
+              : placeholder}
 
             <Icon
               className="ml-2 h-4 w-4 shrink-0 text-foreground opacity-50"
@@ -103,7 +132,11 @@ export const Combobox = React.forwardRef<HTMLButtonElement, ComboboxProps>(
                 return (
                   <ComboboxOption
                     key={option.value}
-                    isCurrent={option.value === value}
+                    isCurrent={
+                      Array.isArray(value)
+                        ? value.includes(option.value)
+                        : value === option.value
+                    }
                     label={option.label}
                     value={option.value}
                     onSelect={handleSelect}
