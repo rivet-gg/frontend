@@ -94,7 +94,7 @@ const Footer = () => {
               <Icon icon={faGithub} />
             </NavItem>
             <NavItem
-              href="https://bsky.app/profile/rivet-gg.bsky.social"
+              href="https://bsky.app/profile/rivet.gg"
               target="_blank"
               rel="noreferrer"
             >
