@@ -43,10 +43,15 @@ const WithTooltip = ({ trigger, content, ...rest }: WithTooltipProps) => {
   );
 };
 
+const TooltipPortal = TooltipPrimitive.TooltipPortal;
+const TooltipArrow = TooltipPrimitive.TooltipArrow;
+
 export {
   Tooltip,
   TooltipTrigger,
   TooltipContent,
   TooltipProvider,
+  TooltipPortal,
+  TooltipArrow,
   WithTooltip,
 };
