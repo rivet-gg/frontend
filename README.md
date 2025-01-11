@@ -9,6 +9,9 @@
     <a href="https://rivet.gg/discord"><img src="https://img.shields.io/discord/822914074136018994"></a>
 </p>
 
+> [!WARNING]  
+> Repository has been moved to [rivet-gg/rivet](https://github.com/rivet-gg/rivet/tree/main/frontend).
+
 _This is the source code for the [Rivet Hub](https://hub.rivet.gg) frontend_
 
 **Also check out the [Rivet backend](https://github.com/rivet-gg/rivet) for issues, documentation, and more.**
