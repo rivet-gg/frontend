@@ -48,10 +48,6 @@ export function ActorRuntimeTab({
         <Dl>
           <Dt>Kill timeout</Dt>
           <Dd>{formatDuration(lifecycle.killTimeout || 0)}</Dd>
-          <Dt>Resources</Dt>
-          <Dd>
-            {resources.cpu / 1000} CPU cores, {resources.memory} MB RAM
-          </Dd>
           {data ? (
             <>
               <Dt id={runtime.build}>Build</Dt>
